@@ -1,0 +1,129 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a4552f76dec9764db1bc225722a55f1, type: 3}
+  m_Name: Hadaka PlayerData
+  m_EditorClassIdentifier: 
+  <ID>k__BackingField: 0
+  <Name>k__BackingField: Delta
+  <Speed>k__BackingField:
+    _value: 5
+    OnValueDecreased:
+      m_PersistentCalls:
+        m_Calls: []
+    OnValueIncreased:
+      m_PersistentCalls:
+        m_Calls: []
+    additionalBuff: 0
+    proportionalBuff: 0
+  <SprintCoeff>k__BackingField:
+    _value: 1.5
+    OnValueDecreased:
+      m_PersistentCalls:
+        m_Calls: []
+    OnValueIncreased:
+      m_PersistentCalls:
+        m_Calls: []
+    additionalBuff: 0
+    proportionalBuff: 0
+  <WallLayer>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 72
+  <FootStepAudio>k__BackingField: {fileID: 11400000, guid: d78d695b40ad7c64b8cb95741be6bae5, type: 2}
+  <ATK>k__BackingField:
+    _value: 0
+    OnValueDecreased:
+      m_PersistentCalls:
+        m_Calls: []
+    OnValueIncreased:
+      m_PersistentCalls:
+        m_Calls: []
+    additionalBuff: 0
+    proportionalBuff: 0
+  <CriticalChanceRate>k__BackingField:
+    _value: 0
+    OnValueDecreased:
+      m_PersistentCalls:
+        m_Calls: []
+    OnValueIncreased:
+      m_PersistentCalls:
+        m_Calls: []
+    additionalBuff: 0
+    proportionalBuff: 0
+  <CriticalDamageRate>k__BackingField:
+    _value: 0
+    OnValueDecreased:
+      m_PersistentCalls:
+        m_Calls: []
+    OnValueIncreased:
+      m_PersistentCalls:
+        m_Calls: []
+    additionalBuff: 0
+    proportionalBuff: 0
+  <AttackDatas>k__BackingField: []
+  <DodgeCooltime>k__BackingField:
+    value: 0
+    OnValueChanged:
+      m_PersistentCalls:
+        m_Calls: []
+  <ContinuousDodgeLimit>k__BackingField:
+    value: 0
+    OnValueChanged:
+      m_PersistentCalls:
+        m_Calls: []
+  <KeepDodgeMaxTime>k__BackingField:
+    value: 0
+    OnValueChanged:
+      m_PersistentCalls:
+        m_Calls: []
+  <KeepDodgeMaxDistance>k__BackingField:
+    value: 0
+    OnValueChanged:
+      m_PersistentCalls:
+        m_Calls: []
+  <MaxHP>k__BackingField:
+    _value: 0
+    OnValueDecreased:
+      m_PersistentCalls:
+        m_Calls: []
+    OnValueIncreased:
+      m_PersistentCalls:
+        m_Calls: []
+    additionalBuff: 0
+    proportionalBuff: 0
+  <DEF>k__BackingField:
+    _value: 0
+    OnValueDecreased:
+      m_PersistentCalls:
+        m_Calls: []
+    OnValueIncreased:
+      m_PersistentCalls:
+        m_Calls: []
+    additionalBuff: 0
+    proportionalBuff: 0
+  <Resistances>k__BackingField: []
+  <Mass>k__BackingField: 1
+  <HitSound>k__BackingField: {fileID: 0}
+  <HitParticle>k__BackingField: {fileID: 0}
+  <MaxGP>k__BackingField:
+    _value: 0
+    OnValueDecreased:
+      m_PersistentCalls:
+        m_Calls: []
+    OnValueIncreased:
+      m_PersistentCalls:
+        m_Calls: []
+    additionalBuff: 0
+    proportionalBuff: 0
+  <SkinData>k__BackingField: {fileID: 11400000, guid: 1a87d47146baeb343bff2b995163d745, type: 2}
+  <StateMachine>k__BackingField: {fileID: 11400000, guid: 1d95a8fa0bc3e7b40973736148392837, type: 2}
+  <AnimatorController>k__BackingField: {fileID: 9100000, guid: 9e01cf73739be76428ceb105013b14e6, type: 2}
+  type: {fileID: 11400000, guid: dec10021e2791174e8180b271e80c28b, type: 2}

@@ -1,57 +1,73 @@
-using System.Collections.Generic;
 using UnityEngine;
-using System;
+using UnityEngine.U2D.Animation;
 
-public class Player : MonoBehaviour, IGridMovable, IAttackable, IDamagable, IGraffitiable
+public class Player : MonoBehaviour
 {
-    //public GearManager gearManager;
-    [field: SerializeField] public MovePoint MovePoint { get; set; }
-    [field: SerializeField] public CustomVariable<float> Speed { get; set; }
-    [field: SerializeField] public CustomVariable<float> SprintCoeff { get; set; }
-    public CustomVariable<float> ATK { get; set; }
-    public CustomVariable<float> CriticalChanceRate { get; set; }
-    public CustomVariable<float> CriticalDamageRate { get; set; }
-    public DamageDataSO[] AttackDatas { get; set; }
-    public CustomVariable<float> MaxHP { get; set; }
-    public CustomVariable<float> HP { get; set; }
-    public CustomVariable<float> DEF { get; set; }
-    public List<CustomVariable<Resistance>> Resistances { get; set; }
-    public float Mass { get; set; }
-    public AudioDataSO HitSound { get; set; }
-    public ParticleDataSO HitParticle { get; set; }
-    public CustomVariable<float> MaxGP { get; set; }
-    public CustomVariable<float> GP { get; set; }
-    [field: SerializeField] public LayerMask WallLayer { get; set; }
+    public PlayerData playerData;
 
-    public PlayerDataSO playerData;
-
+    [SerializeField] private MovementManagerSO movementManager;
+    [SerializeField] private GearMergeManagerSO gearMergeManager;
+    [SerializeField] private AnimationController animationController;
     [SerializeField] private StateController stateController;
+    [SerializeField] private FootstepController footstepController;
 
+
+    // height based movement test!!!
+    [SerializeField] private Transform sprite;
+    public float Height
+    {
+        get => sprite.localPosition.y;
+        set
+        {
+            sprite.localPosition = Vector3.up * value;
+            Caninteract = value < canInteractHeight;
+        }
+    }
+    [SerializeField] private float canInteractHeight;
+    public bool Caninteract { get; private set; }
+    // height based movement test!!!
+
+    [SerializeField] private SpriteLibrary spriteLibrary;
+    [SerializeField] private SpriteRenderer spriteRenderer;
     public void Start()
     {
         Initialize();
     }
+
     public void Initialize()
     {
-        MovePoint.Initialize();
-        stateController.InitializeState(playerData.stateMachine);
-        stateController.RegisterInterface<IGridMovable>(this);
-        stateController.RegisterInterface(this);
+        playerData.Initialize();
+        UpdateAnimationController();
+        UpdateStateController();
+        UpdateFootStepController();
+        UpdateSkin();
     }
 
-    public MovementManagerSO movementManager;
+    public void UpdateSkin()
+    {
+        playerData.SkinData.SetSKin(spriteLibrary, playerData.AnimatorController, spriteRenderer);
+    }
+
+
+    public void UpdateAnimationController()
+    => animationController.animator.runtimeAnimatorController = playerData.AnimatorController;
+
+    public void UpdateStateController()
+    {
+        stateController.Initialize(playerData.StateMachine);
+        stateController.RegisterInterface<IMovable>(playerData);
+    }
+
+    public void UpdateFootStepController()
+    => footstepController.ChangeDefaultFootStepAudio(playerData.FootStepAudio);
+
     public void Update()
     {
-        movementManager.FollowMovePoint(transform, MovePoint.transform, Speed.Value);
-    }
-
-    public void Damage(DamageDataSO damageData, IAttackable hitter, IDamagable getHit)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public System.Numerics.Vector3 GetAttackOrigin()
-    {
-        throw new System.NotImplementedException();
+        movementManager.FollowMovePoint
+        (
+            transform,
+            playerData.MovePoint.transform,
+            playerData.Speed.Value * (playerData.IsSprinting ? playerData.SprintCoeff.Value : 1)
+        );
     }
 }

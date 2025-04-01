@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95ff09c440d58484580954653ed46426, type: 3}
+  m_Name: Gear Merge Manager
+  m_EditorClassIdentifier: 
+  defaultGearData: {fileID: 11400000, guid: de01b61372793f94d8138842516b098a, type: 2}
+  databaseManager: {fileID: 11400000, guid: 6bc54106ea95a9242946feafc44a5dfe, type: 2}
+  allMergedGearDatas:
+  - {fileID: 11400000, guid: c8aaf2b165a139a4f9360e0d6240a127, type: 2}

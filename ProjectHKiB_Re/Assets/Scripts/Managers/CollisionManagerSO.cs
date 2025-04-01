@@ -1,12 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
 
 [CreateAssetMenu(fileName = "Collision Manager", menuName = "Scriptable Objects/Manager/Collision Manager", order = 3)]
 public class CollisionManagerSO : ScriptableObject
 {
     public MathManagerSO mathManager;
+    public LayerMask floorInfoProviderLayer;
 
     public Collider2D CheckWall(Vector3 pos, LayerMask wallLayer)
     {
@@ -15,12 +13,12 @@ public class CollisionManagerSO : ScriptableObject
 
     public Collider2D Detect(Vector3 pos, LayerMask detectLayer, float range)
     {
-        return Physics2D.OverlapCircle(pos, detectLayer);
+        return Physics2D.OverlapCircle(pos, range, detectLayer);
     }
 
     public Collider2D[] DetectAll(Vector3 pos, LayerMask detectLayer, float range)
     {
-        return Physics2D.OverlapCircleAll(pos, detectLayer);
+        return Physics2D.OverlapCircleAll(pos, range, detectLayer);
     }
 
     public Vector2 GetAvailableDir(Vector3 pos, Vector2 dir, LayerMask wallLayer)
@@ -42,7 +40,6 @@ public class CollisionManagerSO : ScriptableObject
         if (!dir.y.Equals(0))
             if (CheckWall(pos + yTilt, wallLayer))
                 dir.y = 0;
-
         return dir;
     }
 }

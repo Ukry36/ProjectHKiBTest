@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 524c6399cca402f489a33bf3d60ecf83, type: 3}
+  m_Name: Hadaka GearData
+  m_EditorClassIdentifier: 
+  itemIcon: {fileID: 0}
+  ID: 0
+  name: Default
+  description: 
+  type: {fileID: 11400000, guid: ecf9a140395b03e4099afad79d5457bc, type: 2}
+  count: 0
+  gearType: {fileID: 11400000, guid: 94589e4b6d760a3479f2936633efd69f, type: 2}
+  playerBaseData: {fileID: 11400000, guid: 9c0c4d3d7e649704f831120ad3c6003f, type: 2}
+  standingCGData: {fileID: 0}
+  tutorialPrefab: {fileID: 0}
+  mergeSet: []
+  mergePriority: 0
+  mainGearEffectDiscription: 
+  subGearEffectDiscription: 
+  mainGearEffects: []
+  subGearEffects: []

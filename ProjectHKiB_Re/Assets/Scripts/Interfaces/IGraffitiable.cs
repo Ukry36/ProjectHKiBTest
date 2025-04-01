@@ -1,5 +1,5 @@
 public interface IGraffitiable
 {
-    public CustomVariable<float> MaxGP { get; set; }
-    public CustomVariable<float> GP { get; set; }
+    public StatContainer MaxGP { get; set; }
+    public StatContainer GP { get; set; }
 }

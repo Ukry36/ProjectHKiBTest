@@ -5,6 +5,6 @@ public class MovePoint : MonoBehaviour
 {
     public void Initialize()
     {
-        this.transform.parent = null;
+        transform.parent = null;
     }
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class StateSO : ScriptableObject
 {
     public string animationName;
+    public bool directionDependent = true;
     //public string animationBoolName;
     public StateTransition[] transitions;
     public StateActionSO[] enterActions;
@@ -13,7 +14,7 @@ public class StateSO : ScriptableObject
 
     public void EnterState(StateController stateController)
     {
-        stateController.animationController.Play(animationName);
+        stateController.PlayStateAnimation(animationName, directionDependent);
         for (int i = 0; i < enterActions.Length; i++)
         {
             enterActions[i].Act(stateController);

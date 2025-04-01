@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Numerics;
-using JetBrains.Annotations;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Math Manager", menuName = "Scriptable Objects/Manager/Math Manager", order = 1)]
@@ -19,7 +15,11 @@ public class MathManagerSO : ScriptableObject
     public int Round(float item)
     => item < 0 ? (int)(item + 0.5f) - 1 : (int)(item + 0.5f);
 
-    public UnityEngine.Vector3 AllignInGrid(UnityEngine.Vector3 item)
+    public Vector3 AllignInGrid(Vector3 item)
     => new() { x = Round(item.x), y = Round(item.y) };
+
+    public Vector2 SetVectorOne(Vector2 item)
+    => (item.x < 0 ? Vector3.left : item.x > 0 ? Vector3.right : Vector3.zero)
+            + (item.y < 0 ? Vector3.down : item.y > 0 ? Vector3.up : Vector3.zero);
 
 }

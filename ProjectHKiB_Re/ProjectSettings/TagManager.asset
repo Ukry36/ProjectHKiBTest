@@ -12,7 +12,7 @@ TagManager:
   - Water
   - UI
   - Movepoint
-  - 
+  - FloorInfoProvider
   - 
   - 
   - 
@@ -40,4 +40,13 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Bottom
+    uniqueID: 2956778369
+    locked: 0
+  - name: Entity
+    uniqueID: 2457342261
+    locked: 0
+  - name: Top
+    uniqueID: 1685580135
     locked: 0

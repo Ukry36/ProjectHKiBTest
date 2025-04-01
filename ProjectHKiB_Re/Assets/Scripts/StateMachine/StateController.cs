@@ -4,12 +4,11 @@ using System;
 
 public class StateController : MonoBehaviour
 {
-    public CustomVariableSets customVariables = new();
+    [HideInInspector] public CustomVariableSets customVariables = new();
     [SerializeField] private StateSO _currentState;
-    [HideInInspector] public StateSO remainState;
     [HideInInspector] public bool animationEndTrigger;
-    public AnimationController animationController;
-    public Vector2 velocity;
+    [SerializeField] private AnimationController _animationController;
+    [HideInInspector] public Vector2 velocity;
     private Vector3 prevPos;
 
     private readonly Dictionary<Type, object> _interfaces = new();
@@ -38,12 +37,11 @@ public class StateController : MonoBehaviour
         velocity = transform.position - prevPos;
         velocity.Normalize();
         prevPos = transform.position;
-
         _currentState.UpdateState(this);
         _currentState.CheckTransition(this);
     }
 
-    public void InitializeState(StateMachineSO stateMachine)
+    public void Initialize(StateMachineSO stateMachine)
     {
         _currentState = stateMachine.initialState;
     }
@@ -52,7 +50,23 @@ public class StateController : MonoBehaviour
     {
         animationEndTrigger = false;
         _currentState.ExitState(this);
-        remainState = _currentState = state;
-        _currentState.EnterState(this);
+        state.EnterState(this);
+        _currentState = state;
+    }
+
+    public void PlayStateAnimation(string animationName, bool directionDependent)
+    {
+        if (_animationController)
+            _animationController.Play(animationName, directionDependent);
+        else
+            Debug.LogWarning("Warning: animationController missing!!!");
+    }
+
+    public void SetAnimationDirection(Vector2 dir)
+    {
+        if (_animationController)
+            _animationController.SetAnimationDirection(dir);
+        else
+            Debug.LogWarning("Warning: animationController missing!!!");
     }
 }

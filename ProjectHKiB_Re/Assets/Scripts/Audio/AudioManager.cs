@@ -6,17 +6,43 @@ using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Audio;
 
+public class AudioPlayData
+{
+    public AudioDataSO audioData;
+    public float volume;
+    public Vector3 position;
+
+    public AudioPlayData(AudioDataSO _audioData, float _volume, Vector3 _position)
+    {
+        audioData = _audioData;
+        volume = _volume;
+        position = _position;
+    }
+}
+
 public class AudioManager : PoolManager<AudioPlayer>
 {
+
+    public static AudioManager instance;
+
+    private void Awake()
+    {
+        instance = this;
+    }
+
     [SerializeField] private AudioDataSO[] allDatas;
     [SerializeField] private AudioTypeSO[] allTypes;
     public AudioMixer audioMixer;
 
-    private Queue<Tuple<AudioDataSO, float, Vector3>> _oneShotPlayQueue;
+    private Queue<AudioPlayData> _oneShotPlayQueue;
     private AudioPlayer _oneShotPlayer;
 
     private bool _oneShotPlayerDequeueInProgress;
 
+    public void Start()
+    {
+        Initialize();
+    }
 
     public override void Initialize()
     {
@@ -75,7 +101,7 @@ public class AudioManager : PoolManager<AudioPlayer>
 
     public void PlayAudioOneShot(AudioDataSO audioData, float volume, Vector3 pos)
     {
-        _oneShotPlayQueue.Enqueue(Tuple.Create(audioData, volume, pos));
+        _oneShotPlayQueue.Enqueue(new AudioPlayData(audioData, volume, pos));
         if (!_oneShotPlayerDequeueInProgress)
         {
             _oneShotPlayerDequeueInProgress = true;
@@ -94,8 +120,8 @@ public class AudioManager : PoolManager<AudioPlayer>
     {
         while (_oneShotPlayQueue.Count > 0)
         {
-            Tuple<AudioDataSO, float, Vector3> tuple = _oneShotPlayQueue.Dequeue();
-            PlayAudioOneShotDequeue(tuple.Item1, tuple.Item2, tuple.Item3);
+            AudioPlayData playData = _oneShotPlayQueue.Dequeue();
+            PlayAudioOneShotDequeue(playData.audioData, playData.volume, playData.position);
             yield return null;
         }
         _oneShotPlayerDequeueInProgress = false;
@@ -109,11 +135,17 @@ public class AudioManager : PoolManager<AudioPlayer>
 
     public override void ResetPool()
     {
-        int[] keys = objectPool.Keys.ToArray();
-        for (int i = 0; i < keys.Length; i++)
-            Destroy(objectPool[keys[i]].gameObject);
+        if (objectPool != null && objectPool.Count > 0)
+        {
+            int[] keys = objectPool.Keys.ToArray();
+            for (int i = 0; i < keys.Length; i++)
+                Destroy(objectPool[keys[i]].gameObject);
+        }
         base.ResetPool();
-        Destroy(_oneShotPlayer.gameObject);
-        _oneShotPlayer = null;
+        if (_oneShotPlayer != null)
+        {
+            Destroy(_oneShotPlayer.gameObject);
+            _oneShotPlayer = null;
+        }
     }
 }

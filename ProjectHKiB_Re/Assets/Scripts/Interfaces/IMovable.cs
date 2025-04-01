@@ -2,7 +2,10 @@ using UnityEngine;
 
 public interface IMovable
 {
-    public CustomVariable<float> Speed { get; set; }
-    public CustomVariable<float> SprintCoeff { get; set; }
+    public StatContainer Speed { get; set; }
+    public StatContainer SprintCoeff { get; set; }
     public LayerMask WallLayer { get; set; }
+    public bool IsSprinting { get; set; }
+    public AudioDataSO FootStepAudio { get; set; }
+    public MovePoint MovePoint { get; set; }
 }

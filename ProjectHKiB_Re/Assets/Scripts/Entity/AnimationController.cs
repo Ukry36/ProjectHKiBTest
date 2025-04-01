@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class AnimationController : MonoBehaviour
 {
     public Animator animator;
+
     public string CurrentAnimation { get; private set; }
     private EnumManager.AnimDir _animationDirection;
     public EnumManager.AnimDir AnimationDirection
@@ -16,18 +14,18 @@ public class AnimationController : MonoBehaviour
             if (_animationDirection != value)
             {
                 _animationDirection = value;
-                OnValueChanged?.Invoke(value);
+                OnDirChanged?.Invoke(value);
             }
         }
     }
 
-    public delegate void OnValueChangedEventHandler(EnumManager.AnimDir animDir);
-    public event OnValueChangedEventHandler OnValueChanged;
+    public delegate void OnDirChangedEventHandler(EnumManager.AnimDir animDir);
+    public event OnDirChangedEventHandler OnDirChanged;
     public MathManagerSO mathManager;
 
     public void Start()
     {
-        OnValueChanged += OnDirChange;
+        OnDirChanged += OnDirChange;
     }
 
     public void SetAnimationDirection(Vector2 vectorDir)
@@ -41,13 +39,12 @@ public class AnimationController : MonoBehaviour
 
     public void SetAnimationDirection(EnumManager.AnimDir animDir) => AnimationDirection = animDir;
 
-    public void Play(string animationName)
+    public void Play(string animationName, bool directionDependent)
     {
         CurrentAnimation = animationName;
-        animator.Play(animationName + "_" + AnimationDirection);
+        animator.Play(animationName + (directionDependent ? "_" + AnimationDirection : ""));
     }
 
     public void OnDirChange(EnumManager.AnimDir animDir)
     => animator.Play(CurrentAnimation + "_" + animDir);
-
 }

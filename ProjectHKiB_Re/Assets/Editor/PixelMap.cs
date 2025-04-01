@@ -1,6 +1,5 @@
-using Common;
+using AYellowpaper.SerializedCollections;
 using UnityEngine;
-
 namespace Editor
 {
     public class PixelMap : ScriptableObject
