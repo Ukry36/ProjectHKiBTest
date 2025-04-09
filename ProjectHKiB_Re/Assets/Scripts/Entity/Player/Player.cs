@@ -1,15 +1,67 @@
 using UnityEngine;
 using UnityEngine.U2D.Animation;
-
-public class Player : MonoBehaviour
+using System;
+using System.Collections.Generic;
+using UnityEditor.Animations;
+[Serializable]
+public class Player : Entity, IAttackable, IDodgeable, IGraffitiable, ISkinable, IStateControllable
 {
-    public PlayerData playerData;
+
+    #region field
+    public StatContainer ATK { get; set; }
+    public StatContainer CriticalChanceRate { get; set; }
+    public StatContainer CriticalDamageRate { get; set; }
+    public AttackDataSO[] AttackDatas { get; set; }
+    public int LastAttackNum { get; set; }
+    [field: SerializeField] public AttackController AttackController { get; set; }
+    public LayerMask[] TargetLayers { get; set; }
+    public Transform CurrentTarget { get; set; }
+
+    public GameObject yay;
+    public void Update()
+    {
+        if (CurrentTarget)
+        {
+            yay.SetActive(true);
+            yay.transform.position = CurrentTarget.position;
+        }
+        else
+        {
+            yay.SetActive(false);
+        }
+
+    }
+
+    public CustomVariable<float> DodgeCooltime { get; set; }
+    public CustomVariable<float> ContinuousDodgeLimit { get; set; }
+    public CustomVariable<float> KeepDodgeMaxTime { get; set; }
+    public CustomVariable<float> KeepDodgeMaxDistance { get; set; }
+
+    public StatContainer MaxGP { get; set; }
+    public StatContainer GP { get; set; }
+
+    public SkinDataSO SkinData { get; set; }
+
+    public StateMachineSO StateMachine { get; set; }
+    public AnimatorController AnimatorController { get; set; }
+
+    public MergedPlayerBaseData PlayerBaseData
+    {
+        get => _playerBaseData;
+        set
+        {
+            _playerBaseData = value;
+            UpdateDatas();
+        }
+    }
+    private MergedPlayerBaseData _playerBaseData;
+
+
+    [SerializeField] private DatabaseManagerSO databaseManager;
 
     [SerializeField] private MovementManagerSO movementManager;
-    [SerializeField] private GearMergeManagerSO gearMergeManager;
     [SerializeField] private AnimationController animationController;
     [SerializeField] private StateController stateController;
-    [SerializeField] private FootstepController footstepController;
 
 
     // height based movement test!!!
@@ -25,49 +77,72 @@ public class Player : MonoBehaviour
     }
     [SerializeField] private float canInteractHeight;
     public bool Caninteract { get; private set; }
+
+
     // height based movement test!!!
 
     [SerializeField] private SpriteLibrary spriteLibrary;
     [SerializeField] private SpriteRenderer spriteRenderer;
-    public void Start()
-    {
-        Initialize();
-    }
+
+    #endregion
 
     public void Initialize()
     {
-        playerData.Initialize();
-        UpdateAnimationController();
-        UpdateStateController();
-        UpdateFootStepController();
-        UpdateSkin();
+        UpdateDatas();
     }
 
-    public void UpdateSkin()
+    public void UpdateDatas()
     {
-        playerData.SkinData.SetSKin(spriteLibrary, playerData.AnimatorController, spriteRenderer);
+        MovePoint.Initialize();
+        databaseManager.SetIMovable(this, PlayerBaseData);
+        databaseManager.SetIAttackable(this, PlayerBaseData);
+        databaseManager.SetIDodgeable(this, PlayerBaseData);
+        databaseManager.SetIDamagable(this, PlayerBaseData);
+        databaseManager.SetIDodgeable(this, PlayerBaseData);
+        databaseManager.SetGraffiriable(this, PlayerBaseData);
+        databaseManager.SetISkinable(this, PlayerBaseData);
+        databaseManager.SetIStateControllable(this, PlayerBaseData);
     }
 
-
-    public void UpdateAnimationController()
-    => animationController.animator.runtimeAnimatorController = playerData.AnimatorController;
-
-    public void UpdateStateController()
+    public override void Damage(DamageDataSO damageData, IAttackable hitter)
     {
-        stateController.Initialize(playerData.StateMachine);
-        stateController.RegisterInterface<IMovable>(playerData);
+        throw new NotImplementedException();
     }
 
-    public void UpdateFootStepController()
-    => footstepController.ChangeDefaultFootStepAudio(playerData.FootStepAudio);
+    public Vector3 GetAttackOrigin()
+    => this.transform.position;
 
-    public void Update()
+
+    public void SetGear(MergedPlayerBaseData realGear)
     {
-        movementManager.FollowMovePoint
-        (
-            transform,
-            playerData.MovePoint.transform,
-            playerData.Speed.Value * (playerData.IsSprinting ? playerData.SprintCoeff.Value : 1)
-        );
+        PlayerBaseData = realGear;
+        Initialize();
+        SetAnimationController();
+        SetStateController();
+        SetFootStepController();
+        SetAttackController();
+        SetSkin();
     }
+
+    private void SetSkin()
+    => SkinData.SetSKin(spriteLibrary, AnimatorController, spriteRenderer);
+
+
+    private void SetAnimationController()
+    => animationController.animator.runtimeAnimatorController = AnimatorController;
+
+    private void SetStateController()
+    {
+        stateController.Initialize(StateMachine);
+        stateController.RegisterInterface<IMovable>(this);
+        stateController.RegisterInterface<IAttackable>(this);
+    }
+
+    private void SetFootStepController()
+    => FootstepController.ChangeDefaultFootStepAudio(FootStepAudio);
+
+    private void SetAttackController()
+    => AttackController.SetAttacker(this);
+
+
 }

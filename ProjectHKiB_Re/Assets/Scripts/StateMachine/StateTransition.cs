@@ -1,7 +1,13 @@
 [System.Serializable]
 public class StateTransition
 {
-    public StateDecisionSO decision;
+    [System.Serializable]
+    public struct DecisionSet
+    {
+        public StateDecisionSO decision;
+        public bool negate;
+    }
+
+    public DecisionSet[] decisions;
     public StateSO trueState;
-    public StateSO falseState;
 }

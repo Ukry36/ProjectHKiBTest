@@ -7,15 +7,16 @@ public class PlayerInputDecision : StateDecisionSO
     {
         OnMove,
         OnSprint,
+        OnAttack
     }
     [SerializeField] private InputType _inputType;
-    [SerializeField] private bool _bool;
     public override bool Decide(StateController stateController)
     {
         return _inputType switch
         {
-            InputType.OnMove => _bool ^ InputManager.instance.MoveInput.Equals(Vector2.zero),
-            InputType.OnSprint => !_bool ^ InputManager.instance.SprintInput,
+            InputType.OnMove => !GameManager.instance.inputManager.MoveInput.Equals(Vector2.zero),
+            InputType.OnSprint => GameManager.instance.inputManager.SprintInput,
+            InputType.OnAttack => GameManager.instance.inputManager.AttackInput,
             _ => false,
         };
     }

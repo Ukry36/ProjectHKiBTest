@@ -20,16 +20,9 @@ public class AudioPlayData
     }
 }
 
+
 public class AudioManager : PoolManager<AudioPlayer>
 {
-
-    public static AudioManager instance;
-
-    private void Awake()
-    {
-        instance = this;
-    }
-
     [SerializeField] private AudioDataSO[] allDatas;
     [SerializeField] private AudioTypeSO[] allTypes;
     public AudioMixer audioMixer;
@@ -68,7 +61,7 @@ public class AudioManager : PoolManager<AudioPlayer>
                 clone = Instantiate(prefab, this.transform);
                 if (clone.TryGetComponent(out AudioPlayer audioPlayer))
                 {
-                    AddPool(allDatas[i].ID, audioPlayer);
+                    AddPool(allDatas[i].GetInstanceID(), audioPlayer);
                     audioPlayer.InitializeWhenReused(allDatas[i]);
                     audioPlayer.OnGameObjectDisabled += OnGameObjectDisabled;
                 }
@@ -101,6 +94,7 @@ public class AudioManager : PoolManager<AudioPlayer>
 
     public void PlayAudioOneShot(AudioDataSO audioData, float volume, Vector3 pos)
     {
+        if (!audioData) return;
         _oneShotPlayQueue.Enqueue(new AudioPlayData(audioData, volume, pos));
         if (!_oneShotPlayerDequeueInProgress)
         {

@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efeb684fc92f83442884c1d1b5628dbc, type: 3}
+  m_Name: Delta_Roza_AttackData3
+  m_EditorClassIdentifier: 
+  damageDatas:
+  - {fileID: 11400000, guid: d405fdab1bc93584b8964fba1f9e5105, type: 2}
+  - {fileID: 11400000, guid: c150d7a43ee1190489d371be0984e2fa, type: 2}
+  - {fileID: 11400000, guid: 104e7c15581e94743a05a1c749a1439c, type: 2}
+  - {fileID: 11400000, guid: 7e46cce5f3f90d64ea5af7bf51840c04, type: 2}
+  - {fileID: 11400000, guid: b93fae1126aff2d4f8dd38ccd66f8728, type: 2}
+  attackMoveMinRange: 1
+  attackMoveMaxRange: 5
+  isAutoTarget: 1
+  initialSound: {fileID: 0}

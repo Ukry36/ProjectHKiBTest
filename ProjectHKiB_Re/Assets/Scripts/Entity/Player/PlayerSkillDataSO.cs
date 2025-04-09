@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerSkillDataSO : ScriptableObject
 {
     public DamageDataSO[] damageDatas; // use if there is mutiple hits in skill
-    public List<Vector2[]> graffitiCodes;
+    public List<List<Vector2>> graffitiCodes;
     public bool autoFollow;
     public float defaultFollowRange;
 }

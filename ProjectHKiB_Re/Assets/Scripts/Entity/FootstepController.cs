@@ -22,12 +22,12 @@ public class FootstepController : MonoBehaviour
     public void PlayFootstepAudio(EnumManager.AnimDir animDir)
     {
         if (DefaultFootstepAudio != null)
-            AudioManager.instance.PlayAudioOneShot(DefaultFootstepAudio, footstepAudioVolume, transform.position);
+            GameManager.instance.audioManager.PlayAudioOneShot(DefaultFootstepAudio, footstepAudioVolume, transform.position);
         if (footstepAudioList.Count > 0)
         {
             for (int i = 0; i < footstepAudioList.Count; i++)
             {
-                AudioManager.instance.PlayAudioOneShot(footstepAudioList[i], footstepAudioVolume, transform.position);
+                GameManager.instance.audioManager.PlayAudioOneShot(footstepAudioList[i], footstepAudioVolume, transform.position);
             }
         }
     }

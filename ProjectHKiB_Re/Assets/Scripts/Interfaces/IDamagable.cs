@@ -8,7 +8,7 @@ public interface IDamagable
     public StatContainer DEF { get; set; }
     public List<CustomVariable<Resistance>> Resistances { get; set; }
     public float Mass { get; set; }
-    public void Damage(DamageDataSO damageData, IAttackable hitter, IDamagable getHit);
+    public void Damage(DamageDataSO damageData, IAttackable hitter);
     public AudioDataSO HitSound { get; set; }
-    public ParticleDataSO HitParticle { get; set; }
+    public ParticlePlayer HitParticle { get; set; }
 }

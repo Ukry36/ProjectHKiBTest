@@ -92,6 +92,6 @@ public class AudioPlayer : MonoBehaviour, IPoolable
 
     public void OnDisable()
     {
-        OnGameObjectDisabled?.Invoke(_audioData.ID, this.gameObject.GetHashCode());
+        OnGameObjectDisabled?.Invoke(_audioData.GetInstanceID(), this.gameObject.GetHashCode());
     }
 }

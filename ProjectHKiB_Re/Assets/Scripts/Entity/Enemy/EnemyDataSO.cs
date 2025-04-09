@@ -5,10 +5,8 @@ using UnityEngine;
 using UnityEngine.U2D.Animation;
 
 [CreateAssetMenu(fileName = "Enemy Data", menuName = "Scriptable Objects/Data/Enemy Data", order = 1)]
-public class EnemyDataSO : ScriptableObject, IID, IMovable, IAttackable, IDamagable, IPoolable
+public class EnemyDataSO : ScriptableObject, IMovable, IAttackable, IDamagable, IPoolable
 {
-    [field: SerializeField] public int ID { get; set; }
-    [field: SerializeField] public string Name { get; set; }
     [field: SerializeField] public StatContainer MaxHP { get; set; }
     [field: SerializeField] public StatContainer HP { get; set; }
     [field: SerializeField] public StatContainer DEF { get; set; }
@@ -16,17 +14,24 @@ public class EnemyDataSO : ScriptableObject, IID, IMovable, IAttackable, IDamaga
     [field: SerializeField] public StatContainer ATK { get; set; }
     [field: SerializeField] public StatContainer CriticalChanceRate { get; set; }
     [field: SerializeField] public StatContainer CriticalDamageRate { get; set; }
+    public int LastAttackNum { get; set; }
+    public AttackController AttackController { get; set; }
+    [field: SerializeField] public LayerMask[] TargetLayers { get; set; }
+    public Transform CurrentTarget { get; set; }
+
     [field: SerializeField] public float Mass { get; set; }
     [field: SerializeField] public StatContainer Speed { get; set; }
     [field: SerializeField] public StatContainer SprintCoeff { get; set; }
     public MovePoint MovePoint { get; set; }
-    [field: SerializeField] public DamageDataSO[] AttackDatas { get; set; }
+    [field: SerializeField] public AttackDataSO[] AttackDatas { get; set; }
     [field: SerializeField] public int PoolSize { get; set; }
     [field: SerializeField] public AudioDataSO HitSound { get; set; }
-    [field: SerializeField] public ParticleDataSO HitParticle { get; set; }
+    [field: SerializeField] public ParticlePlayer HitParticle { get; set; }
     [field: SerializeField] public LayerMask WallLayer { get; set; }
     public bool IsSprinting { get; set; } = false;
     [field: SerializeField] public AudioDataSO FootStepAudio { get; set; }
+    public FootstepController FootstepController { get; set; }
+    public IMovable.ExternalForce ExForce { get; set; } = new();
 
     public EntityTypeSO type;
     public StateMachineSO stateMachine;
@@ -38,7 +43,7 @@ public class EnemyDataSO : ScriptableObject, IID, IMovable, IAttackable, IDamaga
         throw new System.NotSupportedException();
     }
 
-    public void Damage(DamageDataSO damageData, IAttackable hitter, IDamagable getHit)
+    public void Damage(DamageDataSO damageData, IAttackable hitter)
     {
         throw new System.NotSupportedException();
     }

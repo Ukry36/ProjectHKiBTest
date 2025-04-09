@@ -80,8 +80,13 @@ public class GearMergeManagerSO : ScriptableObject
             && !mergedEquippedGears[MAINGEAR].gearType.isAttackGear
             && !mergedEquippedGears[MAINGEAR].gearType.cannotAttack)
             {
-                mergedGearData.AnimatorController = mergedEquippedGears[i].playerBaseData.AnimatorController;
+#if UNITY_EDITOR
+                Debug.Log("AttackGear Overrided: " + mergedEquippedGears[i]);
+                Debug.Log("AttackData Length: " + mergedEquippedGears[i].playerBaseData.AttackDatas.Length);
+#endif
+                databaseManager.SetIStateControllable(mergedGearData, mergedEquippedGears[i].playerBaseData);
                 mergedGearData.gearType = mergedEquippedGears[i].gearType;
+                mergedGearData.AttackDatas = mergedEquippedGears[i].playerBaseData.AttackDatas;
             }
             mergedEquippedGears[i].ApplySubGearEffect(mergedGearData);
         }

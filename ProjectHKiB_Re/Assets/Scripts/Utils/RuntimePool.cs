@@ -3,12 +3,18 @@ using UnityEngine;
 
 public class RuntimePool<T>
 {
-    public Dictionary<int, List<T>> pool;
+    public Dictionary<int, List<T>> pool = new();
 
-    public bool CheckPoolAvailable(int ID) => pool.ContainsKey(ID) && pool[ID].Count > 0;
+    public bool CheckPoolAvailable(int ID)
+    {
+        if (!pool.ContainsKey(ID))
+            Debug.LogError("ERROR: ID " + ID + " is missing!!!");
+        return pool.ContainsKey(ID) && pool[ID].Count > 0;
+    }
 
     public void EnqueuePool(int ID, T t)
     {
+        //Debug.Log("ID " + ID + ", " + t + " enqueued!");
         if (!pool.ContainsKey(ID))
             pool.Add(ID, new List<T>());
 

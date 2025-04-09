@@ -13,12 +13,12 @@ TagManager:
   - UI
   - Movepoint
   - FloorInfoProvider
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Infront
+  - PlayerMovepoint
+  - Player
+  - Enemy
+  - Friendly
+  - DamagableObject
   - 
   - 
   - 
@@ -43,6 +43,9 @@ TagManager:
     locked: 0
   - name: Bottom
     uniqueID: 2956778369
+    locked: 0
+  - name: Effect
+    uniqueID: 4110136775
     locked: 0
   - name: Entity
     uniqueID: 2457342261

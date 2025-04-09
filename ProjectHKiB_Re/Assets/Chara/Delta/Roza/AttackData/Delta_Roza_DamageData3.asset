@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48c9f0ded553de24694d521c9755bb18, type: 3}
+  m_Name: Delta_Roza_DamageData3
+  m_EditorClassIdentifier: 
+  damageCoefficient: 0
+  damageType: {fileID: 0}
+  knockBack: 5
+  damageLayer:
+    serializedVersion: 2
+    m_Bits: 10240
+  initialSound: {fileID: 0}
+  hitSound: {fileID: 0}
+  hitParticle: {fileID: 0}
+  camShake: 0
+  DLRUDamageEffects:
+    _serializedList:
+    - Key: 0
+      Value: {fileID: 5684371588348390806, guid: 7c5ee5c0109a7ac4899c398bfb118c45, type: 3}
+    - Key: 2
+      Value: {fileID: 3357621773349773725, guid: 740581d41f010374ea34958342ddc397, type: 3}
+    - Key: 1
+      Value: {fileID: 1735440909742692947, guid: 33b0b2967f3ba3644ac1272ae866c1b1, type: 3}
+    - Key: 3
+      Value: {fileID: 8941849156411098639, guid: 5ef141f5f199d304dbd4705a5f965857, type: 3}
+  downwardDamageArea:
+    offset: {x: 0, y: -2}
+    size: {x: 1, y: 3}

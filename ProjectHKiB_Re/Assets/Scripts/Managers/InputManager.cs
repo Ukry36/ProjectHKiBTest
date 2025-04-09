@@ -5,45 +5,6 @@ using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
 {
-
-    #region Singleton
-
-    public static InputManager instance;
-
-    private void Awake()
-    {
-        if (instance == null)
-        {
-            // GetComponent
-            _playerInput = GetComponent<PlayerInput>();
-
-
-            // auto binding
-            move = _playerInput.actions["Move"];
-            movePressedD = _playerInput.actions["MovePressedD"];
-            movePressedR = _playerInput.actions["MovePressedR"];
-            movePressedU = _playerInput.actions["MovePressedU"];
-            movePressedL = _playerInput.actions["MovePressedL"];
-            sprint = _playerInput.actions["Sprint"];
-            attack = _playerInput.actions["Attack"];
-            dodge = _playerInput.actions["Dodge"];
-            grafitti = _playerInput.actions["GraffitiSystem"];
-            skill = _playerInput.actions["Skill"];
-
-            confirm = _playerInput.actions["Confirm"];
-            cancel = _playerInput.actions["Cancel"];
-            equipment = _playerInput.actions["OpenEquipment"];
-            inventory = _playerInput.actions["OpenInventory"];
-            DontDestroyOnLoad(this.gameObject);
-            instance = this;
-        }
-        else
-        {
-            Destroy(this.gameObject);
-        }
-    }
-    #endregion
-
     public Vector2 MoveInput { get; private set; }
     public bool MoveInputPressed { get; private set; }
     public bool DInput { get; private set; }
@@ -76,6 +37,30 @@ public class InputManager : MonoBehaviour
     public bool stopPlayerMovement;
     public bool stopPlayer;
     public bool stopUI;
+
+    private void Awake()
+    {
+
+        _playerInput = GetComponent<PlayerInput>();
+
+
+        // auto binding
+        move = _playerInput.actions["Move"];
+        movePressedD = _playerInput.actions["MovePressedD"];
+        movePressedR = _playerInput.actions["MovePressedR"];
+        movePressedU = _playerInput.actions["MovePressedU"];
+        movePressedL = _playerInput.actions["MovePressedL"];
+        sprint = _playerInput.actions["Sprint"];
+        attack = _playerInput.actions["Attack"];
+        dodge = _playerInput.actions["Dodge"];
+        grafitti = _playerInput.actions["GraffitiSystem"];
+        skill = _playerInput.actions["Skill"];
+
+        confirm = _playerInput.actions["Confirm"];
+        cancel = _playerInput.actions["Cancel"];
+        equipment = _playerInput.actions["OpenEquipment"];
+        inventory = _playerInput.actions["OpenInventory"];
+    }
 
     public void StopPlayerInput(bool _stop)
     {

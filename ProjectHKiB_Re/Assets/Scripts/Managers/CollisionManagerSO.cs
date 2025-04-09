@@ -26,13 +26,6 @@ public class CollisionManagerSO : ScriptableObject
         Vector3 xTilt = (dir.x * Vector3.right).normalized;
         Vector3 yTilt = (dir.y * Vector3.up).normalized;
 
-        if (!dir.x.Equals(0) && !dir.y.Equals(0))
-            if (CheckWall(pos + xTilt + yTilt, wallLayer))
-                if (Random.Range(0, 2).Equals(0))
-                    dir.x = 0;
-                else
-                    dir.y = 0;
-
         if (!dir.x.Equals(0))
             if (CheckWall(pos + xTilt, wallLayer))
                 dir.x = 0;
@@ -40,6 +33,25 @@ public class CollisionManagerSO : ScriptableObject
         if (!dir.y.Equals(0))
             if (CheckWall(pos + yTilt, wallLayer))
                 dir.y = 0;
+
+        if (!dir.x.Equals(0) && !dir.y.Equals(0))
+            if (CheckWall(pos + xTilt + yTilt, wallLayer))
+                if (Random.Range(0, 2).Equals(0))
+                    dir.x = 0;
+                else
+                    dir.y = 0;
         return dir;
+    }
+
+    //low accuracy
+    public Vector3 GetNearestPos(Vector3 pos, Vector3 dir, float distance, LayerMask wallLayer)
+    {
+        dir = dir.normalized;
+        RaycastHit2D hit = Physics2D.Raycast(pos, dir, distance, wallLayer);
+        if (!hit)
+        {
+            return pos + dir * distance;
+        }
+        return hit.point;
     }
 }

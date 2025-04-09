@@ -9,7 +9,7 @@ public class GearManager : MonoBehaviour
 
     public void Awake()
     {
-        gearMergeManager.OnRealGearMade += SetGear;
+        gearMergeManager.OnRealGearMade += player.SetGear;
         gearMergeManager.MergeGears(equippedGears);
     }
 
@@ -22,17 +22,8 @@ public class GearManager : MonoBehaviour
         }
     }
 
-    public void SetGear(MergedPlayerBaseData realGear)
-    {
-        player.playerData.PlayerBaseData = realGear;
-        player.UpdateAnimationController();
-        player.UpdateStateController();
-        player.UpdateFootStepController();
-        player.UpdateSkin();
-    }
-
     public void OnDestroy()
     {
-        gearMergeManager.OnRealGearMade -= SetGear;
+        gearMergeManager.OnRealGearMade -= player.SetGear;
     }
 }

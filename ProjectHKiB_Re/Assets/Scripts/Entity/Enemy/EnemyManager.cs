@@ -23,7 +23,7 @@ public class EnemyManager : PoolManager<Enemy>
                 var clone = Instantiate(prefab, this.transform);
                 if (clone.TryGetComponent(out Enemy enemy))
                 {
-                    AddPool(allDatas[i].ID, enemy);
+                    AddPool(allDatas[i].GetInstanceID(), enemy);
                     enemy.InitializeFromPool(allDatas[i]);
                     enemy.OnGameObjectDisabled += OnGameObjectDisabled;
                 }

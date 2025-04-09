@@ -1,6 +1,6 @@
 using AYellowpaper.SerializedCollections;
 using UnityEngine;
-namespace Editor
+namespace Assets.Editor
 {
     public class PixelMap : ScriptableObject
     {

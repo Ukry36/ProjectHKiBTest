@@ -7,15 +7,17 @@ using UnityEngine;
 
 public class ParticleManager : PoolManager<ParticlePlayer>
 {
-    [SerializeField] private ParticleDataSO[] allDatas;
+    [SerializeField] private ParticlePlayer[] allDatas;
 
-    private Queue<Tuple<ParticleDataSO, int, Vector3>> _simpleParticleEmitterQueue;
-    private bool _simpleParticleEmitterDequeueInProgress;
-    private ParticlePlayer _simpleParticleEmitter;
+    public void Start()
+    {
+        Initialize();
+
+        ParticlePlayer p = PlayParticle(allDatas[1].GetInstanceID(), transform, false);
+    }
 
     public override void Initialize()
     {
-        _simpleParticleEmitterQueue = new();
         base.Initialize();
     }
 
@@ -23,20 +25,20 @@ public class ParticleManager : PoolManager<ParticlePlayer>
     {
         base.CreatePool();
 
-        var clone = Instantiate(prefab, this.transform);
-        if (clone.TryGetComponent(out ParticlePlayer simpleParticleEmitter))
-            _simpleParticleEmitter = simpleParticleEmitter;
-        else
-            Debug.LogError("ERROR: Failed to create simpleParticleEmitter(ParticlePlayer prefab is invalid)!!!");
+        //var clone = Instantiate(prefab, this.transform);
+        //if (clone.TryGetComponent(out ParticlePlayer simpleParticleEmitter))
+        //    _simpleParticleEmitter = simpleParticleEmitter;
+        //else
+        //    Debug.LogError("ERROR: Failed to create simpleParticleEmitter(ParticlePlayer prefab is invalid)!!!");
 
         for (int i = 0; i < allDatas.Length; i++)
         {
             for (int j = 0; j < allDatas[i].PoolSize; j++)
             {
-                clone = Instantiate(prefab, this.transform);
+                var clone = Instantiate(allDatas[i].gameObject, this.transform);
                 if (clone.TryGetComponent(out ParticlePlayer particlePlayer))
                 {
-                    AddPool(allDatas[i].ID, particlePlayer);
+                    AddPool(allDatas[i].GetInstanceID(), particlePlayer);
                     particlePlayer.InitializeFromPool(allDatas[i]);
                     particlePlayer.OnGameObjectDisabled += OnGameObjectDisabled;
                 }
@@ -68,34 +70,34 @@ public class ParticleManager : PoolManager<ParticlePlayer>
             return null;
         }
     }
-
-    public void EmitParticle(ParticleDataSO particleData, int emitCount, Vector3 pos)
-    {
-        _simpleParticleEmitterQueue.Enqueue(Tuple.Create(particleData, emitCount, pos));
-        if (!_simpleParticleEmitterDequeueInProgress)
+    /*
+        public void EmitParticle(ParticleDataSO particleData, int emitCount, Vector3 pos)
         {
-            _simpleParticleEmitterDequeueInProgress = true;
-            StartCoroutine(EmitParticleDequeueCoroutine());
+            _simpleParticleEmitterQueue.Enqueue(Tuple.Create(particleData, emitCount, pos));
+            if (!_simpleParticleEmitterDequeueInProgress)
+            {
+                _simpleParticleEmitterDequeueInProgress = true;
+                StartCoroutine(EmitParticleDequeueCoroutine());
+            }
         }
-    }
 
-    private void EmitParticleDequeue(ParticleDataSO particleData, int emitCount, Vector3 pos)
-    {
-        _simpleParticleEmitter.InitializeFromPool(particleData);
-        _simpleParticleEmitter.transform.position = pos;
-        _simpleParticleEmitter.mainParticleSystem.Emit(emitCount);
-    }
-
-    private IEnumerator EmitParticleDequeueCoroutine()
-    {
-        while (_simpleParticleEmitterQueue.Count > 0)
+        private void EmitParticleDequeue(ParticleDataSO particleData, int emitCount, Vector3 pos)
         {
-            Tuple<ParticleDataSO, int, Vector3> tuple = _simpleParticleEmitterQueue.Dequeue();
-            EmitParticleDequeue(tuple.Item1, tuple.Item2, tuple.Item3);
-            yield return null;
+            _simpleParticleEmitter.InitializeWhenEmit(particleData);
+            _simpleParticleEmitter.transform.position = pos;
+            _simpleParticleEmitter.mainParticleSystem.Emit(emitCount);
         }
-        _simpleParticleEmitterDequeueInProgress = false;
-    }
+
+        private IEnumerator EmitParticleDequeueCoroutine()
+        {
+            while (_simpleParticleEmitterQueue.Count > 0)
+            {
+                Tuple<ParticleDataSO, int, Vector3> tuple = _simpleParticleEmitterQueue.Dequeue();
+                EmitParticleDequeue(tuple.Item1, tuple.Item2, tuple.Item3);
+                yield return null;
+            }
+            _simpleParticleEmitterDequeueInProgress = false;
+        }*/
 
     public ParticlePlayer PlayParticle(int ID, Transform transform, bool attatchToTransform)
     {
@@ -113,11 +115,14 @@ public class ParticleManager : PoolManager<ParticlePlayer>
 
     public override void ResetPool()
     {
-        int[] keys = objectPool.Keys.ToArray();
-        for (int i = 0; i < keys.Length; i++)
-            Destroy(objectPool[keys[i]].gameObject);
+        if (objectPool != null && objectPool.Count > 0)
+        {
+            int[] keys = objectPool.Keys.ToArray();
+            for (int i = 0; i < keys.Length; i++)
+                Destroy(objectPool[keys[i]].gameObject);
+        }
         base.ResetPool();
-        Destroy(_simpleParticleEmitter.gameObject);
-        _simpleParticleEmitter = null;
+        //Destroy(_simpleParticleEmitter.gameObject);
+        //_simpleParticleEmitter = null;
     }
 }

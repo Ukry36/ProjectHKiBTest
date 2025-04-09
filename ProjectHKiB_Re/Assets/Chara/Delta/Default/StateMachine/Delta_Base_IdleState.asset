@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb85084ca5989854b9dbc2cce1298255, type: 3}
+  m_Name: Delta_Base_IdleState
+  m_EditorClassIdentifier: 
+  animationName: Idle
+  directionDependent: 1
+  transitions:
+  - decisions:
+    - decision: {fileID: 11400000, guid: 35a37da16a3d9df4189d1ba8142bdbc6, type: 2}
+      negate: 0
+    trueState: {fileID: 11400000, guid: c4988881f5b496d4f8a6acc87ca839d1, type: 2}
+    falseState: {fileID: 0}
+  enterActions: []
+  updateActions: []
+  exitActions: []

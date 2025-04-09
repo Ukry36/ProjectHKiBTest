@@ -10,7 +10,7 @@ public class WalkAction : StateActionSO
         var movable = stateController.GetInterface<IMovable>();
         if (movable != null)
         {
-            movementManager.WalkMove(stateController.transform, movable.MovePoint.transform, InputManager.instance.MoveInput, movable.WallLayer);
+            movementManager.WalkMove(stateController.transform, movable, GameManager.instance.inputManager.MoveInput);
         }
         else
             Debug.LogError("ERROR: Interface Not Found!!!");

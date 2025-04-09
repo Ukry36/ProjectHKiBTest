@@ -4,33 +4,28 @@ public class ParticlePlayer : MonoBehaviour, IPoolable
 {
     public delegate void GameObjectDisabled(int ID, int hash);
     public event GameObjectDisabled OnGameObjectDisabled;
-    public ParticleSystem mainParticleSystem; //subSystems are also controlled by this
-    private ParticleDataSO _particleData;
+    [HideInInspector] public ParticleSystem mainParticleSystem; //subSystems are also controlled by this
+    private int ID;
+    [field: SerializeField] public int PoolSize { get; set; }
 
-    public int PoolSize { get; set; }
-
-    void Start()
+    public void Awake()
     {
-        Initialize();
-    }
-
-    public void Initialize()
-    {
-        if (_particleData)
-            InitializeFromPool(_particleData);
+        if (TryGetComponent(out ParticleSystem component))
+        {
+            mainParticleSystem = component;
+        }
+        else Debug.LogError("ERROR: MainParticleSystem is missing!!!");
     }
 
     //Will probably be played only in pooling sequence
-    public void InitializeFromPool(ParticleDataSO particleData)
+    public void InitializeFromPool(ParticlePlayer particlePlayer)
     {
-        _particleData = particleData;
-        var clone = Instantiate(_particleData.mainParticlePrefab, this.transform);
-        for (int i = 0; i < _particleData.subParticlePrefabs.Count; i++)
-            Instantiate(_particleData.subParticlePrefabs[i], clone.transform);
+        ID = particlePlayer.GetInstanceID();
+        this.gameObject.SetActive(false);
     }
 
     public void OnDisable()
     {
-        OnGameObjectDisabled?.Invoke(_particleData.ID, this.gameObject.GetHashCode());
+        OnGameObjectDisabled?.Invoke(ID, this.GetInstanceID());
     }
 }

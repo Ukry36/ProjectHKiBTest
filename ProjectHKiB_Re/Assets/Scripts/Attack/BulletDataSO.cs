@@ -3,10 +3,11 @@ using UnityEngine;
 public class BulletDataSO : ScriptableObject
 {
     public DamageDataSO damageData;
+    public AudioDataSO initialSound;
     public float initialSpeed; // 나중에 단위 꼭 붙이기!!
     public float acceleration;
     public float lifeTime;
-    public ParticleDataSO trailParticle;
+    public ParticlePlayer trailParticle;
     public bool disappearWhenDamage;
     public bool disappearWhenHit;
     public Sprite sprite;

@@ -20,6 +20,7 @@ public class DatabaseManagerSO : ScriptableObject
         attackable.AttackDatas = data.AttackDatas;
         attackable.CriticalChanceRate = data.CriticalChanceRate;
         attackable.CriticalDamageRate = data.CriticalDamageRate;
+        attackable.TargetLayers = data.TargetLayers;
     }
 
     public void SetIDodgeable(IDodgeable dodgeable, IDodgeable data)
