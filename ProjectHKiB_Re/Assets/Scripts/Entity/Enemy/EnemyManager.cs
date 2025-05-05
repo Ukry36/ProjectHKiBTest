@@ -1,11 +1,8 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using Unity.Mathematics;
 using UnityEngine;
 public class EnemyManager : PoolManager<Enemy>
 {
+    public GameObject prefab;
     [SerializeField] private EnemyDataSO[] allDatas;
 
     public override void Initialize()
@@ -13,9 +10,11 @@ public class EnemyManager : PoolManager<Enemy>
         base.Initialize();
     }
 
-    public override void CreatePool()
+    public override void InitializePool()
     {
-        base.CreatePool();
+        objects = new();
+        inactiveObjectSet = new(allDatas.Length);
+        activeObjectSet = new(allDatas.Length);
         for (int i = 0; i < allDatas.Length; i++)
         {
             for (int j = 0; j < allDatas[i].PoolSize; j++)
@@ -23,9 +22,9 @@ public class EnemyManager : PoolManager<Enemy>
                 var clone = Instantiate(prefab, this.transform);
                 if (clone.TryGetComponent(out Enemy enemy))
                 {
-                    AddPool(allDatas[i].GetInstanceID(), enemy);
+                    AddObjectToPool(allDatas[i].GetInstanceID(), enemy);
                     enemy.InitializeFromPool(allDatas[i]);
-                    enemy.OnGameObjectDisabled += OnGameObjectDisabled;
+                    enemy.OnGameObjectDisabled += OnObjectUseEnded;
                 }
                 else
                 {
@@ -35,7 +34,7 @@ public class EnemyManager : PoolManager<Enemy>
         }
     }
 
-    public override void SetObjectOnReuse(Enemy enemy, Transform transform, Quaternion rotation, bool attatchToTransform)
+    public override void InitObjectOnReuse(Enemy enemy, Transform transform, Quaternion rotation, bool attatchToTransform)
     {
         enemy.gameObject.SetActive(true);
         enemy.transform.SetPositionAndRotation(transform.position, rotation);
@@ -44,9 +43,9 @@ public class EnemyManager : PoolManager<Enemy>
 
     public override void ResetPool()
     {
-        int[] keys = objectPool.Keys.ToArray();
+        int[] keys = objects.Keys.ToArray();
         for (int i = 0; i < keys.Length; i++)
-            Destroy(objectPool[keys[i]].gameObject);
+            Destroy(objects[keys[i]].gameObject);
         base.ResetPool();
     }
 }

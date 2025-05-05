@@ -3,57 +3,57 @@ using UnityEngine;
 
 public abstract class PoolManager<T> : MonoBehaviour
 {
-    public GameObject prefab;
-    public Dictionary<int, T> objectPool;
+    public Dictionary<int, T> objects;
     public Transform defaultParent;
-    public RuntimePool<int> activeObjectSet;
-    public RuntimePool<int> inactiveObjectSet;
+    public RuntimePool activeObjectSet;
+    public RuntimePool inactiveObjectSet;
 
     public virtual void Initialize()
     {
         ResetPool();
 
-        CreatePool();
+        InitializePool();
     }
 
-    public T GetObject(int hash) => objectPool[hash];
+    public T GetObject(int hash) => objects[hash];
 
-    public virtual void CreatePool()
+    public abstract void InitializePool();
+    // you need to write down codes which instantiate gameobjects from certain datas
+    //such as:
+
+    /**********************************************************************************************
+    base.CreatePool();
+
+    for (int i = 0; i < allDatas.Length; i++)
     {
-        objectPool = new();
-        inactiveObjectSet = new();
-        activeObjectSet = new();
-
-        // you need to write down codes which instantiate gameobjects from certain datas
-        //such as:
-
-        /**********************************************************************************************
-        base.CreatePool();
-
-        for (int i = 0; i < allDatas.Length; i++)
+        for (int j = 0; j < allDatas[i].type.poolSize; j++)
         {
-            for (int j = 0; j < allDatas[i].type.poolSize; j++)
+            var clone = Instantiate(prefab, this.transform);
+            if (clone.TryGetComponent(out AudioPlayer audioPlayer))
             {
-                var clone = Instantiate(prefab, this.transform);
-                if (clone.TryGetComponent(out AudioPlayer audioPlayer))
-                {
-                    AddPool(allDatas[i].ID, audioPlayer);
-                    audioPlayer.Initialize(allDatas[i]);
-                    audioPlayer.OnGameObjectDisabled += OnGameObjectDisabled;
-                }
-                else
-                {
-                    Debug.LogError("ERROR: Failed to create pool(audioPlayer prefab is invalid)!!!");
-                }
+                AddPool(allDatas[i].ID, audioPlayer);
+                audioPlayer.Initialize(allDatas[i]);
+                audioPlayer.OnGameObjectDisabled += OnGameObjectDisabled;
+            }
+            else
+            {
+                Debug.LogError("ERROR: Failed to create pool(audioPlayer prefab is invalid)!!!");
             }
         }
-        **************************************************************************************************/
+    }
+    **************************************************************************************************/
+
+
+    public void AddObjectToPool(int ID, T t)
+    {
+        objects.Add(t.GetHashCode(), t);
+        inactiveObjectSet.EnqueuePool(ID, t.GetHashCode());
     }
 
-    public void AddPool(int ID, T t)
+    public void CreatePool(int ID, int poolSize)
     {
-        objectPool.Add(t.GetHashCode(), t);
-        inactiveObjectSet.EnqueuePool(ID, t.GetHashCode());
+        inactiveObjectSet.AddPool(ID, poolSize);
+        activeObjectSet.AddPool(ID, poolSize);
     }
 
     public T ReuseObject(int ID, Transform transform, Quaternion rotation, bool attatchToTransform)
@@ -71,7 +71,7 @@ public abstract class PoolManager<T> : MonoBehaviour
         if (t != null)
         {
             activeObjectSet.EnqueuePool(ID, t.GetHashCode());
-            SetObjectOnReuse(t, transform, rotation, attatchToTransform);
+            InitObjectOnReuse(t, transform, rotation, attatchToTransform);
             return t;
         }
 
@@ -80,17 +80,17 @@ public abstract class PoolManager<T> : MonoBehaviour
 
     }
 
-    public abstract void SetObjectOnReuse(T t, Transform transform, Quaternion quaternion, bool attatchToTransform);
+    public abstract void InitObjectOnReuse(T t, Transform transform, Quaternion quaternion, bool attatchToTransform);
 
-    public void OnGameObjectDisabled(int ID, int hash)
+    public void OnObjectUseEnded(int ID, int instanceID)
     {
-        activeObjectSet.DeleteObjectFromPool(ID, hash);
-        inactiveObjectSet.EnqueuePool(ID, hash);
+        activeObjectSet.DeleteObjectFromPool(ID, instanceID);
+        inactiveObjectSet.EnqueuePool(ID, instanceID);
     }
 
     public virtual void ResetPool()
     {
-        objectPool = null;
+        objects = null;
         activeObjectSet = null;
         inactiveObjectSet = null;
     }

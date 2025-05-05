@@ -8,6 +8,7 @@ public class MergedPlayerBaseData : IMovable, IAttackable, IDodgeable, IDamagabl
     public StatContainer Speed { get; set; }
     public StatContainer SprintCoeff { get; set; }
     public LayerMask WallLayer { get; set; }
+    public LayerMask CanPushLayer { get; set; }
     public bool IsSprinting { get; set; }
     public AudioDataSO FootStepAudio { get; set; }
 
@@ -19,16 +20,18 @@ public class MergedPlayerBaseData : IMovable, IAttackable, IDodgeable, IDamagabl
     public AttackController AttackController { get; set; }
     public LayerMask[] TargetLayers { get; set; }
     public Transform CurrentTarget { get; set; }
+    public DamageParticleDataSO DamageParticle { get; set; }
+    public float DamageIndicatorRandomPosInfo { get; set; } = 0;
 
-    public CustomVariable<float> DodgeCooltime { get; set; }
-    public CustomVariable<float> ContinuousDodgeLimit { get; set; }
-    public CustomVariable<float> KeepDodgeMaxTime { get; set; }
-    public CustomVariable<float> KeepDodgeMaxDistance { get; set; }
+    public StatContainer DodgeCooltime { get; set; }
+    public StatContainer ContinuousDodgeLimit { get; set; }
+    public StatContainer KeepDodgeMaxTime { get; set; }
+    public StatContainer KeepDodgeMaxDistance { get; set; }
 
     public StatContainer MaxHP { get; set; }
     public StatContainer HP { get; set; }
     public StatContainer DEF { get; set; }
-    public List<CustomVariable<Resistance>> Resistances { get; set; }
+    public StatContainer Resistance { get; set; }
     public float Mass { get; set; }
     public AudioDataSO HitSound { get; set; }
     public ParticlePlayer HitParticle { get; set; }
@@ -42,17 +45,29 @@ public class MergedPlayerBaseData : IMovable, IAttackable, IDodgeable, IDamagabl
     public AnimatorController AnimatorController { get; set; }
     public FootstepController FootstepController { get; set; }
     public IMovable.ExternalForce ExForce { get; set; } = new();
+    public AnimationController AnimationController { get; set; }
+    public StateController StateController { get; set; }
 
     public EntityTypeSO entityType;
     public GearTypeSO gearType;
 
     public void Damage(DamageDataSO damageData, IAttackable hitter)
     {
-        throw new NotSupportedException();
+        throw new NotImplementedException();
     }
 
     public Vector3 GetAttackOrigin()
     {
-        throw new NotSupportedException();
+        throw new NotImplementedException();
+    }
+
+    public void KnockBack(Vector3 dir, float strength)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Die()
+    {
+        throw new NotImplementedException();
     }
 }

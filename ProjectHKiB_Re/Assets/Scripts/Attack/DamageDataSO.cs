@@ -9,8 +9,7 @@ public class DamageDataSO : ScriptableObject
     public LayerMask damageLayer;
     public AudioDataSO initialSound;
     public AudioDataSO hitSound;
-    public ParticlePlayer hitParticle;
     public bool camShake;
     public SerializedDictionary<EnumManager.AnimDir, ParticlePlayer> DLRUDamageEffects;
-    public BoxCollider2DData downwardDamageArea;
+    public BoxData downwardDamageArea;
 }

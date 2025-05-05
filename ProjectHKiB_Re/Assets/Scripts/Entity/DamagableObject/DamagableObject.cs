@@ -1,60 +1,50 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Security.Cryptography;
 using UnityEngine;
 
-public class DamagableObject : Entity
+public class DamagableObject : Entity, IAttackable
 {
-    public MovementManagerSO movementManager;
-    public bool dieWhenKnockBack;
-    private bool isKnockbacking;
-
-    public Coroutine knockBackCoroutine;
-
+    private bool dieWhenKnockBack;
+    public float DamageIndicatorRandomPosInfo { get; set; } = 0;
+    public StatContainer ATK { get; set; }
+    public StatContainer CriticalChanceRate { get; set; }
+    public StatContainer CriticalDamageRate { get; set; }
+    public AttackDataSO[] AttackDatas { get; set; }
+    public int LastAttackNum { get; set; }
+    public AttackController AttackController { get; set; }
+    public LayerMask[] TargetLayers { get; set; }
+    public Transform CurrentTarget { get; set; }
+    public DamageParticleDataSO DamageParticle { get; set; }
+    [field: SerializeField] public DamagableObjectDataSO BaseData { get; set; }
+    [SerializeField] private DatabaseManagerSO databaseManager;
     public void Start()
     {
+        Initialize();
+    }
+
+    public void Initialize()
+    {
+        if (BaseData)
+            UpdateDatas();
+    }
+
+    public void UpdateDatas()
+    {
         MovePoint.Initialize();
+        databaseManager.SetIMovable(this, BaseData);
+        databaseManager.SetIAttackable(this, BaseData);
+        databaseManager.SetIDamagable(this, BaseData);
+        this.dieWhenKnockBack = BaseData.DieWhenKnockBack;
     }
 
     public override void Damage(DamageDataSO damageData, IAttackable hitter)
     {
-        // temporary
-        // you need to make damageManager or smth
-        if (damageData.knockBack > Mass)
+        if (damageData.knockBack > Mass && dieWhenKnockBack)
         {
-            if (dieWhenKnockBack)
-            {
-                Die();
-                return;
-            }
-
-            if (isKnockbacking)
-            {
-                movementManager.EndKnockbackEarly(transform, this, null);
-                StopCoroutine(knockBackCoroutine);
-            }
-            isKnockbacking = true;
-            knockBackCoroutine = StartCoroutine(movementManager.KnockBackCoroutine
-                        (
-                            transform,
-                            this,
-                            transform.position - hitter.GetAttackOrigin(),
-                            damageData.knockBack - Mass,
-                            () => isKnockbacking = false
-                        ));
-        }
-        HP.Value--;
-
-        if (HP.Value <= 0)
             Die();
-    }
+            return;
+        }
 
-    public void Die()
-    {
-        MovePoint.Die();
-        gameObject.SetActive(false);
+        base.Damage(damageData, hitter);
     }
 
     public void Update()

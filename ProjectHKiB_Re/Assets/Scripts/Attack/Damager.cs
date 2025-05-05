@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Linq;
-using Unity.Mathematics;
 using UnityEngine;
 
 public class Damager : MonoBehaviour
@@ -8,20 +6,7 @@ public class Damager : MonoBehaviour
     [SerializeField] private DamageDataSO _damageData;
     private IAttackable _attackable;
     private BoxCollider2D _damageCollider;
-    [SerializeField] private EnumManager.AnimDir _animationDirection;
-
-    private readonly WaitForSeconds damageTime = new(0.05f);
-    private void Awake()
-    {
-        if (TryGetComponent(out BoxCollider2D component))
-        {
-            _damageCollider = component;
-        }
-        else Debug.LogError("ERROR: Collider2D is missing in Damager gameObject!!!");
-    }
-
-    public void SetDamageDirection(EnumManager.AnimDir animDir)
-    => _animationDirection = animDir;
+    [SerializeField] private AnimationController _animationController;
 
     public void SetAttackable(IAttackable attackable)
     => _attackable = attackable;
@@ -55,41 +40,53 @@ public class Damager : MonoBehaviour
         _damageData = damageData;
     }
 
+    private Collider2D[] col = new Collider2D[72];
     public void Damage()
     {
-        StopAllCoroutines();
-        _damageCollider.size = _damageData.downwardDamageArea.size;
-        _damageCollider.offset = _damageData.downwardDamageArea.offset;
-        _damageCollider.enabled = true;
+        trig = 5;
         if (_damageData.initialSound)
             GameManager.instance.audioManager.PlayAudioOneShot(_damageData.initialSound, 1, transform.position);
-        GameManager.instance.particleManager.PlayParticle(_damageData.DLRUDamageEffects[_animationDirection].GetHashCode(), transform, false);
-        this.transform.eulerAngles = _animationDirection switch
+        if (_damageData.DLRUDamageEffects.ContainsKey(_animationController.AnimationDirection) && _damageData.DLRUDamageEffects[_animationController.AnimationDirection])
+            GameManager.instance.particleManager.PlayParticleOneShot(_damageData.DLRUDamageEffects[_animationController.AnimationDirection].GetHashCode(), transform);
+
+        int colLength = Physics2D.OverlapBoxNonAlloc
+        (
+            transform.position + _animationController.LastSetAnimationQuaternion4 * _damageData.downwardDamageArea.offset,
+            _damageData.downwardDamageArea.size,
+            _animationController.LastSetAnimationAngle4,
+            col,
+            _damageData.damageLayer
+        );
+
+        for (int i = 0; i < colLength; i++)
         {
-            EnumManager.AnimDir.D => Vector3.zero,
-            EnumManager.AnimDir.L => Vector3.forward * -90,
-            EnumManager.AnimDir.R => Vector3.forward * 90,
-            EnumManager.AnimDir.U => Vector3.forward * 180,
-            _ => Vector3.zero
-        };
-        StartCoroutine(DisableDamager());
+            if (col[i].TryGetComponent(out IDamagable component))
+            {
+                component.Damage(_damageData, _attackable);
+            }
+        }
     }
 
     public IEnumerator DisableDamager()
     {
-        yield return damageTime;
+        yield return null;
         _damageCollider.enabled = false;
     }
 
-    public void OnTriggerEnter2D(Collider2D collision)
+    private int trig;
+    private void OnDrawGizmos()
     {
-        if (_damageData && collision)
-            if ((_damageData.damageLayer & (1 << collision.gameObject.layer)) != 0)
-            {
-                if (collision.TryGetComponent(out IDamagable component))
-                {
-                    component.Damage(_damageData, _attackable);
-                }
-            }
+        Gizmos.color = Color.red;
+        if (trig > 0)
+        {
+            Vector2 offset = _damageData.downwardDamageArea.offset;
+            Vector2 size = _damageData.downwardDamageArea.size;
+
+            offset = _animationController.LastSetAnimationQuaternion4 * offset;
+            size = _animationController.LastSetAnimationQuaternion4 * size;
+
+            Gizmos.DrawWireCube((Vector2)transform.position + offset, size);
+            trig--;
+        }
     }
 }

@@ -6,6 +6,7 @@ using UnityEngine;
 public class GearMergeManagerSO : ScriptableObject
 {
     private const int MAINGEAR = 0;
+    private const int MAXGEARCOUNT = 4;
     public GearDataSO defaultGearData;
     [SerializeField] private DatabaseManagerSO databaseManager;
 
@@ -13,6 +14,7 @@ public class GearMergeManagerSO : ScriptableObject
     [SerializeField] private GearDataSO[] allMergedGearDatas;
     public delegate void OnRealGearMadeEventHandler(MergedPlayerBaseData realGear);
     public event OnRealGearMadeEventHandler OnRealGearMade;
+
 
     private void Awake()
     {
@@ -27,7 +29,7 @@ public class GearMergeManagerSO : ScriptableObject
         // final merged gear data
         MergedPlayerBaseData mergedGearData = new();
         // If gear in slot is null or already merged, its value is false
-        List<bool> isGearAvailableSlot = new();
+        List<bool> isGearAvailableSlot = new(MAXGEARCOUNT);
 
         // temporary List for merged gears
         List<GearDataSO> mergedEquippedGears = equippedGears.ToList();
@@ -45,7 +47,7 @@ public class GearMergeManagerSO : ScriptableObject
         // If they exists, check them as already merged
         for (i = 0; i < allMergedGearDatas.Length; i++)
         {
-            List<int> inMergeSetGearSlots = new();
+            List<int> inMergeSetGearSlots = new(equippedGears.Count);
             for (j = 0; j < allMergedGearDatas[i].mergeSet.Length; j++)
             {
                 for (k = 0; k < equippedGears.Count; k++)
@@ -81,8 +83,8 @@ public class GearMergeManagerSO : ScriptableObject
             && !mergedEquippedGears[MAINGEAR].gearType.cannotAttack)
             {
 #if UNITY_EDITOR
-                Debug.Log("AttackGear Overrided: " + mergedEquippedGears[i]);
-                Debug.Log("AttackData Length: " + mergedEquippedGears[i].playerBaseData.AttackDatas.Length);
+                //Debug.Log("AttackGear Overrided: " + mergedEquippedGears[i]);
+                //Debug.Log("AttackData Length: " + mergedEquippedGears[i].playerBaseData.AttackDatas.Length);
 #endif
                 databaseManager.SetIStateControllable(mergedGearData, mergedEquippedGears[i].playerBaseData);
                 mergedGearData.gearType = mergedEquippedGears[i].gearType;
@@ -93,6 +95,7 @@ public class GearMergeManagerSO : ScriptableObject
         // This triggers player to reset data
         // also triggers other effects or something
         OnRealGearMade?.Invoke(mergedGearData);
+        mergedGearData = null;
     }
 
     public void SetDatas(MergedPlayerBaseData mergedGearData, PlayerBaseDataSO playerBaseData)

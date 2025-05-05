@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -5,12 +6,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "TargetingManager", menuName = "Scriptable Objects/Manager/TargetingManager", order = 3)]
 public class TargetingManagerSO : ScriptableObject
 {
-    private readonly float maxRotation = 25;
-    private readonly float maxMaintainRotation = 40;
-    private readonly float radiusCoeff = 2;
+    private const int MAXTARGETCOUNT = 10;
+    private readonly float maxRotation = 20;
+    private readonly float maxMaintainRotation = 30;
     private readonly float maintainRadiusCoeff = 4;
-    private readonly float accuracy = 3f;
-    private readonly float revAccuracy = 0.5f;
     private class TargetInfo
     {
         public Transform target;
@@ -22,85 +21,79 @@ public class TargetingManagerSO : ScriptableObject
         }
     }
 
-    public bool CheckCurrentTargetDistance(Transform currentTarget, Vector3 position, float radius)
+    public bool CheckCurrentTargetDistance(Transform currentTarget, Vector3 centerPos, float radius)
     {
-        return Vector3.Distance(currentTarget.position, position) < radius * radiusCoeff;
+        return Vector3.Distance(currentTarget.position, centerPos) < radius;
     }
 
-    public Transform PositianalTarget(Vector3 position, float radius, LayerMask[] targetLayers)
+    public Transform PositianalTarget(Vector3 centerPos, float radius, LayerMask[] targetLayers)
     {
         LayerMask targets = 0;
         for (int i = 0; i < targetLayers.Length; i++)
             targets |= targetLayers[i];
 
-        List<Collider2D> cols = Physics2D.OverlapCircleAll(position, radius, targets).ToList();
-        if (cols.Equals(null) || cols.Count.Equals(0))
+        Collider2D[] col = new Collider2D[MAXTARGETCOUNT];
+        int colLength = Physics2D.OverlapCircleNonAlloc(centerPos, radius, col, targets);
+        if (colLength.Equals(0))
             return null;
+        col = new ArraySegment<Collider2D>(col, 0, colLength).ToArray();
+        Array.Sort(col, (a, b) => Vector3.Distance(a.transform.position, centerPos).CompareTo(Vector3.Distance(b.transform.position, centerPos)));
 
-        cols.Sort((a, b) => Vector3.Distance(a.transform.position, position).CompareTo(Vector3.Distance(b.transform.position, position)));
-        if (cols[0])
-        {
-            Debug.DrawLine(position, cols[0].transform.position, Color.yellow, 0.4f);
-            return cols[0].transform;
-        }
-
-        else
-            return null;
+        //Debug.DrawLine(centerPos, col[0].transform.position, Color.yellow, 0.4f);
+        return col[0].transform;
     }
 
-    public Transform DirectionalTarget(Transform currentTarget, Vector3 position, float radius, Vector2 lookingDir, LayerMask[] targetLayers)
+    private readonly List<Transform> _targets = new(32);
+    public Transform DirectionalTarget(Transform currentTarget, Vector3 centerPos, float radius, Vector2 lookingDir, LayerMask[] targetLayers)
     {
-        Vector3 dir = lookingDir.normalized;
         if (currentTarget)
-        {
-            if (Vector3.Angle(currentTarget.position - position, dir) < maxMaintainRotation)
-                if (radius * maintainRadiusCoeff > Vector3.Distance(currentTarget.position, position))
+            if (Vector3.Angle(currentTarget.position - centerPos, lookingDir) < maxMaintainRotation)
+                if (radius * maintainRadiusCoeff > Vector3.Distance(currentTarget.position, centerPos))
                 {
-                    Debug.DrawLine(position, currentTarget.position, Color.cyan, 0.4f);
+                    Debug.DrawLine(centerPos, centerPos + Quaternion.Euler(0, 0, maxMaintainRotation) * (maintainRadiusCoeff * radius * (Vector3)lookingDir.normalized), Color.red, 0.4f);
+                    Debug.DrawLine(centerPos, centerPos + Quaternion.Euler(0, 0, -maxMaintainRotation) * (maintainRadiusCoeff * radius * (Vector3)lookingDir.normalized), Color.red, 0.4f);
+                    Debug.DrawLine(centerPos, currentTarget.position, Color.cyan, 0.4f);
                     return currentTarget;
                 }
-        }
-        position += dir;
-        radius *= radiusCoeff;
-        List<TargetInfo> targets = new();
-        RaycastHit2D hit;
+
+        Debug.DrawLine(centerPos, centerPos + Quaternion.Euler(0, 0, maxRotation) * ((Vector3)lookingDir.normalized * radius), Color.red, 0.4f);
+        Debug.DrawLine(centerPos, centerPos + Quaternion.Euler(0, 0, -maxRotation) * ((Vector3)lookingDir.normalized * radius), Color.red, 0.4f);
+
+        _targets.Clear();
+        Collider2D[] col = new Collider2D[MAXTARGETCOUNT];
         int i;
+        int j;
         for (i = 0; i < targetLayers.Length; i++)
         {
-            hit = Physics2D.Raycast(position, dir, radius, targetLayers[i]);
-            if (hit) targets.Add(new TargetInfo(hit.transform, i));
-            if (hit) Debug.DrawLine(position, position + dir * radius, Color.green, 0.4f);
-            else Debug.DrawLine(position, position + dir * radius, Color.red, 0.4f);
-            for (int j = 1; j < accuracy + 1; j++)
+            int colLength = Physics2D.OverlapCircleNonAlloc(centerPos, radius, col, targetLayers[i]);
+            if (colLength < 1) continue;
+            if (colLength.Equals(1))
             {
-                dir = Quaternion.Euler(0, 0, maxRotation * revAccuracy) * dir;
-                hit = Physics2D.Raycast(position, dir, radius, targetLayers[i]);
-                if (hit) targets.Add(new TargetInfo(hit.transform, j * revAccuracy + i));
-                if (hit) Debug.DrawLine(position, position + dir * radius, Color.green, 0.4f);
-                else Debug.DrawLine(position, position + dir * radius, Color.red, 0.4f);
+                if (Vector3.Angle(col[0].transform.position - centerPos, lookingDir) < maxRotation)
+                    _targets.Add(col[0].transform);
+                continue;
             }
-            dir = lookingDir.normalized;
-            for (int j = 1; j < accuracy + 1; j++)
+
+            float GetPriority(Vector3 targetPos)
+                => Vector3.Angle(targetPos - centerPos, lookingDir) / maxRotation
+                * Vector3.Distance(targetPos, centerPos) / radius;
+
+            col = new ArraySegment<Collider2D>(col, 0, colLength).ToArray();
+            Array.Sort(col, (a, b) => GetPriority(a.transform.position).CompareTo(GetPriority(b.transform.position)));
+            for (j = 0; j < colLength; j++)
             {
-                dir = Quaternion.Euler(0, 0, -maxRotation * revAccuracy) * dir;
-                hit = Physics2D.Raycast(position, dir, radius, targetLayers[i]);
-                if (hit) targets.Add(new TargetInfo(hit.transform, j * revAccuracy + i));
-                if (hit) Debug.DrawLine(position, position + dir * radius, Color.green, 0.4f);
-                else Debug.DrawLine(position, position + dir * radius, Color.red, 0.4f);
+                if (Vector3.Angle(col[j].transform.position - centerPos, lookingDir) < maxRotation)
+                {
+                    Debug.DrawLine(centerPos, col[j].transform.position, Color.red - Color.red * 0.2f * i, 0.4f);
+                    _targets.Add(col[j].transform);
+                    break;
+                }
             }
         }
 
-        if (targets.Count > 0)
-        {
-            for (i = 0; i < targets.Count; i++)
-            {
-                targets[i].priority += Vector3.Distance(targets[i].target.position, position) / radius;
-            }
-
-            targets.Sort((a, b) => a.priority.CompareTo(b.priority));
-            return targets[0].target;
-        }
-
-        return null;
+        if (_targets.Count < 1)
+            return null;
+        Debug.DrawLine(centerPos, _targets[0].position, Color.green, 0.4f);
+        return _targets[0];
     }
 }

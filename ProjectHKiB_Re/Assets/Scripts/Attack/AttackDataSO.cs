@@ -7,5 +7,6 @@ public class AttackDataSO : ScriptableObject
     public int attackMoveMaxRange;
     public bool isAutoTarget;
     public AudioDataSO initialSound;
-
+    public float coolTime;
+    public AttackAreaIndicatorData attackAreaIndicatorData;
 }

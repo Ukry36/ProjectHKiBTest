@@ -1,0 +1,11 @@
+using UnityEngine;
+[CreateAssetMenu(fileName = "PlayParticleOneShotAction", menuName = "Scriptable Objects/State Machine/Action/PlayParticleOneShot", order = 3)]
+public class PlayParticleOneShotAction : StateActionSO
+{
+    [SerializeField] private ParticlePlayer particlePrefab;
+    public override void Act(StateController stateController)
+    {
+        if (particlePrefab)
+            GameManager.instance.particleManager.PlayParticleOneShot(particlePrefab.GetInstanceID(), stateController.transform);
+    }
+}

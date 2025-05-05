@@ -4,7 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Math Manager", menuName = "Scriptable Objects/Manager/Math Manager", order = 1)]
 public class MathManagerSO : ScriptableObject
 {
-    public const float sqrt2 = 0.414213562373f;
+    public const float tan225 = 0.4142135623730950488016887242097f;
     public float Absolute(float item)
     => item < 0 ? item * -1 : item;
 
@@ -24,13 +24,13 @@ public class MathManagerSO : ScriptableObject
     => (item.x < 0 ? Vector2.left : item.x > 0 ? Vector2.right : Vector2.zero)
             + (item.y < 0 ? Vector2.down : item.y > 0 ? Vector2.up : Vector2.zero);
 
-    public Vector2 SetDirectionOne(Vector2 item)
+    public Vector2 SetDirection8One(Vector2 item)
     {
-        if (Absolute(item.x) * sqrt2 > Absolute(item.y))
+        if (Absolute(item.x) * tan225 > Absolute(item.y))
         {
             return item.x > 0 ? Vector2.right : Vector2.left;
         }
-        if (Absolute(item.y) * sqrt2 > Absolute(item.x))
+        if (Absolute(item.y) * tan225 > Absolute(item.x))
         {
             return item.y > 0 ? Vector2.up : Vector2.down;
         }

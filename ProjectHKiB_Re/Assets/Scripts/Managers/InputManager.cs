@@ -40,11 +40,8 @@ public class InputManager : MonoBehaviour
 
     private void Awake()
     {
-
         _playerInput = GetComponent<PlayerInput>();
 
-
-        // auto binding
         move = _playerInput.actions["Move"];
         movePressedD = _playerInput.actions["MovePressedD"];
         movePressedR = _playerInput.actions["MovePressedR"];
@@ -96,13 +93,12 @@ public class InputManager : MonoBehaviour
     private void Update()
     {
         // player input detect
-
         if (!stopPlayer || !stopPlayerMovement)
             if (!stopPlayer)
             {
                 MoveInput = move.ReadValue<Vector2>();
-                MoveInputPressed = movePressedD.WasPressedThisFrame() || movePressedR.WasPressedThisFrame()
-                                || movePressedU.WasPressedThisFrame() || movePressedL.WasPressedThisFrame();
+                MoveInputPressed = movePressedD.WasPressedThisFrame() || movePressedR.WasPressedThisFrame() || movePressedU.WasPressedThisFrame() || movePressedL.WasPressedThisFrame();
+
                 DInput = movePressedD.WasPressedThisFrame();
                 RInput = movePressedR.WasPressedThisFrame();
                 UInput = movePressedU.WasPressedThisFrame();

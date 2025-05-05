@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-public class ParticlePlayer : MonoBehaviour, IPoolable
+public class ParticlePlayer : MonoBehaviour
 {
     public delegate void GameObjectDisabled(int ID, int hash);
     public event GameObjectDisabled OnGameObjectDisabled;
@@ -21,10 +21,10 @@ public class ParticlePlayer : MonoBehaviour, IPoolable
     public void InitializeFromPool(ParticlePlayer particlePlayer)
     {
         ID = particlePlayer.GetInstanceID();
-        this.gameObject.SetActive(false);
+        this.gameObject.SetActive(true);
     }
 
-    public void OnDisable()
+    public void OnParticleSystemStopped()
     {
         OnGameObjectDisabled?.Invoke(ID, this.GetInstanceID());
     }

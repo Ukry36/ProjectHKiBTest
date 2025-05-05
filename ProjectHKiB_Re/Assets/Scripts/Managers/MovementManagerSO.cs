@@ -1,7 +1,4 @@
 using System.Collections;
-using System.Drawing;
-using Unity.Mathematics;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Movement Manager", menuName = "Scriptable Objects/Manager/Movement Manager", order = 4)]
@@ -9,12 +6,12 @@ public class MovementManagerSO : ScriptableObject
 {
     public MathManagerSO mathManager;
     public CollisionManagerSO collisionManager;
+    public DamageParticleDataSO KnockBackChainReactionParticle;
 
     // Note that MovePoints are always alligned in grid!!
-
     // Makes entity to follow movepoint
     // for proper movement this should be called every frame
-
+    private const int KNOCKBACKFORCEID = 1;
 
     public void FollowMovePointIdle(Transform entityTransform, IMovable movable)
     {
@@ -39,51 +36,74 @@ public class MovementManagerSO : ScriptableObject
     }
 
     public delegate void KnockBackEnded();
+    private readonly WaitForSeconds knockBackWaitTime = new WaitForSeconds(0.08f);
 
     // Knockback!
-    public IEnumerator KnockBackCoroutine(Transform entityTransform, IMovable movable, Vector3 dir, float strength, KnockBackEnded KnockBackEnded)
+    public IEnumerator KnockBackCoroutine(Transform entityTransform, IMovable movable, Vector3 dir, float strength, float mass, KnockBackEnded KnockBackEnded)
     {
+        strength -= mass;
+        Debug.Log("started, (" + dir.x + ", " + dir.y + "), " + strength);
+        yield return knockBackWaitTime;
         dir = dir.normalized;
-        int ID = this.GetInstanceID();
+        Vector3 storedDir = dir;
+        int ID = this.GetInstanceID() * KNOCKBACKFORCEID;
         Transform movepointTransform = movable.MovePoint.transform;
         float targetProgress = 0;
         float progress = 0;
         Vector3 prevPos;
-        KnockBackEnded += () => movable.ExForce.SetForce[ID] = Vector3.zero;
-        KnockBackEnded += () => entityTransform.position = movepointTransform.position;
-
         for (int i = 0; i < strength; i++)
         {
             targetProgress += dir.magnitude;
             while (progress < targetProgress)
             {
                 prevPos = entityTransform.position;
+                storedDir = dir;
                 dir = collisionManager.GetAvailableDir(movepointTransform.position, dir, movable.WallLayer);
-                if (dir.Equals(Vector3.zero))
-                {
-                    KnockBackEnded?.Invoke();
-                    yield break;
-                }
+                if (dir == Vector3.zero)
+                    break;
                 movable.ExForce.SetForce[ID] = 10 * strength * dir;
                 yield return null;
                 progress += Vector3.Distance(prevPos, entityTransform.position);
             }
+            if (dir == Vector3.zero)
+                break;
         }
 
         for (int i = (int)(0.5f / Time.deltaTime); i > 0; i--)
         {
+            if (dir == Vector3.zero)
+                break;
+            storedDir = dir;
+            strength = strength * 2 * i * Time.deltaTime;
             dir = collisionManager.GetAvailableDir(movepointTransform.position, dir, movable.WallLayer);
-            movable.ExForce.SetForce[ID] = strength * 2 * i * Time.deltaTime * dir;
+            movable.ExForce.SetForce[ID] = strength * dir;
             yield return null;
         }
+        KnockBackChainReaction(entityTransform, movepointTransform, storedDir, strength * 0.75f + mass, movable.CanPushLayer);
         KnockBackEnded?.Invoke();
-        KnockBackEnded = null;
+        movable.ExForce.SetForce[ID] = Vector3.zero;
+        entityTransform.position = movepointTransform.position;
     }
-    public void EndKnockbackEarly(Transform entityTransform, IMovable movable, KnockBackEnded KnockBackEnded)
+
+    public void KnockBackChainReaction(Transform entityTransform, Transform movePointTransform, Vector3 dir, float strength, LayerMask canPushLayer)
     {
-        movable.ExForce.SetForce[this.GetInstanceID()] = Vector3.zero;
+        Collider2D col = Physics2D.OverlapPoint(movePointTransform.position + dir.normalized, canPushLayer);
+        if (col && col.transform != entityTransform)
+        {
+            if (col.transform.TryGetComponent(out IMovable component))
+            {
+                Debug.DrawLine(component.MovePoint.transform.position, component.MovePoint.transform.position + dir, Color.red, 0.5f);
+                component.KnockBack(dir /*- entityTransform.position + component.MovePoint.transform.position*/, strength);
+                GameManager.instance.damageParticleManager.PlayHitParticle(KnockBackChainReactionParticle, 0, false, false, component.MovePoint.transform, 0);
+            }
+        }
+    }
+
+    public void EndKnockbackEarly(Transform entityTransform, IMovable movable)
+    {
+        Debug.Log("canceled");
+        movable.ExForce.SetForce[this.GetInstanceID() * KNOCKBACKFORCEID] = Vector3.zero;
         entityTransform.position = movable.MovePoint.transform.position;
-        KnockBackEnded?.Invoke();
     }
 
     /*
@@ -120,7 +140,6 @@ public class MovementManagerSO : ScriptableObject
         }
         AllignMovePoint(movepointTransform);
         entityTransform.position = movepointTransform.position;
-
     }
 
     public IEnumerator PushApproxCoroutine(Transform entityTransform, IMovable movable, Vector3 dir, int block, float speed)
@@ -157,13 +176,14 @@ public class MovementManagerSO : ScriptableObject
     public void WalkMove(Transform entityTransform, IMovable movable, Vector3 dir)
     {
         float speed = movable.IsSprinting ? movable.Speed.Value * movable.SprintCoeff.Value : movable.Speed.Value;
+        dir = mathManager.SetDirection8One(dir).normalized;
         Vector3 refdir = speed * dir + movable.ExForce.GetForce;
         if (dir.Equals(Vector3.zero))
             speed += refdir.magnitude;
         else
             speed = refdir.magnitude;
 
-        refdir = mathManager.SetDirectionOne(refdir);
+        refdir = mathManager.SetDirection8One(refdir);
         Vector3 movePointPos = movable.MovePoint.transform.position;
         Vector3 entityPos = entityTransform.position;
 
@@ -183,10 +203,11 @@ public class MovementManagerSO : ScriptableObject
 
 
     // Proceeds movepoint forward(to dir) and move instantly
-    public void InstantMove(Transform entityTransform, Transform movePointTransform, Vector2 dir, LayerMask wallLayer)
+    public void InstantMove(Transform entityTransform, IMovable movable, Vector2 dir)
     {
-        PushMovePoint(movePointTransform, dir, wallLayer);
-        entityTransform.position = movePointTransform.position;
+        dir = dir.normalized;
+        PushMovePoint(movable.MovePoint.transform, dir, movable.WallLayer);
+        entityTransform.position = movable.MovePoint.transform.position;
     }
 
     // Alligns movepoint if it is out of grid

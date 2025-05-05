@@ -3,8 +3,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Player Skill Data", menuName = "Scriptable Objects/Data/Player Skill Data", order = 3)]
 public class PlayerSkillDataSO : ScriptableObject
 {
-    public DamageDataSO[] damageDatas; // use if there is mutiple hits in skill
+    public AttackDataSO attackData;
     public List<List<Vector2>> graffitiCodes;
-    public bool autoFollow;
-    public float defaultFollowRange;
 }

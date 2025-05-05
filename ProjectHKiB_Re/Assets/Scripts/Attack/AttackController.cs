@@ -1,9 +1,11 @@
+using System.Collections;
 using UnityEngine;
 
 public class AttackController : MonoBehaviour
 {
     [SerializeField] private Damager damager;
     private IAttackable _attackable;
+    [HideInInspector] public bool isAttackCooltime = false;
     public int AttackNumber { get; private set; }
 
     public void SetAttacker(IAttackable attackable)
@@ -12,16 +14,25 @@ public class AttackController : MonoBehaviour
         damager.SetAttackable(attackable);
     }
 
+    public IEnumerator AttackCooltimeCoroutine()
+    {
+        isAttackCooltime = true;
+        yield return new WaitForSeconds(_attackable.AttackDatas[AttackNumber].coolTime);
+        isAttackCooltime = false;
+    }
+
     public void SetAttackData(int attackNumber)
     {
-        if (_attackable.Equals(null))
+        if (_attackable == null)
         {
             Debug.LogError("ERROR: Attackable not attatched!!!"); return;
         }
-        if (_attackable.AttackDatas.Equals(null))
+        if (_attackable.AttackDatas == null)
         {
             Debug.LogError("ERROR: AttackDatas is missing!!!"); return;
         }
+
+        _attackable.DamageIndicatorRandomPosInfo = Random.value;
 
         if (attackNumber < _attackable.AttackDatas.Length)
             AttackNumber = attackNumber;
@@ -35,7 +46,6 @@ public class AttackController : MonoBehaviour
         {
             Debug.LogError("ERROR: Damager is missing!!!"); return;
         }
-
         damager.SetDamageData(AttackNumber, damageNumber);
         damager.Damage();
     }

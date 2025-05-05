@@ -2,16 +2,12 @@ using System.Collections;
 using UnityEngine;
 using DG.Tweening;
 
-public class AudioPlayer : MonoBehaviour, IPoolable
+public class AudioPlayer : MonoBehaviour
 {
-    public delegate void GameObjectDisabled(int ID, int hash);
-    public event GameObjectDisabled OnGameObjectDisabled;
-
     private AudioSource _audioSource;
     [SerializeField] private AudioDataSO _audioData;
-    [HideInInspector] public bool isFading;
+    public bool IsFading { get; set; }
     private float resetCoolTime;
-    public int PoolSize { get; set; }
 
     void Start()
     {
@@ -33,7 +29,7 @@ public class AudioPlayer : MonoBehaviour, IPoolable
     public void InitializeWhenReused(AudioDataSO audioData)
     {
         _audioData = audioData;
-        isFading = false;
+        IsFading = false;
         _audioSource.volume = 0;
     }
 
@@ -67,7 +63,7 @@ public class AudioPlayer : MonoBehaviour, IPoolable
 
     public void Fade(float volume, float timeSec)
     {
-        if (isFading)
+        if (IsFading)
         {
             Debug.LogWarning("WARNING: Audio is already fading!!");
         }
@@ -80,18 +76,13 @@ public class AudioPlayer : MonoBehaviour, IPoolable
 
     public IEnumerator FadeCoroutine(float timeSec, float volume)
     {
-        isFading = true;
+        IsFading = true;
         Tween audio = _audioSource.DOFade(volume, timeSec);
         yield return audio.WaitForCompletion();
-        isFading = false;
+        IsFading = false;
         if (_audioSource.volume <= 0.01f)
         {
             //make cooldown manager!!!
         }
-    }
-
-    public void OnDisable()
-    {
-        OnGameObjectDisabled?.Invoke(_audioData.GetInstanceID(), this.gameObject.GetHashCode());
     }
 }

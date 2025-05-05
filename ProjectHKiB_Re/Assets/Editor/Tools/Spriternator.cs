@@ -3,7 +3,6 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.U2D.Animation;
-using UnityEditorInternal;
 
 public class SpriterNator : EditorWindow
 {
@@ -211,10 +210,10 @@ public class SpriterNator : EditorWindow
                 animationsList[i].endFrame = EditorGUILayout.IntField("", suggestedEndFrame, intFieldStyle, GUILayout.ExpandWidth(true), GUILayout.MaxWidth(50));
                 GUILayout.Space(10);
 
-                /*EditorGUILayout.LabelField(new GUIContent("Loop Enabled:", "Sets the animation to be in a looping state. Perfect for idle animations."), textstyle, GUILayout.Width(100));
-                animationsList[i].shouldLoop = EditorGUILayout.Toggle("", animationsList[i].shouldLoop, GUILayout.Width(20));
-                GUILayout.Space(10);*/
-                GUILayout.EndHorizontal();
+                //EditorGUILayout.LabelField(new GUIContent("Loop Enabled:", "Sets the animation to be in a looping state. Perfect for idle animations."), textstyle, GUILayout.Width(100));
+                //animationsList[i].shouldLoop = EditorGUILayout.Toggle("", animationsList[i].shouldLoop, GUILayout.Width(20));
+                //GUILayout.Space(10);
+                //GUILayout.EndHorizontal();
 
                 GUILayout.BeginHorizontal();
                 if (GUILayout.Button(new GUIContent("▲", "Move Up"), GUILayout.Width(25)))
@@ -297,17 +296,17 @@ public class SpriterNator : EditorWindow
                 {
                     animationsList.RemoveAt(i);
                 }
-                /*if (GUILayout.Button(new GUIContent("++", "Duplicate Category"), GUILayout.Width(100)))
-                {
-                    var newAnimation = new AnimationDetails
-                    {
-                        name = animationsList[i].name + " Copy",
-                        startFrame = animationsList[i].endFrame + 1,
-                        shouldLoop = animationsList[i].shouldLoop,
-                        frameRate = animationsList[i].frameRate
-                    };
-                    animationsList.Insert(i + 1, newAnimation);
-                }*/
+                //if (GUILayout.Button(new GUIContent("++", "Duplicate Category"), GUILayout.Width(100)))
+                //{
+                //    var newAnimation = new AnimationDetails
+                //    {
+                //        name = animationsList[i].name + " Copy",
+                //        startFrame = animationsList[i].endFrame + 1,
+                //        shouldLoop = animationsList[i].shouldLoop,
+                //        frameRate = animationsList[i].frameRate
+                //    };
+                //    animationsList.Insert(i + 1, newAnimation);
+                //}
                 GUILayout.EndHorizontal();
                 GUILayout.EndVertical();
             }
@@ -326,20 +325,20 @@ public class SpriterNator : EditorWindow
             }
 
             // Create animations
-            /*
-            if (GUILayout.Button(new GUIContent("CREATE ANIMATIONS", "Creates an .anim asset for each Animation added to the list."), customButtonStyle))
-            {
-                LoadAllSprites();
-                AnimationClip lastCreatedClip = null;
-                foreach (var animDetail in animationsList)
-                {
-                    lastCreatedClip = CreateAnimationFromFrames(animDetail);
-                }
-                if (lastCreatedClip != null)
-                {
-                    EditorGUIUtility.PingObject(lastCreatedClip);
-                }
-            }*/
+            //
+            //if (GUILayout.Button(new GUIContent("CREATE ANIMATIONS", "Creates an .anim asset for each Animation added to the list."), customButtonStyle))
+            //{
+            //    LoadAllSprites();
+            //    AnimationClip lastCreatedClip = null;
+            //    foreach (var animDetail in animationsList)
+            //    {
+            //        lastCreatedClip = CreateAnimationFromFrames(animDetail);
+            //    }
+            //    if (lastCreatedClip != null)
+            //    {
+            //        EditorGUIUtility.PingObject(lastCreatedClip);
+            //    }
+            //}
             // Create sprite library
             if (GUILayout.Button(new GUIContent("CREATE SPRITE LIBRARY", "Creates a Sprite Library asset with the Animation Name as the Category, and the frames as the Labels per category."), customButtonStyle))
             {
@@ -357,20 +356,20 @@ public class SpriterNator : EditorWindow
             }
 
             // Create animations
-            /*
-            if (GUILayout.Button(new GUIContent("CREATE ANIMATIONS", "Creates an .anim asset for each Animation added to the list."), customButtonStyle))
-            {
-                LoadAllSprites();
-                AnimationClip lastCreatedClip = null;
-                foreach (var animDetail in animationsList)
-                {
-                    lastCreatedClip = CreateAnimationFromFrames(animDetail);
-                }
-                if (lastCreatedClip != null)
-                {
-                    EditorGUIUtility.PingObject(lastCreatedClip);
-                }
-            }*/
+            //
+            //if (GUILayout.Button(new GUIContent("CREATE ANIMATIONS", "Creates an .anim asset for each Animation added to the list."), customButtonStyle))
+            //{
+            //    LoadAllSprites();
+            //    AnimationClip lastCreatedClip = null;
+            //    foreach (var animDetail in animationsList)
+            //    {
+            //        lastCreatedClip = CreateAnimationFromFrames(animDetail);
+            //    }
+            //    if (lastCreatedClip != null)
+            //    {
+            //        EditorGUIUtility.PingObject(lastCreatedClip);
+            //    }
+            //}
             // Create sprite library
             if (GUILayout.Button(new GUIContent("CREATE SPRITE LIBRARY", "Creates a Sprite Library asset with the Animation Name as the Category, and the frames as the Labels per category."), customButtonStyle))
             {
@@ -381,28 +380,27 @@ public class SpriterNator : EditorWindow
             GUI.backgroundColor = Color.white;
         }
         GUILayout.Space(20);
-        /*
-        GUILayout.Space(30);
-        GUILayout.BeginVertical("box");
-        if (myLogo != null)
-        {
-            GUILayout.BeginHorizontal();
-            GUILayout.Label(myLogo, GUILayout.Width(60), GUILayout.Height(60)); // Adjust width and height as needed
-            GUILayout.BeginVertical();
-
-            GUILayout.Label("Tool Information", EditorStyles.boldLabel);
-            GUILayout.Label("SpriterNator was developed by Christine Coomans, and falls under the GNU General Public License. For usage instructions, or to reach out, please visit the link below. Enjoy!", GUILayout.Height(20));
-            if (GUILayout.Button("Open GitHub"))
-            {
-                Application.OpenURL("https://github.com/christinec-dev/SpriterNator");
-            }
-
-            GUILayout.EndVertical();
-            GUILayout.EndHorizontal();
-        }
-        GUILayout.EndVertical();*/
+        //
+        //GUILayout.Space(30);
+        //GUILayout.BeginVertical("box");
+        //if (myLogo != null)
+        //{
+        //    GUILayout.BeginHorizontal();
+        //    GUILayout.Label(myLogo, GUILayout.Width(60), GUILayout.Height(60)); // Adjust width and height as needed
+        //    GUILayout.BeginVertical();
+        //    GUILayout.Label("Tool Information", EditorStyles.boldLabel);
+        //    GUILayout.Label("SpriterNator was developed by Christine Coomans, and falls under the GNU General Public License. For usage instructions, or to reach out, please visit the link below. Enjoy!", GUILayout.Height(20));
+        //    if (GUILayout.Button("Open GitHub"))
+        //    {
+        //        Application.OpenURL("https://github.com/christinec-dev/SpriterNator");
+        //    }
+        //    GUILayout.EndVertical();
+        //    GUILayout.EndHorizontal();
+        //}
+        //GUILayout.EndVertical();
         GUILayout.EndArea();
     }
+
     private int SuggestFrameRate(int startFrame, int endFrame)
     {
         int totalFrames = endFrame - startFrame + 1;

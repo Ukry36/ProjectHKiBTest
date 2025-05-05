@@ -5,7 +5,7 @@ public class FollowMovePointAction : StateActionSO
     public MovementManagerSO movementManager;
     public override void Act(StateController stateController)
     {
-        if (stateController.TryGetInterFace(out IMovable movable))
+        if (stateController.TryGetInterface(out IMovable movable))
         {
             movementManager.FollowMovePointIdle(stateController.transform, movable);
         }

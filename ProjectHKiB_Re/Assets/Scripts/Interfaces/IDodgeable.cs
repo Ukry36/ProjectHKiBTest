@@ -1,7 +1,7 @@
 public interface IDodgeable
 {
-    public CustomVariable<float> DodgeCooltime { get; set; }
-    public CustomVariable<float> ContinuousDodgeLimit { get; set; }
-    public CustomVariable<float> KeepDodgeMaxTime { get; set; }
-    public CustomVariable<float> KeepDodgeMaxDistance { get; set; }
+    public StatContainer DodgeCooltime { get; set; }
+    public StatContainer ContinuousDodgeLimit { get; set; }
+    public StatContainer KeepDodgeMaxTime { get; set; }
+    public StatContainer KeepDodgeMaxDistance { get; set; }
 }

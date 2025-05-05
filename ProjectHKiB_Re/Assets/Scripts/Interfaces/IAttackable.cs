@@ -10,5 +10,6 @@ public interface IAttackable
     public AttackController AttackController { get; set; }
     public LayerMask[] TargetLayers { get; set; }
     public Transform CurrentTarget { get; set; }
-    public Vector3 GetAttackOrigin();
+    public DamageParticleDataSO DamageParticle { get; set; }
+    public float DamageIndicatorRandomPosInfo { get; set; }
 }

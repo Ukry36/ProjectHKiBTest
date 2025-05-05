@@ -7,7 +7,8 @@ public class StateTransition
         public StateDecisionSO decision;
         public bool negate;
     }
-
+    public float availableTime;
     public DecisionSet[] decisions;
     public StateSO trueState;
+    public StateSO falseState;
 }

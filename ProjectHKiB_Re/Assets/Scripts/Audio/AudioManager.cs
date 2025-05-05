@@ -23,11 +23,13 @@ public class AudioPlayData
 
 public class AudioManager : PoolManager<AudioPlayer>
 {
+    public GameObject prefab;
     [SerializeField] private AudioDataSO[] allDatas;
     [SerializeField] private AudioTypeSO[] allTypes;
     public AudioMixer audioMixer;
 
     private Queue<AudioPlayData> _oneShotPlayQueue;
+    private const int ONESHOTPLAYQUEUEMAX = 10;
     private AudioPlayer _oneShotPlayer;
 
     private bool _oneShotPlayerDequeueInProgress;
@@ -39,13 +41,15 @@ public class AudioManager : PoolManager<AudioPlayer>
 
     public override void Initialize()
     {
-        _oneShotPlayQueue = new();
+        _oneShotPlayQueue = new(ONESHOTPLAYQUEUEMAX);
         base.Initialize();
     }
 
-    public override void CreatePool()
+    public override void InitializePool()
     {
-        base.CreatePool();
+        objects = new();
+        inactiveObjectSet = new(allDatas.Length);
+        activeObjectSet = new(allDatas.Length);
 
         var clone = Instantiate(prefab, this.transform);
         if (clone.TryGetComponent(out AudioPlayer oneShotAudioPlayer))
@@ -56,14 +60,14 @@ public class AudioManager : PoolManager<AudioPlayer>
         for (int i = 0; i < allDatas.Length; i++)
         {
             if (allDatas[i].type.playOneShot) continue;
+            CreatePool(allDatas[i].GetInstanceID(), allDatas[i].type.PoolSize);
             for (int j = 0; j < allDatas[i].type.PoolSize; j++)
             {
                 clone = Instantiate(prefab, this.transform);
                 if (clone.TryGetComponent(out AudioPlayer audioPlayer))
                 {
-                    AddPool(allDatas[i].GetInstanceID(), audioPlayer);
+                    AddObjectToPool(allDatas[i].GetInstanceID(), audioPlayer);
                     audioPlayer.InitializeWhenReused(allDatas[i]);
-                    audioPlayer.OnGameObjectDisabled += OnGameObjectDisabled;
                 }
                 else
                 {
@@ -73,9 +77,10 @@ public class AudioManager : PoolManager<AudioPlayer>
         }
     }
 
-    public override void SetObjectOnReuse(AudioPlayer audioPlayer, Transform transform, Quaternion rotation, bool attatchToTransform)
+    public override void InitObjectOnReuse(AudioPlayer audioPlayer, Transform transform, Quaternion rotation, bool attatchToTransform)
     {
-        audioPlayer.gameObject.SetActive(true);
+        if (!audioPlayer.gameObject.activeSelf)
+            audioPlayer.gameObject.SetActive(true);
         audioPlayer.transform.SetPositionAndRotation(transform.position, rotation);
         if (attatchToTransform) audioPlayer.transform.parent = transform;
     }
@@ -95,6 +100,7 @@ public class AudioManager : PoolManager<AudioPlayer>
     public void PlayAudioOneShot(AudioDataSO audioData, float volume, Vector3 pos)
     {
         if (!audioData) return;
+        if (_oneShotPlayQueue.Count >= ONESHOTPLAYQUEUEMAX) return;
         _oneShotPlayQueue.Enqueue(new AudioPlayData(audioData, volume, pos));
         if (!_oneShotPlayerDequeueInProgress)
         {
@@ -129,11 +135,11 @@ public class AudioManager : PoolManager<AudioPlayer>
 
     public override void ResetPool()
     {
-        if (objectPool != null && objectPool.Count > 0)
+        if (objects != null && objects.Count > 0)
         {
-            int[] keys = objectPool.Keys.ToArray();
+            int[] keys = objects.Keys.ToArray();
             for (int i = 0; i < keys.Length; i++)
-                Destroy(objectPool[keys[i]].gameObject);
+                Destroy(objects[keys[i]].gameObject);
         }
         base.ResetPool();
         if (_oneShotPlayer != null)

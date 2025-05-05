@@ -12,15 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48c9f0ded553de24694d521c9755bb18, type: 3}
   m_Name: Delta_Roza_DamageData5
   m_EditorClassIdentifier: 
-  damageCoefficient: 0
+  damageCoefficient: 1
   damageType: {fileID: 0}
-  knockBack: 5
+  knockBack: 1
   damageLayer:
     serializedVersion: 2
     m_Bits: 10240
   initialSound: {fileID: 0}
   hitSound: {fileID: 0}
-  hitParticle: {fileID: 0}
   camShake: 0
   DLRUDamageEffects:
     _serializedList:

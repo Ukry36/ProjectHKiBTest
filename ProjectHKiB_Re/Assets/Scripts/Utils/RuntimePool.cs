@@ -1,39 +1,60 @@
+using System;
 using System.Collections.Generic;
+using AYellowpaper.SerializedCollections;
 using UnityEngine;
 
-public class RuntimePool<T>
+[Serializable]
+public class RuntimePool
 {
-    public Dictionary<int, List<T>> pool = new();
+    // ID of prefab, ID of instances
+    public SerializedDictionary<int, List<int>> pool;
+
+    public RuntimePool(int count)
+    {
+        pool = new(count);
+    }
 
     public bool CheckPoolAvailable(int ID)
     {
         if (!pool.ContainsKey(ID))
-            Debug.LogError("ERROR: ID " + ID + " is missing!!!");
-        return pool.ContainsKey(ID) && pool[ID].Count > 0;
+        {
+            Debug.LogError("ERROR: Pool of ID " + ID + " is missing!!!");
+            return false;
+        }
+        else return pool[ID].Count > 0;
     }
 
-    public void EnqueuePool(int ID, T t)
+    public void AddPool(int ID, int poolSize)
+    {
+        if (!pool.ContainsKey(ID))
+        {
+            pool.Add(ID, new(poolSize));
+            //Debug.Log("added " + ID);
+        }
+    }
+
+    public void EnqueuePool(int ID, int instanceID)
     {
         //Debug.Log("ID " + ID + ", " + t + " enqueued!");
         if (!pool.ContainsKey(ID))
-            pool.Add(ID, new List<T>());
+            Debug.LogError("ERROR: Pool of ID " + ID + " is missing!!!");
 
-        pool[ID].Add(t);
+        pool[ID].Add(instanceID);
     }
 
-    public T DequeuePool(int ID)
+    public int DequeuePool(int ID)
     {
         if (!CheckPoolAvailable(ID))
             return default;
-        T value = pool[ID][0];
+        int value = pool[ID][0];
         pool[ID].RemoveAt(0);
         return value;
     }
 
-    public void DeleteObjectFromPool(int ID, T t)
+    public void DeleteObjectFromPool(int ID, int instanceID)
     {
         if (!CheckPoolAvailable(ID)) return;
 
-        pool[ID].Remove(t);
+        pool[ID].Remove(instanceID);
     }
 }

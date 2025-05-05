@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Database Manager", menuName = "Scriptable Objects/Manager/Database Manager", order = 0)]
@@ -5,36 +6,41 @@ public class DatabaseManagerSO : ScriptableObject
 {
     public void SetIDamagable(IDamagable damagable, IDamagable data)
     {
-        damagable.MaxHP = data.MaxHP;
-        damagable.HP = data.HP;
-        damagable.DEF = data.DEF;
+        damagable.MaxHP = new(data.MaxHP);
+        damagable.HP = new(data.HP);
+        damagable.DEF = new(data.DEF);
         damagable.Mass = data.Mass;
-        damagable.Resistances = data.Resistances;
+        damagable.Resistance = new(data.Resistance);
         damagable.HitParticle = data.HitParticle;
         damagable.HitSound = data.HitSound;
     }
 
     public void SetIAttackable(IAttackable attackable, IAttackable data)
     {
-        attackable.ATK = data.ATK;
-        attackable.AttackDatas = data.AttackDatas;
-        attackable.CriticalChanceRate = data.CriticalChanceRate;
-        attackable.CriticalDamageRate = data.CriticalDamageRate;
+        attackable.ATK = new(data.ATK);
+        if (data.AttackDatas != null)
+        {
+            attackable.AttackDatas = new AttackDataSO[data.AttackDatas.Length];
+            Array.Copy(data.AttackDatas, attackable.AttackDatas, data.AttackDatas.Length);
+        }
+        attackable.CriticalChanceRate = new(data.CriticalChanceRate);
+        attackable.CriticalDamageRate = new(data.CriticalDamageRate);
         attackable.TargetLayers = data.TargetLayers;
+        attackable.DamageParticle = data.DamageParticle;
     }
 
     public void SetIDodgeable(IDodgeable dodgeable, IDodgeable data)
     {
-        dodgeable.DodgeCooltime = data.DodgeCooltime;
-        dodgeable.ContinuousDodgeLimit = data.ContinuousDodgeLimit;
-        dodgeable.KeepDodgeMaxTime = data.KeepDodgeMaxTime;
-        dodgeable.KeepDodgeMaxDistance = data.KeepDodgeMaxDistance;
+        dodgeable.DodgeCooltime = new(data.DodgeCooltime);
+        dodgeable.ContinuousDodgeLimit = new(data.ContinuousDodgeLimit);
+        dodgeable.KeepDodgeMaxTime = new(data.KeepDodgeMaxTime);
+        dodgeable.KeepDodgeMaxDistance = new(data.KeepDodgeMaxDistance);
     }
 
     public void SetGraffiriable(IGraffitiable graffiriable, IGraffitiable data)
     {
-        graffiriable.GP = data.GP;
-        graffiriable.MaxGP = data.MaxGP;
+        graffiriable.GP = new(data.GP);
+        graffiriable.MaxGP = new(data.MaxGP);
     }
 
     public void SetIInteractable(IInteractable interactable, IInteractable data)
@@ -45,9 +51,10 @@ public class DatabaseManagerSO : ScriptableObject
 
     public void SetIMovable(IMovable movable, IMovable data)
     {
-        movable.Speed = data.Speed;
-        movable.SprintCoeff = data.SprintCoeff;
+        movable.Speed = new(data.Speed);
+        movable.SprintCoeff = new(data.SprintCoeff);
         movable.WallLayer = data.WallLayer;
+        movable.CanPushLayer = data.CanPushLayer;
         movable.IsSprinting = false;
         movable.FootStepAudio = data.FootStepAudio;
     }

@@ -11,12 +11,14 @@ public class FriendlyDataSO : ScriptableObject, IMovable, IAttackable, IDamagabl
     [field: SerializeField] public StatContainer MaxHP { get; set; }
     [field: SerializeField] public StatContainer HP { get; set; }
     [field: SerializeField] public StatContainer DEF { get; set; }
-    [field: SerializeField] public List<CustomVariable<Resistance>> Resistances { get; set; }
+    [field: SerializeField] public StatContainer Resistance { get; set; }
     [field: SerializeField] public StatContainer ATK { get; set; }
     [field: SerializeField] public StatContainer CriticalChanceRate { get; set; }
     [field: SerializeField] public StatContainer CriticalDamageRate { get; set; }
     public AttackController AttackController { get; set; }
     public int LastAttackNum { get; set; }
+    [field: SerializeField] public DamageParticleDataSO DamageParticle { get; set; }
+    public float DamageIndicatorRandomPosInfo { get; set; } = 0;
     [field: SerializeField] public float Mass { get; set; }
     [field: SerializeField] public StatContainer Speed { get; set; }
     [field: SerializeField] public StatContainer SprintCoeff { get; set; }
@@ -29,6 +31,7 @@ public class FriendlyDataSO : ScriptableObject, IMovable, IAttackable, IDamagabl
     [field: SerializeField] public AudioDataSO HitSound { get; set; }
     [field: SerializeField] public ParticlePlayer HitParticle { get; set; }
     [field: SerializeField] public LayerMask WallLayer { get; set; }
+    [field: SerializeField] public LayerMask CanPushLayer { get; set; }
     public bool IsSprinting { get; set; } = false;
     [field: SerializeField] public AudioDataSO FootStepAudio { get; set; }
     public FootstepController FootstepController { get; set; }
@@ -43,16 +46,26 @@ public class FriendlyDataSO : ScriptableObject, IMovable, IAttackable, IDamagabl
 
     public Vector3 GetAttackOrigin()
     {
-        throw new System.NotSupportedException();
+        throw new System.NotImplementedException();
     }
 
     public void Damage(DamageDataSO damageData, IAttackable hitter)
     {
-        throw new System.NotSupportedException();
+        throw new System.NotImplementedException();
     }
 
     public void OnDisable()
     {
-        throw new System.NotSupportedException();
+        throw new System.NotImplementedException();
+    }
+
+    public void KnockBack(Vector3 dir, float strength)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void Die()
+    {
+        throw new System.NotImplementedException();
     }
 }

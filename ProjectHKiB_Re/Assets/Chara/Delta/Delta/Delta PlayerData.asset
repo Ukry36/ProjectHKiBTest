@@ -12,10 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a4552f76dec9764db1bc225722a55f1, type: 3}
   m_Name: Delta PlayerData
   m_EditorClassIdentifier: 
-  <ID>k__BackingField: 0
-  <Name>k__BackingField: Delta
   <Speed>k__BackingField:
-    _value: 5
+    baseValue: 5
     OnValueDecreased:
       m_PersistentCalls:
         m_Calls: []
@@ -25,7 +23,7 @@ MonoBehaviour:
     additionalBuff: 0
     proportionalBuff: 0
   <SprintCoeff>k__BackingField:
-    _value: 1.5
+    baseValue: 1.5
     OnValueDecreased:
       m_PersistentCalls:
         m_Calls: []
@@ -39,7 +37,7 @@ MonoBehaviour:
     m_Bits: 72
   <FootStepAudio>k__BackingField: {fileID: 11400000, guid: d78d695b40ad7c64b8cb95741be6bae5, type: 2}
   <ATK>k__BackingField:
-    _value: 0
+    baseValue: 100
     OnValueDecreased:
       m_PersistentCalls:
         m_Calls: []
@@ -49,7 +47,7 @@ MonoBehaviour:
     additionalBuff: 0
     proportionalBuff: 0
   <CriticalChanceRate>k__BackingField:
-    _value: 0
+    baseValue: 0.1
     OnValueDecreased:
       m_PersistentCalls:
         m_Calls: []
@@ -59,7 +57,7 @@ MonoBehaviour:
     additionalBuff: 0
     proportionalBuff: 0
   <CriticalDamageRate>k__BackingField:
-    _value: 0
+    baseValue: 2
     OnValueDecreased:
       m_PersistentCalls:
         m_Calls: []
@@ -69,28 +67,64 @@ MonoBehaviour:
     additionalBuff: 0
     proportionalBuff: 0
   <AttackDatas>k__BackingField: []
+  <TargetLayers>k__BackingField:
+  - serializedVersion: 2
+    m_Bits: 2048
+  - serializedVersion: 2
+    m_Bits: 8192
+  <DamageParticle>k__BackingField: {fileID: 11400000, guid: cb51a1de9ae8e724fb7deaf1c56006c2, type: 2}
   <DodgeCooltime>k__BackingField:
-    value: 0
-    OnValueChanged:
+    baseValue: 0
+    OnValueDecreased:
       m_PersistentCalls:
         m_Calls: []
+    OnValueIncreased:
+      m_PersistentCalls:
+        m_Calls: []
+    additionalBuff: 0
+    proportionalBuff: 0
   <ContinuousDodgeLimit>k__BackingField:
-    value: 0
-    OnValueChanged:
+    baseValue: 0
+    OnValueDecreased:
       m_PersistentCalls:
         m_Calls: []
+    OnValueIncreased:
+      m_PersistentCalls:
+        m_Calls: []
+    additionalBuff: 0
+    proportionalBuff: 0
   <KeepDodgeMaxTime>k__BackingField:
-    value: 0
-    OnValueChanged:
+    baseValue: 0
+    OnValueDecreased:
       m_PersistentCalls:
         m_Calls: []
+    OnValueIncreased:
+      m_PersistentCalls:
+        m_Calls: []
+    additionalBuff: 0
+    proportionalBuff: 0
   <KeepDodgeMaxDistance>k__BackingField:
-    value: 0
-    OnValueChanged:
+    baseValue: 0
+    OnValueDecreased:
       m_PersistentCalls:
         m_Calls: []
+    OnValueIncreased:
+      m_PersistentCalls:
+        m_Calls: []
+    additionalBuff: 0
+    proportionalBuff: 0
   <MaxHP>k__BackingField:
-    _value: 0
+    baseValue: 100
+    OnValueDecreased:
+      m_PersistentCalls:
+        m_Calls: []
+    OnValueIncreased:
+      m_PersistentCalls:
+        m_Calls: []
+    additionalBuff: 0
+    proportionalBuff: 0
+  <HP>k__BackingField:
+    baseValue: 0
     OnValueDecreased:
       m_PersistentCalls:
         m_Calls: []
@@ -100,7 +134,7 @@ MonoBehaviour:
     additionalBuff: 0
     proportionalBuff: 0
   <DEF>k__BackingField:
-    _value: 0
+    baseValue: 0
     OnValueDecreased:
       m_PersistentCalls:
         m_Calls: []
@@ -109,12 +143,21 @@ MonoBehaviour:
         m_Calls: []
     additionalBuff: 0
     proportionalBuff: 0
-  <Resistances>k__BackingField: []
+  <Resistance>k__BackingField:
+    baseValue: 0
+    OnValueDecreased:
+      m_PersistentCalls:
+        m_Calls: []
+    OnValueIncreased:
+      m_PersistentCalls:
+        m_Calls: []
+    additionalBuff: 0
+    proportionalBuff: 0
   <Mass>k__BackingField: 1
   <HitSound>k__BackingField: {fileID: 0}
   <HitParticle>k__BackingField: {fileID: 0}
   <MaxGP>k__BackingField:
-    _value: 0
+    baseValue: 0
     OnValueDecreased:
       m_PersistentCalls:
         m_Calls: []

@@ -29,10 +29,12 @@ public interface IMovable
     public StatContainer Speed { get; set; }
     public StatContainer SprintCoeff { get; set; }
     public LayerMask WallLayer { get; set; }
+    public LayerMask CanPushLayer { get; set; }
     public bool IsSprinting { get; set; }
     public AudioDataSO FootStepAudio { get; set; }
     public MovePoint MovePoint { get; set; }
     public FootstepController FootstepController { get; set; }
     public ExternalForce ExForce { get; set; }
 
+    public void KnockBack(Vector3 dir, float strength);
 }

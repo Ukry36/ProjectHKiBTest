@@ -1,19 +1,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using DG.Tweening;
 
 public class StateController : MonoBehaviour
 {
     [HideInInspector] public CustomVariableSets customVariables = new();
-    [SerializeField] private StateSO _currentState;
+    [NaughtyAttributes.ReadOnly][SerializeField] private StateSO _currentState;
+    public StateSO CurrentState { get => _currentState; }
     [HideInInspector] public bool animationEndTrigger;
     public AnimationController animationController;
-    [SerializeField] private AttackController _attackController;
-    [HideInInspector] public Vector2 velocity;
-    private Vector3 prevPos;
+    [HideInInspector] public float lastChangeStateTime;
+    public List<Coroutine> FrameActionSequences = new(36);
+    public List<Coroutine> TransitionSequences = new(36);
+    public List<bool> TransitionConditions = new(36);
 
-
-
+    private void Awake()
+    {
+        for (int i = 0; i < 36; i++)
+        {
+            FrameActionSequences.Add(null);
+            TransitionSequences.Add(null);
+            TransitionConditions.Add(false);
+        }
+    }
 
     private readonly Dictionary<Type, object> _interfaces = new();
 
@@ -31,7 +41,7 @@ public class StateController : MonoBehaviour
         return null;
     }
 
-    public bool TryGetInterFace<T>(out T item) where T : class
+    public bool TryGetInterface<T>(out T item) where T : class
     {
         if (_interfaces.TryGetValue(typeof(T), out var implementation))
         {
@@ -45,35 +55,30 @@ public class StateController : MonoBehaviour
         }
     }
 
-    public void Start()
+    public void ChangeState(StateSO state)
     {
-        prevPos = transform.position;
+        lastChangeStateTime = Time.time;
+        animationEndTrigger = false;
+        _currentState.ExitState(this);
+        state.EnterState(this);
+        _currentState = state;
     }
 
     public void Update()
     {
-        velocity = transform.position - prevPos;
-        velocity.Normalize();
-        prevPos = transform.position;
         _currentState.UpdateState(this);
+        //Debug.Log("CheckTransition: " + _currentState.name);
         _currentState.CheckTransition(this);
     }
 
     public void Initialize(StateMachineSO stateMachine)
     {
         _currentState = stateMachine.initialState;
+        _currentState.EnterState(this);
         customVariables = stateMachine.customVariables;
         //////
         ///  HAVE TO FIX THIS NOT TO DEEP REFERENCE CUSTOMVARS!!!
         //////
-    }
-
-    public void ChangeState(StateSO state)
-    {
-        animationEndTrigger = false;
-        _currentState.ExitState(this);
-        state.EnterState(this);
-        _currentState = state;
     }
 
     public void PlayStateAnimation(string animationName, bool directionDependent)
