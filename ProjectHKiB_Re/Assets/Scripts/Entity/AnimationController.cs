@@ -1,3 +1,4 @@
+using UnityEditor.Animations;
 using UnityEngine;
 
 public class AnimationController : MonoBehaviour
@@ -19,33 +20,21 @@ public class AnimationController : MonoBehaviour
         }
     }
 
-    private Vector2 _lastSetAnimationDir;
     public Vector2 LastSetAnimationDir8
     {
-        get => _lastSetAnimationDir;
+        get => _lastSetAnimationDir8;
     }
 
     public Vector2 LastSetAnimationDir4
     {
-        get
-        {
-            if (LastSetAnimationDir8 == Vector2.zero) return Vector2.zero;
-            return AnimationDirection switch
-            {
-                EnumManager.AnimDir.D => Vector2.down,
-                EnumManager.AnimDir.L => Vector2.left,
-                EnumManager.AnimDir.R => Vector2.right,
-                EnumManager.AnimDir.U => Vector2.up,
-                _ => Vector2.zero,
-            };
-        }
+        get => _lastSetAnimationDir4;
     }
 
     public Quaternion LastSetAnimationQuaternion4
     {
         get
         {
-            if (LastSetAnimationDir8 == Vector2.zero) return Quaternion.identity;
+            if (_lastSetAnimationDir8 == Vector2.zero) return Quaternion.identity;
             return AnimationDirection switch
             {
                 EnumManager.AnimDir.D => Quaternion.identity,
@@ -61,7 +50,7 @@ public class AnimationController : MonoBehaviour
     {
         get
         {
-            if (LastSetAnimationDir8 == Vector2.zero) return 0;
+            if (_lastSetAnimationDir8 == Vector2.zero) return 0;
             return AnimationDirection switch
             {
                 EnumManager.AnimDir.D => 0,
@@ -76,6 +65,15 @@ public class AnimationController : MonoBehaviour
     public delegate void OnDirChangedEventHandler(EnumManager.AnimDir animDir);
     public event OnDirChangedEventHandler OnDirChanged;
     public MathManagerSO mathManager;
+
+    public void Initialize(AnimatorController animatorController)
+    {
+        animator.runtimeAnimatorController = animatorController;
+        if (CurrentAnimation == "") CurrentAnimation = "Idle";
+        if (_lastSetAnimationDir4 == Vector2.zero) _lastSetAnimationDir4 = Vector2.down;
+        if (_lastSetAnimationDir8 == Vector2.zero) _lastSetAnimationDir8 = Vector2.down;
+        Play(CurrentAnimation);
+    }
 
     public Vector2 GetAnimationRestrictedDirection(Vector3 input)
     {
@@ -109,25 +107,81 @@ public class AnimationController : MonoBehaviour
             default: return Vector2.zero;
         }
     }
+    /*
+        public bool CheckIfLastSetDirectionSame(Vector2 input)
+        => mathManager.SetDirection8One(input).Equals(_lastSetAnimationDir);
+
+        public void SetAnimationDirection(Vector2 vectorDir, bool maintainProgress = false)
+        {
+            if (vectorDir.Equals(Vector2.zero)) return;
+            vectorDir = vectorDir.normalized;
+            if (mathManager.Absolute(vectorDir.y) > mathManager.Absolute(vectorDir.x))
+                SetAnimationDirectionInternal(vectorDir.y > 0 ? EnumManager.AnimDir.U : EnumManager.AnimDir.D, maintainProgress);
+            else
+                SetAnimationDirectionInternal(vectorDir.x > 0 ? EnumManager.AnimDir.R : EnumManager.AnimDir.L, maintainProgress);
+            _lastSetAnimationDir = mathManager.SetDirection8One(vectorDir);
+        }
+
+        public void SetAnimationDirection(EnumManager.AnimDir animDir, bool maintainProgress = false)
+        {
+            SetAnimationDirectionInternal(animDir, maintainProgress);
+            _lastSetAnimationDir = AnimationDirection switch
+            {
+                EnumManager.AnimDir.D => Vector2.down,
+                EnumManager.AnimDir.L => Vector2.left,
+                EnumManager.AnimDir.R => Vector2.right,
+                EnumManager.AnimDir.U => Vector2.up,
+                _ => Vector2.zero,
+            };
+        }
+
+        private void SetAnimationDirectionInternal(EnumManager.AnimDir animDir, bool maintainProgress)
+        {
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName(CurrentAnimation + animDir))
+                return;
+            AnimationDirection = animDir;
+            if (maintainProgress)
+            {
+                float time = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+                animator.Play(CurrentAnimation + animDir, 0, time + 0.01f);
+                return;
+            }
+            animator.Play(CurrentAnimation + animDir);
+        }
+    */
+    private Vector2 _lastSetAnimationDir8;
+    private Vector2 _lastSetAnimationDir4;
 
     public bool CheckIfLastSetDirectionSame(Vector2 input)
-    => mathManager.SetDirection8One(input).Equals(_lastSetAnimationDir);
+   => mathManager.SetDirection8One(input).Equals(_lastSetAnimationDir8);
 
-    public void SetAnimationDirection(Vector2 vectorDir, bool maintainProgress = false)
+    public void SetAnimationDirection(Vector2 vectorDir)
     {
-        if (vectorDir.Equals(Vector2.zero)) return;
-        vectorDir = vectorDir.normalized;
-        if (mathManager.Absolute(vectorDir.y) > mathManager.Absolute(vectorDir.x))
-            SetAnimationDirectionInternal(vectorDir.y > 0 ? EnumManager.AnimDir.U : EnumManager.AnimDir.D, maintainProgress);
-        else
-            SetAnimationDirectionInternal(vectorDir.x > 0 ? EnumManager.AnimDir.R : EnumManager.AnimDir.L, maintainProgress);
-        _lastSetAnimationDir = mathManager.SetDirection8One(vectorDir);
+        if (vectorDir == Vector2.zero) return;
+        vectorDir = mathManager.SetDirection8One(vectorDir);
+        if (vectorDir == _lastSetAnimationDir8) return;
+
+        _lastSetAnimationDir8 = vectorDir;
+        vectorDir.y = (vectorDir.x != 0 && vectorDir.y != 0) ? 0 : vectorDir.y;
+        _lastSetAnimationDir4 = vectorDir;
+        animator.SetFloat("dirX", vectorDir.x);
+        animator.SetFloat("dirY", vectorDir.y);
+
+        AnimationDirection = _lastSetAnimationDir4.y < 0 ? EnumManager.AnimDir.D :
+                             _lastSetAnimationDir4.x < 0 ? EnumManager.AnimDir.L :
+                             _lastSetAnimationDir4.x > 0 ? EnumManager.AnimDir.R :
+                             _lastSetAnimationDir4.y > 0 ? EnumManager.AnimDir.U :
+                             AnimationDirection;
     }
 
-    public void SetAnimationDirection(EnumManager.AnimDir animDir, bool maintainProgress = false)
+    public void SetAnimationDirection(EnumManager.AnimDir animDir)
     {
-        SetAnimationDirectionInternal(animDir, maintainProgress);
-        _lastSetAnimationDir = AnimationDirection switch
+        if (AnimationDirection == animDir)
+        {
+            _lastSetAnimationDir8 = _lastSetAnimationDir4;
+            return;
+        }
+        Vector2 dir = animDir switch
         {
             EnumManager.AnimDir.D => Vector2.down,
             EnumManager.AnimDir.L => Vector2.left,
@@ -135,26 +189,17 @@ public class AnimationController : MonoBehaviour
             EnumManager.AnimDir.U => Vector2.up,
             _ => Vector2.zero,
         };
-    }
 
-    private void SetAnimationDirectionInternal(EnumManager.AnimDir animDir, bool maintainProgress)
-    {
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName(CurrentAnimation + "_" + animDir))
-            return;
-        if (maintainProgress)
-        {
-            float time = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
-            AnimationDirection = animDir;
-            animator.Play(CurrentAnimation + "_" + animDir, 0, time + 0.01f);
-            return;
-        }
+        _lastSetAnimationDir8 = dir;
+        if (dir == Vector2.zero) return;
+        animator.SetFloat("dirX", dir.x);
+        animator.SetFloat("dirY", dir.y);
         AnimationDirection = animDir;
-        animator.Play(CurrentAnimation + "_" + animDir);
     }
 
-    public void Play(string animationName, bool directionDependent)
+    public void Play(string animationName)
     {
         CurrentAnimation = animationName;
-        animator.Play(animationName + (directionDependent ? "_" + AnimationDirection : ""), 0, 0);
+        animator.Play(animationName, 0, 0);
     }
 }

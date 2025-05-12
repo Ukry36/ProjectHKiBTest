@@ -22,6 +22,7 @@ MonoBehaviour:
     - decision: {fileID: 11400000, guid: e0cf4cc32ccc02a468f21e9caa6b837d, type: 2}
       negate: 0
     trueState: {fileID: 11400000, guid: f0e9e8927fb8d4f4993a046c90e0d337, type: 2}
+    falseState: {fileID: 0}
   - availableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: 12744be93fd2f334891269c161c19fc3, type: 2}
@@ -29,6 +30,13 @@ MonoBehaviour:
     - decision: {fileID: 11400000, guid: e0cf4cc32ccc02a468f21e9caa6b837d, type: 2}
       negate: 0
     trueState: {fileID: 11400000, guid: aaecd269a081e2a4e8930f4993757b90, type: 2}
+    falseState: {fileID: 0}
+  - availableTime: 0
+    decisions:
+    - decision: {fileID: 11400000, guid: af28755f24b9a564da14f64bdd3a7f40, type: 2}
+      negate: 0
+    trueState: {fileID: 11400000, guid: cc4bdcdcb162f684aa4182056b09d1ac, type: 2}
+    falseState: {fileID: 0}
   enterActions:
   - {fileID: 11400000, guid: 9d29c5b17685af144aaabb51ca64e9ad, type: 2}
   - {fileID: 11400000, guid: 1351f32d55bac064c817154fa4dd7f0b, type: 2}

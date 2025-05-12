@@ -6,7 +6,7 @@ using UnityEngine.Events;
 using UnityEngine.U2D.Animation;
 
 [CreateAssetMenu(fileName = "Friendly Data", menuName = "Scriptable Objects/Data/Friendly Data", order = 1)]
-public class FriendlyDataSO : ScriptableObject, IMovable, IAttackable, IDamagable, IPoolable, IInteractable
+public class FriendlyDataSO : ScriptableObject, IMovable, IAttackable, IDamagable, IPoolable
 {
     [field: SerializeField] public StatContainer MaxHP { get; set; }
     [field: SerializeField] public StatContainer HP { get; set; }
@@ -16,7 +16,6 @@ public class FriendlyDataSO : ScriptableObject, IMovable, IAttackable, IDamagabl
     [field: SerializeField] public StatContainer CriticalChanceRate { get; set; }
     [field: SerializeField] public StatContainer CriticalDamageRate { get; set; }
     public AttackController AttackController { get; set; }
-    public int LastAttackNum { get; set; }
     [field: SerializeField] public DamageParticleDataSO DamageParticle { get; set; }
     public float DamageIndicatorRandomPosInfo { get; set; } = 0;
     [field: SerializeField] public float Mass { get; set; }
@@ -25,9 +24,6 @@ public class FriendlyDataSO : ScriptableObject, IMovable, IAttackable, IDamagabl
     public MovePoint MovePoint { get; set; }
     [field: SerializeField] public AttackDataSO[] AttackDatas { get; set; }
     [field: SerializeField] public int PoolSize { get; set; }
-    public Collider2D Trigger { get; set; }
-    [field: SerializeField] public UnityEvent Event { get; set; }
-    [field: SerializeField] public float TriggerCoolTime { get; set; }
     [field: SerializeField] public AudioDataSO HitSound { get; set; }
     [field: SerializeField] public ParticlePlayer HitParticle { get; set; }
     [field: SerializeField] public LayerMask WallLayer { get; set; }
@@ -36,6 +32,7 @@ public class FriendlyDataSO : ScriptableObject, IMovable, IAttackable, IDamagabl
     [field: SerializeField] public AudioDataSO FootStepAudio { get; set; }
     public FootstepController FootstepController { get; set; }
     public IMovable.ExternalForce ExForce { get; set; } = new();
+    public bool IsKnockbackMove { get; set; }
     public LayerMask[] TargetLayers { get; set; }
     public Transform CurrentTarget { get; set; }
 
@@ -49,7 +46,7 @@ public class FriendlyDataSO : ScriptableObject, IMovable, IAttackable, IDamagabl
         throw new System.NotImplementedException();
     }
 
-    public void Damage(DamageDataSO damageData, IAttackable hitter)
+    public void Damage(DamageDataSO damageData, IAttackable hitter, Vector3 origin)
     {
         throw new System.NotImplementedException();
     }
@@ -59,10 +56,8 @@ public class FriendlyDataSO : ScriptableObject, IMovable, IAttackable, IDamagabl
         throw new System.NotImplementedException();
     }
 
-    public void KnockBack(Vector3 dir, float strength)
-    {
-        throw new System.NotImplementedException();
-    }
+    public void KnockBack(Vector3 dir, float strength) { }
+    public void EndKnockbackEarly() { }
 
     public void Die()
     {

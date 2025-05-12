@@ -3,13 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Friendly : Entity, IAttackable, IPoolable, IInteractable
+public class Friendly : Entity, IAttackable, IPoolable
 {
-    public Collider2D Trigger { get; set; }
-    [field: SerializeField] public UnityEvent Event { get; set; }
-    [field: SerializeField] public float TriggerCoolTime { get; set; }
     public StatContainer ATK { get; set; }
-    public int LastAttackNum { get; set; }
     public LayerMask[] TargetLayers { get; set; }
     public Transform CurrentTarget { get; set; }
     public DamageParticleDataSO DamageParticle { get; set; }
@@ -47,7 +43,7 @@ public class Friendly : Entity, IAttackable, IPoolable, IInteractable
         throw new NotImplementedException();
     }
 
-    public override void Damage(DamageDataSO damageData, IAttackable hitter)
+    public override void Damage(DamageDataSO damageData, IAttackable hitter, Vector3 origin)
     {
         throw new NotImplementedException();
     }

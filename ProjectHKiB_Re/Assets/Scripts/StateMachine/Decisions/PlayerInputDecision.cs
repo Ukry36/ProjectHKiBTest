@@ -7,7 +7,12 @@ public class PlayerInputDecision : StateDecisionSO
     {
         OnMove,
         OnSprint,
-        OnAttack
+        OnAttack,
+        OnDodge,
+        HasDInput,
+        HasLInput,
+        HasRInput,
+        HasUInput,
     }
     [SerializeField] private InputType _inputType;
     public override bool Decide(StateController stateController)
@@ -17,6 +22,11 @@ public class PlayerInputDecision : StateDecisionSO
             InputType.OnMove => !GameManager.instance.inputManager.MoveInput.Equals(Vector2.zero),
             InputType.OnSprint => GameManager.instance.inputManager.SprintInput,
             InputType.OnAttack => GameManager.instance.inputManager.AttackInput,
+            InputType.OnDodge => GameManager.instance.inputManager.DodgeInput,
+            InputType.HasDInput => GameManager.instance.inputManager.MoveInput.y < 0,
+            InputType.HasLInput => GameManager.instance.inputManager.MoveInput.x < 0,
+            InputType.HasRInput => GameManager.instance.inputManager.MoveInput.x > 0,
+            InputType.HasUInput => GameManager.instance.inputManager.MoveInput.y > 0,
             _ => false,
         };
     }

@@ -43,12 +43,6 @@ public class DatabaseManagerSO : ScriptableObject
         graffiriable.MaxGP = new(data.MaxGP);
     }
 
-    public void SetIInteractable(IInteractable interactable, IInteractable data)
-    {
-        interactable.Event = data.Event;
-        interactable.TriggerCoolTime = data.TriggerCoolTime;
-    }
-
     public void SetIMovable(IMovable movable, IMovable data)
     {
         movable.Speed = new(data.Speed);

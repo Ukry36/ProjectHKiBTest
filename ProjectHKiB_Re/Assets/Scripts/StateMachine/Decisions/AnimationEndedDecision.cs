@@ -5,9 +5,10 @@ public class AnimationEndedDecision : StateDecisionSO
 {
     public override bool Decide(StateController stateController)
     {
-        //if (stateController.animationController.animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
-        //    Debug.Log(stateController.animationController.animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
-        return stateController.animationController.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1;
-        //return stateController.animationEndTrigger;
+        if (stateController.TryGetInterface(out IEntityStateController controller))
+            //if (stateController.animationController.animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
+            //    Debug.Log(stateController.animationController.animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
+            return controller.AnimationController.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1;
+        return false;
     }
 }

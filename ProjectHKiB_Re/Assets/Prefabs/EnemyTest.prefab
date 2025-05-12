@@ -141,7 +141,7 @@ GameObject:
   - component: {fileID: 6324719739634341055}
   - component: {fileID: 6324719739634341052}
   - component: {fileID: 6324719739634341048}
-  - component: {fileID: 6324719739634341049}
+  - component: {fileID: 8621955497446118752}
   - component: {fileID: 6324719739634341054}
   - component: {fileID: 6324719739634341050}
   - component: {fileID: 6324719739634341051}
@@ -189,7 +189,7 @@ MonoBehaviour:
   movementManager: {fileID: 11400000, guid: 642ea6baceb016d4c8e15940b757d7cf, type: 2}
   <AttackController>k__BackingField: {fileID: 2486491832166465489}
   <AnimationController>k__BackingField: {fileID: 6324719739634341048}
-  <StateController>k__BackingField: {fileID: 6324719739634341049}
+  <StateController>k__BackingField: {fileID: 8621955497446118752}
   enemyBaseData: {fileID: 11400000, guid: a574bd1562b7754489379a3566a8ac17, type: 2}
   databaseManager: {fileID: 11400000, guid: 6bc54106ea95a9242946feafc44a5dfe, type: 2}
 --- !u!114 &6324719739634341048
@@ -206,7 +206,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 6324719739634341054}
   mathManager: {fileID: 11400000, guid: d70d30fe513b9cc4bb4206690e1ecbf7, type: 2}
---- !u!114 &6324719739634341049
+--- !u!114 &8621955497446118752
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -215,7 +215,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6324719739634341053}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9cc3d93f403efb2478fbe9396c854b9b, type: 3}
+  m_Script: {fileID: 11500000, guid: 52d526cc922a08140b7456248fe0e6a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   customVariables:
@@ -226,10 +226,8 @@ MonoBehaviour:
     floatVariables:
       _serializedList: []
   _currentState: {fileID: 0}
-  animationEndTrigger: 0
-  animationController: {fileID: 6324719739634341048}
-  lastChangeStateTime: 0
   TransitionConditions: 
+  <AnimationController>k__BackingField: {fileID: 6324719739634341048}
 --- !u!95 &6324719739634341054
 Animator:
   serializedVersion: 5

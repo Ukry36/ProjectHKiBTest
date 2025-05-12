@@ -15,12 +15,12 @@ public class EnemyDataSO : ScriptableObject, IMovable, IAttackable, IDamagable, 
     [field: SerializeField] public AudioDataSO FootStepAudio { get; set; }
     public FootstepController FootstepController { get; set; }
     public IMovable.ExternalForce ExForce { get; set; } = new();
+    public bool IsKnockbackMove { get; set; }
 
     [field: SerializeField] public StatContainer ATK { get; set; }
     [field: SerializeField] public StatContainer CriticalChanceRate { get; set; }
     [field: SerializeField] public StatContainer CriticalDamageRate { get; set; }
     [field: SerializeField] public AttackDataSO[] AttackDatas { get; set; }
-    public int LastAttackNum { get; set; }
     public AttackController AttackController { get; set; }
     [field: SerializeField] public LayerMask[] TargetLayers { get; set; }
     public Transform CurrentTarget { get; set; }
@@ -45,11 +45,12 @@ public class EnemyDataSO : ScriptableObject, IMovable, IAttackable, IDamagable, 
         throw new System.NotImplementedException();
     }
 
-    public void Damage(DamageDataSO damageData, IAttackable hitter) { }
+    public void Damage(DamageDataSO damageData, IAttackable hitter, Vector3 origin) { }
 
     public void OnDisable() { }
 
     public void KnockBack(Vector3 dir, float strength) { }
+    public void EndKnockbackEarly() { }
 
     public void Die()
     {

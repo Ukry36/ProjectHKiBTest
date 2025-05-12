@@ -1,9 +1,8 @@
 using System;
 using System.Collections;
-using UnityEditorInternal;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "State", menuName = "Scriptable Objects/State Machine/State", order = 2)]
+[CreateAssetMenu(fileName = "State", menuName = "Scriptable Objects/State Machine/State")]
 public class StateSO : ScriptableObject
 {
     [Serializable]
@@ -20,8 +19,6 @@ public class StateSO : ScriptableObject
         public StateActionSO action;
     }
 
-    public string animationName;
-    public bool directionDependent = true;
     public StateTransition[] transitions;
     public StateActionSO[] enterActions;
     public StateActionSO[] updateActions;
@@ -30,13 +27,12 @@ public class StateSO : ScriptableObject
     public SubDecision[] subDecisions;
     public FrameDecision[] frameDecisions;
 
-    public void EnterState(StateController stateController)
+    public virtual void EnterState(StateController stateController)
     {
         for (int i = 0; i < enterActions.Length; i++)
         {
             enterActions[i].Act(stateController);
         }
-        stateController.PlayStateAnimation(animationName, directionDependent);
         ReserveFrameDecisions(stateController);
         ReserveTransitions(stateController);
     }
@@ -111,7 +107,6 @@ public class StateSO : ScriptableObject
 
     public void ResetStateTimer(StateController stateController)
     {
-        stateController.lastChangeStateTime = 0;
         CancelFrameDecisions(stateController);
         ReserveFrameDecisions(stateController);
         ResetTransitionTimer(stateController);

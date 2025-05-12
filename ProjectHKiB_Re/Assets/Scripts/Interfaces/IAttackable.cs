@@ -6,7 +6,6 @@ public interface IAttackable
     public StatContainer CriticalChanceRate { get; set; }
     public StatContainer CriticalDamageRate { get; set; }
     public AttackDataSO[] AttackDatas { get; set; }
-    public int LastAttackNum { get; set; }
     public AttackController AttackController { get; set; }
     public LayerMask[] TargetLayers { get; set; }
     public Transform CurrentTarget { get; set; }

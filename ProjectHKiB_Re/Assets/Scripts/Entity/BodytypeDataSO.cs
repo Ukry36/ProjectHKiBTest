@@ -7,4 +7,5 @@ using AYellowpaper.SerializedCollections;
 public class BodytypeDataSO : ScriptableObject
 {
     public SerializedDictionary<AnimatorController, SpriteLibraryAsset> Bodytypes;
+    public SerializedDictionary<AnimatorController, Texture2D> MainTex;
 }

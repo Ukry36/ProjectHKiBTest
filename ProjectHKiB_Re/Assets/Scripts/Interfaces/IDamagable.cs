@@ -7,7 +7,7 @@ public interface IDamagable
     public StatContainer DEF { get; set; }
     public StatContainer Resistance { get; set; }
     public float Mass { get; set; }
-    public void Damage(DamageDataSO damageData, IAttackable hitter);
+    public void Damage(DamageDataSO damageData, IAttackable hitter, Vector3 origin);
     public void KnockBack(Vector3 dir, float strength);
     public void Die();
     public AudioDataSO HitSound { get; set; }

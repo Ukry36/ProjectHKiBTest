@@ -9,7 +9,6 @@ public class DamagableObject : Entity, IAttackable
     public StatContainer CriticalChanceRate { get; set; }
     public StatContainer CriticalDamageRate { get; set; }
     public AttackDataSO[] AttackDatas { get; set; }
-    public int LastAttackNum { get; set; }
     public AttackController AttackController { get; set; }
     public LayerMask[] TargetLayers { get; set; }
     public Transform CurrentTarget { get; set; }
@@ -36,7 +35,7 @@ public class DamagableObject : Entity, IAttackable
         this.dieWhenKnockBack = BaseData.DieWhenKnockBack;
     }
 
-    public override void Damage(DamageDataSO damageData, IAttackable hitter)
+    public override void Damage(DamageDataSO damageData, IAttackable hitter, Vector3 origin)
     {
         if (damageData.knockBack > Mass && dieWhenKnockBack)
         {
@@ -44,7 +43,7 @@ public class DamagableObject : Entity, IAttackable
             return;
         }
 
-        base.Damage(damageData, hitter);
+        base.Damage(damageData, hitter, origin);
     }
 
     public void Update()
