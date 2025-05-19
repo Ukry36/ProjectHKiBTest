@@ -5,13 +5,13 @@ public class InstantMove1AnimDir4Action : StateActionSO
     [SerializeField] private MovementManagerSO movementManager;
     public override void Act(StateController stateController)
     {
-        if (stateController.TryGetInterface(out IMovable movable) && stateController.TryGetInterface(out IEntityStateController controller))
+        if (stateController.TryGetInterface(out IMovable movable) && stateController.TryGetInterface(out IDirAnimatable animatable))
         {
             movementManager.InstantMove
             (
                 stateController.transform,
                 movable,
-                (Vector3)controller.AnimationController.LastSetAnimationDir4
+                (Vector3)animatable.AnimationController.LastSetAnimationDir4
             );
         }
         else

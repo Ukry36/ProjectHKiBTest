@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEditor.Animations;
 using UnityEngine;
 
-public class Enemy : Entity, IAttackAreaIndicatable, IPathFindable, IAttackable, IPoolable, IStateControllable
+public class Enemy : Entity, IAttackAreaIndicatable, IPathFindable, IAttackable, IPoolable, IEntityStateControllable
 {
     public AttackDataSO[] AttackDatas { get; set; }
     public StatContainer ATK { get; set; }
@@ -24,7 +24,7 @@ public class Enemy : Entity, IAttackAreaIndicatable, IPathFindable, IAttackable,
 
     public StateMachineSO StateMachine { get; set; }
     public AnimatorController AnimatorController { get; set; }
-    [field: SerializeField] public AnimationController AnimationController { get; set; }
+    [field: SerializeField] public DirAnimationController AnimationController { get; set; }
     [field: SerializeField] public StateController StateController { get; set; }
     public int LastAttackAreaIndicatorID { get; set; }
     public List<Vector3> PathList { get; set; }

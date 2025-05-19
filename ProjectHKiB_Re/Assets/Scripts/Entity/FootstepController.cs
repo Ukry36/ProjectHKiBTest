@@ -7,7 +7,7 @@ public class FootstepController : MonoBehaviour
     private List<AudioDataSO> footstepAudioList;
     [SerializeField] private CollisionManagerSO collisionManager;
 
-    [SerializeField] private AnimationController animationController;
+    [SerializeField] private DirAnimationController animationController;
 
     public void Start()
     {

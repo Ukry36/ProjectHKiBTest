@@ -4,9 +4,9 @@ public class EndEventAction : StateActionSO
 {
     public override void Act(StateController stateController)
     {
-        if (stateController.TryGetInterface(out IEventController controller))
+        if (stateController.TryGetInterface(out IEvent @event))
         {
-            controller.EndEvent();
+            @event.EndEvent();
         }
         else
             Debug.LogError("ERROR: Interface Not Found!!!");

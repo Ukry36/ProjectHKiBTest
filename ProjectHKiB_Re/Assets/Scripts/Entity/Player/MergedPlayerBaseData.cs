@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEditor.Animations;
 using UnityEngine;
-public class MergedPlayerBaseData : IMovable, IAttackable, IDodgeable, IDamagable, IGraffitiable, ISkinable, IStateControllable
+public class MergedPlayerBaseData : IMovable, IAttackable, IDodgeable, IDamagable, IGraffitiable, ISkinable, IEntityStateControllable
 {
     public MovePoint MovePoint { get; set; }
     public StatContainer Speed { get; set; }
@@ -46,7 +46,7 @@ public class MergedPlayerBaseData : IMovable, IAttackable, IDodgeable, IDamagabl
     public StateMachineSO StateMachine { get; set; }
     public AnimatorController AnimatorController { get; set; }
     public FootstepController FootstepController { get; set; }
-    public AnimationController AnimationController { get; set; }
+    public DirAnimationController AnimationController { get; set; }
     public StateController StateController { get; set; }
 
     public EntityTypeSO entityType;

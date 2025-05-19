@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public class InputManager : MonoBehaviour
 {
     public Vector2 MoveInput { get; private set; }
+    public Vector2 LastSetMoveInput { get; private set; }
     public bool MoveInputPressed { get; private set; }
     public bool DInput { get; private set; }
     public bool RInput { get; private set; }
@@ -97,6 +98,8 @@ public class InputManager : MonoBehaviour
             if (!stopPlayer)
             {
                 MoveInput = move.ReadValue<Vector2>();
+                if (MoveInput.x != 0 || MoveInput.y != 0)
+                    LastSetMoveInput = MoveInput;
                 MoveInputPressed = movePressedD.WasPressedThisFrame() || movePressedR.WasPressedThisFrame() || movePressedU.WasPressedThisFrame() || movePressedL.WasPressedThisFrame();
 
                 DInput = movePressedD.WasPressedThisFrame();

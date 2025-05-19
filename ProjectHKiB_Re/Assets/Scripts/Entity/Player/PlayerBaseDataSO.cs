@@ -2,7 +2,7 @@ using UnityEditor.Animations;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "PlayerBaseData", menuName = "Scriptable Objects/Data/PlayerBaseData", order = 1)]
-public class PlayerBaseDataSO : ScriptableObject, IMovable, IAttackable, IDodgeable, IDamagable, IGraffitiable, ISkinable, IStateControllable
+public class PlayerBaseDataSO : ScriptableObject, IMovable, IAttackable, IDodgeable, IDamagable, IGraffitiable, ISkinable, IEntityStateControllable
 {
     public MovePoint MovePoint { get; set; }
     [field: SerializeField] public StatContainer Speed { get; set; }
@@ -45,7 +45,7 @@ public class PlayerBaseDataSO : ScriptableObject, IMovable, IAttackable, IDodgea
 
     [field: SerializeField] public StateMachineSO StateMachine { get; set; }
     [field: SerializeField] public AnimatorController AnimatorController { get; set; }
-    public AnimationController AnimationController { get; set; }
+    public DirAnimationController AnimationController { get; set; }
     public StateController StateController { get; set; }
 
     public void Damage(DamageDataSO damageData, IAttackable hitter, Vector3 origin)

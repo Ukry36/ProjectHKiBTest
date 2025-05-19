@@ -5,9 +5,9 @@ public class WalkByLastSetAnimationDirAction : StateActionSO
     public MovementManagerSO movementManager;
     public override void Act(StateController stateController)
     {
-        if (stateController.TryGetInterface(out IMovable movable) && stateController.TryGetInterface(out IEntityStateController controller))
+        if (stateController.TryGetInterface(out IMovable movable) && stateController.TryGetInterface(out IDirAnimatable animatable))
         {
-            movementManager.WalkMove(stateController.transform, movable, controller.AnimationController.LastSetAnimationDir8);
+            movementManager.WalkMove(stateController.transform, movable, animatable.AnimationController.LastSetAnimationDir8);
         }
         else
             Debug.LogError("ERROR: Interface Not Found!!!");

@@ -40,7 +40,7 @@ public class StateSO : ScriptableObject
     public void ReserveFrameDecisions(StateController stateController)
     {
         for (int i = 0; i < frameDecisions.Length; i++)
-            stateController.FrameActionSequences[i] = stateController.StartCoroutine(DelayedActionCoroutine(frameDecisions[i], stateController));
+            stateController.FrameActionSequences[i] = stateController.StartCoroutine(DelayedActionCoroutine(i, stateController));
     }
 
     public void ReserveTransitions(StateController stateController)
@@ -48,7 +48,7 @@ public class StateSO : ScriptableObject
         for (int i = 0; i < transitions.Length; i++)
         {
             stateController.TransitionConditions[i] = false;
-            stateController.TransitionSequences[i] = stateController.StartCoroutine(TransitionWaitAvailableCoroutine(i, transitions[i], stateController));
+            stateController.TransitionSequences[i] = stateController.StartCoroutine(TransitionWaitAvailableCoroutine(i, stateController));
         }
     }
 
@@ -68,15 +68,18 @@ public class StateSO : ScriptableObject
         }
     }
 
-    public IEnumerator DelayedActionCoroutine(FrameDecision frameDecision, StateController stateController)
+    public IEnumerator DelayedActionCoroutine(int i, StateController stateController)
     {
-        yield return new WaitForSeconds(frameDecision.time);
-        frameDecision.action.Act(stateController);
+        if (!frameDecisions[i].action) yield break;
+        if (frameDecisions[i].time > 0)
+            yield return new WaitForSeconds(frameDecisions[i].time);
+        frameDecisions[i].action.Act(stateController);
     }
 
-    public IEnumerator TransitionWaitAvailableCoroutine(int i, StateTransition transition, StateController stateController)
+    public IEnumerator TransitionWaitAvailableCoroutine(int i, StateController stateController)
     {
-        yield return new WaitForSeconds(transition.availableTime);
+        if (transitions[i].availableTime > 0)
+            yield return new WaitForSeconds(transitions[i].availableTime);
         stateController.TransitionConditions[i] = true;
     }
 
@@ -86,30 +89,22 @@ public class StateSO : ScriptableObject
         {
             exitActions[i].Act(stateController);
         }
-        CancelFrameDecisions(stateController);
-        ResetTransitionTimer(stateController);
+        ResetTimers(stateController);
     }
 
-    private void CancelFrameDecisions(StateController stateController)
-    {
-        for (int i = 0; i < frameDecisions.Length; i++)
-            stateController.StopCoroutine(stateController.FrameActionSequences[i]);
-    }
-
-    private void ResetTransitionTimer(StateController stateController)
+    private void ResetTimers(StateController stateController)
     {
         for (int i = 0; i < transitions.Length; i++)
-        {
-            stateController.TransitionConditions[i] = false;
-            stateController.StopCoroutine(stateController.TransitionSequences[i]);
-        }
+            if (stateController.TransitionConditions[i])
+                stateController.TransitionConditions[i] = false;
+
+        stateController.StopAllCoroutines();
     }
 
     public void ResetStateTimer(StateController stateController)
     {
-        CancelFrameDecisions(stateController);
         ReserveFrameDecisions(stateController);
-        ResetTransitionTimer(stateController);
+        ResetTimers(stateController);
         ReserveTransitions(stateController);
     }
 

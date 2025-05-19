@@ -3,7 +3,7 @@ using UnityEngine.U2D.Animation;
 using System;
 using UnityEditor.Animations;
 [Serializable]
-public class Player : Entity, IAttackable, IDodgeable, IGraffitiable, ISkinable, IStateControllable
+public class Player : Entity, IAttackable, IDodgeable, IGraffitiable, ISkinable, IEntityStateControllable
 {
 
     #region field
@@ -71,7 +71,7 @@ public class Player : Entity, IAttackable, IDodgeable, IGraffitiable, ISkinable,
     }
     [SerializeField] private float canInteractHeight;
     public bool Caninteract { get; private set; }
-    [field: SerializeField] public AnimationController AnimationController { get; set; }
+    [field: SerializeField] public DirAnimationController AnimationController { get; set; }
     [field: SerializeField] public StateController StateController { get; set; }
 
     // height based movement test!!!
@@ -112,8 +112,9 @@ public class Player : Entity, IAttackable, IDodgeable, IGraffitiable, ISkinable,
 
     private void SetStateController()
     {
-        StateController.Initialize(StateMachine);
         StateController.RegisterInterface<IMovable>(this);
         StateController.RegisterInterface<IAttackable>(this);
+        StateController.RegisterInterface<IDirAnimatable>(this);
+        StateController.Initialize(StateMachine);
     }
 }

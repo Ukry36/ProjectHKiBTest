@@ -6,7 +6,7 @@ public class AttackMoveGeneralAction : StateActionSO
     [SerializeField] private TargetingManagerSO targetingManager;
     public override void Act(StateController stateController)
     {
-        if (stateController.TryGetInterface(out IAttackable attackable) && stateController.TryGetInterface(out IMovable movable) && stateController.TryGetInterface(out IEntityStateController controller))
+        if (stateController.TryGetInterface(out IAttackable attackable) && stateController.TryGetInterface(out IMovable movable) && stateController.TryGetInterface(out IDirAnimatable animatable))
         {
             if (attackable.AttackDatas.Equals(null))
             {
@@ -20,7 +20,7 @@ public class AttackMoveGeneralAction : StateActionSO
             AttackDataSO attackData = attackable.AttackDatas[attackable.AttackController.AttackNumber];
             int moveRadius = attackData.attackMoveMaxRange;
             Transform thisTransform = stateController.transform;
-            AnimationController AC = controller.AnimationController;
+            DirAnimationController AC = animatable.AnimationController;
             Transform target;
             if (!attackable.CurrentTarget)
             {

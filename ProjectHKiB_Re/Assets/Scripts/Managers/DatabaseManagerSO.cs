@@ -58,7 +58,7 @@ public class DatabaseManagerSO : ScriptableObject
         skinable.SkinData = data.SkinData;
     }
 
-    public void SetIStateControllable(IStateControllable stateControllable, IStateControllable data)
+    public void SetIStateControllable(IEntityStateControllable stateControllable, IEntityStateControllable data)
     {
         stateControllable.AnimatorController = data.AnimatorController;
         stateControllable.StateMachine = data.StateMachine;

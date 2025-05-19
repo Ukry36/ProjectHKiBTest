@@ -6,7 +6,7 @@ public class AttackMovePlayerAction : StateActionSO
     public TargetingManagerSO targetingManager;
     public override void Act(StateController stateController)
     {
-        if (stateController.TryGetInterface(out IAttackable attackable) && stateController.TryGetInterface(out IMovable movable) && stateController.TryGetInterface(out IEntityStateController controller))
+        if (stateController.TryGetInterface(out IAttackable attackable) && stateController.TryGetInterface(out IMovable movable) && stateController.TryGetInterface(out IDirAnimatable animatable))
         {
             if (attackable.AttackDatas.Equals(null))
             {
@@ -21,7 +21,7 @@ public class AttackMovePlayerAction : StateActionSO
             int moveRadius;
             bool autoTarget = attackData.isAutoTarget;
             Transform thisTransform = stateController.transform;
-            AnimationController AC = controller.AnimationController;
+            DirAnimationController AC = animatable.AnimationController;
             Transform target;
 
             if (!GameManager.instance.inputManager.MoveInput.Equals(Vector2.zero))

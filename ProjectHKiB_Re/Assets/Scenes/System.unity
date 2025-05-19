@@ -341,6 +341,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 327803490}
+  <CurrentAnimation>k__BackingField: 
   mathManager: {fileID: 11400000, guid: d70d30fe513b9cc4bb4206690e1ecbf7, type: 2}
 --- !u!61 &327803493
 BoxCollider2D:
@@ -378,7 +379,7 @@ Rigidbody2D:
   m_GameObject: {fileID: 327803487}
   m_BodyType: 1
   m_Simulated: 1
-  m_UseFullKinematicContacts: 0
+  m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
@@ -386,8 +387,8 @@ Rigidbody2D:
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
-  m_SleepingMode: 0
-  m_CollisionDetection: 0
+  m_SleepingMode: 2
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!81 &327803495
 AudioListener:
@@ -455,7 +456,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 327803487}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52d526cc922a08140b7456248fe0e6a2, type: 3}
+  m_Script: {fileID: 11500000, guid: 9cc3d93f403efb2478fbe9396c854b9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   customVariables:
@@ -467,7 +468,6 @@ MonoBehaviour:
       _serializedList: []
   _currentState: {fileID: 0}
   TransitionConditions: 
-  <AnimationController>k__BackingField: {fileID: 327803492}
 --- !u!1 &681393687
 GameObject:
   m_ObjectHideFlags: 0
@@ -1498,7 +1498,7 @@ Camera:
   far clip plane: 5000
   field of view: 40
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 7
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
