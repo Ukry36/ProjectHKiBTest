@@ -27,13 +27,13 @@ public class DamagableObjectDataSO : ScriptableObject, IDamagable, IMovable, IAt
     public StatContainer CriticalChanceRate { get; set; }
     public StatContainer CriticalDamageRate { get; set; }
     public AttackDataSO[] AttackDatas { get; set; }
-    public int LastAttackNum { get; set; }
     public AttackController AttackController { get; set; }
     public LayerMask[] TargetLayers { get; set; }
     public Transform CurrentTarget { get; set; }
     [field: SerializeField] public DamageParticleDataSO DamageParticle { get; set; }
+    public bool IsKnockbackMove { get; set; }
 
-    public void Damage(DamageDataSO damageData, IAttackable hitter) { }
+    public void Damage(DamageDataSO damageData, IAttackable hitter, Vector3 origin) { }
 
     public void Die()
     {
@@ -45,8 +45,6 @@ public class DamagableObjectDataSO : ScriptableObject, IDamagable, IMovable, IAt
         throw new System.NotImplementedException();
     }
 
-    public void KnockBack(Vector3 dir, float strength)
-    {
-        throw new System.NotImplementedException();
-    }
+    public void KnockBack(Vector3 dir, float strength) { }
+    public void EndKnockbackEarly() { }
 }

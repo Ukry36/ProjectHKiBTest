@@ -35,6 +35,8 @@ public interface IMovable
     public MovePoint MovePoint { get; set; }
     public FootstepController FootstepController { get; set; }
     public ExternalForce ExForce { get; set; }
+    public bool IsKnockbackMove { get; set; }
 
     public void KnockBack(Vector3 dir, float strength);
+    public void EndKnockbackEarly();
 }

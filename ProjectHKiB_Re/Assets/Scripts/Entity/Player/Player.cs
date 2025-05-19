@@ -11,7 +11,6 @@ public class Player : Entity, IAttackable, IDodgeable, IGraffitiable, ISkinable,
     public StatContainer CriticalChanceRate { get; set; }
     public StatContainer CriticalDamageRate { get; set; }
     public AttackDataSO[] AttackDatas { get; set; }
-    public int LastAttackNum { get; set; }
     [field: SerializeField] public AttackController AttackController { get; set; }
     public LayerMask[] TargetLayers { get; set; }
     public Transform CurrentTarget { get; set; }
@@ -104,18 +103,12 @@ public class Player : Entity, IAttackable, IDodgeable, IGraffitiable, ISkinable,
     {
         PlayerBaseData = realGear;
         Initialize();
-        SetAnimationController();
         SetStateController();
-        SetFootStepController();
-        SetAttackController();
-        SetSkin();
+        FootstepController.ChangeDefaultFootStepAudio(FootStepAudio);
+        AttackController.SetAttacker(this);
+        SkinData.SetSKin(spriteLibrary, AnimatorController, spriteRenderer);
+        AnimationController.Initialize(AnimatorController);
     }
-
-    private void SetSkin()
-    => SkinData.SetSKin(spriteLibrary, AnimatorController, spriteRenderer);
-
-    private void SetAnimationController()
-    => AnimationController.animator.runtimeAnimatorController = AnimatorController;
 
     private void SetStateController()
     {
@@ -123,10 +116,4 @@ public class Player : Entity, IAttackable, IDodgeable, IGraffitiable, ISkinable,
         StateController.RegisterInterface<IMovable>(this);
         StateController.RegisterInterface<IAttackable>(this);
     }
-
-    private void SetFootStepController()
-    => FootstepController.ChangeDefaultFootStepAudio(FootStepAudio);
-
-    private void SetAttackController()
-    => AttackController.SetAttacker(this);
 }

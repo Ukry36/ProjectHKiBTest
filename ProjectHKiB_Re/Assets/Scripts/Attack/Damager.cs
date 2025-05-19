@@ -40,7 +40,7 @@ public class Damager : MonoBehaviour
         _damageData = damageData;
     }
 
-    private Collider2D[] col = new Collider2D[72];
+    private readonly Collider2D[] col = new Collider2D[72];
     public void Damage()
     {
         trig = 5;
@@ -62,7 +62,7 @@ public class Damager : MonoBehaviour
         {
             if (col[i].TryGetComponent(out IDamagable component))
             {
-                component.Damage(_damageData, _attackable);
+                component.Damage(_damageData, _attackable, _damageData.downwardDamageArea.pivot + this.transform.position);
             }
         }
     }

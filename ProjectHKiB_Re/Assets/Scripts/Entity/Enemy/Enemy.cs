@@ -1,15 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEditor.Animations;
 using UnityEngine;
 
-public class Enemy : Entity, IAttackable, IPoolable, IStateControllable
+public class Enemy : Entity, IAttackAreaIndicatable, IPathFindable, IAttackable, IPoolable, IStateControllable
 {
     public AttackDataSO[] AttackDatas { get; set; }
     public StatContainer ATK { get; set; }
-    public int LastAttackNum { get; set; }
     public LayerMask[] TargetLayers { get; set; }
     public Transform CurrentTarget { get; set; }
     public DamageParticleDataSO DamageParticle { get; set; }
@@ -28,6 +26,8 @@ public class Enemy : Entity, IAttackable, IPoolable, IStateControllable
     public AnimatorController AnimatorController { get; set; }
     [field: SerializeField] public AnimationController AnimationController { get; set; }
     [field: SerializeField] public StateController StateController { get; set; }
+    public int LastAttackAreaIndicatorID { get; set; }
+    public List<Vector3> PathList { get; set; }
 
     public EnemyDataSO enemyBaseData;
     [SerializeField] private DatabaseManagerSO databaseManager;
@@ -72,7 +72,8 @@ public class Enemy : Entity, IAttackable, IPoolable, IStateControllable
         StateController.Initialize(StateMachine);
         StateController.RegisterInterface<IMovable>(this);
         StateController.RegisterInterface<IAttackable>(this);
-        StateController.RegisterInterface(this);
+        StateController.RegisterInterface<IAttackAreaIndicatable>(this);
+        StateController.RegisterInterface<IPathFindable>(this);
     }
 
     public void InitializeFromPool(EnemyDataSO enemyData)
@@ -80,7 +81,7 @@ public class Enemy : Entity, IAttackable, IPoolable, IStateControllable
         enemyBaseData = enemyData;
     }
 
-    public List<Vector3> PathList { get; private set; } = new(10);
+
     public IEnumerator PathfindCoroutine()
     {
         while (true)
@@ -117,5 +118,12 @@ public class Enemy : Entity, IAttackable, IPoolable, IStateControllable
     public void OnDisable()
     {
         OnGameObjectDisabled?.Invoke(enemyBaseData.GetInstanceID(), this.gameObject.GetHashCode());
+    }
+
+    public override void Die()
+    {
+        if (LastAttackAreaIndicatorID != 0)
+            GameManager.instance.attackAreaIndicatorManager.StopIndicating(LastAttackAreaIndicatorID);
+        base.Die();
     }
 }

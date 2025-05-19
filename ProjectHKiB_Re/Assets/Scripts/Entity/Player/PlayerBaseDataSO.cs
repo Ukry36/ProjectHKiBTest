@@ -13,12 +13,12 @@ public class PlayerBaseDataSO : ScriptableObject, IMovable, IAttackable, IDodgea
     [field: SerializeField] public AudioDataSO FootStepAudio { get; set; }
     public FootstepController FootstepController { get; set; }
     public IMovable.ExternalForce ExForce { get; set; } = new();
+    public bool IsKnockbackMove { get; set; }
 
     [field: SerializeField] public StatContainer ATK { get; set; }
     [field: SerializeField] public StatContainer CriticalChanceRate { get; set; }
     [field: SerializeField] public StatContainer CriticalDamageRate { get; set; }
     [field: SerializeField] public AttackDataSO[] AttackDatas { get; set; }
-    public int LastAttackNum { get; set; }
     public AttackController AttackController { get; set; }
     [field: SerializeField] public LayerMask[] TargetLayers { get; set; }
     public Transform CurrentTarget { get; set; }
@@ -39,7 +39,7 @@ public class PlayerBaseDataSO : ScriptableObject, IMovable, IAttackable, IDodgea
     [field: SerializeField] public ParticlePlayer HitParticle { get; set; }
 
     [field: SerializeField] public StatContainer MaxGP { get; set; }
-    public StatContainer GP { get; set; }
+    [field: SerializeField] public StatContainer GP { get; set; }
 
     [field: SerializeField] public SkinDataSO SkinData { get; set; }
 
@@ -48,7 +48,7 @@ public class PlayerBaseDataSO : ScriptableObject, IMovable, IAttackable, IDodgea
     public AnimationController AnimationController { get; set; }
     public StateController StateController { get; set; }
 
-    public void Damage(DamageDataSO damageData, IAttackable hitter)
+    public void Damage(DamageDataSO damageData, IAttackable hitter, Vector3 origin)
     {
         throw new System.NotImplementedException();
     }
@@ -63,8 +63,6 @@ public class PlayerBaseDataSO : ScriptableObject, IMovable, IAttackable, IDodgea
         throw new System.NotImplementedException();
     }
 
-    public void KnockBack(Vector3 dir, float strength)
-    {
-        throw new System.NotImplementedException();
-    }
+    public void KnockBack(Vector3 dir, float strength) { }
+    public void EndKnockbackEarly() { }
 }

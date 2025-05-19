@@ -11,6 +11,8 @@ public class MergedPlayerBaseData : IMovable, IAttackable, IDodgeable, IDamagabl
     public LayerMask CanPushLayer { get; set; }
     public bool IsSprinting { get; set; }
     public AudioDataSO FootStepAudio { get; set; }
+    public IMovable.ExternalForce ExForce { get; set; } = new();
+    public bool IsKnockbackMove { get; set; }
 
     public StatContainer ATK { get; set; }
     public StatContainer CriticalChanceRate { get; set; }
@@ -44,14 +46,13 @@ public class MergedPlayerBaseData : IMovable, IAttackable, IDodgeable, IDamagabl
     public StateMachineSO StateMachine { get; set; }
     public AnimatorController AnimatorController { get; set; }
     public FootstepController FootstepController { get; set; }
-    public IMovable.ExternalForce ExForce { get; set; } = new();
     public AnimationController AnimationController { get; set; }
     public StateController StateController { get; set; }
 
     public EntityTypeSO entityType;
     public GearTypeSO gearType;
 
-    public void Damage(DamageDataSO damageData, IAttackable hitter)
+    public void Damage(DamageDataSO damageData, IAttackable hitter, Vector3 origin)
     {
         throw new NotImplementedException();
     }
@@ -61,10 +62,8 @@ public class MergedPlayerBaseData : IMovable, IAttackable, IDodgeable, IDamagabl
         throw new NotImplementedException();
     }
 
-    public void KnockBack(Vector3 dir, float strength)
-    {
-        throw new NotImplementedException();
-    }
+    public void KnockBack(Vector3 dir, float strength) { }
+    public void EndKnockbackEarly() { }
 
     public void Die()
     {

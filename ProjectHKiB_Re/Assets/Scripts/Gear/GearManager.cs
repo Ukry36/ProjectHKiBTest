@@ -7,7 +7,7 @@ public class GearManager : MonoBehaviour
     [SerializeField] private bool merge;
     [SerializeField] private Player player;
 
-    public void Awake()
+    public void Start()
     {
         gearMergeManager.OnRealGearMade += player.SetGear;
         gearMergeManager.MergeGears(equippedGears);

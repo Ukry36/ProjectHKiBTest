@@ -5,13 +5,11 @@ public class DamageAction : StateActionSO
     public int damageNumber;
     public override void Act(StateController stateController)
     {
-        var attackable = stateController.GetInterface<IAttackable>();
-        if (attackable != null)
+        if (stateController.TryGetInterface(out IAttackable attackable))
         {
             attackable.AttackController.Attack(damageNumber);
         }
         else
             Debug.LogError("ERROR: Interface Not Found!!!");
-
     }
 }

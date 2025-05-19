@@ -42,7 +42,7 @@ public class MovementManagerSO : ScriptableObject
     public IEnumerator KnockBackCoroutine(Transform entityTransform, IMovable movable, Vector3 dir, float strength, float mass, KnockBackEnded KnockBackEnded)
     {
         strength -= mass;
-        Debug.Log("started, (" + dir.x + ", " + dir.y + "), " + strength);
+        //Debug.Log("started, (" + dir.x + ", " + dir.y + "), " + strength);
         yield return knockBackWaitTime;
         dir = dir.normalized;
         Vector3 storedDir = dir;
@@ -101,7 +101,7 @@ public class MovementManagerSO : ScriptableObject
 
     public void EndKnockbackEarly(Transform entityTransform, IMovable movable)
     {
-        Debug.Log("canceled");
+        //Debug.Log("canceled");
         movable.ExForce.SetForce[this.GetInstanceID() * KNOCKBACKFORCEID] = Vector3.zero;
         entityTransform.position = movable.MovePoint.transform.position;
     }

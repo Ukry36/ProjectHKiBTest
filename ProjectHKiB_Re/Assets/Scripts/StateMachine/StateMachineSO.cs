@@ -4,5 +4,5 @@ using UnityEngine;
 public class StateMachineSO : ScriptableObject
 {
     public CustomVariableSets customVariables;
-    public StateSO initialState;
+    public EntityStateSO initialState;
 }

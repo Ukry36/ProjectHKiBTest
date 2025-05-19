@@ -4,15 +4,18 @@ public class AttackAreaIndicateAction : StateActionSO
 {
     public override void Act(StateController stateController)
     {
-        if (stateController.TryGetInterface(out IAttackable attackable) && stateController.TryGetInterface(out IMovable movable))
+        if (stateController.TryGetInterface(out IAttackable attackable) && stateController.TryGetInterface(out IAttackAreaIndicatable areaIndicatable) && stateController.TryGetInterface(out IEntityStateController controller))
         {
+            areaIndicatable.LastAttackAreaIndicatorID =
             GameManager.instance.attackAreaIndicatorManager.IndicateAttackArea
             (
                 attackable.AttackDatas[attackable.AttackController.AttackNumber].attackAreaIndicatorData,
-                movable.MovePoint.transform,
-                stateController.animationController.LastSetAnimationQuaternion4
+                stateController.transform,
+                controller.AnimationController.LastSetAnimationQuaternion4,
+                () => areaIndicatable.LastAttackAreaIndicatorID = 0
             );
         }
-
+        else
+            Debug.LogError("ERROR: Interface Not Found!!!");
     }
 }

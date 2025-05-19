@@ -118,6 +118,7 @@ public class AttackAreaIndicatorManager : PoolManager<AttackAreaIndicator>
 */
 
 //* // DOTween ver!
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -174,9 +175,11 @@ public class AttackAreaIndicatorManager : PoolManager<AttackAreaIndicator>
     }
 
     public void StopIndicating(int instanceID)
-        => sequences[instanceID].Complete();
+    {
+        sequences[instanceID]?.Complete();
+    }
 
-    public int IndicateAttackArea(AttackAreaIndicatorData indicatorData, Transform transform, Quaternion quaternion)
+    public int IndicateAttackArea(AttackAreaIndicatorData indicatorData, Transform transform, Quaternion quaternion, TweenCallback indicateEndedCallBack = null)
     {
         AttackAreaIndicator indicator = ReuseObject(prefab.GetInstanceID(), transform, quaternion, false);
 
@@ -189,8 +192,9 @@ public class AttackAreaIndicatorManager : PoolManager<AttackAreaIndicator>
         Sequence sequence = DOTween.Sequence();
         sequence.Join(indicator.indicatorInner.transform.DOLocalMove(indicatorData.downwardIndicatorArea.offset, indicatorData.time));
         sequence.Join(DOTween.To(() => indicator.indicatorInner.size, v => indicator.indicatorInner.size = v, indicatorData.downwardIndicatorArea.size, indicatorData.time));
-        sequence.AppendCallback(() => EndIndicatingCallback(indicator));
+        sequence.OnComplete(() => { EndIndicatingCallback(indicator); indicateEndedCallBack.Invoke(); });
         DOTween.Play(sequence);
+        sequences[indicator.GetInstanceID()] = sequence;
         return indicator.GetInstanceID();
     }
 

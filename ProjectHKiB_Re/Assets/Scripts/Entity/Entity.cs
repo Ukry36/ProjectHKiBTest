@@ -20,11 +20,11 @@ public abstract class Entity : MonoBehaviour, IDamagable, IMovable
     [field: SerializeField] public FootstepController FootstepController { get; set; }
     public IMovable.ExternalForce ExForce { get; set; } = new(true);
 
-    public virtual void Damage(DamageDataSO damageData, IAttackable hitter)
+    public virtual void Damage(DamageDataSO damageData, IAttackable hitter, Vector3 origin)
     {
         if (damageData.knockBack > Mass)
         {
-            KnockBack(transform.position - damageData.downwardDamageArea.pivot, damageData.knockBack);
+            KnockBack(transform.position - origin, damageData.knockBack);
         }
         damageManager.Damage(damageData, hitter, this, transform);
 
@@ -39,10 +39,10 @@ public abstract class Entity : MonoBehaviour, IDamagable, IMovable
 
     [SerializeField] protected DamageManagerSO damageManager;
     [SerializeField] protected MovementManagerSO movementManager;
-    private bool isKnockbacking;
+    public bool IsKnockbackMove { get; set; } = false;
     private Coroutine knockBackCoroutine;
     private MovementManagerSO.KnockBackEnded OnKnockBackEnded;
-    protected virtual void KnockBackEndCallback() => isKnockbacking = false;
+    protected virtual void KnockBackEndCallback() => IsKnockbackMove = false;
     protected virtual void Awake()
     {
         OnKnockBackEnded += KnockBackEndCallback;
@@ -52,15 +52,24 @@ public abstract class Entity : MonoBehaviour, IDamagable, IMovable
         OnKnockBackEnded -= KnockBackEndCallback;
     }
 
-    public virtual void KnockBack(Vector3 dir, float strength)
+    public virtual void EndKnockbackEarly()
     {
-        if (strength < Mass) return;
-        if (isKnockbacking)
+        if (IsKnockbackMove)
         {
             movementManager.EndKnockbackEarly(transform, this);
             StopCoroutine(knockBackCoroutine);
         }
-        isKnockbacking = true;
+        KnockBackEndCallback();
+    }
+
+    public virtual void KnockBack(Vector3 dir, float strength)
+    {
+        if (strength < Mass) return;
+        if (IsKnockbackMove)
+        {
+            EndKnockbackEarly();
+        }
+        IsKnockbackMove = true;
         knockBackCoroutine =
         StartCoroutine(movementManager.KnockBackCoroutine(transform, this, dir, strength, Mass, OnKnockBackEnded));
     }

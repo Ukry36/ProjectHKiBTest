@@ -1,21 +1,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using DG.Tweening;
 
 public class StateController : MonoBehaviour
 {
     [HideInInspector] public CustomVariableSets customVariables = new();
-    [NaughtyAttributes.ReadOnly][SerializeField] private StateSO _currentState;
+    [NaughtyAttributes.ReadOnly][SerializeField] protected StateSO _currentState;
     public StateSO CurrentState { get => _currentState; }
-    [HideInInspector] public bool animationEndTrigger;
-    public AnimationController animationController;
-    [HideInInspector] public float lastChangeStateTime;
-    public List<Coroutine> FrameActionSequences = new(36);
-    public List<Coroutine> TransitionSequences = new(36);
-    public List<bool> TransitionConditions = new(36);
+    [HideInInspector] public List<Coroutine> FrameActionSequences = new(36);
+    [HideInInspector] public List<Coroutine> TransitionSequences = new(36);
+    [HideInInspector] public List<bool> TransitionConditions = new(36);
+    private readonly Dictionary<Type, object> _interfaces = new();
 
-    private void Awake()
+    protected virtual void Awake()
     {
         for (int i = 0; i < 36; i++)
         {
@@ -24,8 +21,6 @@ public class StateController : MonoBehaviour
             TransitionConditions.Add(false);
         }
     }
-
-    private readonly Dictionary<Type, object> _interfaces = new();
 
     public void RegisterInterface<T>(T implementation) where T : class
     {
@@ -55,24 +50,32 @@ public class StateController : MonoBehaviour
         }
     }
 
-    public void ChangeState(StateSO state)
+    public virtual void ChangeState(StateSO state)
     {
-        lastChangeStateTime = Time.time;
-        animationEndTrigger = false;
         _currentState.ExitState(this);
         state.EnterState(this);
         _currentState = state;
     }
 
-    public void Update()
+    public void UpdateState()
     {
         _currentState.UpdateState(this);
         //Debug.Log("CheckTransition: " + _currentState.name);
         _currentState.CheckTransition(this);
     }
 
+    public void Update()
+    {
+        UpdateState();
+    }
+
     public void Initialize(StateMachineSO stateMachine)
     {
+        if (stateMachine == null)
+        {
+            Debug.LogError("ERROR: StateMachine missing!!!");
+            return;
+        }
         _currentState = stateMachine.initialState;
         _currentState.EnterState(this);
         customVariables = stateMachine.customVariables;
@@ -80,17 +83,6 @@ public class StateController : MonoBehaviour
         ///  HAVE TO FIX THIS NOT TO DEEP REFERENCE CUSTOMVARS!!!
         //////
     }
-
-    public void PlayStateAnimation(string animationName, bool directionDependent)
-    {
-        if (animationController)
-            animationController.Play(animationName, directionDependent);
-        else
-            Debug.LogWarning("Warning: animationController missing!!!");
-    }
-
-    public void AnimationEndTrigger()
-    => animationEndTrigger = true;
 
     public void SetBoolParameterTrue(string name)
     {
