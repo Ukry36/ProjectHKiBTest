@@ -1,5 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -11,6 +11,9 @@ public class GameManager : MonoBehaviour
     public AttackAreaIndicatorManager attackAreaIndicatorManager;
     public InputManager inputManager;
     public PathFindingManager pathFindingManager;
+    public ChunkManager chunkManager;
+    public CameraManager cameraManager;
+    public CooltimeManager cooltimeManager;
 
     public Transform player;
 
@@ -18,6 +21,5 @@ public class GameManager : MonoBehaviour
     {
         instance = this;
     }
-
 
 }

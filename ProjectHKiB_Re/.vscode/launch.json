@@ -1,10 +1,29 @@
 {
-    "version": "0.2.0",
-    "configurations": [
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Attach to Unity",
+      "type": "vstuc",
+      "request": "attach"
+    },
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "cppdbg",
+      "request": "launch",
+      "args": [],
+      "stopAtEntry": false,
+      "externalConsole": true,
+      "cwd": "d:/UKry/Collage/3rd/컴퓨터구조/HW1",
+      "program": "d:/UKry/Collage/3rd/컴퓨터구조/HW1/build/Debug/outDebug",
+      "MIMode": "gdb",
+      "miDebuggerPath": "gdb",
+      "setupCommands": [
         {
-            "name": "Attach to Unity",
-            "type": "vstuc",
-            "request": "attach"
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
         }
-     ]
+      ]
+    }
+  ]
 }

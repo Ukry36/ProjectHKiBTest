@@ -3,7 +3,7 @@ using UnityEngine.U2D.Animation;
 using System;
 using UnityEditor.Animations;
 [Serializable]
-public class Player : Entity, IAttackable, IDodgeable, IGraffitiable, ISkinable, IStateControllable
+public class Player : Entity, IAttackable, IDodgeable, IGraffitiable, ISkinable, IEntityStateControllable
 {
 
     #region field
@@ -32,10 +32,15 @@ public class Player : Entity, IAttackable, IDodgeable, IGraffitiable, ISkinable,
         }
     }
     //*/
-    public StatContainer DodgeCooltime { get; set; }
+    public Cooltime DodgeCooltime { get; set; }
+    public StatContainer InitialDodgeMaxDistance { get; set; }
+    public StatContainer DodgeSpeed { get; set; }
     public StatContainer ContinuousDodgeLimit { get; set; }
-    public StatContainer KeepDodgeMaxTime { get; set; }
+    public LayerMask KeepDodgeWallLayer { get; set; }
+    public Cooltime KeepDodgeMaxTime { get; set; }
     public StatContainer KeepDodgeMaxDistance { get; set; }
+    public Cooltime DodgeInvincibleTime { get; set; }
+    public int TotalDodgeCount { get; set; }
 
     public StatContainer MaxGP { get; set; }
     public StatContainer GP { get; set; }
@@ -71,7 +76,7 @@ public class Player : Entity, IAttackable, IDodgeable, IGraffitiable, ISkinable,
     }
     [SerializeField] private float canInteractHeight;
     public bool Caninteract { get; private set; }
-    [field: SerializeField] public AnimationController AnimationController { get; set; }
+    [field: SerializeField] public DirAnimationController AnimationController { get; set; }
     [field: SerializeField] public StateController StateController { get; set; }
 
     // height based movement test!!!
@@ -112,8 +117,9 @@ public class Player : Entity, IAttackable, IDodgeable, IGraffitiable, ISkinable,
 
     private void SetStateController()
     {
-        StateController.Initialize(StateMachine);
         StateController.RegisterInterface<IMovable>(this);
         StateController.RegisterInterface<IAttackable>(this);
+        StateController.RegisterInterface<IDirAnimatable>(this);
+        StateController.Initialize(StateMachine);
     }
 }

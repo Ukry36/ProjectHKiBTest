@@ -2,15 +2,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class StateController : MonoBehaviour
+public class StateController : MonoBehaviour, IInterfaceRegistable
 {
     [HideInInspector] public CustomVariableSets customVariables = new();
     [NaughtyAttributes.ReadOnly][SerializeField] protected StateSO _currentState;
-    public StateSO CurrentState { get => _currentState; }
+    public StateSO CurrentState
+    {
+        get => _currentState;
+        private set
+        {
+            if (value != _currentState)
+                _currentState = value;
+            //Debug.Log(_currentState);
+        }
+    }
     [HideInInspector] public List<Coroutine> FrameActionSequences = new(36);
     [HideInInspector] public List<Coroutine> TransitionSequences = new(36);
     [HideInInspector] public List<bool> TransitionConditions = new(36);
-    private readonly Dictionary<Type, object> _interfaces = new();
+    public Dictionary<Type, object> Interfaces { get; set; } = new();
 
     protected virtual void Awake()
     {
@@ -24,12 +33,12 @@ public class StateController : MonoBehaviour
 
     public void RegisterInterface<T>(T implementation) where T : class
     {
-        _interfaces[typeof(T)] = implementation;
+        Interfaces[typeof(T)] = implementation;
     }
 
     public T GetInterface<T>() where T : class
     {
-        if (_interfaces.TryGetValue(typeof(T), out var implementation))
+        if (Interfaces.TryGetValue(typeof(T), out var implementation))
         {
             return implementation as T;
         }
@@ -38,7 +47,7 @@ public class StateController : MonoBehaviour
 
     public bool TryGetInterface<T>(out T item) where T : class
     {
-        if (_interfaces.TryGetValue(typeof(T), out var implementation))
+        if (Interfaces.TryGetValue(typeof(T), out var implementation))
         {
             item = implementation as T;
             return true;
@@ -50,38 +59,59 @@ public class StateController : MonoBehaviour
         }
     }
 
+    public void RegisterModules(Transform transform)
+    {
+        InterfaceModule[] interfaceModules = transform.GetComponents<InterfaceModule>();
+        for (int i = 0; i < interfaceModules.Length; i++)
+        {
+            interfaceModules[i].Register(this);
+        }
+    }
+
     public virtual void ChangeState(StateSO state)
     {
-        _currentState.ExitState(this);
-        state.EnterState(this);
-        _currentState = state;
+        CurrentState.ExitState(this);
+        CurrentState = state;
+        CurrentState.EnterState(this);
     }
 
     public void UpdateState()
     {
-        _currentState.UpdateState(this);
+        CurrentState.UpdateState(this);
         //Debug.Log("CheckTransition: " + _currentState.name);
-        _currentState.CheckTransition(this);
+        CurrentState.CheckTransition(this);
     }
 
     public void Update()
     {
-        UpdateState();
+        if (this.enabled && CurrentState)
+            UpdateState();
     }
 
     public void Initialize(StateMachineSO stateMachine)
     {
-        if (stateMachine == null)
-        {
-            Debug.LogError("ERROR: StateMachine missing!!!");
-            return;
-        }
-        _currentState = stateMachine.initialState;
-        _currentState.EnterState(this);
+        ResetStateMachine(stateMachine);
         customVariables = stateMachine.customVariables;
         //////
         ///  HAVE TO FIX THIS NOT TO DEEP REFERENCE CUSTOMVARS!!!
         //////
+    }
+
+    public void ResetStateMachine(StateMachineSO stateMachine)
+    {
+        if (stateMachine == null)
+        {
+            Debug.LogError("ERROR: StateMachine Missing!!!");
+            return;
+        }
+        CurrentState = stateMachine.initialState;
+        CurrentState.EnterState(this);
+    }
+
+    public void EliminateStateMachine()
+    {
+        CurrentState = null;
+        StopAllCoroutines();
     }
 
     public void SetBoolParameterTrue(string name)

@@ -36,6 +36,7 @@ public interface IMovable
     public FootstepController FootstepController { get; set; }
     public ExternalForce ExForce { get; set; }
     public bool IsKnockbackMove { get; set; }
+    public Vector3 LastSetDir { get; set; }
 
     public void KnockBack(Vector3 dir, float strength);
     public void EndKnockbackEarly();

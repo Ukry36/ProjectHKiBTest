@@ -32,9 +32,13 @@ public class DatabaseManagerSO : ScriptableObject
     public void SetIDodgeable(IDodgeable dodgeable, IDodgeable data)
     {
         dodgeable.DodgeCooltime = new(data.DodgeCooltime);
+        dodgeable.InitialDodgeMaxDistance = new(data.InitialDodgeMaxDistance);
+        dodgeable.DodgeSpeed = new(data.DodgeSpeed);
         dodgeable.ContinuousDodgeLimit = new(data.ContinuousDodgeLimit);
+        dodgeable.KeepDodgeWallLayer = data.KeepDodgeWallLayer;
         dodgeable.KeepDodgeMaxTime = new(data.KeepDodgeMaxTime);
         dodgeable.KeepDodgeMaxDistance = new(data.KeepDodgeMaxDistance);
+        dodgeable.DodgeInvincibleTime = new(data.DodgeInvincibleTime);
     }
 
     public void SetGraffiriable(IGraffitiable graffiriable, IGraffitiable data)
@@ -58,7 +62,7 @@ public class DatabaseManagerSO : ScriptableObject
         skinable.SkinData = data.SkinData;
     }
 
-    public void SetIStateControllable(IStateControllable stateControllable, IStateControllable data)
+    public void SetIStateControllable(IEntityStateControllable stateControllable, IEntityStateControllable data)
     {
         stateControllable.AnimatorController = data.AnimatorController;
         stateControllable.StateMachine = data.StateMachine;

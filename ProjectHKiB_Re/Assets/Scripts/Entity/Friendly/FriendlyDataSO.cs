@@ -32,6 +32,7 @@ public class FriendlyDataSO : ScriptableObject, IMovable, IAttackable, IDamagabl
     [field: SerializeField] public AudioDataSO FootStepAudio { get; set; }
     public FootstepController FootstepController { get; set; }
     public IMovable.ExternalForce ExForce { get; set; } = new();
+    public Vector3 LastSetDir { get; set; }
     public bool IsKnockbackMove { get; set; }
     public LayerMask[] TargetLayers { get; set; }
     public Transform CurrentTarget { get; set; }

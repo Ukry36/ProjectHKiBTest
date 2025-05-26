@@ -23,7 +23,7 @@ MonoBehaviour:
     additionalBuff: 0
     proportionalBuff: 0
   <SprintCoeff>k__BackingField:
-    baseValue: 1.5
+    baseValue: 2
     OnValueDecreased:
       m_PersistentCalls:
         m_Calls: []
@@ -35,6 +35,9 @@ MonoBehaviour:
   <WallLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 72
+  <CanPushLayer>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 0
   <FootStepAudio>k__BackingField: {fileID: 11400000, guid: d78d695b40ad7c64b8cb95741be6bae5, type: 2}
   <ATK>k__BackingField:
     baseValue: 100
@@ -171,7 +174,16 @@ MonoBehaviour:
         m_Calls: []
     additionalBuff: 0
     proportionalBuff: 0
+  <GP>k__BackingField:
+    baseValue: 0
+    OnValueDecreased:
+      m_PersistentCalls:
+        m_Calls: []
+    OnValueIncreased:
+      m_PersistentCalls:
+        m_Calls: []
+    additionalBuff: 0
+    proportionalBuff: 0
   <SkinData>k__BackingField: {fileID: 11400000, guid: e45c1540f2d605b4694419c56070e7a9, type: 2}
   <StateMachine>k__BackingField: {fileID: 11400000, guid: 47609f3cd80fb7a4baf9d1efb58ff385, type: 2}
   <AnimatorController>k__BackingField: {fileID: 9100000, guid: 88420511085a1e8429f1c920b5b933d1, type: 2}
-  type: {fileID: 11400000, guid: dec10021e2791174e8180b271e80c28b, type: 2}

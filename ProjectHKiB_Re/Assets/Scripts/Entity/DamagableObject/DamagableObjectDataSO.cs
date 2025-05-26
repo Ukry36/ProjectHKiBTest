@@ -20,6 +20,7 @@ public class DamagableObjectDataSO : ScriptableObject, IDamagable, IMovable, IAt
     [field: SerializeField] public IMovable.ExternalForce ExForce { get; set; } = new(true);
     [field: SerializeField] public bool DieWhenKnockBack { get; set; }
     [field: SerializeField] public LayerMask CanPushLayer { get; set; }
+    public Vector3 LastSetDir { get; set; }
 
     public float DamageIndicatorRandomPosInfo { get; set; } = 0;
 

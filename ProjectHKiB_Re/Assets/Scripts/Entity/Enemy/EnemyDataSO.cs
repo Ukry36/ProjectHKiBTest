@@ -2,7 +2,7 @@ using UnityEditor.Animations;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Enemy Data", menuName = "Scriptable Objects/Data/Enemy Data", order = 1)]
-public class EnemyDataSO : ScriptableObject, IMovable, IAttackable, IDamagable, IPoolable, IStateControllable
+public class EnemyDataSO : ScriptableObject, IMovable, IAttackable, IDamagable, IPoolable, IEntityStateControllable
 {
     [field: SerializeField] public int PoolSize { get; set; }
 
@@ -16,6 +16,7 @@ public class EnemyDataSO : ScriptableObject, IMovable, IAttackable, IDamagable, 
     public FootstepController FootstepController { get; set; }
     public IMovable.ExternalForce ExForce { get; set; } = new();
     public bool IsKnockbackMove { get; set; }
+    public Vector3 LastSetDir { get; set; }
 
     [field: SerializeField] public StatContainer ATK { get; set; }
     [field: SerializeField] public StatContainer CriticalChanceRate { get; set; }
@@ -37,7 +38,7 @@ public class EnemyDataSO : ScriptableObject, IMovable, IAttackable, IDamagable, 
 
     [field: SerializeField] public StateMachineSO StateMachine { get; set; }
     [field: SerializeField] public AnimatorController AnimatorController { get; set; }
-    public AnimationController AnimationController { get; set; }
+    public DirAnimationController AnimationController { get; set; }
     public StateController StateController { get; set; }
 
     public Vector3 GetAttackOrigin()

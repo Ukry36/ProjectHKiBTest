@@ -23,7 +23,7 @@ MonoBehaviour:
     additionalBuff: 0
     proportionalBuff: 0
   <SprintCoeff>k__BackingField:
-    baseValue: 1.5
+    baseValue: 2
     OnValueDecreased:
       m_PersistentCalls:
         m_Calls: []
@@ -160,6 +160,16 @@ MonoBehaviour:
   <HitSound>k__BackingField: {fileID: 0}
   <HitParticle>k__BackingField: {fileID: 0}
   <MaxGP>k__BackingField:
+    baseValue: 0
+    OnValueDecreased:
+      m_PersistentCalls:
+        m_Calls: []
+    OnValueIncreased:
+      m_PersistentCalls:
+        m_Calls: []
+    additionalBuff: 0
+    proportionalBuff: 0
+  <GP>k__BackingField:
     baseValue: 0
     OnValueDecreased:
       m_PersistentCalls:
