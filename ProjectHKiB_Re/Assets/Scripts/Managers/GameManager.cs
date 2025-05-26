@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     public CameraManager cameraManager;
     public CooltimeManager cooltimeManager;
 
-    public Transform player;
+    public Player player;
 
     private void Awake()
     {

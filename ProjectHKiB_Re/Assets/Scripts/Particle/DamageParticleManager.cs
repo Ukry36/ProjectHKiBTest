@@ -73,7 +73,7 @@ public class DamageParticleManager : PoolManager<DamageParticlePlayer>
 
     public void PlayHitParticle(DamageParticleDataSO damageParticleData, int damage, bool isBig, bool isCritical, Transform transform, float damageIndicatorRandomPosInfo)
     {
-        Vector3 playerShift = (transform.position - GameManager.instance.player.position).normalized + Vector3.up;
+        Vector3 playerShift = (transform.position - GameManager.instance.player.transform.position).normalized + Vector3.up;
 
         ParticlePlayer basePlayer;
         if (isCritical)
