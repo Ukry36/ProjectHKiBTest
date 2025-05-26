@@ -1,10 +1,8 @@
-using UnityEditor.Animations;
 using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
 public class ChainEventModule : InterfaceModule, IChainEventable
 {
-    [field: SerializeField] public GameEvent ChainEvent { get; set; }
+    [field: SerializeField] public GameStateEvent ChainEvent { get; set; }
 
     public override void Register(IInterfaceRegistable interfaceRegistable)
     {

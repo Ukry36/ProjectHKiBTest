@@ -32,10 +32,15 @@ public class Player : Entity, IAttackable, IDodgeable, IGraffitiable, ISkinable,
         }
     }
     //*/
-    public StatContainer DodgeCooltime { get; set; }
+    public Cooltime DodgeCooltime { get; set; }
+    public StatContainer InitialDodgeMaxDistance { get; set; }
+    public StatContainer DodgeSpeed { get; set; }
     public StatContainer ContinuousDodgeLimit { get; set; }
-    public StatContainer KeepDodgeMaxTime { get; set; }
+    public LayerMask KeepDodgeWallLayer { get; set; }
+    public Cooltime KeepDodgeMaxTime { get; set; }
     public StatContainer KeepDodgeMaxDistance { get; set; }
+    public Cooltime DodgeInvincibleTime { get; set; }
+    public int TotalDodgeCount { get; set; }
 
     public StatContainer MaxGP { get; set; }
     public StatContainer GP { get; set; }

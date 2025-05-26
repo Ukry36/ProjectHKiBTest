@@ -16,6 +16,7 @@ public class EnemyDataSO : ScriptableObject, IMovable, IAttackable, IDamagable, 
     public FootstepController FootstepController { get; set; }
     public IMovable.ExternalForce ExForce { get; set; } = new();
     public bool IsKnockbackMove { get; set; }
+    public Vector3 LastSetDir { get; set; }
 
     [field: SerializeField] public StatContainer ATK { get; set; }
     [field: SerializeField] public StatContainer CriticalChanceRate { get; set; }

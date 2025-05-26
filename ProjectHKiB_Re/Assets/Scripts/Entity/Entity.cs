@@ -40,6 +40,8 @@ public abstract class Entity : MonoBehaviour, IDamagable, IMovable
     [SerializeField] protected DamageManagerSO damageManager;
     [SerializeField] protected MovementManagerSO movementManager;
     public bool IsKnockbackMove { get; set; } = false;
+    public Vector3 LastSetDir { get; set; }
+
     private Coroutine knockBackCoroutine;
     private MovementManagerSO.KnockBackEnded OnKnockBackEnded;
     protected virtual void KnockBackEndCallback() => IsKnockbackMove = false;

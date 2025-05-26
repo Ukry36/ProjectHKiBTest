@@ -14,6 +14,7 @@ public class PlayerBaseDataSO : ScriptableObject, IMovable, IAttackable, IDodgea
     public FootstepController FootstepController { get; set; }
     public IMovable.ExternalForce ExForce { get; set; } = new();
     public bool IsKnockbackMove { get; set; }
+    public Vector3 LastSetDir { get; set; }
 
     [field: SerializeField] public StatContainer ATK { get; set; }
     [field: SerializeField] public StatContainer CriticalChanceRate { get; set; }
@@ -25,10 +26,15 @@ public class PlayerBaseDataSO : ScriptableObject, IMovable, IAttackable, IDodgea
     [field: SerializeField] public DamageParticleDataSO DamageParticle { get; set; }
     public float DamageIndicatorRandomPosInfo { get; set; } = 0;
 
-    [field: SerializeField] public StatContainer DodgeCooltime { get; set; }
+    [field: SerializeField] public Cooltime DodgeCooltime { get; set; }
+    [field: SerializeField] public StatContainer InitialDodgeMaxDistance { get; set; }
+    [field: SerializeField] public StatContainer DodgeSpeed { get; set; }
     [field: SerializeField] public StatContainer ContinuousDodgeLimit { get; set; }
-    [field: SerializeField] public StatContainer KeepDodgeMaxTime { get; set; }
+    [field: SerializeField] public LayerMask KeepDodgeWallLayer { get; set; }
+    [field: SerializeField] public Cooltime KeepDodgeMaxTime { get; set; }
     [field: SerializeField] public StatContainer KeepDodgeMaxDistance { get; set; }
+    [field: SerializeField] public Cooltime DodgeInvincibleTime { get; set; }
+    public int TotalDodgeCount { get; set; }
 
     [field: SerializeField] public StatContainer MaxHP { get; set; }
     [field: SerializeField] public StatContainer HP { get; set; }

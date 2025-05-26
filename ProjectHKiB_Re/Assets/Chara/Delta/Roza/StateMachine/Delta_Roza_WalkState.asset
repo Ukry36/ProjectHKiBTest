@@ -12,8 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb85084ca5989854b9dbc2cce1298255, type: 3}
   m_Name: Delta_Roza_WalkState
   m_EditorClassIdentifier: 
-  animationName: Walk
-  directionDependent: 1
   transitions:
   - availableTime: 0
     decisions:
@@ -41,10 +39,18 @@ MonoBehaviour:
       negate: 0
     trueState: {fileID: 11400000, guid: cc4bdcdcb162f684aa4182056b09d1ac, type: 2}
     falseState: {fileID: 0}
+  - availableTime: 0
+    decisions:
+    - decision: {fileID: 11400000, guid: 5080e5686af385f43ba3c3c0a486210c, type: 2}
+      negate: 0
+    - decision: {fileID: 11400000, guid: 984a567cf4b1d834cbe7e86dbe8cf828, type: 2}
+      negate: 0
+    trueState: {fileID: 11400000, guid: 3e9e252439afd3f4688d00ad06d06ef5, type: 2}
+    falseState: {fileID: 0}
   enterActions: []
   updateActions:
   - {fileID: 11400000, guid: 7263eacb51896564e8bf3466a98c6b58, type: 2}
-  - {fileID: 11400000, guid: 9d29c5b17685af144aaabb51ca64e9ad, type: 2}
+  - {fileID: 11400000, guid: c63fa6e559283a9479d938d317595868, type: 2}
   exitActions: []
   subDecisions: []
   frameDecisions:
@@ -54,3 +60,4 @@ MonoBehaviour:
     action: {fileID: 11400000, guid: dc2ca73e8a612af42974f1a56f5895c5, type: 2}
   - time: 0.8
     action: {fileID: 11400000, guid: 5d9f179b3d3f4c940b9682d51c25f9e0, type: 2}
+  animationName: Walk

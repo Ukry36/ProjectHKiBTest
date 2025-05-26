@@ -1,5 +1,5 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "ChainEvent", menuName = "Scriptable Objects/State Machine/Action/ChainEvent")]
+[CreateAssetMenu(fileName = "ChainEvent", menuName = "Scriptable Objects/State Machine/Action/Event/ChainEvent")]
 public class ChainEventAction : StateActionSO
 {
     public override void Act(StateController stateController)

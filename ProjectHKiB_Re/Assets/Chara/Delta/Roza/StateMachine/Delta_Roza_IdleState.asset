@@ -12,8 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb85084ca5989854b9dbc2cce1298255, type: 3}
   m_Name: Delta_Roza_IdleState
   m_EditorClassIdentifier: 
-  animationName: Idle
-  directionDependent: 1
   transitions:
   - availableTime: 0
     decisions:
@@ -33,9 +31,18 @@ MonoBehaviour:
       negate: 0
     trueState: {fileID: 11400000, guid: cc4bdcdcb162f684aa4182056b09d1ac, type: 2}
     falseState: {fileID: 0}
+  - availableTime: 0
+    decisions:
+    - decision: {fileID: 11400000, guid: 5080e5686af385f43ba3c3c0a486210c, type: 2}
+      negate: 0
+    - decision: {fileID: 11400000, guid: 984a567cf4b1d834cbe7e86dbe8cf828, type: 2}
+      negate: 0
+    trueState: {fileID: 11400000, guid: 3e9e252439afd3f4688d00ad06d06ef5, type: 2}
+    falseState: {fileID: 0}
   enterActions: []
   updateActions:
   - {fileID: 11400000, guid: 4ff9702b721b89147abd80a03aeb1ff4, type: 2}
   exitActions: []
   subDecisions: []
   frameDecisions: []
+  animationName: Idle

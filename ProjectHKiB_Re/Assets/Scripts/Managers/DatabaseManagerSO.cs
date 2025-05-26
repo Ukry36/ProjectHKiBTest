@@ -32,9 +32,13 @@ public class DatabaseManagerSO : ScriptableObject
     public void SetIDodgeable(IDodgeable dodgeable, IDodgeable data)
     {
         dodgeable.DodgeCooltime = new(data.DodgeCooltime);
+        dodgeable.InitialDodgeMaxDistance = new(data.InitialDodgeMaxDistance);
+        dodgeable.DodgeSpeed = new(data.DodgeSpeed);
         dodgeable.ContinuousDodgeLimit = new(data.ContinuousDodgeLimit);
+        dodgeable.KeepDodgeWallLayer = data.KeepDodgeWallLayer;
         dodgeable.KeepDodgeMaxTime = new(data.KeepDodgeMaxTime);
         dodgeable.KeepDodgeMaxDistance = new(data.KeepDodgeMaxDistance);
+        dodgeable.DodgeInvincibleTime = new(data.DodgeInvincibleTime);
     }
 
     public void SetGraffiriable(IGraffitiable graffiriable, IGraffitiable data)

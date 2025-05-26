@@ -15,7 +15,7 @@ public class MathManagerSO : ScriptableObject
     => item < 0 ? (int)item - 1 : (int)item;
 
     public int Round(float item)
-    => item < 0 ? (int)(item + 0.5f) - 1 : (int)(item + 0.5f);
+    => item + 0.5f < 0 ? (int)(item + 0.5f) - 1 : (int)(item + 0.5f);
 
     public Vector3 AllignInGrid(Vector3 item)
     => new() { x = Round(item.x), y = Round(item.y) };

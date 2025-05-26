@@ -10,6 +10,7 @@ public class StateSO : ScriptableObject
     {
         public StateDecisionSO decision;
         public StateActionSO action;
+        public bool negate;
     }
 
     [Serializable]
@@ -63,7 +64,7 @@ public class StateSO : ScriptableObject
         }
         for (i = 0; i < subDecisions.Length; i++)
         {
-            if (subDecisions[i].decision.Decide(stateController))
+            if (subDecisions[i].negate ^ subDecisions[i].decision.Decide(stateController))
                 subDecisions[i].action.Act(stateController);
         }
     }
@@ -103,8 +104,8 @@ public class StateSO : ScriptableObject
 
     public void ResetStateTimer(StateController stateController)
     {
-        ReserveFrameDecisions(stateController);
         ResetTimers(stateController);
+        ReserveFrameDecisions(stateController);
         ReserveTransitions(stateController);
     }
 

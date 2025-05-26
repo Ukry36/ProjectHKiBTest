@@ -5,7 +5,6 @@ public class FootstepController : MonoBehaviour
     public float footstepAudioVolume;
     public AudioDataSO DefaultFootstepAudio { get; private set; }
     private List<AudioDataSO> footstepAudioList;
-    [SerializeField] private CollisionManagerSO collisionManager;
 
     [SerializeField] private DirAnimationController animationController;
 

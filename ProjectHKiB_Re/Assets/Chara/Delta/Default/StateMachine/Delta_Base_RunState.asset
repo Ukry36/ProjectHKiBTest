@@ -12,8 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb85084ca5989854b9dbc2cce1298255, type: 3}
   m_Name: Delta_Base_RunState
   m_EditorClassIdentifier: 
-  animationName: Run
-  directionDependent: 1
   transitions:
   - availableTime: 0
     decisions:
@@ -22,17 +20,18 @@ MonoBehaviour:
     - decision: {fileID: 11400000, guid: 0b58246cfba562f40bb61edc58b554f3, type: 2}
       negate: 0
     trueState: {fileID: 11400000, guid: 12f181a9e8e00a64aac83c5fdc36b538, type: 2}
+    falseState: {fileID: 0}
   - availableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: 25fc0810a2a69f84e991d13a162ddaae, type: 2}
       negate: 1
     trueState: {fileID: 11400000, guid: c4988881f5b496d4f8a6acc87ca839d1, type: 2}
+    falseState: {fileID: 0}
   enterActions:
   - {fileID: 11400000, guid: 3cc6dd3a1c010ec4d801db6d591c8a4f, type: 2}
   updateActions:
   - {fileID: 11400000, guid: 7263eacb51896564e8bf3466a98c6b58, type: 2}
-  - {fileID: 11400000, guid: 9d29c5b17685af144aaabb51ca64e9ad, type: 2}
-  - {fileID: 11400000, guid: 4ff9702b721b89147abd80a03aeb1ff4, type: 2}
+  - {fileID: 11400000, guid: c63fa6e559283a9479d938d317595868, type: 2}
   exitActions:
   - {fileID: 11400000, guid: 797efcf4b4a2d0449b5517e4e60eed74, type: 2}
   subDecisions: []
@@ -43,3 +42,4 @@ MonoBehaviour:
     action: {fileID: 11400000, guid: dc2ca73e8a612af42974f1a56f5895c5, type: 2}
   - time: 0.6
     action: {fileID: 11400000, guid: 5d9f179b3d3f4c940b9682d51c25f9e0, type: 2}
+  animationName: Run

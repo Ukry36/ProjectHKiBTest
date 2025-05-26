@@ -16,6 +16,7 @@ public class AnimationController : MonoBehaviour
     public void Play(string animationName)
     {
         CurrentAnimation = animationName;
+        animator.gameObject.SetActive(true);
         animator.Play(animationName, 0, 0);
     }
 }

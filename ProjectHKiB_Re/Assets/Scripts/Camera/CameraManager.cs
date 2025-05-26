@@ -40,15 +40,16 @@ public class CameraManager : MonoBehaviour
     public void TogglePostProcessing(bool _enable) =>
     theCamera.GetUniversalAdditionalCameraData().renderPostProcessing = _enable;
 
-    public void StrictMovement(Vector3 _way, Vector3 _prevPos)
+    public void StrictMovement(Vector3 _targetPos, Vector3 _prevPos)
     {
+        Vector3 way = _targetPos - _prevPos;
         for (int i = 0; i < Cameras.Length; i++)
         {
-            Cameras[i].OnTargetObjectWarped(Cameras[i].Follow, _way);
+            Cameras[i].OnTargetObjectWarped(Cameras[i].Follow, way);
         }
-        this.transform.position = _way + _prevPos;
+        this.transform.position = _targetPos;
 
-        UpdateConfiner(_way + _prevPos);
+        UpdateConfiner(_targetPos);
     }
 
     private void UpdateConfiner(Vector3 _pos)
@@ -122,5 +123,10 @@ public class CameraManager : MonoBehaviour
     public void Shake()
     {
         impulseSource.GenerateImpulse();
+    }
+
+    public Vector3 GetCurrentCameraPos()
+    {
+        return Cameras[CurrentCamera].transform.position;
     }
 }

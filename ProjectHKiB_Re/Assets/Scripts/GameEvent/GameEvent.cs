@@ -1,12 +1,9 @@
 using UnityEngine;
 
-public class GameEvent : MonoBehaviour, IEvent
+public abstract class GameEvent : MonoBehaviour, IEvent
 {
-    [SerializeField] private StateController _stateController;
-    [SerializeField] private EventTrigger _trigger;
-    [SerializeField] private StateMachineSO _stateMachine;
+    [SerializeField] protected EventTrigger _trigger;
     public Transform CurrentTarget { get; set; }
-
 
     public virtual void Start()
     {
@@ -17,8 +14,6 @@ public class GameEvent : MonoBehaviour, IEvent
     {
         if (_trigger)
             _trigger.Initialize(this);
-        _stateController.RegisterModules(this.transform);
-        _stateController.RegisterInterface<IEvent>(this);
         EndEvent();
     }
 
@@ -30,22 +25,12 @@ public class GameEvent : MonoBehaviour, IEvent
     }
 
     // start event by enabling controller update
-    public virtual void TriggerEvent()
-    {
-        _stateController.enabled = true;
-        _stateController.ResetStateMachine(_stateMachine);
-    }
+    public abstract void TriggerEvent();
 
     // end event by disabling controller update
     // also reset target
-    public virtual void EndEvent()
-    {
-        CurrentTarget = null;
-        _stateController.EliminateStateMachine();
-        _stateController.enabled = false;
-    }
-}
-
-internal class EventEventRegisterModule
-{
+    public abstract void EndEvent();
+    //{
+    //    CurrentTarget = null;
+    //}
 }

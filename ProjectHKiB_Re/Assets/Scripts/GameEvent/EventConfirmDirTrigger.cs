@@ -4,23 +4,21 @@ public class EventConfirmDirTrigger : EventTrigger
 {
     [SerializeField] private MathManagerSO mathManager;
     [SerializeField] private Vector2 requiredDir;
-    [SerializeField][NaughtyAttributes.ReadOnly] private Transform _transform;
 
-    private void Update()
+    public override void UpdateTrigger()
     {
-        if (enabled)
+        int length = _collider2D.OverlapCollider(_contactFilter, colliders);
+        if (length > 0)
         {
-            int length = _collider2D.OverlapCollider(_contactFilter, colliders);
-            if (length > 0)
+            if (_canTrigger && GameManager.instance.inputManager.ConfirmInput
+                && mathManager.IsVector2HasComponent(GameManager.instance.inputManager.LastSetMoveInput, requiredDir))
             {
-                if (_canTrigger && GameManager.instance.inputManager.ConfirmInput
-                    && mathManager.IsVector2HasComponent(GameManager.instance.inputManager.LastSetMoveInput, requiredDir))
-                {
-                    Event.RegisterTarget(colliders[0].transform);
-                    Event.TriggerEvent();
-                    CoolTime();
-                }
+                GameManager.instance.inputManager.LastSetMoveInput = Vector2.zero;
+                Event.RegisterTarget(colliders[0].transform);
+                Event.TriggerEvent();
+                CoolTime();
             }
         }
+
     }
 }

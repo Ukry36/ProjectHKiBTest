@@ -12,8 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb85084ca5989854b9dbc2cce1298255, type: 3}
   m_Name: Delta_Roza_NormalAttack3State
   m_EditorClassIdentifier: 
-  animationName: NormalAttack3
-  directionDependent: 1
   transitions:
   - availableTime: 0
     decisions:
@@ -37,6 +35,14 @@ MonoBehaviour:
       negate: 0
     trueState: {fileID: 11400000, guid: cc4bdcdcb162f684aa4182056b09d1ac, type: 2}
     falseState: {fileID: 0}
+  - availableTime: 0
+    decisions:
+    - decision: {fileID: 11400000, guid: 984a567cf4b1d834cbe7e86dbe8cf828, type: 2}
+      negate: 0
+    - decision: {fileID: 11400000, guid: 5080e5686af385f43ba3c3c0a486210c, type: 2}
+      negate: 0
+    trueState: {fileID: 11400000, guid: 3e9e252439afd3f4688d00ad06d06ef5, type: 2}
+    falseState: {fileID: 0}
   enterActions:
   - {fileID: 11400000, guid: 9d29c5b17685af144aaabb51ca64e9ad, type: 2}
   - {fileID: 11400000, guid: 2c576fa108eac8344a0e22d0909847fb, type: 2}
@@ -47,6 +53,7 @@ MonoBehaviour:
   subDecisions:
   - decision: {fileID: 11400000, guid: 2b1f8f5f882c1164c9cf0d6f28cc38c7, type: 2}
     action: {fileID: 11400000, guid: 5b80fe0ce3d6747408d78514aac16602, type: 2}
+    negate: 0
   frameDecisions:
   - time: 0.1
     action: {fileID: 11400000, guid: 6f31d4110f1af4641baeb5989f3e88f0, type: 2}
@@ -60,3 +67,4 @@ MonoBehaviour:
     action: {fileID: 11400000, guid: 836ef1a0739971745aa92304f6a6b07e, type: 2}
   - time: 0.6
     action: {fileID: 11400000, guid: 63c822d5094e77b4da77887b0c74392c, type: 2}
+  animationName: NormalAttack3

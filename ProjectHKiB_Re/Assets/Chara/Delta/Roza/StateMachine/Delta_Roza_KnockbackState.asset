@@ -12,8 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb85084ca5989854b9dbc2cce1298255, type: 3}
   m_Name: Delta_Roza_KnockbackState
   m_EditorClassIdentifier: 
-  animationName: Knockback
-  directionDependent: 1
   transitions:
   - availableTime: 0.9
     decisions:
@@ -25,7 +23,7 @@ MonoBehaviour:
     decisions:
     - decision: {fileID: 11400000, guid: 984a567cf4b1d834cbe7e86dbe8cf828, type: 2}
       negate: 0
-    trueState: {fileID: 11400000, guid: aaecd269a081e2a4e8930f4993757b90, type: 2}
+    trueState: {fileID: 11400000, guid: 3e9e252439afd3f4688d00ad06d06ef5, type: 2}
     falseState: {fileID: 0}
   enterActions: []
   updateActions:
@@ -35,3 +33,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f3797200be3d3f141a9ff7dc9b1bbe6c, type: 2}
   subDecisions: []
   frameDecisions: []
+  animationName: Knockback

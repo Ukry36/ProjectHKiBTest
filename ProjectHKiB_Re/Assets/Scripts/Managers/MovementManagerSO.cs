@@ -5,7 +5,6 @@ using UnityEngine;
 public class MovementManagerSO : ScriptableObject
 {
     public MathManagerSO mathManager;
-    public CollisionManagerSO collisionManager;
     public DamageParticleDataSO KnockBackChainReactionParticle;
 
     // Note that MovePoints are always alligned in grid!!
@@ -18,7 +17,7 @@ public class MovementManagerSO : ScriptableObject
         Vector3 force = movable.ExForce.GetForce;
         if (!force.Equals(Vector3.zero))
         {
-            Vector3 refdir = collisionManager.GetAvailableDir(movable.MovePoint.transform.position, force.normalized, movable.WallLayer);
+            Vector3 refdir = GetAvailableDir(entityTransform, movable, force.normalized, movable.WallLayer);
             entityTransform.position = Vector3.MoveTowards
                         (
                             entityTransform.position,
@@ -36,7 +35,7 @@ public class MovementManagerSO : ScriptableObject
     }
 
     public delegate void KnockBackEnded();
-    private readonly WaitForSeconds knockBackWaitTime = new WaitForSeconds(0.08f);
+    private readonly WaitForSeconds knockBackWaitTime = new(0.08f);
 
     // Knockback!
     public IEnumerator KnockBackCoroutine(Transform entityTransform, IMovable movable, Vector3 dir, float strength, float mass, KnockBackEnded KnockBackEnded)
@@ -58,7 +57,7 @@ public class MovementManagerSO : ScriptableObject
             {
                 prevPos = entityTransform.position;
                 storedDir = dir;
-                dir = collisionManager.GetAvailableDir(movepointTransform.position, dir, movable.WallLayer);
+                dir = GetAvailableDir(entityTransform, movable, dir, movable.WallLayer);
                 if (dir == Vector3.zero)
                     break;
                 movable.ExForce.SetForce[ID] = 10 * strength * dir;
@@ -75,7 +74,7 @@ public class MovementManagerSO : ScriptableObject
                 break;
             storedDir = dir;
             strength = strength * 2 * i * Time.deltaTime;
-            dir = collisionManager.GetAvailableDir(movepointTransform.position, dir, movable.WallLayer);
+            dir = GetAvailableDir(entityTransform, movable, dir, movable.WallLayer);
             movable.ExForce.SetForce[ID] = strength * dir;
             yield return null;
         }
@@ -129,7 +128,7 @@ public class MovementManagerSO : ScriptableObject
         Vector3 refDir;
         for (float i = 0; i < distance; i += refDir.magnitude)
         {
-            refDir = collisionManager.GetAvailableDir(movepointTransform.position, dir, movable.WallLayer);
+            refDir = GetAvailableDir(entityTransform, movable, dir, movable.WallLayer);
             if (refDir.Equals(Vector3.zero))
             {
                 AllignMovePoint(movepointTransform);
@@ -156,7 +155,7 @@ public class MovementManagerSO : ScriptableObject
             while (progress < targetProgress)
             {
                 prevPos = entityTransform.position;
-                dir = collisionManager.GetAvailableDir(movepointTransform.position, dir, movable.WallLayer);
+                dir = GetAvailableDir(entityTransform, movable, dir, movable.WallLayer);
                 movable.ExForce.SetForce[ID] = speed * block * dir;
                 yield return null;
                 progress += Vector3.Distance(prevPos, entityTransform.position);
@@ -164,39 +163,39 @@ public class MovementManagerSO : ScriptableObject
         }
     }
 
-    // Proceeds movepoint forward(to dir) 
-    public void PushMovePoint(Transform movePointTransform, Vector2 dir, LayerMask wallLayer)
-    {
-        dir = collisionManager.GetAvailableDir(movePointTransform.position, dir, wallLayer);
-        movePointTransform.position += (Vector3)dir;
-        AllignMovePoint(movePointTransform);
-    }
-
     // Proceeds movepoint forward(to dir) but calculates whenever it should
-    public void WalkMove(Transform entityTransform, IMovable movable, Vector3 dir)
+    public void WalkMove(Transform entityTransform, IMovable movable, Vector3 dir, LayerMask wallLayer)
     {
         float speed = movable.IsSprinting ? movable.Speed.Value * movable.SprintCoeff.Value : movable.Speed.Value;
-        dir = mathManager.SetDirection8One(dir).normalized;
-        Vector3 refdir = speed * dir + movable.ExForce.GetForce;
-        if (dir.Equals(Vector3.zero))
-            speed += refdir.magnitude;
+        Transform movePointTransform = movable.MovePoint.transform;
+        dir = dir.normalized;
+        Vector3 refDir = speed * dir + movable.ExForce.GetForce;
+        if (dir == Vector3.zero)
+            speed += refDir.magnitude;
         else
-            speed = refdir.magnitude;
+            speed = refDir.magnitude;
 
-        refdir = mathManager.SetDirection8One(refdir);
-        Vector3 movePointPos = movable.MovePoint.transform.position;
+        refDir = mathManager.SetDirection8One(refDir); // Direction where i want to go
+
+        Vector3 movePointPos = movePointTransform.position;
         Vector3 entityPos = entityTransform.position;
 
-        if (!refdir.x.Equals(0) && !mathManager.Absolute(movePointPos.x - entityPos.x).Equals(0))
-            if (mathManager.Absolute(movePointPos.x + refdir.x - entityPos.x) > 0.9f)
-                refdir.x = 0;
+        float xProgress = 1 - mathManager.Absolute(movePointPos.x - entityPos.x); // 0 to 1 also 1 when stop
+        float yProgress = 1 - mathManager.Absolute(movePointPos.y - entityPos.y);
+        bool xReversed = (movePointPos.x - entityPos.x) * refDir.x < 0;
+        bool yReversed = (movePointPos.y - entityPos.y) * refDir.y < 0;
 
-        if (!refdir.y.Equals(0) && !mathManager.Absolute(movePointPos.y - entityPos.y).Equals(0))
-            if (mathManager.Absolute(movePointPos.y + refdir.y - entityPos.y) > 0.9f)
-                refdir.y = 0;
+        bool proceedMovepoint = false;
+        if (xProgress == 1 && yProgress == 1) proceedMovepoint = true;
+        if (xReversed && xProgress < 0.9f) proceedMovepoint = true;
+        if (yReversed && yProgress < 0.9f) proceedMovepoint = true;
 
-        if (!refdir.Equals(Vector2.zero))
-            PushMovePoint(movable.MovePoint.transform, refdir, movable.WallLayer);
+        if (proceedMovepoint)
+        {
+            refDir = GetAvailableDir(entityTransform, movable, refDir, wallLayer);
+            movePointTransform.position += refDir;
+            AllignMovePoint(movePointTransform);
+        }
 
         entityTransform.position = Vector3.MoveTowards(entityTransform.position, movable.MovePoint.transform.position, speed * Time.deltaTime);
     }
@@ -205,9 +204,12 @@ public class MovementManagerSO : ScriptableObject
     // Proceeds movepoint forward(to dir) and move instantly
     public void InstantMove(Transform entityTransform, IMovable movable, Vector2 dir)
     {
-        dir = dir.normalized;
-        PushMovePoint(movable.MovePoint.transform, dir, movable.WallLayer);
-        entityTransform.position = movable.MovePoint.transform.position;
+        Transform movePointTransform = movable.MovePoint.transform;
+        dir = mathManager.SetDirection8One(dir).normalized;
+        dir = GetAvailableDir(entityTransform, movable, dir, movable.WallLayer);
+        movePointTransform.position += (Vector3)dir;
+        AllignMovePoint(movePointTransform);
+        entityTransform.position = movePointTransform.position;
     }
 
     // Alligns movepoint if it is out of grid
@@ -216,8 +218,114 @@ public class MovementManagerSO : ScriptableObject
         movePointTransform.position = mathManager.AllignInGrid(movePointTransform.position);
     }
 
-    public void StairAdjust(Transform entityTransform, Transform movePointTransform)
+    public Vector2 GetAvailableDir(Transform entityTransform, IMovable movable, Vector2 dir, LayerMask wallLayer)
     {
-        //maybe deleted later
+        Transform movePointTransform = movable.MovePoint.transform;
+        Vector2 refDir = dir;
+        bool canSlideUp = true;
+        bool canSlideDown = true;
+        bool canGoSimply = true;
+        Collider2D[] colliders = new Collider2D[10];
+
+        // if there is no wall at dir simply go to that dir
+        int colLen = Physics2D.OverlapCircleNonAlloc(movePointTransform.position + (Vector3)dir, 0.2f, colliders, wallLayer);
+        for (int i = 0; i < colLen; i++)
+        {
+            if (colliders[i].transform == entityTransform) continue;
+            else if (colliders[i].transform == movePointTransform) continue;
+            else canGoSimply = false;
+        }
+        if (canGoSimply)
+        {
+            movable.LastSetDir = dir;
+            return dir;
+        }
+
+        Vector3 xTilt = (dir.x * Vector3.right).normalized;
+        Vector3 yTilt = (dir.y * Vector3.up).normalized;
+
+        // if x dir walled
+        if (dir.x != 0)
+            if (Physics2D.OverlapCircle(movePointTransform.position + xTilt, 0.4f, wallLayer))
+                refDir.x = 0; // dirx = 0
+
+        // if y dir walled, dir.y = 0
+        if (dir.y != 0)
+            if (Physics2D.OverlapCircle(movePointTransform.position + yTilt, 0.4f, wallLayer))
+                refDir.y = 0;
+
+        // if two dir was clear, check diagonal
+        if (refDir.x != 0 && refDir.y != 0)
+            if (Physics2D.OverlapCircle(movePointTransform.position + xTilt + yTilt, 0.4f, wallLayer))
+                if (Random.value > 0.5f)
+                    refDir.x = 0;
+                else
+                    refDir.y = 0;
+
+        // if two dir was walled, check diagonal
+        if (refDir == Vector2.zero)
+        {
+            colLen = Physics2D.OverlapCircleNonAlloc(movePointTransform.position + Quaternion.Euler(0, 0, 45) * dir * 0.5f, 0.2f, colliders, wallLayer);
+            for (int i = 0; i < colLen; i++)
+            {
+                if (colliders[i].transform == entityTransform) continue;
+                else if (colliders[i].transform == movePointTransform) continue;
+                else { canSlideUp = false; break; }
+            }
+            colLen = Physics2D.OverlapCircleNonAlloc(movePointTransform.position + Quaternion.Euler(0, 0, -45) * dir * 0.5f, 0.2f, colliders, wallLayer);
+            for (int i = 0; i < colLen; i++)
+            {
+                if (colliders[i].transform == entityTransform) continue;
+                else if (colliders[i].transform == movePointTransform) continue;
+                else { canSlideDown = false; break; }
+            }
+
+            if (canSlideDown && canSlideUp)
+            {
+                refDir = Random.value > 0.5f ? Quaternion.Euler(0, 0, 45) * dir : Quaternion.Euler(0, 0, -45) * dir;
+                movable.LastSetDir = refDir;
+                return refDir;
+            }
+
+            if (canSlideUp)
+            {
+                refDir = Quaternion.Euler(0, 0, 45) * dir;
+                movable.LastSetDir = refDir;
+                return refDir;
+            }
+
+            if (canSlideDown)
+            {
+                refDir = Quaternion.Euler(0, 0, -45) * dir;
+                movable.LastSetDir = refDir;
+                return refDir;
+            }
+            movable.LastSetDir = dir;
+        }
+        else movable.LastSetDir = refDir;
+        return refDir;
+    }
+
+    public void InitialDodgeMove(Transform entityTransform, IMovable movable, IDodgeable dodgeable, Vector3 dir)
+    {
+        dir = dir.normalized;
+        Transform movePointTransform = movable.MovePoint.transform;
+        AllignMovePoint(movePointTransform);
+        for (float i = dodgeable.InitialDodgeMaxDistance.Value; i >= 0; i--)
+            if (!Physics2D.OverlapPoint(movePointTransform.position + dir * i, movable.WallLayer))
+            {
+                movePointTransform.position += dir * i;
+                break;
+            }
+
+        AllignMovePoint(movePointTransform);
+        entityTransform.position = movePointTransform.position;
+    }
+
+    public void ProceedMovePoint(Transform entityTransform, IMovable movable, Vector3 dir)
+    {
+        dir = GetAvailableDir(entityTransform, movable, dir, movable.WallLayer).normalized;
+        movable.MovePoint.transform.position += dir;
+        AllignMovePoint(movable.MovePoint.transform);
     }
 }

@@ -13,6 +13,7 @@ public class MergedPlayerBaseData : IMovable, IAttackable, IDodgeable, IDamagabl
     public AudioDataSO FootStepAudio { get; set; }
     public IMovable.ExternalForce ExForce { get; set; } = new();
     public bool IsKnockbackMove { get; set; }
+    public Vector3 LastSetDir { get; set; }
 
     public StatContainer ATK { get; set; }
     public StatContainer CriticalChanceRate { get; set; }
@@ -25,10 +26,15 @@ public class MergedPlayerBaseData : IMovable, IAttackable, IDodgeable, IDamagabl
     public DamageParticleDataSO DamageParticle { get; set; }
     public float DamageIndicatorRandomPosInfo { get; set; } = 0;
 
-    public StatContainer DodgeCooltime { get; set; }
+    public Cooltime DodgeCooltime { get; set; }
+    public StatContainer DodgeSpeed { get; set; }
+    public StatContainer InitialDodgeMaxDistance { get; set; }
     public StatContainer ContinuousDodgeLimit { get; set; }
-    public StatContainer KeepDodgeMaxTime { get; set; }
+    public LayerMask KeepDodgeWallLayer { get; set; }
+    public Cooltime KeepDodgeMaxTime { get; set; }
     public StatContainer KeepDodgeMaxDistance { get; set; }
+    public Cooltime DodgeInvincibleTime { get; set; }
+    public int TotalDodgeCount { get; set; }
 
     public StatContainer MaxHP { get; set; }
     public StatContainer HP { get; set; }

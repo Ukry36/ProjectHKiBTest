@@ -6,4 +6,16 @@ public class EnumManager
     {
         D, R, L, U
     }
+
+    public enum InputType
+    {
+        OnMove,
+        OnSprint,
+        OnAttack,
+        OnDodge,
+        HasDInput,
+        HasLInput,
+        HasRInput,
+        HasUInput,
+    }
 }

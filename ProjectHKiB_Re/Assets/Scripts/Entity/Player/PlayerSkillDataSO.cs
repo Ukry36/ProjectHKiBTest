@@ -1,28 +1,29 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 [CreateAssetMenu(fileName = "Player Skill Data", menuName = "Scriptable Objects/Data/Player Skill Data", order = 3)]
 public class PlayerSkillDataSO : ScriptableObject
 {
-    public AttackDataSO attackData;
-    public List<List<Vector2>> graffitiCodes;
-    public List<List<Vector2>> graffitiAllCases;
-
-    public void OnEnable()
+    [Serializable]
+    public class GraffitiCode
     {
-        CalculateAllCases();
+        public List<Vector2> code = new();
     }
+    public AttackDataSO attackData;
+    public List<GraffitiCode> graffitiCodes;
+    public List<GraffitiCode> graffitiAllCases;
 
     public void CalculateAllCases()
     {
         graffitiAllCases.Clear();
-        foreach (List<Vector2> graffitiCode in graffitiCodes)
+        foreach (GraffitiCode graffitiCode in graffitiCodes)
         {
-            foreach (Vector2 center in graffitiCode)
+            foreach (Vector2 center in graffitiCode.code)
             {
-                List<Vector2> skillCase = new(graffitiCode.Count);
-                foreach (Vector2 point in graffitiCode)
+                GraffitiCode skillCase = new() { code = new(graffitiCode.code.Count) };
+                foreach (Vector2 point in graffitiCode.code)
                 {
-                    skillCase.Add(point - center);
+                    skillCase.code.Add(point - center);
                 }
                 graffitiAllCases.Add(skillCase);
             }

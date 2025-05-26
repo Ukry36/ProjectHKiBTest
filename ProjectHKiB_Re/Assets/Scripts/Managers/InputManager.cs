@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class InputManager : MonoBehaviour
 {
     public Vector2 MoveInput { get; private set; }
-    public Vector2 LastSetMoveInput { get; private set; }
+    public Vector2 LastSetMoveInput { get; set; }
     public bool MoveInputPressed { get; private set; }
     public bool DInput { get; private set; }
     public bool RInput { get; private set; }
@@ -129,5 +129,21 @@ public class InputManager : MonoBehaviour
         CancelInput = cancel.WasPressedThisFrame();
         NextInput = equipment.WasPressedThisFrame();
         PrevInput = inventory.WasPressedThisFrame();
+    }
+
+    public bool GetInputByEnum(EnumManager.InputType inputType)
+    {
+        return inputType switch
+        {
+            EnumManager.InputType.OnMove => !MoveInput.Equals(Vector2.zero),
+            EnumManager.InputType.OnSprint => SprintInput,
+            EnumManager.InputType.OnAttack => AttackInput,
+            EnumManager.InputType.OnDodge => DodgeInput,
+            EnumManager.InputType.HasDInput => MoveInput.y < 0,
+            EnumManager.InputType.HasLInput => MoveInput.x < 0,
+            EnumManager.InputType.HasRInput => MoveInput.x > 0,
+            EnumManager.InputType.HasUInput => MoveInput.y > 0,
+            _ => false,
+        };
     }
 }
