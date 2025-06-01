@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 1473020964112774925}
   - component: {fileID: 1473020964112774924}
   - component: {fileID: 1473020964112774915}
+  - component: {fileID: 8549578458478149775}
+  - component: {fileID: 2452671810070010264}
   m_Layer: 13
   m_Name: DamagableObjectTest
   m_TagString: Untagged
@@ -26,7 +28,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1473020964112774914}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 7, y: -4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -49,85 +51,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc1b06e88323b5f4bbe71cba7777a05a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <MaxHP>k__BackingField:
-    baseValue: 10000
-    OnValueDecreased:
-      m_PersistentCalls:
-        m_Calls: []
-    OnValueIncreased:
-      m_PersistentCalls:
-        m_Calls: []
-    additionalBuff: 0
-    proportionalBuff: 0
-  <HP>k__BackingField:
-    baseValue: 10000
-    OnValueDecreased:
-      m_PersistentCalls:
-        m_Calls: []
-    OnValueIncreased:
-      m_PersistentCalls:
-        m_Calls: []
-    additionalBuff: 0
-    proportionalBuff: 0
-  <DEF>k__BackingField:
-    baseValue: 0
-    OnValueDecreased:
-      m_PersistentCalls:
-        m_Calls: []
-    OnValueIncreased:
-      m_PersistentCalls:
-        m_Calls: []
-    additionalBuff: 0
-    proportionalBuff: 0
-  <Resistance>k__BackingField:
-    baseValue: 0
-    OnValueDecreased:
-      m_PersistentCalls:
-        m_Calls: []
-    OnValueIncreased:
-      m_PersistentCalls:
-        m_Calls: []
-    additionalBuff: 0
-    proportionalBuff: 0
-  <Mass>k__BackingField: 3
-  <HitSound>k__BackingField: {fileID: 0}
-  <HitParticle>k__BackingField: {fileID: 0}
-  <Speed>k__BackingField:
-    baseValue: 0
-    OnValueDecreased:
-      m_PersistentCalls:
-        m_Calls: []
-    OnValueIncreased:
-      m_PersistentCalls:
-        m_Calls: []
-    additionalBuff: 0
-    proportionalBuff: 0
-  <SprintCoeff>k__BackingField:
-    baseValue: 0
-    OnValueDecreased:
-      m_PersistentCalls:
-        m_Calls: []
-    OnValueIncreased:
-      m_PersistentCalls:
-        m_Calls: []
-    additionalBuff: 0
-    proportionalBuff: 0
-  <WallLayer>k__BackingField:
-    serializedVersion: 2
-    m_Bits: 584
-  <IsSprinting>k__BackingField: 0
-  <FootStepAudio>k__BackingField: {fileID: 0}
-  <MovePoint>k__BackingField: {fileID: 8212205510437895407}
   <FootstepController>k__BackingField: {fileID: 0}
-  movementManager: {fileID: 11400000, guid: 642ea6baceb016d4c8e15940b757d7cf, type: 2}
-  dieWhenKnockBack: 0
-  canPushLayer:
-    serializedVersion: 2
-    m_Bits: 8192
-  damageManager: {fileID: 11400000, guid: 69175ed9e37d9e3408bdf3432f4a5b4c, type: 2}
-  <DamageParticle>k__BackingField: {fileID: 11400000, guid: b174f0a96b53f244399007d5550166a9, type: 2}
+  <MovementController>k__BackingField: {fileID: 2452671810070010264}
+  <HealthController>k__BackingField: {fileID: 8549578458478149775}
   <BaseData>k__BackingField: {fileID: 11400000, guid: 54dac4c6b254eec468419efeceee2cd5, type: 2}
   databaseManager: {fileID: 11400000, guid: 6bc54106ea95a9242946feafc44a5dfe, type: 2}
+  movementManager: {fileID: 11400000, guid: 642ea6baceb016d4c8e15940b757d7cf, type: 2}
 --- !u!210 &1473020964112774924
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -137,7 +66,7 @@ SortingGroup:
   m_GameObject: {fileID: 1473020964112774914}
   m_Enabled: 1
   m_SortingLayerID: -1837625035
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
 --- !u!61 &1473020964112774915
 BoxCollider2D:
@@ -165,6 +94,33 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.9, y: 0.9}
   m_EdgeRadius: 0
+--- !u!114 &8549578458478149775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1473020964112774914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b967bdeed84a424bad44b65e24b8534, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageManager: {fileID: 11400000, guid: 69175ed9e37d9e3408bdf3432f4a5b4c, type: 2}
+--- !u!114 &2452671810070010264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1473020964112774914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f82c44d3d40f7b847852ad2014cff2d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementManager: {fileID: 11400000, guid: 642ea6baceb016d4c8e15940b757d7cf, type: 2}
+  <MovePoint>k__BackingField: {fileID: 8212205510437895407}
 --- !u!1 &1473020964518941202
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,15 +7,15 @@ using UnityEngine;
 public class Enemy : Entity, IAttackAreaIndicatable, IPathFindable, IAttackable, IPoolable, IEntityStateControllable
 {
     public AttackDataSO[] AttackDatas { get; set; }
-    public StatContainer ATK { get; set; }
+    public int ATK { get; set; }
     public LayerMask[] TargetLayers { get; set; }
     public Transform CurrentTarget { get; set; }
     public DamageParticleDataSO DamageParticle { get; set; }
     public float DamageIndicatorRandomPosInfo { get; set; } = 0;
 
     [field: SerializeField] public AttackController AttackController { get; set; }
-    public StatContainer CriticalChanceRate { get; set; }
-    public StatContainer CriticalDamageRate { get; set; }
+    public float CriticalChanceRate { get; set; }
+    public float CriticalDamageRate { get; set; }
     public int PoolSize { get; set; }
 
     public delegate void GameObjectDisabled(int ID, int hash);
@@ -28,28 +28,28 @@ public class Enemy : Entity, IAttackAreaIndicatable, IPathFindable, IAttackable,
     [field: SerializeField] public StateController StateController { get; set; }
     public int LastAttackAreaIndicatorID { get; set; }
     public List<Vector3> PathList { get; set; }
+    [field: SerializeField] public PathFindController PathFindController { get; set; }
 
     public EnemyDataSO enemyBaseData;
     [SerializeField] private DatabaseManagerSO databaseManager;
-    protected override void Awake()
+    protected void Awake()
     {
-        base.Awake();
-        getNodesHandler += GetNodes;
+        HealthController.OnDie += OnDie;
     }
-    protected override void OnDestroy()
+    protected void OnDestroy()
     {
-        base.OnDestroy();
-        getNodesHandler -= GetNodes;
+        HealthController.OnDie -= OnDie;
     }
 
     void Start()
     {
         Initialize();
     }
-    public void Initialize()
+    public override void Initialize()
     {
+        base.Initialize();
         UpdateDatas();
-        StartCoroutine(PathfindCoroutine());
+        PathFindController.Initialize(this);
         SetAttackController();
     }
     private void SetAttackController()
@@ -57,7 +57,6 @@ public class Enemy : Entity, IAttackAreaIndicatable, IPathFindable, IAttackable,
 
     public void UpdateDatas()
     {
-        MovePoint.Initialize();
         databaseManager.SetIMovable(this, enemyBaseData);
         databaseManager.SetIAttackable(this, enemyBaseData);
         databaseManager.SetIDamagable(this, enemyBaseData);
@@ -81,49 +80,14 @@ public class Enemy : Entity, IAttackAreaIndicatable, IPathFindable, IAttackable,
         enemyBaseData = enemyData;
     }
 
-
-    public IEnumerator PathfindCoroutine()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(0.5f);
-            if (CurrentTarget)
-            {
-                GameManager.instance.pathFindingManager.PathFindingFull(getNodesHandler, 12, MovePoint.transform.position, CurrentTarget.position, WallLayer);
-            }
-        }
-    }
-
-    private Action<List<Vector3>> getNodesHandler;
-    private void GetNodes(List<Vector3> pathList)
-    {
-        PathList = pathList;
-    }
-
-    public void Update()
-    {
-        if (PathList != null && PathList.Count > 0)
-        {
-            //for (int i = 0; i < PathList.Count; i++)
-            //Debug.DrawLine(PathList[i] + Vector3.down * 0.25f, PathList[i] + Vector3.up * 0.25f);
-
-            if (PathList[0].Equals(this.MovePoint.transform.position))
-            {
-                PathList.RemoveAt(0);
-            }
-        }
-
-    }
-
     public void OnDisable()
     {
         OnGameObjectDisabled?.Invoke(enemyBaseData.GetInstanceID(), this.gameObject.GetHashCode());
     }
 
-    public override void Die()
+    public void OnDie()
     {
         if (LastAttackAreaIndicatorID != 0)
             GameManager.instance.attackAreaIndicatorManager.StopIndicating(LastAttackAreaIndicatorID);
-        base.Die();
     }
 }

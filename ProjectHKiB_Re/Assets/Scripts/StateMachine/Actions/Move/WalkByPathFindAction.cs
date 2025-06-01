@@ -11,11 +11,11 @@ public class WalkByPathFindAction : StateActionSO
             {
                 Vector3 targetPos = pathfindable.PathList[0];
                 //Debug.DrawLine(targetPos - Vector3.one * 0.5f, targetPos + Vector3.one * 0.5f);
-                movementManager.WalkMove(stateController.transform, movable, targetPos - stateController.transform.position, movable.WallLayer);
+                movementManager.WalkMove(stateController.transform, movable, movable.Speed, targetPos - stateController.transform.position, movable.WallLayer);
             }
             else
             {
-                movementManager.WalkMove(stateController.transform, movable, attackable.CurrentTarget.position - stateController.transform.position, movable.WallLayer);
+                movementManager.WalkMove(stateController.transform, movable, movable.Speed, attackable.CurrentTarget.position - stateController.transform.position, movable.WallLayer);
             }
         }
         else

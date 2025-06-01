@@ -11,8 +11,8 @@ public class FootstepController : MonoBehaviour
     public void Start()
     {
         footstepAudioList = new();
-        if (animationController != null)
-            animationController.OnDirChanged += PlayFootstepAudio;
+        //if (animationController != null)
+        //animationController.OnDirChanged += PlayFootstepAudio;
     }
 
     public void ChangeDefaultFootStepAudio(AudioDataSO audioData)

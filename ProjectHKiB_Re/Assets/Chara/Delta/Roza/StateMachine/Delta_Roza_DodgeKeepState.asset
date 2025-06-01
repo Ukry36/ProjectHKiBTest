@@ -13,10 +13,16 @@ MonoBehaviour:
   m_Name: Delta_Roza_DodgeKeepState
   m_EditorClassIdentifier: 
   transitions:
-  - availableTime: 0
+  - availableTime: 0.1
     decisions:
     - decision: {fileID: 11400000, guid: a544cc1d86e2d5b43b59fe4bf0b1808f, type: 2}
       negate: 0
+    trueState: {fileID: 11400000, guid: d8a697e426d3541408e400975310c7ee, type: 2}
+    falseState: {fileID: 0}
+  - availableTime: 0.1
+    decisions:
+    - decision: {fileID: 11400000, guid: 612b9fe66ed1ef34793ed729a392fd87, type: 2}
+      negate: 1
     trueState: {fileID: 11400000, guid: d8a697e426d3541408e400975310c7ee, type: 2}
     falseState: {fileID: 0}
   enterActions:
@@ -27,4 +33,4 @@ MonoBehaviour:
   exitActions: []
   subDecisions: []
   frameDecisions: []
-  animationName: KeepDodge
+  animationName: DodgeKeep

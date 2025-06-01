@@ -2,33 +2,24 @@ using UnityEngine;
 
 public interface IDodgeable
 {
-    public Cooltime DodgeCooltime { get; set; }
-    public StatContainer InitialDodgeMaxDistance { get; set; }
-    public StatContainer DodgeSpeed { get; set; }
-    public StatContainer ContinuousDodgeLimit { get; set; }
+    public float DodgeCooltime { get; set; }
+    public float InitialDodgeMaxDistance { get; set; }
+    public float DodgeSpeed { get; set; }
+    public int ContinuousDodgeLimit { get; set; }
     public LayerMask KeepDodgeWallLayer { get; set; }
-    public Cooltime KeepDodgeMaxTime { get; set; }
-    public StatContainer KeepDodgeMaxDistance { get; set; }
-    public Cooltime DodgeInvincibleTime { get; set; }
-    public int TotalDodgeCount { get; set; }
+    public float KeepDodgeMaxTime { get; set; }
+    //public StatContainer KeepDodgeMaxDistance { get; set; }
+    public float DodgeInvincibleTime { get; set; }
+    public DodgeController DodgeController { get; set; }
+    public ParticlePlayer KeepDodgeParticle { get; set; }
 
-    public void StartKeepDodge() => KeepDodgeMaxTime.StartCooltime();
+    public void StartKeepDodge() => DodgeController.StartKeepDodge(KeepDodgeMaxTime, KeepDodgeParticle.GetInstanceID());
 
-    public bool IsKeepDodgeEnded() => KeepDodgeMaxTime.cooltimeEnded;
+    public bool IsKeepDodgeEnded() => DodgeController.CheckKeepDodgeLimit();
 
-    public bool CanDodge() => DodgeCooltime.cooltimeEnded;
+    public bool CanDodge() => DodgeController.CanDodge;
 
-    public void StartDodge()
-    {
-        DodgeInvincibleTime.StartCooltime();
-        TotalDodgeCount++;
-    }
+    public void StartDodge() => DodgeController.StartDodge(DodgeInvincibleTime);
 
-    public void EndDodge()
-    {
-        if (TotalDodgeCount % (int)ContinuousDodgeLimit.Value == 0)
-            DodgeCooltime.StartCooltime();
-        DodgeInvincibleTime.CancelCooltime();
-        KeepDodgeMaxTime.CancelCooltime();
-    }
+    public void EndDodge() => DodgeController.EndDodge(DodgeCooltime, ContinuousDodgeLimit);
 }

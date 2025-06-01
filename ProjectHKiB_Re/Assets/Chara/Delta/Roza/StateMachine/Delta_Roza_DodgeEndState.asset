@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: Delta_Roza_DodgeEndState
   m_EditorClassIdentifier: 
   transitions:
-  - availableTime: 0.5
-    decisions: []
+  - availableTime: 0.4
+    decisions:
+    - decision: {fileID: 11400000, guid: 0b58246cfba562f40bb61edc58b554f3, type: 2}
+      negate: 0
     trueState: {fileID: 11400000, guid: aaecd269a081e2a4e8930f4993757b90, type: 2}
-    falseState: {fileID: 0}
-  - availableTime: 0
+    falseState: {fileID: 11400000, guid: cde19cdd37735d7408d033a391c4fc1e, type: 2}
+  - availableTime: 0.1
     decisions:
     - decision: {fileID: 11400000, guid: 5080e5686af385f43ba3c3c0a486210c, type: 2}
       negate: 0
@@ -31,7 +33,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0209c173fb36db0459d04d0b01948ced, type: 2}
   updateActions:
   - {fileID: 11400000, guid: 7263eacb51896564e8bf3466a98c6b58, type: 2}
-  exitActions: []
-  subDecisions: []
+  exitActions:
+  - {fileID: 11400000, guid: 797efcf4b4a2d0449b5517e4e60eed74, type: 2}
+  subDecisions:
+  - decision: {fileID: 11400000, guid: 25fc0810a2a69f84e991d13a162ddaae, type: 2}
+    action: {fileID: 11400000, guid: 3cc6dd3a1c010ec4d801db6d591c8a4f, type: 2}
+    negate: 0
   frameDecisions: []
-  animationName: EndDodge
+  animationName: DodgeEnd

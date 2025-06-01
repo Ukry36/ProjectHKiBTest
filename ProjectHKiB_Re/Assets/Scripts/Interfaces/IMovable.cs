@@ -26,18 +26,19 @@ public interface IMovable
             SetForce = new();
         }
     }
-    public StatContainer Speed { get; set; }
-    public StatContainer SprintCoeff { get; set; }
+    public float Speed { get; set; }
+    public float SprintCoeff { get; set; }
     public LayerMask WallLayer { get; set; }
     public LayerMask CanPushLayer { get; set; }
-    public bool IsSprinting { get; set; }
     public AudioDataSO FootStepAudio { get; set; }
-    public MovePoint MovePoint { get; set; }
+    public float Mass { get; set; }
+    public MovePoint MovePoint { get => MovementController.MovePoint; }
     public FootstepController FootstepController { get; set; }
-    public ExternalForce ExForce { get; set; }
-    public bool IsKnockbackMove { get; set; }
-    public Vector3 LastSetDir { get; set; }
-
-    public void KnockBack(Vector3 dir, float strength);
-    public void EndKnockbackEarly();
+    public MovementController MovementController { get; set; }
+    public Vector3 LastSetDir { get => MovementController.LastSetDir; set => MovementController.LastSetDir = value; }
+    public bool IsKnockbackMove { get => MovementController.IsKnockbackMove; set => MovementController.IsKnockbackMove = value; }
+    public bool IsSprinting { get => MovementController.IsSprinting; set => MovementController.IsSprinting = value; }
+    public ExternalForce ExForce { get => MovementController.ExForce; set => MovementController.ExForce = value; }
+    public void KnockBack(Vector3 dir, float strength) => MovementController.KnockBack(dir, strength, this);
+    public void EndKnockbackEarly() => MovementController.EndKnockbackEarly(this);
 }

@@ -13,15 +13,16 @@ MonoBehaviour:
   m_Name: Delta_Roza_DodgeStartState
   m_EditorClassIdentifier: 
   transitions:
-  - availableTime: 0.5
+  - availableTime: 0.15
     decisions: []
     trueState: {fileID: 11400000, guid: 2b9bdc2d4bc52e441943094105a7bcb0, type: 2}
     falseState: {fileID: 0}
   enterActions:
   - {fileID: 11400000, guid: 9d29c5b17685af144aaabb51ca64e9ad, type: 2}
-  - {fileID: 11400000, guid: 72a96972d3abff8438153dedd39e51ce, type: 2}
+  - {fileID: 11400000, guid: b67b655ec5759574ea747ce9c1f9f7d4, type: 2}
   updateActions: []
-  exitActions: []
+  exitActions:
+  - {fileID: 11400000, guid: 72a96972d3abff8438153dedd39e51ce, type: 2}
   subDecisions: []
   frameDecisions: []
-  animationName: StartDodge
+  animationName: DodgeStart

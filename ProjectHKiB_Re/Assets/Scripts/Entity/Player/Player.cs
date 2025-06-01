@@ -5,11 +5,10 @@ using UnityEditor.Animations;
 [Serializable]
 public class Player : Entity, IAttackable, IDodgeable, IGraffitiable, ISkinable, IEntityStateControllable
 {
-
     #region field
-    public StatContainer ATK { get; set; }
-    public StatContainer CriticalChanceRate { get; set; }
-    public StatContainer CriticalDamageRate { get; set; }
+    public int ATK { get; set; }
+    public float CriticalChanceRate { get; set; }
+    public float CriticalDamageRate { get; set; }
     public AttackDataSO[] AttackDatas { get; set; }
     [field: SerializeField] public AttackController AttackController { get; set; }
     public LayerMask[] TargetLayers { get; set; }
@@ -32,18 +31,18 @@ public class Player : Entity, IAttackable, IDodgeable, IGraffitiable, ISkinable,
         }
     }
     //*/
-    public Cooltime DodgeCooltime { get; set; }
-    public StatContainer InitialDodgeMaxDistance { get; set; }
-    public StatContainer DodgeSpeed { get; set; }
-    public StatContainer ContinuousDodgeLimit { get; set; }
+    public float DodgeCooltime { get; set; }
+    public float InitialDodgeMaxDistance { get; set; }
+    public float DodgeSpeed { get; set; }
+    public int ContinuousDodgeLimit { get; set; }
     public LayerMask KeepDodgeWallLayer { get; set; }
-    public Cooltime KeepDodgeMaxTime { get; set; }
-    public StatContainer KeepDodgeMaxDistance { get; set; }
-    public Cooltime DodgeInvincibleTime { get; set; }
-    public int TotalDodgeCount { get; set; }
+    public float KeepDodgeMaxTime { get; set; }
+    public float DodgeInvincibleTime { get; set; }
+    [field: SerializeField] public DodgeController DodgeController { get; set; }
+    public ParticlePlayer KeepDodgeParticle { get; set; }
 
-    public StatContainer MaxGP { get; set; }
-    public StatContainer GP { get; set; }
+    public int MaxGP { get; set; }
+    public int GP { get; set; }
 
     public SkinDataSO SkinData { get; set; }
 
@@ -87,14 +86,14 @@ public class Player : Entity, IAttackable, IDodgeable, IGraffitiable, ISkinable,
     #endregion
 
 
-    public void Initialize()
+    public override void Initialize()
     {
+        base.Initialize();
         UpdateDatas();
     }
 
     public void UpdateDatas()
     {
-        MovePoint.Initialize();
         databaseManager.SetIMovable(this, PlayerBaseData);
         databaseManager.SetIAttackable(this, PlayerBaseData);
         databaseManager.SetIDamagable(this, PlayerBaseData);
@@ -120,6 +119,7 @@ public class Player : Entity, IAttackable, IDodgeable, IGraffitiable, ISkinable,
         StateController.RegisterInterface<IMovable>(this);
         StateController.RegisterInterface<IAttackable>(this);
         StateController.RegisterInterface<IDirAnimatable>(this);
+        StateController.RegisterInterface<IDodgeable>(this);
         StateController.Initialize(StateMachine);
     }
 }

@@ -8,7 +8,7 @@ public class WalkByInputAction : StateActionSO
         var movable = stateController.GetInterface<IMovable>();
         if (movable != null)
         {
-            movementManager.WalkMove(stateController.transform, movable, GameManager.instance.inputManager.MoveInput, movable.WallLayer);
+            movementManager.WalkMove(stateController.transform, movable, movable.Speed, GameManager.instance.inputManager.MoveInput, movable.WallLayer);
         }
         else
             Debug.LogError("ERROR: Interface Not Found!!!");

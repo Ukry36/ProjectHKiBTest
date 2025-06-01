@@ -1,10 +1,14 @@
-public interface IAttackable : ITargetable
+using UnityEngine;
+
+public interface IAttackable
 {
-    public StatContainer ATK { get; set; }
-    public StatContainer CriticalChanceRate { get; set; }
-    public StatContainer CriticalDamageRate { get; set; }
+    public int ATK { get; set; }
+    public float CriticalChanceRate { get; set; }
+    public float CriticalDamageRate { get; set; }
     public AttackDataSO[] AttackDatas { get; set; }
     public AttackController AttackController { get; set; }
     public DamageParticleDataSO DamageParticle { get; set; }
     public float DamageIndicatorRandomPosInfo { get; set; }
+    public LayerMask[] TargetLayers { get; set; }
+    public Transform CurrentTarget { get => AttackController.CurrentTarget; set => AttackController.CurrentTarget = value; }
 }
