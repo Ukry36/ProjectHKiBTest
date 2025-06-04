@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48c9f0ded553de24694d521c9755bb18, type: 3}
+  m_Name: Enemy_Rusher_DamageData1
+  m_EditorClassIdentifier: 
+  damageCoefficient: 1
+  damageType: {fileID: 0}
+  knockBack: 0
+  damageLayer:
+    serializedVersion: 2
+    m_Bits: 1024
+  initialSound: {fileID: 0}
+  hitSound: {fileID: 0}
+  camShake: 0
+  DLRUDamageEffects:
+    _serializedList:
+    - Key: 0
+      Value: {fileID: -4411540860117575066, guid: ab139a8cda154ee419da67bfec05f7a2, type: 3}
+    - Key: 2
+      Value: {fileID: -4411540860117575066, guid: 737b39273799b714a85bb84508b2b1de, type: 3}
+    - Key: 1
+      Value: {fileID: -4411540860117575066, guid: a2d4332812ba66043bfc747c1c1cdad3, type: 3}
+    - Key: 3
+      Value: {fileID: -4411540860117575066, guid: d37d5013fb54f9f4f95e53d7bd68ab50, type: 3}
+  downwardDamageArea:
+    offset: {x: 0, y: -1}
+    size: {x: 1, y: 1}
+    pivot: {x: 0, y: 0, z: 0}

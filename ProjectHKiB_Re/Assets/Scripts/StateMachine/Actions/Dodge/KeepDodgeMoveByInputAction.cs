@@ -7,7 +7,7 @@ public class KeepDodgeMoveByInputAction : StateActionSO
     {
         if (stateController.TryGetInterface(out IMovable movable) && stateController.TryGetInterface(out IDodgeable dodgeable))
         {
-            movementManager.WalkMove(stateController.transform, movable, dodgeable.DodgeSpeed, GameManager.instance.inputManager.MoveInput, dodgeable.KeepDodgeWallLayer);
+            movementManager.WalkMove(stateController.transform, movable, dodgeable.BaseDodgeSpeed, GameManager.instance.inputManager.MoveInput, dodgeable.KeepDodgeWallLayer);
         }
         else Debug.LogError("ERROR: Interface Not Found!!!");
     }

@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class Friendly : Entity, IAttackable, IPoolable
 {
-    public int ATK { get; set; }
+    public int BaseATK { get; set; }
     public LayerMask[] TargetLayers { get; set; }
     public Transform CurrentTarget { get; set; }
     public DamageParticleDataSO DamageParticle { get; set; }

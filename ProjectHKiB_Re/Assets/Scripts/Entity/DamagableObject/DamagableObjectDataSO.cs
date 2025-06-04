@@ -19,7 +19,7 @@ public class DamagableObjectDataSO : ScriptableObject, IDamagable, IMovable, IAt
 
     public float DamageIndicatorRandomPosInfo { get; set; } = 0;
 
-    public int ATK { get; set; }
+    public int BaseATK { get; set; }
     public float CriticalChanceRate { get; set; }
     public float CriticalDamageRate { get; set; }
     public AttackDataSO[] AttackDatas { get; set; }

@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5721fd3ee542e4a459ca02dea273ac32, type: 3}
+  m_Name: DamagableObjectTest
+  m_EditorClassIdentifier: 
+  <BaseMaxHP>k__BackingField: 1000
+  <BaseDEF>k__BackingField: 0
+  <Mass>k__BackingField: 3
+  <HitSound>k__BackingField: {fileID: 0}
+  <HitParticle>k__BackingField: {fileID: 0}
+  <Speed>k__BackingField: 0
+  <SprintCoeff>k__BackingField: 0
+  <WallLayer>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 584
+  <FootStepAudio>k__BackingField: {fileID: 0}
+  <DieWhenKnockBack>k__BackingField: 0
+  <CanPushLayer>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 11264
+  <DamageParticle>k__BackingField: {fileID: 11400000, guid: b174f0a96b53f244399007d5550166a9, type: 2}

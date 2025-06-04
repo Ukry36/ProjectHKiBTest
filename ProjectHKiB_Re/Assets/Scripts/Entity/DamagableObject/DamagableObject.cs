@@ -5,13 +5,12 @@ public class DamagableObject : Entity, IAttackable
 {
     private bool dieWhenKnockBack;
     public float DamageIndicatorRandomPosInfo { get; set; } = 0;
-    public int ATK { get; set; }
+    public int BaseATK { get; set; }
     public float CriticalChanceRate { get; set; }
     public float CriticalDamageRate { get; set; }
     public AttackDataSO[] AttackDatas { get; set; }
     public AttackController AttackController { get; set; }
     public LayerMask[] TargetLayers { get; set; }
-    public Transform CurrentTarget { get; set; }
     public DamageParticleDataSO DamageParticle { get; set; }
     [field: SerializeField] public DamagableObjectDataSO BaseData { get; set; }
     [SerializeField] private DatabaseManagerSO databaseManager;

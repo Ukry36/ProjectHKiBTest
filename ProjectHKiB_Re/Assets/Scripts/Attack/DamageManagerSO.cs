@@ -22,16 +22,19 @@ public class DamageManagerSO : ScriptableObject
             if (value <= 0) value = 1;
             getHit.HP -= value;
         }
+        if (!getHit.Invincible || IsKnockback)
+        {
+            GameManager.instance.damageParticleManager.PlayHitParticle
+            (
+                hitter.DamageParticle,
+                value,
+                value > getHit.CurrentMaxHP * 0.5 || IsKnockback,
+                isCritical,
+                hitTransform,
+                hitter.DamageIndicatorRandomPosInfo
+            );
+        }
 
-        GameManager.instance.damageParticleManager.PlayHitParticle
-        (
-            hitter.DamageParticle,
-            value,
-            value > getHit.CurrentMaxHP * 0.5 || IsKnockback,
-            isCritical,
-            hitTransform,
-            hitter.DamageIndicatorRandomPosInfo
-        );
     }
 
 }

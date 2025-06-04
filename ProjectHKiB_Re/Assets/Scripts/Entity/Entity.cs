@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Entity : MonoBehaviour, IDamagable, IMovable
+public abstract class Entity : MonoBehaviour, IDamagable, IMovable, IBuffable
 {
     public int BaseMaxHP { get; set; }
     public int BaseDEF { get; set; }
@@ -16,10 +16,11 @@ public abstract class Entity : MonoBehaviour, IDamagable, IMovable
     [field: SerializeField] public FootstepController FootstepController { get; set; }
     [field: SerializeField] public MovementController MovementController { get; set; }
     [field: SerializeField] public HealthController HealthController { get; set; }
+    [field: SerializeField] public StatBuffController StatBuffController { get; set; }
 
     public virtual void Initialize()
     {
-        HealthController.Initialize(this);
+        HealthController.Initialize(this, BaseMaxHP);
         MovementController.Initialize();
     }
 }

@@ -6,10 +6,10 @@ public class DetectAndTargetDecision : StateDecisionSO
     [SerializeField] private TargetingManagerSO targetManager;
     public override bool Decide(StateController stateController)
     {
-        if (stateController.TryGetInterface(out IAttackable attackable))
+        if (stateController.TryGetInterface(out ITargetable targetable))
         {
-            Transform t = targetManager.PositianalTarget(stateController.transform.position, radius, attackable.TargetLayers);
-            attackable.CurrentTarget = t;
+            Transform t = targetManager.PositianalTarget(stateController.transform.position, radius, targetable.TargetLayers);
+            targetable.CurrentTarget = t;
             return t;
         }
         return false;

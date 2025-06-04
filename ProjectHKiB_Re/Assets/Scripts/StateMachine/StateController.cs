@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class StateController : MonoBehaviour, IInterfaceRegistable
+public class StateController : InterfaceRegister
 {
     [HideInInspector] public CustomVariableSets customVariables = new();
     [NaughtyAttributes.ReadOnly][SerializeField] protected StateSO _currentState;
@@ -19,7 +19,6 @@ public class StateController : MonoBehaviour, IInterfaceRegistable
     [HideInInspector] public List<Coroutine> FrameActionSequences = new(36);
     [HideInInspector] public List<Coroutine> TransitionSequences = new(36);
     [HideInInspector] public List<bool> TransitionConditions = new(36);
-    public Dictionary<Type, object> Interfaces { get; set; } = new();
 
     protected virtual void Awake()
     {
@@ -28,43 +27,6 @@ public class StateController : MonoBehaviour, IInterfaceRegistable
             FrameActionSequences.Add(null);
             TransitionSequences.Add(null);
             TransitionConditions.Add(false);
-        }
-    }
-
-    public void RegisterInterface<T>(T implementation) where T : class
-    {
-        Interfaces[typeof(T)] = implementation;
-    }
-
-    public T GetInterface<T>() where T : class
-    {
-        if (Interfaces.TryGetValue(typeof(T), out var implementation))
-        {
-            return implementation as T;
-        }
-        return null;
-    }
-
-    public bool TryGetInterface<T>(out T item) where T : class
-    {
-        if (Interfaces.TryGetValue(typeof(T), out var implementation))
-        {
-            item = implementation as T;
-            return true;
-        }
-        else
-        {
-            item = default;
-            return false;
-        }
-    }
-
-    public void RegisterModules(Transform transform)
-    {
-        InterfaceModule[] interfaceModules = transform.GetComponents<InterfaceModule>();
-        for (int i = 0; i < interfaceModules.Length; i++)
-        {
-            interfaceModules[i].Register(this);
         }
     }
 

@@ -2,7 +2,7 @@ using UnityEditor.Animations;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "PlayerBaseData", menuName = "Scriptable Objects/Data/PlayerBaseData", order = 1)]
-public class PlayerBaseDataSO : ScriptableObject, IMovable, IAttackable, IDodgeable, IDamagable, IGraffitiable, ISkinable, IEntityStateControllable
+public class PlayerBaseDataSO : ScriptableObject, IMovable, IAttackable, ITargetable, IDodgeable, IDamagable, IGraffitiable, ISkinable, IEntityStateControllable
 {
     public MovePoint MovePoint { get; set; }
     [field: NaughtyAttributes.Foldout("Move")][field: SerializeField] public float Speed { get; set; }
@@ -13,25 +13,27 @@ public class PlayerBaseDataSO : ScriptableObject, IMovable, IAttackable, IDodgea
     public FootstepController FootstepController { get; set; }
     public MovementController MovementController { get; set; }
 
-    [field: NaughtyAttributes.Foldout("Attack")][field: SerializeField] public int ATK { get; set; }
+    [field: NaughtyAttributes.Foldout("Attack")][field: SerializeField] public int BaseATK { get; set; }
     [field: NaughtyAttributes.Foldout("Attack")][field: SerializeField] public float CriticalChanceRate { get; set; }
     [field: NaughtyAttributes.Foldout("Attack")][field: SerializeField] public float CriticalDamageRate { get; set; }
     [field: NaughtyAttributes.Foldout("Attack")][field: SerializeField] public AttackDataSO[] AttackDatas { get; set; }
     public AttackController AttackController { get; set; }
     [field: NaughtyAttributes.Foldout("Attack")][field: SerializeField] public LayerMask[] TargetLayers { get; set; }
-    public Transform CurrentTarget { get; set; }
     [field: NaughtyAttributes.Foldout("Attack")][field: SerializeField] public DamageParticleDataSO DamageParticle { get; set; }
     public float DamageIndicatorRandomPosInfo { get; set; } = 0;
 
-    [field: NaughtyAttributes.Foldout("Dodge")][field: SerializeField] public float DodgeCooltime { get; set; }
+    public TargetController TargetController { get; set; }
+
+    [field: NaughtyAttributes.Foldout("Dodge")][field: SerializeField] public float BaseDodgeCooltime { get; set; }
     [field: NaughtyAttributes.Foldout("Dodge")][field: SerializeField] public float InitialDodgeMaxDistance { get; set; }
-    [field: NaughtyAttributes.Foldout("Dodge")][field: SerializeField] public float DodgeSpeed { get; set; }
-    [field: NaughtyAttributes.Foldout("Dodge")][field: SerializeField] public int ContinuousDodgeLimit { get; set; }
+    [field: NaughtyAttributes.Foldout("Dodge")][field: SerializeField] public float BaseDodgeSpeed { get; set; }
+    [field: NaughtyAttributes.Foldout("Dodge")][field: SerializeField] public int BaseContinuousDodgeLimit { get; set; }
     [field: NaughtyAttributes.Foldout("Dodge")][field: SerializeField] public LayerMask KeepDodgeWallLayer { get; set; }
-    [field: NaughtyAttributes.Foldout("Dodge")][field: SerializeField] public float KeepDodgeMaxTime { get; set; }
-    [field: NaughtyAttributes.Foldout("Dodge")][field: SerializeField] public float DodgeInvincibleTime { get; set; }
+    [field: NaughtyAttributes.Foldout("Dodge")][field: SerializeField] public float BaseKeepDodgeMaxTime { get; set; }
+    [field: NaughtyAttributes.Foldout("Dodge")][field: SerializeField] public float BaseDodgeInvincibleTime { get; set; }
     public DodgeController DodgeController { get; set; }
     [field: NaughtyAttributes.Foldout("Dodge")][field: SerializeField] public ParticlePlayer KeepDodgeParticle { get; set; }
+    [field: NaughtyAttributes.Foldout("Dodge")][field: SerializeField] public StatBuffCompilation JustDodgeBuff { get; set; }
 
     [field: NaughtyAttributes.Foldout("Health")][field: SerializeField] public int BaseMaxHP { get; set; }
     [field: NaughtyAttributes.Foldout("Health")][field: SerializeField] public int BaseDEF { get; set; }

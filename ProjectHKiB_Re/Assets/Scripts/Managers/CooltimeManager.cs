@@ -9,6 +9,7 @@ public class Cooltime
 {
     public float Time { get; private set; }
     public bool IsCooltimeEnded { get; private set; }
+    public float ElapsedTime { get => GameManager.instance.cooltimeManager.GetTime(GetHashCode()); }
 
     public void StartCooltime(float cooltime, TweenCallback cooltimeEndCallback = null)
     {
@@ -18,6 +19,13 @@ public class Cooltime
         IsCooltimeEnded = false;
         cooltimeEndCallback += () => IsCooltimeEnded = true;
         GameManager.instance.cooltimeManager.StartCooltime(this.GetHashCode(), this, cooltimeEndCallback);
+    }
+
+    public void ExtendCooltime(float cooltime, TweenCallback cooltimeEndCallback = null)
+    {
+        float elapsedTime = ElapsedTime;
+        CancelCooltime();
+        StartCooltime(cooltime + elapsedTime, cooltimeEndCallback);
     }
 
     public void CancelCooltime()
@@ -56,9 +64,11 @@ public class CooltimeManager : MonoBehaviour
         _cooltimes[ID] = sequence;
     }
 
+    public float GetTime(int ID) => _cooltimes[ID].ElapsedDelay();
+
     public void CancelCooltime(int ID)
     {
-        if (!_cooltimes.ContainsKey(ID)) { Debug.LogError("ERROR: Cooltime not found!!!"); return; }
+        if (!_cooltimes.ContainsKey(ID)) return;
         _cooltimes[ID]?.Kill();
         _cooltimes.Remove(ID);
     }

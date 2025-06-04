@@ -2,7 +2,7 @@ using UnityEditor.Animations;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Enemy Data", menuName = "Scriptable Objects/Data/Enemy Data", order = 1)]
-public class EnemyDataSO : ScriptableObject, IMovable, IAttackable, IDamagable, IPoolable, IEntityStateControllable
+public class EnemyDataSO : ScriptableObject, IMovable, IAttackable, ITargetable, IDamagable, IPoolable, IEntityStateControllable
 {
     [field: SerializeField] public int PoolSize { get; set; }
 
@@ -14,7 +14,7 @@ public class EnemyDataSO : ScriptableObject, IMovable, IAttackable, IDamagable, 
     [field: SerializeField] public AudioDataSO FootStepAudio { get; set; }
     public FootstepController FootstepController { get; set; }
 
-    [field: SerializeField] public int ATK { get; set; }
+    [field: SerializeField] public int BaseATK { get; set; }
     [field: SerializeField] public float CriticalChanceRate { get; set; }
     [field: SerializeField] public float CriticalDamageRate { get; set; }
     [field: SerializeField] public AttackDataSO[] AttackDatas { get; set; }
@@ -37,6 +37,7 @@ public class EnemyDataSO : ScriptableObject, IMovable, IAttackable, IDamagable, 
     public HealthController HealthController { get; set; }
 
     public MovementController MovementController { get; set; }
+    public TargetController TargetController { get; set; }
 
     public Vector3 GetAttackOrigin()
     {

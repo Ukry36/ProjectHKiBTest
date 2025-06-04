@@ -43,11 +43,11 @@ public class Damager : MonoBehaviour
     private readonly Collider2D[] col = new Collider2D[72];
     public void Damage()
     {
-        trig = 5;
+        gizmoTrig = 5;
         if (_damageData.initialSound)
             GameManager.instance.audioManager.PlayAudioOneShot(_damageData.initialSound, 1, transform.position);
         if (_damageData.DLRUDamageEffects.ContainsKey(_animationController.AnimationDirection) && _damageData.DLRUDamageEffects[_animationController.AnimationDirection])
-            GameManager.instance.particleManager.PlayParticleOneShot(_damageData.DLRUDamageEffects[_animationController.AnimationDirection].GetHashCode(), transform);
+            GameManager.instance.particleManager.PlayParticle(_damageData.DLRUDamageEffects[_animationController.AnimationDirection].GetHashCode(), transform, _damageData.attatchParticleToBody);
 
         int colLength = Physics2D.OverlapBoxNonAlloc
         (
@@ -73,11 +73,11 @@ public class Damager : MonoBehaviour
         _damageCollider.enabled = false;
     }
 
-    private int trig;
+    private int gizmoTrig;
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        if (trig > 0)
+        if (gizmoTrig > 0)
         {
             Vector2 offset = _damageData.downwardDamageArea.offset;
             Vector2 size = _damageData.downwardDamageArea.size;
@@ -86,7 +86,7 @@ public class Damager : MonoBehaviour
             size = _animationController.LastSetAnimationQuaternion4 * size;
 
             Gizmos.DrawWireCube((Vector2)transform.position + offset, size);
-            trig--;
+            gizmoTrig--;
         }
     }
 }

@@ -14,7 +14,7 @@ public class DatabaseManagerSO : ScriptableObject
 
     public void SetIAttackable(IAttackable attackable, IAttackable data)
     {
-        attackable.ATK = data.ATK;
+        attackable.BaseATK = data.BaseATK;
         if (data.AttackDatas != null)
         {
             attackable.AttackDatas = new AttackDataSO[data.AttackDatas.Length];
@@ -22,20 +22,25 @@ public class DatabaseManagerSO : ScriptableObject
         }
         attackable.CriticalChanceRate = data.CriticalChanceRate;
         attackable.CriticalDamageRate = data.CriticalDamageRate;
-        attackable.TargetLayers = data.TargetLayers;
         attackable.DamageParticle = data.DamageParticle;
+    }
+
+    public void SetITargetable(ITargetable targetable, ITargetable data)
+    {
+        targetable.TargetLayers = data.TargetLayers;
     }
 
     public void SetIDodgeable(IDodgeable dodgeable, IDodgeable data)
     {
-        dodgeable.DodgeCooltime = data.DodgeCooltime;
+        dodgeable.BaseDodgeCooltime = data.BaseDodgeCooltime;
         dodgeable.InitialDodgeMaxDistance = data.InitialDodgeMaxDistance;
-        dodgeable.DodgeSpeed = data.DodgeSpeed;
-        dodgeable.ContinuousDodgeLimit = data.ContinuousDodgeLimit;
+        dodgeable.BaseDodgeSpeed = data.BaseDodgeSpeed;
+        dodgeable.BaseContinuousDodgeLimit = data.BaseContinuousDodgeLimit;
         dodgeable.KeepDodgeWallLayer = data.KeepDodgeWallLayer;
-        dodgeable.KeepDodgeMaxTime = data.KeepDodgeMaxTime;
-        dodgeable.DodgeInvincibleTime = data.DodgeInvincibleTime;
+        dodgeable.BaseKeepDodgeMaxTime = data.BaseKeepDodgeMaxTime;
+        dodgeable.BaseDodgeInvincibleTime = data.BaseDodgeInvincibleTime;
         dodgeable.KeepDodgeParticle = data.KeepDodgeParticle;
+        dodgeable.JustDodgeBuff = data.JustDodgeBuff;
     }
 
     public void SetGraffiriable(IGraffitiable graffiriable, IGraffitiable data)

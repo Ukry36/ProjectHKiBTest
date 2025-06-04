@@ -10,7 +10,7 @@ public class FriendlyDataSO : ScriptableObject, IMovable, IAttackable, IDamagabl
 {
     [field: SerializeField] public int BaseMaxHP { get; set; }
     [field: SerializeField] public int BaseDEF { get; set; }
-    [field: SerializeField] public int ATK { get; set; }
+    [field: SerializeField] public int BaseATK { get; set; }
     [field: SerializeField] public float CriticalChanceRate { get; set; }
     [field: SerializeField] public float CriticalDamageRate { get; set; }
     public AttackController AttackController { get; set; }

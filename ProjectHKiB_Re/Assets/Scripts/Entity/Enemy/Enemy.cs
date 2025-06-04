@@ -7,9 +7,9 @@ using UnityEngine;
 public class Enemy : Entity, IAttackAreaIndicatable, IPathFindable, IAttackable, IPoolable, IEntityStateControllable
 {
     public AttackDataSO[] AttackDatas { get; set; }
-    public int ATK { get; set; }
+    public int BaseATK { get; set; }
     public LayerMask[] TargetLayers { get; set; }
-    public Transform CurrentTarget { get; set; }
+
     public DamageParticleDataSO DamageParticle { get; set; }
     public float DamageIndicatorRandomPosInfo { get; set; } = 0;
 
@@ -29,6 +29,7 @@ public class Enemy : Entity, IAttackAreaIndicatable, IPathFindable, IAttackable,
     public int LastAttackAreaIndicatorID { get; set; }
     public List<Vector3> PathList { get; set; }
     [field: SerializeField] public PathFindController PathFindController { get; set; }
+    [field: SerializeField] public TargetController TargetController { get; set; }
 
     public EnemyDataSO enemyBaseData;
     [SerializeField] private DatabaseManagerSO databaseManager;
@@ -47,13 +48,11 @@ public class Enemy : Entity, IAttackAreaIndicatable, IPathFindable, IAttackable,
     }
     public override void Initialize()
     {
-        base.Initialize();
         UpdateDatas();
         PathFindController.Initialize(this);
-        SetAttackController();
+        base.Initialize();
+        AttackController.SetAttacker(this);
     }
-    private void SetAttackController()
-    => AttackController.SetAttacker(this);
 
     public void UpdateDatas()
     {
@@ -61,18 +60,30 @@ public class Enemy : Entity, IAttackAreaIndicatable, IPathFindable, IAttackable,
         databaseManager.SetIAttackable(this, enemyBaseData);
         databaseManager.SetIDamagable(this, enemyBaseData);
         databaseManager.SetIStateControllable(this, enemyBaseData);
+        databaseManager.SetITargetable(this, enemyBaseData);
         SetAnimationController();
         SetStateController();
+        SetBuffController();
     }
     private void SetAnimationController()
     => AnimationController.animator.runtimeAnimatorController = AnimatorController;
     private void SetStateController()
     {
-        StateController.Initialize(StateMachine);
         StateController.RegisterInterface<IMovable>(this);
         StateController.RegisterInterface<IAttackable>(this);
         StateController.RegisterInterface<IAttackAreaIndicatable>(this);
         StateController.RegisterInterface<IPathFindable>(this);
+        StateController.RegisterInterface<ITargetable>(this);
+        StateController.RegisterInterface<IDirAnimatable>(this);
+        StateController.RegisterInterface<IBuffable>(this);
+        StateController.Initialize(StateMachine);
+    }
+
+    private void SetBuffController()
+    {
+        StatBuffController.RegisterInterface<IMovable>(this);
+        StatBuffController.RegisterInterface<IAttackable>(this);
+        StatBuffController.RegisterInterface<IDamagable>(this);
     }
 
     public void InitializeFromPool(EnemyDataSO enemyData)

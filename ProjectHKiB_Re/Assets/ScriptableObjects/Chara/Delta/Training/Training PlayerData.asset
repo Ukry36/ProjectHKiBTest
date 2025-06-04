@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a4552f76dec9764db1bc225722a55f1, type: 3}
+  m_Name: Training PlayerData
+  m_EditorClassIdentifier: 
+  <Speed>k__BackingField: 5
+  <SprintCoeff>k__BackingField: 2
+  <WallLayer>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 72
+  <CanPushLayer>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 0
+  <FootStepAudio>k__BackingField: {fileID: 11400000, guid: d78d695b40ad7c64b8cb95741be6bae5, type: 2}
+  <BaseATK>k__BackingField: 100
+  <CriticalChanceRate>k__BackingField: 0
+  <CriticalDamageRate>k__BackingField: 0
+  <AttackDatas>k__BackingField: []
+  <TargetLayers>k__BackingField:
+  - serializedVersion: 2
+    m_Bits: 2048
+  - serializedVersion: 2
+    m_Bits: 8192
+  <DamageParticle>k__BackingField: {fileID: 11400000, guid: cb51a1de9ae8e724fb7deaf1c56006c2, type: 2}
+  <BaseDodgeCooltime>k__BackingField: 1
+  <InitialDodgeMaxDistance>k__BackingField: 2
+  <BaseDodgeSpeed>k__BackingField: 15
+  <BaseContinuousDodgeLimit>k__BackingField: 2
+  <KeepDodgeWallLayer>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 10312
+  <BaseKeepDodgeMaxTime>k__BackingField: 1
+  <BaseDodgeInvincibleTime>k__BackingField: 0.3
+  <KeepDodgeParticle>k__BackingField: {fileID: 6152642261447226093, guid: ffb6b7870ca53bf4290a59ae77e64649, type: 3}
+  <JustDodgeBuff>k__BackingField:
+    Buffs:
+    - {fileID: 11400000, guid: ff1b189b945f1be4eaf5b6151f65353d, type: 2}
+  <BaseMaxHP>k__BackingField: 1000
+  <BaseDEF>k__BackingField: 0
+  <Mass>k__BackingField: 1
+  <HitSound>k__BackingField: {fileID: 0}
+  <HitParticle>k__BackingField: {fileID: 0}
+  <MaxGP>k__BackingField: 20
+  <GP>k__BackingField: 0
+  <SkinData>k__BackingField: {fileID: 11400000, guid: 1482b858a052cd84eb0e0c7efcbc36a6, type: 2}
+  <StateMachine>k__BackingField: {fileID: 11400000, guid: 1d95a8fa0bc3e7b40973736148392837, type: 2}
+  <AnimatorController>k__BackingField: {fileID: 9100000, guid: 9e01cf73739be76428ceb105013b14e6, type: 2}

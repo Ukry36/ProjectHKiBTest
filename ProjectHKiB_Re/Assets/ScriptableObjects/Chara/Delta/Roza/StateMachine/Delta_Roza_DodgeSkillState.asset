@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb85084ca5989854b9dbc2cce1298255, type: 3}
+  m_Name: Delta_Roza_DodgeSkillState
+  m_EditorClassIdentifier: 
+  transitions:
+  - availableTime: 0
+    decisions:
+    - decision: {fileID: 11400000, guid: 12744be93fd2f334891269c161c19fc3, type: 2}
+      negate: 0
+    - decision: {fileID: 11400000, guid: e0cf4cc32ccc02a468f21e9caa6b837d, type: 2}
+      negate: 0
+    trueState: {fileID: 11400000, guid: 895db63db3096e947a02a127d170274e, type: 2}
+    falseState: {fileID: 0}
+  - availableTime: 0
+    decisions:
+    - decision: {fileID: 11400000, guid: 12744be93fd2f334891269c161c19fc3, type: 2}
+      negate: 1
+    - decision: {fileID: 11400000, guid: e0cf4cc32ccc02a468f21e9caa6b837d, type: 2}
+      negate: 0
+    trueState: {fileID: 11400000, guid: aaecd269a081e2a4e8930f4993757b90, type: 2}
+    falseState: {fileID: 0}
+  - availableTime: 0
+    decisions:
+    - decision: {fileID: 11400000, guid: af28755f24b9a564da14f64bdd3a7f40, type: 2}
+      negate: 0
+    trueState: {fileID: 11400000, guid: cc4bdcdcb162f684aa4182056b09d1ac, type: 2}
+    falseState: {fileID: 0}
+  - availableTime: 0
+    decisions:
+    - decision: {fileID: 11400000, guid: 984a567cf4b1d834cbe7e86dbe8cf828, type: 2}
+      negate: 0
+    - decision: {fileID: 11400000, guid: 5080e5686af385f43ba3c3c0a486210c, type: 2}
+      negate: 0
+    trueState: {fileID: 11400000, guid: 3e9e252439afd3f4688d00ad06d06ef5, type: 2}
+    falseState: {fileID: 0}
+  enterActions:
+  - {fileID: 11400000, guid: 9d29c5b17685af144aaabb51ca64e9ad, type: 2}
+  - {fileID: 11400000, guid: 2c576fa108eac8344a0e22d0909847fb, type: 2}
+  - {fileID: 11400000, guid: 0dcef09597733ae42a8158bb76010c23, type: 2}
+  - {fileID: 11400000, guid: eae65f2d6a38b2f4cb44dd59ca5a19ff, type: 2}
+  updateActions:
+  - {fileID: 11400000, guid: 4ff9702b721b89147abd80a03aeb1ff4, type: 2}
+  exitActions:
+  - {fileID: 11400000, guid: 2d2ede8c60ae88540b1236d23e2593bb, type: 2}
+  - {fileID: 11400000, guid: 1f1221b5f26007c4889cbea05af64771, type: 2}
+  - {fileID: 11400000, guid: f6965e0eaa3b13e4196f346eff01ca0f, type: 2}
+  subDecisions:
+  - decision: {fileID: 11400000, guid: 2b1f8f5f882c1164c9cf0d6f28cc38c7, type: 2}
+    action: {fileID: 11400000, guid: 5b80fe0ce3d6747408d78514aac16602, type: 2}
+    negate: 0
+  frameDecisions:
+  - time: 0.1
+    action: {fileID: 11400000, guid: 6f31d4110f1af4641baeb5989f3e88f0, type: 2}
+  - time: 0.2
+    action: {fileID: 11400000, guid: b858f92dbe65dc24aad92d5e2442ce86, type: 2}
+  - time: 0.3
+    action: {fileID: 11400000, guid: 03710fb441c78374d9eed2e431948e9e, type: 2}
+  - time: 0.4
+    action: {fileID: 11400000, guid: 473066400c317a545a994284df256a68, type: 2}
+  - time: 0.5
+    action: {fileID: 11400000, guid: 836ef1a0739971745aa92304f6a6b07e, type: 2}
+  - time: 0.6
+    action: {fileID: 11400000, guid: 63c822d5094e77b4da77887b0c74392c, type: 2}
+  animationName: NormalAttack3

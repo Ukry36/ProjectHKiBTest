@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb85084ca5989854b9dbc2cce1298255, type: 3}
+  m_Name: Enemy_Rusher_FollowTarget
+  m_EditorClassIdentifier: 
+  transitions:
+  - availableTime: 0
+    decisions:
+    - decision: {fileID: 11400000, guid: d9bb766fdef88b344bd4aee61326967e, type: 2}
+      negate: 1
+    trueState: {fileID: 11400000, guid: fb76677276d637f40a069bb3eafdf772, type: 2}
+    falseState: {fileID: 0}
+  - availableTime: 0
+    decisions:
+    - decision: {fileID: 11400000, guid: 4fe4385fed04d034b98b136a0475151e, type: 2}
+      negate: 0
+    - decision: {fileID: 11400000, guid: 1d678012ca752be4ea062f8e1450d08b, type: 2}
+      negate: 0
+    trueState: {fileID: 11400000, guid: a6d43f0e81a2e3a40b8f2d2d79df8258, type: 2}
+    falseState: {fileID: 0}
+  - availableTime: 0
+    decisions:
+    - decision: {fileID: 11400000, guid: af28755f24b9a564da14f64bdd3a7f40, type: 2}
+      negate: 0
+    trueState: {fileID: 11400000, guid: b452f8afb98d05c4c81413b3c75d8ad3, type: 2}
+    falseState: {fileID: 0}
+  enterActions: []
+  updateActions:
+  - {fileID: 11400000, guid: 81038a0f7b7f196409848921108cfd7d, type: 2}
+  - {fileID: 11400000, guid: e117661a24a928347a1754f7b5fb987a, type: 2}
+  exitActions: []
+  subDecisions: []
+  frameDecisions: []
+  animationName: Walk
