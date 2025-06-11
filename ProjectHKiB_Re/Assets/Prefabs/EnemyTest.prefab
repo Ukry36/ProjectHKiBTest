@@ -73,7 +73,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6324719739505011581}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -100,7 +100,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: feac2949d2a5be44abbb396ac4e806d4, type: 2}
+  - {fileID: 2100000, guid: 3c90047831bfde1449d5d381b05552f9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -121,12 +121,12 @@ SpriteRenderer:
   m_SortingLayerID: -1837625035
   m_SortingLayer: 4
   m_SortingOrder: 0
-  m_Sprite: {fileID: -173091614, guid: 4bc5d852aac3de745aa0b61d885a4641, type: 3}
+  m_Sprite: {fileID: 1763581115, guid: 5f62c92d419d8ef4191124d30f593ec1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 3, y: 3}
+  m_Size: {x: 3, y: 3.75}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -180,8 +180,8 @@ GameObject:
   - component: {fileID: 4333501037628169515}
   - component: {fileID: 8691229362729112459}
   - component: {fileID: 8443145694190326303}
-  - component: {fileID: 1710609699395622963}
   - component: {fileID: 7760473163769782626}
+  - component: {fileID: 1710609699395622963}
   m_Layer: 11
   m_Name: EnemyTest
   m_TagString: Untagged
@@ -388,17 +388,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f67961a7190fc7943ad806b6443ebf11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!210 &1710609699395622963
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6324719739634341053}
-  m_Enabled: 1
-  m_SortingLayerID: -1837625035
-  m_SortingLayer: 4
-  m_SortingOrder: 0
 --- !u!114 &7760473163769782626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -411,6 +400,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d16581cd43f6ec34799e7d68ffa08a8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <CurrentBuffs>k__BackingField:
+    _serializedList: []
+--- !u!210 &1710609699395622963
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6324719739634341053}
+  m_Enabled: 1
+  m_SortingLayerID: -1837625035
+  m_SortingLayer: 4
+  m_SortingOrder: 0
 --- !u!1001 &6324719739667269833
 PrefabInstance:
   m_ObjectHideFlags: 0

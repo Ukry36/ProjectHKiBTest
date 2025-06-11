@@ -5,9 +5,17 @@ public class ChunkData : MonoBehaviour
 {
     public Collider2D boundary;
     public bool Active { get; private set; }
-    public bool SimulateEvent { get; private set; }
     [SerializeField] private Transform[] _transforms;
-    private EventTrigger[] _eventTriggers;
+
+    private bool _toggle;
+    [NaughtyAttributes.Button("toggle")]
+    public void Toggle()
+    {
+        _toggle = !_toggle;
+
+        if (_toggle) DeactivateChunk();
+        else ActivateChunk();
+    }
 
     public void Awake()
     {
