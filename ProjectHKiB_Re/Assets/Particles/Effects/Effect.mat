@@ -46,7 +46,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 1efba82a0967b584a9a88513d0a6418a, type: 3}
+        m_Texture: {fileID: 2800000, guid: 0eb9e3988c8487342b0037240bdc9086, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskTex:
@@ -84,12 +84,21 @@ Material:
     - _NoiseDensity: 1
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _UseColorSeparation: 0
     - _UseDither: 0
     - _UseMoving: 0
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Color1: {r: 2.5668519, g: 2.5668519, b: 2.5668519, a: 1}
     - _Color2: {r: 1, g: 1, b: 1, a: 1}
+    - _Color3: {r: 0.3125, g: 0.3125, b: 0.3125, a: 1}
+    - _Color4: {r: 0.4375, g: 0.4375, b: 0.4375, a: 1}
+    - _Color5: {r: 0.5625, g: 0.5625, b: 0.5625, a: 1}
+    - _Color6: {r: 0.6875, g: 0.6875, b: 0.6875, a: 1}
+    - _Color7: {r: 0.8125, g: 0.8125, b: 0.8125, a: 1}
+    - _Color8: {r: 0.9375, g: 0.9375, b: 0.9375, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
+    - _GlowColor1: {r: 1.9226224, g: 1.9226224, b: 1.9226224, a: 1}
+    - _GlowColor2: {r: 0.7053245, g: 1.060734, b: 5.340313, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

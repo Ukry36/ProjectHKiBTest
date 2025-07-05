@@ -8,6 +8,6 @@ public class TempInputviewer : MonoBehaviour
     void Update()
     {
         //tmp.text = GameManager.instance.inputManager.MoveInput.ToString();
-        tmp.text = "ATK: " + GameManager.instance.player.StateController.GetInterface<IAttackable>().ATK.ToString();
+        //tmp.text = "ATK: " + GameManager.instance.player.StateController.GetInterface<IAttackable>().ATK.ToString();
     }
 }

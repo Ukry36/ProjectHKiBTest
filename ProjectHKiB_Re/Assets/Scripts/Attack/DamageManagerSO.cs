@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "DamageManager", menuName = "Scriptable Objects/Manager/DamageManager", order = 3)]
 public class DamageManagerSO : ScriptableObject
 {
-    public void Damage(DamageDataSO damageData, IAttackable hitter, IDamagable getHit, Transform hitTransform, bool IsKnockback)
+    public void Damage(DamageDataSO damageData, IAttackable hitter, IDamagable getHit, Vector3 hitPos, bool IsKnockback)
     {
         int value = 0;
         bool isCritical = Random.value < hitter.CriticalChanceRate; ;
@@ -30,7 +30,7 @@ public class DamageManagerSO : ScriptableObject
                 value,
                 value > getHit.CurrentMaxHP * 0.5 || IsKnockback,
                 isCritical,
-                hitTransform,
+                hitPos,
                 hitter.DamageIndicatorRandomPosInfo
             );
         }

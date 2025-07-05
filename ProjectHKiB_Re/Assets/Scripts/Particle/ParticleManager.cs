@@ -75,9 +75,9 @@ public class ParticleManager : PoolManager<ParticlePlayer>
         return clone;
     }
 
-    public ParticlePlayer PlayParticleOneShot(int ID, Transform transform)
+    public ParticlePlayer PlayParticleOneShot(int ID, Vector3 pos)
     {
-        ParticlePlayer clone = ReuseObject(ID, transform, quaternion.identity, false);
+        ParticlePlayer clone = ReuseObjectOneShot(ID, pos, quaternion.identity);
         if (!clone)
         {
             Debug.LogError("ERROR: Failed to play Particle(failed to reuse object)!!! ID: " + ID);

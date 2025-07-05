@@ -8,25 +8,28 @@ using UnityEngine.Tilemaps;
 [Serializable]
 public class TilePosInfo
 {
-    public Vector3Int pos;
-    public float placeOrder;
-    public TileBase placeTile;
-    public TileBase outlineTile;
-    public GameObject Object;
+    public Vector3Int Pos { get; private set; }
+    public float PlaceOrder { get; set; }
+    public TileBase PlaceTile { get; private set; }
+    public TileBase OutlineTile { get; private set; }
+    public GameObject Object { get; private set; }
+    public Matrix4x4 FlipInfo { get; private set; }
 
-    public TilePosInfo(Vector3Int pos, float placeOrder, TileBase placeTile, TileBase outlineTile, GameObject Object)
+    public TilePosInfo(Vector3Int pos, float placeOrder, TileBase placeTile, TileBase outlineTile, GameObject Object, Matrix4x4 flipInfo)
     {
-        this.pos = pos;
-        this.placeOrder = placeOrder;
-        this.placeTile = placeTile;
-        this.outlineTile = outlineTile;
+        Pos = pos;
+        PlaceOrder = placeOrder;
+        PlaceTile = placeTile;
+        OutlineTile = outlineTile;
         this.Object = Object;
+        FlipInfo = flipInfo;
     }
 
     public void SetTile(Tilemap quantumTilemap, Tilemap outlineTilemap, bool placeOrRemove)
     {
-        quantumTilemap.SetTile(pos, placeOrRemove ? placeTile : null);
-        outlineTilemap.SetTile(pos, !placeOrRemove ? outlineTile : null);
+        quantumTilemap.SetTile(Pos, placeOrRemove ? PlaceTile : null);
+        quantumTilemap.SetTransformMatrix(Pos, FlipInfo);
+        outlineTilemap.SetTile(Pos, !placeOrRemove ? OutlineTile : null);
         if (Object != null)
             Object.SetActive(placeOrRemove);
     }
@@ -42,6 +45,7 @@ public class WaveTileManager : MonoBehaviour
     public LayerMask layerMask;
     private List<TilePosInfo> _TileInfoList;
     public TileBase outlineTile;
+    [SerializeField] private ParticlePlayer _placeParticle;
 
     [SerializeField] private AnimationCurve _XCurve;
     [SerializeField] private AnimationCurve _YCurve;
@@ -90,7 +94,6 @@ public class WaveTileManager : MonoBehaviour
         currentRearWave = 0;
         InitTileMap(_TileInfoList, PLACE);
         ScanTiles();
-
     }
 
 
@@ -124,6 +127,7 @@ public class WaveTileManager : MonoBehaviour
 
                 if (tile != null)
                 {
+
                     TileInfoList.Add(new TilePosInfo
                     (
                         pos,
@@ -131,18 +135,19 @@ public class WaveTileManager : MonoBehaviour
                         + _YCurve.Evaluate((float)(pos.y - bounds.yMin) / (bounds.yMax - bounds.yMin)),
                         tile,
                         outlineTile,
-                        Object
+                        Object,
+                        quantumTilemap.GetTransformMatrix(pos)
                     ));
                 }
             }
         }
 
-        TileInfoList.Sort((a, b) => b.placeOrder.CompareTo(a.placeOrder));
+        TileInfoList.Sort((a, b) => b.PlaceOrder.CompareTo(a.PlaceOrder));
 
-        float max = TileInfoList[0].placeOrder;
+        float max = TileInfoList[0].PlaceOrder;
         foreach (var comp in TileInfoList)
         {
-            comp.placeOrder /= max + 0.0001f;
+            comp.PlaceOrder /= max + 0.0001f;
         }
 
         _TileInfoList = PlaceOrderShuffle(TileInfoList, (int)(TileInfoList.Count * _shuffle));
@@ -165,9 +170,9 @@ public class WaveTileManager : MonoBehaviour
             int pos = i + UnityEngine.Random.Range(-strength, strength);
             pos = pos < 0 ? 0 : pos > tilePosInfoList.Count - 1 ? tilePosInfoList.Count - 1 : pos;
 
-            (tilePosInfoList[i].placeOrder, tilePosInfoList[pos].placeOrder) = (tilePosInfoList[pos].placeOrder, tilePosInfoList[i].placeOrder);
+            (tilePosInfoList[i].PlaceOrder, tilePosInfoList[pos].PlaceOrder) = (tilePosInfoList[pos].PlaceOrder, tilePosInfoList[i].PlaceOrder);
         }
-        tilePosInfoList.Sort((a, b) => b.placeOrder.CompareTo(a.placeOrder));
+        tilePosInfoList.Sort((a, b) => b.PlaceOrder.CompareTo(a.PlaceOrder));
         return tilePosInfoList;
     }
 
@@ -176,7 +181,7 @@ public class WaveTileManager : MonoBehaviour
         List<List<TilePosInfo>> WaveSeparatedTileInfo = new();
         for (int i = 0; i < waveCount; i++)
         {
-            WaveSeparatedTileInfo.Insert(0, _TileInfoList.FindAll(a => Mathf.FloorToInt(a.placeOrder * waveCount) == i));
+            WaveSeparatedTileInfo.Insert(0, _TileInfoList.FindAll(a => Mathf.FloorToInt(a.PlaceOrder * waveCount) == i));
         }
 
         int tilePerStep = WaveSeparatedTileInfo[currentWaveIndex].Count / _stepPerWave;
@@ -190,20 +195,28 @@ public class WaveTileManager : MonoBehaviour
             {
                 TilePosInfo tile = WaveSeparatedTileInfo[currentWaveIndex][0];
                 tile.SetTile(quantumTilemap, outlineTilemap, placeOrRemove);
+                OnPlaceTile(tile.Pos, placeOrRemove);
                 WaveSeparatedTileInfo[currentWaveIndex].Remove(tile);
 
                 if (j % div == 0)
                 {
-                    if (placeOrRemove) OnPlaceTile();
-                    else OnRemoveTile();
+                    OnPlaceTileReduced(placeOrRemove);
                     yield return null;
                 }
             }
             if (i == _stepPerWave - 1)
-                foreach (var tile in WaveSeparatedTileInfo[currentWaveIndex])
+            {
+                for (int k = 0; k < WaveSeparatedTileInfo[currentWaveIndex].Count; k++)
                 {
-                    tile.SetTile(quantumTilemap, outlineTilemap, placeOrRemove);
+                    WaveSeparatedTileInfo[currentWaveIndex][k].SetTile(quantumTilemap, outlineTilemap, placeOrRemove);
+                    OnPlaceTile(WaveSeparatedTileInfo[currentWaveIndex][k].Pos, placeOrRemove);
+                    if (k % div == 0)
+                    {
+                        OnPlaceTileReduced(placeOrRemove);
+                        yield return null;
+                    }
                 }
+            }
             yield return new WaitForSeconds(_delayBetweenStep);
         }
 
@@ -218,12 +231,19 @@ public class WaveTileManager : MonoBehaviour
     {
 
     }
-    private void OnPlaceTile()
+
+    // if there is too many tiles placed in one step (at the same time)
+    // use this
+    private void OnPlaceTileReduced(bool placeOrRemove)
     {
 
     }
-    private void OnRemoveTile()
+
+    private void OnPlaceTile(Vector3 pos, bool placeOrRemove)
     {
+        //if (placeOrRemove)
+        if (Application.isPlaying)
+            GameManager.instance.particleManager.PlayParticleOneShot(_placeParticle.GetInstanceID(), pos + Vector3.one);
 
     }
 

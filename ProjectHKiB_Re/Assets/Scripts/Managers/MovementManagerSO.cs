@@ -93,7 +93,7 @@ public class MovementManagerSO : ScriptableObject
             {
                 Debug.DrawLine(component.MovePoint.transform.position, component.MovePoint.transform.position + dir, Color.red, 0.5f);
                 component.KnockBack(dir /*- entityTransform.position + component.MovePoint.transform.position*/, strength);
-                GameManager.instance.damageParticleManager.PlayHitParticle(KnockBackChainReactionParticle, 0, false, false, component.MovePoint.transform, 0);
+                GameManager.instance.damageParticleManager.PlayHitParticle(KnockBackChainReactionParticle, 0, false, false, component.MovePoint.transform.position, 0);
             }
         }
     }

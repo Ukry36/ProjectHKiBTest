@@ -35,6 +35,7 @@ public class CameraManager : MonoBehaviour
         ReturntoOrigRes(0);
 
         impulseSource = GetComponent<CinemachineImpulseSource>();
+        UpdateConfiner(this.transform.position);
     }
 
     public void TogglePostProcessing(bool _enable) =>
@@ -55,11 +56,11 @@ public class CameraManager : MonoBehaviour
     private void UpdateConfiner(Vector3 _pos)
     {
         Collider2D other = Physics2D.OverlapCircle(_pos, 0.5f, LayerMask.GetMask("CameraBound"));
-        if (other && other.TryGetComponent(out AreaInfo areaInfo))
+        if (other)
         {
             for (int i = 0; i < Cameras.Length; i++)
             {
-                Confiners[i].m_BoundingShape2D = areaInfo.cameraBound;
+                Confiners[i].m_BoundingShape2D = other;
                 Confiners[i].m_MaxWindowSize = 0;
             }
         }

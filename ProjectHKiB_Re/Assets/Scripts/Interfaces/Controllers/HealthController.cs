@@ -38,7 +38,7 @@ public class HealthController : MonoBehaviour
             _movable.KnockBack(transform.position - origin, damageData.knockBack);
             IsKnockback = true;
         }
-        damageManager.Damage(damageData, hitter, self, transform, IsKnockback);
+        damageManager.Damage(damageData, hitter, self, transform.position, IsKnockback);
 
         if (HP <= 0)
             Die();

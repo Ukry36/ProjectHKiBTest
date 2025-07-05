@@ -71,30 +71,30 @@ public class DamageParticleManager : PoolManager<DamageParticlePlayer>
 
     public const int MAXDAMAGEDIGITS = 10;
 
-    public void PlayHitParticle(DamageParticleDataSO damageParticleData, int damage, bool isBig, bool isCritical, Transform transform, float damageIndicatorRandomPosInfo)
+    public void PlayHitParticle(DamageParticleDataSO damageParticleData, int damage, bool isBig, bool isCritical, Vector3 pos, float damageIndicatorRandomPosInfo)
     {
-        Vector3 playerShift = (transform.position - GameManager.instance.player.transform.position).normalized + Vector3.up;
+        Vector3 playerShift = (pos - GameManager.instance.player.transform.position).normalized + Vector3.up;
 
         ParticlePlayer basePlayer;
         if (isCritical)
         {
             if (isBig)
-                basePlayer = GameManager.instance.particleManager.PlayParticleOneShot(damageParticleData.BigCriticalHitParticle.GetInstanceID(), transform);
+                basePlayer = GameManager.instance.particleManager.PlayParticleOneShot(damageParticleData.BigCriticalHitParticle.GetInstanceID(), pos);
             else
-                basePlayer = GameManager.instance.particleManager.PlayParticleOneShot(damageParticleData.SmallCriticalHitParticle.GetInstanceID(), transform);
+                basePlayer = GameManager.instance.particleManager.PlayParticleOneShot(damageParticleData.SmallCriticalHitParticle.GetInstanceID(), pos);
         }
         else
         {
             if (isBig)
-                basePlayer = GameManager.instance.particleManager.PlayParticleOneShot(damageParticleData.BigHitParticle.GetInstanceID(), transform);
+                basePlayer = GameManager.instance.particleManager.PlayParticleOneShot(damageParticleData.BigHitParticle.GetInstanceID(), pos);
             else
-                basePlayer = GameManager.instance.particleManager.PlayParticleOneShot(damageParticleData.SmallHitParticle.GetInstanceID(), transform);
+                basePlayer = GameManager.instance.particleManager.PlayParticleOneShot(damageParticleData.SmallHitParticle.GetInstanceID(), pos);
         }
         basePlayer.transform.position += playerShift;
         if (damage <= 0)
             return;
 
-        DamageParticlePlayer clone = ReuseObject(damageParticleData.DamageParticlePlayer.GetInstanceID(), transform, Quaternion.identity, false);
+        DamageParticlePlayer clone = ReuseObjectOneShot(damageParticleData.DamageParticlePlayer.GetInstanceID(), pos, Quaternion.identity);
         clone.transform.position += playerShift + numberShift
                 + damageIndicatorRandomPosLookup[(int)(damageIndicatorRandomPosInfo * LOOKUPLENGTH) % LOOKUPLENGTH];
         if (coroutines.ContainsKey(clone.GetInstanceID()) && coroutines[clone.GetInstanceID()] != null)

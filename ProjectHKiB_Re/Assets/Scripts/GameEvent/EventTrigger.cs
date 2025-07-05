@@ -9,11 +9,11 @@ public abstract class EventTrigger : MonoBehaviour
     [SerializeField] protected ContactFilter2D _contactFilter;
     [SerializeField] protected Collider2D _collider2D;
     protected readonly Collider2D[] colliders = new Collider2D[10];
-    private ChunkData chunk;
+    public ChunkData chunk;
 
     protected void Awake()
     {
-        chunk = GetComponentInParent<ChunkData>();
+        //chunk = GetComponentInParent<ChunkData>();
 
         if (!_collider2D)
         {
@@ -22,7 +22,6 @@ public abstract class EventTrigger : MonoBehaviour
             else
                 Debug.LogError("ERROR: No collider is attatched to the trigger!!!");
         }
-
     }
 
     public void Initialize(IEvent @event)
@@ -41,6 +40,7 @@ public abstract class EventTrigger : MonoBehaviour
 
     public void Update()
     {
+        if (!chunk) Debug.LogError("ERROR: ChunkData is not assigned!!!");
         if (chunk.Active)
             UpdateTrigger();
     }

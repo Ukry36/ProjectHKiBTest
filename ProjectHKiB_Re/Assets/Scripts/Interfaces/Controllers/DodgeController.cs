@@ -93,7 +93,7 @@ public class DodgeController : MonoBehaviour
     {
         if (!_canJustDodgeTime.IsCooltimeEnded)
         {
-            GameManager.instance.particleManager.PlayParticleOneShot(dtemp.GetInstanceID(), transform);
+            GameManager.instance.particleManager.PlayParticleOneShot(dtemp.GetInstanceID(), transform.position);
             _canJustDodgeTime.CancelCooltime();
             _canCounterAttackTime.CancelCooltime();
             _canCounterAttackTime.StartCooltime(1, EndCounterAttackTime);

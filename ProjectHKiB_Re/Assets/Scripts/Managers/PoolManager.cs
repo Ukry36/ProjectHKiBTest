@@ -8,6 +8,8 @@ public abstract class PoolManager<T> : MonoBehaviour
     public RuntimePool activeObjectSet;
     public RuntimePool inactiveObjectSet;
 
+    [SerializeField] private Transform _oneshotTransform;
+
     public virtual void Initialize()
     {
         ResetPool();
@@ -77,7 +79,12 @@ public abstract class PoolManager<T> : MonoBehaviour
 
         Debug.LogError("ERROR: Failed to reuse object(no object pool for) ID: " + ID);
         return t;
+    }
 
+    public T ReuseObjectOneShot(int ID, Vector3 pos, Quaternion rotation)
+    {
+        _oneshotTransform.position = pos;
+        return ReuseObject(ID, _oneshotTransform, rotation, false);
     }
 
     public abstract void InitObjectOnReuse(T t, Transform transform, Quaternion quaternion, bool attatchToTransform);

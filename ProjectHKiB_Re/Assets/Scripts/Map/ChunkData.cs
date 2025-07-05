@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
+[RequireComponent(typeof(BoxCollider2D))]
 public class ChunkData : MonoBehaviour
 {
-    public Collider2D boundary;
+    public BoxCollider2D boundary;
     public bool Active { get; private set; }
     [SerializeField] private Transform[] _transforms;
 
@@ -16,6 +18,42 @@ public class ChunkData : MonoBehaviour
         if (_toggle) DeactivateChunk();
         else ActivateChunk();
     }
+
+    [NaughtyAttributes.Button("autogenerate boundary")]
+    public void GenerateBoundary()
+    {
+        boundary = GetComponent<BoxCollider2D>();
+        TilemapCollider2D wall = GetComponentInChildren<TilemapCollider2D>();
+        if (wall)
+        {
+            boundary.size = wall.bounds.size;
+            boundary.offset = wall.bounds.center - this.transform.position;//+ wall.transform.position;
+        }
+        else
+        {
+            Debug.Log("Failed to generate boundary: TilemapCollider2D is supported only");
+        }
+    }
+
+    [NaughtyAttributes.Button("assign triggers")]
+    public void AssignTriggers()
+    {
+        if (!boundary) Debug.LogError("ERROR: Boundary not attatched!!!");
+
+        Collider2D[] cols = new Collider2D[10000];
+        List<EventTrigger> trigs = new();
+        int length = boundary.OverlapCollider(new(), cols);
+        for (int i = 0; i < length; i++)
+        {
+            if (cols[i].TryGetComponent(out EventTrigger trigger))
+            {
+                trigs.Add(trigger);
+                trigger.chunk = this;
+            }
+        }
+        triggers = trigs.ToArray();
+    }
+    [NaughtyAttributes.ReadOnly][SerializeField] private EventTrigger[] triggers;
 
     public void Awake()
     {
