@@ -9,80 +9,110 @@ public class Graffiti : MonoBehaviour
     
     int completedSkillNum = -1;
 
-    //½ºÅ³ Ãß°¡ÄÚµå
+    //ï¿½ï¿½Å³ ï¿½ß°ï¿½ï¿½Úµï¿½
+    PlayerSkillDataSO Windmill = new PlayerSkillDataSO();
+    Windmill.graffitiCodes={(0,0), (0,1),(1,0),(0,-1),(-1,0)};
+    skillList.Add(Windmill);
 
-    public bool ContainsVector(Vector2 target)
-    {
+    // public bool ContainsVector(Vector2 target)
+    // {
 
-        
+    //     return false;
+    // }
 
-        // ¾Æ¹«°÷¿¡µµ ¾øÀ¸¸é false
-        return false;
-    }
+    //ï¿½Ì°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å©ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Òµï¿½. 
 
-    //ÀÌ°Ç µû·Î ¸ðÀ¸´Â ½ºÅ©¸³Æ® ¸¸µé¾î¾ß ÇÒµí. 
-
-    //ÇöÀç ÁÂÇ¥ currentVector
+    //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ currentVector
 
 
-    void CheckGraffitiProgress(Vector2)//ÀÌ°Å ±× ÇÇµå¹é ¾îÂ¼±¸ ÀÌ°Ç Á» °í¹Î
+    void CheckGraffitiProgress(Vector2)//ï¿½Ì°ï¿½ ï¿½ï¿½ ï¿½Çµï¿½ï¿½ ï¿½ï¿½Â¼ï¿½ï¿½ ï¿½Ì°ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     {  
-        bool check = ContainsVector(currentVector)
-        // ¿òÁ÷ÀÏ ¶§¸¶´Ù È£Ãâ
+        bool check = true;
+        bool end = false;
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È£ï¿½ï¿½
 
-        // ValidateVectorSetÀÌ 
-        //false¸é ºÎÁ¤ÀûÀÎ ÇÇµå¹é°ú ÇÔ²²
-        //vectorset ÃÊ±âÈ­ÇÏ°í ÀÌÆåÆ® ±×¸° °Íµé Áö¿ò.
-        //µ¿½Ã¿¡completedSkillNum >= 0ÀÌ¸é CheckGraffitiComplete È£Ãâ ,
+        // ValidateVectorSetï¿½ï¿½ 
+        //falseï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Çµï¿½ï¿½ï¿½ ï¿½Ô²ï¿½
+        //vectorset ï¿½Ê±ï¿½È­ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½×¸ï¿½ ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½.
+        //ï¿½ï¿½ï¿½Ã¿ï¿½completedSkillNum >= 0ï¿½Ì¸ï¿½ CheckGraffitiComplete È£ï¿½ï¿½ ,
 
-        //true¸é ÀÌµ¿ÇÑ ÀÚ¸®¿¡ ºþÂ¦ÀÌ
-        // CheckCompleted >= 0 ¸é ¼º°ø ÇÇµå¹é, completedSkillNumÀ» ¼Â
+        //trueï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ ï¿½Ú¸ï¿½ï¿½ï¿½ ï¿½ï¿½Â¦ï¿½ï¿½
+        // CheckCompleted >= 0 ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Çµï¿½ï¿½, completedSkillNumï¿½ï¿½ ï¿½ï¿½
+        //get player's vector
+        Vector2 currentVector
 
-        //¿©±â¿¡ ÀÌÁ¦ »¡°£»ö ÀÌÆåÆ® µé¾î°¡´Â°Å
-        if (!check) {
-            //¿©±â »¡°£»ö ÀÌÆåÆ®
+        int completedSkillNum = CheckCompleted();
+        while(!check || completedSkillNum >= 0){
+            graffitiVectorSet.Add(currentVector);
+            check = ValidateVectorSet(graffitiVectorSet);
+            //print Vectorset();
+        }
+
+        if(completedSkillNum >= 0){
+            //success feedback-> green effect
+            CheckGraffitiComplete(completedSkillNum);
+            end=true;
+        }
+
+        //fail
+        if(!check){
+            //fail feedback-> red effect
+            end=true;
+        }
+
+        if (end) {
             graffitiVectorSet.Clear();
         }
     }
 
-    void CheckGraffitiComplete()
-    {
-        completedSkillNum = CheckCompleted();
-        if (completedSkillNum >= 0)
-        {
-            //¿©±â È£ÃâÇÏ´Â °Å ³Ö°í
-
-            completedSkillNum = -1;
+    void CheckGraffitiComplete(int num)
+    {   
+        switch(num){
+            case 0: //windmill skill on
         }
+        return num=-1;
     }
-    // ±×¶óÇÇÆ¼ Á¾·á °ü·Ã ÀÎÇ²ÀÌ µé¾î¿À¸é È£Ãâ
-    // ÇÃ·¹ÀÌ¾î°¡ ½ºÅ³ ¹ßµ¿ÇÏµµ·Ï ÇÔ
+    // ï¿½×¶ï¿½ï¿½ï¿½Æ¼ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç²ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È£ï¿½ï¿½
+    // ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½Å³ ï¿½ßµï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½ï¿½
 
-
-    bool ValidateVectorSet(Vector2[] vector)
+    List<Vector2> VectorSet()
     {
-        List<Vector2[]> patterns;
+        List<Vector2> patterns=null;
 
-        for (int i = 0; i < skillList.Count; i++)
-        {
-            if (ContainsVactor(skillList[i], vector))
-                graffitiVectorSet.Add(vector);
+        foreach (var graffitiCode in Windmill.graffitiAllCases){
+            if (graffitiVectorSet.All(vector => graffitiCode.code.Contains(vector)))
+                {
+                    patterns = graffitiCode.code;  
+                    break;
+                }
+        }
+        return patterns;
+
+    }
+
+    bool ValidateVectorSet(Vector2 vector)
+    {
+        List<Vector2> patterns;
+        graffitiVectorSet.Add(vector);
+
+        foreach (var graffitiCode in Windmill.graffitiAllCases){
+            if (graffitiVectorSet.All(Vector2 => Windmill.graffitiAllCases.Contains(Vector2)))
+                return true;
         }
         return false;
 
     }
 
-    // ÀÌµ¿ÇÒ ¶§¸¶´Ù vectorsetÀÌ ½ºÅ³ Áß¿¡ Æ÷ÇÔµÇ´ÂÁö È®ÀÎ
+    // ï¿½Ìµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ vectorsetï¿½ï¿½ ï¿½ï¿½Å³ ï¿½ß¿ï¿½ ï¿½ï¿½ï¿½ÔµÇ´ï¿½ï¿½ï¿½ È®ï¿½ï¿½
     int CheckCompleted()
     {
-        for (int i = 0; i < skillList.Count; i++)
-        {
-            if (graffitiVectorSet.value == skillList[i].value)
-            {
-                return i;
-            }
-        }
+        foreach (var graffitiCode in Windmill.graffitiAllCases)
+            if (graffitiCode.code.SequenceEqual(graffitiVectorSet))
+                return 0;
+
+
+        return -1;
     }
-    // ÇöÀç vectorsetÀÌ ½ºÅ³ Áß ÇÏ³ª¿Í ÀÏÄ¡ÇÏ´ÂÁö È®ÀÎ
+    // ï¿½ï¿½ï¿½ï¿½ vectorsetï¿½ï¿½ ï¿½ï¿½Å³ ï¿½ï¿½ ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½Ï´ï¿½ï¿½ï¿½ È®ï¿½ï¿½
 
 }
