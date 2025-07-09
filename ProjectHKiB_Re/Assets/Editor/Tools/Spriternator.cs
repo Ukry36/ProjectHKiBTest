@@ -213,7 +213,7 @@ public class SpriterNator : EditorWindow
                 //EditorGUILayout.LabelField(new GUIContent("Loop Enabled:", "Sets the animation to be in a looping state. Perfect for idle animations."), textstyle, GUILayout.Width(100));
                 //animationsList[i].shouldLoop = EditorGUILayout.Toggle("", animationsList[i].shouldLoop, GUILayout.Width(20));
                 //GUILayout.Space(10);
-                //GUILayout.EndHorizontal();
+                GUILayout.EndHorizontal();
 
                 GUILayout.BeginHorizontal();
                 if (GUILayout.Button(new GUIContent("▲", "Move Up"), GUILayout.Width(25)))

@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efeb684fc92f83442884c1d1b5628dbc, type: 3}
+  m_Name: Enemy_Rusher_AttackData0
+  m_EditorClassIdentifier: 
+  damageDatas:
+  - {fileID: 11400000, guid: 34b25750187279d46b0f5111e1e345e9, type: 2}
+  attackMoveMinRange: 1
+  attackMoveMaxRange: 1
+  isAutoTarget: 0
+  initialSound: {fileID: 0}
+  coolTime: 2
+  attackAreaIndicatorData:
+    downwardIndicatorArea:
+      offset: {x: 0, y: -2}
+      size: {x: 1, y: 3}
+      pivot: {x: 0, y: -1, z: 0}
+    time: 0.7

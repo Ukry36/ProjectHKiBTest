@@ -6,6 +6,6 @@ public class PlayParticleOneShotAction : StateActionSO
     public override void Act(StateController stateController)
     {
         if (particlePrefab)
-            GameManager.instance.particleManager.PlayParticleOneShot(particlePrefab.GetInstanceID(), stateController.transform);
+            GameManager.instance.particleManager.PlayParticleOneShot(particlePrefab.GetInstanceID(), stateController.transform.position);
     }
 }

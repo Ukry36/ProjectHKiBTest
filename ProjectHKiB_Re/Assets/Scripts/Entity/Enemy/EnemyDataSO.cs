@@ -2,25 +2,21 @@ using UnityEditor.Animations;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Enemy Data", menuName = "Scriptable Objects/Data/Enemy Data", order = 1)]
-public class EnemyDataSO : ScriptableObject, IMovable, IAttackable, IDamagable, IPoolable, IEntityStateControllable
+public class EnemyDataSO : ScriptableObject, IMovable, IAttackable, ITargetable, IDamagable, IPoolable, IEntityStateControllable
 {
     [field: SerializeField] public int PoolSize { get; set; }
 
     public MovePoint MovePoint { get; set; }
-    [field: SerializeField] public StatContainer Speed { get; set; }
-    [field: SerializeField] public StatContainer SprintCoeff { get; set; }
+    [field: SerializeField] public float Speed { get; set; }
+    [field: SerializeField] public float SprintCoeff { get; set; }
     [field: SerializeField] public LayerMask WallLayer { get; set; }
     [field: SerializeField] public LayerMask CanPushLayer { get; set; }
-    public bool IsSprinting { get; set; } = false;
     [field: SerializeField] public AudioDataSO FootStepAudio { get; set; }
     public FootstepController FootstepController { get; set; }
-    public IMovable.ExternalForce ExForce { get; set; } = new();
-    public bool IsKnockbackMove { get; set; }
-    public Vector3 LastSetDir { get; set; }
 
-    [field: SerializeField] public StatContainer ATK { get; set; }
-    [field: SerializeField] public StatContainer CriticalChanceRate { get; set; }
-    [field: SerializeField] public StatContainer CriticalDamageRate { get; set; }
+    [field: SerializeField] public int BaseATK { get; set; }
+    [field: SerializeField] public float CriticalChanceRate { get; set; }
+    [field: SerializeField] public float CriticalDamageRate { get; set; }
     [field: SerializeField] public AttackDataSO[] AttackDatas { get; set; }
     public AttackController AttackController { get; set; }
     [field: SerializeField] public LayerMask[] TargetLayers { get; set; }
@@ -28,10 +24,8 @@ public class EnemyDataSO : ScriptableObject, IMovable, IAttackable, IDamagable, 
     [field: SerializeField] public DamageParticleDataSO DamageParticle { get; set; }
     public float DamageIndicatorRandomPosInfo { get; set; } = 0;
 
-    [field: SerializeField] public StatContainer MaxHP { get; set; }
-    [field: SerializeField] public StatContainer HP { get; set; }
-    [field: SerializeField] public StatContainer DEF { get; set; }
-    [field: SerializeField] public StatContainer Resistance { get; set; }
+    [field: SerializeField] public int BaseMaxHP { get; set; }
+    [field: SerializeField] public int BaseDEF { get; set; }
     [field: SerializeField] public float Mass { get; set; }
     [field: SerializeField] public AudioDataSO HitSound { get; set; }
     [field: SerializeField] public ParticlePlayer HitParticle { get; set; }
@@ -40,6 +34,10 @@ public class EnemyDataSO : ScriptableObject, IMovable, IAttackable, IDamagable, 
     [field: SerializeField] public AnimatorController AnimatorController { get; set; }
     public DirAnimationController AnimationController { get; set; }
     public StateController StateController { get; set; }
+    public HealthController HealthController { get; set; }
+
+    public MovementController MovementController { get; set; }
+    public TargetController TargetController { get; set; }
 
     public Vector3 GetAttackOrigin()
     {

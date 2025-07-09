@@ -6,7 +6,10 @@ public class AttackMovePlayerAction : StateActionSO
     public TargetingManagerSO targetingManager;
     public override void Act(StateController stateController)
     {
-        if (stateController.TryGetInterface(out IAttackable attackable) && stateController.TryGetInterface(out IMovable movable) && stateController.TryGetInterface(out IDirAnimatable animatable))
+        if (stateController.TryGetInterface(out IAttackable attackable)
+        && stateController.TryGetInterface(out IMovable movable)
+        && stateController.TryGetInterface(out IDirAnimatable animatable)
+        && stateController.TryGetInterface(out ITargetable targetable))
         {
             if (attackable.AttackDatas.Equals(null))
             {
@@ -30,14 +33,14 @@ public class AttackMovePlayerAction : StateActionSO
 
                 if (autoTarget)
                 {
-                    target = targetingManager.DirectionalTarget(attackable.CurrentTarget, thisTransform.position, moveRadius, AC.GetAnimationRestrictedDirection(GameManager.instance.inputManager.MoveInput), attackable.TargetLayers);
+                    target = targetingManager.DirectionalTarget(targetable.CurrentTarget, thisTransform.position, moveRadius, AC.GetAnimationRestrictedDirection(GameManager.instance.inputManager.MoveInput), targetable.TargetLayers);
                     if (target)
                     {
-                        attackable.CurrentTarget = target;
+                        targetable.CurrentTarget = target;
                         movementManager.AttackMove(thisTransform, movable, target.position, moveRadius);
                         return;
                     }
-                    attackable.CurrentTarget = null;
+                    targetable.CurrentTarget = null;
                 }
 
                 movementManager.AttackMove(thisTransform, movable, thisTransform.position + (Vector3)AC.GetAnimationRestrictedDirection(GameManager.instance.inputManager.MoveInput) * moveRadius, moveRadius);
@@ -46,23 +49,23 @@ public class AttackMovePlayerAction : StateActionSO
             {
                 moveRadius = attackData.attackMoveMaxRange;
 
-                if (autoTarget && attackable.CurrentTarget && targetingManager.CheckCurrentTargetDistance(attackable.CurrentTarget, thisTransform.position, moveRadius))
+                if (autoTarget && targetable.CurrentTarget && targetingManager.CheckCurrentTargetDistance(targetable.CurrentTarget, thisTransform.position, moveRadius))
                 {
-                    Debug.DrawLine(thisTransform.position, attackable.CurrentTarget.position, Color.blue, 0.4f);
-                    AC.SetAnimationDirection(attackable.CurrentTarget.position - thisTransform.position);
-                    movementManager.AttackMove(thisTransform, movable, attackable.CurrentTarget.position, moveRadius);
+                    Debug.DrawLine(thisTransform.position, targetable.CurrentTarget.position, Color.blue, 0.4f);
+                    AC.SetAnimationDirection(targetable.CurrentTarget.position - thisTransform.position);
+                    movementManager.AttackMove(thisTransform, movable, targetable.CurrentTarget.position, moveRadius);
                     return;
                 }
 
-                target = targetingManager.PositianalTarget(thisTransform.position, moveRadius, attackable.TargetLayers);
+                target = targetingManager.PositianalTarget(thisTransform.position, moveRadius, targetable.TargetLayers);
                 if (target)
                 {
                     AC.SetAnimationDirection(target.position - thisTransform.position);
                     movementManager.AttackMove(thisTransform, movable, target.position, moveRadius);
-                    attackable.CurrentTarget = target;
+                    targetable.CurrentTarget = target;
                     return;
                 }
-                attackable.CurrentTarget = null;
+                targetable.CurrentTarget = null;
                 moveRadius = attackData.attackMoveMinRange;
                 movementManager.AttackMove(thisTransform, movable, thisTransform.position + (Vector3)AC.LastSetAnimationDir4 * moveRadius, moveRadius);
             }

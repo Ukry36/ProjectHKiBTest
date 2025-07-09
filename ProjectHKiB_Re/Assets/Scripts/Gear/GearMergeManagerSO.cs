@@ -108,5 +108,6 @@ public class GearMergeManagerSO : ScriptableObject
         databaseManager.SetGraffiriable(mergedGearData, playerBaseData);
         databaseManager.SetIStateControllable(mergedGearData, playerBaseData);
         databaseManager.SetISkinable(mergedGearData, playerBaseData);
+        databaseManager.SetITargetable(mergedGearData, playerBaseData);
     }
 }

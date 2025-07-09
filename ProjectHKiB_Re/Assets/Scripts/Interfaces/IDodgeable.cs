@@ -2,33 +2,26 @@ using UnityEngine;
 
 public interface IDodgeable
 {
-    public Cooltime DodgeCooltime { get; set; }
-    public StatContainer InitialDodgeMaxDistance { get; set; }
-    public StatContainer DodgeSpeed { get; set; }
-    public StatContainer ContinuousDodgeLimit { get; set; }
+    public float BaseDodgeCooltime { get; set; }
+    public float InitialDodgeMaxDistance { get; set; }
+    public float BaseDodgeSpeed { get; set; }
+    public int BaseContinuousDodgeLimit { get; set; }
     public LayerMask KeepDodgeWallLayer { get; set; }
-    public Cooltime KeepDodgeMaxTime { get; set; }
-    public StatContainer KeepDodgeMaxDistance { get; set; }
-    public Cooltime DodgeInvincibleTime { get; set; }
-    public int TotalDodgeCount { get; set; }
+    public float BaseKeepDodgeMaxTime { get; set; }
+    //public StatContainer KeepDodgeMaxDistance { get; set; }
+    public float BaseDodgeInvincibleTime { get; set; }
+    public DodgeController DodgeController { get; set; }
+    public ParticlePlayer KeepDodgeParticle { get; set; }
+    public bool CanCounterAttack { get => DodgeController.CanCounterAttack; }
+    public StatBuffCompilation JustDodgeBuff { get; set; }
 
-    public void StartKeepDodge() => KeepDodgeMaxTime.StartCooltime();
+    public void StartKeepDodge() => DodgeController.StartKeepDodge(BaseKeepDodgeMaxTime, KeepDodgeParticle.GetInstanceID());
 
-    public bool IsKeepDodgeEnded() => KeepDodgeMaxTime.cooltimeEnded;
+    public bool IsKeepDodgeEnded() => DodgeController.CheckKeepDodgeLimit();
 
-    public bool CanDodge() => DodgeCooltime.cooltimeEnded;
+    public bool CanDodge() => DodgeController.CanDodge;
 
-    public void StartDodge()
-    {
-        DodgeInvincibleTime.StartCooltime();
-        TotalDodgeCount++;
-    }
+    public void StartDodge() => DodgeController.StartDodge(BaseDodgeInvincibleTime);
 
-    public void EndDodge()
-    {
-        if (TotalDodgeCount % (int)ContinuousDodgeLimit.Value == 0)
-            DodgeCooltime.StartCooltime();
-        DodgeInvincibleTime.CancelCooltime();
-        KeepDodgeMaxTime.CancelCooltime();
-    }
+    public void EndDodge() => DodgeController.EndDodge(BaseDodgeCooltime, BaseContinuousDodgeLimit);
 }

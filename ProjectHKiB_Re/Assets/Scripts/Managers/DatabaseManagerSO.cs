@@ -6,55 +6,57 @@ public class DatabaseManagerSO : ScriptableObject
 {
     public void SetIDamagable(IDamagable damagable, IDamagable data)
     {
-        damagable.MaxHP = new(data.MaxHP);
-        damagable.HP = new(data.HP);
-        damagable.DEF = new(data.DEF);
-        damagable.Mass = data.Mass;
-        damagable.Resistance = new(data.Resistance);
+        damagable.BaseMaxHP = data.BaseMaxHP;
+        damagable.BaseDEF = data.BaseDEF;
         damagable.HitParticle = data.HitParticle;
         damagable.HitSound = data.HitSound;
     }
 
     public void SetIAttackable(IAttackable attackable, IAttackable data)
     {
-        attackable.ATK = new(data.ATK);
+        attackable.BaseATK = data.BaseATK;
         if (data.AttackDatas != null)
         {
             attackable.AttackDatas = new AttackDataSO[data.AttackDatas.Length];
             Array.Copy(data.AttackDatas, attackable.AttackDatas, data.AttackDatas.Length);
         }
-        attackable.CriticalChanceRate = new(data.CriticalChanceRate);
-        attackable.CriticalDamageRate = new(data.CriticalDamageRate);
-        attackable.TargetLayers = data.TargetLayers;
+        attackable.CriticalChanceRate = data.CriticalChanceRate;
+        attackable.CriticalDamageRate = data.CriticalDamageRate;
         attackable.DamageParticle = data.DamageParticle;
+    }
+
+    public void SetITargetable(ITargetable targetable, ITargetable data)
+    {
+        targetable.TargetLayers = data.TargetLayers;
     }
 
     public void SetIDodgeable(IDodgeable dodgeable, IDodgeable data)
     {
-        dodgeable.DodgeCooltime = new(data.DodgeCooltime);
-        dodgeable.InitialDodgeMaxDistance = new(data.InitialDodgeMaxDistance);
-        dodgeable.DodgeSpeed = new(data.DodgeSpeed);
-        dodgeable.ContinuousDodgeLimit = new(data.ContinuousDodgeLimit);
+        dodgeable.BaseDodgeCooltime = data.BaseDodgeCooltime;
+        dodgeable.InitialDodgeMaxDistance = data.InitialDodgeMaxDistance;
+        dodgeable.BaseDodgeSpeed = data.BaseDodgeSpeed;
+        dodgeable.BaseContinuousDodgeLimit = data.BaseContinuousDodgeLimit;
         dodgeable.KeepDodgeWallLayer = data.KeepDodgeWallLayer;
-        dodgeable.KeepDodgeMaxTime = new(data.KeepDodgeMaxTime);
-        dodgeable.KeepDodgeMaxDistance = new(data.KeepDodgeMaxDistance);
-        dodgeable.DodgeInvincibleTime = new(data.DodgeInvincibleTime);
+        dodgeable.BaseKeepDodgeMaxTime = data.BaseKeepDodgeMaxTime;
+        dodgeable.BaseDodgeInvincibleTime = data.BaseDodgeInvincibleTime;
+        dodgeable.KeepDodgeParticle = data.KeepDodgeParticle;
+        dodgeable.JustDodgeBuff = data.JustDodgeBuff;
     }
 
     public void SetGraffiriable(IGraffitiable graffiriable, IGraffitiable data)
     {
-        graffiriable.GP = new(data.GP);
-        graffiriable.MaxGP = new(data.MaxGP);
+        graffiriable.GP = data.GP;
+        graffiriable.MaxGP = data.MaxGP;
     }
 
     public void SetIMovable(IMovable movable, IMovable data)
     {
-        movable.Speed = new(data.Speed);
-        movable.SprintCoeff = new(data.SprintCoeff);
+        movable.Speed = data.Speed;
+        movable.SprintCoeff = data.SprintCoeff;
         movable.WallLayer = data.WallLayer;
         movable.CanPushLayer = data.CanPushLayer;
-        movable.IsSprinting = false;
         movable.FootStepAudio = data.FootStepAudio;
+        movable.Mass = data.Mass;
     }
 
     public void SetISkinable(ISkinable skinable, ISkinable data)

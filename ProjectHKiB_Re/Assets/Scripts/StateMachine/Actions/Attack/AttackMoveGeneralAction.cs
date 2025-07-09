@@ -6,7 +6,10 @@ public class AttackMoveGeneralAction : StateActionSO
     [SerializeField] private TargetingManagerSO targetingManager;
     public override void Act(StateController stateController)
     {
-        if (stateController.TryGetInterface(out IAttackable attackable) && stateController.TryGetInterface(out IMovable movable) && stateController.TryGetInterface(out IDirAnimatable animatable))
+        if (stateController.TryGetInterface(out IAttackable attackable)
+        && stateController.TryGetInterface(out IMovable movable)
+        && stateController.TryGetInterface(out IDirAnimatable animatable)
+        && stateController.TryGetInterface(out ITargetable targetable))
         {
             if (attackable.AttackDatas.Equals(null))
             {
@@ -22,15 +25,15 @@ public class AttackMoveGeneralAction : StateActionSO
             Transform thisTransform = stateController.transform;
             DirAnimationController AC = animatable.AnimationController;
             Transform target;
-            if (!attackable.CurrentTarget)
+            if (!targetable.CurrentTarget)
             {
-                target = targetingManager.PositianalTarget(thisTransform.position, moveRadius, attackable.TargetLayers);
-                attackable.CurrentTarget = target;
+                target = targetingManager.PositianalTarget(thisTransform.position, moveRadius, targetable.TargetLayers);
+                targetable.CurrentTarget = target;
                 if (!target) return;
             }
-            Debug.DrawLine(thisTransform.position, attackable.CurrentTarget.position, Color.blue, 0.4f);
-            AC.SetAnimationDirection(attackable.CurrentTarget.position - thisTransform.position);
-            movementManager.AttackMove(thisTransform, movable, attackable.CurrentTarget.position, moveRadius);
+            Debug.DrawLine(thisTransform.position, targetable.CurrentTarget.position, Color.blue, 0.4f);
+            AC.SetAnimationDirection(targetable.CurrentTarget.position - thisTransform.position);
+            movementManager.AttackMove(thisTransform, movable, targetable.CurrentTarget.position, moveRadius);
         }
         else
             Debug.LogError("ERROR: Interface Not Found!!!");

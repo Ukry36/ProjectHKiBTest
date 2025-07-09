@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -139,6 +137,7 @@ public class InputManager : MonoBehaviour
             EnumManager.InputType.OnSprint => SprintInput,
             EnumManager.InputType.OnAttack => AttackInput,
             EnumManager.InputType.OnDodge => DodgeInput,
+            EnumManager.InputType.HasDodge => DodgeProgressInput,
             EnumManager.InputType.HasDInput => MoveInput.y < 0,
             EnumManager.InputType.HasLInput => MoveInput.x < 0,
             EnumManager.InputType.HasRInput => MoveInput.x > 0,

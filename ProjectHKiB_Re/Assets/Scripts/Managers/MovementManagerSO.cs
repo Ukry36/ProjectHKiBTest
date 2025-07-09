@@ -93,7 +93,7 @@ public class MovementManagerSO : ScriptableObject
             {
                 Debug.DrawLine(component.MovePoint.transform.position, component.MovePoint.transform.position + dir, Color.red, 0.5f);
                 component.KnockBack(dir /*- entityTransform.position + component.MovePoint.transform.position*/, strength);
-                GameManager.instance.damageParticleManager.PlayHitParticle(KnockBackChainReactionParticle, 0, false, false, component.MovePoint.transform, 0);
+                GameManager.instance.damageParticleManager.PlayHitParticle(KnockBackChainReactionParticle, 0, false, false, component.MovePoint.transform.position, 0);
             }
         }
     }
@@ -164,9 +164,9 @@ public class MovementManagerSO : ScriptableObject
     }
 
     // Proceeds movepoint forward(to dir) but calculates whenever it should
-    public void WalkMove(Transform entityTransform, IMovable movable, Vector3 dir, LayerMask wallLayer)
+    public void WalkMove(Transform entityTransform, IMovable movable, float speed, Vector3 dir, LayerMask wallLayer)
     {
-        float speed = movable.IsSprinting ? movable.Speed.Value * movable.SprintCoeff.Value : movable.Speed.Value;
+        if (movable.IsSprinting) speed *= movable.SprintCoeff;
         Transform movePointTransform = movable.MovePoint.transform;
         dir = dir.normalized;
         Vector3 refDir = speed * dir + movable.ExForce.GetForce;
@@ -310,9 +310,8 @@ public class MovementManagerSO : ScriptableObject
     {
         dir = dir.normalized;
         Transform movePointTransform = movable.MovePoint.transform;
-        AllignMovePoint(movePointTransform);
-        for (float i = dodgeable.InitialDodgeMaxDistance.Value; i >= 0; i--)
-            if (!Physics2D.OverlapPoint(movePointTransform.position + dir * i, movable.WallLayer))
+        for (float i = dodgeable.InitialDodgeMaxDistance; i >= 0; i--)
+            if (!Physics2D.OverlapCircle(movePointTransform.position + dir * i, 0.2f, movable.WallLayer))
             {
                 movePointTransform.position += dir * i;
                 break;
@@ -324,7 +323,7 @@ public class MovementManagerSO : ScriptableObject
 
     public void ProceedMovePoint(Transform entityTransform, IMovable movable, Vector3 dir)
     {
-        dir = GetAvailableDir(entityTransform, movable, dir, movable.WallLayer).normalized;
+        dir = GetAvailableDir(entityTransform, movable, dir.normalized, movable.WallLayer);
         movable.MovePoint.transform.position += dir;
         AllignMovePoint(movable.MovePoint.transform);
     }

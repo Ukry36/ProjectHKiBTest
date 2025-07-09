@@ -13,14 +13,14 @@ TagManager:
   - UI
   - Movepoint
   - FloorInfoProvider
-  - Infront
+  - DeltaEffect
   - PlayerMovepoint
   - Player
   - Enemy
   - Friendly
   - DamagableObject
-  - 
-  - 
+  - Effect
+  - CameraBound
   - 
   - 
   - 
@@ -55,6 +55,9 @@ TagManager:
     locked: 0
   - name: Top
     uniqueID: 1685580135
+    locked: 0
+  - name: Blur
+    uniqueID: 3292421305
     locked: 0
   - name: UI
     uniqueID: 2766086163

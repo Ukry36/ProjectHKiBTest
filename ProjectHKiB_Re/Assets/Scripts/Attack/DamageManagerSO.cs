@@ -3,30 +3,38 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "DamageManager", menuName = "Scriptable Objects/Manager/DamageManager", order = 3)]
 public class DamageManagerSO : ScriptableObject
 {
-    public void Damage(DamageDataSO damageData, IAttackable hitter, IDamagable getHit, Transform hitTransform)
+    public void Damage(DamageDataSO damageData, IAttackable hitter, IDamagable getHit, Vector3 hitPos, bool IsKnockback)
     {
-        bool isCritical = Random.value < hitter.CriticalChanceRate.Value;
-        int value = (int)
-        (
+        int value = 0;
+        bool isCritical = Random.value < hitter.CriticalChanceRate; ;
+        if (!getHit.Invincible)
+        {
+            value = (int)
             (
-                damageData.damageCoefficient
-                * hitter.ATK.Value
-                * (1f + (isCritical ? hitter.CriticalDamageRate.Value : 0))
-                * (1f - getHit.Resistance.Value)
-            )
-            - getHit.DEF.Value
-        );
-        if (value <= 0) value = 1;
-        getHit.HP.Value -= value;
-        GameManager.instance.damageParticleManager.PlayHitParticle
-        (
-            hitter.DamageParticle,
-            value,
-            value > getHit.MaxHP.Value * 0.5 || damageData.knockBack > getHit.Mass,
-            isCritical,
-            hitTransform,
-            hitter.DamageIndicatorRandomPosInfo
-        );
+                (
+                    damageData.damageCoefficient
+                    * hitter.ATK
+                    * (1f + (isCritical ? hitter.CriticalDamageRate : 0))
+                    * (1f - getHit.Resistance)
+                )
+                - getHit.CurrentDef
+            );
+            if (value <= 0) value = 1;
+            getHit.HP -= value;
+        }
+        if (!getHit.Invincible || IsKnockback)
+        {
+            GameManager.instance.damageParticleManager.PlayHitParticle
+            (
+                hitter.DamageParticle,
+                value,
+                value > getHit.CurrentMaxHP * 0.5 || IsKnockback,
+                isCritical,
+                hitPos,
+                hitter.DamageIndicatorRandomPosInfo
+            );
+        }
+
     }
 
 }

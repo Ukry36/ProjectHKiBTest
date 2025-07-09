@@ -13,6 +13,7 @@ public class EnumManager
         OnSprint,
         OnAttack,
         OnDodge,
+        HasDodge,
         HasDInput,
         HasLInput,
         HasRInput,
