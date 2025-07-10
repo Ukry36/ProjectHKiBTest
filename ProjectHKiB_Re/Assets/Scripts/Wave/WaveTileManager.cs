@@ -9,41 +9,78 @@ using UnityEngine.Tilemaps;
 public class TilePosInfo
 {
     public Vector3Int Pos { get; private set; }
+    public Vector3Int FrontWallPos { get; private set; }
+    public Vector3Int RearWallPos { get; private set; }
     public float PlaceOrder { get; set; }
-    public TileBase PlaceTile { get; private set; }
+    public TileBase QuantumTile { get; private set; }
     public TileBase OutlineTile { get; private set; }
-    public GameObject Object { get; private set; }
+    public TileBase FrontWallTile { get; private set; }
+    public TileBase RearWallTile { get; private set; }
+    public Transform FrontDecoration { get; private set; }
+    public Transform QuantumDecoration { get; private set; }
+    public Transform RearDecoration { get; private set; }
     public Matrix4x4 FlipInfo { get; private set; }
 
-    public TilePosInfo(Vector3Int pos, float placeOrder, TileBase placeTile, TileBase outlineTile, GameObject Object, Matrix4x4 flipInfo)
+    public TilePosInfo(Vector3Int pos, float placeOrder, TileBase quantumTile, TileBase outlineTile, Matrix4x4 flipInfo, GameObject decoration)
     {
         Pos = pos;
         PlaceOrder = placeOrder;
-        PlaceTile = placeTile;
+        QuantumTile = quantumTile;
         OutlineTile = outlineTile;
-        this.Object = Object;
         FlipInfo = flipInfo;
+    }
+
+    public TilePosInfo(Vector3Int pos, Vector3Int frontWallPos, Vector3Int rearWallPos, float placeOrder, TileBase quantumTile, TileBase outlineTile, TileBase frontVoidTile, TileBase rearVoidTile, Matrix4x4 flipInfo, Transform quantumDecoration, Transform frontDecoration, Transform rearDecoration)
+    {
+        Pos = pos;
+        FrontWallPos = frontWallPos;
+        RearWallPos = rearWallPos;
+        PlaceOrder = placeOrder;
+        QuantumTile = quantumTile;
+        OutlineTile = outlineTile;
+        FrontWallTile = frontVoidTile;
+        RearWallTile = rearVoidTile;
+        FlipInfo = flipInfo;
+        QuantumDecoration = quantumDecoration;
+        FrontDecoration = frontDecoration;
+        RearDecoration = rearDecoration;
     }
 
     public void SetTile(Tilemap quantumTilemap, Tilemap outlineTilemap, bool placeOrRemove)
     {
-        quantumTilemap.SetTile(Pos, placeOrRemove ? PlaceTile : null);
+        quantumTilemap.SetTile(Pos, placeOrRemove ? QuantumTile : null);
         quantumTilemap.SetTransformMatrix(Pos, FlipInfo);
         outlineTilemap.SetTile(Pos, !placeOrRemove ? OutlineTile : null);
-        if (Object != null)
-            Object.SetActive(placeOrRemove);
+        if (QuantumDecoration != null)
+            QuantumDecoration.gameObject.SetActive(placeOrRemove);
     }
 }
 
 public class WaveTileManager : MonoBehaviour
 {
-    public Tilemap quantumTilemap;
-    public Tilemap outlineTilemap;
+    [SerializeField] private Tilemap _quantumTilemap;
+    [SerializeField] private Tilemap _outlineTilemap;
+    [SerializeField] private TilemapCollider2D _wallColider;
+
+    [SerializeField] private Transform _quantumDecoParent;
+    [SerializeField] private Transform _frontDecoParent;
+    [SerializeField] private Transform _rearDecoParent;
+
+    [SerializeField] private EntityWallGrid _frontEntityWallGrid;
+    [SerializeField] private EntityWallGrid _rearEntityWallGrid;
+    [SerializeField] private Tilemap _frontWallRefTilemap;
+    [SerializeField] private Tilemap _rearWallRefTilemap;
+    [SerializeField] private int _frontWallHeight;
+    [SerializeField] private int _rearWallHeight;
+    [SerializeField] private TileBase _wallReferenceTile;
+    [SerializeField] private TileBase[] _wallTile;
+
+
     [HideInInspector] public WaveSequence waveSequence;
     public delegate void TileSetCompleted();
     public event TileSetCompleted OnTileSetCompleted;
     public LayerMask layerMask;
-    private List<TilePosInfo> _TileInfoList;
+    [SerializeField] private List<TilePosInfo> _TileInfoList;
     public TileBase outlineTile;
     [SerializeField] private ParticlePlayer _placeParticle;
 
@@ -57,6 +94,93 @@ public class WaveTileManager : MonoBehaviour
 
     private const bool PLACE = true;
     private const bool REMOVE = false;
+
+    [Button("generate TilePosInfo")]
+    public void GenerateTilePosInfo()
+    {
+        Vector2 max = _wallColider.bounds.max;
+        Vector2 min = _wallColider.bounds.min;
+
+        for (int x = (int)min.x; x < (int)max.x; x++)
+        {
+            for (int y = (int)min.y; y < (int)max.y; y++)
+            {
+                Vector3Int pos = new(x, y);
+                Vector3Int frontWallPos = pos + Vector3Int.up * _frontWallHeight;
+                Vector3Int rearWallPos = pos + Vector3Int.up * _rearWallHeight;
+                TileBase quantumTile = _quantumTilemap.GetTile(pos);
+                TileBase frontVoidTile = _frontWallRefTilemap.GetTile(frontWallPos);
+                TileBase rearVoidTile = _rearWallRefTilemap.GetTile(rearWallPos);
+                if (frontVoidTile == _wallReferenceTile)
+                {
+                    int tileType = _wallTile.Length / 3;
+                    int rand = UnityEngine.Random.Range(0, tileType);
+                    rand = rand * 3 + ((x - (int)min.x) % 3);
+                    frontVoidTile = _wallTile[rand];
+                }
+                if (rearVoidTile == _wallReferenceTile)
+                {
+                    int tileType = _wallTile.Length / 3;
+                    int rand = UnityEngine.Random.Range(0, tileType);
+                    rand = rand * 3 + ((x - (int)min.x) % 3);
+                    rearVoidTile = _wallTile[rand];
+                }
+                Transform quantumDeco = GetChildOfPos(_quantumDecoParent, pos);
+                Transform frontDeco = GetChildOfPos(_frontDecoParent, pos);
+                Transform rearDeco = GetChildOfPos(_rearDecoParent, pos);
+
+                _TileInfoList.Add(new TilePosInfo
+                    (
+                        pos,
+                        frontWallPos,
+                        rearWallPos,
+                        _XCurve.Evaluate((float)(pos.x - min.x) / (max.x - min.x))
+                        + _YCurve.Evaluate((float)(pos.y - min.y) / (max.y - min.y)),
+                        quantumTile,
+                        outlineTile,
+                        frontVoidTile,
+                        rearVoidTile,
+                        _quantumTilemap.GetTransformMatrix(pos),
+                        quantumDeco,
+                        frontDeco,
+                        rearDeco
+                    ));
+            }
+        }
+    }
+
+    private Transform GetChildOfPos(Transform parent, Vector3 pos)
+    {
+        for (int i = 0; i < parent.childCount; i++)
+        {
+            if (parent.GetChild(i).position == pos)
+            {
+                return parent.GetChild(i);
+            }
+        }
+        return null;
+    }
+
+    [Button("generate wall")]
+    public void GenerateWall()
+    {
+        Vector2 max = _wallColider.bounds.max;
+        Vector2 min = _wallColider.bounds.min;
+        _frontEntityWallGrid.GenerateGrid((int)max.y, (int)min.y);
+        _rearEntityWallGrid.GenerateGrid((int)max.y, (int)min.y);
+        for (int i = 0; i < _TileInfoList.Count; i++)
+        {
+            Vector3Int frontWallPos = _TileInfoList[i].FrontWallPos;
+            Vector3Int rearWallPos = _TileInfoList[i].RearWallPos;
+            int frontY = _TileInfoList[i].Pos.y;
+            int rearY = _TileInfoList[i].Pos.y;
+            TileBase frontWallTile = _TileInfoList[i].FrontWallTile;
+            TileBase rearWallTile = _TileInfoList[i].RearWallTile;
+
+            _frontEntityWallGrid.Rows[frontY].SetTile(frontWallPos, frontWallTile);
+            _rearEntityWallGrid.Rows[rearY].SetTile(rearWallPos, rearWallTile);
+        }
+    }
 
     [Button("front")]
     public void Front02()
@@ -105,18 +229,18 @@ public class WaveTileManager : MonoBehaviour
     private void ScanTiles()
     {
         List<TilePosInfo> TileInfoList = new();
-        BoundsInt bounds = quantumTilemap.cellBounds;
+        BoundsInt bounds = _quantumTilemap.cellBounds;
         HashSet<Collider2D> processColliders = new();
         for (int x = bounds.xMin; x < bounds.xMax; x++)
         {
             for (int y = bounds.yMin; y < bounds.yMax; y++)
             {
                 Vector3Int pos = new(x, y);
-                TileBase tile = quantumTilemap.GetTile(pos);
+                TileBase tile = _quantumTilemap.GetTile(pos);
 
                 GameObject Object = null;
 
-                Collider2D collider = Physics2D.OverlapPoint(quantumTilemap.GetCellCenterWorld(pos), layerMask);
+                Collider2D collider = Physics2D.OverlapPoint(_quantumTilemap.GetCellCenterWorld(pos), layerMask);
 
                 if (collider != null && collider is BoxCollider2D)
                 {
@@ -135,8 +259,8 @@ public class WaveTileManager : MonoBehaviour
                         + _YCurve.Evaluate((float)(pos.y - bounds.yMin) / (bounds.yMax - bounds.yMin)),
                         tile,
                         outlineTile,
-                        Object,
-                        quantumTilemap.GetTransformMatrix(pos)
+                        _quantumTilemap.GetTransformMatrix(pos),
+                        Object
                     ));
                 }
             }
@@ -159,7 +283,7 @@ public class WaveTileManager : MonoBehaviour
     {
         for (int i = 0; i < tilePosInfoList.Count; i++)
         {
-            tilePosInfoList[i].SetTile(quantumTilemap, outlineTilemap, placeOrRemove);
+            tilePosInfoList[i].SetTile(_quantumTilemap, _outlineTilemap, placeOrRemove);
         }
     }
 
@@ -194,7 +318,7 @@ public class WaveTileManager : MonoBehaviour
             for (int j = 0; j < tilePerStep; j++)
             {
                 TilePosInfo tile = WaveSeparatedTileInfo[currentWaveIndex][0];
-                tile.SetTile(quantumTilemap, outlineTilemap, placeOrRemove);
+                tile.SetTile(_quantumTilemap, _outlineTilemap, placeOrRemove);
                 OnPlaceTile(tile.Pos, placeOrRemove);
                 WaveSeparatedTileInfo[currentWaveIndex].Remove(tile);
 
@@ -208,7 +332,7 @@ public class WaveTileManager : MonoBehaviour
             {
                 for (int k = 0; k < WaveSeparatedTileInfo[currentWaveIndex].Count; k++)
                 {
-                    WaveSeparatedTileInfo[currentWaveIndex][k].SetTile(quantumTilemap, outlineTilemap, placeOrRemove);
+                    WaveSeparatedTileInfo[currentWaveIndex][k].SetTile(_quantumTilemap, _outlineTilemap, placeOrRemove);
                     OnPlaceTile(WaveSeparatedTileInfo[currentWaveIndex][k].Pos, placeOrRemove);
                     if (k % div == 0)
                     {
