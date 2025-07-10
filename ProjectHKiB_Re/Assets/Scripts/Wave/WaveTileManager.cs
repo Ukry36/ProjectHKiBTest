@@ -10,16 +10,16 @@ public class TilePosInfo
 {
     [field: SerializeField] public Vector3Int Pos { get; private set; }
     [field: SerializeField] public Vector3Int FrontWallPos { get; private set; }
-    public Vector3Int RearWallPos { get; private set; }
-    public float PlaceOrder { get; set; }
-    public TileBase QuantumTile { get; private set; }
-    public TileBase OutlineTile { get; private set; }
-    public TileBase FrontWallTile { get; private set; }
-    public TileBase RearWallTile { get; private set; }
-    public Transform FrontDecoration { get; private set; }
-    public Transform QuantumDecoration { get; private set; }
-    public Transform RearDecoration { get; private set; }
-    public Matrix4x4 FlipInfo { get; private set; }
+    [field: SerializeField] public Vector3Int RearWallPos { get; private set; }
+    [field: SerializeField] public float PlaceOrder { get; set; }
+    [field: SerializeField] public TileBase QuantumTile { get; private set; }
+    [field: SerializeField] public TileBase OutlineTile { get; private set; }
+    [field: SerializeField] public TileBase FrontWallTile { get; private set; }
+    [field: SerializeField] public TileBase RearWallTile { get; private set; }
+    [field: SerializeField] public Transform FrontDecoration { get; private set; }
+    [field: SerializeField] public Transform QuantumDecoration { get; private set; }
+    [field: SerializeField] public Transform RearDecoration { get; private set; }
+    [field: SerializeField] public Matrix4x4 FlipInfo { get; private set; }
 
     public TilePosInfo(Vector3Int pos, float placeOrder, TileBase quantumTile, TileBase outlineTile, Matrix4x4 flipInfo, GameObject decoration)
     {
@@ -46,13 +46,65 @@ public class TilePosInfo
         RearDecoration = rearDecoration;
     }
 
-    public void SetTile(Tilemap quantumTilemap, Tilemap outlineTilemap, bool placeOrRemove)
+    public void SetTile(Tilemap quantumTilemap, Tilemap outlineTilemap, EntityWallGrid frontWall, EntityWallGrid rearWall, bool frontOrRear, bool direction)
     {
-        quantumTilemap.SetTile(Pos, placeOrRemove ? QuantumTile : null);
+        quantumTilemap.SetTile(Pos, frontOrRear && QuantumTile ? QuantumTile : null);
         quantumTilemap.SetTransformMatrix(Pos, FlipInfo);
-        outlineTilemap.SetTile(Pos, !placeOrRemove ? OutlineTile : null);
+        outlineTilemap.SetTile(Pos, !(frontOrRear && QuantumTile) ? OutlineTile : null);
         if (QuantumDecoration != null)
-            QuantumDecoration.gameObject.SetActive(placeOrRemove);
+            QuantumDecoration.gameObject.SetActive(frontOrRear);
+
+        if (frontOrRear)
+        {
+            if (direction)
+            {
+                frontWall.SetTile(FrontWallPos, null);
+                if (FrontDecoration != null) FrontDecoration.gameObject.SetActive(false);
+            }
+            else
+            {
+                rearWall.SetTile(RearWallPos, null);
+                if (RearDecoration != null) RearDecoration.gameObject.SetActive(true);
+            }
+        }
+        else
+        {
+            if (direction)
+            {
+                rearWall.SetTile(RearWallPos, RearWallTile);
+                if (RearDecoration != null) RearDecoration.gameObject.SetActive(false);
+            }
+            else
+            {
+                frontWall.SetTile(FrontWallPos, FrontWallTile);
+                if (FrontDecoration != null) FrontDecoration.gameObject.SetActive(true);
+            }
+        }
+    }
+
+    public void Init(Tilemap quantumTilemap, Tilemap outlineTilemap, EntityWallGrid frontWall, EntityWallGrid rearWall, bool direction)
+    {
+        quantumTilemap.SetTile(Pos, null);
+        quantumTilemap.SetTransformMatrix(Pos, FlipInfo);
+        outlineTilemap.SetTile(Pos, OutlineTile);
+        if (QuantumDecoration != null)
+            QuantumDecoration.gameObject.SetActive(false);
+        if (direction)
+        {
+            frontWall.SetTile(FrontWallPos, FrontWallTile);
+            rearWall.SetTile(RearWallPos, null);
+
+            if (FrontDecoration != null) FrontDecoration.gameObject.SetActive(true);
+            if (RearDecoration != null) RearDecoration.gameObject.SetActive(false);
+        }
+        else
+        {
+            frontWall.SetTile(FrontWallPos, null);
+            rearWall.SetTile(RearWallPos, RearWallTile);
+
+            if (FrontDecoration != null) FrontDecoration.gameObject.SetActive(false);
+            if (RearDecoration != null) RearDecoration.gameObject.SetActive(true);
+        }
     }
 }
 
@@ -61,6 +113,9 @@ public class WaveTileManager : MonoBehaviour
     [SerializeField] private Tilemap _quantumTilemap;
     [SerializeField] private Tilemap _outlineTilemap;
     [SerializeField] private TilemapCollider2D _wallColider;
+
+    [SerializeField] private Tilemap _frontFloor;
+    [SerializeField] private Tilemap _rearFloor;
 
     [SerializeField] private Transform _quantumDecoParent;
     [SerializeField] private Transform _frontDecoParent;
@@ -92,8 +147,8 @@ public class WaveTileManager : MonoBehaviour
     [SerializeField][MinValue(0)] private float _delayBetweenStep;
     [SerializeField][MaxValue(1), MinValue(0)] private float _stepSpeed;
 
-    private const bool PLACE = true;
-    private const bool REMOVE = false;
+    private const bool FRONT = true;
+    private const bool REAR = false;
 
     [Button("generate TilePosInfo")]
     public void GenerateTilePosInfo()
@@ -190,52 +245,43 @@ public class WaveTileManager : MonoBehaviour
         }
     }
 
-    [Button("front")]
+    [Button("front wave clear")]
     public void Front02()
     {
-        FrontWaveCompleted(currentFrontWave, tempWaveCount);
+        FrontWaveCompleted(currentFrontWave, tempWaveCount, tempDirection);
         currentFrontWave++;
         currentFrontWave %= tempWaveCount;
     }
 
-    [Button("rear")]
+    [Button("rear wave clear")]
     public void Rear02()
     {
-        RearWaveCompleted(currentRearWave, tempWaveCount);
+        RearWaveCompleted(currentRearWave, tempWaveCount, tempDirection);
         currentRearWave++;
         currentRearWave %= tempWaveCount;
     }
-
+    [Button("change map")]
+    public void ChangeMap()
+    => ChangeMap(tempDirection);
     public int tempWaveCount;
+    public bool tempDirection;
 
     [ReadOnly] public int currentFrontWave;
     [ReadOnly] public int currentRearWave;
-
-    [Button("erase")]
-    public void Erase()
-    {
-        currentFrontWave = 0;
-        currentRearWave = 0;
-        InitTileMap(_TileInfoList, REMOVE);
-    }
 
     [Button("init")]
     public void Init()
     {
         currentFrontWave = 0;
         currentRearWave = 0;
-        InitTileMap(_TileInfoList, PLACE);
-        ScanTiles();
+        InitTileMap(_TileInfoList, tempDirection);
+        ShuffleTiles();
     }
 
 
-    void Start()
+    private void ShuffleTiles()
     {
-        ScanTiles();
-    }
-
-    private void ScanTiles()
-    {
+        /*
         List<TilePosInfo> TileInfoList = new();
         BoundsInt bounds = _quantumTilemap.cellBounds;
         HashSet<Collider2D> processColliders = new();
@@ -272,26 +318,40 @@ public class WaveTileManager : MonoBehaviour
                     ));
                 }
             }
-        }
+        }*/
 
-        TileInfoList.Sort((a, b) => b.PlaceOrder.CompareTo(a.PlaceOrder));
+        _TileInfoList.Sort((a, b) => b.PlaceOrder.CompareTo(a.PlaceOrder));
 
-        float max = TileInfoList[0].PlaceOrder;
-        foreach (var comp in TileInfoList)
+        float max = _TileInfoList[0].PlaceOrder;
+        foreach (var comp in _TileInfoList)
         {
             comp.PlaceOrder /= max + 0.0001f;
         }
 
-        _TileInfoList = PlaceOrderShuffle(TileInfoList, (int)(TileInfoList.Count * _shuffle));
-
-        InitTileMap(_TileInfoList, REMOVE);
+        _TileInfoList = PlaceOrderShuffle(_TileInfoList, (int)(_TileInfoList.Count * _shuffle));
     }
 
-    public void InitTileMap(List<TilePosInfo> tilePosInfoList, bool placeOrRemove)
+    public void InitTileMap(List<TilePosInfo> tilePosInfoList, bool direction)
     {
+        ChangeMap(!direction);
+
         for (int i = 0; i < tilePosInfoList.Count; i++)
         {
-            tilePosInfoList[i].SetTile(_quantumTilemap, _outlineTilemap, placeOrRemove);
+            tilePosInfoList[i].Init(_quantumTilemap, _outlineTilemap, _frontEntityWallGrid, _rearEntityWallGrid, direction);
+        }
+    }
+
+    public void ChangeMap(bool direction)
+    {
+        if (direction == FRONT)
+        {
+            _frontFloor.gameObject.SetActive(false);
+            _rearFloor.gameObject.SetActive(true);
+        }
+        if (direction == REAR)
+        {
+            _frontFloor.gameObject.SetActive(true);
+            _rearFloor.gameObject.SetActive(false);
         }
     }
 
@@ -308,7 +368,7 @@ public class WaveTileManager : MonoBehaviour
         return tilePosInfoList;
     }
 
-    private IEnumerator PlaceOneWaveTiles(int currentWaveIndex, int waveCount, bool placeOrRemove)
+    private IEnumerator PlaceOneWaveTiles(int currentWaveIndex, int waveCount, bool frontOrRear, bool direction)
     {
         List<List<TilePosInfo>> WaveSeparatedTileInfo = new();
         for (int i = 0; i < waveCount; i++)
@@ -326,13 +386,13 @@ public class WaveTileManager : MonoBehaviour
             for (int j = 0; j < tilePerStep; j++)
             {
                 TilePosInfo tile = WaveSeparatedTileInfo[currentWaveIndex][0];
-                tile.SetTile(_quantumTilemap, _outlineTilemap, placeOrRemove);
-                OnPlaceTile(tile.Pos, placeOrRemove);
+                tile.SetTile(_quantumTilemap, _outlineTilemap, _frontEntityWallGrid, _rearEntityWallGrid, frontOrRear, direction);
+                OnPlaceTile(_quantumTilemap.CellToWorld(tile.Pos), frontOrRear);
                 WaveSeparatedTileInfo[currentWaveIndex].Remove(tile);
 
                 if (j % div == 0)
                 {
-                    OnPlaceTileReduced(placeOrRemove);
+                    OnPlaceTileReduced(frontOrRear);
                     yield return null;
                 }
             }
@@ -340,11 +400,11 @@ public class WaveTileManager : MonoBehaviour
             {
                 for (int k = 0; k < WaveSeparatedTileInfo[currentWaveIndex].Count; k++)
                 {
-                    WaveSeparatedTileInfo[currentWaveIndex][k].SetTile(_quantumTilemap, _outlineTilemap, placeOrRemove);
-                    OnPlaceTile(WaveSeparatedTileInfo[currentWaveIndex][k].Pos, placeOrRemove);
+                    WaveSeparatedTileInfo[currentWaveIndex][k].SetTile(_quantumTilemap, _outlineTilemap, _frontEntityWallGrid, _rearEntityWallGrid, frontOrRear, direction);
+                    OnPlaceTile(_quantumTilemap.CellToWorld(WaveSeparatedTileInfo[currentWaveIndex][k].Pos), frontOrRear);
                     if (k % div == 0)
                     {
-                        OnPlaceTileReduced(placeOrRemove);
+                        OnPlaceTileReduced(frontOrRear);
                         yield return null;
                     }
                 }
@@ -366,26 +426,26 @@ public class WaveTileManager : MonoBehaviour
 
     // if there is too many tiles placed in one step (at the same time)
     // use this
-    private void OnPlaceTileReduced(bool placeOrRemove)
+    private void OnPlaceTileReduced(bool frontOrRear)
     {
 
     }
 
-    private void OnPlaceTile(Vector3 pos, bool placeOrRemove)
+    private void OnPlaceTile(Vector3 pos, bool frontOrRear)
     {
-        //if (placeOrRemove)
+        //if (frontOrRear)
         if (Application.isPlaying)
             GameManager.instance.particleManager.PlayParticleOneShot(_placeParticle.GetInstanceID(), pos + Vector3.one);
 
     }
 
-    public void FrontWaveCompleted(int waveIndex, int totalFrontWaveCount)
+    public void FrontWaveCompleted(int waveIndex, int totalFrontWaveCount, bool direction)
     {
-        StartCoroutine(PlaceOneWaveTiles(waveIndex, totalFrontWaveCount, PLACE));
+        StartCoroutine(PlaceOneWaveTiles(waveIndex, totalFrontWaveCount, FRONT, direction));
     }
 
-    public void RearWaveCompleted(int waveIndex, int totalRearWaveCount)
+    public void RearWaveCompleted(int waveIndex, int totalRearWaveCount, bool direction)
     {
-        StartCoroutine(PlaceOneWaveTiles(waveIndex, totalRearWaveCount, REMOVE));
+        StartCoroutine(PlaceOneWaveTiles(waveIndex, totalRearWaveCount, REAR, direction));
     }
 }
