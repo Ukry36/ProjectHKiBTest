@@ -8,8 +8,8 @@ using UnityEngine.Tilemaps;
 [Serializable]
 public class TilePosInfo
 {
-    public Vector3Int Pos { get; private set; }
-    public Vector3Int FrontWallPos { get; private set; }
+    [field: SerializeField] public Vector3Int Pos { get; private set; }
+    [field: SerializeField] public Vector3Int FrontWallPos { get; private set; }
     public Vector3Int RearWallPos { get; private set; }
     public float PlaceOrder { get; set; }
     public TileBase QuantumTile { get; private set; }
@@ -98,49 +98,58 @@ public class WaveTileManager : MonoBehaviour
     [Button("generate TilePosInfo")]
     public void GenerateTilePosInfo()
     {
+        _TileInfoList = new();
         Vector2 max = _wallColider.bounds.max;
         Vector2 min = _wallColider.bounds.min;
 
-        for (int x = (int)min.x; x < (int)max.x; x++)
+        for (float x = min.x; x < max.x; x++)
         {
-            for (int y = (int)min.y; y < (int)max.y; y++)
+            for (float y = min.y; y < max.y; y++)
             {
-                Vector3Int pos = new(x, y);
-                Vector3Int frontWallPos = pos + Vector3Int.up * _frontWallHeight;
-                Vector3Int rearWallPos = pos + Vector3Int.up * _rearWallHeight;
-                TileBase quantumTile = _quantumTilemap.GetTile(pos);
-                TileBase frontVoidTile = _frontWallRefTilemap.GetTile(frontWallPos);
-                TileBase rearVoidTile = _rearWallRefTilemap.GetTile(rearWallPos);
-                if (frontVoidTile == _wallReferenceTile)
+                Vector3 pos = new(x, y);
+                Vector3Int qPos = _quantumTilemap.WorldToCell(pos);
+                Vector3Int fPos = _frontWallRefTilemap.WorldToCell(pos) + Vector3Int.up * _frontWallHeight;
+                Vector3Int rPos = _rearWallRefTilemap.WorldToCell(pos) + Vector3Int.up * _rearWallHeight;
+                TileBase quantumTile = _quantumTilemap.GetTile(qPos);
+                TileBase frontWallTile = _frontWallRefTilemap.GetTile(fPos);
+                TileBase rearWallTile = _rearWallRefTilemap.GetTile(rPos);
+
+                if (frontWallTile == _wallReferenceTile)
                 {
                     int tileType = _wallTile.Length / 3;
                     int rand = UnityEngine.Random.Range(0, tileType);
-                    rand = rand * 3 + ((x - (int)min.x) % 3);
-                    frontVoidTile = _wallTile[rand];
+                    rand = rand * 3 + ((int)(x - min.x) % 3);
+                    frontWallTile = _wallTile[rand];
                 }
-                if (rearVoidTile == _wallReferenceTile)
+                if (rearWallTile == _wallReferenceTile)
                 {
                     int tileType = _wallTile.Length / 3;
                     int rand = UnityEngine.Random.Range(0, tileType);
-                    rand = rand * 3 + ((x - (int)min.x) % 3);
-                    rearVoidTile = _wallTile[rand];
+                    rand = rand * 3 + ((int)(x - min.x) % 3);
+                    rearWallTile = _wallTile[rand];
                 }
                 Transform quantumDeco = GetChildOfPos(_quantumDecoParent, pos);
                 Transform frontDeco = GetChildOfPos(_frontDecoParent, pos);
                 Transform rearDeco = GetChildOfPos(_rearDecoParent, pos);
 
+                Vector3Int frontWallPos = _frontEntityWallGrid.WolrdToCell(_frontWallRefTilemap.CellToWorld(fPos));
+                Vector3Int rearWallPos = _rearEntityWallGrid.WolrdToCell(_rearWallRefTilemap.CellToWorld(rPos));
+                frontWallPos.z = _frontWallHeight;
+                rearWallPos.z = _rearWallHeight;
+                frontWallPos.y -= _frontWallHeight;
+                rearWallPos.y -= _rearWallHeight;
                 _TileInfoList.Add(new TilePosInfo
                     (
-                        pos,
+                        qPos,
                         frontWallPos,
                         rearWallPos,
-                        _XCurve.Evaluate((float)(pos.x - min.x) / (max.x - min.x))
-                        + _YCurve.Evaluate((float)(pos.y - min.y) / (max.y - min.y)),
+                        _XCurve.Evaluate((float)(qPos.x - min.x) / (max.x - min.x))
+                        + _YCurve.Evaluate((float)(qPos.y - min.y) / (max.y - min.y)),
                         quantumTile,
                         outlineTile,
-                        frontVoidTile,
-                        rearVoidTile,
-                        _quantumTilemap.GetTransformMatrix(pos),
+                        frontWallTile,
+                        rearWallTile,
+                        _quantumTilemap.GetTransformMatrix(qPos),
                         quantumDeco,
                         frontDeco,
                         rearDeco
@@ -153,7 +162,8 @@ public class WaveTileManager : MonoBehaviour
     {
         for (int i = 0; i < parent.childCount; i++)
         {
-            if (parent.GetChild(i).position == pos)
+            Vector3 dist = parent.GetChild(i).position - pos;
+            if (dist.x <= 0.5f && dist.y <= 0.5f)
             {
                 return parent.GetChild(i);
             }
@@ -164,21 +174,19 @@ public class WaveTileManager : MonoBehaviour
     [Button("generate wall")]
     public void GenerateWall()
     {
-        Vector2 max = _wallColider.bounds.max;
-        Vector2 min = _wallColider.bounds.min;
-        _frontEntityWallGrid.GenerateGrid((int)max.y, (int)min.y);
-        _rearEntityWallGrid.GenerateGrid((int)max.y, (int)min.y);
+        Vector3Int max = _frontEntityWallGrid.WolrdToCell(_wallColider.bounds.max);
+        Vector3Int min = _rearEntityWallGrid.WolrdToCell(_wallColider.bounds.min);
+        _frontEntityWallGrid.GenerateGrid(max.y, min.y);
+        _rearEntityWallGrid.GenerateGrid(max.y, min.y);
         for (int i = 0; i < _TileInfoList.Count; i++)
         {
             Vector3Int frontWallPos = _TileInfoList[i].FrontWallPos;
             Vector3Int rearWallPos = _TileInfoList[i].RearWallPos;
-            int frontY = _TileInfoList[i].Pos.y;
-            int rearY = _TileInfoList[i].Pos.y;
             TileBase frontWallTile = _TileInfoList[i].FrontWallTile;
             TileBase rearWallTile = _TileInfoList[i].RearWallTile;
 
-            _frontEntityWallGrid.Rows[frontY].SetTile(frontWallPos, frontWallTile);
-            _rearEntityWallGrid.Rows[rearY].SetTile(rearWallPos, rearWallTile);
+            _frontEntityWallGrid.SetTile(frontWallPos, frontWallTile);
+            _rearEntityWallGrid.SetTile(rearWallPos, rearWallTile);
         }
     }
 

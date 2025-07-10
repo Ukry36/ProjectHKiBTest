@@ -14,15 +14,9 @@ public class EntityWallRow
     }
 
     public void ClearAllTiles() => _tilemap.ClearAllTiles();
-    public void SetTile(Vector3 position, TileBase tile)
-    {
-        _tilemap.SetTile(new Vector3Int(
-        (int)position.x,
-        (int)(position.y - Transform.localPosition.y)), tile);
-        if (tile)
-            Debug.Log(position.x + ", " + tile.name);
-        else
-            Debug.Log(position.x + ", void");
-    }
+
+    public void SetTile(Vector3Int position, TileBase tile) => _tilemap.SetTile(position, tile);
+    public TileBase GetTile(Vector3Int position) => _tilemap.GetTile(position);
+
     public void SetTransformMatrix(Vector3Int position, Matrix4x4 flipInfo) => _tilemap.SetTransformMatrix(position, flipInfo);
 }
