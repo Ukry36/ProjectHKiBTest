@@ -11,6 +11,7 @@ public class TilePosInfo
     [field: SerializeField] public Vector3Int Pos { get; private set; }
     [field: SerializeField] public Vector3Int FrontWallPos { get; private set; }
     [field: SerializeField] public Vector3Int RearWallPos { get; private set; }
+    [field: SerializeField] public bool IsWall { get; private set; }
     [field: SerializeField] public float PlaceOrder { get; set; }
     [field: SerializeField] public TileBase QuantumTile { get; private set; }
     [field: SerializeField] public TileBase OutlineTile { get; private set; }
@@ -20,15 +21,6 @@ public class TilePosInfo
     [field: SerializeField] public Transform QuantumDecoration { get; private set; }
     [field: SerializeField] public Transform RearDecoration { get; private set; }
     [field: SerializeField] public Matrix4x4 FlipInfo { get; private set; }
-
-    public TilePosInfo(Vector3Int pos, float placeOrder, TileBase quantumTile, TileBase outlineTile, Matrix4x4 flipInfo, GameObject decoration)
-    {
-        Pos = pos;
-        PlaceOrder = placeOrder;
-        QuantumTile = quantumTile;
-        OutlineTile = outlineTile;
-        FlipInfo = flipInfo;
-    }
 
     public TilePosInfo(Vector3Int pos, Vector3Int frontWallPos, Vector3Int rearWallPos, float placeOrder, TileBase quantumTile, TileBase outlineTile, TileBase frontVoidTile, TileBase rearVoidTile, Matrix4x4 flipInfo, Transform quantumDecoration, Transform frontDecoration, Transform rearDecoration)
     {
@@ -135,7 +127,7 @@ public class WaveTileManager : MonoBehaviour
     public delegate void TileSetCompleted();
     public event TileSetCompleted OnTileSetCompleted;
     public LayerMask layerMask;
-    [SerializeField] private List<TilePosInfo> _TileInfoList;
+    [field: SerializeField] public List<TilePosInfo> TileInfoList { get; private set; }
     public TileBase outlineTile;
     [SerializeField] private ParticlePlayer _placeParticle;
 
@@ -153,7 +145,7 @@ public class WaveTileManager : MonoBehaviour
     [Button("generate TilePosInfo")]
     public void GenerateTilePosInfo()
     {
-        _TileInfoList = new();
+        TileInfoList = new();
         Vector2 max = _wallColider.bounds.max;
         Vector2 min = _wallColider.bounds.min;
 
@@ -193,7 +185,7 @@ public class WaveTileManager : MonoBehaviour
                 rearWallPos.z = _rearWallHeight;
                 frontWallPos.y -= _frontWallHeight;
                 rearWallPos.y -= _rearWallHeight;
-                _TileInfoList.Add(new TilePosInfo
+                TileInfoList.Add(new TilePosInfo
                     (
                         qPos,
                         frontWallPos,
@@ -233,12 +225,12 @@ public class WaveTileManager : MonoBehaviour
         Vector3Int min = _rearEntityWallGrid.WolrdToCell(_wallColider.bounds.min);
         _frontEntityWallGrid.GenerateGrid(max.y, min.y);
         _rearEntityWallGrid.GenerateGrid(max.y, min.y);
-        for (int i = 0; i < _TileInfoList.Count; i++)
+        for (int i = 0; i < TileInfoList.Count; i++)
         {
-            Vector3Int frontWallPos = _TileInfoList[i].FrontWallPos;
-            Vector3Int rearWallPos = _TileInfoList[i].RearWallPos;
-            TileBase frontWallTile = _TileInfoList[i].FrontWallTile;
-            TileBase rearWallTile = _TileInfoList[i].RearWallTile;
+            Vector3Int frontWallPos = TileInfoList[i].FrontWallPos;
+            Vector3Int rearWallPos = TileInfoList[i].RearWallPos;
+            TileBase frontWallTile = TileInfoList[i].FrontWallTile;
+            TileBase rearWallTile = TileInfoList[i].RearWallTile;
 
             _frontEntityWallGrid.SetTile(frontWallPos, frontWallTile);
             _rearEntityWallGrid.SetTile(rearWallPos, rearWallTile);
@@ -274,7 +266,7 @@ public class WaveTileManager : MonoBehaviour
     {
         currentFrontWave = 0;
         currentRearWave = 0;
-        InitTileMap(_TileInfoList, tempisDirectionForward);
+        InitTileMap(TileInfoList, tempisDirectionForward);
         ShuffleTiles();
     }
 
@@ -320,15 +312,15 @@ public class WaveTileManager : MonoBehaviour
             }
         }*/
 
-        _TileInfoList.Sort((a, b) => b.PlaceOrder.CompareTo(a.PlaceOrder));
+        TileInfoList.Sort((a, b) => b.PlaceOrder.CompareTo(a.PlaceOrder));
 
-        float max = _TileInfoList[0].PlaceOrder;
-        foreach (var comp in _TileInfoList)
+        float max = TileInfoList[0].PlaceOrder;
+        foreach (var comp in TileInfoList)
         {
             comp.PlaceOrder /= max + 0.0001f;
         }
 
-        _TileInfoList = PlaceOrderShuffle(_TileInfoList, (int)(_TileInfoList.Count * _shuffle));
+        TileInfoList = PlaceOrderShuffle(TileInfoList, (int)(TileInfoList.Count * _shuffle));
     }
 
     public void InitTileMap(List<TilePosInfo> tilePosInfoList, bool isDirectionForward)
@@ -373,7 +365,7 @@ public class WaveTileManager : MonoBehaviour
         List<List<TilePosInfo>> WaveSeparatedTileInfo = new();
         for (int i = 0; i < waveCount; i++)
         {
-            WaveSeparatedTileInfo.Insert(0, _TileInfoList.FindAll(a => Mathf.FloorToInt(a.PlaceOrder * waveCount) == i));
+            WaveSeparatedTileInfo.Insert(0, TileInfoList.FindAll(a => Mathf.FloorToInt(a.PlaceOrder * waveCount) == i));
         }
 
         int tilePerStep = WaveSeparatedTileInfo[currentWaveIndex].Count / _stepPerWave;

@@ -1,12 +1,21 @@
 using System;
 using UnityEngine;
 
+[Serializable]
+public class ObjectSpawnData
+{
+    [field: SerializeField] public GameObject Prefab { get; private set; }
+    [field: SerializeField] public int Count { get; private set; }
+}
+
 [CreateAssetMenu(fileName = "WaveData", menuName = "Scriptable Objects/Wave/WaveData")]
 public class WaveDataSO : ScriptableObject
 {
     [SerializeField] private StateActionSO[] _startActions;
     [SerializeField] private StateActionSO[] _updateActions;
     [SerializeField] private StateDecisionSO[] _waveEndDecisions;
+
+    [field: SerializeField] public ObjectSpawnData[] ObjectSpawnDatas { get; private set; }
 
     public void StartAction(StateController stateController)
     {

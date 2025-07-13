@@ -8,37 +8,23 @@ namespace Assets.Scripts.Interfaces.Modules
         [field: SerializeField] public bool IsDirectionForward { get; set; }
         [field: NaughtyAttributes.ReadOnly][field: SerializeField] public int CurrentWaveIndex { get; set; }
 
-        [field: SerializeField] public WaveDataSO[] FrontWaves { get; set; }
-        [field: SerializeField] public WaveDataSO[] QuantumWaves { get; set; }
-        [field: SerializeField] public WaveDataSO[] RearWaves { get; set; }
-        private WaveDataSO[] _allWaves;
+        [field: SerializeField] public WaveEventDataSO Waves { get; set; }
         [SerializeField] private WaveTileManager _waveTileManager;
         [SerializeField] private GameObject _frontObjects;
         [SerializeField] private GameObject _rearObjects;
-        private void Awake()
-        {
-            _allWaves = FrontWaves.Concat(QuantumWaves).ToArray();
-            _allWaves = _allWaves.Concat(RearWaves).ToArray();
-        }
+        public Cooltime WaveCooltime { get; set; }
         public override void Register(IInterfaceRegistable interfaceRegistable)
         {
             interfaceRegistable.RegisterInterface<IWaveEventable>(this);
         }
 
-        public WaveDataSO GetCurrentWaveData()
-        {
-            if (CurrentWaveIndex < _allWaves.Length)
-                return _allWaves[CurrentWaveIndex];
-            else
-                return null;
-        }
 
         public void WaveCleared()
         {
-            bool isFront = CurrentWaveIndex < FrontWaves.Length;
-            bool isRear = CurrentWaveIndex > _allWaves.Length - RearWaves.Length;
+            bool isFront = Waves.CheckFrontWave(CurrentWaveIndex);
+            bool isRear = Waves.CheckRearWave(CurrentWaveIndex);
             if (isFront || isRear)
-                _waveTileManager.WaveCleared(CurrentWaveIndex, FrontWaves.Length, RearWaves.Length, isFront, IsDirectionForward);
+                _waveTileManager.WaveCleared(CurrentWaveIndex, Waves.FrontWaves.Length, Waves.RearWaves.Length, isFront, IsDirectionForward);
             CurrentWaveIndex++;
         }
 
@@ -50,8 +36,18 @@ namespace Assets.Scripts.Interfaces.Modules
 
         public void WaveEventEnded()
         {
-            _frontObjects.SetActive(!IsDirectionForward);
-            _rearObjects.SetActive(IsDirectionForward);
+            _rearObjects.SetActive(true);
+        }
+
+        public void StartWaveCooltime(float time)
+        {
+            WaveCooltime = new(time);
+            WaveCooltime.StartCooltime(time);
+        }
+
+        public void SpawnCurrentWaveObjects()
+        {
+
         }
     }
 }

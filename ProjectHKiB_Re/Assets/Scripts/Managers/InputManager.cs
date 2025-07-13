@@ -142,6 +142,7 @@ public class InputManager : MonoBehaviour
             EnumManager.InputType.HasLInput => MoveInput.x < 0,
             EnumManager.InputType.HasRInput => MoveInput.x > 0,
             EnumManager.InputType.HasUInput => MoveInput.y > 0,
+            EnumManager.InputType.OnConfirm => ConfirmInput,
             _ => false,
         };
     }
