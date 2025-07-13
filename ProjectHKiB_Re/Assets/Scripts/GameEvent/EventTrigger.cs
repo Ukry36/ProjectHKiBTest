@@ -40,9 +40,17 @@ public abstract class EventTrigger : MonoBehaviour
 
     public void Update()
     {
-        if (!chunk) Debug.LogError("ERROR: ChunkData is not assigned!!!");
-        if (chunk.Active)
-            UpdateTrigger();
+        if (this.gameObject.activeSelf)
+        {
+            if (chunk)
+            {
+                if (chunk.Active)
+                    UpdateTrigger();
+            }
+            else UpdateTrigger();
+        }
+
+
     }
 
     public abstract void UpdateTrigger();

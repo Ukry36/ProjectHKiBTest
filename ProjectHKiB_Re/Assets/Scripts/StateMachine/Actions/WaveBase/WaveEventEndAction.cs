@@ -4,7 +4,7 @@ public class WaveEventEndAction : StateActionSO
 {
     public override void Act(StateController stateController)
     {
-        if (stateController.TryGetInterface(out IWaveEventable wave) && wave.CurrentWaveData)
+        if (stateController.TryGetInterface(out IWaveEventable wave))
         {
             wave.WaveEventEnded();
         }

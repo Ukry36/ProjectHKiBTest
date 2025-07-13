@@ -23,13 +23,19 @@ namespace Assets.Scripts.Interfaces.Modules
         {
             bool isFront = Waves.CheckFrontWave(CurrentWaveIndex);
             bool isRear = Waves.CheckRearWave(CurrentWaveIndex);
-            if (isFront || isRear)
+            Debug.Log("isFr: " + isFront + " isRr: " + isRear);
+            if (isFront)
                 _waveTileManager.WaveCleared(CurrentWaveIndex, Waves.FrontWaves.Length, Waves.RearWaves.Length, isFront, IsDirectionForward);
+            if (isRear)
+                _waveTileManager.WaveCleared(CurrentWaveIndex - Waves.FrontWaves.Length - Waves.QuantumWaves.Length, Waves.FrontWaves.Length, Waves.RearWaves.Length, isFront, IsDirectionForward);
+            if (CurrentWaveIndex == Waves.FrontWaves.Length + Waves.QuantumWaves.Length - 1)
+                _waveTileManager.ChangeMap(IsDirectionForward);
             CurrentWaveIndex++;
         }
 
         public void WaveEventStarted()
         {
+            _waveTileManager.Init(IsDirectionForward);
             _frontObjects.SetActive(false);
             _rearObjects.SetActive(false);
         }

@@ -26,5 +26,5 @@ public class WaveEventDataSO : ScriptableObject
     public bool CheckQuantumWave(int waveIndex)
     => !CheckFrontWave(waveIndex) && !CheckRearWave(waveIndex);
     public bool CheckRearWave(int waveIndex)
-    => waveIndex >= RearWaves.Length;
+    => waveIndex >= AllWavesCount - RearWaves.Length;
 }

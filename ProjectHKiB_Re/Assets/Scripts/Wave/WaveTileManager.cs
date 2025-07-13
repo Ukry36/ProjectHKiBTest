@@ -262,11 +262,22 @@ public class WaveTileManager : MonoBehaviour
     [ReadOnly] public int currentRearWave;
 
     [Button("init")]
-    public void Init()
+    private void Init()
     {
         currentFrontWave = 0;
         currentRearWave = 0;
         InitTileMap(TileInfoList, tempisDirectionForward);
+        ShuffleTiles();
+    }
+
+    public void Start()
+    {
+        Init();
+    }
+
+    public void Init(bool isDirectionForward)
+    {
+        InitTileMap(TileInfoList, isDirectionForward);
         ShuffleTiles();
     }
 
