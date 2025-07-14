@@ -18,8 +18,6 @@ public class Enemy : Entity, IAttackAreaIndicatable, IPathFindable, IAttackable,
     public float CriticalDamageRate { get; set; }
     public int PoolSize { get; set; }
 
-    public delegate void GameObjectDisabled(int ID, int hash);
-    public event GameObjectDisabled OnGameObjectDisabled;
 
 
     public StateMachineSO StateMachine { get; set; }
@@ -30,6 +28,7 @@ public class Enemy : Entity, IAttackAreaIndicatable, IPathFindable, IAttackable,
     public List<Vector3> PathList { get; set; }
     [field: SerializeField] public PathFindController PathFindController { get; set; }
     [field: SerializeField] public TargetController TargetController { get; set; }
+    Action<int, int> IPoolable.OnGameObjectDisabled { get; set; }
 
     public EnemyDataSO enemyBaseData;
     [SerializeField] private DatabaseManagerSO databaseManager;
@@ -93,12 +92,13 @@ public class Enemy : Entity, IAttackAreaIndicatable, IPathFindable, IAttackable,
 
     public void OnDisable()
     {
-        OnGameObjectDisabled?.Invoke(enemyBaseData.GetInstanceID(), this.gameObject.GetHashCode());
+        IPoolable.OnGameObjectDisabled?.Invoke(enemyBaseData.GetInstanceID(), this.gameObject.GetHashCode());
     }
 
     public void OnDie()
     {
         if (LastAttackAreaIndicatorID != 0)
             GameManager.instance.attackAreaIndicatorManager.StopIndicating(LastAttackAreaIndicatorID);
+
     }
 }

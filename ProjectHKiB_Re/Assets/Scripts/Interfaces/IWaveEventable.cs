@@ -16,5 +16,5 @@ public interface IWaveEventable
     public void WaveEventStarted();
     public void WaveEventEnded();
     public void StartWaveCooltime(float time);
-    public void SpawnCurrentWaveObjects();
+    public void SpawnCurrentWaveEnemies();
 }

@@ -1,5 +1,5 @@
-using System;
-using System.Linq;
+
+using System.Collections.Generic;
 using UnityEngine;
 namespace Assets.Scripts.Interfaces.Modules
 {
@@ -13,11 +13,19 @@ namespace Assets.Scripts.Interfaces.Modules
         [SerializeField] private GameObject _frontObjects;
         [SerializeField] private GameObject _rearObjects;
         public Cooltime WaveCooltime { get; set; }
+        public List<int> activeEnemyList = new();
+        private void Start()
+        {
+            GameManager.instance.enemyManager.OnObjectUseEndedAction += CheckEnemyDeath;
+        }
+        private void OnDestroy()
+        {
+            GameManager.instance.enemyManager.OnObjectUseEndedAction -= CheckEnemyDeath;
+        }
         public override void Register(IInterfaceRegistable interfaceRegistable)
         {
             interfaceRegistable.RegisterInterface<IWaveEventable>(this);
         }
-
 
         public void WaveCleared()
         {
@@ -51,9 +59,32 @@ namespace Assets.Scripts.Interfaces.Modules
             WaveCooltime.StartCooltime(time);
         }
 
-        public void SpawnCurrentWaveObjects()
+        public void SpawnCurrentWaveEnemies()
         {
+            ObjectSpawnData[] spawnDatas = Waves.GetWaveData(CurrentWaveIndex).ObjectSpawnDatas;
+            for (int i = 0; i < spawnDatas.Length; i++)
+            {
+                for (int j = 0; j < spawnDatas[i].Count; j++)
+                {
+                    Vector3 position = FindValidPosition();
+                    int instanceID = GameManager.instance.objectSpawnManager.ReuseObjectFast
+                    (spawnDatas[i].Prefab.GetInstanceID(), position).GetInstanceID();
+                    activeEnemyList.Add(instanceID);
+                }
+            }
+        }
 
+        public Vector3 FindValidPosition()
+        {
+            return new();
+        }
+
+        public void CheckEnemyDeath(int ID, int instanceID)
+        {
+            if (activeEnemyList.Contains(instanceID))
+            {
+                activeEnemyList.Remove(instanceID);
+            }
         }
     }
 }

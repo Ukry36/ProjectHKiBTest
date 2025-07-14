@@ -6,7 +6,7 @@ public class SpawnWaveObjectAction : StateActionSO
     {
         if (stateController.TryGetInterface(out IWaveEventable wave) && wave.CurrentWaveData)
         {
-            wave.SpawnCurrentWaveObjects();
+            wave.SpawnCurrentWaveEnemies();
         }
         else Debug.Log("Wave is Null");
     }
