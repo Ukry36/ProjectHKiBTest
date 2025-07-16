@@ -6,6 +6,7 @@ public class WaveStartAction : StateActionSO
     {
         if (stateController.TryGetInterface(out IWaveEventable wave) && wave.CurrentWaveData)
         {
+            wave.WaveStarted();
             wave.CurrentWaveData.StartAction(stateController);
         }
         else Debug.Log("Wave is Null");

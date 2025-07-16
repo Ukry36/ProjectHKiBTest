@@ -94,7 +94,7 @@ public class DamageParticleManager : PoolManager<DamageParticlePlayer>
         if (damage <= 0)
             return;
 
-        DamageParticlePlayer clone = ReuseObjectOneShot(damageParticleData.DamageParticlePlayer.GetInstanceID(), pos, Quaternion.identity);
+        DamageParticlePlayer clone = ReuseObjectOneShot(damageParticleData.DamageParticlePlayer.GetInstanceID(), pos, Quaternion.identity, false);
         clone.transform.position += playerShift + numberShift
                 + damageIndicatorRandomPosLookup[(int)(damageIndicatorRandomPosInfo * LOOKUPLENGTH) % LOOKUPLENGTH];
         if (coroutines.ContainsKey(clone.GetInstanceID()) && coroutines[clone.GetInstanceID()] != null)

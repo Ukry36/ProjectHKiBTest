@@ -5,6 +5,7 @@ using UnityEngine.Events;
 
 public class Friendly : Entity, IAttackable, IPoolable
 {
+    public int ID { get; set; }
     public int BaseATK { get; set; }
     public LayerMask[] TargetLayers { get; set; }
     public Transform CurrentTarget { get; set; }
@@ -16,8 +17,7 @@ public class Friendly : Entity, IAttackable, IPoolable
     public float CriticalDamageRate { get; set; }
     public AttackDataSO[] AttackDatas { get; set; }
     public int PoolSize { get; set; }
-    public delegate void GameObjectDisabled(int ID, int hash);
-    public event GameObjectDisabled OnGameObjectDisabled;
+    public UnityEvent<int, int> OnGameObjectDisabled { get; set; }
 
     public FriendlyDataSO friendlyBaseData;
 

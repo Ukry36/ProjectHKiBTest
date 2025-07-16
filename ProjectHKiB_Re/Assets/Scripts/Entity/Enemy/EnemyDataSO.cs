@@ -1,9 +1,11 @@
 using UnityEditor.Animations;
 using UnityEngine;
+using UnityEngine.Events;
 
 [CreateAssetMenu(fileName = "Enemy Data", menuName = "Scriptable Objects/Data/Enemy Data", order = 1)]
 public class EnemyDataSO : ScriptableObject, IMovable, IAttackable, ITargetable, IDamagable, IPoolable, IEntityStateControllable
 {
+    public int ID { get; set; }
     [field: SerializeField] public int PoolSize { get; set; }
 
     public MovePoint MovePoint { get; set; }
@@ -38,7 +40,7 @@ public class EnemyDataSO : ScriptableObject, IMovable, IAttackable, ITargetable,
 
     public MovementController MovementController { get; set; }
     public TargetController TargetController { get; set; }
-
+    public UnityEvent<int, int> OnGameObjectDisabled { get; set; }
     public Vector3 GetAttackOrigin()
     {
         throw new System.NotImplementedException();

@@ -7,24 +7,34 @@ namespace Assets.Scripts.Interfaces.Modules
     {
         [field: SerializeField] public bool IsDirectionForward { get; set; }
         [field: NaughtyAttributes.ReadOnly][field: SerializeField] public int CurrentWaveIndex { get; set; }
-
+        public WaveDataSO CurrentWave { get => Waves.GetWaveData(CurrentWaveIndex); }
         [field: SerializeField] public WaveEventDataSO Waves { get; set; }
         [SerializeField] private WaveTileManager _waveTileManager;
         [SerializeField] private GameObject _frontObjects;
         [SerializeField] private GameObject _rearObjects;
         public Cooltime WaveCooltime { get; set; }
-        public List<int> activeEnemyList = new();
-        private void Start()
+        [field: SerializeField] public List<ObjectDeathCounter> ObjectDeathCounterList { get; set; } = new();
+        public List<Vector3> validPosList;
+        public LayerMask wallLayer;
+        public bool ClearTrigger { get; set; }
+        [NaughtyAttributes.Button("bake valid pos")]
+        private void BakeValidPos()
         {
-            GameManager.instance.enemyManager.OnObjectUseEndedAction += CheckEnemyDeath;
-        }
-        private void OnDestroy()
-        {
-            GameManager.instance.enemyManager.OnObjectUseEndedAction -= CheckEnemyDeath;
+            validPosList = new(_waveTileManager.TileInfoList.Count);
+            foreach (var tile in _waveTileManager.TileInfoList)
+            {
+                if (tile.IsWall) continue;
+                validPosList.Add(tile.Pos);
+            }
         }
         public override void Register(IInterfaceRegistable interfaceRegistable)
         {
             interfaceRegistable.RegisterInterface<IWaveEventable>(this);
+        }
+
+        public void WaveStarted()
+        {
+            ObjectDeathCounterList.Add(GameManager.instance.objectDeathCountManager.AddCounter(CurrentWave.ObjectCount));
         }
 
         public void WaveCleared()
@@ -39,6 +49,7 @@ namespace Assets.Scripts.Interfaces.Modules
             if (CurrentWaveIndex == Waves.FrontWaves.Length + Waves.QuantumWaves.Length - 1)
                 _waveTileManager.ChangeMap(IsDirectionForward);
             CurrentWaveIndex++;
+            ClearTrigger = false;
         }
 
         public void WaveEventStarted()
@@ -66,25 +77,24 @@ namespace Assets.Scripts.Interfaces.Modules
             {
                 for (int j = 0; j < spawnDatas[i].Count; j++)
                 {
-                    Vector3 position = FindValidPosition();
-                    int instanceID = GameManager.instance.objectSpawnManager.ReuseObjectFast
-                    (spawnDatas[i].Prefab.GetInstanceID(), position).GetInstanceID();
-                    activeEnemyList.Add(instanceID);
+                    int posIndex = FindValidPosition();
+                    if (posIndex < 0) continue;
+                    int instanceID = GameManager.instance.objectSpawnManager.SpawnObjectSimple
+                    (spawnDatas[i].Prefab.GetInstanceID(), validPosList[posIndex], spawnDatas[i].Record).GetInstanceID();
+
                 }
             }
         }
 
-        public Vector3 FindValidPosition()
+        public int FindValidPosition()
         {
-            return new();
-        }
-
-        public void CheckEnemyDeath(int ID, int instanceID)
-        {
-            if (activeEnemyList.Contains(instanceID))
+            for (int i = 0; i < validPosList.Count; i++)
             {
-                activeEnemyList.Remove(instanceID);
+                int rand = Random.Range(0, validPosList.Count);
+                if (!Physics2D.OverlapPoint(validPosList[rand], wallLayer))
+                    return rand;
             }
+            return -1;
         }
     }
 }

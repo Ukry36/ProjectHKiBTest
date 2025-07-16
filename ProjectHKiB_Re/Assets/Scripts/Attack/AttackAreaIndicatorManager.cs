@@ -181,7 +181,7 @@ public class AttackAreaIndicatorManager : PoolManager<AttackAreaIndicator>
 
     public int IndicateAttackArea(AttackAreaIndicatorData indicatorData, Transform transform, Quaternion quaternion, TweenCallback indicateEndedCallBack = null)
     {
-        AttackAreaIndicator indicator = ReuseObject(prefab.GetInstanceID(), transform, quaternion, false);
+        AttackAreaIndicator indicator = ReuseObject(prefab.GetInstanceID(), transform, quaternion, false, false);
 
         indicator.StartIndicating(indicatorData.downwardIndicatorArea.size, indicatorData.downwardIndicatorArea.offset, indicatorData.downwardIndicatorArea.pivot);
         if (sequences.ContainsKey(indicator.GetInstanceID()) && sequences[indicator.GetInstanceID()] != null)

@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     public CooltimeManager cooltimeManager;
     public EnemyManager enemyManager;
     public ObjectSpawnManager objectSpawnManager;
+    public ObjectDeathCountManager objectDeathCountManager;
 
     public Player player;
 

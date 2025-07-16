@@ -2,9 +2,12 @@ using System.Linq;
 using UnityEngine;
 public class ObjectSpawnManager : PoolManager<GameObject>
 {
-    public Transform emptyTransform;
     [SerializeField] private GameObject[] allDatas;
 
+    public void Start()
+    {
+        Initialize();
+    }
     public override void Initialize()
     {
         base.Initialize();
@@ -19,11 +22,15 @@ public class ObjectSpawnManager : PoolManager<GameObject>
         {
             if (allDatas[i].TryGetComponent(out IPoolable poolable))
             {
+                CreatePool(allDatas[i].GetInstanceID(), poolable.PoolSize);
                 for (int j = 0; j < poolable.PoolSize; j++)
                 {
                     var clone = Instantiate(allDatas[i], this.transform);
                     AddObjectToPool(allDatas[i].GetInstanceID(), clone);
-                    clone.GetComponent<IPoolable>().OnGameObjectDisabled += OnObjectUseEnded;
+                    IPoolable p = clone.GetComponent<IPoolable>();
+                    p.OnGameObjectDisabled.AddListener(OnObjectUseEnded);
+                    p.ID = allDatas[i].GetInstanceID();
+                    clone.SetActive(false);
                 }
             }
             else
@@ -40,17 +47,25 @@ public class ObjectSpawnManager : PoolManager<GameObject>
         if (attatchToTransform) obj.transform.parent = transform;
     }
 
-    public GameObject ReuseObjectFast(int ID, Vector3 position)
+    public GameObject SpawnObject(int ID, Transform transform, Quaternion rotation, bool attatchToTransform, bool record)
     {
-        emptyTransform.position = position;
-        return ReuseObject(ID, emptyTransform, Quaternion.identity, false);
+        return ReuseObject(ID, transform, rotation, attatchToTransform, record);
+    }
+
+    public GameObject SpawnObjectSimple(int ID, Vector3 position, bool record)
+    {
+        _oneshotTransform.position = position;
+        return ReuseObject(ID, _oneshotTransform, Quaternion.identity, false, record);
     }
 
     public override void ResetPool()
     {
-        int[] keys = objects.Keys.ToArray();
-        for (int i = 0; i < keys.Length; i++)
-            Destroy(objects[keys[i]]);
+        if (objects != null && objects.Count > 0)
+        {
+            int[] keys = objects.Keys.ToArray();
+            for (int i = 0; i < keys.Length; i++)
+                Destroy(objects[keys[i]]);
+        }
         base.ResetPool();
     }
 }

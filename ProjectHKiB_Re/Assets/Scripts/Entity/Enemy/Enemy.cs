@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Animations;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Enemy : Entity, IAttackAreaIndicatable, IPathFindable, IAttackable, IPoolable, IEntityStateControllable
 {
@@ -16,7 +17,7 @@ public class Enemy : Entity, IAttackAreaIndicatable, IPathFindable, IAttackable,
     [field: SerializeField] public AttackController AttackController { get; set; }
     public float CriticalChanceRate { get; set; }
     public float CriticalDamageRate { get; set; }
-    public int PoolSize { get; set; }
+    [field: SerializeField] public int PoolSize { get; set; }
 
 
 
@@ -28,7 +29,8 @@ public class Enemy : Entity, IAttackAreaIndicatable, IPathFindable, IAttackable,
     public List<Vector3> PathList { get; set; }
     [field: SerializeField] public PathFindController PathFindController { get; set; }
     [field: SerializeField] public TargetController TargetController { get; set; }
-    Action<int, int> IPoolable.OnGameObjectDisabled { get; set; }
+    public UnityEvent<int, int> OnGameObjectDisabled { get; set; } = new();
+    public int ID { get; set; }
 
     public EnemyDataSO enemyBaseData;
     [SerializeField] private DatabaseManagerSO databaseManager;
@@ -92,7 +94,7 @@ public class Enemy : Entity, IAttackAreaIndicatable, IPathFindable, IAttackable,
 
     public void OnDisable()
     {
-        IPoolable.OnGameObjectDisabled?.Invoke(enemyBaseData.GetInstanceID(), this.gameObject.GetHashCode());
+        OnGameObjectDisabled?.Invoke(ID, this.gameObject.GetHashCode());
     }
 
     public void OnDie()

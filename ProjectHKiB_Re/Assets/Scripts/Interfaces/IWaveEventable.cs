@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public interface IWaveEventable
@@ -11,7 +12,24 @@ public interface IWaveEventable
     public bool IsRearWave { get => Waves.CheckRearWave(CurrentWaveIndex); }
     public WaveEventDataSO Waves { get; set; }
     public Cooltime WaveCooltime { get; set; }
-
+    public List<ObjectDeathCounter> ObjectDeathCounterList { get; set; }
+    public bool PrevWaveEnemyDead
+    {
+        get
+        {
+            for (int i = 0; i < ObjectDeathCounterList.Count; i++)
+            {
+                if (!ObjectDeathCounterList[i].IsDead) return false;
+            }
+            return true;
+        }
+    }
+    public bool CurrentWaveEnemyDead
+    {
+        get => ObjectDeathCounterList[CurrentWaveIndex].IsDead;
+    }
+    public bool ClearTrigger { get; set; }
+    public void WaveStarted();
     public void WaveCleared();
     public void WaveEventStarted();
     public void WaveEventEnded();

@@ -12,8 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23c5e7fccd2a0674381341b238a4a3a5, type: 3}
   m_Name: Test_Front_1
   m_EditorClassIdentifier: 
-  _startActions: []
+  _startActions:
+  - {fileID: 11400000, guid: 3689adb70397b464f9ad927ce266f4af, type: 2}
   _updateActions: []
-  _waveEndDecisions:
-  - {fileID: 11400000, guid: 0722fc444868fc74a885e53b9f9934e8, type: 2}
-  <ObjectSpawnDatas>k__BackingField: []
+  _waveEndDecisionsOr:
+  - <StateDecisionsAnd>k__BackingField:
+    - {fileID: 11400000, guid: 156413229b2f6834689646ec3bd6ded1, type: 2}
+  <ObjectSpawnDatas>k__BackingField:
+  - <Prefab>k__BackingField: {fileID: 6324719739634341053, guid: 5431fc0212b560b4eaf4e637cd859f98, type: 3}
+    <Count>k__BackingField: 4
+    <Record>k__BackingField: 1

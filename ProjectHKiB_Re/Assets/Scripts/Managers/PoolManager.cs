@@ -11,7 +11,7 @@ public abstract class PoolManager<T> : MonoBehaviour
     public Action<int, int> OnObjectUseAction;
     public Action<int, int> OnObjectUseEndedAction;
 
-    [SerializeField] private Transform _oneshotTransform;
+    [SerializeField] protected Transform _oneshotTransform;
 
     public virtual void Initialize()
     {
@@ -49,7 +49,7 @@ public abstract class PoolManager<T> : MonoBehaviour
     **************************************************************************************************/
 
 
-    public void AddObjectToPool(int ID, T t)
+    public virtual void AddObjectToPool(int ID, T t)
     {
         objects.Add(t.GetHashCode(), t);
         inactiveObjectSet.EnqueuePool(ID, t.GetHashCode());
@@ -61,8 +61,9 @@ public abstract class PoolManager<T> : MonoBehaviour
         activeObjectSet.AddPool(ID, poolSize);
     }
 
-    public T ReuseObject(int ID, Transform transform, Quaternion rotation, bool attatchToTransform)
+    public T ReuseObject(int ID, Transform transform, Quaternion rotation, bool attatchToTransform, bool record)
     {
+
         T t = default;
         int instanceID = 0;
         if (inactiveObjectSet.CheckPoolAvailable(ID))
@@ -79,7 +80,8 @@ public abstract class PoolManager<T> : MonoBehaviour
 
         if (t != null)
         {
-            OnObjectUseAction?.Invoke(ID, instanceID);
+            if (record)
+                OnObjectUseAction?.Invoke(ID, instanceID);
             activeObjectSet.EnqueuePool(ID, instanceID);
             InitObjectOnReuse(t, transform, rotation, attatchToTransform);
             return t;
@@ -89,18 +91,18 @@ public abstract class PoolManager<T> : MonoBehaviour
         return t;
     }
 
-    public T ReuseObjectOneShot(int ID, Vector3 pos, Quaternion rotation)
+    public T ReuseObjectOneShot(int ID, Vector3 pos, Quaternion rotation, bool record)
     {
         _oneshotTransform.position = pos;
-        return ReuseObject(ID, _oneshotTransform, rotation, false);
+        return ReuseObject(ID, _oneshotTransform, rotation, false, record);
     }
 
     public abstract void InitObjectOnReuse(T t, Transform transform, Quaternion quaternion, bool attatchToTransform);
 
     public virtual void OnObjectUseEnded(int ID, int instanceID)
     {
-        activeObjectSet.DeleteObjectFromPool(ID, instanceID);
-        inactiveObjectSet.EnqueuePool(ID, instanceID);
+        if (activeObjectSet.DeleteObjectFromPool(ID, instanceID))
+            inactiveObjectSet.EnqueuePool(ID, instanceID);
         OnObjectUseEndedAction?.Invoke(ID, instanceID);
     }
 
