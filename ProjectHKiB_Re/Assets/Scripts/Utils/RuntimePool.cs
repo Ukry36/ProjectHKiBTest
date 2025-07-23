@@ -51,10 +51,11 @@ public class RuntimePool
         return value;
     }
 
-    public void DeleteObjectFromPool(int ID, int instanceID)
+    public bool DeleteObjectFromPool(int ID, int instanceID)
     {
-        if (!CheckPoolAvailable(ID)) return;
+        if (!CheckPoolAvailable(ID)) return false;
 
         pool[ID].Remove(instanceID);
+        return true;
     }
 }

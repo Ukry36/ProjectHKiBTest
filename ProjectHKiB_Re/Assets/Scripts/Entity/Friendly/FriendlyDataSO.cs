@@ -8,6 +8,7 @@ using UnityEngine.U2D.Animation;
 [CreateAssetMenu(fileName = "Friendly Data", menuName = "Scriptable Objects/Data/Friendly Data", order = 1)]
 public class FriendlyDataSO : ScriptableObject, IMovable, IAttackable, IDamagable, IPoolable
 {
+    public int ID { get; set; }
     [field: SerializeField] public int BaseMaxHP { get; set; }
     [field: SerializeField] public int BaseDEF { get; set; }
     [field: SerializeField] public int BaseATK { get; set; }
@@ -37,7 +38,7 @@ public class FriendlyDataSO : ScriptableObject, IMovable, IAttackable, IDamagabl
     public StateMachineSO stateMachine;
     public SpriteLibraryAsset defaultSkin;
     public AnimatorController animationController;
-
+    public UnityEvent<int, int> OnGameObjectDisabled { get; set; }
     public Vector3 GetAttackOrigin()
     {
         throw new System.NotImplementedException();
