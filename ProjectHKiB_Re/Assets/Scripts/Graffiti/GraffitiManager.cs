@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Graffiti : MonoBehaviour
+public class GraffitiManager : MonoBehaviour
 {
     private List<Vector2> graffitiVectorSet = new List<Vector2>();
     private List<PlayerSkillDataSO> skillList = new List<SkillDataS0>();
@@ -10,9 +10,13 @@ public class Graffiti : MonoBehaviour
     int completedSkillNum = -1;
 
     //��ų �߰��ڵ�
-    PlayerSkillDataSO Windmill = new PlayerSkillDataSO();
-    Windmill.graffitiCodes={(0,0), (0,1),(1,0),(0,-1),(-1,0)}; //new Vector2
-    skillList.Add(Windmill);
+
+    public void Start()
+    {
+        PlayerSkillDataSO Windmill = new PlayerSkillDataSO();
+        Windmill.graffitiCode={(0,0), (0,1),(1,0),(0,-1),(-1,0)};
+        skillList.Add(Windmill);
+    }
 
     // public bool ContainsVector(Vector2 target)
     // {
@@ -25,7 +29,11 @@ public class Graffiti : MonoBehaviour
     //���� ��ǥ currentVector
 
 
-    void CheckGraffitiProgress(Vector2)//�̰� �� �ǵ�� ��¼�� �̰� �� ����
+    /// <summary>
+    /// called everytime when player moves in graffiti
+    /// </summary>
+    /// <param name="currentPlayerPos"> current player pos</param>
+    public void CheckGraffitiProgress(Vector2 currentPlayerPos) //�̰� �� �ǵ�� ��¼�� �̰� �� ����
     {  
         bool check = true;
         bool end = false;
@@ -39,14 +47,14 @@ public class Graffiti : MonoBehaviour
         //true�� �̵��� �ڸ��� ��¦��
         // CheckCompleted >= 0 �� ���� �ǵ��, completedSkillNum�� ��
         //get player's vector
-        Vector2 currentVector
+        
 
         int completedSkillNum = CheckCompleted();
-        while(!check || completedSkillNum >= 0){
-            graffitiVectorSet.Add(currentVector);
+
+            graffitiVectorSet.Add(currentPlayerPos);
             check = ValidateVectorSet(graffitiVectorSet);
             //print Vectorset();
-        }
+        
 
         if(completedSkillNum >= 0){
             //success feedback-> green effect
@@ -65,8 +73,8 @@ public class Graffiti : MonoBehaviour
         }
     }
 
-    void CheckGraffitiComplete(int num)
-    {   
+    public void CheckGraffitiComplete(int num)
+    {
         switch(num){
             case 0: //windmill skill on
         }
@@ -92,9 +100,6 @@ public class Graffiti : MonoBehaviour
 
     bool ValidateVectorSet(Vector2 vector)
     {
-        List<Vector2> patterns;
-        graffitiVectorSet.Add(vector);
-
         foreach (var graffitiCode in Windmill.graffitiAllCases){
             if (graffitiVectorSet.All(Vector2 => Windmill.graffitiAllCases.Contains(Vector2)))
                 return true;
