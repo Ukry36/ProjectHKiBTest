@@ -41,11 +41,11 @@ public class ChunkData : MonoBehaviour
         if (!boundary) Debug.LogError("ERROR: Boundary not attatched!!!");
 
         Collider2D[] cols = new Collider2D[10000];
-        List<EventTrigger> trigs = new();
+        List<GameEventTrigger> trigs = new();
         int length = boundary.OverlapCollider(new(), cols);
         for (int i = 0; i < length; i++)
         {
-            if (cols[i].TryGetComponent(out EventTrigger trigger))
+            if (cols[i].TryGetComponent(out GameEventTrigger trigger))
             {
                 trigs.Add(trigger);
                 trigger.chunk = this;
@@ -53,7 +53,7 @@ public class ChunkData : MonoBehaviour
         }
         triggers = trigs.ToArray();
     }
-    [NaughtyAttributes.ReadOnly][SerializeField] private EventTrigger[] triggers;
+    [NaughtyAttributes.ReadOnly][SerializeField] private GameEventTrigger[] triggers;
 
     public void Awake()
     {

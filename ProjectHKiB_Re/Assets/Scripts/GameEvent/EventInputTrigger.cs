@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EventInputTrigger : EventTrigger
+public class EventInputTrigger : GameEventTrigger
 {
     [SerializeField] private EnumManager.InputType _inputType;
     public override void UpdateTrigger()

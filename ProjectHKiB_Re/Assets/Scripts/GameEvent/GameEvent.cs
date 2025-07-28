@@ -2,7 +2,7 @@ using UnityEngine;
 
 public abstract class GameEvent : MonoBehaviour, IEvent
 {
-    [SerializeField] protected EventTrigger _trigger;
+    [SerializeField] protected GameEventTrigger _trigger;
     public Transform CurrentTarget { get; set; }
 
     public virtual void Start()
