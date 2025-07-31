@@ -90,6 +90,7 @@ namespace Michsky.MUIP
             var useHoverSound = serializedObject.FindProperty("useHoverSound");
             var useClickSound = serializedObject.FindProperty("useClickSound");
             var useRipple = serializedObject.FindProperty("useRipple");
+            var disableFade = serializedObject.FindProperty("disableFade");
             var fadingMultiplier = serializedObject.FindProperty("fadingMultiplier");
             var doubleClickPeriod = serializedObject.FindProperty("doubleClickPeriod");
             var animationSolution = serializedObject.FindProperty("animationSolution");
@@ -100,6 +101,8 @@ namespace Michsky.MUIP
             var rippleUpdateMode = serializedObject.FindProperty("rippleUpdateMode");
             var targetCanvas = serializedObject.FindProperty("targetCanvas");
             var rippleShape = serializedObject.FindProperty("rippleShape");
+            var fade = serializedObject.FindProperty("fade");
+            var staticImageMode = serializedObject.FindProperty("staticImageMode");
             var speed = serializedObject.FindProperty("speed");
             var maxSize = serializedObject.FindProperty("maxSize");
             var startColor = serializedObject.FindProperty("startColor");
@@ -210,6 +213,7 @@ namespace Michsky.MUIP
                 case 2:
                     MUIPEditorHandler.DrawHeader(customSkin, "Options Header", 6);
                     MUIPEditorHandler.DrawProperty(animationSolution, customSkin, "Animation Solution");
+                    MUIPEditorHandler.DrawProperty(disableFade, customSkin, "Disable Fade");
                     MUIPEditorHandler.DrawProperty(fadingMultiplier, customSkin, "Fading Multiplier");
                     MUIPEditorHandler.DrawProperty(doubleClickPeriod, customSkin, "Double Click Period");
                     isInteractable.boolValue = MUIPEditorHandler.DrawToggle(isInteractable.boolValue, customSkin, "Is Interactable");
@@ -231,21 +235,21 @@ namespace Michsky.MUIP
                         GUILayout.BeginVertical(EditorStyles.helpBox);
                         MUIPEditorHandler.DrawPropertyPlain(navigationMode, customSkin, "Navigation Mode");
 
-                        if (buttonTarget.navigationMode == UnityEngine.UI.Navigation.Mode.Horizontal) 
+                        if (buttonTarget.navigationMode == UnityEngine.UI.Navigation.Mode.Horizontal)
                         {
                             EditorGUI.indentLevel = 1;
-                         //   GUILayout.Space(-3);
+                            //   GUILayout.Space(-3);
                             wrapAround.boolValue = MUIPEditorHandler.DrawToggle(wrapAround.boolValue, customSkin, "Wrap Around");
-                          //  GUILayout.Space(4);
+                            //  GUILayout.Space(4);
                             EditorGUI.indentLevel = 0;
                         }
 
-                        else if (buttonTarget.navigationMode == UnityEngine.UI.Navigation.Mode.Vertical) 
-                        { 
+                        else if (buttonTarget.navigationMode == UnityEngine.UI.Navigation.Mode.Vertical)
+                        {
                             wrapAround.boolValue = MUIPEditorHandler.DrawTogglePlain(wrapAround.boolValue, customSkin, "Wrap Around");
                         }
 
-                        else if (buttonTarget.navigationMode == UnityEngine.UI.Navigation.Mode.Explicit) 
+                        else if (buttonTarget.navigationMode == UnityEngine.UI.Navigation.Mode.Explicit)
                         {
                             EditorGUI.indentLevel = 1;
                             MUIPEditorHandler.DrawPropertyPlain(selectOnUp, customSkin, "Select On Up");
@@ -296,6 +300,8 @@ namespace Michsky.MUIP
                         MUIPEditorHandler.DrawProperty(rippleUpdateMode, customSkin, "Update Mode");
                         MUIPEditorHandler.DrawProperty(targetCanvas, customSkin, "Target Canvas");
                         MUIPEditorHandler.DrawProperty(rippleShape, customSkin, "Shape");
+                        MUIPEditorHandler.DrawProperty(fade, customSkin, "Fade");
+                        MUIPEditorHandler.DrawProperty(staticImageMode, customSkin, "StaticImageMode");
                         MUIPEditorHandler.DrawProperty(speed, customSkin, "Speed");
                         MUIPEditorHandler.DrawProperty(maxSize, customSkin, "Max Size");
                         MUIPEditorHandler.DrawProperty(startColor, customSkin, "Start Color");

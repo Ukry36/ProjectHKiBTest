@@ -65,6 +65,7 @@ namespace Michsky.MUIP
         public bool wrapAround = false;
         public bool useRipple = true;
         [Range(0.1f, 1)] public float doubleClickPeriod = 0.25f;
+        public bool disableFade = false;
         [Range(0.25f, 15)] public float fadingMultiplier = 8;
         [SerializeField] private AnimationSolution animationSolution = AnimationSolution.ScriptBased;
 
@@ -78,6 +79,8 @@ namespace Michsky.MUIP
         [SerializeField] private RippleUpdateMode rippleUpdateMode = RippleUpdateMode.UnscaledTime;
         [SerializeField] private Canvas targetCanvas;
         public Sprite rippleShape;
+        public bool staticImageMode = false;
+        public bool fade = true;
         [Range(0.1f, 5)] public float speed = 1f;
         [Range(0.5f, 25)] public float maxSize = 4f;
         public Color startColor = new Color(1f, 1f, 1f, 0.2f);
@@ -90,28 +93,29 @@ namespace Michsky.MUIP
         Button targetButton;
         bool isPointerOn;
         bool waitingForDoubleClickInput;
-        const int navHelper = 1; 
+        const int navHelper = 1;
 
 #if UNITY_EDITOR
         public bool isPreset;
         public int latestTabIndex = 0;
 #endif
 
-        public enum AnimationSolution 
-        { 
-            Custom, 
-            ScriptBased 
+        public enum AnimationSolution
+        {
+            Custom,
+            ScriptBased
         }
 
-        public enum RippleUpdateMode 
-        { 
-            Normal, 
+        public enum RippleUpdateMode
+        {
+            Normal,
             UnscaledTime
         }
 
-        [System.Serializable] public class Padding 
+        [System.Serializable]
+        public class Padding
         {
-            public int left = 20; 
+            public int left = 20;
             public int right = 20;
             public int top = 5;
             public int bottom = 5;
@@ -173,12 +177,12 @@ namespace Michsky.MUIP
 
         public void UpdateUI()
         {
-            if (autoFitContent == false) 
+            if (autoFitContent == false)
             {
                 if (mainFitter != null) { mainFitter.enabled = false; }
                 if (mainLayout != null) { mainLayout.enabled = false; }
-                if (targetFitter != null) 
-                { 
+                if (targetFitter != null)
+                {
                     targetFitter.enabled = false;
 
                     if (targetRect != null)
@@ -275,9 +279,9 @@ namespace Michsky.MUIP
 
         public void SetText(string text) { buttonText = text; UpdateUI(); }
         public void SetIcon(Sprite icon) { buttonIcon = icon; UpdateUI(); }
-        
-        public void Interactable(bool value) 
-        { 
+
+        public void Interactable(bool value)
+        {
             isInteractable = value;
 
             if (!gameObject.activeInHierarchy) { return; }
@@ -321,6 +325,9 @@ namespace Michsky.MUIP
 
                 rippleObj.AddComponent<Ripple>();
                 Ripple tempRipple = rippleObj.GetComponent<Ripple>();
+                tempRipple.fade = fade;
+                tempRipple.staticImageMode = staticImageMode;
+                if (staticImageMode && transitionColor.a != 0) transitionColor.a = 0;
                 tempRipple.speed = speed;
                 tempRipple.maxSize = maxSize;
                 tempRipple.startColor = startColor;
@@ -389,7 +396,7 @@ namespace Michsky.MUIP
             if (!isInteractable) { return; }
             if (enableButtonSounds && useHoverSound && soundSource != null) { soundSource.PlayOneShot(hoverSound); }
             if (animationSolution == AnimationSolution.ScriptBased) { StartCoroutine(nameof(SetHighlight)); }
-         
+
             isPointerOn = true;
             onHover.Invoke();
         }
@@ -438,6 +445,14 @@ namespace Michsky.MUIP
 
         IEnumerator SetNormal()
         {
+            if (disableFade)
+            {
+                normalCG.alpha = 1;
+                highlightCG.alpha = 0;
+                disabledCG.alpha = 0;
+                yield break;
+            }
+
             StopCoroutine(nameof(SetHighlight));
             StopCoroutine(nameof(SetDisabled));
 
@@ -456,6 +471,13 @@ namespace Michsky.MUIP
 
         IEnumerator SetHighlight()
         {
+            if (disableFade)
+            {
+                normalCG.alpha = 0;
+                highlightCG.alpha = 1;
+                disabledCG.alpha = 0;
+                yield break;
+            }
             StopCoroutine(nameof(SetNormal));
             StopCoroutine(nameof(SetDisabled));
 
@@ -474,6 +496,13 @@ namespace Michsky.MUIP
 
         IEnumerator SetDisabled()
         {
+            if (disableFade)
+            {
+                normalCG.alpha = 0;
+                highlightCG.alpha = 0;
+                disabledCG.alpha = 1;
+                yield break;
+            }
             StopCoroutine(nameof(SetNormal));
             StopCoroutine(nameof(SetHighlight));
 
@@ -504,7 +533,7 @@ namespace Michsky.MUIP
             if (selectOnDown != null) { nav.selectOnDown = selectOnDown.GetComponent<Selectable>(); }
             if (selectOnLeft != null) { nav.selectOnLeft = selectOnLeft.GetComponent<Selectable>(); }
             if (selectOnRight != null) { nav.selectOnRight = selectOnRight.GetComponent<Selectable>(); }
-            
+
             targetButton.navigation = nav;
         }
     }
