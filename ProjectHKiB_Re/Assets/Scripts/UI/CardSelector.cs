@@ -4,39 +4,44 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class CardSelector : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
+public class CardSelector : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler
 {
     public int index;
-    public bool onTop;
+    public bool highlighted;
     public CardData cardData;
     public Image[] gearIcons;
-    public CardSelectorParent cardSelectorParent;
 
     public UnityEvent<int> PointerClickEvent;
     public UnityEvent<int> PointerEnterEvent;
-    public UnityEvent<int> PointerExitEvent;
+
+    public void Start()
+    {
+        if (gearIcons == null || gearIcons.Length == 0) Debug.LogError("No GearIcons");
+        for (int i = 0; i < gearIcons.Length; i++)
+        {
+            if (gearIcons[i] == null) Debug.LogError("GearIcon [" + i + "] is null");
+        }
+    }
 
     public void SetCardData(CardData cardData, int index)
     {
         this.index = index;
         this.cardData = cardData;
-        if (gearIcons == null) return;
         if (cardData == null)
         {
-            for (int i = 0; i < gearIcons.Length; i++) if (gearIcons[i] != null) gearIcons[i].sprite = null;
+            for (int i = 0; i < gearIcons.Length; i++) gearIcons[i].gameObject.SetActive(false);
             return;
         }
-        if (cardData.gearList == null)
+        for (int i = 0; i < gearIcons.Length; i++)
         {
-            for (int i = 0; i < gearIcons.Length; i++) if (gearIcons[i] != null) gearIcons[i].sprite = null;
-            return;
-        }
-        for (int i = 0; i < cardData.gearList.Count; i++)
-        {
-            if (i >= gearIcons.Length) break;
-            if (cardData.gearList[i] != null && gearIcons[i] != null)
+            if (i < cardData.gearList.Count && cardData.gearList[i] != null)
             {
+                gearIcons[i].gameObject.SetActive(true);
                 gearIcons[i].sprite = cardData.gearList[i].itemIcon;
+            }
+            else
+            {
+                gearIcons[i].gameObject.SetActive(false);
             }
         }
     }
@@ -51,15 +56,9 @@ public class CardSelector : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
         PointerEnterEvent.Invoke(index);
     }
 
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        PointerExitEvent.Invoke(index);
-    }
-
     public void OnDestroy()
     {
         PointerClickEvent.RemoveAllListeners();
         PointerEnterEvent.RemoveAllListeners();
-        PointerExitEvent.RemoveAllListeners();
     }
 }

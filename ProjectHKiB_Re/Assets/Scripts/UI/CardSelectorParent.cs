@@ -3,18 +3,33 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class CardSelectorParent : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler, IPointerExitHandler
+public class CardSelectorParent : MonoBehaviour, IPointerExitHandler
 {
     public int max;
     public CardSelector topCard;
+    public CardSelector bottomCard;
     public CardSelector[] cards;
     private List<CardSelector> activeCards;
     public Vector2 cardInterval;
-    public float cardHighlightInterval;
-    public float cardHighlightHeight;
-    private bool spread;
+    public Vector2 cardHighlightShift;
+    public Vector2 cardHighlightPushShift;
+    public Vector2 topCardChangeShift;
+    public Vector2 bottomCardChangeShift;
+    public float moveTime;
+    public float delayTime;
+    public bool interactable = true;
 
     public List<CardData> temp;
+
+    private readonly List<Sequence> sequences = new();
+    private void CompleteAllTweens()
+    {
+        for (int i = 0; i < sequences.Count; i++)
+        {
+            sequences[i].Complete();
+        }
+        sequences.Clear();
+    }
 
     public void Start()
     {
@@ -22,27 +37,39 @@ public class CardSelectorParent : MonoBehaviour, IPointerEnterHandler, IPointerC
         {
             cards[i].PointerClickEvent.AddListener(OnCardOfIndexClick);
             cards[i].PointerEnterEvent.AddListener(OnCardOfIndexEnter);
-            cards[i].PointerExitEvent.AddListener(OnCardOfIndexExit);
         }
+        topCard.PointerEnterEvent.AddListener(OnTopCardEnter);
         UpdateCards(temp);
+        topCard.SetCardData(activeCards[0].cardData, 0);
     }
 
-    public void SpreadCards()
+    public void SpreadCards(int index)
     {
-        spread = true;
-        for (int i = activeCards.Count; i >= 0; i--)
+        CompleteAllTweens();
+        Sequence sequence = DOTween.Sequence();
+        for (int i = 0; i < activeCards.Count; i++)
         {
-            activeCards[i].transform.DOLocalMove(cardInterval * (activeCards.Count - i + 1), 0.1f);
+            sequence.Insert(delayTime * (1 + index - i < 0 ? 0 : 1 + index - i),
+                activeCards[i].transform.DOLocalMove(
+                cardInterval * (activeCards.Count - i)
+                + (i < index && index < activeCards.Count ? cardHighlightPushShift : Vector2.zero)
+                + (i == index ? cardHighlightShift : Vector2.zero),
+                moveTime));
         }
+        sequence.Play();
+        sequences.Add(sequence);
     }
 
     public void CollectCards()
     {
-        spread = false;
-        for (int i = activeCards.Count; i >= 0; i--)
+        CompleteAllTweens();
+        Sequence sequence = DOTween.Sequence();
+        for (int i = 0; i < activeCards.Count; i++)
         {
-            activeCards[i].transform.DOLocalMove(Vector2.zero, 0.1f);
+            sequence.Insert(delayTime * (activeCards.Count - i), activeCards[i].transform.DOLocalMove(Vector2.zero, moveTime));
         }
+        sequence.Play();
+        sequences.Add(sequence);
     }
 
     public void UpdateCards(List<CardData> cardDatas)
@@ -67,43 +94,46 @@ public class CardSelectorParent : MonoBehaviour, IPointerEnterHandler, IPointerC
     {
         if (topCardIndex >= activeCards.Count) topCardIndex = activeCards.Count - 1;
         if (topCardIndex < 0) topCardIndex = 0;
-        topCard.SetCardData(activeCards[topCardIndex].cardData, topCardIndex);
+        CollectCards();
+        float delay = activeCards.Count * delayTime;
+        SetInteractable(false);
+        bottomCard.SetCardData(activeCards[topCardIndex].cardData, topCardIndex);
+        Sequence sequence = DOTween.Sequence();
+        sequence.Insert(delay, topCard.transform.DOLocalMove(topCardChangeShift, moveTime));
+        sequence.Insert(delay, bottomCard.transform.DOLocalMove(bottomCardChangeShift, moveTime));
+        delay += moveTime;
+        sequence.InsertCallback(delay, () => bottomCard.SetCardData(topCard.cardData, topCardIndex));
+        sequence.InsertCallback(delay, () => topCard.SetCardData(activeCards[topCardIndex].cardData, topCardIndex));
+        sequence.Insert(delay, topCard.transform.DOLocalMove(bottomCardChangeShift, 0));
+        sequence.Insert(delay, bottomCard.transform.DOLocalMove(topCardChangeShift, 0));
+        delay += 0.0001f;
+        sequence.Insert(delay, topCard.transform.DOLocalMove(Vector2.zero, moveTime));
+        sequence.Insert(delay, bottomCard.transform.DOLocalMove(Vector2.zero, moveTime));
+        sequence.OnComplete(() => SetInteractable(true));
+        sequence.Play();
+        sequences.Add(sequence);
     }
 
+    public void SetInteractable(bool set) => interactable = set;
+    public void OnTopCardEnter(int temp)
+    {
+        if (interactable)
+            SpreadCards(activeCards.Count);
+    }
     public void OnCardOfIndexClick(int index)
     {
-        ChangeTopCard(index);
-        //anim
+        if (interactable)
+            ChangeTopCard(index);
     }
 
     public void OnCardOfIndexEnter(int index)
     {
-        if (!spread)
-            SpreadCards();
-        //anim
+        if (interactable)
+            SpreadCards(index);
     }
-
-    public void OnCardOfIndexExit(int index)
-    {
-        if (spread)
-            CollectCards();
-        //anim
-    }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        //open card maker
-    }
-
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-
-    }
-
     public void OnPointerExit(PointerEventData eventData)
     {
-
+        if (interactable)
+            CollectCards();
     }
-
-
 }
