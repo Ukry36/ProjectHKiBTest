@@ -1,4 +1,4 @@
-public class EventStayTrigger : EventTrigger
+public class EventStayTrigger : GameEventTrigger
 {
     public override void UpdateTrigger()
     {

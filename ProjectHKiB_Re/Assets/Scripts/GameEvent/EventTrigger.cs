@@ -1,7 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 
-public abstract class EventTrigger : MonoBehaviour
+public abstract class GameEventTrigger : MonoBehaviour
 {
     public IEvent Event { get; set; }
     [SerializeField] private float _cooltime;

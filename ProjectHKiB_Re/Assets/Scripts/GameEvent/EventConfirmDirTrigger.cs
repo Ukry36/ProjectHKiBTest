@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EventConfirmDirTrigger : EventTrigger
+public class EventConfirmDirTrigger : GameEventTrigger
 {
     [SerializeField] private MathManagerSO mathManager;
     [SerializeField] private Vector2 requiredDir;
