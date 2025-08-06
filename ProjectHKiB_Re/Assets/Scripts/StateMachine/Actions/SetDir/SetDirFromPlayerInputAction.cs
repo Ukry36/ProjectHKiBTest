@@ -6,7 +6,6 @@ public class SetDirFromPlayerInputAction : StateActionSO
     public override void Act(StateController stateController)
     {
         if (stateController.TryGetInterface(out IDirAnimatable animatable))
-            if (!animatable.AnimationController.CheckIfLastSetDirectionSame(GameManager.instance.inputManager.MoveInput))
-                animatable.AnimationController.SetAnimationDirection(negative ? GameManager.instance.inputManager.MoveInput * -1 : GameManager.instance.inputManager.MoveInput);
+            animatable.AnimationController.SetAnimationDirection(negative ? GameManager.instance.inputManager.MoveInput * -1 : GameManager.instance.inputManager.MoveInput);
     }
 }
