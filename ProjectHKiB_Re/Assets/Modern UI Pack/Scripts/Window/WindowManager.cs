@@ -27,18 +27,16 @@ namespace Michsky.MUIP
         // Hidden vars
         private GameObject currentWindow;
         private GameObject nextWindow;
-        private GameObject currentButton;
-        private GameObject nextButton;
+        private GameObject currentButtonObj;
+        private GameObject nextButtonObj;
         private Animator currentWindowAnimator;
         private Animator nextWindowAnimator;
-        private Animator currentButtonAnimator;
-        private Animator nextButtonAnimator;
+        private ButtonManager currentButton;
+        private ButtonManager nextButtonAnimator;
 
         // Helpers
         string windowFadeIn = "In";
         string windowFadeOut = "Out";
-        string buttonFadeIn = "Hover to Pressed";
-        string buttonFadeOut = "Pressed to Normal";
         float cachedStateLength;
         public bool altMode;
 
@@ -64,13 +62,13 @@ namespace Michsky.MUIP
             if (isInitialized == true && nextWindowAnimator == null)
             {
                 currentWindowAnimator.Play(windowFadeIn);
-                if (currentButtonAnimator != null) { currentButtonAnimator.Play(buttonFadeIn); }
+                if (currentButton != null) { currentButton.PlayHoverAnimation(); }
             }
 
             else if (isInitialized == true && nextWindowAnimator != null)
             {
                 nextWindowAnimator.Play(windowFadeIn);
-                if (nextButtonAnimator != null) { nextButtonAnimator.Play(buttonFadeIn); }
+                if (nextButtonAnimator != null) { nextButtonAnimator.PlayHoverAnimation(); }
             }
         }
 
@@ -79,9 +77,9 @@ namespace Michsky.MUIP
             if (windows[currentWindowIndex].firstSelected != null) { EventSystem.current.firstSelectedGameObject = windows[currentWindowIndex].firstSelected; }
             if (windows[currentWindowIndex].buttonObject != null)
             {
-                currentButton = windows[currentWindowIndex].buttonObject;
-                currentButtonAnimator = currentButton.GetComponent<Animator>();
-                currentButtonAnimator.Play(buttonFadeIn);
+                currentButtonObj = windows[currentWindowIndex].buttonObject;
+                currentButton = currentButtonObj.GetComponent<ButtonManager>();
+                currentButton.PlayHoverAnimation();
             }
 
             currentWindow = windows[currentWindowIndex].windowObject;
@@ -121,14 +119,14 @@ namespace Michsky.MUIP
 
                 if (windows[currentWindowIndex].buttonObject != null)
                 {
-                    currentButton = windows[currentWindowIndex].buttonObject;
-                    currentButtonAnimator = currentButton.GetComponent<Animator>();
-                    currentButtonAnimator.Play(buttonFadeOut);
+                    currentButtonObj = windows[currentWindowIndex].buttonObject;
+                    currentButton = currentButtonObj.GetComponent<ButtonManager>();
+                    currentButton.PlayNormalAnimation();
                 }
 
                 currentWindowIndex = 0;
                 currentButtonIndex = 0;
-               
+
                 currentWindow = windows[currentWindowIndex].windowObject;
                 currentWindowAnimator = currentWindow.GetComponent<Animator>();
                 currentWindowAnimator.Play(windowFadeIn);
@@ -136,9 +134,9 @@ namespace Michsky.MUIP
                 if (windows[currentWindowIndex].firstSelected != null) { EventSystem.current.firstSelectedGameObject = windows[currentWindowIndex].firstSelected; }
                 if (windows[currentButtonIndex].buttonObject != null)
                 {
-                    currentButton = windows[currentButtonIndex].buttonObject;
-                    currentButtonAnimator = currentButton.GetComponent<Animator>();
-                    currentButtonAnimator.Play(buttonFadeIn);
+                    currentButtonObj = windows[currentButtonIndex].buttonObject;
+                    currentButton = currentButtonObj.GetComponent<ButtonManager>();
+                    currentButton.PlayHoverAnimation();
                 }
 
                 onWindowChange.Invoke(currentWindowIndex);
@@ -153,9 +151,9 @@ namespace Michsky.MUIP
                 if (windows[currentWindowIndex].firstSelected != null) { EventSystem.current.firstSelectedGameObject = windows[currentWindowIndex].firstSelected; }
                 if (windows[currentButtonIndex].buttonObject != null)
                 {
-                    currentButton = windows[currentButtonIndex].buttonObject;
-                    currentButtonAnimator = currentButton.GetComponent<Animator>();
-                    currentButtonAnimator.Play(buttonFadeIn);
+                    currentButtonObj = windows[currentButtonIndex].buttonObject;
+                    currentButton = currentButtonObj.GetComponent<ButtonManager>();
+                    currentButton.PlayHoverAnimation();
                 }
             }
         }
@@ -179,7 +177,7 @@ namespace Michsky.MUIP
                 currentWindow = windows[currentWindowIndex].windowObject;
 
                 if (windows[currentWindowIndex].buttonObject != null)
-                    currentButton = windows[currentWindowIndex].buttonObject;
+                    currentButtonObj = windows[currentWindowIndex].buttonObject;
 
                 currentWindowIndex = newWindowIndex;
                 nextWindow = windows[currentWindowIndex].windowObject;
@@ -199,13 +197,13 @@ namespace Michsky.MUIP
                 if (windows[currentWindowIndex].firstSelected != null) { EventSystem.current.firstSelectedGameObject = windows[currentWindowIndex].firstSelected; }
                 if (windows[currentButtonIndex].buttonObject != null)
                 {
-                    nextButton = windows[currentButtonIndex].buttonObject;
+                    nextButtonObj = windows[currentButtonIndex].buttonObject;
 
-                    currentButtonAnimator = currentButton.GetComponent<Animator>();
-                    nextButtonAnimator = nextButton.GetComponent<Animator>();
+                    currentButton = currentButtonObj.GetComponent<ButtonManager>();
+                    nextButtonAnimator = nextButtonObj.GetComponent<ButtonManager>();
 
-                    currentButtonAnimator.Play(buttonFadeOut);
-                    nextButtonAnimator.Play(buttonFadeIn);
+                    currentButton.PlayNormalAnimation();
+                    nextButtonAnimator.PlayHoverAnimation();
                 }
 
                 onWindowChange.Invoke(currentWindowIndex);
@@ -236,37 +234,37 @@ namespace Michsky.MUIP
             {
                 if (cullWindows == true)
                     StopCoroutine("DisablePreviousWindow");
-               
+
                 currentWindow = windows[currentWindowIndex].windowObject;
                 currentWindow.gameObject.SetActive(true);
 
                 if (windows[currentButtonIndex].buttonObject != null)
                 {
-                    currentButton = windows[currentButtonIndex].buttonObject;
-                    nextButton = windows[currentButtonIndex + 1].buttonObject;
-                   
-                    currentButtonAnimator = currentButton.GetComponent<Animator>();
-                    currentButtonAnimator.Play(buttonFadeOut);
+                    currentButtonObj = windows[currentButtonIndex].buttonObject;
+                    nextButtonObj = windows[currentButtonIndex + 1].buttonObject;
+
+                    currentButton = currentButtonObj.GetComponent<ButtonManager>();
+                    currentButton.PlayNormalAnimation();
                 }
 
                 currentWindowAnimator = currentWindow.GetComponent<Animator>();
                 currentWindowAnimator.Play(windowFadeOut);
-               
+
                 currentWindowIndex += 1;
                 currentButtonIndex += 1;
-               
+
                 nextWindow = windows[currentWindowIndex].windowObject;
                 nextWindow.gameObject.SetActive(true);
-                
+
                 nextWindowAnimator = nextWindow.GetComponent<Animator>();
                 nextWindowAnimator.Play(windowFadeIn);
 
                 if (cullWindows == true) { StartCoroutine("DisablePreviousWindow"); }
                 if (windows[currentWindowIndex].firstSelected != null) { EventSystem.current.firstSelectedGameObject = windows[currentWindowIndex].firstSelected; }
-                if (nextButton != null)
+                if (nextButtonObj != null)
                 {
-                    nextButtonAnimator = nextButton.GetComponent<Animator>();
-                    nextButtonAnimator.Play(buttonFadeIn);
+                    nextButtonAnimator = nextButtonObj.GetComponent<ButtonManager>();
+                    nextButtonAnimator.PlayHoverAnimation();
                 }
 
                 onWindowChange.Invoke(currentWindowIndex);
@@ -285,31 +283,31 @@ namespace Michsky.MUIP
 
                 if (windows[currentButtonIndex].buttonObject != null)
                 {
-                    currentButton = windows[currentButtonIndex].buttonObject;
-                    nextButton = windows[currentButtonIndex - 1].buttonObject;
-                   
-                    currentButtonAnimator = currentButton.GetComponent<Animator>();
-                    currentButtonAnimator.Play(buttonFadeOut);
+                    currentButtonObj = windows[currentButtonIndex].buttonObject;
+                    nextButtonObj = windows[currentButtonIndex - 1].buttonObject;
+
+                    currentButton = currentButtonObj.GetComponent<ButtonManager>();
+                    currentButton.PlayNormalAnimation();
                 }
 
                 currentWindowAnimator = currentWindow.GetComponent<Animator>();
                 currentWindowAnimator.Play(windowFadeOut);
-               
+
                 currentWindowIndex -= 1;
                 currentButtonIndex -= 1;
-               
+
                 nextWindow = windows[currentWindowIndex].windowObject;
                 nextWindow.gameObject.SetActive(true);
-                
+
                 nextWindowAnimator = nextWindow.GetComponent<Animator>();
                 nextWindowAnimator.Play(windowFadeIn);
 
                 if (cullWindows == true) { StartCoroutine("DisablePreviousWindow"); }
                 if (windows[currentWindowIndex].firstSelected != null) { EventSystem.current.firstSelectedGameObject = windows[currentWindowIndex].firstSelected; }
-                if (nextButton != null)
+                if (nextButtonObj != null)
                 {
-                    nextButtonAnimator = nextButton.GetComponent<Animator>();
-                    nextButtonAnimator.Play(buttonFadeIn);
+                    nextButtonAnimator = nextButtonObj.GetComponent<ButtonManager>();
+                    nextButtonAnimator.PlayHoverAnimation();
                 }
 
                 onWindowChange.Invoke(currentWindowIndex);
@@ -330,14 +328,14 @@ namespace Michsky.MUIP
 
         public void ShowCurrentButton()
         {
-            if (nextButtonAnimator == null) { currentButtonAnimator.Play(buttonFadeIn); }
-            else { nextButtonAnimator.Play(buttonFadeIn); }
+            if (nextButtonAnimator == null) { currentButton.PlayHoverAnimation(); }
+            else { nextButtonAnimator.PlayHoverAnimation(); }
         }
 
         public void HideCurrentButton()
         {
-            if (nextButtonAnimator == null) { currentButtonAnimator.Play(buttonFadeOut); }
-            else { nextButtonAnimator.Play(buttonFadeOut); }
+            if (nextButtonAnimator == null) { currentButton.PlayNormalAnimation(); }
+            else { nextButtonAnimator.PlayNormalAnimation(); }
         }
 
         public void AddNewItem()
@@ -347,13 +345,13 @@ namespace Michsky.MUIP
             if (windows.Count != 0 && windows[windows.Count - 1].windowObject != null)
             {
                 int tempIndex = windows.Count - 1;
-               
+
                 GameObject tempWindow = windows[tempIndex].windowObject.transform.parent.GetChild(tempIndex).gameObject;
                 GameObject newWindow = Instantiate(tempWindow, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
-               
+
                 newWindow.transform.SetParent(windows[tempIndex].windowObject.transform.parent, false);
                 newWindow.gameObject.name = "New Window " + tempIndex.ToString();
-               
+
                 window.windowName = "New Window " + tempIndex.ToString();
                 window.windowObject = newWindow;
 
