@@ -97,11 +97,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 96
-        width: 32
-        height: 32
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 23, y: 5, z: 8, w: 23}
       outline: []
       physicsShape: []
@@ -117,10 +117,10 @@ TextureImporter:
       name: UI_Backgrounds0_1
       rect:
         serializedVersion: 2
-        x: 32
-        y: 96
-        width: 32
-        height: 32
+        x: 64
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 24, y: 5, z: 5, w: 24}
@@ -138,10 +138,10 @@ TextureImporter:
       name: UI_Backgrounds0_2
       rect:
         serializedVersion: 2
-        x: 64
-        y: 96
-        width: 32
-        height: 32
+        x: 128
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 23, y: 5, z: 8, w: 23}
@@ -159,10 +159,10 @@ TextureImporter:
       name: UI_Backgrounds0_3
       rect:
         serializedVersion: 2
-        x: 96
-        y: 96
-        width: 32
-        height: 32
+        x: 192
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 23, y: 4, z: 8, w: 27}
@@ -180,13 +180,13 @@ TextureImporter:
       name: UI_Backgrounds0_5
       rect:
         serializedVersion: 2
-        x: 32
-        y: 64
-        width: 32
-        height: 32
+        x: 64
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 24, y: 2, z: 2, w: 24}
+      border: {x: 24, y: 1, z: 1, w: 24}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -201,10 +201,10 @@ TextureImporter:
       name: UI_Backgrounds0_6
       rect:
         serializedVersion: 2
-        x: 64
-        y: 64
-        width: 32
-        height: 32
+        x: 128
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 23, y: 5, z: 8, w: 23}
@@ -222,13 +222,13 @@ TextureImporter:
       name: UI_Backgrounds0_7
       rect:
         serializedVersion: 2
-        x: 96
-        y: 64
-        width: 32
-        height: 32
+        x: 192
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 23, y: 1, z: 8, w: 23}
+      border: {x: 23, y: 1, z: 8, w: 27}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -244,9 +244,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 64
-        width: 32
-        height: 32
+        y: 127
+        width: 64
+        height: 65
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 23, y: 5, z: 8, w: 23}
@@ -264,10 +264,10 @@ TextureImporter:
       name: UI_Backgrounds0_9
       rect:
         serializedVersion: 2
-        x: 32
-        y: 32
-        width: 32
-        height: 32
+        x: 64
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 24, y: 5, z: 5, w: 24}
@@ -285,10 +285,10 @@ TextureImporter:
       name: UI_Backgrounds0_10
       rect:
         serializedVersion: 2
-        x: 64
-        y: 32
-        width: 32
-        height: 32
+        x: 128
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 23, y: 5, z: 8, w: 23}
@@ -306,13 +306,13 @@ TextureImporter:
       name: UI_Backgrounds0_11
       rect:
         serializedVersion: 2
-        x: 96
-        y: 32
-        width: 32
-        height: 32
+        x: 192
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 23, y: 4, z: 8, w: 27}
+      border: {x: 23, y: 5, z: 8, w: 27}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -328,9 +328,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 32
-        width: 32
-        height: 33
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 23, y: 5, z: 8, w: 24}
@@ -348,8 +348,8 @@ TextureImporter:
       name: UI_Backgrounds0_15
       rect:
         serializedVersion: 2
-        x: 64
-        y: 0
+        x: 192
+        y: 32
         width: 64
         height: 32
       alignment: 0
@@ -361,6 +361,69 @@ TextureImporter:
       bones: []
       spriteID: a9b9b62e0772b1541b149e0cb13e92db
       internalID: 2138874004
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Backgrounds0_4
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 64
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 79e02239abe99d6439ba7f456eda064a
+      internalID: 1402518233
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Backgrounds0_13
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 57
+        width: 64
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 5, y: 5, z: 1, w: 1}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a8f08d0c42d98774590c62fa5e27f521
+      internalID: -1189614124
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Backgrounds0_14
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 61
+        width: 64
+        height: 3
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 1, y: 1, z: 1, w: 1}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 352853948c23e1548a60a64a6df839fc
+      internalID: 1117131339
       vertices: []
       indices: 
       edges: []
