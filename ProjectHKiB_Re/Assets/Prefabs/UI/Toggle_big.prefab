@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 304270182775408380}
   - component: {fileID: 304270182775408383}
+  - component: {fileID: 6694438638701095467}
   m_Layer: 5
   m_Name: Toggle_big
   m_TagString: Untagged
@@ -98,6 +99,42 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   m_IsOn: 1
+--- !u!114 &6694438638701095467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 304270182775408381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 872da4e2fe150e74080e83713fcdd791, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _presetLocalPositions: []
+  _truePositionIndex: 0
+  _falsePositionIndex: 0
+  _delay: 0
+  _duration: 0
+  _animator: {fileID: 6323265937751545512}
+  _inAnimationDuration: 0.1
+  _outAnimationDuration: 0.1
+  interactableUI: {fileID: 0}
+  OnSetInteractable:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 304270182775408383}
+        m_TargetAssemblyTypeName: UnityEngine.UI.Selectable, UnityEngine.UI
+        m_MethodName: set_interactable
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &304270184326716692
 GameObject:
   m_ObjectHideFlags: 0
@@ -109,6 +146,7 @@ GameObject:
   - component: {fileID: 304270184326716695}
   - component: {fileID: 304270184326716689}
   - component: {fileID: 304270184326716694}
+  - component: {fileID: 6323265937751545512}
   m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
@@ -174,3 +212,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!95 &6323265937751545512
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 304270184326716692}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 12acbd15d844d3849a9864a1ea6168d6, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 2
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
