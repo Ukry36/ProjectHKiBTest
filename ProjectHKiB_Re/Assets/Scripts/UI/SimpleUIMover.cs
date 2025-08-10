@@ -9,6 +9,8 @@ public class SimpleUIMover : MonoBehaviour
     {
         Move, Enable, Disable
     }
+    [SerializeField] private bool _enabled;
+    public int defaultPositionIndex;
     [SerializeField] private Vector2[] _presetLocalPositions;
     [SerializeField] private int _truePositionIndex;
     [SerializeField] private int _falsePositionIndex;
@@ -28,7 +30,9 @@ public class SimpleUIMover : MonoBehaviour
 
     public void MovePosition(Vector2 localPos, MoveMode mode)
     {
-
+        if (mode == MoveMode.Disable && _enabled == false) return;
+        if (mode == MoveMode.Enable && _enabled == true) return;
+        if (mode == MoveMode.Move && _enabled == false) mode = MoveMode.Enable;
         SetInteractable(false);
         Complete();
         _sequence = DOTween.Sequence();
@@ -38,6 +42,7 @@ public class SimpleUIMover : MonoBehaviour
             _sequence.AppendCallback(() => _animator.Play("Out"));
             _sequence.AppendInterval(_inAnimationDuration);
             _sequence.AppendCallback(() => _animator.Play(mode == MoveMode.Disable ? "Disabled" : "Moving"));
+            _enabled = false;
         }
         _sequence.Append(transform.DOLocalMove(localPos, _duration));
         if (mode == MoveMode.Move || mode == MoveMode.Enable)
@@ -49,6 +54,7 @@ public class SimpleUIMover : MonoBehaviour
                 _sequence.AppendCallback(() => _animator.Play("Enabled"));
             }
             _sequence.AppendCallback(() => SetInteractable(true));
+            _enabled = true;
         }
         _sequence.Play();
     }
@@ -57,16 +63,25 @@ public class SimpleUIMover : MonoBehaviour
         if (_presetLocalPositions.Length <= index) return;
         MovePosition(_presetLocalPositions[index], mode);
     }
-    public void MovePosition() => MovePosition(0, MoveMode.Move);
+    public void MovePositionDefault() => MovePosition(defaultPositionIndex, MoveMode.Move);
     public void MovePosition(int index) => MovePosition(index, MoveMode.Move);
     public void ResetPosition() => MovePosition(Vector2.zero, MoveMode.Move);
     public void Enable(Vector2 localPos) => MovePosition(localPos, MoveMode.Enable);
+    public void Enable(int index) => MovePosition(index, MoveMode.Enable);
     public void Enable() => Enable(Vector2.zero);
     public void Disable() => MovePosition(transform.localPosition, MoveMode.Disable);
     public void TogglePosition(bool set)
     {
-        if (set) MovePosition(_truePositionIndex, MoveMode.Move);
-        else MovePosition(_falsePositionIndex, MoveMode.Move);
+        if (set)
+        {
+            MovePosition(_truePositionIndex, MoveMode.Move);
+            defaultPositionIndex = _truePositionIndex;
+        }
+        else
+        {
+            MovePosition(_falsePositionIndex, MoveMode.Move);
+            defaultPositionIndex = _falsePositionIndex;
+        }
     }
 
     public void Kill() => _sequence?.Kill();

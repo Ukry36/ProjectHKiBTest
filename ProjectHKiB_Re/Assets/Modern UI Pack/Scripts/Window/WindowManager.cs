@@ -47,6 +47,7 @@ namespace Michsky.MUIP
             public GameObject windowObject;
             public GameObject buttonObject;
             public GameObject firstSelected;
+            public UnityEvent OnWindowShow;
         }
 
         void Awake()
@@ -114,6 +115,7 @@ namespace Michsky.MUIP
             if (currentWindowIndex != 0)
             {
                 currentWindow = windows[currentWindowIndex].windowObject;
+                windows[currentWindowIndex].OnWindowShow.Invoke();
                 currentWindowAnimator = currentWindow.GetComponent<Animator>();
                 currentWindowAnimator.Play(windowFadeOut);
 
@@ -171,6 +173,7 @@ namespace Michsky.MUIP
 
             if (newWindowIndex != currentWindowIndex)
             {
+                windows[newWindowIndex].OnWindowShow.Invoke();
                 if (cullWindows == true)
                     StopCoroutine("DisablePreviousWindow");
 
