@@ -114,7 +114,12 @@ public class CardSelectorParent : MonoBehaviour, IPointerExitHandler
         sequences.Add(sequence);
     }
 
-    public void SetInteractable(bool set) => interactable = set;
+    public void SetInteractable(bool set)
+    {
+        interactable = set;
+        if (set == false) CollectCards();
+    }
+
     public void OnTopCardEnter(int temp)
     {
         if (interactable)

@@ -26,6 +26,7 @@ namespace Michsky.MUIP
         public HorizontalLayoutGroup disabledLayout;
         public HorizontalLayoutGroup normalLayout;
         public HorizontalLayoutGroup highlightedLayout;
+        public HorizontalLayoutGroup pressedLayout;
         [SerializeField] private HorizontalLayoutGroup mainLayout;
         [SerializeField] private ContentSizeFitter mainFitter;
         [SerializeField] private ContentSizeFitter targetFitter;
@@ -34,13 +35,16 @@ namespace Michsky.MUIP
         // Resources
         public CanvasGroup normalCG;
         public CanvasGroup highlightCG;
+        public CanvasGroup pressedCG;
         public CanvasGroup disabledCG;
         public TextMeshProUGUI normalText;
         public TextMeshProUGUI highlightedText;
+        public TextMeshProUGUI pressedText;
         public TextMeshProUGUI disabledText;
         public Image normalImage;
         public Image highlightImage;
         public Image disabledImage;
+        public Image pressedImage;
         public AudioSource soundSource;
         [SerializeField] private GameObject rippleParent;
 
@@ -51,6 +55,7 @@ namespace Michsky.MUIP
         public bool useCustomContent = false;
         [SerializeField] private bool useCustomTextSize = false;
         public bool checkForDoubleClick = true;
+        public bool interactInPointerUp = false;
         public bool enableButtonSounds = false;
         public bool useHoverSound = true;
         public bool useClickSound = true;
@@ -92,8 +97,17 @@ namespace Michsky.MUIP
         bool isInitialized = false;
         Button targetButton;
         bool isPointerOn;
+        bool isPointerDown;
         bool waitingForDoubleClickInput;
         const int navHelper = 1;
+
+        // Anim
+        string hoverToPressed = "Hover to Pressed";
+        string normalToPressed = "Normal to Pressed";
+        string pressedToNormal = "Pressed to Normal";
+        string hoverToNormal = "Hover to Normal";
+        string normalToHover = "Normal to Hover";
+        string pressedToHover = "Pressed to Hover";
 
 #if UNITY_EDITOR
         public bool isPreset;
@@ -103,7 +117,8 @@ namespace Michsky.MUIP
         public enum AnimationSolution
         {
             Custom,
-            ScriptBased
+            ScriptBased,
+            AnimationBased
         }
 
         public enum RippleUpdateMode
@@ -135,6 +150,7 @@ namespace Michsky.MUIP
             if (disabledCG != null) { disabledCG.alpha = 0; }
             if (normalCG != null) { normalCG.alpha = 1; }
             if (highlightCG != null) { highlightCG.alpha = 0; }
+            if (pressedCG != null) { pressedCG.alpha = 0; }
         }
 
         void Initialize()
@@ -142,7 +158,15 @@ namespace Michsky.MUIP
 #if UNITY_EDITOR
             if (!Application.isPlaying) { return; }
 #endif
-            if (animationSolution == AnimationSolution.ScriptBased && TryGetComponent<Animator>(out var tempAnimator)) { Destroy(tempAnimator); }
+            if (TryGetComponent<Animator>(out var tempAnimator))
+            {
+                if (animationSolution == AnimationSolution.ScriptBased) Destroy(tempAnimator);
+            }
+            else if (animationSolution == AnimationSolution.AnimationBased)
+            {
+                gameObject.AddComponent<Animator>();
+            }
+
             if (gameObject.GetComponent<Image>() == null)
             {
                 Image raycastImg = gameObject.AddComponent<Image>();
@@ -153,6 +177,7 @@ namespace Michsky.MUIP
             if (targetCanvas == null) { targetCanvas = GetComponentInParent<Canvas>(); }
             if (normalCG == null) { normalCG = new GameObject().AddComponent<CanvasGroup>(); normalCG.gameObject.AddComponent<RectTransform>(); normalCG.transform.SetParent(transform); normalCG.gameObject.name = "Normal"; }
             if (highlightCG == null) { highlightCG = new GameObject().AddComponent<CanvasGroup>(); highlightCG.gameObject.AddComponent<RectTransform>(); highlightCG.transform.SetParent(transform); highlightCG.gameObject.name = "Highlight"; }
+            if (pressedCG == null) { pressedCG = new GameObject().AddComponent<CanvasGroup>(); pressedCG.gameObject.AddComponent<RectTransform>(); pressedCG.transform.SetParent(transform); pressedCG.gameObject.name = "PressedCG"; }
             if (disabledCG == null) { disabledCG = new GameObject().AddComponent<CanvasGroup>(); disabledCG.gameObject.AddComponent<RectTransform>(); disabledCG.transform.SetParent(transform); disabledCG.gameObject.name = "Disabled"; }
 
             if (useRipple && rippleParent != null) { rippleParent.SetActive(false); }
@@ -205,10 +230,12 @@ namespace Michsky.MUIP
             if (disabledLayout != null) { disabledLayout.padding = new RectOffset(padding.left, padding.right, padding.top, padding.bottom); disabledLayout.spacing = spacing; }
             if (normalLayout != null) { normalLayout.padding = new RectOffset(padding.left, padding.right, padding.top, padding.bottom); normalLayout.spacing = spacing; }
             if (highlightedLayout != null) { highlightedLayout.padding = new RectOffset(padding.left, padding.right, padding.top, padding.bottom); highlightedLayout.spacing = spacing; }
+            if (pressedLayout != null) { pressedLayout.padding = new RectOffset(padding.left, padding.right, padding.top, padding.bottom); pressedLayout.spacing = spacing; }
 
             if (normalCG != null && isInteractable) { normalCG.alpha = 1; }
             if (disabledCG != null && !isInteractable) { disabledCG.alpha = 1; }
             if (highlightCG != null) { highlightCG.alpha = 0; }
+            if (pressedCG != null) { pressedCG.alpha = 0; }
 
             if (!useCustomContent)
             {
@@ -235,6 +262,13 @@ namespace Michsky.MUIP
                         disabledText.text = buttonText;
                         if (!useCustomTextSize) { disabledText.fontSize = textSize; }
                     }
+
+                    if (pressedText != null)
+                    {
+                        pressedText.gameObject.SetActive(true);
+                        pressedText.text = buttonText;
+                        if (!useCustomTextSize) { pressedText.fontSize = textSize; }
+                    }
                 }
 
                 else if (!enableText)
@@ -242,6 +276,7 @@ namespace Michsky.MUIP
                     if (normalText != null) { normalText.gameObject.SetActive(false); }
                     if (highlightedText != null) { highlightedText.gameObject.SetActive(false); }
                     if (disabledText != null) { disabledText.gameObject.SetActive(false); }
+                    if (pressedText != null) { pressedText.gameObject.SetActive(false); }
                 }
 
                 if (enableIcon)
@@ -250,6 +285,7 @@ namespace Michsky.MUIP
                     if (normalImage != null) { normalImage.transform.parent.gameObject.SetActive(true); normalImage.sprite = buttonIcon; normalImage.transform.localScale = tempScale; }
                     if (highlightImage != null) { highlightImage.transform.parent.gameObject.SetActive(true); highlightImage.sprite = buttonIcon; ; highlightImage.transform.localScale = tempScale; }
                     if (disabledImage != null) { disabledImage.transform.parent.gameObject.SetActive(true); disabledImage.sprite = buttonIcon; ; disabledImage.transform.localScale = tempScale; }
+                    if (pressedImage != null) { pressedImage.transform.parent.gameObject.SetActive(true); pressedImage.sprite = buttonIcon; ; pressedImage.transform.localScale = tempScale; }
                 }
 
                 else
@@ -257,6 +293,7 @@ namespace Michsky.MUIP
                     if (normalImage != null) { normalImage.transform.parent.gameObject.SetActive(false); }
                     if (highlightImage != null) { highlightImage.transform.parent.gameObject.SetActive(false); }
                     if (disabledImage != null) { disabledImage.transform.parent.gameObject.SetActive(false); }
+                    if (pressedImage != null) { pressedImage.transform.parent.gameObject.SetActive(false); }
                 }
             }
 
@@ -267,6 +304,7 @@ namespace Michsky.MUIP
                 if (disabledCG != null) { LayoutRebuilder.ForceRebuildLayoutImmediate(disabledCG.GetComponent<RectTransform>()); }
                 if (normalCG != null) { LayoutRebuilder.ForceRebuildLayoutImmediate(normalCG.GetComponent<RectTransform>()); }
                 if (highlightCG != null) { LayoutRebuilder.ForceRebuildLayoutImmediate(highlightCG.GetComponent<RectTransform>()); }
+                if (pressedCG != null) { LayoutRebuilder.ForceRebuildLayoutImmediate(pressedCG.GetComponent<RectTransform>()); }
             }
 #endif
 
@@ -280,13 +318,13 @@ namespace Michsky.MUIP
         public void SetText(string text) { buttonText = text; UpdateUI(); }
         public void SetIcon(Sprite icon) { buttonIcon = icon; UpdateUI(); }
 
-        public void Interactable(bool value)
+        public void SetInteractable(bool value)
         {
             isInteractable = value;
 
             if (!gameObject.activeInHierarchy) { return; }
-            if (!isInteractable) { StartCoroutine(nameof(SetDisabled)); }
-            else if (isInteractable && disabledCG.alpha == 1) { StartCoroutine(nameof(SetNormal)); }
+            if (!isInteractable) PlayDisableAnimation();
+            else if (isInteractable && disabledCG.alpha == 1) PlayNormalAnimation();
         }
 
         public void AddUINavigation()
@@ -340,6 +378,7 @@ namespace Michsky.MUIP
 
         public void OnPointerClick(PointerEventData eventData)
         {
+            isPointerDown = false;
             if (!isInteractable || eventData.button != PointerEventData.InputButton.Left) { return; }
             if (enableButtonSounds && useClickSound == true && soundSource != null) { soundSource.PlayOneShot(clickSound); }
 
@@ -359,17 +398,19 @@ namespace Michsky.MUIP
 
             StopCoroutine("CheckForDoubleClick");
             StartCoroutine("CheckForDoubleClick");
+
         }
 
         public void OnPointerDown(PointerEventData eventData)
         {
             if (!isInteractable) { return; }
+            PlayPressAnimation();
 #if UNITY_IOS || UNITY_ANDROID
-            if (animationSolution == AnimationSolution.ScriptBased) { StartCoroutine(nameof(SetHighlight)); }
             if (useRipple)
 #else
             if (useRipple && isPointerOn)
 #endif
+
 #if ENABLE_LEGACY_INPUT_MANAGER
                 if (targetCanvas != null && (targetCanvas.renderMode == RenderMode.ScreenSpaceCamera || targetCanvas.renderMode == RenderMode.WorldSpace)) { CreateRipple(targetCanvas.worldCamera.ScreenToWorldPoint(Input.mousePosition)); }
                 else { CreateRipple(Input.mousePosition); }
@@ -381,54 +422,61 @@ namespace Michsky.MUIP
                 else { CreateRipple(Mouse.current.position.ReadValue()); }
 #endif
 #endif
+            isPointerDown = true;
         }
 
         public void OnPointerUp(PointerEventData eventData)
         {
-#if UNITY_IOS || UNITY_ANDROID
             if (!isInteractable) { return; }
-            if (animationSolution == AnimationSolution.ScriptBased) { StartCoroutine(nameof(SetNormal)); }
+#if UNITY_IOS || UNITY_ANDROID
+            PlayNormalAnimation();
+#else
+            PlayHoverAnimation();
 #endif
+            isPointerDown = false;
         }
 
         public void OnPointerEnter(PointerEventData eventData)
         {
             if (!isInteractable) { return; }
             if (enableButtonSounds && useHoverSound && soundSource != null) { soundSource.PlayOneShot(hoverSound); }
-            if (animationSolution == AnimationSolution.ScriptBased) { StartCoroutine(nameof(SetHighlight)); }
+
+            if (isPointerDown) PlayPressAnimation();
+            else PlayHoverAnimation();
+
+            onHover.Invoke();
 
             isPointerOn = true;
-            onHover.Invoke();
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
             if (!isInteractable) { return; }
-            if (animationSolution == AnimationSolution.ScriptBased) { StartCoroutine(nameof(SetNormal)); }
+            PlayNormalAnimation();
+
+            onLeave.Invoke();
 
             isPointerOn = false;
-            onLeave.Invoke();
         }
 
         public void OnSelect(BaseEventData eventData)
         {
             if (!isInteractable) { return; }
-            if (animationSolution == AnimationSolution.ScriptBased) { StartCoroutine(nameof(SetHighlight)); }
+            PlayHoverAnimation();
             if (useUINavigation) { onHover.Invoke(); }
         }
 
         public void OnDeselect(BaseEventData eventData)
         {
             if (!isInteractable) { return; }
-            if (animationSolution == AnimationSolution.ScriptBased) { StartCoroutine(nameof(SetNormal)); }
+            PlayNormalAnimation();
             if (useUINavigation) { onLeave.Invoke(); }
         }
 
         public void OnSubmit(BaseEventData eventData)
         {
             if (!isInteractable) { return; }
-            if (animationSolution == AnimationSolution.ScriptBased) { StartCoroutine(nameof(SetNormal)); }
-
+            PlayNormalAnimation();
             onClick.Invoke();
         }
 
@@ -441,82 +489,136 @@ namespace Michsky.MUIP
             if (disabledCG != null) { LayoutRebuilder.ForceRebuildLayoutImmediate(disabledCG.GetComponent<RectTransform>()); }
             if (normalCG != null) { LayoutRebuilder.ForceRebuildLayoutImmediate(normalCG.GetComponent<RectTransform>()); }
             if (highlightCG != null) { LayoutRebuilder.ForceRebuildLayoutImmediate(highlightCG.GetComponent<RectTransform>()); }
+            if (pressedCG != null) { LayoutRebuilder.ForceRebuildLayoutImmediate(pressedCG.GetComponent<RectTransform>()); }
+        }
+
+        public void PlayDisableAnimation()
+        {
+            StartCoroutine(nameof(SetDisabled));
+        }
+
+        public void PlayNormalAnimation()
+        {
+            if (animationSolution == AnimationSolution.ScriptBased) StartCoroutine(nameof(SetNormal));
+            if (animationSolution == AnimationSolution.AnimationBased)
+            {
+                if (isPointerDown) gameObject.GetComponent<Animator>().Play(pressedToNormal);
+                else gameObject.GetComponent<Animator>().Play(hoverToNormal);
+            }
+        }
+
+        public void PlayPressAnimation()
+        {
+            if (animationSolution == AnimationSolution.ScriptBased)
+            {
+                StartCoroutine(nameof(SetPressed));
+            }
+            if (animationSolution == AnimationSolution.AnimationBased)
+            {
+                if (isPointerOn) gameObject.GetComponent<Animator>().Play(hoverToPressed);
+                else gameObject.GetComponent<Animator>().Play(normalToPressed);
+            }
+        }
+
+        public void PlayHoverAnimation()
+        {
+            if (animationSolution == AnimationSolution.ScriptBased)
+            {
+                StartCoroutine(nameof(SetHighlight));
+            }
+            if (animationSolution == AnimationSolution.AnimationBased)
+            {
+                if (isPointerDown) gameObject.GetComponent<Animator>().Play(pressedToHover);
+                else gameObject.GetComponent<Animator>().Play(normalToHover);
+            }
         }
 
         IEnumerator SetNormal()
         {
-            if (disableFade)
-            {
-                normalCG.alpha = 1;
-                highlightCG.alpha = 0;
-                disabledCG.alpha = 0;
-                yield break;
-            }
-
             StopCoroutine(nameof(SetHighlight));
             StopCoroutine(nameof(SetDisabled));
-
-            while (normalCG.alpha < 0.99f)
+            StopCoroutine(nameof(SetPressed));
+            if (!disableFade)
             {
-                normalCG.alpha += Time.unscaledDeltaTime * fadingMultiplier;
-                highlightCG.alpha -= Time.unscaledDeltaTime * fadingMultiplier;
-                disabledCG.alpha -= Time.unscaledDeltaTime * fadingMultiplier;
-                yield return null;
+                while (normalCG.alpha < 0.99f)
+                {
+                    normalCG.alpha += Time.unscaledDeltaTime * fadingMultiplier;
+                    highlightCG.alpha -= Time.unscaledDeltaTime * fadingMultiplier;
+                    disabledCG.alpha -= Time.unscaledDeltaTime * fadingMultiplier;
+                    pressedCG.alpha -= Time.unscaledDeltaTime * fadingMultiplier;
+                    yield return null;
+                }
             }
-
             normalCG.alpha = 1;
             highlightCG.alpha = 0;
             disabledCG.alpha = 0;
+            pressedCG.alpha = 0;
         }
 
         IEnumerator SetHighlight()
         {
-            if (disableFade)
-            {
-                normalCG.alpha = 0;
-                highlightCG.alpha = 1;
-                disabledCG.alpha = 0;
-                yield break;
-            }
             StopCoroutine(nameof(SetNormal));
             StopCoroutine(nameof(SetDisabled));
-
-            while (highlightCG.alpha < 0.99f)
+            StopCoroutine(nameof(SetPressed));
+            if (!disableFade)
             {
-                normalCG.alpha -= Time.unscaledDeltaTime * fadingMultiplier;
-                highlightCG.alpha += Time.unscaledDeltaTime * fadingMultiplier;
-                disabledCG.alpha -= Time.unscaledDeltaTime * fadingMultiplier;
-                yield return null;
+                while (highlightCG.alpha < 0.99f)
+                {
+                    normalCG.alpha -= Time.unscaledDeltaTime * fadingMultiplier;
+                    highlightCG.alpha += Time.unscaledDeltaTime * fadingMultiplier;
+                    disabledCG.alpha -= Time.unscaledDeltaTime * fadingMultiplier;
+                    pressedCG.alpha -= Time.unscaledDeltaTime * fadingMultiplier;
+                    yield return null;
+                }
             }
-
             normalCG.alpha = 0;
             highlightCG.alpha = 1;
             disabledCG.alpha = 0;
+            pressedCG.alpha = 0;
         }
 
         IEnumerator SetDisabled()
         {
-            if (disableFade)
-            {
-                normalCG.alpha = 0;
-                highlightCG.alpha = 0;
-                disabledCG.alpha = 1;
-                yield break;
-            }
             StopCoroutine(nameof(SetNormal));
             StopCoroutine(nameof(SetHighlight));
-
-            while (disabledCG.alpha < 0.99f)
+            StopCoroutine(nameof(SetPressed));
+            if (!disableFade)
             {
-                normalCG.alpha -= Time.unscaledDeltaTime * fadingMultiplier;
-                highlightCG.alpha -= Time.unscaledDeltaTime * fadingMultiplier;
-                disabledCG.alpha += Time.unscaledDeltaTime * fadingMultiplier;
-                yield return null;
+                while (disabledCG.alpha < 0.99f)
+                {
+                    normalCG.alpha -= Time.unscaledDeltaTime * fadingMultiplier;
+                    highlightCG.alpha -= Time.unscaledDeltaTime * fadingMultiplier;
+                    disabledCG.alpha += Time.unscaledDeltaTime * fadingMultiplier;
+                    pressedCG.alpha -= Time.unscaledDeltaTime * fadingMultiplier;
+                    yield return null;
+                }
             }
-
             normalCG.alpha = 0;
             highlightCG.alpha = 0;
             disabledCG.alpha = 1;
+            pressedCG.alpha = 0;
+        }
+
+        IEnumerator SetPressed()
+        {
+            StopCoroutine(nameof(SetNormal));
+            StopCoroutine(nameof(SetHighlight));
+            StopCoroutine(nameof(SetDisabled));
+            if (!disableFade)
+            {
+                while (disabledCG.alpha < 0.99f)
+                {
+                    normalCG.alpha -= Time.unscaledDeltaTime * fadingMultiplier;
+                    highlightCG.alpha -= Time.unscaledDeltaTime * fadingMultiplier;
+                    disabledCG.alpha -= Time.unscaledDeltaTime * fadingMultiplier;
+                    pressedCG.alpha += Time.unscaledDeltaTime * fadingMultiplier;
+                    yield return null;
+                }
+            }
+            normalCG.alpha = 0;
+            highlightCG.alpha = 0;
+            disabledCG.alpha = 0;
+            pressedCG.alpha = 1;
         }
 
         IEnumerator CheckForDoubleClick()

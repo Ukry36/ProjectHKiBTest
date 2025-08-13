@@ -45,13 +45,16 @@ namespace Michsky.MUIP
 
             var normalCG = serializedObject.FindProperty("normalCG");
             var highlightCG = serializedObject.FindProperty("highlightCG");
+            var pressedCG = serializedObject.FindProperty("pressedCG");
             var disabledCG = serializedObject.FindProperty("disabledCG");
             var normalText = serializedObject.FindProperty("normalText");
             var highlightedText = serializedObject.FindProperty("highlightedText");
             var disabledText = serializedObject.FindProperty("disabledText");
+            var pressedText = serializedObject.FindProperty("pressedText");
             var normalImageObj = serializedObject.FindProperty("normalImage");
             var highlightImageObj = serializedObject.FindProperty("highlightImage");
             var disabledImageObj = serializedObject.FindProperty("disabledImage");
+            var pressedImageObj = serializedObject.FindProperty("pressedImage");
             var rippleParent = serializedObject.FindProperty("rippleParent");
             var soundSource = serializedObject.FindProperty("soundSource");
 
@@ -68,6 +71,7 @@ namespace Michsky.MUIP
             var disabledLayout = serializedObject.FindProperty("disabledLayout");
             var normalLayout = serializedObject.FindProperty("normalLayout");
             var highlightedLayout = serializedObject.FindProperty("highlightedLayout");
+            var pressedLayout = serializedObject.FindProperty("pressedLayout");
             var mainLayout = serializedObject.FindProperty("mainLayout");
             var mainFitter = serializedObject.FindProperty("mainFitter");
             var targetFitter = serializedObject.FindProperty("targetFitter");
@@ -179,6 +183,7 @@ namespace Michsky.MUIP
                     MUIPEditorHandler.DrawHeader(customSkin, "Core Header", 6);
                     MUIPEditorHandler.DrawProperty(normalCG, customSkin, "Normal CG");
                     MUIPEditorHandler.DrawProperty(highlightCG, customSkin, "Highlight CG");
+                    MUIPEditorHandler.DrawProperty(pressedCG, customSkin, "PressedCG CG");
                     MUIPEditorHandler.DrawProperty(disabledCG, customSkin, "Disabled CG");
 
                     if (enableText.boolValue == true)
@@ -186,6 +191,7 @@ namespace Michsky.MUIP
                         MUIPEditorHandler.DrawProperty(normalText, customSkin, "Normal Text");
                         MUIPEditorHandler.DrawProperty(highlightedText, customSkin, "Highlighted Text");
                         MUIPEditorHandler.DrawProperty(disabledText, customSkin, "Disabled Text");
+                        MUIPEditorHandler.DrawProperty(pressedText, customSkin, "Pressed Text");
                     }
 
                     if (enableIcon.boolValue == true)
@@ -193,11 +199,13 @@ namespace Michsky.MUIP
                         MUIPEditorHandler.DrawProperty(normalImageObj, customSkin, "Normal Icon");
                         MUIPEditorHandler.DrawProperty(highlightImageObj, customSkin, "Highlight Icon");
                         MUIPEditorHandler.DrawProperty(disabledImageObj, customSkin, "Disabled Icon");
+                        MUIPEditorHandler.DrawProperty(pressedImageObj, customSkin, "Pressed Icon");
                     }
 
                     MUIPEditorHandler.DrawProperty(disabledLayout, customSkin, "Disabled Layout");
                     MUIPEditorHandler.DrawProperty(normalLayout, customSkin, "Normal Layout");
                     MUIPEditorHandler.DrawProperty(highlightedLayout, customSkin, "Highlighted Layout");
+                    MUIPEditorHandler.DrawProperty(pressedLayout, customSkin, "Pressed Layout");
 
                     if (autoFitContent.boolValue == true)
                     {
