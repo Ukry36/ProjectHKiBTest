@@ -15,8 +15,8 @@ namespace Assets.Scripts.Interfaces.Modules
         public void Supply(Transform target, int amount)
         {
             if (target.TryGetComponent(out IDamagable damagable))
-            {        
-                damagable.Supply(amount);
+            {
+                damagable.Heal(amount);
             }
             else
             {
@@ -24,4 +24,4 @@ namespace Assets.Scripts.Interfaces.Modules
             }
         }
     }
-}       
+}

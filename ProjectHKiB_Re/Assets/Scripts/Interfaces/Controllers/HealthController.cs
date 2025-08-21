@@ -22,6 +22,7 @@ public class HealthController : MonoBehaviour
     public BoolBuffCalculator SuperArmourBuffer { get; set; } = new();
     public Action OnDie;
     public Action OnDamaged;
+    public Action OnHealed;
 
     public void Initialize(IMovable movable, int maxHP)
     {
@@ -49,5 +50,13 @@ public class HealthController : MonoBehaviour
         _movable.MovePoint.Die();
         gameObject.SetActive(false);
         OnDie?.Invoke();
+    }
+
+    public virtual void Heal(int amount, int maxHP)
+    {
+        OnHealed.Invoke();
+        if (amount <= 0) return;
+        HP += amount;
+        if (HP > maxHP) HP = maxHP;
     }
 }

@@ -14,6 +14,8 @@ public interface IDamagable
     => HealthController.Damage(damageData, hitter, origin, this);
     public void Die()
     => HealthController.Die();
+    public void Heal(int amount)
+    => HealthController.Heal(amount, (int)HealthController.MaxHPBuffer.GetBuffedStat(BaseMaxHP));
     public AudioDataSO HitSound { get; set; }
     public ParticlePlayer HitParticle { get; set; }
     public HealthController HealthController { get; set; }
