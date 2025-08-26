@@ -207,6 +207,7 @@ GameObject:
   - component: {fileID: 1680205998095184963}
   - component: {fileID: 1680205998095184961}
   - component: {fileID: 1680205998095184960}
+  - component: {fileID: 2465380659757263814}
   m_Layer: 5
   m_Name: Front_F
   m_TagString: Untagged
@@ -272,6 +273,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2465380659757263814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680205998095184962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653c0c60debcff3438a5dabedaebdcab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minLocalAngle: -10
+  maxLocalAngle: 10
+  isLeft: 0
+  isRight: 0
+  isHairPart: 1
+  currentTargetAngle: 0
 --- !u!1 &1680205998104024980
 GameObject:
   m_ObjectHideFlags: 0
@@ -320,6 +339,7 @@ GameObject:
   - component: {fileID: 1680205998104849371}
   - component: {fileID: 1680205998104849369}
   - component: {fileID: 1680205998104849368}
+  - component: {fileID: 2423334842427958315}
   m_Layer: 5
   m_Name: Front_L
   m_TagString: Untagged
@@ -385,6 +405,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2423334842427958315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680205998104849370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653c0c60debcff3438a5dabedaebdcab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minLocalAngle: -10
+  maxLocalAngle: 5
+  isLeft: 1
+  isRight: 0
+  isHairPart: 1
+  currentTargetAngle: 0
 --- !u!1 &1680205998105508531
 GameObject:
   m_ObjectHideFlags: 0
@@ -396,6 +434,7 @@ GameObject:
   - component: {fileID: 1680205998105508528}
   - component: {fileID: 1680205998105508534}
   - component: {fileID: 1680205998105508529}
+  - component: {fileID: 7512489484015731360}
   m_Layer: 5
   m_Name: Front_R
   m_TagString: Untagged
@@ -461,6 +500,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7512489484015731360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680205998105508531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653c0c60debcff3438a5dabedaebdcab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minLocalAngle: -5
+  maxLocalAngle: 10
+  isLeft: 0
+  isRight: 1
+  isHairPart: 1
+  currentTargetAngle: 0
 --- !u!1 &1680205998110289971
 GameObject:
   m_ObjectHideFlags: 0
@@ -472,6 +529,7 @@ GameObject:
   - component: {fileID: 1680205998110289968}
   - component: {fileID: 1680205998110289974}
   - component: {fileID: 1680205998110289969}
+  - component: {fileID: 8976840585892048765}
   m_Layer: 5
   m_Name: Side_L
   m_TagString: Untagged
@@ -537,6 +595,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8976840585892048765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680205998110289971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653c0c60debcff3438a5dabedaebdcab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minLocalAngle: -4
+  maxLocalAngle: 12
+  isLeft: 1
+  isRight: 0
+  isHairPart: 1
+  currentTargetAngle: 0
 --- !u!1 &1680205998112157099
 GameObject:
   m_ObjectHideFlags: 0
@@ -701,7 +777,7 @@ GameObject:
   - component: {fileID: 1680205998115147987}
   - component: {fileID: 1680205998115147986}
   m_Layer: 5
-  m_Name: BackHair
+  m_Name: Back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -776,6 +852,7 @@ GameObject:
   - component: {fileID: 1680205998116155138}
   - component: {fileID: 1680205998116155136}
   - component: {fileID: 1680205998116155139}
+  - component: {fileID: 1130847182130822958}
   m_Layer: 5
   m_Name: Front_L
   m_TagString: Untagged
@@ -841,6 +918,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1130847182130822958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680205998116155165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653c0c60debcff3438a5dabedaebdcab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minLocalAngle: -10
+  maxLocalAngle: 5
+  isLeft: 1
+  isRight: 0
+  isHairPart: 1
+  currentTargetAngle: 0
 --- !u!1 &1680205998125743071
 GameObject:
   m_ObjectHideFlags: 0
@@ -1139,6 +1234,7 @@ GameObject:
   - component: {fileID: 1680205998152748975}
   - component: {fileID: 1680205998152748973}
   - component: {fileID: 1680205998152748972}
+  - component: {fileID: 283476629650437555}
   m_Layer: 5
   m_Name: Front_L
   m_TagString: Untagged
@@ -1204,6 +1300,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &283476629650437555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680205998152748974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653c0c60debcff3438a5dabedaebdcab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minLocalAngle: -10
+  maxLocalAngle: 5
+  isLeft: 1
+  isRight: 0
+  isHairPart: 1
+  currentTargetAngle: 0
 --- !u!1 &1680205998159320916
 GameObject:
   m_ObjectHideFlags: 0
@@ -1215,6 +1329,7 @@ GameObject:
   - component: {fileID: 1680205998159320917}
   - component: {fileID: 1680205998159320923}
   - component: {fileID: 1680205998159320922}
+  - component: {fileID: 7942578466559355965}
   m_Layer: 5
   m_Name: Front_R
   m_TagString: Untagged
@@ -1280,6 +1395,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7942578466559355965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680205998159320916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653c0c60debcff3438a5dabedaebdcab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minLocalAngle: -5
+  maxLocalAngle: 10
+  isLeft: 0
+  isRight: 1
+  isHairPart: 1
+  currentTargetAngle: 0
 --- !u!1 &1680205998160467599
 GameObject:
   m_ObjectHideFlags: 0
@@ -1465,6 +1598,7 @@ GameObject:
   - component: {fileID: 1680205998191301951}
   - component: {fileID: 1680205998191301949}
   - component: {fileID: 1680205998191301948}
+  - component: {fileID: 234152216155789921}
   m_Layer: 5
   m_Name: Side2_R
   m_TagString: Untagged
@@ -1530,6 +1664,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &234152216155789921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680205998191301950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653c0c60debcff3438a5dabedaebdcab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minLocalAngle: -20
+  maxLocalAngle: 10
+  isLeft: 0
+  isRight: 1
+  isHairPart: 1
+  currentTargetAngle: 0
 --- !u!1 &1680205998207219628
 GameObject:
   m_ObjectHideFlags: 0
@@ -2325,6 +2477,7 @@ GameObject:
   - component: {fileID: 1680205998324952049}
   - component: {fileID: 1680205998324952048}
   - component: {fileID: 1680205998324952051}
+  - component: {fileID: 3750499925647469236}
   m_Layer: 5
   m_Name: BackHair
   m_TagString: Untagged
@@ -2412,6 +2565,24 @@ Canvas:
   m_SortingLayerID: 1356546061
   m_SortingOrder: -1
   m_TargetDisplay: 0
+--- !u!114 &3750499925647469236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680205998324952013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653c0c60debcff3438a5dabedaebdcab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minLocalAngle: -180
+  maxLocalAngle: 180
+  isLeft: 0
+  isRight: 0
+  isHairPart: 1
+  currentTargetAngle: 0
 --- !u!1 &1680205998349929301
 GameObject:
   m_ObjectHideFlags: 0
@@ -2651,6 +2822,7 @@ GameObject:
   - component: {fileID: 1680205998422321837}
   - component: {fileID: 1680205998422321747}
   - component: {fileID: 1680205998422321746}
+  - component: {fileID: 4833659842922031656}
   m_Layer: 5
   m_Name: Front_F
   m_TagString: Untagged
@@ -2716,6 +2888,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &4833659842922031656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680205998422321836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653c0c60debcff3438a5dabedaebdcab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minLocalAngle: -10
+  maxLocalAngle: 10
+  isLeft: 0
+  isRight: 0
+  isHairPart: 1
+  currentTargetAngle: 0
 --- !u!1 &1680205998424807430
 GameObject:
   m_ObjectHideFlags: 0
@@ -2879,6 +3069,7 @@ GameObject:
   - component: {fileID: 1680205998438528415}
   - component: {fileID: 1680205998438528413}
   - component: {fileID: 1680205998438528412}
+  - component: {fileID: 8605894285873213998}
   m_Layer: 5
   m_Name: Front_L
   m_TagString: Untagged
@@ -2944,6 +3135,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8605894285873213998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680205998438528414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653c0c60debcff3438a5dabedaebdcab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minLocalAngle: -10
+  maxLocalAngle: 5
+  isLeft: 1
+  isRight: 0
+  isHairPart: 1
+  currentTargetAngle: 0
 --- !u!1 &1680205998444660000
 GameObject:
   m_ObjectHideFlags: 0
@@ -2955,6 +3164,7 @@ GameObject:
   - component: {fileID: 1680205998444660001}
   - component: {fileID: 1680205998444660007}
   - component: {fileID: 1680205998444660006}
+  - component: {fileID: 793379751376009853}
   m_Layer: 5
   m_Name: Front_R
   m_TagString: Untagged
@@ -3020,6 +3230,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &793379751376009853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680205998444660000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653c0c60debcff3438a5dabedaebdcab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minLocalAngle: -5
+  maxLocalAngle: 10
+  isLeft: 0
+  isRight: 1
+  isHairPart: 1
+  currentTargetAngle: 0
 --- !u!1 &1680205998472514935
 GameObject:
   m_ObjectHideFlags: 0
@@ -3304,6 +3532,7 @@ GameObject:
   - component: {fileID: 1680205998537379301}
   - component: {fileID: 1680205998537379307}
   - component: {fileID: 1680205998537379306}
+  - component: {fileID: 187363443294587377}
   m_Layer: 5
   m_Name: Front_L
   m_TagString: Untagged
@@ -3369,6 +3598,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &187363443294587377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680205998537379300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653c0c60debcff3438a5dabedaebdcab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minLocalAngle: -10
+  maxLocalAngle: 5
+  isLeft: 1
+  isRight: 0
+  isHairPart: 1
+  currentTargetAngle: 0
 --- !u!1 &1680205998554114358
 GameObject:
   m_ObjectHideFlags: 0
@@ -3380,6 +3627,7 @@ GameObject:
   - component: {fileID: 1680205998554114359}
   - component: {fileID: 1680205998554114357}
   - component: {fileID: 1680205998554114356}
+  - component: {fileID: 8829208808114818860}
   m_Layer: 5
   m_Name: Front_F
   m_TagString: Untagged
@@ -3445,6 +3693,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8829208808114818860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680205998554114358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653c0c60debcff3438a5dabedaebdcab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minLocalAngle: -10
+  maxLocalAngle: 10
+  isLeft: 0
+  isRight: 0
+  isHairPart: 1
+  currentTargetAngle: 0
 --- !u!1 &1680205998572154308
 GameObject:
   m_ObjectHideFlags: 0
@@ -3456,6 +3722,7 @@ GameObject:
   - component: {fileID: 1680205998572154309}
   - component: {fileID: 1680205998572154315}
   - component: {fileID: 1680205998572154314}
+  - component: {fileID: 4836580991138658812}
   m_Layer: 5
   m_Name: Front_R
   m_TagString: Untagged
@@ -3521,6 +3788,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &4836580991138658812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680205998572154308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653c0c60debcff3438a5dabedaebdcab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minLocalAngle: -5
+  maxLocalAngle: 10
+  isLeft: 0
+  isRight: 1
+  isHairPart: 1
+  currentTargetAngle: 0
 --- !u!1 &1680205998602450313
 GameObject:
   m_ObjectHideFlags: 0
@@ -3571,7 +3856,7 @@ GameObject:
   - component: {fileID: 1680205998624119732}
   - component: {fileID: 1680205998624119735}
   m_Layer: 5
-  m_Name: BackHair
+  m_Name: Back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3809,6 +4094,7 @@ GameObject:
   - component: {fileID: 1680205998650551525}
   - component: {fileID: 1680205998650551531}
   - component: {fileID: 1680205998650551530}
+  - component: {fileID: 6173302765937895882}
   m_Layer: 5
   m_Name: Side2_R
   m_TagString: Untagged
@@ -3874,6 +4160,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6173302765937895882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680205998650551524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653c0c60debcff3438a5dabedaebdcab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minLocalAngle: -20
+  maxLocalAngle: 10
+  isLeft: 0
+  isRight: 1
+  isHairPart: 1
+  currentTargetAngle: 0
 --- !u!1 &1680205998669102726
 GameObject:
   m_ObjectHideFlags: 0
@@ -4012,7 +4316,7 @@ GameObject:
   - component: {fileID: 1680205998684109918}
   - component: {fileID: 1680205998684109913}
   m_Layer: 5
-  m_Name: BackHair
+  m_Name: Back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4088,7 +4392,7 @@ GameObject:
   - component: {fileID: 1680205998691662702}
   - component: {fileID: 1680205998691662697}
   m_Layer: 5
-  m_Name: BackHair
+  m_Name: Back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4534,6 +4838,7 @@ GameObject:
   - component: {fileID: 1680205998784361904}
   - component: {fileID: 1680205998784361910}
   - component: {fileID: 1680205998784361905}
+  - component: {fileID: 7861291713645979803}
   m_Layer: 5
   m_Name: Side_L
   m_TagString: Untagged
@@ -4599,6 +4904,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7861291713645979803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680205998784361907}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653c0c60debcff3438a5dabedaebdcab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minLocalAngle: -4
+  maxLocalAngle: 12
+  isLeft: 1
+  isRight: 0
+  isHairPart: 1
+  currentTargetAngle: 0
 --- !u!1 &1680205998793807263
 GameObject:
   m_ObjectHideFlags: 0
@@ -4850,6 +5173,7 @@ GameObject:
   - component: {fileID: 1680205998830581471}
   - component: {fileID: 1680205998830581469}
   - component: {fileID: 1680205998830581468}
+  - component: {fileID: 6412088451016032292}
   m_Layer: 5
   m_Name: Front_F
   m_TagString: Untagged
@@ -4915,6 +5239,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6412088451016032292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680205998830581470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653c0c60debcff3438a5dabedaebdcab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minLocalAngle: -10
+  maxLocalAngle: 10
+  isLeft: 0
+  isRight: 0
+  isHairPart: 1
+  currentTargetAngle: 0
 --- !u!1 &1680205998843639599
 GameObject:
   m_ObjectHideFlags: 0
@@ -4926,6 +5268,7 @@ GameObject:
   - component: {fileID: 1680205998843639596}
   - component: {fileID: 1680205998843639506}
   - component: {fileID: 1680205998843639597}
+  - component: {fileID: 4441279105181031584}
   m_Layer: 5
   m_Name: Side_R
   m_TagString: Untagged
@@ -4991,6 +5334,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &4441279105181031584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680205998843639599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653c0c60debcff3438a5dabedaebdcab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minLocalAngle: -12
+  maxLocalAngle: 4
+  isLeft: 0
+  isRight: 1
+  isHairPart: 1
+  currentTargetAngle: 0
 --- !u!1 &1680205998861152479
 GameObject:
   m_ObjectHideFlags: 0
@@ -5328,6 +5689,7 @@ GameObject:
   - component: {fileID: 1680205998971396718}
   - component: {fileID: 1680205998971396716}
   - component: {fileID: 1680205998971396719}
+  - component: {fileID: 7068936217918149165}
   m_Layer: 5
   m_Name: Front_F
   m_TagString: Untagged
@@ -5393,6 +5755,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7068936217918149165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680205998971396713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653c0c60debcff3438a5dabedaebdcab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minLocalAngle: -10
+  maxLocalAngle: 10
+  isLeft: 0
+  isRight: 0
+  isHairPart: 1
+  currentTargetAngle: 0
 --- !u!1 &1680205998976116064
 GameObject:
   m_ObjectHideFlags: 0
@@ -5713,6 +6093,7 @@ GameObject:
   - component: {fileID: 1680205999047720552}
   - component: {fileID: 1680205999047720558}
   - component: {fileID: 1680205999047720553}
+  - component: {fileID: 1160617304637952570}
   m_Layer: 5
   m_Name: Front_R
   m_TagString: Untagged
@@ -5778,6 +6159,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1160617304637952570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680205999047720555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653c0c60debcff3438a5dabedaebdcab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minLocalAngle: -5
+  maxLocalAngle: 10
+  isLeft: 0
+  isRight: 1
+  isHairPart: 1
+  currentTargetAngle: 0
 --- !u!1 &1680205999051035172
 GameObject:
   m_ObjectHideFlags: 0
@@ -5956,6 +6355,7 @@ GameObject:
   - component: {fileID: 1680205999057063193}
   - component: {fileID: 1680205999057063199}
   - component: {fileID: 1680205999057063198}
+  - component: {fileID: 6600008848962559130}
   m_Layer: 5
   m_Name: Side2_L
   m_TagString: Untagged
@@ -6021,6 +6421,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6600008848962559130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680205999057063192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653c0c60debcff3438a5dabedaebdcab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minLocalAngle: -10
+  maxLocalAngle: 20
+  isLeft: 1
+  isRight: 0
+  isHairPart: 1
+  currentTargetAngle: 0
 --- !u!1 &1680205999059261250
 GameObject:
   m_ObjectHideFlags: 0
@@ -6782,6 +7200,7 @@ GameObject:
   - component: {fileID: 1680205999229596465}
   - component: {fileID: 1680205999229596464}
   - component: {fileID: 1680205999229596467}
+  - component: {fileID: 774761743950376718}
   m_Layer: 5
   m_Name: BackHair
   m_TagString: Untagged
@@ -6869,6 +7288,24 @@ Canvas:
   m_SortingLayerID: 1356546061
   m_SortingOrder: -1
   m_TargetDisplay: 0
+--- !u!114 &774761743950376718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680205999229596429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653c0c60debcff3438a5dabedaebdcab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minLocalAngle: -180
+  maxLocalAngle: 180
+  isLeft: 0
+  isRight: 0
+  isHairPart: 1
+  currentTargetAngle: 0
 --- !u!1 &1680205999231180411
 GameObject:
   m_ObjectHideFlags: 0
@@ -7427,6 +7864,7 @@ GameObject:
   - component: {fileID: 1680205999307862636}
   - component: {fileID: 1680205999307862546}
   - component: {fileID: 1680205999307862637}
+  - component: {fileID: 4116450482848780671}
   m_Layer: 5
   m_Name: Side2_R
   m_TagString: Untagged
@@ -7492,6 +7930,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &4116450482848780671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680205999307862639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653c0c60debcff3438a5dabedaebdcab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minLocalAngle: -20
+  maxLocalAngle: 10
+  isLeft: 0
+  isRight: 1
+  isHairPart: 1
+  currentTargetAngle: 0
 --- !u!1 &1680205999324138035
 GameObject:
   m_ObjectHideFlags: 0
@@ -7945,6 +8401,7 @@ GameObject:
   - component: {fileID: 1680205999448500490}
   - component: {fileID: 1680205999448500488}
   - component: {fileID: 1680205999448500491}
+  - component: {fileID: 6832978966101712916}
   m_Layer: 5
   m_Name: Side2_R
   m_TagString: Untagged
@@ -8010,6 +8467,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6832978966101712916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680205999448500485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653c0c60debcff3438a5dabedaebdcab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minLocalAngle: -20
+  maxLocalAngle: 10
+  isLeft: 0
+  isRight: 1
+  isHairPart: 1
+  currentTargetAngle: 0
 --- !u!1 &1680205999460410908
 GameObject:
   m_ObjectHideFlags: 0
@@ -8179,7 +8654,7 @@ GameObject:
   - component: {fileID: 1680205999515100651}
   - component: {fileID: 1680205999515100650}
   m_Layer: 5
-  m_Name: BackHair
+  m_Name: Back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8330,6 +8805,7 @@ GameObject:
   - component: {fileID: 1680205999529281965}
   - component: {fileID: 1680205999529281875}
   - component: {fileID: 1680205999529281874}
+  - component: {fileID: 1211218553911810035}
   m_Layer: 5
   m_Name: Side_R
   m_TagString: Untagged
@@ -8395,6 +8871,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1211218553911810035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680205999529281964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653c0c60debcff3438a5dabedaebdcab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minLocalAngle: -12
+  maxLocalAngle: 4
+  isLeft: 0
+  isRight: 1
+  isHairPart: 1
+  currentTargetAngle: 0
 --- !u!1 &1680205999540011333
 GameObject:
   m_ObjectHideFlags: 0
@@ -8559,6 +9053,7 @@ GameObject:
   - component: {fileID: 1680205999570604231}
   - component: {fileID: 1680205999570604230}
   - component: {fileID: 1680205999570604225}
+  - component: {fileID: 5494895056756120492}
   m_Layer: 5
   m_Name: BackHair
   m_TagString: Untagged
@@ -8646,6 +9141,24 @@ Canvas:
   m_SortingLayerID: 1356546061
   m_SortingOrder: -1
   m_TargetDisplay: 0
+--- !u!114 &5494895056756120492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680205999570604227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653c0c60debcff3438a5dabedaebdcab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minLocalAngle: -180
+  maxLocalAngle: 180
+  isLeft: 0
+  isRight: 0
+  isHairPart: 1
+  currentTargetAngle: 0
 --- !u!1 &1680205999586025399
 GameObject:
   m_ObjectHideFlags: 0
@@ -8809,6 +9322,7 @@ GameObject:
   - component: {fileID: 1680205999594675949}
   - component: {fileID: 1680205999594675859}
   - component: {fileID: 1680205999594675858}
+  - component: {fileID: 2369680960550290367}
   m_Layer: 5
   m_Name: Side_L
   m_TagString: Untagged
@@ -8874,6 +9388,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2369680960550290367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680205999594675948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653c0c60debcff3438a5dabedaebdcab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minLocalAngle: -4
+  maxLocalAngle: 12
+  isLeft: 1
+  isRight: 0
+  isHairPart: 1
+  currentTargetAngle: 0
 --- !u!1 &1680205999605975753
 GameObject:
   m_ObjectHideFlags: 0
@@ -8885,6 +9417,7 @@ GameObject:
   - component: {fileID: 1680205999605975758}
   - component: {fileID: 1680205999605975756}
   - component: {fileID: 1680205999605975759}
+  - component: {fileID: 6029771021676747904}
   m_Layer: 5
   m_Name: Side_R
   m_TagString: Untagged
@@ -8950,6 +9483,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6029771021676747904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680205999605975753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653c0c60debcff3438a5dabedaebdcab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minLocalAngle: -12
+  maxLocalAngle: 4
+  isLeft: 0
+  isRight: 1
+  isHairPart: 1
+  currentTargetAngle: 0
 --- !u!1 &1680205999607881021
 GameObject:
   m_ObjectHideFlags: 0
@@ -9075,6 +9626,7 @@ GameObject:
   - component: {fileID: 1680205999635241898}
   - component: {fileID: 1680205999635241896}
   - component: {fileID: 1680205999635241899}
+  - component: {fileID: 7200011092856510514}
   m_Layer: 5
   m_Name: Side_L
   m_TagString: Untagged
@@ -9140,6 +9692,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7200011092856510514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680205999635241893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653c0c60debcff3438a5dabedaebdcab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minLocalAngle: -4
+  maxLocalAngle: 12
+  isLeft: 1
+  isRight: 0
+  isHairPart: 1
+  currentTargetAngle: 0
 --- !u!1 &1680205999661359993
 GameObject:
   m_ObjectHideFlags: 0
@@ -9151,6 +9721,7 @@ GameObject:
   - component: {fileID: 1680205999661359998}
   - component: {fileID: 1680205999661359996}
   - component: {fileID: 1680205999661359999}
+  - component: {fileID: 7123740704037320493}
   m_Layer: 5
   m_Name: Side2_R
   m_TagString: Untagged
@@ -9216,6 +9787,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7123740704037320493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680205999661359993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653c0c60debcff3438a5dabedaebdcab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minLocalAngle: -20
+  maxLocalAngle: 10
+  isLeft: 0
+  isRight: 1
+  isHairPart: 1
+  currentTargetAngle: 0
 --- !u!1 &1680205999682382931
 GameObject:
   m_ObjectHideFlags: 0
@@ -9358,6 +9947,7 @@ GameObject:
   - component: {fileID: 1680205999688298496}
   - component: {fileID: 1680205999688298502}
   - component: {fileID: 1680205999688298497}
+  - component: {fileID: 4820172256452601158}
   m_Layer: 5
   m_Name: Side2_L
   m_TagString: Untagged
@@ -9423,6 +10013,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &4820172256452601158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680205999688298499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653c0c60debcff3438a5dabedaebdcab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minLocalAngle: -10
+  maxLocalAngle: 20
+  isLeft: 1
+  isRight: 0
+  isHairPart: 1
+  currentTargetAngle: 0
 --- !u!1 &1680205999696100770
 GameObject:
   m_ObjectHideFlags: 0
@@ -9434,6 +10042,7 @@ GameObject:
   - component: {fileID: 1680205999696100771}
   - component: {fileID: 1680205999696100769}
   - component: {fileID: 1680205999696100768}
+  - component: {fileID: 4278237878218859512}
   m_Layer: 5
   m_Name: Side_R
   m_TagString: Untagged
@@ -9499,6 +10108,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &4278237878218859512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680205999696100770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653c0c60debcff3438a5dabedaebdcab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minLocalAngle: -12
+  maxLocalAngle: 4
+  isLeft: 0
+  isRight: 1
+  isHairPart: 1
+  currentTargetAngle: 0
 --- !u!1 &1680205999697857398
 GameObject:
   m_ObjectHideFlags: 0
@@ -9678,6 +10305,7 @@ GameObject:
   - component: {fileID: 1680205999704601555}
   - component: {fileID: 1680205999704601554}
   - component: {fileID: 1680205999704599597}
+  - component: {fileID: 5776521282157829358}
   m_Layer: 5
   m_Name: BackHair
   m_TagString: Untagged
@@ -9765,6 +10393,24 @@ Canvas:
   m_SortingLayerID: 1356546061
   m_SortingOrder: -1
   m_TargetDisplay: 0
+--- !u!114 &5776521282157829358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680205999704599599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653c0c60debcff3438a5dabedaebdcab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minLocalAngle: -180
+  maxLocalAngle: 180
+  isLeft: 0
+  isRight: 0
+  isHairPart: 1
+  currentTargetAngle: 0
 --- !u!1 &1680205999734994410
 GameObject:
   m_ObjectHideFlags: 0
@@ -9852,6 +10498,7 @@ GameObject:
   - component: {fileID: 1680205999755627998}
   - component: {fileID: 1680205999755627996}
   - component: {fileID: 1680205999755627999}
+  - component: {fileID: 3041151147231646514}
   m_Layer: 5
   m_Name: Side_L
   m_TagString: Untagged
@@ -9917,6 +10564,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &3041151147231646514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680205999755627993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653c0c60debcff3438a5dabedaebdcab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minLocalAngle: -4
+  maxLocalAngle: 12
+  isLeft: 1
+  isRight: 0
+  isHairPart: 1
+  currentTargetAngle: 0
 --- !u!1 &1680205999758830090
 GameObject:
   m_ObjectHideFlags: 0
@@ -10124,6 +10789,7 @@ GameObject:
   - component: {fileID: 1680205999798057124}
   - component: {fileID: 1680205999798057130}
   - component: {fileID: 1680205999798057125}
+  - component: {fileID: 8235217449549591425}
   m_Layer: 5
   m_Name: Side2_L
   m_TagString: Untagged
@@ -10189,6 +10855,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8235217449549591425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680205999798057127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653c0c60debcff3438a5dabedaebdcab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minLocalAngle: -10
+  maxLocalAngle: 20
+  isLeft: 1
+  isRight: 0
+  isHairPart: 1
+  currentTargetAngle: 0
 --- !u!1 &1680205999830836323
 GameObject:
   m_ObjectHideFlags: 0
@@ -10443,7 +11127,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1680205999910873712}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
@@ -10513,266 +11197,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbcdeb88faa53a44485fdf5de0f98b4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 1680205999910873719}
+  bodyAnimator: {fileID: 1680205999910873719}
+  faceController: {fileID: 0}
   originalColor: {r: 1, g: 1, b: 1, a: 1}
   disabledColor: {r: 0.5471698, g: 0.5471698, b: 0.5471698, a: 1}
   damagedColor: {r: 0.6320754, g: 0.28622285, b: 0.28622285, a: 1}
-  hideLocalPosition: {x: 0, y: 0, z: 0}
+  hideLocalPosition: {x: 120, y: 0, z: 0}
   originalLocallPosition: {x: 0, y: 0, z: 0}
   talkEnabled: 0
   isHidden: 0
   defaultImpactStrength: 5
   wind: 0
-  canvases:
-  - {fileID: 1680205999704599597}
-  - {fileID: 1680205998324952051}
-  - {fileID: 1680205999229596467}
-  - {fileID: 1680205999570604225}
-  - {fileID: 1680206000156543424}
-  - {fileID: 1680205999910873718}
-  - {fileID: 1680206000054248882}
-  - {fileID: 1680205999956718357}
-  gravityElements:
-  - transform: {fileID: 1680205999704599596}
-    minLocalAngle: -180
-    maxLocalAngle: 180
-    isLeft: 0
-    isRight: 0
-    currentTargetAngle: 0
-  - transform: {fileID: 1680205999984520853}
-    minLocalAngle: -12
-    maxLocalAngle: 4
-    isLeft: 0
-    isRight: 1
-    currentTargetAngle: 0
-  - transform: {fileID: 1680205999594675949}
-    minLocalAngle: -4
-    maxLocalAngle: 12
-    isLeft: 1
-    isRight: 0
-    currentTargetAngle: 0
-  - transform: {fileID: 1680205999448500490}
-    minLocalAngle: -20
-    maxLocalAngle: 10
-    isLeft: 0
-    isRight: 1
-    currentTargetAngle: 0
-  - transform: {fileID: 1680206000115433859}
-    minLocalAngle: -10
-    maxLocalAngle: 20
-    isLeft: 1
-    isRight: 0
-    currentTargetAngle: 0
-  - transform: {fileID: 1680205998105508528}
-    minLocalAngle: -5
-    maxLocalAngle: 10
-    isLeft: 0
-    isRight: 1
-    currentTargetAngle: 0
-  - transform: {fileID: 1680205998116155138}
-    minLocalAngle: -10
-    maxLocalAngle: 5
-    isLeft: 1
-    isRight: 0
-    currentTargetAngle: 0
-  - transform: {fileID: 1680205998971396718}
-    minLocalAngle: -10
-    maxLocalAngle: 10
-    isLeft: 0
-    isRight: 0
-    currentTargetAngle: 0
-  - transform: {fileID: 1680205998324952050}
-    minLocalAngle: -180
-    maxLocalAngle: 180
-    isLeft: 0
-    isRight: 0
-    currentTargetAngle: 0
-  - transform: {fileID: 1680205998843639596}
-    minLocalAngle: -12
-    maxLocalAngle: 4
-    isLeft: 0
-    isRight: 1
-    currentTargetAngle: 0
-  - transform: {fileID: 1680205999635241898}
-    minLocalAngle: -4
-    maxLocalAngle: 12
-    isLeft: 1
-    isRight: 0
-    currentTargetAngle: 0
-  - transform: {fileID: 1680205999307862636}
-    minLocalAngle: -20
-    maxLocalAngle: 10
-    isLeft: 0
-    isRight: 1
-    currentTargetAngle: 0
-  - transform: {fileID: 1680205999688298496}
-    minLocalAngle: -10
-    maxLocalAngle: 20
-    isLeft: 1
-    isRight: 0
-    currentTargetAngle: 0
-  - transform: {fileID: 1680205998572154309}
-    minLocalAngle: -5
-    maxLocalAngle: 10
-    isLeft: 0
-    isRight: 1
-    currentTargetAngle: 0
-  - transform: {fileID: 1680205998537379301}
-    minLocalAngle: -10
-    maxLocalAngle: 5
-    isLeft: 1
-    isRight: 0
-    currentTargetAngle: 0
-  - transform: {fileID: 1680205998095184963}
-    minLocalAngle: -10
-    maxLocalAngle: 10
-    isLeft: 0
-    isRight: 0
-    currentTargetAngle: 0
-  - transform: {fileID: 1680205999229596466}
-    minLocalAngle: -180
-    maxLocalAngle: 180
-    isLeft: 0
-    isRight: 0
-    currentTargetAngle: 0
-  - transform: {fileID: 1680205999696100771}
-    minLocalAngle: -12
-    maxLocalAngle: 4
-    isLeft: 0
-    isRight: 1
-    currentTargetAngle: 0
-  - transform: {fileID: 1680205998784361904}
-    minLocalAngle: -4
-    maxLocalAngle: 12
-    isLeft: 1
-    isRight: 0
-    currentTargetAngle: 0
-  - transform: {fileID: 1680205999661359998}
-    minLocalAngle: -20
-    maxLocalAngle: 10
-    isLeft: 0
-    isRight: 1
-    currentTargetAngle: 0
-  - transform: {fileID: 1680205999798057124}
-    minLocalAngle: -10
-    maxLocalAngle: 20
-    isLeft: 1
-    isRight: 0
-    currentTargetAngle: 0
-  - transform: {fileID: 1680205998159320917}
-    minLocalAngle: -5
-    maxLocalAngle: 10
-    isLeft: 0
-    isRight: 1
-    currentTargetAngle: 0
-  - transform: {fileID: 1680205998438528415}
-    minLocalAngle: -10
-    maxLocalAngle: 5
-    isLeft: 1
-    isRight: 0
-    currentTargetAngle: 0
-  - transform: {fileID: 1680205998422321837}
-    minLocalAngle: -10
-    maxLocalAngle: 10
-    isLeft: 0
-    isRight: 0
-    currentTargetAngle: 0
-  - transform: {fileID: 1680205999570604224}
-    minLocalAngle: -180
-    maxLocalAngle: 180
-    isLeft: 0
-    isRight: 0
-    currentTargetAngle: 0
-  - transform: {fileID: 1680205999605975758}
-    minLocalAngle: -12
-    maxLocalAngle: 4
-    isLeft: 0
-    isRight: 1
-    currentTargetAngle: 0
-  - transform: {fileID: 1680205998110289968}
-    minLocalAngle: -4
-    maxLocalAngle: 12
-    isLeft: 1
-    isRight: 0
-    currentTargetAngle: 0
-  - transform: {fileID: 1680205998650551525}
-    minLocalAngle: -20
-    maxLocalAngle: 10
-    isLeft: 0
-    isRight: 1
-    currentTargetAngle: 0
-  - transform: {fileID: 1680206000141944544}
-    minLocalAngle: -10
-    maxLocalAngle: 20
-    isLeft: 1
-    isRight: 0
-    currentTargetAngle: 0
-  - transform: {fileID: 1680205998444660001}
-    minLocalAngle: -5
-    maxLocalAngle: 10
-    isLeft: 0
-    isRight: 1
-    currentTargetAngle: 0
-  - transform: {fileID: 1680205998152748975}
-    minLocalAngle: -10
-    maxLocalAngle: 5
-    isLeft: 1
-    isRight: 0
-    currentTargetAngle: 0
-  - transform: {fileID: 1680205998554114359}
-    minLocalAngle: -10
-    maxLocalAngle: 10
-    isLeft: 0
-    isRight: 0
-    currentTargetAngle: 0
-  - transform: {fileID: 1680206000156543427}
-    minLocalAngle: -180
-    maxLocalAngle: 180
-    isLeft: 0
-    isRight: 0
-    currentTargetAngle: 0
-  - transform: {fileID: 1680205999529281965}
-    minLocalAngle: -12
-    maxLocalAngle: 4
-    isLeft: 0
-    isRight: 1
-    currentTargetAngle: 0
-  - transform: {fileID: 1680205999755627998}
-    minLocalAngle: -4
-    maxLocalAngle: 12
-    isLeft: 1
-    isRight: 0
-    currentTargetAngle: 0
-  - transform: {fileID: 1680205998191301951}
-    minLocalAngle: -20
-    maxLocalAngle: 10
-    isLeft: 0
-    isRight: 1
-    currentTargetAngle: 0
-  - transform: {fileID: 1680205999057063193}
-    minLocalAngle: -10
-    maxLocalAngle: 20
-    isLeft: 1
-    isRight: 0
-    currentTargetAngle: 0
-  - transform: {fileID: 1680205999047720552}
-    minLocalAngle: -5
-    maxLocalAngle: 10
-    isLeft: 0
-    isRight: 1
-    currentTargetAngle: 0
-  - transform: {fileID: 1680205998104849371}
-    minLocalAngle: -10
-    maxLocalAngle: 5
-    isLeft: 1
-    isRight: 0
-    currentTargetAngle: 0
-  - transform: {fileID: 1680205998830581471}
-    minLocalAngle: -10
-    maxLocalAngle: 10
-    isLeft: 0
-    isRight: 0
-    currentTargetAngle: 0
+  gravityParts: []
 --- !u!1 &1680205999911579164
 GameObject:
   m_ObjectHideFlags: 0
@@ -11253,6 +11689,7 @@ GameObject:
   - component: {fileID: 1680205999984520853}
   - component: {fileID: 1680205999984520859}
   - component: {fileID: 1680205999984520858}
+  - component: {fileID: 7342046098251290822}
   m_Layer: 5
   m_Name: Side_R
   m_TagString: Untagged
@@ -11318,6 +11755,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7342046098251290822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680205999984520852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653c0c60debcff3438a5dabedaebdcab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minLocalAngle: -12
+  maxLocalAngle: 4
+  isLeft: 0
+  isRight: 1
+  isHairPart: 1
+  currentTargetAngle: 0
 --- !u!1 &1680205999989576637
 GameObject:
   m_ObjectHideFlags: 0
@@ -12106,6 +12561,7 @@ GameObject:
   - component: {fileID: 1680206000115433859}
   - component: {fileID: 1680206000115433857}
   - component: {fileID: 1680206000115433856}
+  - component: {fileID: 6986441338081600564}
   m_Layer: 5
   m_Name: Side2_L
   m_TagString: Untagged
@@ -12171,6 +12627,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6986441338081600564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680206000115433858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653c0c60debcff3438a5dabedaebdcab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minLocalAngle: -10
+  maxLocalAngle: 20
+  isLeft: 1
+  isRight: 0
+  isHairPart: 1
+  currentTargetAngle: 0
 --- !u!1 &1680206000120283513
 GameObject:
   m_ObjectHideFlags: 0
@@ -12410,6 +12884,7 @@ GameObject:
   - component: {fileID: 1680206000141944544}
   - component: {fileID: 1680206000141944550}
   - component: {fileID: 1680206000141944545}
+  - component: {fileID: 3153689963152958994}
   m_Layer: 5
   m_Name: Side2_L
   m_TagString: Untagged
@@ -12475,6 +12950,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &3153689963152958994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680206000141944547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653c0c60debcff3438a5dabedaebdcab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minLocalAngle: -10
+  maxLocalAngle: 20
+  isLeft: 1
+  isRight: 0
+  isHairPart: 1
+  currentTargetAngle: 0
 --- !u!1 &1680206000148703606
 GameObject:
   m_ObjectHideFlags: 0
@@ -12563,6 +13056,7 @@ GameObject:
   - component: {fileID: 1680206000156543430}
   - component: {fileID: 1680206000156543425}
   - component: {fileID: 1680206000156543424}
+  - component: {fileID: 4722075019176645526}
   m_Layer: 5
   m_Name: BackHair
   m_TagString: Untagged
@@ -12650,6 +13144,24 @@ Canvas:
   m_SortingLayerID: 1356546061
   m_SortingOrder: -1
   m_TargetDisplay: 0
+--- !u!114 &4722075019176645526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680206000156543426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653c0c60debcff3438a5dabedaebdcab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minLocalAngle: -180
+  maxLocalAngle: 180
+  isLeft: 0
+  isRight: 0
+  isHairPart: 1
+  currentTargetAngle: 0
 --- !u!1 &1680206000172016992
 GameObject:
   m_ObjectHideFlags: 0
@@ -12965,7 +13477,7 @@ GameObject:
   - component: {fileID: 9100745299347852950}
   - component: {fileID: 1964901527234214144}
   m_Layer: 5
-  m_Name: Neck(FaceController)
+  m_Name: Neck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13115,6 +13627,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4220219286674906977}
+  - component: {fileID: 463532844184101098}
+  - component: {fileID: 7642746403155650879}
   m_Layer: 5
   m_Name: Head
   m_TagString: Untagged
@@ -13147,6 +13661,77 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -28.800007}
   m_SizeDelta: {x: 111, y: 144}
   m_Pivot: {x: 0.5, y: 0.3}
+--- !u!95 &463532844184101098
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2199581020752768199}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7642746403155650879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2199581020752768199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41d1698b5e0fe1940bdb417532854cbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 463532844184101098}
+  mouth_Normal:
+  - {fileID: 1680205998112157096}
+  - {fileID: 1680205998717957328}
+  - {fileID: 1680206000173942806}
+  - {fileID: 1680205998818787349}
+  - {fileID: 1680205999914225593}
+  mouth_M:
+  - {fileID: 4823091856095035907}
+  - {fileID: 8932566168534370006}
+  - {fileID: 5263784679313078752}
+  - {fileID: 8998784044969186568}
+  - {fileID: 2918485698774923069}
+  mouth_A:
+  - {fileID: 4718079862530410250}
+  - {fileID: 2639538950307907867}
+  - {fileID: 15133837291515458}
+  - {fileID: 7330323520562736255}
+  - {fileID: 3023909383547532873}
+  mouth_O:
+  - {fileID: 2403157943021444139}
+  - {fileID: 97228560216799648}
+  - {fileID: 2624415239983648915}
+  - {fileID: 8217359688384559150}
+  - {fileID: 8441637839941289124}
+  eye_Open:
+  - {fileID: 1680205999064309665}
+  - {fileID: 1680205998636846548}
+  - {fileID: 1680205998178978145}
+  - {fileID: 1680205999156493965}
+  - {fileID: 1680205999324138032}
+  eye_Close:
+  - {fileID: 1680205999763427083}
+  - {fileID: 1680205998412492210}
+  - {fileID: 1680206000197033987}
+  - {fileID: 1680205998634542329}
+  - {fileID: 1680205999904994112}
+  blinkLoop: 1
 --- !u!1 &2642550034975635234
 GameObject:
   m_ObjectHideFlags: 0

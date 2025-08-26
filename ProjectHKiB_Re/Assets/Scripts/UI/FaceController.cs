@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
+using System.Text;
+using DG.Tweening;
 using UnityEngine;
 
 public class FaceController : MonoBehaviour
@@ -11,27 +13,135 @@ public class FaceController : MonoBehaviour
     // 
 
     public Animator animator;
+    private Sequence mouthTween;
+    private Sequence sayingTween;
+    private Sequence eyeTween;
+    public Transform[] mouth_Normal;
+    public Transform[] mouth_M;
+    public Transform[] mouth_A;
+    public Transform[] mouth_O;
+    public Transform[] eye_Open;
+    public Transform[] eye_Close;
+
+    public bool blinkLoop = true;
+    private bool blinkInProgress;
+
+    [NaughtyAttributes.ResizableTextArea]
+    public string testPhraseCode;
+    [NaughtyAttributes.Button()]
+    public void SayPhrase() => SayPhrase(testPhraseCode);
+
+    private void SetActives(Transform[] transforms, bool set)
+    {
+        for (int i = 0; i < transforms.Length; i++) transforms[i].gameObject.SetActive(set);
+    }
+
+    public void PlayAnimation(string name)
+    {
+        if (animator) animator.Play(name);
+    }
+
+    public void SayPhrase(string code)
+    {
+        StopSaying();
+        sayingTween = DOTween.Sequence();
+        char prevCode = 'S';
+        for (int i = 0; i < code.Length; i++)
+        {
+            if (code[i] == 'S') { prevCode = 'S'; continue; } // Skip
+            sayingTween.AppendInterval(0.12f);
+            if (code[i] == '_') { prevCode = 'S'; continue; } // Space
+            if (code[i] == 'M') { sayingTween.AppendCallback(SayM); prevCode = 'M'; continue; } // M sound
+            if (code[i] == 'O') { sayingTween.AppendCallback(SayO); prevCode = 'O'; continue; } // O sound
+            if (code[i] == 'A') { sayingTween.AppendCallback(SayA); prevCode = 'A'; continue; } // A sound
+            if (code[i] == 'L') // Link to previous sound
+            {
+                if (prevCode == 'M') { sayingTween.AppendCallback(SayM); prevCode = 'M'; continue; }
+                if (prevCode == 'O') { sayingTween.AppendCallback(SayO); prevCode = 'O'; continue; }
+                if (prevCode == 'A') { sayingTween.AppendCallback(SayA); prevCode = 'A'; continue; }
+            }
+        }
+        sayingTween.Play();
+    }
+
+    [NaughtyAttributes.Button()]
+    public void StopSaying() => sayingTween?.Complete();
+
+    [NaughtyAttributes.Button()]
     public void SayM()
     {
-
+        mouthTween?.Complete();
+        SetActives(mouth_Normal, false);
+        SetActives(mouth_M, true);
+        mouthTween = DOTween.Sequence();
+        mouthTween.AppendInterval(0.36f);
+        mouthTween.OnComplete(SayEnd);
+        mouthTween.Play();
     }
+    [NaughtyAttributes.Button()]
     public void SayA()
     {
-
+        mouthTween?.Complete();
+        SetActives(mouth_Normal, false);
+        SetActives(mouth_A, true);
+        mouthTween = DOTween.Sequence();
+        mouthTween.AppendInterval(0.36f);
+        mouthTween.OnComplete(SayEnd);
+        mouthTween.Play();
     }
+    [NaughtyAttributes.Button()]
     public void SayO()
     {
+        mouthTween?.Complete();
+        SetActives(mouth_Normal, false);
+        SetActives(mouth_O, true);
+        mouthTween = DOTween.Sequence();
+        mouthTween.AppendInterval(0.36f);
+        mouthTween.OnComplete(SayEnd);
+        mouthTween.Play();
+    }
 
+    public void SayEnd()
+    {
+        SetActives(mouth_O, false);
+        SetActives(mouth_A, false);
+        SetActives(mouth_M, false);
+        SetActives(mouth_Normal, true);
+    }
+
+    public void Update()
+    {
+        if (blinkLoop && !blinkInProgress)
+            StartCoroutine(BlinkLoop());
     }
 
     public IEnumerator BlinkLoop()
     {
-        yield return new WaitForSeconds(0);
+        blinkInProgress = true;
+        float interval = UnityEngine.Random.value > 0.05f ? UnityEngine.Random.Range(4f, 10f) : 0.2f;
+        yield return new WaitForSeconds(interval);
+        Blink();
+        blinkInProgress = false;
     }
+
+    [NaughtyAttributes.Button()]
     public void Blink()
     {
-
+        eyeTween?.Complete();
+        SetActives(eye_Close, true);
+        SetActives(eye_Open, false);
+        eyeTween = DOTween.Sequence();
+        eyeTween.AppendInterval(0.12f);
+        eyeTween.OnComplete(BlinkEnd);
+        eyeTween.Play();
     }
+
+    public void BlinkEnd()
+    {
+        SetActives(eye_Close, false);
+        SetActives(eye_Open, true);
+    }
+
     public void ChangeExpression(string animationName)
     {
         animator.Play(animationName);

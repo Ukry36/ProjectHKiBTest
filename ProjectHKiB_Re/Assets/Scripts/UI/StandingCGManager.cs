@@ -14,11 +14,13 @@ public class StandingCGManager : MonoBehaviour
         public float maxLocalAngle;
         public bool isLeft;
         public bool isRight;
+        public bool isHairPart;
         public Tween tween;
         [HideInInspector] public float currentTargetAngle;
     }
 
-    public Animator animator;
+    public Animator bodyAnimator;
+    public FaceController faceController;
     public Color originalColor;
     public Color disabledColor;
     public Color damagedColor;
@@ -29,28 +31,42 @@ public class StandingCGManager : MonoBehaviour
 
     public float defaultImpactStrength = 5;
     public float wind = 0;
-    [NaughtyAttributes.Button()]
-    public void ImpactRight() => ImpactRight(defaultImpactStrength);
-    [NaughtyAttributes.Button()]
-    public void ImpactLeft() => ImpactLeft(defaultImpactStrength);
-    [NaughtyAttributes.Button()]
-    public void ImpactUp() => ImpactUp(defaultImpactStrength);
-    [NaughtyAttributes.Button()]
-    public void ImpactDown() => ImpactDown(defaultImpactStrength);
+    [NaughtyAttributes.Button()] public void ImpactRight() => ImpactRight(defaultImpactStrength, false);
+    [NaughtyAttributes.Button()] public void ImpactLeft() => ImpactLeft(defaultImpactStrength, false);
+    [NaughtyAttributes.Button()] public void ImpactUp() => ImpactUp(defaultImpactStrength, false);
+    [NaughtyAttributes.Button()] public void ImpactDown() => ImpactDown(defaultImpactStrength, false);
 
-    public List<Canvas> canvases;
-    public List<GravityElement> gravityElements;
+    public List<GravityPart> gravityParts;
 
-    public void PlayAnimation(string name)
+    public void Awake()
     {
-        if (animator) animator.Play(name);
+        InitGravityElements();
+    }
+    public void InitGravityElements()
+    {
+        var parts = GetComponentsInChildren<GravityPart>(true);
+        foreach (var part in parts)
+        {
+            gravityParts.Add(part);
+        }
+    }
+
+    public void PlayBodyAnimation(string name)
+    {
+        if (bodyAnimator) bodyAnimator.Play(name);
+    }
+
+    public void PlayFaceAnimation(string name)
+    {
+        if (faceController) faceController.PlayAnimation(name);
     }
 
     private const string UPLAYER = "UpStandingCG";
     private const string DOWNLAYER = "DownStandingCG";
     public void SetSortingLayerUp()
     {
-        for (int i = 0; i < canvases.Count; i++)
+        var canvases = GetComponentsInChildren<Canvas>(true);
+        for (int i = 0; i < canvases.Length; i++)
         {
             canvases[i].sortingLayerName = UPLAYER;
         }
@@ -58,7 +74,8 @@ public class StandingCGManager : MonoBehaviour
 
     public void SetSortingLayerDown()
     {
-        for (int i = 0; i < canvases.Count; i++)
+        var canvases = GetComponentsInChildren<Canvas>(true);
+        for (int i = 0; i < canvases.Length; i++)
         {
             canvases[i].sortingLayerName = DOWNLAYER;
         }
@@ -109,103 +126,111 @@ public class StandingCGManager : MonoBehaviour
 
     private void Update()
     {
-        for (int i = 0; i < gravityElements.Count; i++)
+        for (int i = 0; i < gravityParts.Count; i++)
         {
-            GravityElement element = gravityElements[i];
-            Vector3 currentLocalAngle = element.transform.localEulerAngles;
+            GravityPart part = gravityParts[i];
+            Vector3 currentLocalAngle = part.transform.localEulerAngles;
             if (currentLocalAngle.z < -180f) currentLocalAngle.z += 360;
             if (currentLocalAngle.z > 180f) currentLocalAngle.z -= 360;
-            if (currentLocalAngle.z < element.minLocalAngle)
-                element.transform.localEulerAngles = Vector3.forward * element.minLocalAngle;
-            if (currentLocalAngle.z > element.maxLocalAngle)
-                element.transform.localEulerAngles = Vector3.forward * element.maxLocalAngle;
+            if (currentLocalAngle.z < part.minLocalAngle)
+                part.transform.localEulerAngles = Vector3.forward * part.minLocalAngle;
+            if (currentLocalAngle.z > part.maxLocalAngle)
+                part.transform.localEulerAngles = Vector3.forward * part.maxLocalAngle;
 
 
-            Vector3 targetLocalAngle = -element.transform.parent.eulerAngles + Vector3.forward * wind;
+            Vector3 targetLocalAngle = -part.transform.parent.eulerAngles + Vector3.forward * wind;
             if (targetLocalAngle.z < -180f) targetLocalAngle.z += 360;
             if (targetLocalAngle.z > 180f) targetLocalAngle.z -= 360;
-            float clampedZ = Mathf.Clamp(targetLocalAngle.z, element.minLocalAngle, element.maxLocalAngle);
+            float clampedZ = Mathf.Clamp(targetLocalAngle.z, part.minLocalAngle, part.maxLocalAngle);
             //if (Mathf.Abs(element.transform.localEulerAngles.z - clampedZ) < 0.1f) continue;
-            if (Mathf.Abs(element.currentTargetAngle - clampedZ) < 0.1f)
+            if (Mathf.Abs(part.currentTargetAngle - clampedZ) < 0.1f)
                 continue;
 
-            element.currentTargetAngle = clampedZ;
+            part.currentTargetAngle = clampedZ;
             targetLocalAngle = Vector3.forward * clampedZ;
 
-            element.tween?.Kill();
-            element.tween = element.transform.DOLocalRotate(targetLocalAngle, 0.36f).SetEase(Ease.OutBack);
+            part.tween?.Kill();
+            part.tween = part.transform.DOLocalRotate(targetLocalAngle, 0.36f).SetEase(Ease.OutBack);
         }
     }
 
-    public void ImpactRight(float strength)
+    public void ImpactHairRight(float strength) => ImpactRight(strength, true);
+    public void ImpactRight(float strength, bool onlyHairPart)
     {
         if (strength < 0) return;
-        for (int i = 0; i < gravityElements.Count; i++)
+        for (int i = 0; i < gravityParts.Count; i++)
         {
-            GravityElement element = gravityElements[i];
+            GravityPart part = gravityParts[i];
+            if (onlyHairPart && !part.isHairPart) continue;
 
-            Vector3 targetLocalAngle = element.transform.localEulerAngles + Vector3.forward * strength;
+            Vector3 targetLocalAngle = part.transform.localEulerAngles + Vector3.forward * strength;
             if (targetLocalAngle.z < -180f) targetLocalAngle.z += 360;
             if (targetLocalAngle.z > 180f) targetLocalAngle.z -= 360;
-            float clampedZ = Mathf.Clamp(targetLocalAngle.z, element.minLocalAngle, element.maxLocalAngle);
+            float clampedZ = Mathf.Clamp(targetLocalAngle.z, part.minLocalAngle, part.maxLocalAngle);
 
-            element.currentTargetAngle = clampedZ;
+            part.currentTargetAngle = clampedZ;
             targetLocalAngle = Vector3.forward * clampedZ;
-            element.transform.localEulerAngles = targetLocalAngle;
+            part.transform.localEulerAngles = targetLocalAngle;
         }
     }
 
-    public void ImpactLeft(float strength)
+    public void ImpactHairLeft(float strength) => ImpactLeft(strength, true);
+    public void ImpactLeft(float strength, bool onlyHairPart)
     {
         if (strength < 0) return;
-        for (int i = 0; i < gravityElements.Count; i++)
+        for (int i = 0; i < gravityParts.Count; i++)
         {
-            GravityElement element = gravityElements[i];
+            GravityPart part = gravityParts[i];
+            if (onlyHairPart && !part.isHairPart) continue;
 
-            Vector3 targetLocalAngle = element.transform.localEulerAngles - Vector3.forward * strength;
+            Vector3 targetLocalAngle = part.transform.localEulerAngles - Vector3.forward * strength;
             if (targetLocalAngle.z < -180f) targetLocalAngle.z += 360;
             if (targetLocalAngle.z > 180f) targetLocalAngle.z -= 360;
-            float clampedZ = Mathf.Clamp(targetLocalAngle.z, element.minLocalAngle, element.maxLocalAngle);
+            float clampedZ = Mathf.Clamp(targetLocalAngle.z, part.minLocalAngle, part.maxLocalAngle);
 
-            element.currentTargetAngle = clampedZ;
+            part.currentTargetAngle = clampedZ;
             targetLocalAngle = Vector3.forward * clampedZ;
-            element.transform.localEulerAngles = targetLocalAngle;
+            part.transform.localEulerAngles = targetLocalAngle;
         }
     }
 
-    public void ImpactUp(float strength)
+    public void ImpactHairUp(float strength) => ImpactUp(strength, true);
+    public void ImpactUp(float strength, bool onlyHairPart)
     {
         if (strength < 0) return;
-        for (int i = 0; i < gravityElements.Count; i++)
+        for (int i = 0; i < gravityParts.Count; i++)
         {
-            GravityElement element = gravityElements[i];
+            GravityPart part = gravityParts[i];
+            if (onlyHairPart && !part.isHairPart) continue;
 
-            Vector3 targetLocalAngle = element.transform.localEulerAngles + (element.isLeft ? -1 : element.isRight ? 1 : 0) * strength * Vector3.forward;
+            Vector3 targetLocalAngle = part.transform.localEulerAngles + (part.isLeft ? -1 : part.isRight ? 1 : 0) * strength * Vector3.forward;
             if (targetLocalAngle.z < -180f) targetLocalAngle.z += 360;
             if (targetLocalAngle.z > 180f) targetLocalAngle.z -= 360;
-            float clampedZ = Mathf.Clamp(targetLocalAngle.z, element.minLocalAngle, element.maxLocalAngle);
+            float clampedZ = Mathf.Clamp(targetLocalAngle.z, part.minLocalAngle, part.maxLocalAngle);
 
-            element.currentTargetAngle = clampedZ;
+            part.currentTargetAngle = clampedZ;
             targetLocalAngle = Vector3.forward * clampedZ;
-            element.transform.localEulerAngles = targetLocalAngle;
+            part.transform.localEulerAngles = targetLocalAngle;
         }
     }
 
-    public void ImpactDown(float strength)
+    public void ImpactHairDown(float strength) => ImpactDown(strength, true);
+    public void ImpactDown(float strength, bool onlyHairPart)
     {
         if (strength < 0) return;
-        for (int i = 0; i < gravityElements.Count; i++)
+        for (int i = 0; i < gravityParts.Count; i++)
         {
-            GravityElement element = gravityElements[i];
+            GravityPart part = gravityParts[i];
+            if (onlyHairPart && !part.isHairPart) continue;
 
-            Vector3 targetLocalAngle = element.transform.localEulerAngles - (element.isLeft ? -1 : element.isRight ? 1 : 0) * strength * Vector3.forward;
+            Vector3 targetLocalAngle = part.transform.localEulerAngles - (part.isLeft ? -1 : part.isRight ? 1 : 0) * strength * Vector3.forward;
             if (targetLocalAngle.z < -180f) targetLocalAngle.z += 360;
             if (targetLocalAngle.z > 180f) targetLocalAngle.z -= 360;
-            float clampedZ = Mathf.Clamp(targetLocalAngle.z, element.minLocalAngle, element.maxLocalAngle);
+            float clampedZ = Mathf.Clamp(targetLocalAngle.z, part.minLocalAngle, part.maxLocalAngle);
 
-            element.currentTargetAngle = clampedZ;
+            part.currentTargetAngle = clampedZ;
             targetLocalAngle = Vector3.forward * clampedZ;
-            element.transform.localEulerAngles = targetLocalAngle;
+            part.transform.localEulerAngles = targetLocalAngle;
         }
     }
 }
