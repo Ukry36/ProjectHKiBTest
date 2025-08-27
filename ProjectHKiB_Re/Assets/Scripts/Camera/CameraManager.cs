@@ -13,7 +13,7 @@ public class CameraManager : MonoBehaviour
     [SerializeField] private CinemachineVirtualCamera[] Cameras = new CinemachineVirtualCamera[2];
     private CinemachineConfiner2D[] Confiners = new CinemachineConfiner2D[2];
     [SerializeField] private CinemachineBrain CBrain;
-    private Camera theCamera;
+    public Camera theCamera;
 
     [SerializeField] private BGRenderer bgrenderer;
 
