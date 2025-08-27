@@ -14879,6 +14879,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 415581605}
     m_Modifications:
+    - target: {fileID: 1680205998408020035, guid: 23896f32bbaa13941ad64d126367938c, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -254754391, guid: 8086a6b051f0ba54bbf758a428a81014, type: 3}
+    - target: {fileID: 1680205999231180409, guid: 23896f32bbaa13941ad64d126367938c, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 851385324, guid: 8086a6b051f0ba54bbf758a428a81014, type: 3}
+    - target: {fileID: 1680205999247431087, guid: 23896f32bbaa13941ad64d126367938c, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 1908682481, guid: 8086a6b051f0ba54bbf758a428a81014, type: 3}
     - target: {fileID: 1680205999910873712, guid: 23896f32bbaa13941ad64d126367938c, type: 3}
       propertyPath: m_Name
       value: Delta_Hadaka
@@ -14967,14 +14979,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7642746403155650879, guid: 23896f32bbaa13941ad64d126367938c, type: 3}
-      propertyPath: testPhrase
-      value: "\u314E\u3154\u3139\u3139\u3157\u3147\u315C\u3153\u3139\u3137\u3161"
-      objectReference: {fileID: 0}
-    - target: {fileID: 7642746403155650879, guid: 23896f32bbaa13941ad64d126367938c, type: 3}
-      propertyPath: testPhraseCode
-      value: AOSSMAL_LALMO
-      objectReference: {fileID: 0}
+    - target: {fileID: 1680206000121698641, guid: 23896f32bbaa13941ad64d126367938c, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -643941094, guid: 8086a6b051f0ba54bbf758a428a81014, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 23896f32bbaa13941ad64d126367938c, type: 3}
 --- !u!1001 &7435482704304094572
