@@ -15,6 +15,7 @@ public class FaceController : MonoBehaviour
     public Transform[] mouth_M;
     public Transform[] mouth_A;
     public Transform[] mouth_O;
+    public Transform[] mouth_E;
     public Transform[] eye_Open;
     public Transform[] eye_Close;
 
@@ -43,18 +44,22 @@ public class FaceController : MonoBehaviour
         char prevCode = 'S';
         for (int i = 0; i < code.Length; i++)
         {
-            if (code[i] == 'S') { prevCode = 'S'; continue; } // Skip
-            sayingTween.AppendInterval(0.12f);
-            if (code[i] == '_') { prevCode = 'S'; continue; } // Space
-            if (code[i] == 'M') { sayingTween.AppendCallback(SayM); prevCode = 'M'; continue; } // M sound
-            if (code[i] == 'O') { sayingTween.AppendCallback(SayO); prevCode = 'O'; continue; } // O sound
-            if (code[i] == 'A') { sayingTween.AppendCallback(SayA); prevCode = 'A'; continue; } // A sound
+            float interval = 0.12f;
+            if (code[i] == 'S') { prevCode = 'S'; interval = 0; } // Skip
+
+            if (code[i] == '_') { prevCode = '_'; } // Space
+            if (code[i] == 'M') { sayingTween.AppendCallback(SayM); prevCode = 'M'; interval = 0.06f; } // M sound
+            if (code[i] == 'O') { sayingTween.AppendCallback(SayO); prevCode = 'O'; } // O sound
+            if (code[i] == 'A') { sayingTween.AppendCallback(SayA); prevCode = 'A'; } // A sound
+            if (code[i] == 'E') { sayingTween.AppendCallback(SayE); prevCode = 'E'; } // E sound
             if (code[i] == 'L') // Link to previous sound
             {
-                if (prevCode == 'M') { sayingTween.AppendCallback(SayM); prevCode = 'M'; continue; }
-                if (prevCode == 'O') { sayingTween.AppendCallback(SayO); prevCode = 'O'; continue; }
-                if (prevCode == 'A') { sayingTween.AppendCallback(SayA); prevCode = 'A'; continue; }
+                if (prevCode == 'M') { sayingTween.AppendCallback(SayM); prevCode = 'M'; interval = 0.06f; }
+                if (prevCode == 'O') { sayingTween.AppendCallback(SayO); prevCode = 'O'; }
+                if (prevCode == 'A') { sayingTween.AppendCallback(SayA); prevCode = 'A'; }
+                if (prevCode == 'E') { sayingTween.AppendCallback(SayA); prevCode = 'E'; }
             }
+            sayingTween.AppendInterval(interval);
         }
         sayingTween.Play();
     }
@@ -69,7 +74,7 @@ public class FaceController : MonoBehaviour
         SetActives(mouth_Normal, false);
         SetActives(mouth_M, true);
         mouthTween = DOTween.Sequence();
-        mouthTween.AppendInterval(0.36f);
+        mouthTween.AppendInterval(0.25f);
         mouthTween.OnComplete(SayEnd);
         mouthTween.Play();
     }
@@ -80,7 +85,7 @@ public class FaceController : MonoBehaviour
         SetActives(mouth_Normal, false);
         SetActives(mouth_A, true);
         mouthTween = DOTween.Sequence();
-        mouthTween.AppendInterval(0.36f);
+        mouthTween.AppendInterval(0.25f);
         mouthTween.OnComplete(SayEnd);
         mouthTween.Play();
     }
@@ -91,7 +96,18 @@ public class FaceController : MonoBehaviour
         SetActives(mouth_Normal, false);
         SetActives(mouth_O, true);
         mouthTween = DOTween.Sequence();
-        mouthTween.AppendInterval(0.36f);
+        mouthTween.AppendInterval(0.25f);
+        mouthTween.OnComplete(SayEnd);
+        mouthTween.Play();
+    }
+    [NaughtyAttributes.Button()]
+    public void SayE()
+    {
+        mouthTween?.Complete();
+        SetActives(mouth_Normal, false);
+        SetActives(mouth_E, true);
+        mouthTween = DOTween.Sequence();
+        mouthTween.AppendInterval(0.25f);
         mouthTween.OnComplete(SayEnd);
         mouthTween.Play();
     }
@@ -101,6 +117,7 @@ public class FaceController : MonoBehaviour
         SetActives(mouth_O, false);
         SetActives(mouth_A, false);
         SetActives(mouth_M, false);
+        SetActives(mouth_E, false);
         SetActives(mouth_Normal, true);
     }
 

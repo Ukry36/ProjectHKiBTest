@@ -159,8 +159,8 @@ TextureImporter:
       name: Face_Mouth_Default_3
       rect:
         serializedVersion: 2
-        x: 0
-        y: 432
+        x: 336
+        y: 576
         width: 111
         height: 144
       alignment: 0
@@ -180,7 +180,7 @@ TextureImporter:
       name: Face_Mouth_Default_4
       rect:
         serializedVersion: 2
-        x: 112
+        x: 0
         y: 432
         width: 111
         height: 144
@@ -201,7 +201,7 @@ TextureImporter:
       name: Face_Mouth_Default_5
       rect:
         serializedVersion: 2
-        x: 224
+        x: 112
         y: 432
         width: 111
         height: 144
@@ -222,8 +222,8 @@ TextureImporter:
       name: Face_Mouth_Default_6
       rect:
         serializedVersion: 2
-        x: 0
-        y: 288
+        x: 224
+        y: 432
         width: 111
         height: 144
       alignment: 0
@@ -243,8 +243,8 @@ TextureImporter:
       name: Face_Mouth_Default_7
       rect:
         serializedVersion: 2
-        x: 112
-        y: 288
+        x: 336
+        y: 432
         width: 111
         height: 144
       alignment: 0
@@ -264,7 +264,7 @@ TextureImporter:
       name: Face_Mouth_Default_8
       rect:
         serializedVersion: 2
-        x: 224
+        x: 0
         y: 288
         width: 111
         height: 144
@@ -285,8 +285,8 @@ TextureImporter:
       name: Face_Mouth_Default_9
       rect:
         serializedVersion: 2
-        x: 0
-        y: 144
+        x: 112
+        y: 288
         width: 111
         height: 144
       alignment: 0
@@ -306,8 +306,8 @@ TextureImporter:
       name: Face_Mouth_Default_10
       rect:
         serializedVersion: 2
-        x: 112
-        y: 144
+        x: 224
+        y: 288
         width: 111
         height: 144
       alignment: 0
@@ -327,8 +327,8 @@ TextureImporter:
       name: Face_Mouth_Default_11
       rect:
         serializedVersion: 2
-        x: 224
-        y: 144
+        x: 336
+        y: 288
         width: 111
         height: 144
       alignment: 0
@@ -349,7 +349,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
+        y: 144
         width: 111
         height: 144
       alignment: 0
@@ -370,7 +370,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 112
-        y: 0
+        y: 144
         width: 111
         height: 144
       alignment: 0
@@ -391,7 +391,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 224
-        y: 0
+        y: 144
         width: 111
         height: 144
       alignment: 0
@@ -403,6 +403,111 @@ TextureImporter:
       bones: []
       spriteID: 36513401d4bad2e4fa750d95a25b74f0
       internalID: -7702109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Face_Mouth_Default_15
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 144
+        width: 111
+        height: 144
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5c31d91ebd0edb34fb070bc75b12b154
+      internalID: 1547242876
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Face_Mouth_Default_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 111
+        height: 144
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e1db9ba2519ac8458a1686bd08a1706
+      internalID: 1271162020
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Face_Mouth_Default_17
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 0
+        width: 111
+        height: 144
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3fbeb512cda2eb940a1b39e6ee5b908e
+      internalID: -391058547
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Face_Mouth_Default_18
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 0
+        width: 111
+        height: 144
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3d5a618f3b5bf2b4d8920744d00d08af
+      internalID: 673907816
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Face_Mouth_Default_19
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 0
+        width: 111
+        height: 144
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ed18537bc0164a046895b26b21a3f3fe
+      internalID: 1559881318
       vertices: []
       indices: 
       edges: []
@@ -425,6 +530,11 @@ TextureImporter:
       Face_Mouth_Default_12: -1944456892
       Face_Mouth_Default_13: 309959980
       Face_Mouth_Default_14: -7702109
+      Face_Mouth_Default_15: 1547242876
+      Face_Mouth_Default_16: 1271162020
+      Face_Mouth_Default_17: -391058547
+      Face_Mouth_Default_18: 673907816
+      Face_Mouth_Default_19: 1559881318
       Face_Mouth_Default_2: 1380160886
       Face_Mouth_Default_3: -1498654747
       Face_Mouth_Default_4: -774042265
