@@ -31,7 +31,7 @@ public class CardSelectorParent : MonoBehaviour, IPointerExitHandler
         sequences.Clear();
     }
 
-    public void Start()
+    public void Awake()
     {
         for (int i = 0; i < cards.Length; i++)
         {
@@ -39,7 +39,7 @@ public class CardSelectorParent : MonoBehaviour, IPointerExitHandler
             cards[i].PointerEnterEvent.AddListener(OnCardOfIndexEnter);
         }
         topCard.PointerEnterEvent.AddListener(OnTopCardEnter);
-        UpdateCards(temp);
+        UpdateCardDatas(temp);
         topCard.SetCardData(activeCards[0].cardData, 0);
     }
 
@@ -72,7 +72,7 @@ public class CardSelectorParent : MonoBehaviour, IPointerExitHandler
         sequences.Add(sequence);
     }
 
-    public void UpdateCards(List<CardData> cardDatas)
+    public void UpdateCardDatas(List<CardData> cardDatas)
     {
         cardDatas ??= new() { new() };
         max = cardDatas.Count;

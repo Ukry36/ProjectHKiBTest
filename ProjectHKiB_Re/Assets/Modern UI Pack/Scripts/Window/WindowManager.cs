@@ -48,6 +48,7 @@ namespace Michsky.MUIP
             public GameObject buttonObject;
             public GameObject firstSelected;
             public UnityEvent OnWindowShow;
+            public UnityEvent OnWindowHide;
         }
 
         void Awake()
@@ -110,12 +111,21 @@ namespace Michsky.MUIP
             }
         }
 
+        public void InvokeChangeWindowEvents()
+        {
+            for (int i = 0; i < windows.Count; i++)
+            {
+                if (i == currentWindowIndex) windows[i].OnWindowShow.Invoke();
+                else windows[i].OnWindowHide.Invoke();
+            }
+            onWindowChange.Invoke(currentWindowIndex);
+        }
+
         public void OpenFirstTab()
         {
             if (currentWindowIndex != 0)
             {
                 currentWindow = windows[currentWindowIndex].windowObject;
-                windows[currentWindowIndex].OnWindowShow.Invoke();
                 currentWindowAnimator = currentWindow.GetComponent<Animator>();
                 currentWindowAnimator.Play(windowFadeOut);
 
@@ -140,8 +150,7 @@ namespace Michsky.MUIP
                     currentButton = currentButtonObj.GetComponent<ButtonManager>();
                     currentButton.PlayHoverAnimation();
                 }
-
-                onWindowChange.Invoke(currentWindowIndex);
+                InvokeChangeWindowEvents();
             }
 
             else if (currentWindowIndex == 0)
@@ -173,7 +182,6 @@ namespace Michsky.MUIP
 
             if (newWindowIndex != currentWindowIndex)
             {
-                windows[newWindowIndex].OnWindowShow.Invoke();
                 if (cullWindows == true)
                     StopCoroutine("DisablePreviousWindow");
 
@@ -209,7 +217,7 @@ namespace Michsky.MUIP
                     nextButtonAnimator.PlayHoverAnimation();
                 }
 
-                onWindowChange.Invoke(currentWindowIndex);
+                InvokeChangeWindowEvents();
             }
         }
 

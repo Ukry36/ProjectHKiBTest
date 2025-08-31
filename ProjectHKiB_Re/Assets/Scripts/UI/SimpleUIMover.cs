@@ -1,90 +1,58 @@
-using System.Collections;
+using UnityEngine.UI;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class SimpleUIMover : MonoBehaviour
 {
-    public enum MoveMode
-    {
-        Move, Enable, Disable
-    }
-    [SerializeField] private bool _enabled;
-    public int defaultPositionIndex;
-    [SerializeField] private Vector2[] _presetLocalPositions;
-    [SerializeField] private int _truePositionIndex;
-    [SerializeField] private int _falsePositionIndex;
-    [SerializeField] private float _delay;
-    [SerializeField] private float _duration;
-    private Sequence _sequence;
-    [SerializeField] private Animator _animator;
-    [SerializeField] private float _inAnimationDuration;
-    [SerializeField] private float _outAnimationDuration;
-
+    public SimpleUIAnimator UIAnimator;
+    [SerializeField] private Transform[] _positionPresets;
+    [SerializeField] private float _moveDuration;
+    [SerializeField] private bool _moveBetweenAnimation;
+    private Sequence _moveSequence;
+    [SerializeField] private int _currentPosIndex;
     public UnityEvent<bool> OnSetInteractable;
+    public UnityEvent OnStartMove;
+    public UnityEvent OnEndMove;
 
+    public Transform GetCurrentPos() => _positionPresets[_currentPosIndex];
     public void SetInteractable(bool set)
     {
         OnSetInteractable?.Invoke(set);
     }
 
-    public void MovePosition(Vector2 localPos, MoveMode mode)
+    public void Move(int index)
     {
-        if (mode == MoveMode.Disable && _enabled == false) return;
-        if (mode == MoveMode.Enable && _enabled == true) return;
-        if (mode == MoveMode.Move && _enabled == false) mode = MoveMode.Enable;
+        if (_currentPosIndex == index) return;
+        _currentPosIndex = index;
+        //transform.position = _enableStartPosition.position;
         SetInteractable(false);
-        Complete();
-        _sequence = DOTween.Sequence();
-        _sequence.AppendInterval(_delay);
-        if (_animator != null && (mode == MoveMode.Move || mode == MoveMode.Disable))
+        OnStartMove?.Invoke();
+        _moveSequence?.Complete();
+        _moveSequence = DOTween.Sequence();
+        if (UIAnimator)
         {
-            _sequence.AppendCallback(() => _animator.Play("Out"));
-            _sequence.AppendInterval(_inAnimationDuration);
-            _sequence.AppendCallback(() => _animator.Play(mode == MoveMode.Disable ? "Disabled" : "Moving"));
-            _enabled = false;
+            UIAnimator.SetAnimationOut();
+            if (_moveBetweenAnimation) _moveSequence.AppendInterval(UIAnimator.GetOutwardDuration());
         }
-        _sequence.Append(transform.DOLocalMove(localPos, _duration));
-        if (mode == MoveMode.Move || mode == MoveMode.Enable)
+
+        _moveSequence.Append(transform.DOMove(_positionPresets[index].position, _moveDuration));
+        if (UIAnimator)
         {
-            if (_animator != null)
+            if (_moveBetweenAnimation)
             {
-                _sequence.AppendCallback(() => _animator.Play("In"));
-                _sequence.AppendInterval(_outAnimationDuration);
-                _sequence.AppendCallback(() => _animator.Play("Enabled"));
+                _moveSequence.AppendCallback(() => UIAnimator.SetAnimationIn());
+                _moveSequence.AppendInterval(UIAnimator.GetInwardDuration());
             }
-            _sequence.AppendCallback(() => SetInteractable(true));
-            _enabled = true;
+            else
+            {
+                float inTime = _moveDuration - UIAnimator.GetInwardDuration();
+                if (inTime < UIAnimator.GetOutwardDuration()) inTime = UIAnimator.GetOutwardDuration();
+                _moveSequence.InsertCallback(inTime, () => UIAnimator.SetAnimationIn());
+            }
         }
-        _sequence.Play();
+        _moveSequence.AppendCallback(() => SetInteractable(true));
+        _moveSequence.OnComplete(() => OnEndMove?.Invoke());
+        _moveSequence.Play();
     }
-    public void MovePosition(int index, MoveMode mode)
-    {
-        if (_presetLocalPositions.Length <= index) return;
-        MovePosition(_presetLocalPositions[index], mode);
-    }
-    public void MovePositionDefault() => MovePosition(defaultPositionIndex, MoveMode.Move);
-    public void MovePosition(int index) => MovePosition(index, MoveMode.Move);
-    public void ResetPosition() => MovePosition(Vector2.zero, MoveMode.Move);
-    public void Enable(Vector2 localPos) => MovePosition(localPos, MoveMode.Enable);
-    public void Enable(int index) => MovePosition(index, MoveMode.Enable);
-    public void Enable() => Enable(Vector2.zero);
-    public void Disable() => MovePosition(transform.localPosition, MoveMode.Disable);
-    public void TogglePosition(bool set)
-    {
-        if (set)
-        {
-            MovePosition(_truePositionIndex, MoveMode.Move);
-            defaultPositionIndex = _truePositionIndex;
-        }
-        else
-        {
-            MovePosition(_falsePositionIndex, MoveMode.Move);
-            defaultPositionIndex = _falsePositionIndex;
-        }
-    }
-
-    public void Kill() => _sequence?.Kill();
-
-    public void Complete() => _sequence?.Complete();
 }
