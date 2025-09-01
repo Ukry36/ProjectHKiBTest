@@ -66,16 +66,20 @@ namespace Michsky.MUIP
                         {
                             for (int i = 0; i < wmTarget.windows.Count; i++)
                             {
-                                if (i == currentWindowIndex.intValue) 
+                                if (i == currentWindowIndex.intValue)
                                 {
-                                    var tempCG = wmTarget.windows[currentWindowIndex.intValue].windowObject.GetComponent<CanvasGroup>();
-                                    if (tempCG != null) { tempCG.alpha = 1; }
+                                    if (wmTarget.windows[currentWindowIndex.intValue].windowObject.TryGetComponent(out SimpleUIActivator component))
+                                    {
+                                        component.InstantSetEnable();
+                                    }
                                 }
 
                                 else if (wmTarget.windows[i].windowObject != null)
                                 {
-                                    var tempCG = wmTarget.windows[i].windowObject.GetComponent<CanvasGroup>();
-                                    if (tempCG != null) { tempCG.alpha = 0; }
+                                    if (wmTarget.windows[i].windowObject.TryGetComponent(out SimpleUIActivator component))
+                                    {
+                                        component.InstantSetDisable();
+                                    }
                                 }
                             }
                         }
