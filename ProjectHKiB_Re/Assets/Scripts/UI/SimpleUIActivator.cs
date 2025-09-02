@@ -6,6 +6,7 @@ using UnityEngine.Events;
 public class SimpleUIActivator : MonoBehaviour
 {
     public SimpleUIAnimator UIAnimator;
+    public bool useCanvasGroupToCull = true;
     public bool UIEnabled;
     public bool useMove;
     public bool useUIMoverAsEnablePos;
@@ -64,7 +65,7 @@ public class SimpleUIActivator : MonoBehaviour
         if (!useMove) _moveDuration = 0;
         float interval = _moveDuration;
         if (UIAnimator) interval = UIAnimator.GetInwardDuration() > _moveDuration ? UIAnimator.GetInwardDuration() : _moveDuration;
-        gameObject.SetActive(true);
+        SetActiveManage(true);
         OnStartEnable?.Invoke();
         _setActiveSequence?.Complete();
         _setActiveSequence = DOTween.Sequence();
@@ -84,7 +85,7 @@ public class SimpleUIActivator : MonoBehaviour
         _setActiveSequence?.Complete();
         _setActiveSequence = DOTween.Sequence();
         _setActiveSequence.AppendInterval(interval);
-        _setActiveSequence.AppendCallback(() => gameObject.SetActive(false));
+        _setActiveSequence.AppendCallback(() => SetActiveManage(false));
         _setActiveSequence.AppendCallback(() => OnEndDisable?.Invoke());
         _setActiveSequence.OnComplete(() => SetInteractable(true));
         _setActiveSequence.Play();
@@ -113,15 +114,16 @@ public class SimpleUIActivator : MonoBehaviour
     {
         if (UIEnabled) return;
         UIEnabled = true;
-        gameObject.SetActive(true);
+        SetActiveManage(true);
         OnStartEnable?.Invoke();
         OnEndEnable?.Invoke();
     }
+
     public void InstantSetDisable()
     {
         if (!UIEnabled) return;
         UIEnabled = false;
-        gameObject.SetActive(false);
+        SetActiveManage(false);
         OnStartDisable?.Invoke();
         OnEndDisable?.Invoke();
     }
@@ -130,5 +132,17 @@ public class SimpleUIActivator : MonoBehaviour
     {
         if (active) SetEnable();
         else SetDisable();
+    }
+
+    private void SetActiveManage(bool set)
+    {
+        if (useCanvasGroupToCull)
+        {
+            GetComponent<CanvasGroup>().alpha = set ? 1 : 0;
+        }
+        else
+        {
+            gameObject.SetActive(set);
+        }
     }
 }
