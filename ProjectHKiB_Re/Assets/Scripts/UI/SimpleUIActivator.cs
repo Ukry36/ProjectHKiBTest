@@ -23,6 +23,8 @@ public class SimpleUIActivator : MonoBehaviour
 
     public UnityEvent<bool> OnSetInteractable;
     public UnityEvent OnStartEnable;
+    public UnityEvent OnEndEnable;
+    public UnityEvent OnStartDisable;
     public UnityEvent OnEndDisable;
 
     public void SetInteractable(bool set)
@@ -67,6 +69,7 @@ public class SimpleUIActivator : MonoBehaviour
         _setActiveSequence?.Complete();
         _setActiveSequence = DOTween.Sequence();
         _setActiveSequence.AppendInterval(interval);
+        _setActiveSequence.AppendCallback(() => OnEndEnable?.Invoke());
         _setActiveSequence.OnComplete(() => SetInteractable(true));
         _setActiveSequence.Play();
     }
@@ -77,6 +80,7 @@ public class SimpleUIActivator : MonoBehaviour
         if (!useMove) _moveDuration = 0;
         float interval = _moveDuration;
         if (UIAnimator) interval = UIAnimator.GetOutwardDuration() > _moveDuration ? UIAnimator.GetOutwardDuration() : _moveDuration;
+        OnStartDisable?.Invoke();
         _setActiveSequence?.Complete();
         _setActiveSequence = DOTween.Sequence();
         _setActiveSequence.AppendInterval(interval);
@@ -111,12 +115,14 @@ public class SimpleUIActivator : MonoBehaviour
         UIEnabled = true;
         gameObject.SetActive(true);
         OnStartEnable?.Invoke();
+        OnEndEnable?.Invoke();
     }
     public void InstantSetDisable()
     {
         if (!UIEnabled) return;
         UIEnabled = false;
         gameObject.SetActive(false);
+        OnStartDisable?.Invoke();
         OnEndDisable?.Invoke();
     }
 
