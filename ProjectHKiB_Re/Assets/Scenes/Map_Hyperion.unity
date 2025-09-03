@@ -72322,6 +72322,14 @@ PrefabInstance:
       propertyPath: chunk
       value: 
       objectReference: {fileID: 1415830224}
+    - target: {fileID: 3072605165346283511, guid: 5b9ff4e1b9d7cd84b99e76ddb12dad1b, type: 3}
+      propertyPath: _contactFilter.useLayerMask
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3072605165346283511, guid: 5b9ff4e1b9d7cd84b99e76ddb12dad1b, type: 3}
+      propertyPath: _contactFilter.layerMask.m_Bits
+      value: 1024
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5b9ff4e1b9d7cd84b99e76ddb12dad1b, type: 3}
 --- !u!4 &1290756173812810817 stripped

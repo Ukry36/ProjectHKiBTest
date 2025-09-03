@@ -138,7 +138,10 @@ public class SimpleUIActivator : MonoBehaviour
     {
         if (useCanvasGroupToCull)
         {
-            GetComponent<CanvasGroup>().alpha = set ? 1 : 0;
+            CanvasGroup canvasGroup = GetComponent<CanvasGroup>();
+            canvasGroup.alpha = set ? 1 : 0;
+            canvasGroup.blocksRaycasts = set;
+            canvasGroup.interactable = set;
         }
         else
         {

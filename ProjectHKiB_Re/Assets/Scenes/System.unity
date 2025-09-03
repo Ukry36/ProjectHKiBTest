@@ -1638,8 +1638,8 @@ CanvasGroup:
   m_GameObject: {fileID: 205304264}
   m_Enabled: 1
   m_Alpha: 0
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!1001 &206489945
 PrefabInstance:
@@ -2541,11 +2541,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7435482704274543098, guid: c88f7d663c9c48d4a8e8077e7f21ea18, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.000024795532
+      value: 32.000046
       objectReference: {fileID: 0}
     - target: {fileID: 7435482704274543098, guid: c88f7d663c9c48d4a8e8077e7f21ea18, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -15.999995
       objectReference: {fileID: 0}
     - target: {fileID: 7435482704274543098, guid: c88f7d663c9c48d4a8e8077e7f21ea18, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -3032,11 +3032,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7435482704274543098, guid: c88f7d663c9c48d4a8e8077e7f21ea18, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.000024795532
+      value: 32.000046
       objectReference: {fileID: 0}
     - target: {fileID: 7435482704274543098, guid: c88f7d663c9c48d4a8e8077e7f21ea18, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -15.999995
       objectReference: {fileID: 0}
     - target: {fileID: 7435482704274543098, guid: c88f7d663c9c48d4a8e8077e7f21ea18, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -3257,6 +3257,7 @@ GameObject:
   - component: {fileID: 415581605}
   - component: {fileID: 415581607}
   - component: {fileID: 415581606}
+  - component: {fileID: 415581608}
   m_Layer: 5
   m_Name: StandingCGParentRight
   m_TagString: Untagged
@@ -3299,7 +3300,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UIAnimator: {fileID: 0}
-  useCanvasGroupToCull: 0
+  useCanvasGroupToCull: 1
   UIEnabled: 1
   useMove: 1
   useUIMoverAsEnablePos: 1
@@ -3354,6 +3355,18 @@ MonoBehaviour:
   OnEndMove:
     m_PersistentCalls:
       m_Calls: []
+--- !u!225 &415581608
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 415581604}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &418059050
 GameObject:
   m_ObjectHideFlags: 0
@@ -4977,37 +4990,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 478776824229062739, guid: 47aaf2294ab8866429876889903253cd, type: 3}
   m_PrefabInstance: {fileID: 1301509332}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &799744386
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 799744387}
-  m_Layer: 0
-  m_Name: Tem
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &799744387
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 799744386}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &805029442
 GameObject:
   m_ObjectHideFlags: 0
@@ -5162,11 +5144,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7435482704274543098, guid: c88f7d663c9c48d4a8e8077e7f21ea18, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.000024795532
+      value: 32.000046
       objectReference: {fileID: 0}
     - target: {fileID: 7435482704274543098, guid: c88f7d663c9c48d4a8e8077e7f21ea18, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -15.999995
       objectReference: {fileID: 0}
     - target: {fileID: 7435482704274543098, guid: c88f7d663c9c48d4a8e8077e7f21ea18, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -5378,8 +5360,8 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_SizeDelta: {x: 64, y: 32}
+  m_Pivot: {x: 1, y: 0}
 --- !u!114 &864839767
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5432,7 +5414,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UIAnimator: {fileID: 0}
-  useCanvasGroupToCull: 0
+  useCanvasGroupToCull: 1
   UIEnabled: 1
   useMove: 1
   useUIMoverAsEnablePos: 1
@@ -5745,8 +5727,8 @@ CanvasGroup:
   m_GameObject: {fileID: 884835936}
   m_Enabled: 1
   m_Alpha: 0
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!222 &884835940
 CanvasRenderer:
@@ -10451,11 +10433,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7435482704274543098, guid: c88f7d663c9c48d4a8e8077e7f21ea18, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.000024795532
+      value: 32.000046
       objectReference: {fileID: 0}
     - target: {fileID: 7435482704274543098, guid: c88f7d663c9c48d4a8e8077e7f21ea18, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -15.999995
       objectReference: {fileID: 0}
     - target: {fileID: 7435482704274543098, guid: c88f7d663c9c48d4a8e8077e7f21ea18, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -11162,11 +11144,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7435482704274543098, guid: c88f7d663c9c48d4a8e8077e7f21ea18, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.000024795532
+      value: 32.000046
       objectReference: {fileID: 0}
     - target: {fileID: 7435482704274543098, guid: c88f7d663c9c48d4a8e8077e7f21ea18, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -15.999995
       objectReference: {fileID: 0}
     - target: {fileID: 7435482704274543098, guid: c88f7d663c9c48d4a8e8077e7f21ea18, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -11280,8 +11262,8 @@ CanvasGroup:
   m_GameObject: {fileID: 1417964711}
   m_Enabled: 1
   m_Alpha: 0
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!222 &1417964715
 CanvasRenderer:
@@ -12465,11 +12447,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7435482704274543098, guid: c88f7d663c9c48d4a8e8077e7f21ea18, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.000024795532
+      value: 32.000046
       objectReference: {fileID: 0}
     - target: {fileID: 7435482704274543098, guid: c88f7d663c9c48d4a8e8077e7f21ea18, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -15.999995
       objectReference: {fileID: 0}
     - target: {fileID: 7435482704274543098, guid: c88f7d663c9c48d4a8e8077e7f21ea18, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -13398,8 +13380,8 @@ CanvasGroup:
   m_GameObject: {fileID: 1633262328}
   m_Enabled: 1
   m_Alpha: 0
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!1 &1645189911
 GameObject:
@@ -13450,8 +13432,8 @@ CanvasGroup:
   m_GameObject: {fileID: 1645189911}
   m_Enabled: 1
   m_Alpha: 0
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!222 &1645189915
 CanvasRenderer:
@@ -15375,8 +15357,8 @@ CanvasGroup:
   m_GameObject: {fileID: 1829566538}
   m_Enabled: 1
   m_Alpha: 0
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!222 &1829566542
 CanvasRenderer:
@@ -18010,8 +17992,8 @@ CanvasGroup:
   m_GameObject: {fileID: 2131616334}
   m_Enabled: 1
   m_Alpha: 0
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!1001 &2132632406
 PrefabInstance:
@@ -18657,7 +18639,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UIAnimator: {fileID: 2773754352800054643}
-  useCanvasGroupToCull: 0
+  useCanvasGroupToCull: 1
   UIEnabled: 1
   useMove: 0
   useUIMoverAsEnablePos: 0
@@ -18780,7 +18762,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UIAnimator: {fileID: 6694438638821236894}
-  useCanvasGroupToCull: 0
+  useCanvasGroupToCull: 1
   UIEnabled: 1
   useMove: 0
   useUIMoverAsEnablePos: 0
@@ -19019,11 +19001,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7435482704274543098, guid: c88f7d663c9c48d4a8e8077e7f21ea18, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.000024795532
+      value: 32.000046
       objectReference: {fileID: 0}
     - target: {fileID: 7435482704274543098, guid: c88f7d663c9c48d4a8e8077e7f21ea18, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -15.999995
       objectReference: {fileID: 0}
     - target: {fileID: 7435482704274543098, guid: c88f7d663c9c48d4a8e8077e7f21ea18, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
