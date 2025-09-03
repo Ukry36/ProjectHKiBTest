@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 23ffa63ce1c9f844b99882f818407756, type: 3}
-  m_Name: SupplyHP
+  m_Name: Get Buff
   m_EditorClassIdentifier: 
   transitions: []
   enterActions:
-  - {fileID: 11400000, guid: f381d2b76ed2ff44781e06d6323ed8d2, type: 2}
+  - {fileID: 11400000, guid: 00f868421a6c37a48acbed3af253ed38, type: 2}
   updateActions: []
   exitActions: []
   subDecisions: []
