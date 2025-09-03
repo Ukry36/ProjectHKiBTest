@@ -8,7 +8,7 @@ public class GetBuffEventAction : StateActionSO
     {
         if (stateController.TryGetInterface(out IGetBuff getBuff) && stateController.TryGetInterface(out IEvent @event))
         {
-            getBuff.GetBuff(@event.CurrentTarget, getBuff.Buff, getBuff.Multiplyer);
+            getBuff.GetBuff(@event.CurrentTarget, getBuff.Buff);
         }
         else Debug.LogError("ERROR: Interface Not Found!!!");
     }

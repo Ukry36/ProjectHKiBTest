@@ -6,11 +6,12 @@ namespace Assets.Scripts.Interfaces.Modules
     public class GetBuffEventModule : InterfaceModule, IGetBuff
     {
         [field: SerializeField] public StatBuffSO Buff { get; set; }
+
         public override void Register(IInterfaceRegistable interfaceRegistable)
         {
             interfaceRegistable.RegisterInterface<IGetBuff>(this);
         }
-        
+
         public void GetBuff(Transform target, StatBuffSO buff)
         {
             if (target.TryGetComponent(out IBuffable buffable))
