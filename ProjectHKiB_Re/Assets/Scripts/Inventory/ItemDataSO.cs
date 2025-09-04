@@ -1,13 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-[CreateAssetMenu(fileName = "Item Data", menuName = "Scriptable Objects/Data/Item Data", order = 2)]
+[CreateAssetMenu(fileName = "Item Data", menuName = "Scriptable Objects/Data/Item Data")]
 public class ItemDataSO : ScriptableObject
 {
-    public Sprite itemIcon;
-    public int ID;
+    public Sprite itemIcon9x9;
     public new string name;
     public string description;
     public ItemTypeSO type;
-    public int count;
+    public StateMachineSO itemUseEvent;
 }

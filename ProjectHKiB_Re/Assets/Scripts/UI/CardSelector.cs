@@ -37,7 +37,7 @@ public class CardSelector : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
             if (i < cardData.gearList.Count && cardData.gearList[i] != null)
             {
                 gearIcons[i].gameObject.SetActive(true);
-                gearIcons[i].sprite = cardData.gearList[i].itemIcon;
+                gearIcons[i].sprite = cardData.gearList[i].itemIcon9x9;
             }
             else
             {
