@@ -1,5 +1,5 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "Gear Type", menuName = "Scriptable Objects/Enum/Gear Type", order = 2)]
+[CreateAssetMenu(fileName = "Gear Type", menuName = "Type/Gear Type")]
 public class GearTypeSO : ScriptableObject
 {
     public Sprite typeIcon;

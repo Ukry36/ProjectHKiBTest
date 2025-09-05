@@ -1,5 +1,5 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "PlayFootstepAction", menuName = "Scriptable Objects/State Machine/Action/Move/PlayFootstep")]
+[CreateAssetMenu(fileName = "PlayFootstepAction", menuName = "State Machine/Action/Move/PlayFootstep")]
 public class PlayFootstepAction : StateActionSO
 {
     public override void Act(StateController stateController)

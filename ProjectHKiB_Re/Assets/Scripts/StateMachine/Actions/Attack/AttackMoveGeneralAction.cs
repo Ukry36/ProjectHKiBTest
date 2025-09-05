@@ -1,5 +1,5 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "AttackMoveGeneralAction", menuName = "Scriptable Objects/State Machine/Action/Attack/AttackMoveGeneral")]
+[CreateAssetMenu(fileName = "AttackMoveGeneralAction", menuName = "State Machine/Action/Attack/AttackMoveGeneral")]
 public class AttackMoveGeneralAction : StateActionSO
 {
     [SerializeField] private MovementManagerSO movementManager;

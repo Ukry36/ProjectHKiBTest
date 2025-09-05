@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-[CreateAssetMenu(fileName = "GetBuffEvent", menuName = "Scriptable Objects/State Machine/Action/Event/GetBuffEvent")]
+[CreateAssetMenu(fileName = "GetBuffEvent", menuName = "State Machine/Action/Event/GetBuffEvent")]
 public class GetBuffEventAction : StateActionSO
 {
     public override void Act(StateController stateController)

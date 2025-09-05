@@ -1,5 +1,5 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "DamageAction", menuName = "Scriptable Objects/State Machine/Action/Attack/Damage")]
+[CreateAssetMenu(fileName = "DamageAction", menuName = "State Machine/Action/Attack/Damage")]
 public class DamageAction : StateActionSO
 {
     public int damageNumber;

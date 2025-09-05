@@ -1,5 +1,5 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "KeepDodgeMoveByInput", menuName = "Scriptable Objects/State Machine/Action/Dodge/KeepDodgeMoveByInput")]
+[CreateAssetMenu(fileName = "KeepDodgeMoveByInput", menuName = "State Machine/Action/Dodge/KeepDodgeMoveByInput")]
 public class KeepDodgeMoveByInputAction : StateActionSO
 {
     public MovementManagerSO movementManager;

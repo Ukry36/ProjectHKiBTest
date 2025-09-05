@@ -1,5 +1,5 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "CanDodgeCooltime", menuName = "Scriptable Objects/State Machine/Decision/CanDodgeCooltime")]
+[CreateAssetMenu(fileName = "CanDodgeCooltime", menuName = "State Machine/Decision/CanDodgeCooltime")]
 public class CanDodgeCooltimeDecision : StateDecisionSO
 {
     public override bool Decide(StateController stateController)

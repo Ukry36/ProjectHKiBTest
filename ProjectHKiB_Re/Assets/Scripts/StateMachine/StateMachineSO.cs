@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "State Machine", menuName = "Scriptable Objects/State Machine/State Machine", order = 1)]
+[CreateAssetMenu(fileName = "State Machine", menuName = "State Machine/State Machine")]
 public class StateMachineSO : ScriptableObject
 {
     public CustomVariableSets customVariables;

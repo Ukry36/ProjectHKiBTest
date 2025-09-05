@@ -1,5 +1,5 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "AttackAreaIndicateAction", menuName = "Scriptable Objects/State Machine/Action/Attack/AttackAreaIndicate")]
+[CreateAssetMenu(fileName = "AttackAreaIndicateAction", menuName = "State Machine/Action/Attack/AttackAreaIndicate")]
 public class AttackAreaIndicateAction : StateActionSO
 {
     public override void Act(StateController stateController)

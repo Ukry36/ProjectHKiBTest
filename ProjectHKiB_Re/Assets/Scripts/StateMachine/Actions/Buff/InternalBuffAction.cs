@@ -1,5 +1,5 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "InternalBuff", menuName = "Scriptable Objects/State Machine/Action/Buff/InternalBuff")]
+[CreateAssetMenu(fileName = "InternalBuff", menuName = "State Machine/Action/Buff/InternalBuff")]
 public class InternalBuffAction : StateActionSO
 {
     [SerializeField] private bool _negate;

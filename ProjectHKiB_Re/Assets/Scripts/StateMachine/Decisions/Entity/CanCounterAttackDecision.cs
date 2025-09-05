@@ -1,5 +1,5 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "CanCounterAttack", menuName = "Scriptable Objects/State Machine/Decision/CanCounterAttack")]
+[CreateAssetMenu(fileName = "CanCounterAttack", menuName = "State Machine/Decision/CanCounterAttack")]
 public class CanCounterAttackDecision : StateDecisionSO
 {
     public override bool Decide(StateController stateController)

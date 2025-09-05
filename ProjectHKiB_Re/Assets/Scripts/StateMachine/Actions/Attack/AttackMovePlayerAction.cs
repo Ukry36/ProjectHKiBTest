@@ -1,5 +1,5 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "AttackMovePlayerAction", menuName = "Scriptable Objects/State Machine/Action/Attack/AttackMovePlayer")]
+[CreateAssetMenu(fileName = "AttackMovePlayerAction", menuName = "State Machine/Action/Attack/AttackMovePlayer")]
 public class AttackMovePlayerAction : StateActionSO
 {
     public MovementManagerSO movementManager;

@@ -1,5 +1,5 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "WalkByPathFind", menuName = "Scriptable Objects/State Machine/Action/Move/WalkByPathFindAction")]
+[CreateAssetMenu(fileName = "WalkByPathFind", menuName = "State Machine/Action/Move/WalkByPathFindAction")]
 public class WalkByPathFindAction : StateActionSO
 {
     [SerializeField] private MovementManagerSO movementManager;

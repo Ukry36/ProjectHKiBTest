@@ -1,5 +1,5 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "SpawnWaveObjectAction", menuName = "Scriptable Objects/State Machine/Action/Wave/SpawnWaveObject")]
+[CreateAssetMenu(fileName = "SpawnWaveObjectAction", menuName = "State Machine/Action/Wave/SpawnWaveObject")]
 public class SpawnWaveObjectAction : StateActionSO
 {
     public override void Act(StateController stateController)

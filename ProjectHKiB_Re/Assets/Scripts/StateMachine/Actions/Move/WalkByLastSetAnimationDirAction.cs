@@ -1,5 +1,5 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "WalkByLastSetAnimationDir", menuName = "Scriptable Objects/State Machine/Action/Move/WalkByLastSetAnimationDirAction")]
+[CreateAssetMenu(fileName = "WalkByLastSetAnimationDir", menuName = "State Machine/Action/Move/WalkByLastSetAnimationDirAction")]
 public class WalkByLastSetAnimationDirAction : StateActionSO
 {
     public MovementManagerSO movementManager;

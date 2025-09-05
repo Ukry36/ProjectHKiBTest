@@ -1,5 +1,5 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "SetDirFromPlayerInputAction", menuName = "Scriptable Objects/State Machine/Action/SetDir/SetDirFromPlayerInput")]
+[CreateAssetMenu(fileName = "SetDirFromPlayerInputAction", menuName = "State Machine/Action/SetDir/SetDirFromPlayerInput")]
 public class SetDirFromPlayerInputAction : StateActionSO
 {
     [SerializeField] private bool negative;

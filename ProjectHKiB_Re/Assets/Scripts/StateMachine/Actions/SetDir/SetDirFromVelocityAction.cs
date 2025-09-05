@@ -1,5 +1,5 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "SetDirFromVelocityAction", menuName = "Scriptable Objects/State Machine/Action/SetDir/SetDirFromVelocity")]
+[CreateAssetMenu(fileName = "SetDirFromVelocityAction", menuName = "State Machine/Action/SetDir/SetDirFromVelocity")]
 public class SetDirFromVelocityAction : StateActionSO
 {
     [SerializeField] private bool negative;

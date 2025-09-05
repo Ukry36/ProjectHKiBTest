@@ -1,5 +1,5 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "PlayParticleOneShotAction", menuName = "Scriptable Objects/State Machine/Action/General/PlayParticleOneShot")]
+[CreateAssetMenu(fileName = "PlayParticleOneShotAction", menuName = "State Machine/Action/General/PlayParticleOneShot")]
 public class PlayParticleOneShotAction : StateActionSO
 {
     [SerializeField] private ParticlePlayer particlePrefab;

@@ -1,5 +1,5 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "FollowMovePointAction", menuName = "Scriptable Objects/State Machine/Action/Move/FollowMovePoint")]
+[CreateAssetMenu(fileName = "FollowMovePointAction", menuName = "State Machine/Action/Move/FollowMovePoint")]
 public class FollowMovePointAction : StateActionSO
 {
     public MovementManagerSO movementManager;

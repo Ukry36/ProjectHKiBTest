@@ -1,5 +1,5 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "EndEventAction", menuName = "Scriptable Objects/State Machine/Action/Event/EndEvent")]
+[CreateAssetMenu(fileName = "EndEventAction", menuName = "State Machine/Action/Event/EndEvent")]
 public class EndEventAction : StateActionSO
 {
     public override void Act(StateController stateController)

@@ -1,5 +1,5 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "PlayAudioOneShotAction", menuName = "Scriptable Objects/State Machine/Action/General/PlayAudioOneShot")]
+[CreateAssetMenu(fileName = "PlayAudioOneShotAction", menuName = "State Machine/Action/General/PlayAudioOneShot")]
 public class PlayAudioOneShotAction : StateActionSO
 {
     [SerializeField] private AudioDataSO audioData;

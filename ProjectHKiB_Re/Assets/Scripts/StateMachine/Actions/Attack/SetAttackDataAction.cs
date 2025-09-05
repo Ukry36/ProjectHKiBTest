@@ -1,5 +1,5 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "SetAttackDataAction", menuName = "Scriptable Objects/State Machine/Action/Attack/SetAttackData")]
+[CreateAssetMenu(fileName = "SetAttackDataAction", menuName = "State Machine/Action/Attack/SetAttackData")]
 public class SetAttackDataAction : StateActionSO
 {
     [SerializeField] private int attackNumber;

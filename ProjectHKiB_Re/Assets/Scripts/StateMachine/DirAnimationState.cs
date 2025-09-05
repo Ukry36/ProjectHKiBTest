@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "State", menuName = "Scriptable Objects/State Machine/DirAnimationState")]
+[CreateAssetMenu(fileName = "State", menuName = "State Machine/DirAnimationState")]
 public class DirAnimationState : StateSO
 {
     [SerializeField] private string animationName;

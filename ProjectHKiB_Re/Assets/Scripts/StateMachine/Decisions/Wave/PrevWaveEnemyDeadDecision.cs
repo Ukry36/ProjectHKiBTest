@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-[CreateAssetMenu(fileName = "PrevWaveEnemyDeadDecision", menuName = "Scriptable Objects/State Machine/Decision/Wave/PrevWaveEnemyDead")]
+[CreateAssetMenu(fileName = "PrevWaveEnemyDeadDecision", menuName = "State Machine/Decision/Wave/PrevWaveEnemyDead")]
 public class PrevWaveEnemyDeadDecision : StateDecisionSO
 {
     public override bool Decide(StateController stateController)

@@ -5,7 +5,6 @@ public class Damager : MonoBehaviour
 {
     [SerializeField] private DamageDataSO _damageData;
     private IAttackable _attackable;
-    private BoxCollider2D _damageCollider;
     [SerializeField] private DirAnimationController _animationController;
 
     public void SetAttackable(IAttackable attackable)
@@ -65,12 +64,6 @@ public class Damager : MonoBehaviour
                 component.Damage(_damageData, _attackable, _damageData.downwardDamageArea.pivot + this.transform.position);
             }
         }
-    }
-
-    public IEnumerator DisableDamager()
-    {
-        yield return null;
-        _damageCollider.enabled = false;
     }
 
     private int gizmoTrig;

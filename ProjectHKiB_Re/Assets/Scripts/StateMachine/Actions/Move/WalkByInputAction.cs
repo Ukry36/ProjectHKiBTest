@@ -1,5 +1,5 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "WalkByInput", menuName = "Scriptable Objects/State Machine/Action/Move/WalkByInputAction")]
+[CreateAssetMenu(fileName = "WalkByInput", menuName = "State Machine/Action/Move/WalkByInputAction")]
 public class WalkByInputAction : StateActionSO
 {
     public MovementManagerSO movementManager;

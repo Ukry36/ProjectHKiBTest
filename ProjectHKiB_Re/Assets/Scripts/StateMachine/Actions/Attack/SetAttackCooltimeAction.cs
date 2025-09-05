@@ -1,5 +1,5 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "SetAttackCooltimeAction", menuName = "Scriptable Objects/State Machine/Action/Attack/SetAttackCooltime")]
+[CreateAssetMenu(fileName = "SetAttackCooltimeAction", menuName = "State Machine/Action/Attack/SetAttackCooltime")]
 public class SetAttackCooltimeAction : StateActionSO
 {
     public override void Act(StateController stateController)

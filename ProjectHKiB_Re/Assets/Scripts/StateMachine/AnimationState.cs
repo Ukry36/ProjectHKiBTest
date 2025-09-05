@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "State", menuName = "Scriptable Objects/State Machine/AnimationState")]
+[CreateAssetMenu(fileName = "State", menuName = "State Machine/AnimationState")]
 public class AnimationState : StateSO
 {
     [SerializeField] private string animationName;

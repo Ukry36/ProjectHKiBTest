@@ -1,5 +1,5 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "Damage Type", menuName = "Scriptable Objects/Enums/Damage Type", order = 2)]
+[CreateAssetMenu(fileName = "Damage Type", menuName = "Type/Damage Type")]
 public class DamageTypeSO : ScriptableObject
 {
     public Sprite typeIcon;

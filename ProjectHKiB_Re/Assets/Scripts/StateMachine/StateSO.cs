@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "State", menuName = "Scriptable Objects/State Machine/State")]
+[CreateAssetMenu(fileName = "State", menuName = "State Machine/State")]
 public class StateSO : ScriptableObject
 {
     [Serializable]

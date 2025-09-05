@@ -8,6 +8,7 @@ public class ItemDataSO : ScriptableObject
     public Color color;
     public new string name;
     public string description;
-    public ItemTypeSO type;
+    public bool canStack;
+    public FilterPropertySO[] parentProperties;
     public StateMachineSO itemUseEvent;
 }

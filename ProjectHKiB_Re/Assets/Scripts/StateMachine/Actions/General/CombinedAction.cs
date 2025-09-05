@@ -1,6 +1,6 @@
 using System;
 using UnityEngine;
-[CreateAssetMenu(fileName = "CombinedAction", menuName = "Scriptable Objects/State Machine/Action/General/CombinedAction")]
+[CreateAssetMenu(fileName = "CombinedAction", menuName = "State Machine/Action/General/CombinedAction")]
 public class CombinedAction : StateActionSO
 {
     [SerializeField] private StateActionSO[] actions;

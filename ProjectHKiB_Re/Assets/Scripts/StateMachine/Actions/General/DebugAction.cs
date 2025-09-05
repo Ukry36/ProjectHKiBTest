@@ -1,5 +1,5 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "Debug Action", menuName = "Scriptable Objects/State Machine/Action/General/Debug")]
+[CreateAssetMenu(fileName = "Debug Action", menuName = "State Machine/Action/General/Debug")]
 public class DebugAction : StateActionSO
 {
     public string str;

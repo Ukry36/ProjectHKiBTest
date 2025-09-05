@@ -1,5 +1,5 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "ProceedMovePointByInput", menuName = "Scriptable Objects/State Machine/Action/Move/ProceedMovePointByInput")]
+[CreateAssetMenu(fileName = "ProceedMovePointByInput", menuName = "State Machine/Action/Move/ProceedMovePointByInput")]
 public class ProceedMovePointByInputAction : StateActionSO
 {
     public MovementManagerSO movementManager;

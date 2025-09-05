@@ -1,5 +1,5 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "KeepDodgeEnded", menuName = "Scriptable Objects/State Machine/Decision/KeepDodgeEnded", order = 4)]
+[CreateAssetMenu(fileName = "KeepDodgeEnded", menuName = "State Machine/Decision/KeepDodgeEnded")]
 public class KeepDodgeEndedDecision : StateDecisionSO
 {
     public override bool Decide(StateController stateController)

@@ -1,5 +1,5 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "WalkByTargetDir", menuName = "Scriptable Objects/State Machine/Action/Move/WalkByTargetDir")]
+[CreateAssetMenu(fileName = "WalkByTargetDir", menuName = "State Machine/Action/Move/WalkByTargetDir")]
 public class WalkByTargetDirAction : StateActionSO
 {
     [SerializeField] private bool _negate;

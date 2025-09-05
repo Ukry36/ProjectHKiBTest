@@ -1,5 +1,5 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "SetDirRandomAction", menuName = "Scriptable Objects/State Machine/Action/SetDir/SetDirRandomAction")]
+[CreateAssetMenu(fileName = "SetDirRandomAction", menuName = "State Machine/Action/SetDir/SetDirRandomAction")]
 public class SetDirRandomAction : StateActionSO
 {
     [SerializeField] private bool negative;

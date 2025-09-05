@@ -4,25 +4,54 @@ using UnityEngine;
 
 public class InventoryUIManager : MonoBehaviour
 {
-    public ItemPanel[] panels;
-
-    //public ItemFilterSO
+    public Transform panelParent;
+    [SerializeField] private FilterPropertySO filterProperty;
 
     public void UpdatePanels()
     {
         List<Item> items = GameManager.instance.databaseManager.playerInventory.Values.ToList();
+        ItemPanel[] panels = panelParent.GetComponentsInChildren<ItemPanel>(true);
+
+        if (items.Count > 0)
+            for (int i = items.Count - 1; i >= 0; i--)
+                if (!Filter(items[i]))
+                    items.RemoveAt(i);
+
         for (int i = 0; i < panels.Length; i++)
         {
-            if (items.Count >= i)
+            if (items.Count > i)
             {
                 Item item = items[i];
-                panels[i].SetData(item.data.itemIcon9x9, item.data.name, item.data.color);
                 panels[i].gameObject.SetActive(true);
+                panels[i].SetData
+                (
+                    item.data.itemIcon9x9,
+                    item.data.canStack ? item.data.name + " x" + item.Count : item.data.name,
+                    item.data.color
+                );
             }
             else
             {
                 panels[i].gameObject.SetActive(false);
             }
         }
+    }
+
+    public bool Filter(Item item)
+    {
+        if (filterProperty == null) return true;
+        return item.data.parentProperties.Contains(filterProperty);
+    }
+
+    public void SetFilter(FilterPropertySO filter)
+    {
+        filterProperty = filter;
+        UpdatePanels();
+    }
+
+    public void ResetFilter()
+    {
+        filterProperty = null;
+        UpdatePanels();
     }
 }

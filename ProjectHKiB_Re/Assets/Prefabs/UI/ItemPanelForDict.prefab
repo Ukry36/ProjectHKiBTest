@@ -207,6 +207,7 @@ GameObject:
   - component: {fileID: 2454367061602677820}
   - component: {fileID: 2006027326301098179}
   - component: {fileID: 5830131419736841719}
+  - component: {fileID: 2489290011405535710}
   m_Layer: 5
   m_Name: ItemPanelForDict
   m_TagString: Untagged
@@ -403,6 +404,21 @@ MonoBehaviour:
   disabledText: {fileID: 0}
   normalText: {fileID: 0}
   highlightedText: {fileID: 0}
+--- !u!114 &2489290011405535710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 413991755702700203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14036d53098484e4185869fbafcac659, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  icon9x9: {fileID: 1166121268025780123}
+  itemName: {fileID: 1166121267721700177}
+  itemColor: {fileID: 1166121268033735267}
 --- !u!1 &464592117840895377
 GameObject:
   m_ObjectHideFlags: 0
@@ -640,8 +656,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Slot_0
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 534611c51c4fe394ebef066303e1211c, type: 2}
+  m_sharedMaterial: {fileID: -1904715688810161184, guid: 534611c51c4fe394ebef066303e1211c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

@@ -1,5 +1,5 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "SetCustomBool", menuName = "Scriptable Objects/State Machine/Action/General/SetCustomBool")]
+[CreateAssetMenu(fileName = "SetCustomBool", menuName = "State Machine/Action/General/SetCustomBool")]
 public class SetCustomBoolAction : StateActionSO
 {
     public string boolName;

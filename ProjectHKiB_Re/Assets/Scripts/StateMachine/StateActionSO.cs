@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "State Action", menuName = "Scriptable Objects/State Machine/Action", order = 3)]
+[CreateAssetMenu(fileName = "State Action", menuName = "State Machine/Action")]
 public abstract class StateActionSO : ScriptableObject
 {
     public abstract void Act(StateController stateController);

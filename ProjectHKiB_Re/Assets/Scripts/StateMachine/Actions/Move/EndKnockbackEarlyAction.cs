@@ -1,5 +1,5 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "EndKnockbackEarlyAction", menuName = "Scriptable Objects/State Machine/Action/Move/EndKnockbackEarly")]
+[CreateAssetMenu(fileName = "EndKnockbackEarlyAction", menuName = "State Machine/Action/Move/EndKnockbackEarly")]
 public class EndKnockbackEarlyAction : StateActionSO
 {
     public override void Act(StateController stateController)

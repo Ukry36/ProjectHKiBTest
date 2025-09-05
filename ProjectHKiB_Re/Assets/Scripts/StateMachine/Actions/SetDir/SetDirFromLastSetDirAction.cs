@@ -1,5 +1,5 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "SetDirFromLastSetDirAction", menuName = "Scriptable Objects/State Machine/Action/SetDir/SetDirFromLastSetDir")]
+[CreateAssetMenu(fileName = "SetDirFromLastSetDirAction", menuName = "State Machine/Action/SetDir/SetDirFromLastSetDir")]
 public class SetDirFromLastSetDirAction : StateActionSO
 {
     [SerializeField] private bool negative;

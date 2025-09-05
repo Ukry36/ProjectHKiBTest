@@ -1,5 +1,5 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "Apply Sprint Action", menuName = "Scriptable Objects/State Machine/Action/Move/Apply Sprint")]
+[CreateAssetMenu(fileName = "Apply Sprint Action", menuName = "State Machine/Action/Move/Apply Sprint")]
 public class ApplySprintAction : StateActionSO
 {
     public bool apply;

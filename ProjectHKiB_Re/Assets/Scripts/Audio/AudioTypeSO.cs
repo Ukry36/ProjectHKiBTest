@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
-[CreateAssetMenu(fileName = "Audio Type", menuName = "Scriptable Objects/Enum/Audio Type", order = 3)]
+[CreateAssetMenu(fileName = "Audio Type", menuName = "Type/Audio Type")]
 public class AudioTypeSO : ScriptableObject, IPoolable
 {
     [field: SerializeField] public int PoolSize { get; set; }

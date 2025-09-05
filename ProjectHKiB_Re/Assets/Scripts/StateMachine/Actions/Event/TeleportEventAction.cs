@@ -1,5 +1,5 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "TeleportEvent", menuName = "Scriptable Objects/State Machine/Action/Event/TeleportEvent")]
+[CreateAssetMenu(fileName = "TeleportEvent", menuName = "State Machine/Action/Event/TeleportEvent")]
 public class TeleportEventAction : StateActionSO
 {
     public override void Act(StateController stateController)

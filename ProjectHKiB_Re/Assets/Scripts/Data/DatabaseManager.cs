@@ -10,7 +10,7 @@ public class Item
 
     public Item(ItemDataSO data, int count = 1)
     {
-        if (count <= 0 || !data.type.canStack) count = 1;
+        if (count <= 0 || !data.canStack) count = 1;
         this.data = data;
         Count = count;
     }
@@ -24,7 +24,7 @@ public class Item
 
     public void StackItem(int count)
     {
-        if (data.type.canStack)
+        if (data.canStack)
             Count += count;
         else
             Count = 1;
@@ -32,12 +32,15 @@ public class Item
 }
 public class DatabaseManager : StateController
 {
-    public Dictionary<int, Item> playerInventory;
+    public Dictionary<int, Item> playerInventory = new();
     public List<CardData> playerCardEquipData;
     public CustomVariableSets parameters;
     public Vector3 playerPos;
     public Scene scene;
 
+    public ItemDataSO test;
+    [NaughtyAttributes.Button]
+    public void AddItem() => AddItem(test, 1);
     public void AddItem(ItemDataSO item, int count)
     {
         if (!item) return;

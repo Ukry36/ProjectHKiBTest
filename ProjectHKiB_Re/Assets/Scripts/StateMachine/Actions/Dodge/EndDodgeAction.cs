@@ -1,5 +1,5 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "EndDodge", menuName = "Scriptable Objects/State Machine/Action/Dodge/EndDodge")]
+[CreateAssetMenu(fileName = "EndDodge", menuName = "State Machine/Action/Dodge/EndDodge")]
 public class EndDodgeAction : StateActionSO
 {
     public override void Act(StateController stateController)
