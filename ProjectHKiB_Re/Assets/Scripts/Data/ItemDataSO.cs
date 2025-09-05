@@ -5,6 +5,7 @@ using UnityEngine;
 public class ItemDataSO : ScriptableObject
 {
     public Sprite itemIcon9x9;
+    public Color color;
     public new string name;
     public string description;
     public ItemTypeSO type;

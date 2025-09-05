@@ -3533,7 +3533,7 @@ GameObject:
   - component: {fileID: 448921689}
   - component: {fileID: 448921688}
   m_Layer: 5
-  m_Name: LstWindow
+  m_Name: ListWindow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10045,7 +10045,7 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  currentWindowIndex: 3
+  currentWindowIndex: 2
   cullWindows: 1
   initializeButtons: 1
   onWindowChange:
@@ -15387,9 +15387,9 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1829566538}
   m_Enabled: 1
-  m_Alpha: 0
-  m_Interactable: 0
-  m_BlocksRaycasts: 0
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
 --- !u!222 &1829566542
 CanvasRenderer:
@@ -15413,7 +15413,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UIAnimator: {fileID: 0}
   useCanvasGroupToCull: 1
-  UIEnabled: 0
+  UIEnabled: 1
   useMove: 1
   useUIMoverAsEnablePos: 0
   _moveAfterAnimation: 0
@@ -17352,9 +17352,9 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2109252860}
   m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!222 &2109252864
 CanvasRenderer:
@@ -17378,7 +17378,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UIAnimator: {fileID: 0}
   useCanvasGroupToCull: 1
-  UIEnabled: 1
+  UIEnabled: 0
   useMove: 1
   useUIMoverAsEnablePos: 0
   _moveAfterAnimation: 0
