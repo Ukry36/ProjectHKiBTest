@@ -49,8 +49,9 @@ namespace Michsky.MUIP
             var hBorderLeft = serializedObject.FindProperty("hBorderLeft");
             var hBorderRight = serializedObject.FindProperty("hBorderRight");
             var mainCanvas = serializedObject.FindProperty("mainCanvas");
-            var tooltipObject = serializedObject.FindProperty("tooltipObject");
+            var tooltipRect = serializedObject.FindProperty("tooltipRect");
             var tooltipContent = serializedObject.FindProperty("tooltipContent");
+            var iconsParent = serializedObject.FindProperty("iconsParent");
             var tooltipSmoothness = serializedObject.FindProperty("tooltipSmoothness");
             var dampSpeed = serializedObject.FindProperty("dampSpeed");
             var preferredWidth = serializedObject.FindProperty("preferredWidth");
@@ -68,11 +69,11 @@ namespace Michsky.MUIP
                     MUIPEditorHandler.DrawProperty(hBorderLeft, customSkin, "Left Bound");
                     MUIPEditorHandler.DrawProperty(hBorderRight, customSkin, "Right Bound");
 
-                    if (tooltipTarget.tooltipObject != null && tooltipTarget.tooltipObject.GetComponent<CanvasGroup>().alpha == 0)
+                    if (tooltipTarget.tooltipRect != null && tooltipTarget.tooltipRect.GetComponent<CanvasGroup>().alpha == 0)
                     {
                         if (GUILayout.Button("Make It Visible", customSkin.button))
                         {
-                            tooltipTarget.tooltipObject.GetComponent<CanvasGroup>().alpha = 1;
+                            tooltipTarget.tooltipRect.GetComponent<CanvasGroup>().alpha = 1;
                             EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
                         }
                     }
@@ -81,7 +82,7 @@ namespace Michsky.MUIP
                     {
                         if (GUILayout.Button("Make It Invisible", customSkin.button))
                         {
-                            tooltipTarget.tooltipObject.GetComponent<CanvasGroup>().alpha = 0;
+                            tooltipTarget.tooltipRect.GetComponent<CanvasGroup>().alpha = 0;
                             EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
                         }
                     }
@@ -91,8 +92,9 @@ namespace Michsky.MUIP
 
                 case 1:
                     MUIPEditorHandler.DrawHeader(customSkin, "Core Header", 6);
-                    MUIPEditorHandler.DrawProperty(tooltipObject, customSkin, "Tooltip Object");
+                    MUIPEditorHandler.DrawProperty(tooltipRect, customSkin, "Tooltip Rect");
                     MUIPEditorHandler.DrawProperty(tooltipContent, customSkin, "Tooltip Content");
+                    MUIPEditorHandler.DrawProperty(iconsParent, customSkin, "Icons Parent");
                     MUIPEditorHandler.DrawProperty(mainCanvas, customSkin, "Main Canvas");
                     break;
 
@@ -130,7 +132,7 @@ namespace Michsky.MUIP
 
                     else if (tempUIM == null) { MUIPEditorHandler.DrawUIManagerDisconnectedHeader(); }
 
-                    break;            
+                    break;
             }
 
             if (Application.isPlaying == false) { this.Repaint(); }

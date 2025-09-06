@@ -1,12 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class InventoryUIManager : MonoBehaviour
 {
     public Transform panelParent;
     [SerializeField] private FilterPropertySO filterProperty;
+    public UnityEvent<Item> OnPanelClicked;
 
     public void UpdatePanels()
     {
@@ -54,5 +56,14 @@ public class InventoryUIManager : MonoBehaviour
     {
         filterProperty = null;
         UpdatePanels();
+    }
+
+    public void ClickPanel(int index)
+    {
+        List<Item> items = GameManager.instance.databaseManager.playerInventory.Values.ToList();
+        if (items.Count > index)
+        {
+            OnPanelClicked.Invoke(items[index]);
+        }
     }
 }
