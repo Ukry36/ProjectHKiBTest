@@ -26,12 +26,7 @@ public class InventoryUIManager : MonoBehaviour
             {
                 Item item = items[i];
                 panels[i].gameObject.SetActive(true);
-                panels[i].SetData
-                (
-                    item.data.itemIcon9x9,
-                    item.data.canStack ? item.data.name + " x" + item.Count : item.data.name,
-                    item.data.color
-                );
+                panels[i].SetData(item);
             }
             else
             {
@@ -65,5 +60,14 @@ public class InventoryUIManager : MonoBehaviour
         {
             OnPanelClicked.Invoke(items[index]);
         }
+        UpdatePanels();
+    }
+
+    public void ChangePanel(Transform parent)
+    {
+        panelParent.gameObject.SetActive(false);
+        panelParent = parent;
+        panelParent.gameObject.SetActive(true);
+        UpdatePanels();
     }
 }

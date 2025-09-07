@@ -6,41 +6,37 @@ using UnityEngine.UI;
 
 public class Tooltip : MonoBehaviour
 {
-    public RectTransform tooltipRect;
     public RectTransform tooltipContent;
-    public RectTransform iconsParent;
+    public RectTransform ImagesParent;
     public TextMeshProUGUI descriptionText;
-    public LayoutElement contentLE;
+    public float preferredWidth;
 
-    private static readonly WaitForSecondsRealtime _waitForSecondsRealtime0_05 = new(0.05f);
-
-    public void Start()
-    {
-        if (contentLE == null)
-            contentLE = descriptionText.GetComponent<LayoutElement>();
-    }
-    public void ProcessEnter(TooltipContent tooltip, float preferredWidth)
+    public void ProcessEnter(TooltipContent tooltip)
     {
         descriptionText.text = tooltip.description;
         gameObject.SetActive(true);
-        CheckForContentWidth(preferredWidth);
+        CheckForContentWidth();
 
         GetComponent<SimpleUIActivator>().SetEnable();
 
-        if (tooltip.forceToUpdate == true)
-            StartCoroutine(nameof(UpdateLayoutPosition));
+        Image[] images = ImagesParent.GetComponentsInChildren<Image>(true);
 
-        Image[] icons = iconsParent.GetComponentsInChildren<Image>();
-        for (int i = 0; i < icons.Length; i++)
+        images[0].gameObject.SetActive(tooltip.image36x36);
+        if (tooltip.image36x36) images[0].sprite = tooltip.image36x36;
+
+        images[1].gameObject.SetActive(tooltip.icon9x9);
+        if (tooltip.icon9x9) images[1].sprite = tooltip.icon9x9;
+
+        for (int i = 2; i < images.Length; i++)
         {
-            if (tooltip.icons.Length > i)
+            if (tooltip.icon5x5s.Length + 2 > i && images[i] != null)
             {
-                icons[i].gameObject.SetActive(true);
-                icons[i].sprite = tooltip.icons[i];
+                images[i].gameObject.SetActive(true);
+                images[i].sprite = tooltip.icon5x5s[i - 2];
             }
             else
             {
-                icons[i].gameObject.SetActive(false);
+                images[i].gameObject.SetActive(false);
             }
         }
     }
@@ -50,8 +46,9 @@ public class Tooltip : MonoBehaviour
         GetComponent<SimpleUIActivator>().SetDisable();
     }
 
-    public void CheckForContentWidth(float preferredWidth)
+    public void CheckForContentWidth()
     {
+        LayoutElement contentLE = descriptionText.GetComponent<LayoutElement>();
         contentLE.preferredWidth = preferredWidth;
         contentLE.enabled = false;
         float tempWidth = descriptionText.GetComponent<RectTransform>().sizeDelta.x;
@@ -61,11 +58,5 @@ public class Tooltip : MonoBehaviour
 
         LayoutRebuilder.ForceRebuildLayoutImmediate(contentLE.GetComponent<RectTransform>());
         contentLE.preferredWidth = preferredWidth;
-    }
-
-    IEnumerator UpdateLayoutPosition()
-    {
-        yield return _waitForSecondsRealtime0_05;
-        LayoutRebuilder.ForceRebuildLayoutImmediate(tooltipRect);
     }
 }

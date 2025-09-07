@@ -7,12 +7,15 @@ namespace Michsky.MUIP
     public class TooltipContent : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         [Header("Content")]
-        public Sprite[] icons;
+        public Sprite image36x36;
+        public Sprite icon9x9;
+        public Sprite[] icon5x5s;
         [TextArea] public string description;
         public float delay;
 
         [Header("Resources")]
         [SerializeField] protected TooltipManager tooltipManager;
+        [SerializeField] protected Tooltip tooltipLayout;
 
         [Header("Settings")]
         public bool forceToUpdate = false;
@@ -26,9 +29,9 @@ namespace Michsky.MUIP
         public virtual void ProcessEnter()
         {
             StopCoroutine("DisableAnimator");
-            tooltipManager.ProcessEnter(this);
+            tooltipManager.ProcessEnter(tooltipLayout, this);
         }
-        public virtual void ProcessExit() => tooltipManager.ProcessExit(this);
+        public virtual void ProcessExit() => tooltipManager.ProcessExit(tooltipLayout);
 
         public void OnPointerEnter(PointerEventData eventData) { ProcessEnter(); }
         public void OnPointerExit(PointerEventData eventData) { ProcessExit(); }

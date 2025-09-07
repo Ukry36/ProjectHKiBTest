@@ -4,6 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Item Data", menuName = "Scriptable Objects/Data/Item Data")]
 public class ItemDataSO : ScriptableObject
 {
+    public Sprite itemImage36x36;
     public Sprite itemIcon9x9;
     public Color color;
     public new string name;

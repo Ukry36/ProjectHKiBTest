@@ -49,10 +49,9 @@ namespace Michsky.MUIP
             var hBorderLeft = serializedObject.FindProperty("hBorderLeft");
             var hBorderRight = serializedObject.FindProperty("hBorderRight");
             var mainCanvas = serializedObject.FindProperty("mainCanvas");
-            var tooltipRect = serializedObject.FindProperty("tooltipRect");
+            var currentTooltip = serializedObject.FindProperty("currentTooltip");
             var tooltipSmoothness = serializedObject.FindProperty("tooltipSmoothness");
             var dampSpeed = serializedObject.FindProperty("dampSpeed");
-            var preferredWidth = serializedObject.FindProperty("preferredWidth");
             var targetCamera = serializedObject.FindProperty("targetCamera");
             var cameraSource = serializedObject.FindProperty("cameraSource");
             var transitionMode = serializedObject.FindProperty("transitionMode");
@@ -67,11 +66,11 @@ namespace Michsky.MUIP
                     MUIPEditorHandler.DrawProperty(hBorderLeft, customSkin, "Left Bound");
                     MUIPEditorHandler.DrawProperty(hBorderRight, customSkin, "Right Bound");
 
-                    if (tooltipTarget.tooltipRect != null && tooltipTarget.tooltipRect.GetComponent<CanvasGroup>().alpha == 0)
+                    if (tooltipTarget.currentTooltip != null && tooltipTarget.currentTooltip.GetComponent<CanvasGroup>().alpha == 0)
                     {
                         if (GUILayout.Button("Make It Visible", customSkin.button))
                         {
-                            tooltipTarget.tooltipRect.GetComponent<CanvasGroup>().alpha = 1;
+                            tooltipTarget.currentTooltip.GetComponent<CanvasGroup>().alpha = 1;
                             EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
                         }
                     }
@@ -80,7 +79,7 @@ namespace Michsky.MUIP
                     {
                         if (GUILayout.Button("Make It Invisible", customSkin.button))
                         {
-                            tooltipTarget.tooltipRect.GetComponent<CanvasGroup>().alpha = 0;
+                            tooltipTarget.currentTooltip.GetComponent<CanvasGroup>().alpha = 0;
                             EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
                         }
                     }
@@ -90,14 +89,13 @@ namespace Michsky.MUIP
 
                 case 1:
                     MUIPEditorHandler.DrawHeader(customSkin, "Core Header", 6);
-                    MUIPEditorHandler.DrawProperty(tooltipRect, customSkin, "Tooltip Rect");
+                    MUIPEditorHandler.DrawProperty(currentTooltip, customSkin, "Current Tooltip");
                     MUIPEditorHandler.DrawProperty(mainCanvas, customSkin, "Main Canvas");
                     break;
 
                 case 2:
                     MUIPEditorHandler.DrawHeader(customSkin, "Options Header", 6);
                     checkDispose.boolValue = MUIPEditorHandler.DrawToggle(checkDispose.boolValue, customSkin, "Check Dispose/Null");
-                    MUIPEditorHandler.DrawProperty(preferredWidth, customSkin, "Preferred Width");
                     MUIPEditorHandler.DrawProperty(tooltipSmoothness, customSkin, "Smoothness");
                     MUIPEditorHandler.DrawProperty(dampSpeed, customSkin, "Damp Speed");
                     MUIPEditorHandler.DrawProperty(transitionMode, customSkin, "Transition Mode");
