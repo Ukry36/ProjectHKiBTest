@@ -50,8 +50,6 @@ namespace Michsky.MUIP
             var hBorderRight = serializedObject.FindProperty("hBorderRight");
             var mainCanvas = serializedObject.FindProperty("mainCanvas");
             var tooltipRect = serializedObject.FindProperty("tooltipRect");
-            var tooltipContent = serializedObject.FindProperty("tooltipContent");
-            var iconsParent = serializedObject.FindProperty("iconsParent");
             var tooltipSmoothness = serializedObject.FindProperty("tooltipSmoothness");
             var dampSpeed = serializedObject.FindProperty("dampSpeed");
             var preferredWidth = serializedObject.FindProperty("preferredWidth");
@@ -93,8 +91,6 @@ namespace Michsky.MUIP
                 case 1:
                     MUIPEditorHandler.DrawHeader(customSkin, "Core Header", 6);
                     MUIPEditorHandler.DrawProperty(tooltipRect, customSkin, "Tooltip Rect");
-                    MUIPEditorHandler.DrawProperty(tooltipContent, customSkin, "Tooltip Content");
-                    MUIPEditorHandler.DrawProperty(iconsParent, customSkin, "Icons Parent");
                     MUIPEditorHandler.DrawProperty(mainCanvas, customSkin, "Main Canvas");
                     break;
 

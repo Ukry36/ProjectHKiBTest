@@ -7,6 +7,7 @@ public class SimpleUIActivator : MonoBehaviour
 {
     public SimpleUIAnimator UIAnimator;
     public bool useCanvasGroupToCull = true;
+    [NaughtyAttributes.ShowIf("useCanvasGroupToCull")] public bool isInteractableUI = true;
     public bool UIEnabled;
     public bool useMove;
     public bool useUIMoverAsEnablePos;
@@ -140,8 +141,11 @@ public class SimpleUIActivator : MonoBehaviour
         {
             CanvasGroup canvasGroup = GetComponent<CanvasGroup>();
             canvasGroup.alpha = set ? 1 : 0;
-            canvasGroup.blocksRaycasts = set;
-            canvasGroup.interactable = set;
+            if (isInteractableUI)
+            {
+                canvasGroup.blocksRaycasts = set;
+                canvasGroup.interactable = set;
+            }
         }
         else
         {

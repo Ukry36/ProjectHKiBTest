@@ -205,7 +205,6 @@ GameObject:
   - component: {fileID: 478776824229062739}
   - component: {fileID: 4787795848156079814}
   - component: {fileID: 2489290011405535710}
-  - component: {fileID: 3710857957109701571}
   m_Layer: 5
   m_Name: ItemPanelForDict
   m_TagString: Untagged
@@ -254,7 +253,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d218e07e7315e243acdfcc700d01eb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonIcon: {fileID: -550638206, guid: 4ef75b6a2485c314da9be12e8b41768e, type: 3}
+  buttonIcon: {fileID: -188052724, guid: 72ec7eca13c20b94c8e014cf4f627d62, type: 3}
   buttonText: Slot_0
   iconScale: 1
   textSize: 10
@@ -335,7 +334,7 @@ MonoBehaviour:
   renderOnTop: 1
   centered: 0
   isPreset: 1
-  latestTabIndex: 2
+  latestTabIndex: 0
 --- !u!114 &2489290011405535710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -351,25 +350,6 @@ MonoBehaviour:
   icon9x9: {fileID: 1166121268025780123}
   itemName: {fileID: 1166121267721700177}
   itemColor: {fileID: 1166121268033735267}
---- !u!114 &3710857957109701571
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 413991755702700203}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a81a9e081a4afa64dae6b9d42bc38c9f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  icons:
-  - {fileID: -1287517431, guid: 2d94de9741fab9c44a260685cca67619, type: 3}
-  description: Test
-  delay: 0
-  tooltipManager: {fileID: 0}
-  forceToUpdate: 0
-  useIn3D: 0
 --- !u!1 &464592117840895377
 GameObject:
   m_ObjectHideFlags: 0
@@ -740,7 +720,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -550638206, guid: 4ef75b6a2485c314da9be12e8b41768e, type: 3}
+  m_Sprite: {fileID: -188052724, guid: 72ec7eca13c20b94c8e014cf4f627d62, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
