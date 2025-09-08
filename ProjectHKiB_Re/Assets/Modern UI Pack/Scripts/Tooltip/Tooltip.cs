@@ -10,6 +10,7 @@ public class Tooltip : MonoBehaviour
     public RectTransform ImagesParent;
     public TextMeshProUGUI descriptionText;
     public float preferredWidth;
+    [HideInInspector] public RectTransform rect;
 
     public void ProcessEnter(TooltipContent tooltip)
     {
@@ -51,12 +52,12 @@ public class Tooltip : MonoBehaviour
         LayoutElement contentLE = descriptionText.GetComponent<LayoutElement>();
         contentLE.preferredWidth = preferredWidth;
         contentLE.enabled = false;
+        LayoutRebuilder.ForceRebuildLayoutImmediate(tooltipContent);
         float tempWidth = descriptionText.GetComponent<RectTransform>().sizeDelta.x;
 
         if (tempWidth >= preferredWidth + 1)
             contentLE.enabled = true;
 
-        LayoutRebuilder.ForceRebuildLayoutImmediate(contentLE.GetComponent<RectTransform>());
-        contentLE.preferredWidth = preferredWidth;
+        LayoutRebuilder.ForceRebuildLayoutImmediate(tooltipContent);
     }
 }

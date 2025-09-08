@@ -51,6 +51,22 @@ public class DatabaseManager : StateController
             playerInventory[ID] = new(item, count);
     }
 
+    public void Start()
+    {
+        ItemDataSO[] items = Resources.LoadAll<ItemDataSO>("Items");
+        foreach (ItemDataSO data in items)
+        {
+            Debug.Log(data.name);
+            AddItem(data, 99);
+        }
+        GearDataSO[] gears = Resources.LoadAll<GearDataSO>("Items/Gears");
+        foreach (GearDataSO data in gears)
+        {
+            Debug.Log(data.name);
+            AddItem(data, 99);
+        }
+    }
+
     public Item GetInventoryItem(int ID)
     {
         if (!playerInventory.ContainsKey(ID)) return null;

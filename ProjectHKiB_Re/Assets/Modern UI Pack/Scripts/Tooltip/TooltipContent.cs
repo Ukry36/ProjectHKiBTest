@@ -11,7 +11,7 @@ namespace Michsky.MUIP
         public Sprite icon9x9;
         public Sprite[] icon5x5s;
         [TextArea] public string description;
-        public float delay;
+        [NaughtyAttributes.MinValue(0.1f)] public float delay;
 
         [Header("Resources")]
         [SerializeField] protected TooltipManager tooltipManager;

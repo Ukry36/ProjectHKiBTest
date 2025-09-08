@@ -33,13 +33,8 @@ namespace Michsky.MUIP
         [Range(-50, 50)] public int hBorderLeft = 20;
         [Range(-50, 50)] public int hBorderRight = -15;
 
-        // Border Bounds
-        //[SerializeField] private int xLeft = -400;
-        //[SerializeField] private int xRight = 400;
-        //[SerializeField] private int yTop = -325;
-        //[SerializeField] private int yBottom = 325;
-
         [HideInInspector] public TooltipContent currentContent;
+        private RectTransform sourceRect;
         Vector3 contentPos = new Vector3(0, 0, 0);
         Vector3 tooltipVelocity = Vector3.zero;
 
@@ -48,13 +43,7 @@ namespace Michsky.MUIP
 
         void Awake()
         {
-            RectTransform sourceRect = gameObject.GetComponent<RectTransform>();
-
-            if (sourceRect == null)
-            {
-                Debug.LogError("<b>[Tooltip]</b> Rect Transform is missing from the object.", this);
-                return;
-            }
+            sourceRect = gameObject.GetComponent<RectTransform>();
 
             sourceRect.anchorMin = new Vector2(0, 0);
             sourceRect.anchorMax = new Vector2(1, 1);
@@ -63,8 +52,7 @@ namespace Michsky.MUIP
             Tooltip[] tooltips = GetComponentsInChildren<Tooltip>();
             for (int i = 0; i < tooltips.Length; i++)
             {
-                tooltips[i].tooltipContent.pivot = new Vector2(0f, tooltips[i].tooltipContent.pivot.y);
-                tooltips[i].tooltipContent.pivot = new Vector2(tooltips[i].tooltipContent.pivot.x, 0f);
+                tooltips[i].rect = tooltips[i].GetComponent<RectTransform>();
             }
 
             if (mainCanvas == null) { mainCanvas = gameObject.GetComponentInParent<Canvas>(); }
@@ -83,9 +71,10 @@ namespace Michsky.MUIP
             }
 
             UpdateTooltipPosition();
+            UpdateTooltipPivot();
         }
 
-        void UpdateTooltipPosition()
+        private void UpdateTooltipPosition()
         {
 #if ENABLE_LEGACY_INPUT_MANAGER
             Vector3 cursorPos = Input.mousePosition;
@@ -112,32 +101,23 @@ namespace Michsky.MUIP
                 //else { tooltipRect.tooltipContent.position = cursorPos + contentPos; }
             }
         }
-        /*
-                void CheckForBounds()
-                {
-                    Vector2 uiPos = currentTooltip.tooltipRect.anchoredPosition;
-                    if (uiPos.x <= xLeft)
-                    {
-                        contentPos = new Vector3(hBorderLeft, contentPos.y, 0);
-                        currentTooltip.tooltipContent.pivot = new Vector2(0f, currentTooltip.tooltipContent.pivot.y);
-                    }
-                    else if (uiPos.x >= xRight)
-                    {
-                        contentPos = new Vector3(hBorderRight, contentPos.y, 0);
-                        currentTooltip.tooltipContent.pivot = new Vector2(1f, currentTooltip.tooltipContent.pivot.y);
-                    }
-                    if (uiPos.y <= yTop)
-                    {
-                        contentPos = new Vector3(contentPos.x, vBorderBottom, 0);
-                        currentTooltip.tooltipContent.pivot = new Vector2(currentTooltip.tooltipContent.pivot.x, 0f);
-                    }
-                    else if (uiPos.y >= yBottom)
-                    {
-                        contentPos = new Vector3(contentPos.x, vBorderTop, 0);
-                        currentTooltip.tooltipContent.pivot = new Vector2(currentTooltip.tooltipContent.pivot.x, 1f);
-                    }
-                }*/
 
+        private void UpdateTooltipPivot()
+        {
+            currentTooltip.rect.pivot = currentTooltip.tooltipContent.pivot;
+
+            if (currentTooltip.rect.offsetMax.x > sourceRect.rect.width)
+                currentTooltip.rect.pivot = currentTooltip.rect.pivot * Vector2.up + Vector2.right;
+
+            if (currentTooltip.rect.offsetMin.x < 0)
+                currentTooltip.rect.pivot *= Vector2.up;
+
+            if (currentTooltip.rect.offsetMax.y > sourceRect.rect.height)
+                currentTooltip.rect.pivot = currentTooltip.rect.pivot * Vector2.right + Vector2.up;
+
+            if (currentTooltip.rect.offsetMin.y < 0)
+                currentTooltip.rect.pivot *= Vector2.right;
+        }
 
         /* =======================from TooltipContent============================== */
 
