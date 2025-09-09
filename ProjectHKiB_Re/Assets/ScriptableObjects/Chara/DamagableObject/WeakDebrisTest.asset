@@ -12,75 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5721fd3ee542e4a459ca02dea273ac32, type: 3}
   m_Name: WeakDebrisTest
   m_EditorClassIdentifier: 
-  <MaxHP>k__BackingField:
-    baseValue: 10
-    OnValueDecreased:
-      m_PersistentCalls:
-        m_Calls: []
-    OnValueIncreased:
-      m_PersistentCalls:
-        m_Calls: []
-    additionalBuff: 0
-    proportionalBuff: 0
-  <HP>k__BackingField:
-    baseValue: 10
-    OnValueDecreased:
-      m_PersistentCalls:
-        m_Calls: []
-    OnValueIncreased:
-      m_PersistentCalls:
-        m_Calls: []
-    additionalBuff: 0
-    proportionalBuff: 0
-  <DEF>k__BackingField:
-    baseValue: 0
-    OnValueDecreased:
-      m_PersistentCalls:
-        m_Calls: []
-    OnValueIncreased:
-      m_PersistentCalls:
-        m_Calls: []
-    additionalBuff: 0
-    proportionalBuff: 0
-  <Resistance>k__BackingField:
-    baseValue: 2
-    OnValueDecreased:
-      m_PersistentCalls:
-        m_Calls: []
-    OnValueIncreased:
-      m_PersistentCalls:
-        m_Calls: []
-    additionalBuff: 0
-    proportionalBuff: 0
+  <BaseMaxHP>k__BackingField: 1
+  <BaseDEF>k__BackingField: 100000000
   <Mass>k__BackingField: 5
   <HitSound>k__BackingField: {fileID: 0}
   <HitParticle>k__BackingField: {fileID: 0}
-  <Speed>k__BackingField:
-    baseValue: 0
-    OnValueDecreased:
-      m_PersistentCalls:
-        m_Calls: []
-    OnValueIncreased:
-      m_PersistentCalls:
-        m_Calls: []
-    additionalBuff: 0
-    proportionalBuff: 0
-  <SprintCoeff>k__BackingField:
-    baseValue: 0
-    OnValueDecreased:
-      m_PersistentCalls:
-        m_Calls: []
-    OnValueIncreased:
-      m_PersistentCalls:
-        m_Calls: []
-    additionalBuff: 0
-    proportionalBuff: 0
+  <Speed>k__BackingField: 0
+  <SprintCoeff>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 584
-  <IsSprinting>k__BackingField: 0
   <FootStepAudio>k__BackingField: {fileID: 0}
-  <DieWhenKnockBack>k__BackingField: 0
+  <DieWhenKnockBack>k__BackingField: 1
   <CanPushLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 11264

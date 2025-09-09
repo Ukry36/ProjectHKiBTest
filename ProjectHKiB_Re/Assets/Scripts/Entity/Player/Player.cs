@@ -90,8 +90,8 @@ public class Player : Entity, IAttackable, IDodgeable, IGraffitiable, ISkinable,
 
     public override void Initialize()
     {
-        base.Initialize();
         UpdateDatas();
+        base.Initialize();
     }
 
     public void UpdateDatas()

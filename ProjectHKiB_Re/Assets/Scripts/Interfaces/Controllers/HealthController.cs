@@ -54,7 +54,7 @@ public class HealthController : MonoBehaviour
 
     public virtual void Heal(int amount, int maxHP)
     {
-        OnHealed.Invoke();
+        OnHealed?.Invoke();
         if (amount <= 0) return;
         HP += amount;
         if (HP > maxHP) HP = maxHP;

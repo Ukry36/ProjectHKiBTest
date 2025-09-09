@@ -21,9 +21,9 @@ public class DamagableObject : Entity, IAttackable
 
     public override void Initialize()
     {
-        base.Initialize();
         if (BaseData)
             UpdateDatas();
+        base.Initialize();
     }
 
     public void UpdateDatas()
