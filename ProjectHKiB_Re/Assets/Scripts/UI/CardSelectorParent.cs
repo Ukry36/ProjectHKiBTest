@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 public class CardSelectorParent : MonoBehaviour, IPointerExitHandler
@@ -18,8 +19,10 @@ public class CardSelectorParent : MonoBehaviour, IPointerExitHandler
     public float moveTime;
     public float delayTime;
     public bool interactable = true;
+    public int currentSlot;
 
-    public List<CardData> temp;
+    public UnityEvent OnTopCardChange;
+    public void SetCurrentSlot(int set) => currentSlot = set;
 
     private readonly List<Sequence> sequences = new();
     private void CompleteAllTweens()
@@ -31,15 +34,15 @@ public class CardSelectorParent : MonoBehaviour, IPointerExitHandler
         sequences.Clear();
     }
 
-    public void Awake()
+    public void Start()
     {
+        UpdateCardDatas();
         for (int i = 0; i < cards.Length; i++)
         {
             cards[i].PointerClickEvent.AddListener(OnCardOfIndexClick);
             cards[i].PointerEnterEvent.AddListener(OnCardOfIndexEnter);
         }
         topCard.PointerEnterEvent.AddListener(OnTopCardEnter);
-        UpdateCardDatas(temp);
         topCard.SetCardData(activeCards[0].cardData, 0);
     }
 
@@ -72,8 +75,9 @@ public class CardSelectorParent : MonoBehaviour, IPointerExitHandler
         sequences.Add(sequence);
     }
 
-    public void UpdateCardDatas(List<CardData> cardDatas)
+    public void UpdateCardDatas()
     {
+        List<CardData> cardDatas = GameManager.instance.databaseManager.playerCardEquipData;
         cardDatas ??= new() { new() };
         max = cardDatas.Count;
         if (max > cards.Length) max = cards.Length;
@@ -88,13 +92,24 @@ public class CardSelectorParent : MonoBehaviour, IPointerExitHandler
             cards[i].gameObject.SetActive(true);
             activeCards.Add(cards[i]);
         }
+        topCard.SetCardData(activeCards[topCard.index].cardData, topCard.index);
+    }
+
+    public void SetGearData(int ID)
+    {
+        GameManager.instance.databaseManager.SetGearData(topCard.index, currentSlot, ID);
+        UpdateCardDatas();
+    }
+
+    public void SetTopCardAsCurrentEquippedCard()
+    {
+        GameManager.instance.databaseManager.EquipCard(topCard.index);
     }
 
     public void ChangeTopCard(int topCardIndex)
     {
         if (topCardIndex >= activeCards.Count) topCardIndex = activeCards.Count - 1;
         if (topCardIndex < 0) topCardIndex = 0;
-        CollectCards();
         float delay = activeCards.Count * delayTime;
         SetInteractable(false);
         bottomCard.SetCardData(activeCards[topCardIndex].cardData, topCardIndex);
@@ -109,7 +124,7 @@ public class CardSelectorParent : MonoBehaviour, IPointerExitHandler
         delay += 0.0001f;
         sequence.Insert(delay, topCard.transform.DOLocalMove(Vector2.zero, moveTime));
         sequence.Insert(delay, bottomCard.transform.DOLocalMove(Vector2.zero, moveTime));
-        sequence.OnComplete(() => SetInteractable(true));
+        sequence.OnComplete(() => { SetInteractable(true); OnTopCardChange?.Invoke(); });
         sequence.Play();
         sequences.Add(sequence);
     }

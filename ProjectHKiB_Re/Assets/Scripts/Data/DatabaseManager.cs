@@ -33,7 +33,9 @@ public class Item
 public class DatabaseManager : StateController
 {
     public Dictionary<int, Item> playerInventory = new();
+    public Dictionary<int, GearDataSO> playerGearInventory = new();
     public List<CardData> playerCardEquipData;
+    public int currentEquippedCardIndex;
     public CustomVariableSets parameters;
     public Vector3 playerPos;
     public Scene scene;
@@ -51,6 +53,8 @@ public class DatabaseManager : StateController
             playerInventory[ID] = new(item, count);
     }
 
+    public void AddGear(GearDataSO data) => playerGearInventory[data.GetInstanceID()] = data;
+
     public void Start()
     {
         ItemDataSO[] items = Resources.LoadAll<ItemDataSO>("Items");
@@ -64,6 +68,7 @@ public class DatabaseManager : StateController
         {
             Debug.Log(data.name);
             AddItem(data, 99);
+            AddGear(data);
         }
     }
 
@@ -90,15 +95,33 @@ public class DatabaseManager : StateController
 
     public CardData GetCardData(int index)
     {
-        if (index >= playerCardEquipData.Count)
+        if (index >= playerCardEquipData.Count || index < 0)
             return null;
         return playerCardEquipData[index];
     }
 
     public void SetCardData(int index, CardData data)
     {
-        if (index >= playerCardEquipData.Count)
+        if (index >= playerCardEquipData.Count || index < 0)
             return;
         playerCardEquipData[index] = data;
+    }
+
+    public void SetGearData(int cardIndex, int gearSlotIndex, int GearID)
+    {
+        if (cardIndex >= playerCardEquipData.Count || cardIndex < 0)
+            return;
+        if (gearSlotIndex >= playerCardEquipData[cardIndex].gearList.Count || gearSlotIndex < 0)
+            return;
+        if (!playerGearInventory.ContainsKey(GearID))
+            return;
+        playerCardEquipData[cardIndex].gearList[gearSlotIndex] = playerGearInventory[GearID];
+    }
+
+
+    public void EquipCard(int index)
+    {
+        currentEquippedCardIndex = index;
+
     }
 }

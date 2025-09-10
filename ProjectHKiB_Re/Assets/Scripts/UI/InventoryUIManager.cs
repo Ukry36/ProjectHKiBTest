@@ -10,14 +10,14 @@ public class InventoryUIManager : MonoBehaviour
     [SerializeField] private FilterPropertySO filterProperty;
     public UnityEvent<Item> OnPanelClicked;
 
-    public void UpdatePanels()
+    public virtual void UpdatePanels()
     {
         List<Item> items = GameManager.instance.databaseManager.playerInventory.Values.ToList();
         ItemPanel[] panels = panelParent.GetComponentsInChildren<ItemPanel>(true);
 
         if (items.Count > 0)
             for (int i = items.Count - 1; i >= 0; i--)
-                if (!Filter(items[i]))
+                if (!Filter(items[i].data))
                     items.RemoveAt(i);
 
         for (int i = 0; i < panels.Length; i++)
@@ -35,10 +35,10 @@ public class InventoryUIManager : MonoBehaviour
         }
     }
 
-    public bool Filter(Item item)
+    public bool Filter(ItemDataSO item)
     {
         if (filterProperty == null) return true;
-        return item.data.parentProperties.Contains(filterProperty);
+        return item.parentProperties.Contains(filterProperty);
     }
 
     public void SetFilter(FilterPropertySO filter)
