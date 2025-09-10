@@ -19,6 +19,10 @@ public class GearPanel : ItemPanel
     public void ApplyGear()
     {
         Debug.Log(gearID);
+        Debug.Log(icon5x5);
         cardSelectorParent.SetGearData(gearID);
     }
+    [NaughtyAttributes.Button]
+    public void De()
+        => Debug.Log(gearID);
 }
