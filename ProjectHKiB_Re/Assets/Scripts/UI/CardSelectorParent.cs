@@ -44,6 +44,7 @@ public class CardSelectorParent : MonoBehaviour, IPointerExitHandler
         }
         topCard.PointerEnterEvent.AddListener(OnTopCardEnter);
         topCard.SetCardData(activeCards[0].cardData, 0);
+        GameManager.instance.databaseManager.OnSetCardData.AddListener(UpdateCardDatas);
     }
 
     public void SpreadCards(int index)
@@ -98,7 +99,6 @@ public class CardSelectorParent : MonoBehaviour, IPointerExitHandler
     public void SetGearData(int ID)
     {
         GameManager.instance.databaseManager.SetGearData(topCard.index, currentSlot, ID);
-        UpdateCardDatas();
     }
 
     public void SetTopCardAsCurrentEquippedCard()

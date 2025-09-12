@@ -34,15 +34,7 @@ public class CardSelector : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
         }
         for (int i = 0; i < gearIcons.Length; i++)
         {
-            if (i < cardData.gearList.Count && cardData.gearList[i] != null)
-            {
-                gearIcons[i].gameObject.SetActive(true);
-                gearIcons[i].sprite = cardData.gearList[i].itemIcon9x9;
-            }
-            else
-            {
-                gearIcons[i].gameObject.SetActive(false);
-            }
+            gearIcons[i].sprite = cardData.GetMergedIcon(i);
         }
     }
 

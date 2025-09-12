@@ -2,24 +2,20 @@ using System.Collections.Generic;
 using UnityEngine;
 public class GearManager : MonoBehaviour
 {
-    [SerializeField] private GearMergeManagerSO gearMergeManager;
-    [SerializeField] private List<GearDataSO> equippedGears;
-    [SerializeField] private bool merge;
+    public GearMergeManagerSO gearMergeManager;
+    [SerializeField] private CardData card;
     [SerializeField] private Player player;
 
     public void Start()
     {
         gearMergeManager.OnRealGearMade += player.SetGear;
-        gearMergeManager.MergeGears(equippedGears);
     }
 
-    public void Update()
+    [NaughtyAttributes.Button]
+    public void Equip()
     {
-        if (merge)
-        {
-            gearMergeManager.MergeGears(equippedGears);
-            merge = false;
-        }
+        card.MergeGear();
+        gearMergeManager.EquipMergedCard(card);
     }
 
     public void OnDestroy()

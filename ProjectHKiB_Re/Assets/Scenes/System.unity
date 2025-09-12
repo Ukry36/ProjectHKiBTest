@@ -421,26 +421,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1777679859}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ApplyGear
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GearPanel, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 7596553028426696609, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -461,34 +441,6 @@ PrefabInstance:
       propertyPath: cardSelectorParent
       value: 
       objectReference: {fileID: 205304267}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 205304267}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetGearData
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: CardSelectorParent, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: GearDataSO, Assembly-CSharp
-      objectReference: {fileID: 0}
     - target: {fileID: 9006160115552193628, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_Name
       value: ItemPanel (9)
@@ -1247,7 +1199,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!114 &88251565
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2231,26 +2183,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1777679859}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ApplyGear
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GearPanel, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 7596553028426696609, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -2271,34 +2203,6 @@ PrefabInstance:
       propertyPath: cardSelectorParent
       value: 
       objectReference: {fileID: 205304267}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 205304267}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetGearData
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: CardSelectorParent, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: GearDataSO, Assembly-CSharp
-      objectReference: {fileID: 0}
     - target: {fileID: 9006160115552193628, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_Name
       value: ItemPanel (14)
@@ -2470,6 +2374,61 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 140492121}
   m_CullTransparentMesh: 1
+--- !u!1 &147051294
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 147051295}
+  - component: {fileID: 147051296}
+  m_Layer: 0
+  m_Name: GearManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &147051295
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 147051294}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1845891765}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &147051296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 147051294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7870c0d75b703704fbb440286e1810e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gearMergeManager: {fileID: 11400000, guid: 38b0ca7a74d982b4faf0069dbccbc88b, type: 2}
+  card:
+    cardName: 
+    mergeInfo: 
+    mergedGearList: []
+    gearList:
+    - {fileID: 11400000, guid: cba07c1f1556c3b469772f464811b36e, type: 2}
+    - {fileID: 11400000, guid: cde322ce6505e4842ba0195fee16dec1, type: 2}
+    - {fileID: 0}
+    - {fileID: 0}
+  player: {fileID: 327803488}
 --- !u!1001 &150531893
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4619,26 +4578,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1777679859}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ApplyGear
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GearPanel, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 7596553028426696609, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -4659,34 +4598,6 @@ PrefabInstance:
       propertyPath: cardSelectorParent
       value: 
       objectReference: {fileID: 205304267}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 205304267}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetGearData
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: CardSelectorParent, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: GearDataSO, Assembly-CSharp
-      objectReference: {fileID: 0}
     - target: {fileID: 9006160115552193628, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_Name
       value: ItemPanel (4)
@@ -5749,7 +5660,6 @@ GameObject:
   - component: {fileID: 327803499}
   - component: {fileID: 327803492}
   - component: {fileID: 327803496}
-  - component: {fileID: 327803497}
   - component: {fileID: 327803498}
   - component: {fileID: 327803500}
   - component: {fileID: 327803501}
@@ -5918,26 +5828,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   footstepAudioVolume: 1
   animationController: {fileID: 327803492}
---- !u!114 &327803497
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 327803487}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7870c0d75b703704fbb440286e1810e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gearMergeManager: {fileID: 11400000, guid: 38b0ca7a74d982b4faf0069dbccbc88b, type: 2}
-  equippedGears:
-  - {fileID: 11400000, guid: 30a4180edb5a45845a8fd52d25a56c88, type: 2}
-  - {fileID: 11400000, guid: cde322ce6505e4842ba0195fee16dec1, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  merge: 0
-  player: {fileID: 327803488}
 --- !u!114 &327803498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9952,26 +9842,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1777679859}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ApplyGear
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GearPanel, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 7596553028426696609, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -9992,34 +9862,6 @@ PrefabInstance:
       propertyPath: cardSelectorParent
       value: 
       objectReference: {fileID: 205304267}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 205304267}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetGearData
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: CardSelectorParent, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: GearDataSO, Assembly-CSharp
-      objectReference: {fileID: 0}
     - target: {fileID: 9006160115552193628, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_Name
       value: ItemPanel (16)
@@ -10957,26 +10799,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1777679859}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ApplyGear
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GearPanel, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 7596553028426696609, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -10997,34 +10819,6 @@ PrefabInstance:
       propertyPath: cardSelectorParent
       value: 
       objectReference: {fileID: 205304267}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 205304267}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetGearData
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: CardSelectorParent, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: GearDataSO, Assembly-CSharp
-      objectReference: {fileID: 0}
     - target: {fileID: 9006160115552193628, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_Name
       value: ItemPanel (12)
@@ -12782,13 +12576,37 @@ MonoBehaviour:
   TransitionConditions: 
   playerCardEquipData:
   - cardName: 
-    gearList: []
+    mergeInfo: 
+    mergedGearList: []
+    gearList:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
   - cardName: 
-    gearList: []
+    mergeInfo: 
+    mergedGearList: []
+    gearList:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
   - cardName: 
-    gearList: []
+    mergeInfo: 
+    mergedGearList: []
+    gearList:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
   - cardName: 
-    gearList: []
+    mergeInfo: 
+    mergedGearList: []
+    gearList:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
   currentEquippedCardIndex: 0
   parameters:
     boolVariables:
@@ -12800,6 +12618,10 @@ MonoBehaviour:
   playerPos: {x: 0, y: 0, z: 0}
   scene:
     m_Handle: 0
+  maxGearSlotCount: 4
+  OnSetCardData:
+    m_PersistentCalls:
+      m_Calls: []
   test: {fileID: 0}
 --- !u!1 &736191145
 GameObject:
@@ -13332,26 +13154,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1777679859}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ApplyGear
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GearPanel, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 7596553028426696609, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -13372,34 +13174,6 @@ PrefabInstance:
       propertyPath: cardSelectorParent
       value: 
       objectReference: {fileID: 205304267}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 205304267}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetGearData
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: CardSelectorParent, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: GearDataSO, Assembly-CSharp
-      objectReference: {fileID: 0}
     - target: {fileID: 9006160115552193628, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_Name
       value: ItemPanel (1)
@@ -13752,26 +13526,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1777679859}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ApplyGear
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GearPanel, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 7596553028426696609, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -13792,34 +13546,6 @@ PrefabInstance:
       propertyPath: cardSelectorParent
       value: 
       objectReference: {fileID: 205304267}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 205304267}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetGearData
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: CardSelectorParent, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: GearDataSO, Assembly-CSharp
-      objectReference: {fileID: 0}
     - target: {fileID: 9006160115552193628, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_Name
       value: ItemPanel (18)
@@ -14120,26 +13846,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1777679859}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ApplyGear
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GearPanel, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 7596553028426696609, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -14160,34 +13866,6 @@ PrefabInstance:
       propertyPath: cardSelectorParent
       value: 
       objectReference: {fileID: 205304267}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 205304267}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetGearData
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: CardSelectorParent, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: GearDataSO, Assembly-CSharp
-      objectReference: {fileID: 0}
     - target: {fileID: 9006160115552193628, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_Name
       value: ItemPanel (10)
@@ -17157,26 +16835,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1777679859}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ApplyGear
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GearPanel, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 7596553028426696609, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -17197,34 +16855,6 @@ PrefabInstance:
       propertyPath: cardSelectorParent
       value: 
       objectReference: {fileID: 205304267}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 205304267}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetGearData
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: CardSelectorParent, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: GearDataSO, Assembly-CSharp
-      objectReference: {fileID: 0}
     - target: {fileID: 9006160115552193628, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_Name
       value: ItemPanel (2)
@@ -18457,26 +18087,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1777679859}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ApplyGear
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GearPanel, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 7596553028426696609, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -18497,34 +18107,6 @@ PrefabInstance:
       propertyPath: cardSelectorParent
       value: 
       objectReference: {fileID: 205304267}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 205304267}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetGearData
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: CardSelectorParent, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: GearDataSO, Assembly-CSharp
-      objectReference: {fileID: 0}
     - target: {fileID: 9006160115552193628, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_Name
       value: ItemPanel (6)
@@ -19870,26 +19452,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1777679859}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ApplyGear
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GearPanel, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 7596553028426696609, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -19910,34 +19472,6 @@ PrefabInstance:
       propertyPath: cardSelectorParent
       value: 
       objectReference: {fileID: 205304267}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 205304267}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetGearData
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: CardSelectorParent, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: GearDataSO, Assembly-CSharp
-      objectReference: {fileID: 0}
     - target: {fileID: 9006160115552193628, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_Name
       value: ItemPanel (11)
@@ -20702,26 +20236,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1777679859}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ApplyGear
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GearPanel, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 7596553028426696609, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -20742,34 +20256,6 @@ PrefabInstance:
       propertyPath: cardSelectorParent
       value: 
       objectReference: {fileID: 205304267}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 205304267}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetGearData
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: CardSelectorParent, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: GearDataSO, Assembly-CSharp
-      objectReference: {fileID: 0}
     - target: {fileID: 9006160115552193628, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_Name
       value: ItemPanel (8)
@@ -22041,26 +21527,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1777679859}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ApplyGear
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GearPanel, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 7596553028426696609, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -22081,34 +21547,6 @@ PrefabInstance:
       propertyPath: cardSelectorParent
       value: 
       objectReference: {fileID: 205304267}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 205304267}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetGearData
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: CardSelectorParent, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: GearDataSO, Assembly-CSharp
-      objectReference: {fileID: 0}
     - target: {fileID: 9006160115552193628, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_Name
       value: ItemPanel (17)
@@ -25043,26 +24481,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1777679859}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ApplyGear
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GearPanel, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 7596553028426696609, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -25083,34 +24501,6 @@ PrefabInstance:
       propertyPath: cardSelectorParent
       value: 
       objectReference: {fileID: 205304267}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 205304267}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetGearData
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: CardSelectorParent, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: GearDataSO, Assembly-CSharp
-      objectReference: {fileID: 0}
     - target: {fileID: 9006160115552193628, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_Name
       value: ItemPanel (7)
@@ -25353,26 +24743,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1777679859}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ApplyGear
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GearPanel, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 7596553028426696609, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -25393,34 +24763,6 @@ PrefabInstance:
       propertyPath: cardSelectorParent
       value: 
       objectReference: {fileID: 205304267}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 205304267}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetGearData
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: CardSelectorParent, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: GearDataSO, Assembly-CSharp
-      objectReference: {fileID: 0}
     - target: {fileID: 9006160115552193628, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_Name
       value: ItemPanel (13)
@@ -28965,26 +28307,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1777679859}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ApplyGear
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GearPanel, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 7596553028426696609, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -29005,34 +28327,6 @@ PrefabInstance:
       propertyPath: cardSelectorParent
       value: 
       objectReference: {fileID: 205304267}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 205304267}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetGearData
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: CardSelectorParent, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: GearDataSO, Assembly-CSharp
-      objectReference: {fileID: 0}
     - target: {fileID: 9006160115552193628, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_Name
       value: ItemPanel (15)
@@ -30439,26 +29733,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1777679859}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ApplyGear
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GearPanel, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 7596553028426696609, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -30479,34 +29753,6 @@ PrefabInstance:
       propertyPath: cardSelectorParent
       value: 
       objectReference: {fileID: 205304267}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 205304267}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetGearData
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: CardSelectorParent, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: GearDataSO, Assembly-CSharp
-      objectReference: {fileID: 0}
     - target: {fileID: 9006160115552193628, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_Name
       value: ItemPanel (19)
@@ -30602,17 +29848,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 9216178320323046564, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
   m_PrefabInstance: {fileID: 1777679857}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1777679859 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-  m_PrefabInstance: {fileID: 1777679857}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 20248548e7740a04eb30266e8ba580d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1778972234
 GameObject:
   m_ObjectHideFlags: 0
@@ -32013,6 +31248,7 @@ MonoBehaviour:
   objectSpawnManager: {fileID: 1310757089}
   objectDeathCountManager: {fileID: 857761130}
   databaseManager: {fileID: 724609690}
+  gearManager: {fileID: 147051296}
   player: {fileID: 327803488}
 --- !u!4 &1845891765
 Transform:
@@ -32038,6 +31274,7 @@ Transform:
   - {fileID: 1310757088}
   - {fileID: 857761131}
   - {fileID: 724609689}
+  - {fileID: 147051295}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -32477,26 +31714,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1777679859}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ApplyGear
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GearPanel, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 7596553028426696609, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -32517,34 +31734,6 @@ PrefabInstance:
       propertyPath: cardSelectorParent
       value: 
       objectReference: {fileID: 205304267}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 205304267}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetGearData
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: CardSelectorParent, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: GearDataSO, Assembly-CSharp
-      objectReference: {fileID: 0}
     - target: {fileID: 9006160115552193628, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_Name
       value: ItemPanel (5)
@@ -33068,26 +32257,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1777679859}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ApplyGear
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GearPanel, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 7596553028426696609, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -33108,34 +32277,6 @@ PrefabInstance:
       propertyPath: cardSelectorParent
       value: 
       objectReference: {fileID: 205304267}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 205304267}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetGearData
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: CardSelectorParent, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: GearDataSO, Assembly-CSharp
-      objectReference: {fileID: 0}
     - target: {fileID: 9006160115552193628, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_Name
       value: ItemPanel (3)
@@ -37757,7 +36898,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fafe2cfe61f6974895a912c3755e8f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_AllowSwitchOff: 0
+  m_AllowSwitchOff: 1
 --- !u!1 &7435482704285976680
 GameObject:
   m_ObjectHideFlags: 0
@@ -37791,6 +36932,8 @@ MonoBehaviour:
   highlighted: 0
   cardData:
     cardName: 
+    mergeInfo: 
+    mergedGearList: []
     gearList: []
   gearIcons:
   - {fileID: 136479799}
@@ -38118,26 +37261,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1777679859}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ApplyGear
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GearPanel, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 7596553028426696609, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -38158,34 +37281,6 @@ PrefabInstance:
       propertyPath: cardSelectorParent
       value: 
       objectReference: {fileID: 205304267}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 205304267}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetGearData
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: CardSelectorParent, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418576949993407725, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
-      propertyPath: OnGearApply.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: GearDataSO, Assembly-CSharp
-      objectReference: {fileID: 0}
     - target: {fileID: 9006160115552193628, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_Name
       value: ItemPanel

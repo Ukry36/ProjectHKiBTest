@@ -23,74 +23,82 @@ public class GearMergeManagerSO : ScriptableObject
             Debug.LogError("ERROR : default gear data not attached!!!");
     }
 
-    public void MergeGears(List<GearDataSO> equippedGears)
+    public void MergeCard(CardData card)
     {
         int i, j, k;
+        // If gear in slot is null or already merged, its value is false
+        List<bool> isGearAvailableSlot = new(MAXGEARCOUNT);
+        card.mergedGearList = new(card.gearList.Count);
+        card.mergeInfo = new(card.gearList.Count);
+
+        // Stores nullcheck in isGearAvailableSlot
+        // if null, put defaultGear in
+        for (i = 0; i < card.gearList.Count; i++)
+        {
+            isGearAvailableSlot.Add(card.gearList[i] != null);
+            card.mergedGearList.Add(card.gearList[i] == null ? defaultGearData : card.gearList[i]);
+            card.mergeInfo.Add(-1);
+        }
+
+        // For all merged gears check if their mergeset gears are in equipped gears 
+        // If they exists, check them as already merged
+        List<int> inMergeSetGearSlots = new(card.gearList.Count);
+        for (i = 0; i < allMergedGearDatas.Length; i++)
+        {
+            inMergeSetGearSlots.Clear();
+            for (j = 0; j < allMergedGearDatas[i].mergeSet.Length; j++)
+            {
+                for (k = 0; k < card.gearList.Count; k++)
+                {
+                    if (isGearAvailableSlot[k] && allMergedGearDatas[i].mergeSet[j] == card.gearList[k])
+                        inMergeSetGearSlots.Add(k);
+                }
+            }
+
+            if (inMergeSetGearSlots.Count == allMergedGearDatas[i].mergeSet.Length)
+            {
+                for (j = 0; j < inMergeSetGearSlots.Count; j++)
+                {
+                    Debug.Log(card.mergedGearList.Count);
+                    isGearAvailableSlot[inMergeSetGearSlots[j]] = false;
+                    card.mergedGearList[inMergeSetGearSlots[j]] = allMergedGearDatas[i];
+                    card.mergeInfo[inMergeSetGearSlots[j]] = allMergedGearDatas[i].GetInstanceID();
+                }
+            }
+        }
+    }
+
+    public void EquipMergedCard(CardData card)
+    {
         // final merged gear data
         MergedPlayerBaseData mergedGearData = new();
         // If gear in slot is null or already merged, its value is false
         List<bool> isGearAvailableSlot = new(MAXGEARCOUNT);
 
-        // temporary List for merged gears
-        List<GearDataSO> mergedEquippedGears = equippedGears.ToList();
-
-        // Stores nullcheck in isGearAvailableSlot
-        // if null, put defaultGear in
-        for (i = 0; i < equippedGears.Count; i++)
-        {
-            isGearAvailableSlot.Add(equippedGears[i] != null);
-            if (equippedGears[i] == null)
-                mergedEquippedGears[i] = defaultGearData;
-        }
-
-        // For all merged gears check if their mergeset gears are in equipped gears 
-        // If they exists, check them as already merged
-        for (i = 0; i < allMergedGearDatas.Length; i++)
-        {
-            List<int> inMergeSetGearSlots = new(equippedGears.Count);
-            for (j = 0; j < allMergedGearDatas[i].mergeSet.Length; j++)
-            {
-                for (k = 0; k < equippedGears.Count; k++)
-                {
-                    if (isGearAvailableSlot[k] && allMergedGearDatas[i].mergeSet[j].Equals(equippedGears[k]))
-                        inMergeSetGearSlots.Add(k);
-                }
-            }
-
-            if (inMergeSetGearSlots.Count.Equals(allMergedGearDatas[i].mergeSet.Length))
-            {
-                for (j = 0; j < inMergeSetGearSlots.Count; j++)
-                {
-                    isGearAvailableSlot[inMergeSetGearSlots[j]] = false;
-                    mergedEquippedGears[inMergeSetGearSlots[j]] = allMergedGearDatas[i];
-                }
-            }
-        }
-
         // Set skin skin and animation or base stats of main gear as default
         // and apply main effect, set geartype
-        SetDatas(mergedGearData, mergedEquippedGears[MAINGEAR].playerBaseData);
-        mergedEquippedGears[MAINGEAR].ApplyMainGearEffect(mergedGearData);
-        mergedGearData.gearType = mergedEquippedGears[MAINGEAR].gearType;
+        SetDatas(mergedGearData, card.mergedGearList[MAINGEAR].playerBaseData);
+        card.mergedGearList[MAINGEAR].ApplyMainGearEffect(mergedGearData);
+        mergedGearData.gearType = card.mergedGearList[MAINGEAR].gearType;
 
         // If there is attack gear in subgears, override attack animation and geartype
         // also if maingear cannot attack it doesn't happen
         // and apply sub effects
-        for (i = mergedEquippedGears.Count - 1; i > MAINGEAR; i--)
+        for (int i = card.mergedGearList.Count - 1; i > MAINGEAR; i--)
         {
-            if (mergedEquippedGears[i].gearType.isAttackGear
-            && !mergedEquippedGears[MAINGEAR].gearType.isAttackGear
-            && !mergedEquippedGears[MAINGEAR].gearType.cannotAttack)
+            if (card.mergedGearList[i].gearType.isAttackGear
+            && !card.mergedGearList[MAINGEAR].gearType.isAttackGear
+            && !card.mergedGearList[MAINGEAR].gearType.cannotAttack)
             {
 #if UNITY_EDITOR
-                //Debug.Log("AttackGear Overrided: " + mergedEquippedGears[i]);
-                //Debug.Log("AttackData Length: " + mergedEquippedGears[i].playerBaseData.AttackDatas.Length);
+                //Debug.Log("AttackGear Overrided: " + card.mergedGearList[i]);
+                //Debug.Log("AttackData Length: " + card.mergedGearList[i].playerBaseData.AttackDatas.Length);
 #endif
-                databaseManager.SetIStateControllable(mergedGearData, mergedEquippedGears[i].playerBaseData);
-                mergedGearData.gearType = mergedEquippedGears[i].gearType;
-                mergedGearData.AttackDatas = mergedEquippedGears[i].playerBaseData.AttackDatas;
+                databaseManager.SetIStateControllable(mergedGearData, card.mergedGearList[i].playerBaseData);
+                mergedGearData.gearType = card.mergedGearList[i].gearType;
+                mergedGearData.AttackDatas = card.mergedGearList[i].playerBaseData.AttackDatas;
             }
-            mergedEquippedGears[i].ApplySubGearEffect(mergedGearData);
+            card.mergedGearList[i].ApplySubGearEffect(mergedGearData);
         }
         // This triggers player to reset data
         // also triggers other effects or something

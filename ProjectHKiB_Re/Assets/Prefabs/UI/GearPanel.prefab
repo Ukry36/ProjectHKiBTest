@@ -157,7 +157,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
       propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
       propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
@@ -166,7 +166,7 @@ PrefabInstance:
     - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
       propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 8418576949993407725}
     - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
       propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -177,15 +177,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
       propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetGearData
+      value: ApplyGear
       objectReference: {fileID: 0}
     - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
       propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: CardSelectorParent, Assembly-CSharp
+      value: GearPanel, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
       propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: GearDataSO, Assembly-CSharp
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8062076827000152896, guid: 47aaf2294ab8866429876889903253cd, type: 3}
       propertyPath: m_AnchorMax.y
@@ -272,7 +272,5 @@ MonoBehaviour:
   itemName: {fileID: 7596553028426696614}
   itemColor: {fileID: 7596553028102246036}
   itemTooltip: {fileID: 0}
-  gear: {fileID: 0}
-  OnGearApply:
-    m_PersistentCalls:
-      m_Calls: []
+  gearID: 0
+  cardSelectorParent: {fileID: 0}

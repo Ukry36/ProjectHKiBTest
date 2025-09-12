@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 public class Item
 {
@@ -39,6 +41,9 @@ public class DatabaseManager : StateController
     public CustomVariableSets parameters;
     public Vector3 playerPos;
     public Scene scene;
+    public int maxGearSlotCount;
+
+    public UnityEvent OnSetCardData;
 
     public ItemDataSO test;
     [NaughtyAttributes.Button]
@@ -105,17 +110,24 @@ public class DatabaseManager : StateController
         if (index >= playerCardEquipData.Count || index < 0)
             return;
         playerCardEquipData[index] = data;
+        OnSetCardData?.Invoke();
     }
 
-    public void SetGearData(int cardIndex, int gearSlotIndex, int GearID)
+    public void SetEquippedCardData(CardData data)
+    {
+        SetCardData(currentEquippedCardIndex, data);
+    }
+
+    public void SetGearData(int cardIndex, int gearSlotIndex, int gearID)
     {
         if (cardIndex >= playerCardEquipData.Count || cardIndex < 0)
             return;
-        if (gearSlotIndex >= playerCardEquipData[cardIndex].gearList.Count || gearSlotIndex < 0)
+        if (gearSlotIndex >= maxGearSlotCount || gearSlotIndex < 0)
             return;
-        if (!playerGearInventory.ContainsKey(GearID))
+        if (!playerGearInventory.ContainsKey(gearID))
             return;
-        playerCardEquipData[cardIndex].gearList[gearSlotIndex] = playerGearInventory[GearID];
+        playerCardEquipData[cardIndex].SetGear(gearSlotIndex, playerGearInventory[gearID]);
+        OnSetCardData?.Invoke();
     }
 
 

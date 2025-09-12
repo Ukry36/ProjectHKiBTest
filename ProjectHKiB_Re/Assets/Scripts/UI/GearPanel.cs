@@ -14,15 +14,9 @@ public class GearPanel : ItemPanel
         if (itemName) itemName.text = data.name;
         if (itemColor) itemColor.color = data.color;
         if (itemTooltip) itemTooltip.SetData(data);
-        Debug.Log(gearID);
     }
     public void ApplyGear()
     {
-        Debug.Log(gearID);
-        Debug.Log(icon5x5);
         cardSelectorParent.SetGearData(gearID);
     }
-    [NaughtyAttributes.Button]
-    public void De()
-        => Debug.Log(gearID);
 }
