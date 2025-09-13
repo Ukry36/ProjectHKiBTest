@@ -92,6 +92,7 @@ public class Player : Entity, IAttackable, IDodgeable, IGraffitiable, ISkinable,
     {
         UpdateDatas();
         base.Initialize();
+        SetStateController();
     }
 
     public void UpdateDatas()

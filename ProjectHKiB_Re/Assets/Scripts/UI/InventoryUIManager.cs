@@ -12,7 +12,7 @@ public class InventoryUIManager : MonoBehaviour
 
     public virtual void UpdatePanels()
     {
-        List<Item> items = GameManager.instance.databaseManager.playerInventory.Values.ToList();
+        List<Item> items = GameManager.instance.inventoryManager.playerInventory.Values.ToList();
         ItemPanel[] panels = panelParent.GetComponentsInChildren<ItemPanel>(true);
 
         if (items.Count > 0)
@@ -24,9 +24,8 @@ public class InventoryUIManager : MonoBehaviour
         {
             if (items.Count > i)
             {
-                Item item = items[i];
                 panels[i].gameObject.SetActive(true);
-                panels[i].SetData(item);
+                panels[i].SetData(items[i]);
             }
             else
             {
@@ -55,11 +54,8 @@ public class InventoryUIManager : MonoBehaviour
 
     public void ClickPanel(int index)
     {
-        List<Item> items = GameManager.instance.databaseManager.playerInventory.Values.ToList();
-        if (items.Count > index)
-        {
-            OnPanelClicked.Invoke(items[index]);
-        }
+        ItemPanel[] panels = panelParent.GetComponentsInChildren<ItemPanel>(true);
+        OnPanelClicked.Invoke(panels[index].item);
         UpdatePanels();
     }
 

@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     public ObjectDeathCountManager objectDeathCountManager;
     public DatabaseManager databaseManager;
     public GearManager gearManager;
+    public InventoryManager inventoryManager;
 
     public Player player;
 

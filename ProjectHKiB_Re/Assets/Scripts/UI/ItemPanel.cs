@@ -9,6 +9,7 @@ public class ItemPanel : MonoBehaviour
     public Image itemColor;
     public ItemTooltipContent itemTooltip;
     public Item item;
+    private int index;
 
     public void SetData(Item item)
     {

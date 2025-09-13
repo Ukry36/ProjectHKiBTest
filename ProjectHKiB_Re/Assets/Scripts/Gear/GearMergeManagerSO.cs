@@ -59,7 +59,6 @@ public class GearMergeManagerSO : ScriptableObject
             {
                 for (j = 0; j < inMergeSetGearSlots.Count; j++)
                 {
-                    Debug.Log(card.mergedGearList.Count);
                     isGearAvailableSlot[inMergeSetGearSlots[j]] = false;
                     card.mergedGearList[inMergeSetGearSlots[j]] = allMergedGearDatas[i];
                     card.mergeInfo[inMergeSetGearSlots[j]] = allMergedGearDatas[i].GetInstanceID();

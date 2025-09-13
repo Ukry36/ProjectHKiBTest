@@ -439,7 +439,13 @@ MonoBehaviour:
   highlighted: 0
   cardData:
     cardName: 
-    gearList: []
+    mergeInfo: 
+    mergedGearList: []
+    gearList:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
   gearIcons:
   - {fileID: 7435482703823680403}
   - {fileID: 7435482703140422603}

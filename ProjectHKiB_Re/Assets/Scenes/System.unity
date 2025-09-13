@@ -421,6 +421,26 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 463770062}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClickPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GearInventoryUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 7596553028426696609, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -2183,6 +2203,26 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 463770062}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClickPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GearInventoryUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 7596553028426696609, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -2429,6 +2469,39 @@ MonoBehaviour:
     - {fileID: 0}
     - {fileID: 0}
   player: {fileID: 327803488}
+  playerCardEquipData:
+  - cardName: 
+    mergeInfo: 
+    mergedGearList: []
+    gearList:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+  - cardName: 
+    mergeInfo: 
+    mergedGearList: []
+    gearList:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+  - cardName: 
+    mergeInfo: 
+    mergedGearList: []
+    gearList:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+  currentEquippedCardIndex: 0
+  maxGearSlotCount: 4
+  canChangeCard: 1
+  selectorForEdit: {fileID: 205304267}
+  selectorForEquip: {fileID: 864839767}
+  OnSetCardData:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &150531893
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2704,7 +2777,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 41.000004, y: -21}
+  m_AnchoredPosition: {x: 41, y: -21}
   m_SizeDelta: {x: 76, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &171598274
@@ -3076,6 +3149,38 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 805029444}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClickPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: InventoryUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 8062076827000152896, guid: 47aaf2294ab8866429876889903253cd, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -3124,7 +3229,7 @@ GameObject:
   - component: {fileID: 205304268}
   - component: {fileID: 205304269}
   m_Layer: 5
-  m_Name: CardSelectorForCardParent
+  m_Name: CardSelectorForEdit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3601,6 +3706,38 @@ PrefabInstance:
     - target: {fileID: 4518134574389866648, guid: 47aaf2294ab8866429876889903253cd, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 805029444}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClickPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: InventoryUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8062076827000152896, guid: 47aaf2294ab8866429876889903253cd, type: 3}
       propertyPath: m_AnchorMax.y
@@ -4577,6 +4714,26 @@ PrefabInstance:
     - target: {fileID: 1630520281705392055, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 463770062}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClickPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GearInventoryUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7596553028426696609, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchorMax.y
@@ -5627,6 +5784,38 @@ PrefabInstance:
     - target: {fileID: 4518134574389866648, guid: 47aaf2294ab8866429876889903253cd, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 805029444}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClickPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: InventoryUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8062076827000152896, guid: 47aaf2294ab8866429876889903253cd, type: 3}
       propertyPath: m_AnchorMax.y
@@ -7067,6 +7256,38 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 805029444}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClickPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: InventoryUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 8062076827000152896, guid: 47aaf2294ab8866429876889903253cd, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -7235,6 +7456,38 @@ PrefabInstance:
     - target: {fileID: 4518134574389866648, guid: 47aaf2294ab8866429876889903253cd, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 805029444}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClickPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: InventoryUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8062076827000152896, guid: 47aaf2294ab8866429876889903253cd, type: 3}
       propertyPath: m_AnchorMax.y
@@ -7892,7 +8145,19 @@ MonoBehaviour:
   filterProperty: {fileID: 11400000, guid: f0a265f5283123f4493fd2602bff1e17, type: 2}
   OnPanelClicked:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 147051296}
+        m_TargetAssemblyTypeName: GearManager, Assembly-CSharp
+        m_MethodName: SetGearDataBySelector
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &470854850
 GameObject:
   m_ObjectHideFlags: 0
@@ -9842,6 +10107,26 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 463770062}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClickPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GearInventoryUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 7596553028426696609, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -10798,6 +11083,26 @@ PrefabInstance:
     - target: {fileID: 1630520281705392055, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 463770062}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClickPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GearInventoryUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 7596553028426696609, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchorMax.y
@@ -12574,40 +12879,6 @@ MonoBehaviour:
       _serializedList: []
   _currentState: {fileID: 0}
   TransitionConditions: 
-  playerCardEquipData:
-  - cardName: 
-    mergeInfo: 
-    mergedGearList: []
-    gearList:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-  - cardName: 
-    mergeInfo: 
-    mergedGearList: []
-    gearList:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-  - cardName: 
-    mergeInfo: 
-    mergedGearList: []
-    gearList:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-  - cardName: 
-    mergeInfo: 
-    mergedGearList: []
-    gearList:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-  currentEquippedCardIndex: 0
   parameters:
     boolVariables:
       _serializedList: []
@@ -12618,11 +12889,6 @@ MonoBehaviour:
   playerPos: {x: 0, y: 0, z: 0}
   scene:
     m_Handle: 0
-  maxGearSlotCount: 4
-  OnSetCardData:
-    m_PersistentCalls:
-      m_Calls: []
-  test: {fileID: 0}
 --- !u!1 &736191145
 GameObject:
   m_ObjectHideFlags: 0
@@ -13154,6 +13420,26 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 463770062}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClickPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GearInventoryUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7596553028426696609, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -13526,6 +13812,26 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 463770062}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClickPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GearInventoryUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 18
+      objectReference: {fileID: 0}
     - target: {fileID: 7596553028426696609, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -13845,6 +14151,26 @@ PrefabInstance:
     - target: {fileID: 1630520281705392055, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 463770062}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClickPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GearInventoryUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7596553028426696609, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchorMax.y
@@ -14626,6 +14952,38 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 805029444}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClickPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: InventoryUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 8062076827000152896, guid: 47aaf2294ab8866429876889903253cd, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -14707,7 +15065,7 @@ GameObject:
   - component: {fileID: 864839769}
   - component: {fileID: 864839770}
   m_Layer: 5
-  m_Name: CardSelectorParent
+  m_Name: CardSelectorForEquip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14772,9 +15130,9 @@ MonoBehaviour:
   OnTopCardChange:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 864839767}
-        m_TargetAssemblyTypeName: CardSelectorParent, Assembly-CSharp
-        m_MethodName: SetTopCardAsCurrentEquippedCard
+      - m_Target: {fileID: 147051296}
+        m_TargetAssemblyTypeName: GearManager, Assembly-CSharp
+        m_MethodName: EquipCardBySelector
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -16835,6 +17193,26 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 463770062}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClickPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GearInventoryUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7596553028426696609, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -17833,6 +18211,38 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 805029444}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClickPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: InventoryUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 8062076827000152896, guid: 47aaf2294ab8866429876889903253cd, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -18086,6 +18496,26 @@ PrefabInstance:
     - target: {fileID: 1630520281705392055, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 463770062}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClickPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GearInventoryUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7596553028426696609, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchorMax.y
@@ -18610,6 +19040,38 @@ PrefabInstance:
     - target: {fileID: 4518134574389866648, guid: 47aaf2294ab8866429876889903253cd, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 805029444}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClickPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: InventoryUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8062076827000152896, guid: 47aaf2294ab8866429876889903253cd, type: 3}
       propertyPath: m_AnchorMax.y
@@ -19452,6 +19914,26 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 463770062}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClickPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GearInventoryUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 7596553028426696609, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -19868,6 +20350,38 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 805029444}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClickPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: InventoryUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 8062076827000152896, guid: 47aaf2294ab8866429876889903253cd, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -20235,6 +20749,26 @@ PrefabInstance:
     - target: {fileID: 1630520281705392055, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 463770062}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClickPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GearInventoryUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7596553028426696609, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchorMax.y
@@ -21526,6 +22060,26 @@ PrefabInstance:
     - target: {fileID: 1630520281705392055, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 463770062}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClickPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GearInventoryUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 7596553028426696609, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchorMax.y
@@ -22838,6 +23392,38 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 805029444}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClickPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: InventoryUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 8062076827000152896, guid: 47aaf2294ab8866429876889903253cd, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -23319,6 +23905,38 @@ PrefabInstance:
     - target: {fileID: 4518134574389866648, guid: 47aaf2294ab8866429876889903253cd, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 805029444}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClickPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: InventoryUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8062076827000152896, guid: 47aaf2294ab8866429876889903253cd, type: 3}
       propertyPath: m_AnchorMax.y
@@ -24481,6 +25099,26 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 463770062}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClickPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GearInventoryUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 7596553028426696609, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -24742,6 +25380,26 @@ PrefabInstance:
     - target: {fileID: 1630520281705392055, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 463770062}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClickPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GearInventoryUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 7596553028426696609, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchorMax.y
@@ -25782,6 +26440,38 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 805029444}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClickPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: InventoryUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 8062076827000152896, guid: 47aaf2294ab8866429876889903253cd, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -26306,6 +26996,38 @@ PrefabInstance:
     - target: {fileID: 4518134574389866648, guid: 47aaf2294ab8866429876889903253cd, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 805029444}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClickPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: InventoryUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8062076827000152896, guid: 47aaf2294ab8866429876889903253cd, type: 3}
       propertyPath: m_AnchorMax.y
@@ -28307,6 +29029,26 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 463770062}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClickPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GearInventoryUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 7596553028426696609, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -29733,6 +30475,26 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 463770062}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClickPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GearInventoryUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 19
+      objectReference: {fileID: 0}
     - target: {fileID: 7596553028426696609, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -30385,6 +31147,38 @@ PrefabInstance:
     - target: {fileID: 4518134574389866648, guid: 47aaf2294ab8866429876889903253cd, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 805029444}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClickPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: InventoryUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8062076827000152896, guid: 47aaf2294ab8866429876889903253cd, type: 3}
       propertyPath: m_AnchorMax.y
@@ -31249,6 +32043,7 @@ MonoBehaviour:
   objectDeathCountManager: {fileID: 857761130}
   databaseManager: {fileID: 724609690}
   gearManager: {fileID: 147051296}
+  inventoryManager: {fileID: 1855532042}
   player: {fileID: 327803488}
 --- !u!4 &1845891765
 Transform:
@@ -31275,9 +32070,54 @@ Transform:
   - {fileID: 857761131}
   - {fileID: 724609689}
   - {fileID: 147051295}
+  - {fileID: 1855532041}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1855532040
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1855532041}
+  - component: {fileID: 1855532042}
+  m_Layer: 0
+  m_Name: InventoryManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1855532041
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1855532040}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1845891765}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1855532042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1855532040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3822c1bb7dbb8f64b8c18ebb250e96db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1856698980
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31428,6 +32268,38 @@ PrefabInstance:
     - target: {fileID: 4518134574389866648, guid: 47aaf2294ab8866429876889903253cd, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 805029444}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClickPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: InventoryUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8062076827000152896, guid: 47aaf2294ab8866429876889903253cd, type: 3}
       propertyPath: m_AnchorMax.y
@@ -31713,6 +32585,26 @@ PrefabInstance:
     - target: {fileID: 1630520281705392055, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 463770062}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClickPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GearInventoryUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7596553028426696609, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchorMax.y
@@ -32256,6 +33148,26 @@ PrefabInstance:
     - target: {fileID: 1630520281705392055, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 463770062}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClickPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GearInventoryUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7596553028426696609, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchorMax.y
@@ -33052,6 +33964,38 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 805029444}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClickPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: InventoryUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 8062076827000152896, guid: 47aaf2294ab8866429876889903253cd, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -33301,6 +34245,38 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 805029444}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClickPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: InventoryUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 8062076827000152896, guid: 47aaf2294ab8866429876889903253cd, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -33469,6 +34445,38 @@ PrefabInstance:
     - target: {fileID: 4518134574389866648, guid: 47aaf2294ab8866429876889903253cd, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 805029444}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClickPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: InventoryUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8062076827000152896, guid: 47aaf2294ab8866429876889903253cd, type: 3}
       propertyPath: m_AnchorMax.y
@@ -34630,6 +35638,38 @@ PrefabInstance:
     - target: {fileID: 4518134574389866648, guid: 47aaf2294ab8866429876889903253cd, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 805029444}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClickPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: InventoryUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8062076827000152896, guid: 47aaf2294ab8866429876889903253cd, type: 3}
       propertyPath: m_AnchorMax.y
@@ -37215,6 +38255,34 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 805029444}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClickPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: InventoryUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787795848156079814, guid: 47aaf2294ab8866429876889903253cd, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 8062076827000152896, guid: 47aaf2294ab8866429876889903253cd, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -37260,6 +38328,22 @@ PrefabInstance:
     - target: {fileID: 1630520281705392055, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 463770062}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClickPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265805307679138353, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GearInventoryUIManager, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 7596553028426696609, guid: 86c846413d5f49f4a89ca4a69c5aea02, type: 3}
       propertyPath: m_AnchorMax.y

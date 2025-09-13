@@ -11,12 +11,14 @@ public class CardData
     public List<GearDataSO> gearList;
     public void SetGear(int slotIndex, GearDataSO gear)
     {
-        if (slotIndex >= 0 && slotIndex < GameManager.instance.databaseManager.maxGearSlotCount)
+        if (slotIndex >= 0 && slotIndex < GameManager.instance.gearManager.maxGearSlotCount)
         {
             gearList[slotIndex] = gear;
             MergeGear();
         }
     }
+    public void Initialize() => MergeGear();
+
     public void MergeGear()
     {
         GameManager.instance.gearManager.gearMergeManager.MergeCard(this);

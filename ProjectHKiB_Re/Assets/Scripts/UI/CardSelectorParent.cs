@@ -41,10 +41,11 @@ public class CardSelectorParent : MonoBehaviour, IPointerExitHandler
         {
             cards[i].PointerClickEvent.AddListener(OnCardOfIndexClick);
             cards[i].PointerEnterEvent.AddListener(OnCardOfIndexEnter);
+            cards[i].cardData.Initialize();
         }
         topCard.PointerEnterEvent.AddListener(OnTopCardEnter);
         topCard.SetCardData(activeCards[0].cardData, 0);
-        GameManager.instance.databaseManager.OnSetCardData.AddListener(UpdateCardDatas);
+        GameManager.instance.gearManager.OnSetCardData.AddListener(UpdateCardDatas);
     }
 
     public void SpreadCards(int index)
@@ -78,7 +79,7 @@ public class CardSelectorParent : MonoBehaviour, IPointerExitHandler
 
     public void UpdateCardDatas()
     {
-        List<CardData> cardDatas = GameManager.instance.databaseManager.playerCardEquipData;
+        List<CardData> cardDatas = GameManager.instance.gearManager.playerCardEquipData;
         cardDatas ??= new() { new() };
         max = cardDatas.Count;
         if (max > cards.Length) max = cards.Length;
@@ -96,29 +97,20 @@ public class CardSelectorParent : MonoBehaviour, IPointerExitHandler
         topCard.SetCardData(activeCards[topCard.index].cardData, topCard.index);
     }
 
-    public void SetGearData(int ID)
+    public void ChangeTopCard(int index)
     {
-        GameManager.instance.databaseManager.SetGearData(topCard.index, currentSlot, ID);
-    }
-
-    public void SetTopCardAsCurrentEquippedCard()
-    {
-        GameManager.instance.databaseManager.EquipCard(topCard.index);
-    }
-
-    public void ChangeTopCard(int topCardIndex)
-    {
-        if (topCardIndex >= activeCards.Count) topCardIndex = activeCards.Count - 1;
-        if (topCardIndex < 0) topCardIndex = 0;
+        if (index == topCard.index) return;
+        if (index >= activeCards.Count) index = activeCards.Count - 1;
+        if (index < 0) index = 0;
         float delay = activeCards.Count * delayTime;
         SetInteractable(false);
-        bottomCard.SetCardData(activeCards[topCardIndex].cardData, topCardIndex);
+        bottomCard.SetCardData(activeCards[index].cardData, index);
         Sequence sequence = DOTween.Sequence();
         sequence.Insert(delay, topCard.transform.DOLocalMove(topCardChangeShift, moveTime));
         sequence.Insert(delay, bottomCard.transform.DOLocalMove(bottomCardChangeShift, moveTime));
         delay += moveTime;
-        sequence.InsertCallback(delay, () => bottomCard.SetCardData(topCard.cardData, topCardIndex));
-        sequence.InsertCallback(delay, () => topCard.SetCardData(activeCards[topCardIndex].cardData, topCardIndex));
+        sequence.InsertCallback(delay, () => bottomCard.SetCardData(topCard.cardData, index));
+        sequence.InsertCallback(delay, () => topCard.SetCardData(activeCards[index].cardData, index));
         sequence.Insert(delay, topCard.transform.DOLocalMove(bottomCardChangeShift, 0));
         sequence.Insert(delay, bottomCard.transform.DOLocalMove(topCardChangeShift, 0));
         delay += 0.0001f;

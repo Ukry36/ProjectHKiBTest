@@ -1,10 +1,22 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+
 public class GearManager : MonoBehaviour
 {
     public GearMergeManagerSO gearMergeManager;
     [SerializeField] private CardData card;
     [SerializeField] private Player player;
+
+    public List<CardData> playerCardEquipData;
+    public int currentEquippedCardIndex;
+    public int maxGearSlotCount;
+    public bool canChangeCard = true;
+
+    public CardSelectorParent selectorForEdit;
+    public CardSelectorParent selectorForEquip;
+
+    public UnityEvent OnSetCardData;
 
     public void Start()
     {
@@ -21,5 +33,55 @@ public class GearManager : MonoBehaviour
     public void OnDestroy()
     {
         gearMergeManager.OnRealGearMade -= player.SetGear;
+    }
+
+    public CardData GetCardData(int index)
+    {
+        if (index >= playerCardEquipData.Count || index < 0)
+            return null;
+        return playerCardEquipData[index];
+    }
+
+    public void SetCardData(int cardIndex, CardData data)
+    {
+        if (cardIndex >= playerCardEquipData.Count || cardIndex < 0)
+            return;
+        playerCardEquipData[cardIndex] = data;
+        OnSetCardData?.Invoke();
+    }
+
+    public void SetEquippedCardData(CardData data)
+    {
+        SetCardData(currentEquippedCardIndex, data);
+    }
+
+    public void SetGearData(int cardIndex, int gearSlotIndex, GearDataSO gear)
+    {
+        if (cardIndex >= playerCardEquipData.Count || cardIndex < 0)
+            return;
+        if (gearSlotIndex >= maxGearSlotCount || gearSlotIndex < 0)
+            return;
+        playerCardEquipData[cardIndex].SetGear(gearSlotIndex, gear);
+        OnSetCardData?.Invoke();
+    }
+
+    public void SetGearDataBySelector(GearDataSO gear)
+    {
+        SetGearData(selectorForEdit.topCard.index, selectorForEdit.currentSlot, gear);
+        if (selectorForEdit.topCard.index == currentEquippedCardIndex)
+            EquipCard(selectorForEdit.topCard.cardData);
+    }
+
+    public void EquipCard(CardData data)
+    {
+        if (data == null) return;
+        gearMergeManager.EquipMergedCard(data);
+    }
+
+    public void EquipCardBySelector()
+    {
+        if (currentEquippedCardIndex == selectorForEquip.topCard.index) return;
+        currentEquippedCardIndex = selectorForEquip.topCard.index;
+        EquipCard(selectorForEquip.topCard.cardData);
     }
 }
