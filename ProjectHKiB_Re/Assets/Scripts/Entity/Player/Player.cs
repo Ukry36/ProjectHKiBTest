@@ -87,12 +87,12 @@ public class Player : Entity, IAttackable, IDodgeable, IGraffitiable, ISkinable,
 
     #endregion
 
-
     public override void Initialize()
     {
         UpdateDatas();
         base.Initialize();
         SetStateController();
+        SetBuffController();
     }
 
     public void UpdateDatas()
@@ -111,8 +111,6 @@ public class Player : Entity, IAttackable, IDodgeable, IGraffitiable, ISkinable,
     {
         PlayerBaseData = realGear;
         Initialize();
-        SetStateController();
-        SetBuffController();
         FootstepController.ChangeDefaultFootStepAudio(FootStepAudio);
         AttackController.SetAttacker(this);
         SkinData.SetSKin(spriteLibrary, AnimatorController, spriteRenderer);

@@ -21,10 +21,12 @@ public class GearManager : MonoBehaviour
     public void Start()
     {
         gearMergeManager.OnRealGearMade += player.SetGear;
+        selectorForEquip.topCard.cardData.Initialize();
+        EquipCard(selectorForEquip.topCard.cardData);
     }
 
     [NaughtyAttributes.Button]
-    public void Equip()
+    public void EquipTest()
     {
         card.MergeGear();
         gearMergeManager.EquipMergedCard(card);
