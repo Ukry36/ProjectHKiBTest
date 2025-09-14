@@ -36,7 +36,7 @@ public class GearMergeManagerSO : ScriptableObject
         for (i = 0; i < card.gearList.Count; i++)
         {
             isGearAvailableSlot.Add(card.gearList[i] != null);
-            card.mergedGearList.Add(card.gearList[i] == null ? defaultGearData : card.gearList[i]);
+            card.mergedGearList.Add(card.gearList[i] == null ? defaultGearData : card.gearList[i].data);
             card.mergeInfo.Add(-1);
         }
 
@@ -50,7 +50,7 @@ public class GearMergeManagerSO : ScriptableObject
             {
                 for (k = 0; k < card.gearList.Count; k++)
                 {
-                    if (isGearAvailableSlot[k] && allMergedGearDatas[i].mergeSet[j] == card.gearList[k])
+                    if (isGearAvailableSlot[k] && allMergedGearDatas[i].mergeSet[j] == card.gearList[k].data)
                         inMergeSetGearSlots.Add(k);
                 }
             }

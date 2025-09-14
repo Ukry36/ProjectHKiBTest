@@ -2463,37 +2463,17 @@ MonoBehaviour:
     cardName: 
     mergeInfo: 
     mergedGearList: []
-    gearList:
-    - {fileID: 11400000, guid: cba07c1f1556c3b469772f464811b36e, type: 2}
-    - {fileID: 11400000, guid: cde322ce6505e4842ba0195fee16dec1, type: 2}
-    - {fileID: 0}
-    - {fileID: 0}
   player: {fileID: 327803488}
   playerCardEquipData:
   - cardName: 
     mergeInfo: 
     mergedGearList: []
-    gearList:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
   - cardName: 
     mergeInfo: 
     mergedGearList: []
-    gearList:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
   - cardName: 
     mergeInfo: 
     mergedGearList: []
-    gearList:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
   currentEquippedCardIndex: 0
   maxGearSlotCount: 4
   canChangeCard: 1
@@ -4229,8 +4209,6 @@ MonoBehaviour:
   delay: 1
   tooltipManager: {fileID: 0}
   tooltipLayout: {fileID: 1083666828}
-  forceToUpdate: 0
-  useIn3D: 0
 --- !u!1 &236692986
 GameObject:
   m_ObjectHideFlags: 0
@@ -4318,6 +4296,7 @@ GameObject:
   - component: {fileID: 240118959}
   - component: {fileID: 240118958}
   - component: {fileID: 240118960}
+  - component: {fileID: 240118961}
   m_Layer: 5
   m_Name: Toggle
   m_TagString: Untagged
@@ -4425,6 +4404,27 @@ MonoBehaviour:
   OnValueOff:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &240118961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 240118957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78cf3f534f46e9e4e8a4e2c95773b28b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  image36x36: {fileID: 0}
+  icon9x9: {fileID: 0}
+  icon5x5s: []
+  description: 
+  delay: 1
+  tooltipManager: {fileID: 0}
+  tooltipLayout: {fileID: 1083666828}
+  smallMode: 1
+  icon9x9Only: 1
 --- !u!1001 &240785489
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6856,8 +6856,6 @@ MonoBehaviour:
   delay: 1
   tooltipManager: {fileID: 0}
   tooltipLayout: {fileID: 1083666828}
-  forceToUpdate: 0
-  useIn3D: 0
 --- !u!1001 &383665489
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8158,6 +8156,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  cardSelectorForEdit: {fileID: 205304267}
 --- !u!1 &470854850
 GameObject:
   m_ObjectHideFlags: 0
@@ -8333,8 +8332,6 @@ MonoBehaviour:
   delay: 1
   tooltipManager: {fileID: 0}
   tooltipLayout: {fileID: 1083666828}
-  forceToUpdate: 0
-  useIn3D: 0
 --- !u!114 &480364135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9352,8 +9349,6 @@ MonoBehaviour:
   delay: 1
   tooltipManager: {fileID: 0}
   tooltipLayout: {fileID: 1083666828}
-  forceToUpdate: 0
-  useIn3D: 0
 --- !u!114 &528076032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10916,8 +10911,6 @@ MonoBehaviour:
   delay: 1
   tooltipManager: {fileID: 0}
   tooltipLayout: {fileID: 1083666828}
-  forceToUpdate: 0
-  useIn3D: 0
 --- !u!1 &614839299
 GameObject:
   m_ObjectHideFlags: 0
@@ -17719,8 +17712,6 @@ MonoBehaviour:
   delay: 1
   tooltipManager: {fileID: 0}
   tooltipLayout: {fileID: 1083666828}
-  forceToUpdate: 0
-  useIn3D: 0
 --- !u!114 &1001242964
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21393,8 +21384,6 @@ MonoBehaviour:
   delay: 1
   tooltipManager: {fileID: 0}
   tooltipLayout: {fileID: 1083666828}
-  forceToUpdate: 0
-  useIn3D: 0
 --- !u!114 &1195816851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25615,8 +25604,6 @@ MonoBehaviour:
   delay: 1
   tooltipManager: {fileID: 0}
   tooltipLayout: {fileID: 1083666828}
-  forceToUpdate: 0
-  useIn3D: 0
 --- !u!114 &1463103722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25922,8 +25909,6 @@ MonoBehaviour:
   delay: 1
   tooltipManager: {fileID: 0}
   tooltipLayout: {fileID: 1083666828}
-  forceToUpdate: 0
-  useIn3D: 0
 --- !u!114 &1467914923
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27146,8 +27131,6 @@ MonoBehaviour:
   delay: 1
   tooltipManager: {fileID: 0}
   tooltipLayout: {fileID: 1083666828}
-  forceToUpdate: 0
-  useIn3D: 0
 --- !u!114 &1597294951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29339,8 +29322,6 @@ MonoBehaviour:
   delay: 1
   tooltipManager: {fileID: 0}
   tooltipLayout: {fileID: 1083666828}
-  forceToUpdate: 0
-  useIn3D: 0
 --- !u!114 &1687553857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29804,8 +29785,6 @@ MonoBehaviour:
   delay: 1
   tooltipManager: {fileID: 0}
   tooltipLayout: {fileID: 1083666828}
-  forceToUpdate: 0
-  useIn3D: 0
 --- !u!1 &1716260110
 GameObject:
   m_ObjectHideFlags: 0
@@ -35029,8 +35008,6 @@ MonoBehaviour:
   delay: 1
   tooltipManager: {fileID: 0}
   tooltipLayout: {fileID: 1083666828}
-  forceToUpdate: 0
-  useIn3D: 0
 --- !u!114 &2066037463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37974,7 +37951,6 @@ MonoBehaviour:
     cardName: 
     mergeInfo: 
     mergedGearList: []
-    gearList: []
   gearIcons:
   - {fileID: 136479799}
   - {fileID: 314828228}

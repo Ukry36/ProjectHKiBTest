@@ -30,7 +30,7 @@ public class Tooltip : MonoBehaviour
 
         for (int i = 2; i < images.Length; i++)
         {
-            if (tooltip.icon5x5s.Length + 2 > i && images[i] != null)
+            if (tooltip.icon5x5s.Count + 2 > i && images[i] != null)
             {
                 images[i].gameObject.SetActive(true);
                 images[i].sprite = tooltip.icon5x5s[i - 2];

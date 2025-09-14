@@ -8,6 +8,7 @@ public class GearPanel : MonoBehaviour
     public Image icon5x5;
     public TextMeshProUGUI itemName;
     public Image itemColor;
+    public Image equippedHighlight;
     public ItemTooltipContent itemTooltip;
     public Gear gear;
 
@@ -20,5 +21,13 @@ public class GearPanel : MonoBehaviour
         if (itemName) itemName.text = gear.data.name;
         if (itemColor) itemColor.color = gear.data.color;
         if (itemTooltip) itemTooltip.SetData(gear.data);
+    }
+
+    public void Highlight(int cardIndex)
+    {
+        if (equippedHighlight)
+        {
+            equippedHighlight.gameObject.SetActive(gear.IsEquippedInCard(cardIndex));
+        }
     }
 }

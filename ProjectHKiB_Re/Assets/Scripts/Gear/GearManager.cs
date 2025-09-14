@@ -16,6 +16,7 @@ public class GearManager : MonoBehaviour
     public CardSelectorParent selectorForEdit;
     public CardSelectorParent selectorForEquip;
 
+
     public UnityEvent OnSetCardData;
 
     public void Start()
@@ -57,17 +58,34 @@ public class GearManager : MonoBehaviour
         SetCardData(currentEquippedCardIndex, data);
     }
 
-    public void SetGearData(int cardIndex, int gearSlotIndex, GearDataSO gear)
+    public void ResetGearData(int cardIndex, int gearSlotIndex)
     {
         if (cardIndex >= playerCardEquipData.Count || cardIndex < 0)
             return;
         if (gearSlotIndex >= maxGearSlotCount || gearSlotIndex < 0)
             return;
+        Gear gear = playerCardEquipData[cardIndex].gearList[gearSlotIndex];
+        if (gear != null)
+        {
+            playerCardEquipData[cardIndex].gearList.Remove(gear);
+            gear.UnequipTo(cardIndex);
+        }
+    }
+
+    public void SetGearData(int cardIndex, int gearSlotIndex, Gear gear)
+    {
+        if (cardIndex >= playerCardEquipData.Count || cardIndex < 0)
+            return;
+        if (gearSlotIndex >= maxGearSlotCount || gearSlotIndex < 0)
+            return;
+        if (gear.IsEquippedInCard(cardIndex))
+            return;
+        gear.EquipTo(cardIndex);
         playerCardEquipData[cardIndex].SetGear(gearSlotIndex, gear);
         OnSetCardData?.Invoke();
     }
 
-    public void SetGearDataBySelector(GearDataSO gear)
+    public void SetGearDataBySelector(Gear gear)
     {
         SetGearData(selectorForEdit.topCard.index, selectorForEdit.currentSlot, gear);
         if (selectorForEdit.topCard.index == currentEquippedCardIndex)

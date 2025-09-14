@@ -10,7 +10,10 @@ public class Gear
     public Gear(GearDataSO data)
     {
         this.data = data;
+        equippedCards = new();
     }
+
+    public bool IsEquippedInCard(int cardIndex) => equippedCards.Contains(cardIndex);
 
     public void EquipTo(int cardIndex)
     {

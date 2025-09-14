@@ -7,7 +7,8 @@ public class GearInventoryUIManager : MonoBehaviour
 {
     public Transform panelParent;
     [SerializeField] private FilterPropertySO filterProperty;
-    public UnityEvent<GearDataSO> OnPanelClicked;
+    public UnityEvent<Gear> OnPanelClicked;
+    public CardSelectorParent cardSelectorForEdit;
 
     public void UpdatePanels()
     {
@@ -25,6 +26,7 @@ public class GearInventoryUIManager : MonoBehaviour
             {
                 panels[i].gameObject.SetActive(true);
                 panels[i].SetData(gears[i]);
+                panels[i].Highlight(cardSelectorForEdit.topCard.index);
             }
             else
             {
@@ -54,7 +56,7 @@ public class GearInventoryUIManager : MonoBehaviour
     public void ClickPanel(int index)
     {
         GearPanel[] panels = panelParent.GetComponentsInChildren<GearPanel>(true);
-        OnPanelClicked?.Invoke(panels[index].gear.data);
+        OnPanelClicked?.Invoke(panels[index].gear);
         UpdatePanels();
     }
 

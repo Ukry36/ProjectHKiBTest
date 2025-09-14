@@ -8,8 +8,8 @@ public class CardData
     public string cardName;
     public List<int> mergeInfo;
     public List<GearDataSO> mergedGearList;
-    public List<GearDataSO> gearList;
-    public void SetGear(int slotIndex, GearDataSO gear)
+    public List<Gear> gearList;
+    public void SetGear(int slotIndex, Gear gear)
     {
         if (slotIndex >= 0 && slotIndex < GameManager.instance.gearManager.maxGearSlotCount)
         {
@@ -37,7 +37,7 @@ public class CardData
     {
         if (slotIndex >= 0 && slotIndex < mergedGearList.Count)
         {
-            return gearList[slotIndex].itemIcon9x9;
+            return gearList[slotIndex].data.itemIcon9x9;
         }
         else return GameManager.instance.gearManager.gearMergeManager.defaultGearData.itemIcon9x9;
     }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace Michsky.MUIP
@@ -9,7 +10,7 @@ namespace Michsky.MUIP
         [Header("Content")]
         public Sprite image36x36;
         public Sprite icon9x9;
-        public Sprite[] icon5x5s;
+        public List<Sprite> icon5x5s;
         [TextArea] public string description;
         [NaughtyAttributes.MinValue(0.1f)] public float delay;
 
@@ -17,9 +18,6 @@ namespace Michsky.MUIP
         [SerializeField] protected TooltipManager tooltipManager;
         [SerializeField] protected Tooltip tooltipLayout;
 
-        [Header("Settings")]
-        public bool forceToUpdate = false;
-        public bool useIn3D = false;
 
         public void Awake()
         {
@@ -35,10 +33,5 @@ namespace Michsky.MUIP
 
         public void OnPointerEnter(PointerEventData eventData) { ProcessEnter(); }
         public void OnPointerExit(PointerEventData eventData) { ProcessExit(); }
-
-#if !UNITY_IOS && !UNITY_ANDROID
-        public void OnMouseEnter() { if (useIn3D == true) { ProcessEnter(); } }
-        public void OnMouseExit() { if (useIn3D == true) { ProcessExit(); } }
-#endif
     }
 }
