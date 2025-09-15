@@ -6,7 +6,6 @@ using UnityEngine;
 public class GearMergeManagerSO : ScriptableObject
 {
     private const int MAINGEAR = 0;
-    private const int MAXGEARCOUNT = 4;
     public GearDataSO defaultGearData;
     [SerializeField] private DatabaseManagerSO databaseManager;
 
@@ -23,32 +22,30 @@ public class GearMergeManagerSO : ScriptableObject
             Debug.LogError("ERROR : default gear data not attached!!!");
     }
 
-    public void MergeCard(CardData card)
+    public void MergeCard(CardData card, int max)
     {
         int i, j, k;
+        int physMax = card.gearList.Length;
         // If gear in slot is null or already merged, its value is false
-        List<bool> isGearAvailableSlot = new(MAXGEARCOUNT);
-        card.mergedGearList = new(card.gearList.Count);
-        card.mergeInfo = new(card.gearList.Count);
+        bool[] isGearAvailableSlot = new bool[physMax];
 
         // Stores nullcheck in isGearAvailableSlot
         // if null, put defaultGear in
-        for (i = 0; i < card.gearList.Count; i++)
+        for (i = 0; i < physMax; i++)
         {
-            isGearAvailableSlot.Add(card.gearList[i] != null);
-            card.mergedGearList.Add(card.gearList[i] == null ? defaultGearData : card.gearList[i].data);
-            card.mergeInfo.Add(-1);
+            isGearAvailableSlot[i] = card.gearList[i].data != null;
+            card.mergedGearList[i] = card.gearList[i].data == null ? defaultGearData : card.gearList[i].data;
         }
 
         // For all merged gears check if their mergeset gears are in equipped gears 
         // If they exists, check them as already merged
-        List<int> inMergeSetGearSlots = new(card.gearList.Count);
+        List<int> inMergeSetGearSlots = new(max);
         for (i = 0; i < allMergedGearDatas.Length; i++)
         {
             inMergeSetGearSlots.Clear();
             for (j = 0; j < allMergedGearDatas[i].mergeSet.Length; j++)
             {
-                for (k = 0; k < card.gearList.Count; k++)
+                for (k = 0; k < max; k++)
                 {
                     if (isGearAvailableSlot[k] && allMergedGearDatas[i].mergeSet[j] == card.gearList[k].data)
                         inMergeSetGearSlots.Add(k);
@@ -61,18 +58,15 @@ public class GearMergeManagerSO : ScriptableObject
                 {
                     isGearAvailableSlot[inMergeSetGearSlots[j]] = false;
                     card.mergedGearList[inMergeSetGearSlots[j]] = allMergedGearDatas[i];
-                    card.mergeInfo[inMergeSetGearSlots[j]] = allMergedGearDatas[i].GetInstanceID();
                 }
             }
         }
     }
 
-    public void EquipMergedCard(CardData card)
+    public void EquipMergedCard(CardData card, int max)
     {
         // final merged gear data
         MergedPlayerBaseData mergedGearData = new();
-        // If gear in slot is null or already merged, its value is false
-        List<bool> isGearAvailableSlot = new(MAXGEARCOUNT);
 
         // Set skin skin and animation or base stats of main gear as default
         // and apply main effect, set geartype
@@ -83,7 +77,7 @@ public class GearMergeManagerSO : ScriptableObject
         // If there is attack gear in subgears, override attack animation and geartype
         // also if maingear cannot attack it doesn't happen
         // and apply sub effects
-        for (int i = card.mergedGearList.Count - 1; i > MAINGEAR; i--)
+        for (int i = max - 1; i > MAINGEAR; i--)
         {
             if (card.mergedGearList[i].gearType.isAttackGear
             && !card.mergedGearList[MAINGEAR].gearType.isAttackGear

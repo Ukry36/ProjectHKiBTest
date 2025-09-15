@@ -27,7 +27,7 @@ public class GearPanel : MonoBehaviour
     {
         if (equippedHighlight)
         {
-            equippedHighlight.gameObject.SetActive(gear.IsEquippedInCard(cardIndex));
+            equippedHighlight.gameObject.SetActive(0 <= gear.IsEquippedInCard(cardIndex));
         }
     }
 }
