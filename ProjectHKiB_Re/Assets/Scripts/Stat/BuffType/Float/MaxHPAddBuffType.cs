@@ -7,7 +7,7 @@ public class MaxHPAddBuffType : StatBuffTypeSO
     {
         if (registable.TryGetInterface(out IDamagable damagable))
         {
-            damagable.HealthController.MaxHPBuffer.StatBuffAddList[buff.ID] = buff.Value * multiplyer;
+            damagable.HealthController.MaxHPBuffer._statBuffAddList[buff.ID] = buff.Value * multiplyer;
         }
     }
 

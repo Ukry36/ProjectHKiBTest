@@ -7,7 +7,7 @@ public class DEFAddBuffType : StatBuffTypeSO
     {
         if (registable.TryGetInterface(out IDamagable damagable))
         {
-            damagable.HealthController.DEFBuffer.StatBuffAddList[buff.ID] = buff.Value * multiplyer;
+            damagable.HealthController.DEFBuffer._statBuffAddList[buff.ID] = buff.Value * multiplyer;
         }
     }
 

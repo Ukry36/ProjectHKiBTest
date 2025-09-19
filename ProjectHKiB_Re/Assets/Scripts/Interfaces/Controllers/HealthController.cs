@@ -6,18 +6,20 @@ public class HealthController : MonoBehaviour
 {
     [SerializeField] protected DamageManagerSO damageManager;
     protected IMovable _movable;
-    public FloatBuffCalculator MaxHPBuffer { get; set; } = new();
+    public FloatBuffContainer MaxHPBuffer { get; set; } = new();
+
+    [SerializeField][NaughtyAttributes.ReadOnly()] private int _HP;
     public int HP
     {
         get => _HP;
-        set
-        {
-            _HP = value;
-        }
+        set { _HP = value; OnHPChanged.Invoke(this, HP); }
     }
-    [SerializeField][NaughtyAttributes.ReadOnly()] private int _HP;
-    public FloatBuffCalculator DEFBuffer { get; set; } = new();
-    public FloatBuffCalculator ResistanceBuffer { get; set; } = new();
+
+    public EventHandler<int> OnHPChanged;
+    public EventHandler<int> OnMaxHPChanged;
+
+    public FloatBuffContainer DEFBuffer { get; set; } = new();
+    public FloatBuffContainer ResistanceBuffer { get; set; } = new();
     public BoolBuffCalculator InvincibleBuffer { get; set; } = new();
     public BoolBuffCalculator SuperArmourBuffer { get; set; } = new();
     public Action OnDie;

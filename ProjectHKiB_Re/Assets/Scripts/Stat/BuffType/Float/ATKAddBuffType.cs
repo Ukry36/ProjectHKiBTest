@@ -7,7 +7,7 @@ public class ATKAddBuffType : StatBuffTypeSO
     {
         if (registable.TryGetInterface(out IAttackable attackable))
         {
-            attackable.AttackController.ATKBuffer.StatBuffAddList[buff.ID] = buff.Value * multiplyer;
+            attackable.AttackController.ATKBuffer._statBuffAddList[buff.ID] = buff.Value * multiplyer;
         }
     }
 

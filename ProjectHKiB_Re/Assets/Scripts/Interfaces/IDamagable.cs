@@ -1,10 +1,14 @@
+using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 public interface IDamagable
 {
     public int BaseMaxHP { get; set; }
     public int CurrentMaxHP { get => (int)HealthController.MaxHPBuffer.GetBuffedStat(BaseMaxHP); }
     public int HP { get => HealthController.HP; set => HealthController.HP = value > CurrentMaxHP ? CurrentMaxHP : value <= 0 ? 0 : value; }
+    public EventHandler<int> OnHPChanged { get => HealthController.OnHPChanged; }
+    public EventHandler<int> OnMaxHPChanged { get => HealthController.OnMaxHPChanged; }
     public int BaseDEF { get; set; }
     public int CurrentDef { get => (int)HealthController.DEFBuffer.GetBuffedStat(BaseDEF); }
     public float Resistance { get => HealthController.ResistanceBuffer.GetBuffedStat(0); }

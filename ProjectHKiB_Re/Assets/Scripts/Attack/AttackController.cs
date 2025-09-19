@@ -8,7 +8,7 @@ public class AttackController : MonoBehaviour
     [HideInInspector] public bool isAttackCooltime = false;
     public int AttackNumber { get; private set; }
     public Transform CurrentTarget { get; set; }
-    public FloatBuffCalculator ATKBuffer { get; set; } = new();
+    public FloatBuffContainer ATKBuffer { get; set; } = new();
 
     public void SetAttacker(IAttackable attackable)
     {
