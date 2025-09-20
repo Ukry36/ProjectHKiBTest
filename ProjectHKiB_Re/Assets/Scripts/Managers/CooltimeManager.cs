@@ -9,7 +9,8 @@ public class Cooltime
 {
     public float Time { get; private set; }
     public bool IsCooltimeEnded { get; private set; }
-    public float ElapsedTime { get => GameManager.instance.cooltimeManager.GetTime(GetHashCode()); }
+    public float ElapsedTime { get => GameManager.instance.cooltimeManager.GetElapsedTime(GetHashCode()); }
+    public float RemainTime { get => Time - ElapsedTime; }
 
     public void StartCooltime(float cooltime, TweenCallback cooltimeEndCallback = null)
     {
@@ -55,7 +56,7 @@ public class Cooltime
 
 public class CooltimeManager : MonoBehaviour
 {
-    private Dictionary<int, Sequence> _cooltimes = new();
+    private readonly Dictionary<int, Sequence> _cooltimes = new();
     public void StartCooltime(int ID, Cooltime cooltime, TweenCallback cooltimeEnded)
     {
         Sequence sequence = DOTween.Sequence();
@@ -64,7 +65,7 @@ public class CooltimeManager : MonoBehaviour
         _cooltimes[ID] = sequence;
     }
 
-    public float GetTime(int ID) => _cooltimes[ID].ElapsedDelay();
+    public float GetElapsedTime(int ID) => _cooltimes.ContainsKey(ID) ? _cooltimes[ID].ElapsedDelay() : 0;
 
     public void CancelCooltime(int ID)
     {

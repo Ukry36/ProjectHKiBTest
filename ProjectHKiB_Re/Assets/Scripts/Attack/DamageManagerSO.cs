@@ -6,7 +6,7 @@ public class DamageManagerSO : ScriptableObject
     public void Damage(DamageDataSO damageData, IAttackable hitter, IDamagable getHit, Vector3 hitPos, bool IsKnockback)
     {
         int value = 0;
-        bool isCritical = Random.value < hitter.CriticalChanceRate; ;
+        bool isCritical = UnityEngine.Random.value < hitter.CriticalChanceRate;
         if (!getHit.Invincible)
         {
             value = (int)
@@ -17,7 +17,7 @@ public class DamageManagerSO : ScriptableObject
                     * (1f + (isCritical ? hitter.CriticalDamageRate : 0))
                     * (1f - getHit.Resistance)
                 )
-                - getHit.CurrentDef
+                - getHit.DEF
             );
             if (value <= 0) value = 1;
             getHit.HP -= value;
@@ -28,7 +28,7 @@ public class DamageManagerSO : ScriptableObject
             (
                 hitter.DamageParticle,
                 value,
-                value > getHit.CurrentMaxHP * 0.5 || IsKnockback,
+                value > getHit.MaxHP * 0.5 || IsKnockback,
                 isCritical,
                 hitPos,
                 hitter.DamageIndicatorRandomPosInfo

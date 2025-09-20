@@ -2,6 +2,6 @@ using UnityEngine;
 
 public abstract class StatBuffTypeSO : ScriptableObject
 {
-    public abstract void ApplyBuff(IInterfaceRegistable registable, StatBuffSO buff, int multiplyer);
-    public abstract void RemoveBuff(IInterfaceRegistable registable, StatBuffSO buff);
+    public abstract void AddBuff(IInterfaceRegistable registable, StatBuffSO buff, int multiplyer, bool stack);
+    public abstract void RemoveBuff(IInterfaceRegistable registable, StatBuffSO buff, int multiplyer, bool remove);
 }

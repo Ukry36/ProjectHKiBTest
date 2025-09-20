@@ -6,7 +6,7 @@ public class StatBuffCompilation
 {
     public StatBuffSO[] Buffs;
 
-    public void EnableAllBuffs(StatBuffController buffControlller)
+    public void EnableAllBuffs(BuffableModule buffControlller)
     {
         for (int i = 0; i < Buffs.Length; i++)
         {
@@ -14,7 +14,7 @@ public class StatBuffCompilation
         }
     }
 
-    public void DisableAllBuffs(StatBuffController buffControlller)
+    public void DisableAllBuffs(BuffableModule buffControlller)
     {
         for (int i = 0; i < Buffs.Length; i++)
         {

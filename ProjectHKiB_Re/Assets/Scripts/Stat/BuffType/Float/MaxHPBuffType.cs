@@ -1,13 +1,13 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "InvincibleBuffType", menuName = "Scriptable Objects/StatBuffType/InvincibleBuffType")]
-public class InvincibleBuffType : StatBuffTypeSO
+[CreateAssetMenu(fileName = "MaxHPBuffType", menuName = "Scriptable Objects/StatBuffType/MaxHPBuffType")]
+public class MaxHPBuffType : StatBuffTypeSO
 {
     public override void AddBuff(IInterfaceRegistable registable, StatBuffSO buff, int multiplyer, bool stack)
     {
         if (registable.TryGetInterface(out IDamagable damagable))
         {
-            damagable.InvincibleBuffer.AddBuff(buff, multiplyer, stack);
+            damagable.MaxHPBuffer.AddBuff(buff, multiplyer, stack);
         }
     }
 
@@ -15,7 +15,7 @@ public class InvincibleBuffType : StatBuffTypeSO
     {
         if (registable.TryGetInterface(out IDamagable damagable))
         {
-            damagable.InvincibleBuffer.RemoveBuff(buff, multiplyer, remove);
+            damagable.MaxHPBuffer.RemoveBuff(buff, multiplyer, remove);
         }
     }
 }

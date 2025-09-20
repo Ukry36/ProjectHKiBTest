@@ -20,8 +20,8 @@ public class HealthController : MonoBehaviour
 
     public FloatBuffContainer DEFBuffer { get; set; } = new();
     public FloatBuffContainer ResistanceBuffer { get; set; } = new();
-    public BoolBuffCalculator InvincibleBuffer { get; set; } = new();
-    public BoolBuffCalculator SuperArmourBuffer { get; set; } = new();
+    public BoolBuffContainer InvincibleBuffer { get; set; } = new();
+    public BoolBuffContainer SuperArmourBuffer { get; set; } = new();
     public Action OnDie;
     public Action OnDamaged;
     public Action OnHealed;

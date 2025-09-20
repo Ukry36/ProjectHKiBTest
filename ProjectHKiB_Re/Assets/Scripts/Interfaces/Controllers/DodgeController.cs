@@ -47,8 +47,8 @@ public class DodgeController : MonoBehaviour
     {
         _dodgeHelper.transform.position = transform.position;
         _dodgeHelper.gameObject.SetActive(true);
-        _invincibleBuff.ApplyBuff(buffController);
-        _superArmourBuff.ApplyBuff(buffController);
+        _invincibleBuff.AddBuff(buffController);
+        _superArmourBuff.AddBuff(buffController);
         _dodgeInvincibleTime.StartCooltime(invincibleTime, DisableDodgeInvincible);
         _canJustDodgeTime.StartCooltime(0.2f); // temp!!!
         DodgeCount++;

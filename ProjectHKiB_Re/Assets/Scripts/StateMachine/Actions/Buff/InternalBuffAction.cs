@@ -11,7 +11,7 @@ public class InternalBuffAction : StateActionSO
             if (_negate)
                 _buff.RemoveBuff(buffable.StatBuffController);
             else
-                _buff.ApplyBuff(buffable.StatBuffController);
+                _buff.AddBuff(buffable.StatBuffController);
         }
     }
 }

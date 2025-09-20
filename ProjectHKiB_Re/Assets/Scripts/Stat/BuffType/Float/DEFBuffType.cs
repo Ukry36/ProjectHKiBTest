@@ -1,13 +1,13 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "InvincibleBuffType", menuName = "Scriptable Objects/StatBuffType/InvincibleBuffType")]
-public class InvincibleBuffType : StatBuffTypeSO
+[CreateAssetMenu(fileName = "DEFBuffType", menuName = "Scriptable Objects/StatBuffType/DEFBuffType")]
+public class DEFBuffType : StatBuffTypeSO
 {
     public override void AddBuff(IInterfaceRegistable registable, StatBuffSO buff, int multiplyer, bool stack)
     {
         if (registable.TryGetInterface(out IDamagable damagable))
         {
-            damagable.InvincibleBuffer.AddBuff(buff, multiplyer, stack);
+            damagable.DEFBuffer.AddBuff(buff, multiplyer, stack);
         }
     }
 
@@ -15,7 +15,7 @@ public class InvincibleBuffType : StatBuffTypeSO
     {
         if (registable.TryGetInterface(out IDamagable damagable))
         {
-            damagable.InvincibleBuffer.RemoveBuff(buff, multiplyer, remove);
+            damagable.DEFBuffer.RemoveBuff(buff, multiplyer, remove);
         }
     }
 }

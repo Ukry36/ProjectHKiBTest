@@ -5,20 +5,10 @@ using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Enemy : Entity, IAttackAreaIndicatable, IPathFindable, IAttackable, IPoolable, IEntityStateControllable
+public class Enemy : Entity, IAttackAreaIndicatable, IPathFindable, IPoolable, IEntityStateControllable
 {
-    public AttackDataSO[] AttackDatas { get; set; }
-    public int BaseATK { get; set; }
     public LayerMask[] TargetLayers { get; set; }
-
-    public DamageParticleDataSO DamageParticle { get; set; }
-    public float DamageIndicatorRandomPosInfo { get; set; } = 0;
-
-    [field: SerializeField] public AttackController AttackController { get; set; }
-    public float CriticalChanceRate { get; set; }
-    public float CriticalDamageRate { get; set; }
     [field: SerializeField] public int PoolSize { get; set; }
-
 
 
     public StateMachineSO StateMachine { get; set; }
@@ -52,7 +42,7 @@ public class Enemy : Entity, IAttackAreaIndicatable, IPathFindable, IAttackable,
         UpdateDatas();
         PathFindController.Initialize(this);
         base.Initialize();
-        AttackController.SetAttacker(this);
+        //AttackController.SetAttacker(this);
     }
 
     public void UpdateDatas()
