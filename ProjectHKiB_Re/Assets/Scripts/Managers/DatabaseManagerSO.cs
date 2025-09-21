@@ -4,7 +4,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Database Manager", menuName = "Scriptable Objects/Manager/Database Manager", order = 0)]
 public class DatabaseManagerSO : ScriptableObject
 {
-    public void SetIDamagable(IDamagable damagable, IDamagable data)
+    public void SetIDamagable(IInterfaceRegistable entity, IDamagableBase data)
+    => SetIDamagable(entity.GetInterface<IDamagable>(), data);
+    public void SetIDamagable(IDamagableBase damagable, IDamagableBase data)
     {
         damagable.BaseMaxHP = data.BaseMaxHP;
         damagable.BaseDEF = data.BaseDEF;
@@ -12,7 +14,9 @@ public class DatabaseManagerSO : ScriptableObject
         damagable.HitSound = data.HitSound;
     }
 
-    public void SetIAttackable(IAttackable attackable, IAttackable data)
+    public void SetIAttackable(IInterfaceRegistable entity, IAttackableBase data)
+    => SetIAttackable(entity.GetInterface<IAttackable>(), data);
+    public void SetIAttackable(IAttackableBase attackable, IAttackableBase data)
     {
         attackable.BaseATK = data.BaseATK;
         if (data.AttackDatas != null)
@@ -25,12 +29,23 @@ public class DatabaseManagerSO : ScriptableObject
         attackable.DamageParticle = data.DamageParticle;
     }
 
-    public void SetITargetable(ITargetable targetable, ITargetable data)
+    public void SetITargetable(IInterfaceRegistable entity, ITargetableBase data)
+    => SetITargetable(entity.GetInterface<ITargetable>(), data);
+    public void SetITargetable(ITargetableBase targetable, ITargetableBase data)
     {
         targetable.TargetLayers = data.TargetLayers;
     }
 
-    public void SetIDodgeable(IDodgeable dodgeable, IDodgeable data)
+    public void SetIPathFindable(IInterfaceRegistable entity, IPathFindableBase data)
+    => SetIPathFindable(entity.GetInterface<IPathFindable>(), data);
+    public void SetIPathFindable(IPathFindableBase pathFindable, IPathFindableBase data)
+    {
+        pathFindable.PathFindCooltime = data.PathFindCooltime;
+    }
+
+    public void SetIDodgeable(IInterfaceRegistable entity, IDodgeableBase data)
+    => SetIDodgeable(entity.GetInterface<IDodgeable>(), data);
+    public void SetIDodgeable(IDodgeableBase dodgeable, IDodgeableBase data)
     {
         dodgeable.BaseDodgeCooltime = data.BaseDodgeCooltime;
         dodgeable.InitialDodgeMaxDistance = data.InitialDodgeMaxDistance;
@@ -43,30 +58,40 @@ public class DatabaseManagerSO : ScriptableObject
         dodgeable.JustDodgeBuff = data.JustDodgeBuff;
     }
 
-    public void SetGraffiriable(IGraffitiable graffiriable, IGraffitiable data)
+    public void SetGraffitiable(IGraffitiable graffiriable, IGraffitiable data)
     {
         graffiriable.GP = data.GP;
         graffiriable.MaxGP = data.MaxGP;
     }
-
-    public void SetIMovable(IMovable movable, IMovable data)
+    public void SetIMovable(IInterfaceRegistable entity, IMovableBase data)
+    => SetIMovable(entity.GetInterface<IMovable>(), data);
+    public void SetIMovable(IMovableBase movable, IMovableBase data)
     {
         movable.Speed = data.Speed;
         movable.SprintCoeff = data.SprintCoeff;
         movable.WallLayer = data.WallLayer;
         movable.CanPushLayer = data.CanPushLayer;
-        movable.FootStepAudio = data.FootStepAudio;
         movable.Mass = data.Mass;
     }
 
-    public void SetISkinable(ISkinable skinable, ISkinable data)
+    public void SetISkinable(IInterfaceRegistable entity, ISkinableBase data)
+    => SetISkinable(entity.GetInterface<ISkinable>(), data);
+    public void SetISkinable(ISkinableBase skinable, ISkinableBase data)
     {
         skinable.SkinData = data.SkinData;
     }
 
-    public void SetIStateControllable(IEntityStateControllable stateControllable, IEntityStateControllable data)
+    public void SetIFootstep(IInterfaceRegistable entity, IFootstepBase data)
+    => SetIFootstep(entity.GetInterface<IFootstep>(), data);
+    public void SetIFootstep(IFootstepBase footstep, IFootstepBase data)
     {
-        stateControllable.AnimatorController = data.AnimatorController;
-        stateControllable.StateMachine = data.StateMachine;
+        footstep.DefaultFootstepAudio = data.DefaultFootstepAudio;
+    }
+
+    public void SetIAnimatable(IInterfaceRegistable entity, IAnimatableBase data)
+    => SetIAnimatable(entity.GetInterface<IAnimatable>(), data);
+    public void SetIAnimatable(IAnimatableBase animatable, IAnimatableBase data)
+    {
+        animatable.AnimatorController = data.AnimatorController;
     }
 }

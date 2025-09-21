@@ -2,12 +2,12 @@ using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.U2D.Animation;
 
-[CreateAssetMenu(fileName = "Skin Data", menuName = "Scriptable Objects/Data/Skin Data", order = 1)]
+[CreateAssetMenu(fileName = "Skin Data", menuName = "Scriptable Objects/Data/Skin Data")]
 public class SkinDataSO : ScriptableObject
 {
-    [SerializeField] private BodytypeDataSO bodyType;
-    [SerializeField] private Texture2D skinTexture;
-    [SerializeField] private Texture2D emissionSkinTexture;
+    public BodytypeDataSO bodyType;
+    public Texture2D skinTexture;
+    public Texture2D emissionSkinTexture;
 
     public void SetSKin(SpriteLibrary spriteLibrary, AnimatorController animatorController, SpriteRenderer spriteRenderer)
     {

@@ -6,7 +6,7 @@ public class SetAttackCooltimeAction : StateActionSO
     {
         if (stateController.TryGetInterface(out IAttackable attackable))
         {
-            attackable.AttackController.StartCoroutine(attackable.AttackController.AttackCooltimeCoroutine());
+            attackable.StartAttackCooltime();
         }
         else
             Debug.LogError("ERROR: Interface Not Found!!!");

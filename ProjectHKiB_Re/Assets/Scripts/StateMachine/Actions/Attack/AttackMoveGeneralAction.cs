@@ -15,15 +15,14 @@ public class AttackMoveGeneralAction : StateActionSO
             {
                 Debug.LogError("ERROR: AttackDatas is missing!!!"); return;
             }
-            if (attackable.AttackDatas.Length - 1 < attackable.AttackController.AttackNumber)
+            if (attackable.AttackDatas.Length - 1 < attackable.AttackNumber)
             {
-                Debug.LogError("ERROR: AttackData[" + attackable.AttackController.AttackNumber + "] is missing !!!"); return;
+                Debug.LogError("ERROR: AttackData[" + attackable.AttackNumber + "] is missing !!!"); return;
             }
 
-            AttackDataSO attackData = attackable.AttackDatas[attackable.AttackController.AttackNumber];
+            AttackDataSO attackData = attackable.AttackDatas[attackable.AttackNumber];
             int moveRadius = attackData.attackMoveMaxRange;
             Transform thisTransform = stateController.transform;
-            DirAnimationController AC = animatable.AnimationController;
             Transform target;
             if (!targetable.CurrentTarget)
             {
@@ -32,7 +31,7 @@ public class AttackMoveGeneralAction : StateActionSO
                 if (!target) return;
             }
             Debug.DrawLine(thisTransform.position, targetable.CurrentTarget.position, Color.blue, 0.4f);
-            AC.SetAnimationDirection(targetable.CurrentTarget.position - thisTransform.position);
+            animatable.SetAnimationDirection(targetable.CurrentTarget.position - thisTransform.position);
             movementManager.AttackMove(thisTransform, movable, targetable.CurrentTarget.position, moveRadius);
         }
         else

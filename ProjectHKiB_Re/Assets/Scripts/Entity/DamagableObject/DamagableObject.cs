@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class DamagableObject : Entity
 {
-    private bool dieWhenKnockBack;
     [field: SerializeField] public DamagableObjectDataSO BaseData { get; set; }
     [SerializeField] private DatabaseManagerSO databaseManager;
     public void Start()
@@ -21,14 +20,14 @@ public class DamagableObject : Entity
     public void UpdateDatas()
     {
         databaseManager.SetIMovable(this, BaseData);
-        //databaseManager.SetIAttackable(this, BaseData);
+        databaseManager.SetIAttackable(this, BaseData);
         databaseManager.SetIDamagable(this, BaseData);
-        this.dieWhenKnockBack = BaseData.DieWhenKnockBack;
     }
 
     [SerializeField] private MovementManagerSO movementManager;
-    public void Update()
+    public override void UpdateState()
     {
-        movementManager.FollowMovePointIdle(transform, this);
+        base.UpdateState();
+        movementManager.FollowMovePointIdle(transform, GetInterface<IMovable>());
     }
 }

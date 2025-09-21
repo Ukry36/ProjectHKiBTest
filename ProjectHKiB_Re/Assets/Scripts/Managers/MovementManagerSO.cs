@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -34,11 +35,10 @@ public class MovementManagerSO : ScriptableObject
         entityTransform.position += speed * Time.deltaTime * dir;
     }
 
-    public delegate void KnockBackEnded();
     private readonly WaitForSeconds knockBackWaitTime = new(0.08f);
 
     // Knockback!
-    public IEnumerator KnockBackCoroutine(Transform entityTransform, IMovable movable, Vector3 dir, float strength, float mass, KnockBackEnded KnockBackEnded)
+    public IEnumerator KnockBackCoroutine(Transform entityTransform, IMovable movable, Vector3 dir, float strength, float mass, Action KnockBackEnded)
     {
         strength -= mass;
         //Debug.Log("started, (" + dir.x + ", " + dir.y + "), " + strength);
@@ -257,7 +257,7 @@ public class MovementManagerSO : ScriptableObject
         // if two dir was clear, check diagonal
         if (refDir.x != 0 && refDir.y != 0)
             if (Physics2D.OverlapCircle(movePointTransform.position + xTilt + yTilt, 0.4f, wallLayer))
-                if (Random.value > 0.5f)
+                if (UnityEngine.Random.value > 0.5f)
                     refDir.x = 0;
                 else
                     refDir.y = 0;
@@ -282,7 +282,7 @@ public class MovementManagerSO : ScriptableObject
 
             if (canSlideDown && canSlideUp)
             {
-                refDir = Random.value > 0.5f ? Quaternion.Euler(0, 0, 45) * dir : Quaternion.Euler(0, 0, -45) * dir;
+                refDir = UnityEngine.Random.value > 0.5f ? Quaternion.Euler(0, 0, 45) * dir : Quaternion.Euler(0, 0, -45) * dir;
                 movable.LastSetDir = refDir;
                 return refDir;
             }

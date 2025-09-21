@@ -157,7 +157,7 @@ public class AttackAreaIndicatorManager : PoolManager<AttackAreaIndicator>
             if (clone.TryGetComponent(out AttackAreaIndicator indicator))
             {
                 AddObjectToPool(prefab.GetInstanceID(), indicator);
-                indicator.InitializeFromPool();
+                indicator.Initialize();
             }
             else
             {

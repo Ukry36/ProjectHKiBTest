@@ -4,10 +4,10 @@ public class RemoveAttackAreaIndicatorAction : StateActionSO
 {
     public override void Act(StateController stateController)
     {
-        if (stateController.TryGetInterface(out IAttackAreaIndicatable areaIndicatable))
+        if (stateController.TryGetInterface(out IAttackIndicatable areaIndicatable))
         {
-            if (areaIndicatable.LastAttackAreaIndicatorID != 0)
-                GameManager.instance.attackAreaIndicatorManager.StopIndicating(areaIndicatable.LastAttackAreaIndicatorID);
+            if (areaIndicatable.LastAttackIndicatorID != 0)
+                GameManager.instance.attackAreaIndicatorManager.StopIndicating(areaIndicatable.LastAttackIndicatorID);
         }
     }
 }

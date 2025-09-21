@@ -6,7 +6,7 @@ public class KeepDodgeEndedDecision : StateDecisionSO
     {
         if (stateController.TryGetInterface(out IDodgeable dodgeable))
         {
-            return dodgeable.IsKeepDodgeEnded();
+            return dodgeable.CheckKeepDodgeEnded();
         }
         Debug.LogError("ERROR: Interface Not Found!!!");
         return false;

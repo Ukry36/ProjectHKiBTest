@@ -7,7 +7,7 @@ public class SetAttackDataAction : StateActionSO
     {
         if (stateController.TryGetInterface(out IAttackable attackable))
         {
-            attackable.AttackController.SetAttackData(attackNumber);
+            attackable.SetAttackData(attackNumber);
         }
         else
             Debug.LogError("ERROR: Interface Not Found!!!");

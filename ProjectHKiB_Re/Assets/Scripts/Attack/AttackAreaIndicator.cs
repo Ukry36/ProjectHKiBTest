@@ -5,6 +5,14 @@ public class AttackAreaIndicator : MonoBehaviour
     public SpriteRenderer indicatorFrame;
     public SpriteRenderer indicatorInner;
 
+    public int LastAttackIndicatorID { get; set; }
+    public void Initialize()
+    {
+        this.gameObject.SetActive(true);
+        indicatorFrame.enabled = false;
+        indicatorInner.enabled = false;
+    }
+
     public void StartIndicating(Vector2 size, Vector3 offset, Vector3 pivot)
     {
         indicatorFrame.enabled = true;
@@ -17,13 +25,6 @@ public class AttackAreaIndicator : MonoBehaviour
 
     public void EndIndicating()
     {
-        indicatorFrame.enabled = false;
-        indicatorInner.enabled = false;
-    }
-
-    public void InitializeFromPool()
-    {
-        this.gameObject.SetActive(true);
         indicatorFrame.enabled = false;
         indicatorInner.enabled = false;
     }

@@ -9,9 +9,9 @@ public class InternalBuffAction : StateActionSO
         if (stateController.TryGetInterface(out IBuffable buffable))
         {
             if (_negate)
-                _buff.RemoveBuff(buffable.StatBuffController);
+                buffable.UnBuff(_buff);
             else
-                _buff.AddBuff(buffable.StatBuffController);
+                buffable.Buff(_buff);
         }
     }
 }

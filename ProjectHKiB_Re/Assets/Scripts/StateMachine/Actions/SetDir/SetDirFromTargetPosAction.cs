@@ -10,8 +10,8 @@ public class SetDirFromTargetPosAction : StateActionSO
         {
             if (!targetable.CurrentTarget) return;
             Vector2 dir = targetable.CurrentTarget.position - stateController.transform.position;
-            if (!animatable.AnimationController.CheckIfLastSetDirectionSame(dir))
-                animatable.AnimationController.SetAnimationDirection(negative ? dir * -1 : dir);
+            if (!animatable.CheckIfLastSetDirectionSame(dir))
+                animatable.SetAnimationDirection(negative ? dir * -1 : dir);
         }
 
     }

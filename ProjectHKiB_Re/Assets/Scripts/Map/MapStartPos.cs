@@ -9,8 +9,8 @@ public class MapStartPos : MonoBehaviour
     public void SetPlayerToStartPos()
     {
         GameManager.instance.player.transform.position = this.transform.position;
-        GameManager.instance.player.MovementController.MovePoint.transform.position = this.transform.position;
-        GameManager.instance.player.AnimationController.SetAnimationDirection(_endDir);
+        GameManager.instance.player.GetInterface<IMovable>().MovePoint.transform.position = this.transform.position;
+        GameManager.instance.player.GetInterface<IDirAnimatable>().SetAnimationDirection(_endDir);
         if (endEvent != null) endEvent.TriggerEvent();
     }
 }

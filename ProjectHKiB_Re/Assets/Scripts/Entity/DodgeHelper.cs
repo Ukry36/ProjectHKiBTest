@@ -1,10 +1,7 @@
+using Assets.Scripts.Interfaces.Modules;
 using UnityEngine;
 
-public class DodgeHelper : MonoBehaviour, IDamagable
+public class DodgeHelper : MonoBehaviour
 {
-    public int BaseMaxHP { get; set; }
-    public int BaseDEF { get; set; }
-    public AudioDataSO HitSound { get; set; }
-    public ParticlePlayer HitParticle { get; set; }
-    [field: SerializeField] public HealthController HealthController { get; set; }
+    public DamagableModule damagableModule;
 }

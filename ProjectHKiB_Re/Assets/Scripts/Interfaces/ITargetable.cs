@@ -1,8 +1,7 @@
 using UnityEngine;
 
-public interface ITargetable
+public interface ITargetable : ITargetableBase
 {
-    public LayerMask[] TargetLayers { get; set; }
-    public Transform CurrentTarget { get => TargetController.CurrentTarget; set => TargetController.CurrentTarget = value; }
-    public TargetController TargetController { get; set; }
+    public Transform CurrentTarget { get; set; }
+    public void Initialize();
 }

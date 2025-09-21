@@ -9,7 +9,7 @@ public class FloatBuffContainer
         this.baseStat = baseStat;
     }
     public readonly float baseStat;
-    public EventHandler<float> OnBuffed;
+    public Action<float> OnBuffed;
     private readonly Dictionary<int, float> _statBuffAddList = new(10);
     private readonly Dictionary<int, float> _statBuffPropList = new(10);
     public float BuffedStat { get => baseStat + StatBuffAdd + StatBuffProp * baseStat; }
@@ -55,7 +55,7 @@ public class FloatBuffContainer
             else
                 _statBuffPropList[buff.ID] = buff.Value * multiplyer;
         }
-        OnBuffed?.Invoke(this, BuffedStat);
+        OnBuffed?.Invoke(BuffedStat);
     }
     public void RemoveBuff(StatBuffSO buff, int multiplyer, bool remove)
     {
@@ -90,13 +90,13 @@ public class FloatBuffContainer
             }
         }
 
-        OnBuffed?.Invoke(this, BuffedStat);
+        OnBuffed?.Invoke(BuffedStat);
     }
 }
 
 public class BoolBuffContainer
 {
-    public EventHandler<bool> OnBuffed;
+    public Action<bool> OnBuffed;
     private readonly Dictionary<int, int> _statBuffList = new(10);
     public bool StatBuff
     {
@@ -118,7 +118,7 @@ public class BoolBuffContainer
             _statBuffList[buff.ID] += buff.IsDebuff ? -multiplyer : multiplyer;
         else
             _statBuffList[buff.ID] = buff.IsDebuff ? -multiplyer : multiplyer;
-        OnBuffed?.Invoke(this, BuffedStat);
+        OnBuffed?.Invoke(BuffedStat);
     }
     public void RemoveBuff(StatBuffSO buff, int multiplyer, bool remove)
     {
@@ -138,6 +138,6 @@ public class BoolBuffContainer
             }
         }
 
-        OnBuffed?.Invoke(this, BuffedStat);
+        OnBuffed?.Invoke(BuffedStat);
     }
 }

@@ -6,7 +6,7 @@ public class CanDodgeCooltimeDecision : StateDecisionSO
     {
         if (stateController.TryGetInterface(out IDodgeable dodgeable))
         {
-            return dodgeable.CanDodge();
+            return dodgeable.CanDodge;
         }
         Debug.LogError("ERROR: Interface Not Found!!!");
         return false;

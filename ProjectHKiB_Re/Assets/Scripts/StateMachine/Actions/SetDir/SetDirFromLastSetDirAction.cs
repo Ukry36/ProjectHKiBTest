@@ -9,7 +9,7 @@ public class SetDirFromLastSetDirAction : StateActionSO
         {
             if (stateController.TryGetInterface(out IDirAnimatable animatable))
             {
-                animatable.AnimationController.SetAnimationDirection(movable.LastSetDir);
+                animatable.SetAnimationDirection(movable.LastSetDir);
             }
 
         }

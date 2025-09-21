@@ -6,7 +6,7 @@ public class DamageManagerSO : ScriptableObject
     public void Damage(DamageDataSO damageData, IAttackable hitter, IDamagable getHit, Vector3 hitPos, bool IsKnockback)
     {
         int value = 0;
-        bool isCritical = UnityEngine.Random.value < hitter.CriticalChanceRate;
+        bool isCritical = Random.value < hitter.CriticalChanceRate;
         if (!getHit.Invincible)
         {
             value = (int)

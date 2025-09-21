@@ -9,7 +9,7 @@ public class SetDirFromVelocityAction : StateActionSO
         {
             Vector2 dir = movable.ExForce.GetForce * (negative ? -1 : 1);
             if (stateController.TryGetInterface(out IDirAnimatable animatable))
-                animatable.AnimationController.SetAnimationDirection(dir);
+                animatable.SetAnimationDirection(dir);
         }
 
     }

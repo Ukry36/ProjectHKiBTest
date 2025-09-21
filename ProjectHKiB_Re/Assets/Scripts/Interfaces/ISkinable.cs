@@ -1,4 +1,6 @@
-public interface ISkinable
+using UnityEditor.Animations;
+
+public interface ISkinable : ISkinableBase
 {
-    public SkinDataSO SkinData { get; set; }
+    public void ApplySkin(AnimatorController animatorController);
 }

@@ -6,7 +6,7 @@ public class CanAttackCooltimeDecision : StateDecisionSO
     {
         if (stateController.TryGetInterface(out IAttackable attackable))
         {
-            return !attackable.AttackController.isAttackCooltime;
+            return !attackable.IsAttackCooltime;
         }
         return false;
     }

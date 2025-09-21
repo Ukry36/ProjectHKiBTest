@@ -6,7 +6,8 @@ public class WalkByPathFindAction : StateActionSO
     public override void Act(StateController stateController)
     {
         if (stateController.TryGetComponent(out IMovable movable)
-        && stateController.TryGetComponent(out IPathFindable pathfindable))
+        && stateController.TryGetComponent(out IPathFindable pathfindable)
+        && stateController.TryGetComponent(out ITargetable targetable))
         {
             if (pathfindable.IsPathValid)
             {
@@ -16,7 +17,7 @@ public class WalkByPathFindAction : StateActionSO
             }
             else
             {
-                movementManager.WalkMove(stateController.transform, movable, movable.Speed, pathfindable.CurrentTarget.position - stateController.transform.position, movable.WallLayer);
+                movementManager.WalkMove(stateController.transform, movable, movable.Speed, targetable.CurrentTarget.position - stateController.transform.position, movable.WallLayer);
             }
         }
         else

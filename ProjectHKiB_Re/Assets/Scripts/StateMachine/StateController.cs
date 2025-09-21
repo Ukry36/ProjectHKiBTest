@@ -20,7 +20,7 @@ public class StateController : InterfaceRegister
     [HideInInspector] public List<Coroutine> TransitionSequences = new(36);
     [HideInInspector] public List<bool> TransitionConditions = new(36);
 
-    protected virtual void Awake()
+    public virtual void Awake()
     {
         for (int i = 0; i < 36; i++)
         {
@@ -37,7 +37,7 @@ public class StateController : InterfaceRegister
         CurrentState.EnterState(this);
     }
 
-    public void UpdateState()
+    public virtual void UpdateState()
     {
         CurrentState.UpdateState(this);
         //Debug.Log("CheckTransition: " + _currentState.name);

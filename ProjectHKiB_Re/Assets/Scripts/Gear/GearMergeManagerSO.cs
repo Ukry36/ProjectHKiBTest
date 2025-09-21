@@ -87,7 +87,7 @@ public class GearMergeManagerSO : ScriptableObject
                 //Debug.Log("AttackGear Overrided: " + card.mergedGearList[i]);
                 //Debug.Log("AttackData Length: " + card.mergedGearList[i].playerBaseData.AttackDatas.Length);
 #endif
-                databaseManager.SetIStateControllable(mergedGearData, card.mergedGearList[i].playerBaseData);
+                mergedGearData.StateMachine = card.mergedGearList[i].playerBaseData.StateMachine;
                 mergedGearData.gearType = card.mergedGearList[i].gearType;
                 mergedGearData.AttackDatas = card.mergedGearList[i].playerBaseData.AttackDatas;
             }
@@ -106,8 +106,8 @@ public class GearMergeManagerSO : ScriptableObject
         databaseManager.SetIDodgeable(mergedGearData, playerBaseData);
         databaseManager.SetIDamagable(mergedGearData, playerBaseData);
         databaseManager.SetIDodgeable(mergedGearData, playerBaseData);
-        databaseManager.SetGraffiriable(mergedGearData, playerBaseData);
-        databaseManager.SetIStateControllable(mergedGearData, playerBaseData);
+        databaseManager.SetGraffitiable(mergedGearData, playerBaseData);
+        mergedGearData.StateMachine = playerBaseData.StateMachine;
         databaseManager.SetISkinable(mergedGearData, playerBaseData);
         databaseManager.SetITargetable(mergedGearData, playerBaseData);
     }

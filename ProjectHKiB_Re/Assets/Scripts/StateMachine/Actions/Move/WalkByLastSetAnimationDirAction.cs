@@ -7,7 +7,7 @@ public class WalkByLastSetAnimationDirAction : StateActionSO
     {
         if (stateController.TryGetInterface(out IMovable movable) && stateController.TryGetInterface(out IDirAnimatable animatable))
         {
-            movementManager.WalkMove(stateController.transform, movable, movable.Speed, animatable.AnimationController.LastSetAnimationDir8, movable.WallLayer);
+            movementManager.WalkMove(stateController.transform, movable, movable.Speed, animatable.LastSetAnimationDir8, movable.WallLayer);
         }
         else
             Debug.LogError("ERROR: Interface Not Found!!!");

@@ -14,7 +14,7 @@ public class TeleportEventAction : StateActionSO
             else Debug.Log("Entity " + @event.CurrentTarget.name + " has no such interface: movable");
             if (@event.CurrentTarget.TryGetComponent(out IDirAnimatable dirAnimatable))
             {
-                dirAnimatable.AnimationController.SetAnimationDirection(teleport.EndDir);
+                dirAnimatable.SetAnimationDirection(teleport.EndDir);
             }
             if (@event.CurrentTarget.gameObject.layer == LayerMask.NameToLayer("Player"))
             {

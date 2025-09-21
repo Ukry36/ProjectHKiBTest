@@ -4,15 +4,15 @@ public class AttackAreaIndicateAction : StateActionSO
 {
     public override void Act(StateController stateController)
     {
-        if (stateController.TryGetInterface(out IAttackable attackable) && stateController.TryGetInterface(out IAttackAreaIndicatable areaIndicatable) && stateController.TryGetInterface(out IDirAnimatable animatable))
+        if (stateController.TryGetInterface(out IAttackable attackable) && stateController.TryGetInterface(out IAttackIndicatable areaIndicatable) && stateController.TryGetInterface(out IDirAnimatable animatable))
         {
-            areaIndicatable.LastAttackAreaIndicatorID =
+            areaIndicatable.LastAttackIndicatorID =
             GameManager.instance.attackAreaIndicatorManager.IndicateAttackArea
             (
-                attackable.AttackDatas[attackable.AttackController.AttackNumber].attackAreaIndicatorData,
+                attackable.AttackDatas[attackable.AttackNumber].attackAreaIndicatorData,
                 stateController.transform,
-                animatable.AnimationController.LastSetAnimationQuaternion4,
-                () => areaIndicatable.LastAttackAreaIndicatorID = 0
+                animatable.LastSetAnimationQuaternion4,
+                () => areaIndicatable.LastAttackIndicatorID = 0
             );
         }
         else

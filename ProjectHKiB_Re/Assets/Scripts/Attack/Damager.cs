@@ -5,7 +5,7 @@ public class Damager : MonoBehaviour
 {
     [SerializeField] private DamageDataSO _damageData;
     private IAttackable _attackable;
-    [SerializeField] private DirAnimationController _animationController;
+    [SerializeField] private DirAnimatableModule _animationController;
 
     public void SetAttackable(IAttackable attackable)
     => _attackable = attackable;

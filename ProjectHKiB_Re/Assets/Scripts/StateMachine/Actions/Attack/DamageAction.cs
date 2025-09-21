@@ -7,7 +7,7 @@ public class DamageAction : StateActionSO
     {
         if (stateController.TryGetInterface(out IAttackable attackable))
         {
-            attackable.AttackController.Attack(damageNumber);
+            attackable.Attack(damageNumber);
         }
         else
             Debug.LogError("ERROR: Interface Not Found!!!");

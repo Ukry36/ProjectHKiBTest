@@ -4,9 +4,9 @@ public class PlayFootstepAction : StateActionSO
 {
     public override void Act(StateController stateController)
     {
-        if (stateController.TryGetInterface(out IMovable movable))
+        if (stateController.TryGetInterface(out IFootstep footstep))
         {
-            movable.FootstepController.PlayFootstepAudio(default);
+            footstep.PlayFootstepAudio(default);
         }
         else
             Debug.LogError("ERROR: Interface Not Found!!!");

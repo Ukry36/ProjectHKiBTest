@@ -5,81 +5,49 @@ using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Enemy : Entity, IAttackAreaIndicatable, IPathFindable, IPoolable, IEntityStateControllable
+public class Enemy : Entity, IPoolable
 {
-    public LayerMask[] TargetLayers { get; set; }
     [field: SerializeField] public int PoolSize { get; set; }
 
-
-    public StateMachineSO StateMachine { get; set; }
-    public AnimatorController AnimatorController { get; set; }
-    [field: SerializeField] public DirAnimationController AnimationController { get; set; }
-    [field: SerializeField] public StateController StateController { get; set; }
-    public int LastAttackAreaIndicatorID { get; set; }
-    public List<Vector3> PathList { get; set; }
-    [field: SerializeField] public PathFindController PathFindController { get; set; }
-    [field: SerializeField] public TargetController TargetController { get; set; }
+    public int LastAttackIndicatorID { get; set; }
     public UnityEvent<int, int> OnGameObjectDisabled { get; set; } = new();
     public int ID { get; set; }
 
-    public EnemyDataSO enemyBaseData;
+    public EnemyDataSO BaseData;
     [SerializeField] private DatabaseManagerSO databaseManager;
-    protected void Awake()
+    public override void Awake()
     {
-        HealthController.OnDie += OnDie;
+        base.Awake();
+        GetInterface<IDamagable>().OnDie += OnDie;
     }
     protected void OnDestroy()
     {
-        HealthController.OnDie -= OnDie;
+        GetInterface<IDamagable>().OnDie -= OnDie;
     }
 
-    void Start()
-    {
-        Initialize();
-    }
     public override void Initialize()
     {
-        UpdateDatas();
-        PathFindController.Initialize(this);
         base.Initialize();
-        //AttackController.SetAttacker(this);
-    }
-
-    public void UpdateDatas()
-    {
-        databaseManager.SetIMovable(this, enemyBaseData);
-        databaseManager.SetIAttackable(this, enemyBaseData);
-        databaseManager.SetIDamagable(this, enemyBaseData);
-        databaseManager.SetIStateControllable(this, enemyBaseData);
-        databaseManager.SetITargetable(this, enemyBaseData);
-        SetAnimationController();
-        SetStateController();
-        SetBuffController();
-    }
-    private void SetAnimationController()
-    => AnimationController.animator.runtimeAnimatorController = AnimatorController;
-    private void SetStateController()
-    {
-        StateController.RegisterInterface<IMovable>(this);
-        StateController.RegisterInterface<IAttackable>(this);
-        StateController.RegisterInterface<IAttackAreaIndicatable>(this);
-        StateController.RegisterInterface<IPathFindable>(this);
-        StateController.RegisterInterface<ITargetable>(this);
-        StateController.RegisterInterface<IDirAnimatable>(this);
-        StateController.RegisterInterface<IBuffable>(this);
-        StateController.Initialize(StateMachine);
-    }
-
-    private void SetBuffController()
-    {
-        StatBuffController.RegisterInterface<IMovable>(this);
-        StatBuffController.RegisterInterface<IAttackable>(this);
-        StatBuffController.RegisterInterface<IDamagable>(this);
+        databaseManager.SetIMovable(this, BaseData);
+        databaseManager.SetIAttackable(this, BaseData);
+        databaseManager.SetIDamagable(this, BaseData);
+        databaseManager.SetIFootstep(this, BaseData);
+        databaseManager.SetIPathFindable(this, BaseData);
+        databaseManager.SetIAnimatable(this, BaseData);
+        Initialize(BaseData.StateMachine);
+        GetInterface<IMovable>().Initialize();
+        GetInterface<IAttackable>()?.Initialize();
+        GetInterface<IDamagable>()?.Initialize();
+        GetInterface<IFootstep>()?.Initialize();
+        GetInterface<IFootstep>()?.Initialize();
+        GetInterface<ISkinable>()?.ApplySkin(BaseData.AnimatorController);
+        GetInterface<ITargetable>()?.Initialize();
+        GetInterface<IAnimatable>()?.Initialize();
     }
 
     public void InitializeFromPool(EnemyDataSO enemyData)
     {
-        enemyBaseData = enemyData;
+        BaseData = enemyData;
     }
 
     public void OnDisable()
@@ -89,8 +57,8 @@ public class Enemy : Entity, IAttackAreaIndicatable, IPathFindable, IPoolable, I
 
     public void OnDie()
     {
-        if (LastAttackAreaIndicatorID != 0)
-            GameManager.instance.attackAreaIndicatorManager.StopIndicating(LastAttackAreaIndicatorID);
+        if (LastAttackIndicatorID != 0)
+            GameManager.instance.attackAreaIndicatorManager.StopIndicating(LastAttackIndicatorID);
 
     }
 }

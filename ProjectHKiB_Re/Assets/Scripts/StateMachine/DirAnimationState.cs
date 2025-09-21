@@ -9,7 +9,7 @@ public class DirAnimationState : StateSO
     {
         base.EnterState(stateController);
         if (stateController.TryGetInterface(out IDirAnimatable animatable))
-            animatable.AnimationController.Play(animationName);
+            animatable.Play(animationName);
         else Debug.LogError("ERROR: Interface Not Found!!!");
     }
 }

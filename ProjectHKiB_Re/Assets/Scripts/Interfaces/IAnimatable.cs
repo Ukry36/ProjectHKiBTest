@@ -1,7 +1,8 @@
-using UnityEditor.Animations;
+using UnityEngine;
 
-public interface IAnimatable
+public interface IAnimatable : IAnimatableBase
 {
-    public AnimatorController AnimatorController { get; set; }
-    public AnimationController AnimationController { get; set; }
+    public Animator Animator { get; set; }
+    public void Play(string animationName);
+    public void Initialize();
 }

@@ -11,7 +11,7 @@ public class InstantMove1AnimDir4Action : StateActionSO
             (
                 stateController.transform,
                 movable,
-                (Vector3)animatable.AnimationController.LastSetAnimationDir4
+                (Vector3)animatable.LastSetAnimationDir4
             );
         }
         else
