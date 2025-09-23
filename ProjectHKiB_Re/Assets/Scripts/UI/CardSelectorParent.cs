@@ -6,10 +6,11 @@ using UnityEngine.EventSystems;
 
 public class CardSelectorParent : MonoBehaviour, IPointerExitHandler
 {
+    public int max;
     public CardSelector topCard;
     public CardSelector bottomCard;
-    public List<CardSelector> cards;
-    public Transform cardsParent;
+    public CardSelector[] cards;
+    private List<CardSelector> activeCards;
     public Vector2 cardInterval;
     public Vector2 cardHighlightShift;
     public Vector2 cardHighlightPushShift;
@@ -33,21 +34,17 @@ public class CardSelectorParent : MonoBehaviour, IPointerExitHandler
         sequences.Clear();
     }
 
-    public void Initialize()
+    public void Start()
     {
-        cards = new(GameManager.instance.gearManager.physicalMaxCardCount);
-        CardSelector[] allCards = cardsParent.GetComponentsInChildren<CardSelector>(true);
-        for (int i = 0; i < allCards.Length; i++)
-        {
-            allCards[i].PointerClickEvent.AddListener(OnCardOfIndexClick);
-            allCards[i].PointerEnterEvent.AddListener(OnCardOfIndexEnter);
-            allCards[i].cardData.Initialize();
-        }
-        bottomCard.cardData.Initialize();
-        topCard.cardData.Initialize();
         UpdateCardDatas();
+        for (int i = 0; i < cards.Length; i++)
+        {
+            cards[i].PointerClickEvent.AddListener(OnCardOfIndexClick);
+            cards[i].PointerEnterEvent.AddListener(OnCardOfIndexEnter);
+            cards[i].cardData.Initialize();
+        }
         topCard.PointerEnterEvent.AddListener(OnTopCardEnter);
-        topCard.SetCardData(allCards[0].cardData, 0);
+        topCard.SetCardData(activeCards[0].cardData, 0);
         GameManager.instance.gearManager.OnSetCardData.AddListener(UpdateCardDatas);
     }
 
@@ -55,12 +52,12 @@ public class CardSelectorParent : MonoBehaviour, IPointerExitHandler
     {
         CompleteAllTweens();
         Sequence sequence = DOTween.Sequence();
-        for (int i = 0; i < cards.Count; i++)
+        for (int i = 0; i < activeCards.Count; i++)
         {
             sequence.Insert(delayTime * (1 + index - i < 0 ? 0 : 1 + index - i),
-                cards[i].transform.DOLocalMove(
-                cardInterval * (cards.Count - i)
-                + (i < index && index < cards.Count ? cardHighlightPushShift : Vector2.zero)
+                activeCards[i].transform.DOLocalMove(
+                cardInterval * (activeCards.Count - i)
+                + (i < index && index < activeCards.Count ? cardHighlightPushShift : Vector2.zero)
                 + (i == index ? cardHighlightShift : Vector2.zero),
                 moveTime));
         }
@@ -72,9 +69,9 @@ public class CardSelectorParent : MonoBehaviour, IPointerExitHandler
     {
         CompleteAllTweens();
         Sequence sequence = DOTween.Sequence();
-        for (int i = 0; i < cards.Count; i++)
+        for (int i = 0; i < activeCards.Count; i++)
         {
-            sequence.Insert(delayTime * (cards.Count - i), cards[i].transform.DOLocalMove(Vector2.zero, moveTime));
+            sequence.Insert(delayTime * (activeCards.Count - i), activeCards[i].transform.DOLocalMove(Vector2.zero, moveTime));
         }
         sequence.Play();
         sequences.Add(sequence);
@@ -83,39 +80,37 @@ public class CardSelectorParent : MonoBehaviour, IPointerExitHandler
     public void UpdateCardDatas()
     {
         List<CardData> cardDatas = GameManager.instance.gearManager.playerCardEquipData;
-        CardSelector[] allCards = cardsParent.GetComponentsInChildren<CardSelector>(true);
-        cards.Clear();
-        int max = cardDatas.Count;
-        for (int i = 0; i < allCards.Length; i++)
+        cardDatas ??= new() { new() };
+        max = cardDatas.Count;
+        if (max > cards.Length) max = cards.Length;
+        for (int i = 0; i < cards.Length; i++)
         {
-            allCards[i].gameObject.SetActive(false);
-            allCards[i].SetSlotCount(GameManager.instance.gearManager.maxGearSlotCount);
-            if (i < max)
-            {
-                allCards[i].SetCardData(cardDatas[i], i);
-                allCards[i].gameObject.SetActive(true);
-                cards.Add(allCards[i]);
-            }
+            cards[i].gameObject.SetActive(false);
         }
-        bottomCard.SetSlotCount(GameManager.instance.gearManager.maxGearSlotCount);
-        topCard.SetSlotCount(GameManager.instance.gearManager.maxGearSlotCount);
-        topCard.SetCardData(cards[topCard.index].cardData, topCard.index);
+        activeCards = new(max);
+        for (int i = 0; i < max; i++)
+        {
+            cards[i].SetCardData(cardDatas[i], i);
+            cards[i].gameObject.SetActive(true);
+            activeCards.Add(cards[i]);
+        }
+        topCard.SetCardData(activeCards[topCard.index].cardData, topCard.index);
     }
 
     public void ChangeTopCard(int index)
     {
         if (index == topCard.index) return;
-        if (index >= cards.Count) index = cards.Count - 1;
+        if (index >= activeCards.Count) index = activeCards.Count - 1;
         if (index < 0) index = 0;
-        float delay = cards.Count * delayTime;
+        float delay = activeCards.Count * delayTime;
         SetInteractable(false);
-        bottomCard.SetCardData(cards[index].cardData, index);
+        bottomCard.SetCardData(activeCards[index].cardData, index);
         Sequence sequence = DOTween.Sequence();
         sequence.Insert(delay, topCard.transform.DOLocalMove(topCardChangeShift, moveTime));
         sequence.Insert(delay, bottomCard.transform.DOLocalMove(bottomCardChangeShift, moveTime));
         delay += moveTime;
         sequence.InsertCallback(delay, () => bottomCard.SetCardData(topCard.cardData, index));
-        sequence.InsertCallback(delay, () => topCard.SetCardData(cards[index].cardData, index));
+        sequence.InsertCallback(delay, () => topCard.SetCardData(activeCards[index].cardData, index));
         sequence.Insert(delay, topCard.transform.DOLocalMove(bottomCardChangeShift, 0));
         sequence.Insert(delay, bottomCard.transform.DOLocalMove(topCardChangeShift, 0));
         delay += 0.0001f;
@@ -135,7 +130,7 @@ public class CardSelectorParent : MonoBehaviour, IPointerExitHandler
     public void OnTopCardEnter(int temp)
     {
         if (interactable)
-            SpreadCards(cards.Count);
+            SpreadCards(activeCards.Count);
     }
     public void OnCardOfIndexClick(int index)
     {
