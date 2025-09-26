@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public interface IDamagable : IDamagableBase
+public interface IDamagable : IDamagableBase, IInitializable
 {
     public FloatBuffContainer MaxHPBuffer { get; set; }
     public float MaxHP { get => MaxHPBuffer.BuffedStat; }
@@ -30,7 +30,6 @@ public interface IDamagable : IDamagableBase
     public Action OnDie { get; set; }
     public Action OnHealed { get; set; }
 
-    public void Initialize();
     public void Damage(DamageDataSO damageData, IAttackable hitter, Vector3 origin);
     public void Die();
     public void Heal(int amount);

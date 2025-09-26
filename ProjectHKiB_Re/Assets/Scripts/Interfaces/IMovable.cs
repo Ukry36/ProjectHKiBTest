@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IMovable : IMovableBase
+public interface IMovable : IMovableBase, IInitializable
 {
     public struct ExternalForce
     {
@@ -31,7 +31,6 @@ public interface IMovable : IMovableBase
     public bool IsKnockbackMove { get; set; }
     public bool IsSprinting { get; set; }
     public ExternalForce ExForce { get; set; }
-    public void Initialize();
     public void KnockBack(Vector3 dir, float strength);
     public void EndKnockbackEarly();
     public void KnockBackEndCallback();

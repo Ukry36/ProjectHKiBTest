@@ -10,7 +10,7 @@ public class AnimatableModule : InterfaceModule, IAnimatable
         interfaceRegistable.RegisterInterface<IAnimatable>(this);
     }
 
-    public Animator Animator { get; set; }
+    [field: SerializeField] public Animator Animator { get; set; }
     [field: SerializeField] public string CurrentAnimation { get; protected set; }
 
     public virtual void Initialize()

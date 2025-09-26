@@ -96,5 +96,10 @@ namespace Assets.Scripts.Interfaces.Modules
             }
             return -1;
         }
+
+        public void Initialize()
+        {
+
+        }
     }
 }

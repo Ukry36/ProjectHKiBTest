@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-public interface IBuffable
+public interface IBuffable : IInitializable
 {
     public List<BuffInfo> CurrentBuffs { get; set; }
     public BuffInfo FindBuff(StatBuffSO buff);

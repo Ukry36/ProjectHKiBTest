@@ -31,7 +31,11 @@ public class AttackableModule : InterfaceModule, IAttackable
         IsAttackCooltime = false;
     }
 
-    public void SetAttacker() => damager.SetAttackable(this);
+    public void SetAttacker()
+    {
+        if (damager == null) return;
+        damager.SetAttackable(this);
+    }
 
     public void StartAttackCooltime()
     {

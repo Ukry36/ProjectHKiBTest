@@ -20,7 +20,7 @@ public class StateController : InterfaceRegister
     [HideInInspector] public List<Coroutine> TransitionSequences = new(36);
     [HideInInspector] public List<bool> TransitionConditions = new(36);
 
-    public virtual void Awake()
+    public virtual void Start()
     {
         for (int i = 0; i < 36; i++)
         {

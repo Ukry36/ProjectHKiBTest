@@ -93,7 +93,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5146095933648397323}
-  - component: {fileID: 3664185539687751631}
+  - component: {fileID: 3496439526165161001}
   m_Layer: 14
   m_Name: AttackAreaIndicator
   m_TagString: Untagged
@@ -118,7 +118,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3664185539687751631
+--- !u!114 &3496439526165161001
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -127,7 +127,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4634049620716983796}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4555adf114c74104194243bc185f734d, type: 3}
+  m_Script: {fileID: 11500000, guid: 7521227f680424b49abdd39a04422bf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   indicatorFrame: {fileID: 7824170870053138393}

@@ -5,7 +5,6 @@ public class DirAnimatableModule : AnimatableModule, IDirAnimatable
 {
     public override void Register(IInterfaceRegistable interfaceRegistable)
     {
-        Animator.runtimeAnimatorController = AnimatorController;
         interfaceRegistable.RegisterInterface<IDirAnimatable>(this);
     }
 

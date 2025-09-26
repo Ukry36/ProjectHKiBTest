@@ -1,5 +1,4 @@
-public interface IFootstep : IFootstepBase
+public interface IFootstep : IFootstepBase, IInitializable
 {
-    public void Initialize();
     public void PlayFootstepAudio(EnumManager.AnimDir animDir);
 }

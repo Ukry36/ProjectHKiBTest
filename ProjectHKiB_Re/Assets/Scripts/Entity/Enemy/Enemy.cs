@@ -1,10 +1,15 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Animations;
+using Assets.Scripts.Interfaces.Modules;
 using UnityEngine;
 using UnityEngine.Events;
-
+[RequireComponent(typeof(AttackableModule))]
+[RequireComponent(typeof(MovableModule))]
+[RequireComponent(typeof(TargetableModule))]
+[RequireComponent(typeof(PathFindableModule))]
+[RequireComponent(typeof(DamagableModule))]
+[RequireComponent(typeof(SkinableModule))]
+[RequireComponent(typeof(DirAnimatableModule))]
+[RequireComponent(typeof(FootStepModule))]
+[RequireComponent(typeof(BuffableModule))]
 public class Enemy : Entity, IPoolable
 {
     [field: SerializeField] public int PoolSize { get; set; }
@@ -15,39 +20,42 @@ public class Enemy : Entity, IPoolable
 
     public EnemyDataSO BaseData;
     [SerializeField] private DatabaseManagerSO databaseManager;
-    public override void Awake()
+    public override void Start()
     {
-        base.Awake();
+        base.Start();
         GetInterface<IDamagable>().OnDie += OnDie;
     }
     protected void OnDestroy()
     {
-        GetInterface<IDamagable>().OnDie -= OnDie;
+        if (TryGetInterface(out IDamagable damagable))
+        {
+            damagable.OnDie -= OnDie;
+        }
     }
 
     public override void Initialize()
     {
         base.Initialize();
+        if (BaseData == null)
+        {
+            Debug.Log("BaseData is Null");
+            return;
+        }
         databaseManager.SetIMovable(this, BaseData);
         databaseManager.SetIAttackable(this, BaseData);
         databaseManager.SetIDamagable(this, BaseData);
         databaseManager.SetIFootstep(this, BaseData);
         databaseManager.SetIPathFindable(this, BaseData);
-        databaseManager.SetIAnimatable(this, BaseData);
+        databaseManager.SetIDirAnimatable(this, BaseData);
         Initialize(BaseData.StateMachine);
-        GetInterface<IMovable>().Initialize();
-        GetInterface<IAttackable>()?.Initialize();
-        GetInterface<IDamagable>()?.Initialize();
-        GetInterface<IFootstep>()?.Initialize();
-        GetInterface<IFootstep>()?.Initialize();
+        InitializeModules();
         GetInterface<ISkinable>()?.ApplySkin(BaseData.AnimatorController);
-        GetInterface<ITargetable>()?.Initialize();
-        GetInterface<IAnimatable>()?.Initialize();
     }
 
     public void InitializeFromPool(EnemyDataSO enemyData)
     {
         BaseData = enemyData;
+        Initialize();
     }
 
     public void OnDisable()

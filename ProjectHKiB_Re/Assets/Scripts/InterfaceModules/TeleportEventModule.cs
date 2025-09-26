@@ -10,5 +10,9 @@ namespace Assets.Scripts.Interfaces.Modules
         {
             interfaceRegistable.RegisterInterface<ITeleportEventable>(this);
         }
+        public void Initialize()
+        {
+
+        }
     }
 }

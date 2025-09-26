@@ -5,7 +5,6 @@ namespace Assets.Scripts.Interfaces.Modules
 {
     public class SkinableModule : InterfaceModule, ISkinable
     {
-        [field: SerializeField] public int Amount { get; set; }
         [field: SerializeField] public SkinDataSO SkinData { get; set; }
         public SpriteLibrary spriteLibrary;
         public SpriteRenderer spriteRenderer;
@@ -14,8 +13,15 @@ namespace Assets.Scripts.Interfaces.Modules
         {
             interfaceRegistable.RegisterInterface<ISkinable>(this);
         }
+
+        public void Initialize()
+        {
+
+        }
+
         public void ApplySkin(AnimatorController animatorController)
         {
+            if (animatorController == null) return;
             spriteLibrary.spriteLibraryAsset = SkinData.bodyType.Bodytypes[animatorController];
             MaterialPropertyBlock materialPropertyBlock = new();
             materialPropertyBlock.SetTexture("_MainTex", SkinData.bodyType.MainTex[animatorController]);

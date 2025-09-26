@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 namespace Assets.Scripts.Interfaces.Modules
 {
@@ -10,6 +8,11 @@ namespace Assets.Scripts.Interfaces.Modules
         public override void Register(IInterfaceRegistable interfaceRegistable)
         {
             interfaceRegistable.RegisterInterface<IGetBuff>(this);
+        }
+
+        public void Initialize()
+        {
+
         }
 
         public void GetBuff(Transform target, StatBuffSO buff)

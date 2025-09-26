@@ -35,7 +35,5 @@ IPathFindableBase, IDamagableBase, IPoolable, IAnimatableBase, IFootstepBase
     public UnityEvent<int, int> OnGameObjectDisabled { get; set; }
     public float PathFindCooltime { get; set; }
     public void OnDisable()
-    {
-        throw new System.NotImplementedException();
-    }
+    { }
 }

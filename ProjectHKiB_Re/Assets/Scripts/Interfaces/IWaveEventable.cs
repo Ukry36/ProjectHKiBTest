@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IWaveEventable
+public interface IWaveEventable : IInitializable
 {
     public bool IsDirectionForward { get; set; }
     public int CurrentWaveIndex { get; set; }

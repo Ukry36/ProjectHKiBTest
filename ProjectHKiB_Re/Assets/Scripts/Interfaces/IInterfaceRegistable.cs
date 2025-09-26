@@ -4,9 +4,9 @@ using UnityEngine;
 
 public interface IInterfaceRegistable
 {
-    public Dictionary<Type, object> Interfaces { get; set; }
+    public Dictionary<Type, IInitializable> Interfaces { get; set; }
 
-    public void RegisterInterface<T>(T implementation) where T : class
+    public void RegisterInterface<T>(T implementation) where T : IInitializable
     {
         Interfaces[typeof(T)] = implementation;
     }

@@ -1,7 +1,6 @@
 using UnityEngine;
 
-public interface ITargetable : ITargetableBase
+public interface ITargetable : ITargetableBase, IInitializable
 {
     public Transform CurrentTarget { get; set; }
-    public void Initialize();
 }

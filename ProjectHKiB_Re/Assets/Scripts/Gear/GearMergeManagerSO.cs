@@ -96,11 +96,11 @@ public class GearMergeManagerSO : ScriptableObject
         // This triggers player to reset data
         // also triggers other effects or something
         OnRealGearMade?.Invoke(mergedGearData);
-        mergedGearData = null;
     }
 
     public void SetDatas(MergedPlayerBaseData mergedGearData, PlayerBaseDataSO playerBaseData)
     {
+        databaseManager.SetIAnimatable(mergedGearData, playerBaseData);
         databaseManager.SetIMovable(mergedGearData, playerBaseData);
         databaseManager.SetIAttackable(mergedGearData, playerBaseData);
         databaseManager.SetIDodgeable(mergedGearData, playerBaseData);

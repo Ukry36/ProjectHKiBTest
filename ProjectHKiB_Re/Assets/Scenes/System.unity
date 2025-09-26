@@ -5913,16 +5913,16 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 327803489}
-  - component: {fileID: 327803488}
-  - component: {fileID: 327803502}
-  - component: {fileID: 327803499}
-  - component: {fileID: 327803492}
-  - component: {fileID: 327803496}
-  - component: {fileID: 327803498}
-  - component: {fileID: 327803500}
-  - component: {fileID: 327803501}
+  - component: {fileID: 327803505}
   - component: {fileID: 327803504}
   - component: {fileID: 327803503}
+  - component: {fileID: 327803502}
+  - component: {fileID: 327803501}
+  - component: {fileID: 327803500}
+  - component: {fileID: 327803499}
+  - component: {fileID: 327803498}
+  - component: {fileID: 327803497}
+  - component: {fileID: 327803496}
   - component: {fileID: 327803490}
   - component: {fileID: 327803494}
   - component: {fileID: 327803493}
@@ -5934,33 +5934,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &327803488
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 327803487}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6051825cb89825049adf388825441260, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <FootstepController>k__BackingField: {fileID: 327803496}
-  <MovementController>k__BackingField: {fileID: 327803502}
-  <HealthController>k__BackingField: {fileID: 327803501}
-  <StatBuffController>k__BackingField: {fileID: 327803504}
-  <AttackController>k__BackingField: {fileID: 327803498}
-  yay: {fileID: 1601855039}
-  <DodgeController>k__BackingField: {fileID: 327803500}
-  databaseManager: {fileID: 11400000, guid: 6bc54106ea95a9242946feafc44a5dfe, type: 2}
-  sprite: {fileID: 126782212}
-  canInteractHeight: 0
-  <AnimationController>k__BackingField: {fileID: 327803492}
-  <StateController>k__BackingField: {fileID: 327803499}
-  <TargetController>k__BackingField: {fileID: 327803503}
-  spriteLibrary: {fileID: 126782215}
-  spriteRenderer: {fileID: 126782213}
 --- !u!4 &327803489
 Transform:
   m_ObjectHideFlags: 0
@@ -6002,21 +5975,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &327803492
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 327803487}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64ca76d553565e04d843812a3f701135, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 327803490}
-  <CurrentAnimation>k__BackingField: 
-  mathManager: {fileID: 11400000, guid: d70d30fe513b9cc4bb4206690e1ecbf7, type: 2}
 --- !u!61 &327803493
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6081,11 +6039,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 327803487}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 232b30827bb05d444af8dba5af345ea0, type: 3}
+  m_Script: {fileID: 11500000, guid: afc72b2d81e674d43ad6716331cac589, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  footstepAudioVolume: 1
-  animationController: {fileID: 327803492}
+  entityToBuff: {fileID: 327803505}
+  <CurrentBuffs>k__BackingField: []
+--- !u!114 &327803497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 327803487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5a5f27770b33764786015c9afad0a75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  footstepAudioVolume: 0
+  dirAnimatableModule: {fileID: 327803498}
 --- !u!114 &327803498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6095,11 +6067,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 327803487}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87ba1c6f9f02bde4795fffee5de07c06, type: 3}
+  m_Script: {fileID: 11500000, guid: b0f1216edf8a1cd438f8653f6af549f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damager: {fileID: 1199017817}
-  isAttackCooltime: 0
+  <Animator>k__BackingField: {fileID: 327803490}
+  <CurrentAnimation>k__BackingField: 
+  mathManager: {fileID: 11400000, guid: d70d30fe513b9cc4bb4206690e1ecbf7, type: 2}
 --- !u!114 &327803499
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6109,7 +6082,92 @@ MonoBehaviour:
   m_GameObject: {fileID: 327803487}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9cc3d93f403efb2478fbe9396c854b9b, type: 3}
+  m_Script: {fileID: 11500000, guid: 12af869960ef8254d925091bbf6595ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <SkinData>k__BackingField: {fileID: 0}
+  spriteLibrary: {fileID: 126782215}
+  spriteRenderer: {fileID: 126782213}
+--- !u!114 &327803500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 327803487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9af54cd1ee90bf3458dbcd08dbf4a917, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageManager: {fileID: 11400000, guid: 69175ed9e37d9e3408bdf3432f4a5b4c, type: 2}
+--- !u!114 &327803501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 327803487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a867c3d98a598f4bb3793dabd7346d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dtemp: {fileID: 6152642261447226093, guid: ffb6b7870ca53bf4290a59ae77e64649, type: 3}
+  _invincibleBuff: {fileID: 11400000, guid: 88e10990c6d7e844c94a81c00e452d78, type: 2}
+  _superArmourBuff: {fileID: 11400000, guid: 71434dab3a658bd459b9ace7b753c2b1, type: 2}
+  _damagableModule: {fileID: 327803500}
+  _dodgeHelper: {fileID: 1216747698}
+  _buffableModule: {fileID: 327803496}
+--- !u!114 &327803502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 327803487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a03bee0247418ce4c80da1a5808d480e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &327803503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 327803487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab6af0b098eea8f48973baff03ad8962, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <MovePoint>k__BackingField: {fileID: 1369237907}
+  movementManager: {fileID: 11400000, guid: 642ea6baceb016d4c8e15940b757d7cf, type: 2}
+--- !u!114 &327803504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 327803487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f50008a4665b7847badd0ec165779eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damager: {fileID: 1199017817}
+--- !u!114 &327803505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 327803487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6051825cb89825049adf388825441260, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   customVariables:
@@ -6121,78 +6179,10 @@ MonoBehaviour:
       _serializedList: []
   _currentState: {fileID: 0}
   TransitionConditions: 
---- !u!114 &327803500
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 327803487}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6b5f91787d187547803f241ca1031da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dtemp: {fileID: 2384635383773917901, guid: 2d8d448bad3c4b34c8c596add19b33bf, type: 3}
-  _invincibleBuff: {fileID: 11400000, guid: 88e10990c6d7e844c94a81c00e452d78, type: 2}
-  _superArmourBuff: {fileID: 11400000, guid: 71434dab3a658bd459b9ace7b753c2b1, type: 2}
-  _healthController: {fileID: 327803501}
-  _dodgeHelper: {fileID: 1216747698}
-  buffController: {fileID: 327803504}
---- !u!114 &327803501
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 327803487}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b967bdeed84a424bad44b65e24b8534, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damageManager: {fileID: 11400000, guid: 69175ed9e37d9e3408bdf3432f4a5b4c, type: 2}
-  _HP: 0
---- !u!114 &327803502
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 327803487}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f82c44d3d40f7b847852ad2014cff2d2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movementManager: {fileID: 11400000, guid: 642ea6baceb016d4c8e15940b757d7cf, type: 2}
-  <MovePoint>k__BackingField: {fileID: 1369237907}
---- !u!114 &327803503
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 327803487}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ad001c2350eb06458653be0ed3a40b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &327803504
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 327803487}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d16581cd43f6ec34799e7d68ffa08a8d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <CurrentBuffs>k__BackingField:
-    _serializedList: []
+  yay: {fileID: 1601855039}
+  databaseManager: {fileID: 11400000, guid: 6bc54106ea95a9242946feafc44a5dfe, type: 2}
+  sprite: {fileID: 126782212}
+  canInteractHeight: 0
 --- !u!1001 &330209504
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13216,6 +13206,7 @@ GameObject:
   - component: {fileID: 755428530}
   - component: {fileID: 755428532}
   - component: {fileID: 755428533}
+  - component: {fileID: 755428534}
   m_Layer: 5
   m_Name: GuageManager
   m_TagString: Untagged
@@ -13270,6 +13261,18 @@ MonoBehaviour:
   guage: {fileID: 243570161}
   text: {fileID: 1627647956}
   damagable: {fileID: 327803487}
+--- !u!225 &755428534
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 755428529}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &762706890
 GameObject:
   m_ObjectHideFlags: 0
@@ -15891,7 +15894,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 507629348}
   m_Direction: 2
   m_Value: 1.0000097
-  m_Size: 0.5742813
+  m_Size: 0.5743813
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -21747,7 +21750,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damageData: {fileID: 0}
-  _animationController: {fileID: 327803492}
+  _animationController: {fileID: 0}
 --- !u!1 &1205437971
 GameObject:
   m_ObjectHideFlags: 0
@@ -21799,10 +21802,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1216747703}
   - component: {fileID: 1216747698}
-  - component: {fileID: 1216747699}
   - component: {fileID: 1216747702}
   - component: {fileID: 1216747701}
   - component: {fileID: 1216747700}
+  - component: {fileID: 1216747704}
   m_Layer: 10
   m_Name: DodgeHelper
   m_TagString: Untagged
@@ -21822,21 +21825,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e679d37547318245bebba55b36d0379, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <HealthController>k__BackingField: {fileID: 1216747699}
---- !u!114 &1216747699
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1216747697}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 792fef3bc2ef9154ea3121110ec92280, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damageManager: {fileID: 11400000, guid: 69175ed9e37d9e3408bdf3432f4a5b4c, type: 2}
-  _HP: 0
+  damagableModule: {fileID: 1216747704}
 --- !u!212 &1216747700
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -21951,6 +21940,19 @@ Transform:
   m_Father: {fileID: 327803489}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1216747704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1216747697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9af54cd1ee90bf3458dbcd08dbf4a917, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageManager: {fileID: 11400000, guid: 69175ed9e37d9e3408bdf3432f4a5b4c, type: 2}
 --- !u!1 &1217326443
 GameObject:
   m_ObjectHideFlags: 0
@@ -28321,7 +28323,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 636493317}
   m_Direction: 2
   m_Value: 1.0000097
-  m_Size: 0.5742813
+  m_Size: 0.5743813
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -29711,7 +29713,7 @@ MonoBehaviour:
     pool:
       _serializedList: []
   _oneshotTransform: {fileID: 0}
-  prefab: {fileID: 3664185539687751631, guid: b5a7d6a1494b60a4188398a3fcb06676, type: 3}
+  prefab: {fileID: 3496439526165161001, guid: b5a7d6a1494b60a4188398a3fcb06676, type: 3}
   poolSize: 100
 --- !u!1 &1701138136
 GameObject:
@@ -32300,7 +32302,7 @@ MonoBehaviour:
   databaseManager: {fileID: 724609690}
   gearManager: {fileID: 147051296}
   inventoryManager: {fileID: 1855532042}
-  player: {fileID: 327803488}
+  player: {fileID: 0}
 --- !u!4 &1845891765
 Transform:
   m_ObjectHideFlags: 0

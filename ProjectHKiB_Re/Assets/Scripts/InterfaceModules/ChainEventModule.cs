@@ -8,4 +8,9 @@ public class ChainEventModule : InterfaceModule, IChainEventable
     {
         interfaceRegistable.RegisterInterface<IChainEventable>(this);
     }
+
+    public void Initialize()
+    {
+
+    }
 }

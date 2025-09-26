@@ -13510,7 +13510,6 @@ GameObject:
   - component: {fileID: 295612130}
   - component: {fileID: 295612129}
   - component: {fileID: 295612128}
-  - component: {fileID: 295612127}
   m_Layer: 0
   m_Name: Door2Close
   m_TagString: Untagged
@@ -13533,20 +13532,6 @@ Transform:
   m_Father: {fileID: 1457376263}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &295612127
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 295612125}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f602dae63f531af4e8eb192a98ee2421, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 553599553}
-  <CurrentAnimation>k__BackingField: 
 --- !u!114 &295612128
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13559,8 +13544,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6acd6c0be9885c74b8314c16813f3a54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <AnimatorController>k__BackingField: {fileID: 9100000, guid: ccc91f292e2fcb946bd0d92cf7be2bd0, type: 2}
-  <AnimationController>k__BackingField: {fileID: 295612127}
+  <Animator>k__BackingField: {fileID: 0}
+  <CurrentAnimation>k__BackingField: 
 --- !u!114 &295612129
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17297,8 +17282,8 @@ GameObject:
   - component: {fileID: 473561860}
   - component: {fileID: 473561859}
   - component: {fileID: 473561858}
-  - component: {fileID: 473561857}
   - component: {fileID: 473561856}
+  - component: {fileID: 473561864}
   m_Layer: 0
   m_Name: DoorTeleport
   m_TagString: Untagged
@@ -17348,20 +17333,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.01, y: 0.01}
   m_EdgeRadius: 0
---- !u!114 &473561857
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 473561854}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f602dae63f531af4e8eb192a98ee2421, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 990384396}
-  <CurrentAnimation>k__BackingField: 
 --- !u!114 &473561858
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17401,8 +17372,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6acd6c0be9885c74b8314c16813f3a54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <AnimatorController>k__BackingField: {fileID: 9100000, guid: ccc91f292e2fcb946bd0d92cf7be2bd0, type: 2}
-  <AnimationController>k__BackingField: {fileID: 473561857}
+  <Animator>k__BackingField: {fileID: 0}
+  <CurrentAnimation>k__BackingField: 
 --- !u!114 &473561861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17470,6 +17441,20 @@ MonoBehaviour:
   _trigger: {fileID: 473561862}
   _stateController: {fileID: 473561861}
   _stateMachine: {fileID: 11400000, guid: bd30754afadb0134ab4bd6c143fa6cd7, type: 2}
+--- !u!114 &473561864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 473561854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6acd6c0be9885c74b8314c16813f3a54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Animator>k__BackingField: {fileID: 0}
+  <CurrentAnimation>k__BackingField: 
 --- !u!1 &492271848
 GameObject:
   m_ObjectHideFlags: 0
@@ -27073,7 +27058,6 @@ GameObject:
   - component: {fileID: 690226494}
   - component: {fileID: 690226493}
   - component: {fileID: 690226492}
-  - component: {fileID: 690226491}
   m_Layer: 0
   m_Name: Door1Close
   m_TagString: Untagged
@@ -27096,20 +27080,6 @@ Transform:
   m_Father: {fileID: 765899361}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &690226491
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 690226489}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f602dae63f531af4e8eb192a98ee2421, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 1498998164}
-  <CurrentAnimation>k__BackingField: 
 --- !u!114 &690226492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27122,8 +27092,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6acd6c0be9885c74b8314c16813f3a54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <AnimatorController>k__BackingField: {fileID: 9100000, guid: ccc91f292e2fcb946bd0d92cf7be2bd0, type: 2}
-  <AnimationController>k__BackingField: {fileID: 690226491}
+  <Animator>k__BackingField: {fileID: 0}
+  <CurrentAnimation>k__BackingField: 
 --- !u!114 &690226493
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32369,8 +32339,8 @@ GameObject:
   - component: {fileID: 765899366}
   - component: {fileID: 765899370}
   - component: {fileID: 765899371}
-  - component: {fileID: 765899365}
   - component: {fileID: 765899362}
+  - component: {fileID: 765899373}
   m_Layer: 0
   m_Name: Door1Teleport
   m_TagString: Untagged
@@ -32421,20 +32391,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.01, y: 0.01}
   m_EdgeRadius: 0
---- !u!114 &765899365
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 765899360}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f602dae63f531af4e8eb192a98ee2421, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 1498998164}
-  <CurrentAnimation>k__BackingField: 
 --- !u!114 &765899366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32447,8 +32403,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6acd6c0be9885c74b8314c16813f3a54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <AnimatorController>k__BackingField: {fileID: 9100000, guid: ccc91f292e2fcb946bd0d92cf7be2bd0, type: 2}
-  <AnimationController>k__BackingField: {fileID: 765899365}
+  <Animator>k__BackingField: {fileID: 0}
+  <CurrentAnimation>k__BackingField: 
 --- !u!114 &765899367
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32543,6 +32499,20 @@ MonoBehaviour:
   chunk: {fileID: 1415830224}
   mathManager: {fileID: 11400000, guid: d70d30fe513b9cc4bb4206690e1ecbf7, type: 2}
   requiredDir: {x: 0, y: 1}
+--- !u!114 &765899373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 765899360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6acd6c0be9885c74b8314c16813f3a54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Animator>k__BackingField: {fileID: 0}
+  <CurrentAnimation>k__BackingField: 
 --- !u!1 &774311847
 GameObject:
   m_ObjectHideFlags: 0
@@ -48498,7 +48468,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8549578458478149775, guid: 816f408f75c75ef43b20546275f83bd2, type: 3}
+    - {fileID: 2452671810070010264, guid: 816f408f75c75ef43b20546275f83bd2, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 816f408f75c75ef43b20546275f83bd2, type: 3}
 --- !u!1 &1229630029
 GameObject:
@@ -49202,7 +49174,6 @@ GameObject:
   - component: {fileID: 1267673732}
   - component: {fileID: 1267673733}
   - component: {fileID: 1267673735}
-  - component: {fileID: 1267673734}
   m_Layer: 0
   m_Name: DoorClose
   m_TagString: Untagged
@@ -49246,20 +49217,6 @@ MonoBehaviour:
       _serializedList: []
   _currentState: {fileID: 0}
   TransitionConditions: 
---- !u!114 &1267673734
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1267673731}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f602dae63f531af4e8eb192a98ee2421, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 990384396}
-  <CurrentAnimation>k__BackingField: 
 --- !u!114 &1267673735
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49272,8 +49229,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6acd6c0be9885c74b8314c16813f3a54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <AnimatorController>k__BackingField: {fileID: 9100000, guid: ccc91f292e2fcb946bd0d92cf7be2bd0, type: 2}
-  <AnimationController>k__BackingField: {fileID: 1267673734}
+  <Animator>k__BackingField: {fileID: 0}
+  <CurrentAnimation>k__BackingField: 
 --- !u!4 &1267673736
 Transform:
   m_ObjectHideFlags: 0
@@ -54634,8 +54591,8 @@ GameObject:
   - component: {fileID: 1457376259}
   - component: {fileID: 1457376258}
   - component: {fileID: 1457376253}
-  - component: {fileID: 1457376255}
   - component: {fileID: 1457376256}
+  - component: {fileID: 1457376265}
   m_Layer: 0
   m_Name: Door2Teleport
   m_TagString: Untagged
@@ -54656,20 +54613,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <ChainEvent>k__BackingField: {fileID: 765899368}
---- !u!114 &1457376255
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1457376252}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f602dae63f531af4e8eb192a98ee2421, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 553599553}
-  <CurrentAnimation>k__BackingField: 
 --- !u!61 &1457376256
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -54722,8 +54665,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6acd6c0be9885c74b8314c16813f3a54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <AnimatorController>k__BackingField: {fileID: 9100000, guid: ccc91f292e2fcb946bd0d92cf7be2bd0, type: 2}
-  <AnimationController>k__BackingField: {fileID: 1457376255}
+  <Animator>k__BackingField: {fileID: 0}
+  <CurrentAnimation>k__BackingField: 
 --- !u!114 &1457376260
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54808,6 +54751,20 @@ MonoBehaviour:
   chunk: {fileID: 1415830224}
   mathManager: {fileID: 11400000, guid: d70d30fe513b9cc4bb4206690e1ecbf7, type: 2}
   requiredDir: {x: 0, y: 1}
+--- !u!114 &1457376265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1457376252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6acd6c0be9885c74b8314c16813f3a54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Animator>k__BackingField: {fileID: 0}
+  <CurrentAnimation>k__BackingField: 
 --- !u!1 &1488199063
 GameObject:
   m_ObjectHideFlags: 0
@@ -65780,8 +65737,8 @@ GameObject:
   - component: {fileID: 1900522502}
   - component: {fileID: 1900522501}
   - component: {fileID: 1900522500}
-  - component: {fileID: 1900522499}
   - component: {fileID: 1900522498}
+  - component: {fileID: 1900522506}
   m_Layer: 0
   m_Name: Door1Teleport
   m_TagString: Untagged
@@ -65831,20 +65788,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.01, y: 0.01}
   m_EdgeRadius: 0
---- !u!114 &1900522499
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1900522496}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f602dae63f531af4e8eb192a98ee2421, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 567948718}
-  <CurrentAnimation>k__BackingField: 
 --- !u!114 &1900522500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65884,8 +65827,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6acd6c0be9885c74b8314c16813f3a54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <AnimatorController>k__BackingField: {fileID: 9100000, guid: ccc91f292e2fcb946bd0d92cf7be2bd0, type: 2}
-  <AnimationController>k__BackingField: {fileID: 1900522499}
+  <Animator>k__BackingField: {fileID: 0}
+  <CurrentAnimation>k__BackingField: 
 --- !u!114 &1900522503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65953,6 +65896,20 @@ MonoBehaviour:
   _trigger: {fileID: 1900522504}
   _stateController: {fileID: 1900522503}
   _stateMachine: {fileID: 11400000, guid: bd30754afadb0134ab4bd6c143fa6cd7, type: 2}
+--- !u!114 &1900522506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1900522496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6acd6c0be9885c74b8314c16813f3a54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Animator>k__BackingField: {fileID: 0}
+  <CurrentAnimation>k__BackingField: 
 --- !u!1 &1901840990
 GameObject:
   m_ObjectHideFlags: 0
@@ -67528,7 +67485,6 @@ GameObject:
   - component: {fileID: 1959114222}
   - component: {fileID: 1959114221}
   - component: {fileID: 1959114220}
-  - component: {fileID: 1959114219}
   m_Layer: 0
   m_Name: Door1Close
   m_TagString: Untagged
@@ -67551,20 +67507,6 @@ Transform:
   m_Father: {fileID: 1900522497}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1959114219
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1959114217}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f602dae63f531af4e8eb192a98ee2421, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 567948718}
-  <CurrentAnimation>k__BackingField: 
 --- !u!114 &1959114220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67577,8 +67519,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6acd6c0be9885c74b8314c16813f3a54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <AnimatorController>k__BackingField: {fileID: 9100000, guid: ccc91f292e2fcb946bd0d92cf7be2bd0, type: 2}
-  <AnimationController>k__BackingField: {fileID: 1959114219}
+  <Animator>k__BackingField: {fileID: 0}
+  <CurrentAnimation>k__BackingField: 
 --- !u!114 &1959114221
 MonoBehaviour:
   m_ObjectHideFlags: 0

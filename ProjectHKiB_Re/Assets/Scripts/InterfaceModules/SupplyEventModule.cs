@@ -9,6 +9,10 @@ namespace Assets.Scripts.Interfaces.Modules
         {
             interfaceRegistable.RegisterInterface<ISupply>(this);
         }
+        public void Initialize()
+        {
+
+        }
 
         public void Supply(Transform target, int amount)
         {

@@ -49,6 +49,7 @@ public class GuageManager : UIView
 
     protected override void Start()
     {
+        /*
         IDamagable damagable = this.damagable.GetComponent<IDamagable>();
         Guage guage = new() { Max = 1000, Value = 0 };
         GuageViewModel guageViewModel = new();
@@ -60,6 +61,6 @@ public class GuageManager : UIView
         bindingSet.Bind(this.guage).For(v => v.fillAmount).To(vm => vm.Value / vm.Max).OneWay();
         bindingSet.Bind(damagable).For(v => v.OnHPChanged).To<int>(vm => vm.OnValueChanged);
         bindingSet.Bind(damagable).For(v => v.OnMaxHPChanged).To<int>(vm => vm.OnMaxChanged);
-        bindingSet.Build();
+        bindingSet.Build();*/
     }
 }

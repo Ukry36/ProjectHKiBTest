@@ -32,6 +32,11 @@ public class BuffableModule : InterfaceModule, IBuffable
         interfaceRegistable.RegisterInterface<IBuffable>(this);
     }
 
+    public void Initialize()
+    {
+
+    }
+
     public BuffInfo FindBuff(StatBuffSO buff) => CurrentBuffs.Find(b => b.Buff == buff);
 
     /// <summary>

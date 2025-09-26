@@ -1,8 +1,15 @@
 using UnityEngine;
-using UnityEngine.U2D.Animation;
-using System;
-using UnityEditor.Animations;
-[Serializable]
+using Assets.Scripts.Interfaces.Modules;
+
+[RequireComponent(typeof(AttackableModule))]
+[RequireComponent(typeof(MovableModule))]
+[RequireComponent(typeof(TargetableModule))]
+[RequireComponent(typeof(DodgeableModule))]
+[RequireComponent(typeof(DamagableModule))]
+[RequireComponent(typeof(SkinableModule))]
+[RequireComponent(typeof(DirAnimatableModule))]
+[RequireComponent(typeof(FootStepModule))]
+[RequireComponent(typeof(BuffableModule))]
 public class Player : Entity, IGraffitiable
 {
     #region field
@@ -26,12 +33,7 @@ public class Player : Entity, IGraffitiable
     public int MaxGP { get; set; }
     public int GP { get; set; }
 
-    public MergedPlayerBaseData BaseData
-    {
-        get => _playerBaseData;
-        set { _playerBaseData = value; }
-    }
-    private MergedPlayerBaseData _playerBaseData;
+    public MergedPlayerBaseData BaseData;
 
     [SerializeField] private DatabaseManagerSO databaseManager;
 
@@ -56,6 +58,11 @@ public class Player : Entity, IGraffitiable
     public override void Initialize()
     {
         base.Initialize();
+        if (BaseData == null)
+        {
+            Debug.Log("BaseData is Null");
+            return;
+        }
         databaseManager.SetIMovable(this, BaseData);
         databaseManager.SetIAttackable(this, BaseData);
         databaseManager.SetIDamagable(this, BaseData);
@@ -64,18 +71,12 @@ public class Player : Entity, IGraffitiable
         databaseManager.SetGraffitiable(this, BaseData);
         databaseManager.SetISkinable(this, BaseData);
         databaseManager.SetITargetable(this, BaseData);
-        databaseManager.SetIAnimatable(this, BaseData);
+        databaseManager.SetIDirAnimatable(this, BaseData);
         Initialize(BaseData.StateMachine);
-        GetInterface<IMovable>()?.Initialize();
-        GetInterface<IAttackable>()?.Initialize();
-        GetInterface<IDamagable>()?.Initialize();
-        GetInterface<IDodgeable>()?.Initialize();
-        GetInterface<IFootstep>()?.Initialize();
+        InitializeModules();
+
         //graffiti
-        GetInterface<IFootstep>()?.Initialize();
         GetInterface<ISkinable>()?.ApplySkin(BaseData.AnimatorController);
-        GetInterface<ITargetable>()?.Initialize();
-        GetInterface<IAnimatable>()?.Initialize();
     }
 
     public void SetGear(MergedPlayerBaseData mergedGear)

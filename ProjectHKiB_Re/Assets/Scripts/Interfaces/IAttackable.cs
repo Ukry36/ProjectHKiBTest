@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public interface IAttackable : IAttackableBase
+public interface IAttackable : IAttackableBase, IInitializable
 {
     public FloatBuffContainer ATKBuffer { get; set; }
     public int ATK { get => (int)ATKBuffer.BuffedStat; }
@@ -10,7 +10,6 @@ public interface IAttackable : IAttackableBase
     public float DamageIndicatorRandomPosInfo { get; set; }
     public int AttackNumber { get; set; }
 
-    public void Initialize();
     public void SetAttacker();
     public void StartAttackCooltime();
     public void SetAttackData(int attackNumber);

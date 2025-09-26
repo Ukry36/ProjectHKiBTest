@@ -96,8 +96,9 @@ GameObject:
   - component: {fileID: 740836700659108327}
   - component: {fileID: 740836700659108326}
   - component: {fileID: 740836700659108325}
-  - component: {fileID: 7372578767590152453}
-  - component: {fileID: 1211997861545076718}
+  - component: {fileID: 7842616194902717810}
+  - component: {fileID: 5659256975046475426}
+  - component: {fileID: 5757159103403419145}
   m_Layer: 13
   m_Name: WeakDebrisTest
   m_TagString: Untagged
@@ -135,10 +136,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc1b06e88323b5f4bbe71cba7777a05a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <FootstepController>k__BackingField: {fileID: 0}
-  <MovementController>k__BackingField: {fileID: 7372578767590152453}
-  <HealthController>k__BackingField: {fileID: 1211997861545076718}
-  <StatBuffController>k__BackingField: {fileID: 0}
+  customVariables:
+    boolVariables:
+      _serializedList: []
+    intVariables:
+      _serializedList: []
+    floatVariables:
+      _serializedList: []
+  _currentState: {fileID: 0}
+  TransitionConditions: 
   <BaseData>k__BackingField: {fileID: 11400000, guid: e82e948422a46a446820f3543f4a7c1e, type: 2}
   databaseManager: {fileID: 11400000, guid: 6bc54106ea95a9242946feafc44a5dfe, type: 2}
   movementManager: {fileID: 11400000, guid: 642ea6baceb016d4c8e15940b757d7cf, type: 2}
@@ -179,7 +185,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.9, y: 0.9}
   m_EdgeRadius: 0
---- !u!114 &7372578767590152453
+--- !u!114 &7842616194902717810
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -188,12 +194,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 740836700659108323}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f82c44d3d40f7b847852ad2014cff2d2, type: 3}
+  m_Script: {fileID: 11500000, guid: 2f50008a4665b7847badd0ec165779eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementManager: {fileID: 11400000, guid: 642ea6baceb016d4c8e15940b757d7cf, type: 2}
-  <MovePoint>k__BackingField: {fileID: 8052821685393356324}
---- !u!114 &1211997861545076718
+  damager: {fileID: 0}
+--- !u!114 &5659256975046475426
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -202,11 +207,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 740836700659108323}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b967bdeed84a424bad44b65e24b8534, type: 3}
+  m_Script: {fileID: 11500000, guid: ab6af0b098eea8f48973baff03ad8962, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <MovePoint>k__BackingField: {fileID: 8052821685393356324}
+  movementManager: {fileID: 11400000, guid: 642ea6baceb016d4c8e15940b757d7cf, type: 2}
+--- !u!114 &5757159103403419145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 740836700659108323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9af54cd1ee90bf3458dbcd08dbf4a917, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   damageManager: {fileID: 11400000, guid: 69175ed9e37d9e3408bdf3432f4a5b4c, type: 2}
-  _HP: 0
 --- !u!1 &740836700668580244
 GameObject:
   m_ObjectHideFlags: 0

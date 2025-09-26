@@ -94,4 +94,12 @@ public class DatabaseManagerSO : ScriptableObject
     {
         animatable.AnimatorController = data.AnimatorController;
     }
+
+    public void SetIDirAnimatable(IInterfaceRegistable entity, IAnimatableBase data)
+    => SetIDirAnimatable(entity.GetInterface<IDirAnimatable>(), data);
+    public void SetIDirAnimatable(IAnimatableBase animatable, IAnimatableBase data)
+    {
+        animatable.AnimatorController = data.AnimatorController;
+        Debug.Log(animatable.AnimatorController);
+    }
 }

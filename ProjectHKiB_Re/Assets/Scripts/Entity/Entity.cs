@@ -3,9 +3,9 @@ using UnityEngine;
 
 public abstract class Entity : StateController
 {
-    public override void Awake()
+    public override void Start()
     {
-        base.Awake();
+        base.Start();
         Initialize();
     }
     public virtual void Initialize()
