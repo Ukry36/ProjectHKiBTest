@@ -20,8 +20,8 @@ MonoBehaviour:
   <CanPushLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 0
-  <FootStepAudio>k__BackingField: {fileID: 11400000, guid: d78d695b40ad7c64b8cb95741be6bae5, type: 2}
-  <ATK>k__BackingField: 100
+  <DefaultFootstepAudio>k__BackingField: {fileID: 11400000, guid: d78d695b40ad7c64b8cb95741be6bae5, type: 2}
+  <BaseATK>k__BackingField: 0
   <CriticalChanceRate>k__BackingField: 0
   <CriticalDamageRate>k__BackingField: 0
   <AttackDatas>k__BackingField: []
@@ -31,19 +31,20 @@ MonoBehaviour:
   - serializedVersion: 2
     m_Bits: 8192
   <DamageParticle>k__BackingField: {fileID: 11400000, guid: cb51a1de9ae8e724fb7deaf1c56006c2, type: 2}
-  <DodgeCooltime>k__BackingField: 1
+  <BaseDodgeCooltime>k__BackingField: 0
   <InitialDodgeMaxDistance>k__BackingField: 1
-  <DodgeSpeed>k__BackingField: 0
-  <ContinuousDodgeLimit>k__BackingField: 0
+  <BaseDodgeSpeed>k__BackingField: 0
+  <BaseContinuousDodgeLimit>k__BackingField: 0
   <KeepDodgeWallLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 10312
-  <KeepDodgeMaxTime>k__BackingField: 0
-  <DodgeInvincibleTime>k__BackingField: 0
-  <MaxHP>k__BackingField: 1000
-  <HP>k__BackingField: 1000
-  <DEF>k__BackingField: 0
-  <Resistance>k__BackingField: 0
+  <BaseKeepDodgeMaxTime>k__BackingField: 0
+  <BaseDodgeInvincibleTime>k__BackingField: 0
+  <KeepDodgeParticle>k__BackingField: {fileID: 0}
+  <JustDodgeBuff>k__BackingField:
+    Buffs: []
+  <BaseMaxHP>k__BackingField: 0
+  <BaseDEF>k__BackingField: 0
   <Mass>k__BackingField: 1
   <HitSound>k__BackingField: {fileID: 0}
   <HitParticle>k__BackingField: {fileID: 0}

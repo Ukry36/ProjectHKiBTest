@@ -10,7 +10,7 @@ public class DamagableObject : Entity
     public override void Start()
     {
         base.Start();
-        Initialize();
+        //Initialize();
     }
 
     public override void Initialize()

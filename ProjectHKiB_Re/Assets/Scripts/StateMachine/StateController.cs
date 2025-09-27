@@ -16,18 +16,22 @@ public class StateController : InterfaceRegister
             //Debug.Log(_currentState);
         }
     }
-    [HideInInspector] public List<Coroutine> FrameActionSequences = new(36);
-    [HideInInspector] public List<Coroutine> TransitionSequences = new(36);
-    [HideInInspector] public List<bool> TransitionConditions = new(36);
+    [HideInInspector] public List<Coroutine> FrameActionSequences = new(10);
+    [HideInInspector] public List<Coroutine> TransitionSequences = new(10);
+    [HideInInspector] public List<bool> TransitionConditions = new(10);
 
-    public virtual void Start()
+    public virtual void Awake()
     {
-        for (int i = 0; i < 36; i++)
+        for (int i = 0; i < 10; i++)
         {
             FrameActionSequences.Add(null);
             TransitionSequences.Add(null);
             TransitionConditions.Add(false);
         }
+    }
+
+    public virtual void Start()
+    {
     }
 
     public virtual void ChangeState(StateSO state)

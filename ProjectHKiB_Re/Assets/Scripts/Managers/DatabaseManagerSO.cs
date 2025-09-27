@@ -100,6 +100,5 @@ public class DatabaseManagerSO : ScriptableObject
     public void SetIDirAnimatable(IAnimatableBase animatable, IAnimatableBase data)
     {
         animatable.AnimatorController = data.AnimatorController;
-        Debug.Log(animatable.AnimatorController);
     }
 }

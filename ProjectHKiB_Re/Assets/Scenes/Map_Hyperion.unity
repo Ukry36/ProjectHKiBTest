@@ -13544,7 +13544,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6acd6c0be9885c74b8314c16813f3a54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Animator>k__BackingField: {fileID: 0}
+  <Animator>k__BackingField: {fileID: 553599553}
   <CurrentAnimation>k__BackingField: 
 --- !u!114 &295612129
 MonoBehaviour:
@@ -17283,7 +17283,6 @@ GameObject:
   - component: {fileID: 473561859}
   - component: {fileID: 473561858}
   - component: {fileID: 473561856}
-  - component: {fileID: 473561864}
   m_Layer: 0
   m_Name: DoorTeleport
   m_TagString: Untagged
@@ -17372,7 +17371,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6acd6c0be9885c74b8314c16813f3a54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Animator>k__BackingField: {fileID: 0}
+  <Animator>k__BackingField: {fileID: 990384396}
   <CurrentAnimation>k__BackingField: 
 --- !u!114 &473561861
 MonoBehaviour:
@@ -17441,20 +17440,6 @@ MonoBehaviour:
   _trigger: {fileID: 473561862}
   _stateController: {fileID: 473561861}
   _stateMachine: {fileID: 11400000, guid: bd30754afadb0134ab4bd6c143fa6cd7, type: 2}
---- !u!114 &473561864
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 473561854}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6acd6c0be9885c74b8314c16813f3a54, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <Animator>k__BackingField: {fileID: 0}
-  <CurrentAnimation>k__BackingField: 
 --- !u!1 &492271848
 GameObject:
   m_ObjectHideFlags: 0
@@ -19770,7 +19755,7 @@ Animator:
   m_GameObject: {fileID: 553599548}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ccc91f292e2fcb946bd0d92cf7be2bd0, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -19866,7 +19851,7 @@ Animator:
   m_GameObject: {fileID: 567948716}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ccc91f292e2fcb946bd0d92cf7be2bd0, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -27092,7 +27077,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6acd6c0be9885c74b8314c16813f3a54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Animator>k__BackingField: {fileID: 0}
+  <Animator>k__BackingField: {fileID: 1498998164}
   <CurrentAnimation>k__BackingField: 
 --- !u!114 &690226493
 MonoBehaviour:
@@ -32511,7 +32496,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6acd6c0be9885c74b8314c16813f3a54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Animator>k__BackingField: {fileID: 0}
+  <Animator>k__BackingField: {fileID: 1498998164}
   <CurrentAnimation>k__BackingField: 
 --- !u!1 &774311847
 GameObject:
@@ -39348,7 +39333,7 @@ Animator:
   m_GameObject: {fileID: 1067366997}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ccc91f292e2fcb946bd0d92cf7be2bd0, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -49229,7 +49214,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6acd6c0be9885c74b8314c16813f3a54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Animator>k__BackingField: {fileID: 0}
+  <Animator>k__BackingField: {fileID: 990384396}
   <CurrentAnimation>k__BackingField: 
 --- !u!4 &1267673736
 Transform:
@@ -54763,7 +54748,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6acd6c0be9885c74b8314c16813f3a54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Animator>k__BackingField: {fileID: 0}
+  <Animator>k__BackingField: {fileID: 553599553}
   <CurrentAnimation>k__BackingField: 
 --- !u!1 &1488199063
 GameObject:
@@ -55028,7 +55013,7 @@ Animator:
   m_GameObject: {fileID: 1498998159}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ccc91f292e2fcb946bd0d92cf7be2bd0, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -65158,7 +65143,7 @@ Animator:
   m_GameObject: {fileID: 1891103338}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ccc91f292e2fcb946bd0d92cf7be2bd0, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -65738,7 +65723,6 @@ GameObject:
   - component: {fileID: 1900522501}
   - component: {fileID: 1900522500}
   - component: {fileID: 1900522498}
-  - component: {fileID: 1900522506}
   m_Layer: 0
   m_Name: Door1Teleport
   m_TagString: Untagged
@@ -65827,7 +65811,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6acd6c0be9885c74b8314c16813f3a54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Animator>k__BackingField: {fileID: 0}
+  <Animator>k__BackingField: {fileID: 567948718}
   <CurrentAnimation>k__BackingField: 
 --- !u!114 &1900522503
 MonoBehaviour:
@@ -65896,20 +65880,6 @@ MonoBehaviour:
   _trigger: {fileID: 1900522504}
   _stateController: {fileID: 1900522503}
   _stateMachine: {fileID: 11400000, guid: bd30754afadb0134ab4bd6c143fa6cd7, type: 2}
---- !u!114 &1900522506
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1900522496}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6acd6c0be9885c74b8314c16813f3a54, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <Animator>k__BackingField: {fileID: 0}
-  <CurrentAnimation>k__BackingField: 
 --- !u!1 &1901840990
 GameObject:
   m_ObjectHideFlags: 0
@@ -67500,7 +67470,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1959114217}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -67519,7 +67489,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6acd6c0be9885c74b8314c16813f3a54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Animator>k__BackingField: {fileID: 0}
+  <Animator>k__BackingField: {fileID: 567948718}
   <CurrentAnimation>k__BackingField: 
 --- !u!114 &1959114221
 MonoBehaviour:

@@ -110,5 +110,6 @@ public class GearMergeManagerSO : ScriptableObject
         mergedGearData.StateMachine = playerBaseData.StateMachine;
         databaseManager.SetISkinable(mergedGearData, playerBaseData);
         databaseManager.SetITargetable(mergedGearData, playerBaseData);
+        databaseManager.SetIFootstep(mergedGearData, playerBaseData);
     }
 }
