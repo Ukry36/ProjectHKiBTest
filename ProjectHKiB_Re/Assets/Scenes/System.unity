@@ -13248,13 +13248,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd335ba9ed773dc498c41f7dd1fdbccd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  guageViewModel:
-    _max: 0
-    _value: 0
   guageOutline: {fileID: 700084117}
   guage: {fileID: 243570161}
   text: {fileID: 1627647956}
   target: {fileID: 327803500}
+  _hp: 100
+  _maxHp: 100
 --- !u!225 &755428534
 CanvasGroup:
   m_ObjectHideFlags: 0
