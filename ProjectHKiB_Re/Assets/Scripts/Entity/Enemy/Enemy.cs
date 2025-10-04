@@ -47,6 +47,7 @@ public class Enemy : Entity, IPoolable
         databaseManager.SetIFootstep(this, BaseData);
         databaseManager.SetIPathFindable(this, BaseData);
         databaseManager.SetIDirAnimatable(this, BaseData);
+        databaseManager.SetITargetable(this, BaseData);
         Initialize(BaseData.StateMachine);
         InitializeModules();
         GetInterface<ISkinable>()?.ApplySkin(BaseData.AnimatorController);

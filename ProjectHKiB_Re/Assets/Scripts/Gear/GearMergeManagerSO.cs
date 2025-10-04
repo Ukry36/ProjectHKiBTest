@@ -83,13 +83,10 @@ public class GearMergeManagerSO : ScriptableObject
             && !card.mergedGearList[MAINGEAR].gearType.isAttackGear
             && !card.mergedGearList[MAINGEAR].gearType.cannotAttack)
             {
-#if UNITY_EDITOR
-                //Debug.Log("AttackGear Overrided: " + card.mergedGearList[i]);
-                //Debug.Log("AttackData Length: " + card.mergedGearList[i].playerBaseData.AttackDatas.Length);
-#endif
                 mergedGearData.StateMachine = card.mergedGearList[i].playerBaseData.StateMachine;
                 mergedGearData.gearType = card.mergedGearList[i].gearType;
                 mergedGearData.AttackDatas = card.mergedGearList[i].playerBaseData.AttackDatas;
+                mergedGearData.AnimatorController = card.mergedGearList[i].playerBaseData.AnimatorController;
             }
             card.mergedGearList[i].ApplySubGearEffect(mergedGearData);
         }

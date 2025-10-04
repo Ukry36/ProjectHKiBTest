@@ -6,8 +6,7 @@ public class RemoveAttackAreaIndicatorAction : StateActionSO
     {
         if (stateController.TryGetInterface(out IAttackIndicatable areaIndicatable))
         {
-            if (areaIndicatable.LastAttackIndicatorID != 0)
-                GameManager.instance.attackAreaIndicatorManager.StopIndicating(areaIndicatable.LastAttackIndicatorID);
+            areaIndicatable.EndIndicating();
         }
     }
 }

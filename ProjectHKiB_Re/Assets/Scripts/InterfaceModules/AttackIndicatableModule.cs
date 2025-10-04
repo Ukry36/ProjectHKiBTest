@@ -2,9 +2,6 @@ using UnityEngine;
 
 public class AttackIndicatableModule : InterfaceModule, IAttackIndicatable
 {
-    public SpriteRenderer indicatorFrame;
-    public SpriteRenderer indicatorInner;
-
     public int LastAttackIndicatorID { get; set; }
     public override void Register(IInterfaceRegistable interfaceRegistable)
     {
@@ -13,24 +10,24 @@ public class AttackIndicatableModule : InterfaceModule, IAttackIndicatable
     public void Initialize()
     {
         this.gameObject.SetActive(true);
-        indicatorFrame.enabled = false;
-        indicatorInner.enabled = false;
     }
 
-    public void StartIndicating(Vector2 size, Vector3 offset, Vector3 pivot)
+    public void StartIndicating(AttackAreaIndicatorData indicatorData, Transform transform, Quaternion quaternion)
     {
-        indicatorFrame.enabled = true;
-        indicatorInner.enabled = true;
-        indicatorFrame.transform.localPosition = offset;
-        indicatorInner.transform.localPosition = pivot;
-        indicatorFrame.size = size;
-        indicatorInner.size = Vector2.zero;
+        LastAttackIndicatorID =
+            GameManager.instance.attackAreaIndicatorManager.IndicateAttackArea
+            (
+                indicatorData,
+                transform,
+                quaternion,
+                () => LastAttackIndicatorID = 0
+            );
     }
 
     public void EndIndicating()
     {
-        indicatorFrame.enabled = false;
-        indicatorInner.enabled = false;
+        if (LastAttackIndicatorID != 0)
+            GameManager.instance.attackAreaIndicatorManager.StopIndicating(LastAttackIndicatorID);
     }
 
 

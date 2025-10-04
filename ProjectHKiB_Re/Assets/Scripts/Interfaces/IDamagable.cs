@@ -5,7 +5,7 @@ public interface IDamagable : IDamagableBase, IInitializable
 {
     public FloatBuffContainer MaxHPBuffer { get; set; }
     public float MaxHP { get => MaxHPBuffer.BuffedStat; }
-    public Action<float> OnMaxHPChanged { get => MaxHPBuffer.OnBuffed; }
+    public Action<float> OnMaxHPChanged { get => MaxHPBuffer.OnBuffed; set => MaxHPBuffer.OnBuffed = value; }
 
     public float HP { get; set; }
     public Action<float> OnHPChanged { get; set; }

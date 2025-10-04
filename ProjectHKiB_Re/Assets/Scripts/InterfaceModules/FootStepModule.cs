@@ -33,7 +33,7 @@ public class FootStepModule : InterfaceModule, IFootstep
     {
         if (DefaultFootstepAudio != null)
             GameManager.instance.audioManager.PlayAudioOneShot(DefaultFootstepAudio, footstepAudioVolume, transform.position);
-        if (footstepAudioList.Count > 0)
+        if (footstepAudioList != null && footstepAudioList.Count > 0)
         {
             for (int i = 0; i < footstepAudioList.Count; i++)
             {

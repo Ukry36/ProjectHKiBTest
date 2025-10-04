@@ -184,6 +184,7 @@ GameObject:
   - component: {fileID: 1118408772094066186}
   - component: {fileID: 7431328578488772395}
   - component: {fileID: 450080695492416609}
+  - component: {fileID: 2683952245801778218}
   m_Layer: 11
   m_Name: Rusher
   m_TagString: Untagged
@@ -435,6 +436,18 @@ MonoBehaviour:
   <PoolSize>k__BackingField: 100
   BaseData: {fileID: 11400000, guid: a574bd1562b7754489379a3566a8ac17, type: 2}
   databaseManager: {fileID: 11400000, guid: 6bc54106ea95a9242946feafc44a5dfe, type: 2}
+--- !u!114 &2683952245801778218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6324719739634341053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4555adf114c74104194243bc185f734d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6324719739667269833
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
 using System;
+using NaughtyAttributes;
 using UnityEngine;
 namespace Assets.Scripts.Interfaces.Modules
 {
@@ -39,6 +40,14 @@ namespace Assets.Scripts.Interfaces.Modules
             SuperArmourBuffer = new();
             HP = MaxHP;
             OnHPChanged?.Invoke(HP);
+            Debug.Log(HP);
+        }
+        [Button]
+        public void Damage()
+        {
+
+            HP -= 10;
+            OnDamaged?.Invoke();
         }
 
         public virtual void Damage(DamageDataSO damageData, IAttackable hitter, Vector3 origin)
