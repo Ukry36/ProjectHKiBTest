@@ -7,7 +7,14 @@ namespace Assets.Scripts.Interfaces.Modules
     {
         public float BaseMaxHP { get; set; }
         public FloatBuffContainer MaxHPBuffer { get; set; }
-        public float MaxHP { get => MaxHPBuffer.BuffedStat; }
+        public float MaxHP
+        {
+            get
+            {
+                MaxHPBuffer ??= new(BaseMaxHP);
+                return MaxHPBuffer.BuffedStat;
+            }
+        }
         public float HP { get; set; }
         public Action<float> OnHPChanged { get; set; }
         public float BaseDEF { get; set; }
@@ -40,7 +47,6 @@ namespace Assets.Scripts.Interfaces.Modules
             SuperArmourBuffer = new();
             HP = MaxHP;
             OnHPChanged?.Invoke(HP);
-            Debug.Log(HP);
         }
         [Button]
         public void Damage()

@@ -2598,15 +2598,9 @@ MonoBehaviour:
   gearMergeManager: {fileID: 11400000, guid: 38b0ca7a74d982b4faf0069dbccbc88b, type: 2}
   playerCardEquipData: []
   currentEquippedCardIndex: 0
-  physicalMaxGearSlotCount: 4
-  maxGearSlotCount: 4
-  physicalMaxCardCount: 4
+  <PhysicalMaxGearSlotCount>k__BackingField: 4
+  <PhysicalMaxCardCount>k__BackingField: 5
   canChangeCard: 1
-  selectorForEdit: {fileID: 205304267}
-  selectorForEquip: {fileID: 864839767}
-  OnSetCardData:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1001 &150531893
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -15,15 +13,6 @@ public class CardSelector : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
 
     public UnityEvent<int> PointerClickEvent;
     public UnityEvent<int> PointerEnterEvent;
-
-    public void Start()
-    {
-        if (gearIcons == null || gearIcons.Length == 0) Debug.LogError("No GearIcons");
-        for (int i = 0; i < gearIcons.Length; i++)
-        {
-            if (gearIcons[i] == null) Debug.LogError("GearIcon [" + i + "] is null");
-        }
-    }
 
     public void SetSlotCount(int max)
     {

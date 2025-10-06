@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GuageManager : MonoBehaviour
+public class HPGuageView : MonoBehaviour
 {
     public Image guageOutline;
     public Image guage;
@@ -20,11 +20,11 @@ public class GuageManager : MonoBehaviour
     public void RegisterTarget(IDamagable target)
     {
         viewmodel = new(target);
-        viewmodel.RegistReactiveCommand(command =>
+        viewmodel.RegistReactiveCommand(model =>
         {
-            guage.fillAmount = command.HP / command.MaxHP;
-            text.text = command.HP.ToString();
-            Debug.Log("View changed: HP = " + command.HP);
+            guage.fillAmount = model.HP / model.MaxHP;
+            text.text = model.HP.ToString();
+            Debug.Log("View changed: HP = " + model.HP);
         }, this);
     }
 }

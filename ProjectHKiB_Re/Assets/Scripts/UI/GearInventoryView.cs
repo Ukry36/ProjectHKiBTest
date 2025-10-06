@@ -3,16 +3,25 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class GearInventoryUIManager : MonoBehaviour
+public class GearInventoryView : MonoBehaviour
 {
     public Transform panelParent;
     [SerializeField] private FilterPropertySO filterProperty;
-    public UnityEvent<Gear> OnPanelClicked;
     public CardSelectorParent cardSelectorForEdit;
 
-    public void UpdatePanels()
+    public GearInventoryViewModel viewModel;
+
+    public void Start()
     {
-        List<Gear> gears = GameManager.instance.inventoryManager.playerGearInventory.Values.ToList();
+        viewModel = new(GameManager.instance.inventoryManager);
+        viewModel.RegistReactiveCommand((model) =>
+        {
+            UpdatePanels(model);
+        }, this);
+    }
+    public void UpdatePanels(InventoryManager inventoryManager)
+    {
+        List<Gear> gears = inventoryManager.playerGearInventory.Values.ToList();
         GearPanel[] panels = panelParent.GetComponentsInChildren<GearPanel>(true);
 
         if (gears.Count > 0)
@@ -44,20 +53,20 @@ public class GearInventoryUIManager : MonoBehaviour
     public void SetFilter(FilterPropertySO filter)
     {
         filterProperty = filter;
-        UpdatePanels();
+        viewModel.Execute();
     }
 
     public void ResetFilter()
     {
         filterProperty = null;
-        UpdatePanels();
+        viewModel.Execute();
     }
 
     public void ClickPanel(int index)
     {
         GearPanel[] panels = panelParent.GetComponentsInChildren<GearPanel>(true);
-        OnPanelClicked?.Invoke(panels[index].gear);
-        UpdatePanels();
+        cardSelectorForEdit.SetGearData(panels[index].gear);
+        viewModel.Execute();
     }
 
     public void ChangePanel(Transform parent)
@@ -65,7 +74,7 @@ public class GearInventoryUIManager : MonoBehaviour
         panelParent.gameObject.SetActive(false);
         panelParent = parent;
         panelParent.gameObject.SetActive(true);
-        UpdatePanels();
+        viewModel.Execute();
     }
 
 }

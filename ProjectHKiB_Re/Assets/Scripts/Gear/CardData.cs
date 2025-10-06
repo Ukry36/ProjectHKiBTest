@@ -10,7 +10,7 @@ public class CardData
     public Gear[] gearList;
     public void SetGear(int cardIndex, int slotIndex, Gear gear)
     {
-        if (slotIndex >= 0 && slotIndex < GameManager.instance.gearManager.maxGearSlotCount)
+        if (slotIndex >= 0 && slotIndex < GameManager.instance.gearManager.MaxGearSlotCount)
         {
             if (gearList[slotIndex].data != null) gearList[slotIndex].UnequipTo(cardIndex);
             gearList[slotIndex] = gear;
@@ -19,7 +19,7 @@ public class CardData
     }
     public void ResetGear(int cardIndex, int slotIndex)
     {
-        if (slotIndex >= 0 && slotIndex < GameManager.instance.gearManager.maxGearSlotCount)
+        if (slotIndex >= 0 && slotIndex < GameManager.instance.gearManager.MaxGearSlotCount)
         {
             gearList[slotIndex].UnequipTo(cardIndex);
             gearList[slotIndex] = new(null);
@@ -28,7 +28,7 @@ public class CardData
     }
     public void Initialize()
     {
-        int max = GameManager.instance.gearManager.physicalMaxGearSlotCount;
+        int max = GameManager.instance.gearManager.PhysicalMaxGearSlotCount;
         gearList = new Gear[max];
         mergedGearList = new GearDataSO[max];
         for (int i = 0; i < max; i++) gearList[i] = new(null);

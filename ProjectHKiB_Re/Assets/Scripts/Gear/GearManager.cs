@@ -13,51 +13,71 @@ public class GearManager : MonoBehaviour
     /*[HideInInspector]*/
     public List<CardData> playerCardEquipData;
     public int currentEquippedCardIndex;
-    public int physicalMaxGearSlotCount;
-    public int maxGearSlotCount;
-    public int physicalMaxCardCount;
+    [field: SerializeField] public int PhysicalMaxGearSlotCount { get; private set; }
+    private int _maxGearSlotCount;
+    public int MaxGearSlotCount
+    {
+        get => _maxGearSlotCount;
+        set
+        {
+            _maxGearSlotCount = value;
+            OnMaxSlotChanged?.Invoke();
+        }
+    }
+    [field: SerializeField] public int PhysicalMaxCardCount { get; private set; }
+    private int _maxCardCount;
+    public int MaxCardCount
+    {
+        get => _maxCardCount;
+        set
+        {
+            _maxCardCount = value;
+            OnMaxCardChanged?.Invoke();
+        }
+    }
+
     public bool canChangeCard = true;
 
-    public CardSelectorParent selectorForEdit;
-    public CardSelectorParent selectorForEquip;
-
-
-    public UnityEvent OnSetCardData;
+    public Action OnMaxCardChanged;
+    public Action OnMaxSlotChanged;
+    public Action OnSetCardData;
 
     public void Start()
     {
         gearMergeManager.OnRealGearMade += FindObjectOfType<Player>(true).SetGear;
-        playerCardEquipData = new();
-        AddMaxCard();
+        playerCardEquipData = new(PhysicalMaxCardCount);
+        for (int i = 0; i < PhysicalMaxCardCount; i++)
+        {
+            CardData data = new();
+            playerCardEquipData.Add(data);
+            data.Initialize();
+        }
+        SetMaxCard(1);
         SetMaxSlot(4); /////////////////////////////////////// temp!!!!!!!
-        selectorForEdit.Initialize();
-        selectorForEquip.Initialize();
-        EquipCard(selectorForEquip.topCard.cardData);
-    }
-
-    public void OnDestroy()
-    {
-        //gearMergeManager.OnRealGearMade -= FindObjectOfType<Player>(true).SetGear;
+        EquipCard(currentEquippedCardIndex);
+        OnMaxCardChanged += () => EquipCard(currentEquippedCardIndex);
+        OnMaxSlotChanged += () => EquipCard(currentEquippedCardIndex);
+        OnSetCardData += () => EquipCard(currentEquippedCardIndex);
     }
 
     [Button]
     public void AddMaxCard()
     {
-        if (playerCardEquipData.Count < physicalMaxCardCount)
-        {
-            CardData data = new();
-            playerCardEquipData.Add(data);
-            data.Initialize();
-            selectorForEdit.UpdateCardDatas();
-            selectorForEquip.UpdateCardDatas();
-        }
-
+        SetMaxCard(MaxCardCount + 1);
     }
-    [Button] public void AddMaxSlot() => SetMaxSlot(maxGearSlotCount + 1);
-    [Button] public void SubMaxSlot() => SetMaxSlot(maxGearSlotCount - 1);
+
+    public void SetMaxCard(int max)
+    {
+        MaxCardCount = max;
+        if (MaxCardCount > PhysicalMaxCardCount) MaxCardCount = PhysicalMaxCardCount;
+        if (MaxCardCount <= 0) MaxCardCount = 1;
+    }
+
+    [Button] public void AddMaxSlot() => SetMaxSlot(MaxGearSlotCount + 1);
+    [Button] public void SubMaxSlot() => SetMaxSlot(MaxGearSlotCount - 1);
     public void SetMaxSlot(int max)
     {
-        if (max < 0 || max > physicalMaxGearSlotCount) return;
+        if (max < 0 || max > PhysicalMaxGearSlotCount) return;
         for (int i = 0; i < playerCardEquipData.Count; i++)
         {
             for (int j = 0; j < playerCardEquipData[i].gearList.Length; j++)
@@ -68,10 +88,7 @@ public class GearManager : MonoBehaviour
                 }
             }
         }
-        maxGearSlotCount = max;
-        selectorForEdit.UpdateCardDatas();
-        selectorForEquip.UpdateCardDatas();
-        EquipCardBySelector();
+        MaxGearSlotCount = max;
     }
 
     public CardData GetCardData(int index)
@@ -96,19 +113,22 @@ public class GearManager : MonoBehaviour
 
     public void ResetGearData(int cardIndex, int gearSlotIndex)
     {
-        if (cardIndex >= playerCardEquipData.Count || cardIndex < 0)
+        if (cardIndex >= MaxCardCount || cardIndex < 0)
             return;
-        if (gearSlotIndex >= maxGearSlotCount || gearSlotIndex < 0)
+        if (gearSlotIndex >= MaxGearSlotCount || gearSlotIndex < 0)
             return;
         playerCardEquipData[cardIndex].ResetGear(cardIndex, gearSlotIndex);
     }
 
     public void SetGearData(int cardIndex, int gearSlotIndex, Gear gear)
     {
-        if (cardIndex >= playerCardEquipData.Count || cardIndex < 0)
+        Debug.Log("setgear called");
+        if (cardIndex >= MaxCardCount || cardIndex < 0)
             return;
-        if (gearSlotIndex >= maxGearSlotCount || gearSlotIndex < 0)
+        Debug.Log("in range of card");
+        if (gearSlotIndex >= MaxGearSlotCount || gearSlotIndex < 0)
             return;
+        Debug.Log("in range of slot");
         if (gearSlotIndex != gear.IsEquippedInCard(cardIndex) && gear.IsEquippedInCard(cardIndex) >= 0)
         {
             ResetGearData(cardIndex, gear.IsEquippedInCard(cardIndex));
@@ -119,29 +139,22 @@ public class GearManager : MonoBehaviour
         OnSetCardData?.Invoke();
     }
 
-    public void SetGearDataBySelector(Gear gear)
-    {
-        SetGearData(selectorForEdit.topCard.index, selectorForEdit.currentSlot, gear);
-        if (selectorForEdit.topCard.index == currentEquippedCardIndex)
-            EquipCard(selectorForEdit.topCard.cardData);
-    }
-
     public void EquipCard(CardData data)
     {
         if (data == null) return;
-        gearMergeManager.EquipMergedCard(data, maxGearSlotCount);
+        gearMergeManager.EquipMergedCard(data, MaxGearSlotCount);
     }
 
-    public void EquipCardBySelector()
+    public void EquipCard(int index)
     {
-        if (currentEquippedCardIndex == selectorForEquip.topCard.index) return;
-        currentEquippedCardIndex = selectorForEquip.topCard.index;
-        EquipCard(selectorForEquip.topCard.cardData);
+        currentEquippedCardIndex = index;
+        EquipCard(playerCardEquipData[index]);
     }
+
 
     public void MergeGear(CardData data)
     {
         if (data == null) return;
-        gearMergeManager.MergeCard(data, maxGearSlotCount);
+        gearMergeManager.MergeCard(data, MaxGearSlotCount);
     }
 }

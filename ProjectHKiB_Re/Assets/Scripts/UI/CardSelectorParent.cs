@@ -20,6 +20,7 @@ public class CardSelectorParent : MonoBehaviour, IPointerExitHandler
     public bool interactable = true;
     public int currentSlot;
 
+    public GearManagerViewModel viewmodel;
     public UnityEvent OnTopCardChange;
     public void SetCurrentSlot(int set) => currentSlot = set;
 
@@ -33,9 +34,9 @@ public class CardSelectorParent : MonoBehaviour, IPointerExitHandler
         sequences.Clear();
     }
 
-    public void Initialize()
+    public void Start()
     {
-        cards = new(GameManager.instance.gearManager.physicalMaxCardCount);
+        cards = new(GameManager.instance.gearManager.PhysicalMaxCardCount);
         CardSelector[] allCards = cardsParent.GetComponentsInChildren<CardSelector>(true);
         for (int i = 0; i < allCards.Length; i++)
         {
@@ -45,10 +46,18 @@ public class CardSelectorParent : MonoBehaviour, IPointerExitHandler
         }
         bottomCard.cardData.Initialize();
         topCard.cardData.Initialize();
-        UpdateCardDatas();
+        topCard.index = 0;
+
         topCard.PointerEnterEvent.AddListener(OnTopCardEnter);
         topCard.SetCardData(allCards[0].cardData, 0);
-        GameManager.instance.gearManager.OnSetCardData.AddListener(UpdateCardDatas);
+
+        viewmodel = new(GameManager.instance.gearManager);
+        viewmodel.RegistReactiveCommand((model) =>
+            {
+                UpdateCardDatas(model);
+            }, this
+        );
+        viewmodel.Execute();
     }
 
     public void SpreadCards(int index)
@@ -80,26 +89,37 @@ public class CardSelectorParent : MonoBehaviour, IPointerExitHandler
         sequences.Add(sequence);
     }
 
-    public void UpdateCardDatas()
+    public void UpdateCardDatas(GearManager gearManager)
     {
-        List<CardData> cardDatas = GameManager.instance.gearManager.playerCardEquipData;
+        List<CardData> cardDatas = gearManager.playerCardEquipData;
         CardSelector[] allCards = cardsParent.GetComponentsInChildren<CardSelector>(true);
         cards.Clear();
-        int max = cardDatas.Count;
+        int cardMax = gearManager.MaxCardCount;
+        int slotMax = gearManager.MaxGearSlotCount;
         for (int i = 0; i < allCards.Length; i++)
         {
-            allCards[i].gameObject.SetActive(false);
-            allCards[i].SetSlotCount(GameManager.instance.gearManager.maxGearSlotCount);
-            if (i < max)
+            CardSelector card = allCards[i];
+            card.gameObject.SetActive(false);
+            card.SetSlotCount(slotMax);
+            if (i < cardMax)
             {
-                allCards[i].SetCardData(cardDatas[i], i);
-                allCards[i].gameObject.SetActive(true);
-                cards.Add(allCards[i]);
+                card.SetCardData(cardDatas[i], i);
+                card.gameObject.SetActive(true);
+                cards.Add(card);
             }
         }
-        bottomCard.SetSlotCount(GameManager.instance.gearManager.maxGearSlotCount);
-        topCard.SetSlotCount(GameManager.instance.gearManager.maxGearSlotCount);
-        topCard.SetCardData(cards[topCard.index].cardData, topCard.index);
+        bottomCard.SetSlotCount(slotMax);
+
+        if (cardMax == 0)
+        {
+            topCard.SetSlotCount(0);
+            topCard.SetCardData(null, topCard.index);
+        }
+        else
+        {
+            topCard.SetSlotCount(slotMax);
+            topCard.SetCardData(cards[topCard.index].cardData, topCard.index);
+        }
     }
 
     public void ChangeTopCard(int index)
@@ -124,6 +144,11 @@ public class CardSelectorParent : MonoBehaviour, IPointerExitHandler
         sequence.OnComplete(() => { SetInteractable(true); OnTopCardChange?.Invoke(); });
         sequence.Play();
         sequences.Add(sequence);
+    }
+
+    public void SetGearData(Gear gear)
+    {
+        viewmodel.SetGearData(topCard.index, currentSlot, gear);
     }
 
     public void SetInteractable(bool set)

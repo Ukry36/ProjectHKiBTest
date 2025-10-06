@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -6,6 +7,8 @@ public class InventoryManager : MonoBehaviour
     public Dictionary<int, Item> playerInventory = new();
     public Dictionary<int, Gear> playerGearInventory = new();
 
+    public Action OnInventoryChanged;
+    public Action OnGearInventoryChanged;
     void Start() // temp
     {
         ItemDataSO[] items = Resources.LoadAll<ItemDataSO>("Items");
@@ -31,8 +34,13 @@ public class InventoryManager : MonoBehaviour
             playerInventory[ID].StackItem(count);
         else
             playerInventory[ID] = new(item, count);
+        OnInventoryChanged?.Invoke();
     }
-    public void AddGear(GearDataSO data) => playerGearInventory[data.GetInstanceID()] = new(data);
+    public void AddGear(GearDataSO data)
+    {
+        playerGearInventory[data.GetInstanceID()] = new(data);
+        OnGearInventoryChanged?.Invoke();
+    }
 
     public Item GetItem(int ID)
     {
@@ -54,6 +62,7 @@ public class InventoryManager : MonoBehaviour
             return false;
         playerInventory[ID].UnstackItem(count);
         //Initialize(playerInventory[ID].ItemEvent); // play event
+        OnInventoryChanged?.Invoke();
         return true;
     }
 
@@ -61,5 +70,6 @@ public class InventoryManager : MonoBehaviour
     {
         if (!playerInventory.ContainsKey(ID)) return;
         playerInventory[ID].UnstackItem(count);
+        OnInventoryChanged?.Invoke();
     }
 }
