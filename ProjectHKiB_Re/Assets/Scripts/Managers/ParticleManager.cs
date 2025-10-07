@@ -83,12 +83,18 @@ public class ParticleManager : PoolManager<ParticlePlayer>
             Debug.LogError("ERROR: Failed to play Particle(failed to reuse object)!!! ID: " + ID);
             return null;
         }
-        //Debug.Log("particle played: " + clone.name);
+        //Debug.Log("particle played oneshot: " + clone.name);
         clone.mainParticleSystem.Play();
         return clone;
     }
 
-    public void StopPlaying(int ID) => GetObject(ID).mainParticleSystem.Stop();
+    public void StopPlaying(int ID)
+    {
+        //Debug.Log("stop playing: " + GetObject(ID).name);
+        GetObject(ID).transform.parent = defaultParent;
+
+        GetObject(ID).mainParticleSystem.Stop();
+    }
 
     public override void ResetPool()
     {

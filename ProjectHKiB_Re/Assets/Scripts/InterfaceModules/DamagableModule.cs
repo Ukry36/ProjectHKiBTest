@@ -15,6 +15,7 @@ namespace Assets.Scripts.Interfaces.Modules
                 return MaxHPBuffer.BuffedStat;
             }
         }
+        private float _prevMaxHP;
         public float HP { get; set; }
         public Action<float> OnHPChanged { get; set; }
         public float BaseDEF { get; set; }
@@ -47,7 +48,15 @@ namespace Assets.Scripts.Interfaces.Modules
             SuperArmourBuffer = new();
             HP = MaxHP;
             OnHPChanged?.Invoke(HP);
+            _prevMaxHP = MaxHP;
+            MaxHPBuffer.OnBuffed += OnMaxHpChanged;
+        }
 
+        private void OnMaxHpChanged(float buffedStat)
+        {
+            HP *= buffedStat / _prevMaxHP;
+            _prevMaxHP = buffedStat;
+            OnHPChanged?.Invoke(HP);
         }
         [Button]
         public void Damage10()

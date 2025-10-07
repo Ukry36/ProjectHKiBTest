@@ -16,9 +16,10 @@ MonoBehaviour:
     \uACF5\uACA9\uB825\uC774 50% \uC0C1\uC2B9\uD55C\uB2E4. \n\uC911\uBCF5\uC2DC \uC9C0\uC18D\uC2DC\uAC04\uC774
     \uAC31\uC2E0\uB41C\uB2E4."
   <BuffTime>k__BackingField: 8
-  <UseToken>k__BackingField: 0
-  <TimeStackable>k__BackingField: 0
-  <Multiplyable>k__BackingField: 0
-  <UpdateBuffTime>k__BackingField: 1
+  <IsDebuff>k__BackingField: 0
   <Value>k__BackingField: 0.5
-  <BuffType>k__BackingField: {fileID: 11400000, guid: bffaa039b1662044a923b873a029f9a8, type: 2}
+  <IsValuePropositional>k__BackingField: 0
+  <BuffType>k__BackingField: {fileID: 11400000, guid: 76ccfc27f53ed0a4ba32218bb173d74a, type: 2}
+  <TimeStackType>k__BackingField: 2
+  <BuffStackType>k__BackingField: 2
+  <BuffRemoveType>k__BackingField: 0

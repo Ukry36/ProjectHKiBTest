@@ -14,13 +14,13 @@ public class InventoryManager : MonoBehaviour
         ItemDataSO[] items = Resources.LoadAll<ItemDataSO>("Items");
         foreach (ItemDataSO data in items)
         {
-            Debug.Log(data.name);
+            //Debug.Log(data.name);
             AddItem(data, 99);
         }
         GearDataSO[] gears = Resources.LoadAll<GearDataSO>("Items/Gears");
         foreach (GearDataSO data in gears)
         {
-            Debug.Log(data.name);
+            //Debug.Log(data.name);
             AddItem(data, 99);
             AddGear(data);
         }

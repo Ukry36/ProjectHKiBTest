@@ -83,7 +83,7 @@ public class MovementManagerSO : ScriptableObject
         KnockBackEnded?.Invoke();
         movable.ExForce.SetForce[ID] = Vector3.zero;
         entityTransform.position = movepointTransform.position;
-        Debug.Log("ended!");
+        //Debug.Log("ended!");
     }
 
     public void KnockBackChainReaction(Transform entityTransform, Transform movePointTransform, Vector3 dir, float strength, LayerMask canPushLayer)

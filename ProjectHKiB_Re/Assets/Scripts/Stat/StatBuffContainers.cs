@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class FloatBuffContainer
 {
@@ -42,17 +43,17 @@ public class FloatBuffContainer
         if (buff.IsDebuff) multiplyer *= -1;
         if (buff.IsValuePropositional)
         {
-            if (_statBuffAddList.ContainsKey(buff.ID) && stack)
-                _statBuffAddList[buff.ID] += buff.Value * multiplyer;
-            else
-                _statBuffAddList[buff.ID] = buff.Value * multiplyer;
-        }
-        else
-        {
             if (_statBuffPropList.ContainsKey(buff.ID) && stack)
                 _statBuffPropList[buff.ID] += buff.Value * multiplyer;
             else
                 _statBuffPropList[buff.ID] = buff.Value * multiplyer;
+        }
+        else
+        {
+            if (_statBuffAddList.ContainsKey(buff.ID) && stack)
+                _statBuffAddList[buff.ID] += buff.Value * multiplyer;
+            else
+                _statBuffAddList[buff.ID] = buff.Value * multiplyer;
         }
         OnBuffed?.Invoke(BuffedStat);
     }
