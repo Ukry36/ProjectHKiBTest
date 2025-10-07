@@ -72,3 +72,14 @@ public class GearInventoryViewModel : ViewModel<InventoryManager>
         _model.OnGearInventoryChanged += () => _command.Execute(_model);
     }
 }
+
+public class InventoryViewModel : ViewModel<InventoryManager>
+{
+    public InventoryViewModel(InventoryManager model) : base(model) { }
+
+    public override void RegistReactiveCommand(Action<InventoryManager> subscribeAction, MonoBehaviour target)
+    {
+        base.RegistReactiveCommand(subscribeAction, target);
+        _model.OnInventoryChanged += () => _command.Execute(_model);
+    }
+}

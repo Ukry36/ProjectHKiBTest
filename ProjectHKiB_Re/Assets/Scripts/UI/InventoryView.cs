@@ -2,15 +2,23 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UI;
-
-public class InventoryUIManager : MonoBehaviour
+public class InventoryView : MonoBehaviour
 {
     public Transform panelParent;
     [SerializeField] private FilterPropertySO filterProperty;
     public UnityEvent<Item> OnPanelClicked;
+    public InventoryViewModel viewModel;
 
-    public virtual void UpdatePanels()
+    public void Start()
+    {
+        viewModel = new(GameManager.instance.inventoryManager);
+        viewModel.RegistReactiveCommand((model) =>
+        {
+            UpdatePanels(model);
+        }, this);
+    }
+
+    public virtual void UpdatePanels(InventoryManager inventoryManager)
     {
         List<Item> items = GameManager.instance.inventoryManager.playerInventory.Values.ToList();
         ItemPanel[] panels = panelParent.GetComponentsInChildren<ItemPanel>(true);
@@ -43,20 +51,20 @@ public class InventoryUIManager : MonoBehaviour
     public void SetFilter(FilterPropertySO filter)
     {
         filterProperty = filter;
-        UpdatePanels();
+        viewModel.Execute();
     }
 
     public void ResetFilter()
     {
         filterProperty = null;
-        UpdatePanels();
+        viewModel.Execute();
     }
 
     public void ClickPanel(int index)
     {
         ItemPanel[] panels = panelParent.GetComponentsInChildren<ItemPanel>(true);
         OnPanelClicked.Invoke(panels[index].item);
-        UpdatePanels();
+        viewModel.Execute();
     }
 
     public void ChangePanel(Transform parent)
@@ -64,6 +72,6 @@ public class InventoryUIManager : MonoBehaviour
         panelParent.gameObject.SetActive(false);
         panelParent = parent;
         panelParent.gameObject.SetActive(true);
-        UpdatePanels();
+        viewModel.Execute();
     }
 }

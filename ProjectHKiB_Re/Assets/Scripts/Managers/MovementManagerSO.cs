@@ -61,6 +61,7 @@ public class MovementManagerSO : ScriptableObject
                 if (dir == Vector3.zero)
                     break;
                 movable.ExForce.SetForce[ID] = 10 * strength * dir;
+                //Debug.Log(movable.ExForce.GetForce);
                 yield return null;
                 progress += Vector3.Distance(prevPos, entityTransform.position);
             }
@@ -82,6 +83,7 @@ public class MovementManagerSO : ScriptableObject
         KnockBackEnded?.Invoke();
         movable.ExForce.SetForce[ID] = Vector3.zero;
         entityTransform.position = movepointTransform.position;
+        Debug.Log("ended!");
     }
 
     public void KnockBackChainReaction(Transform entityTransform, Transform movePointTransform, Vector3 dir, float strength, LayerMask canPushLayer)

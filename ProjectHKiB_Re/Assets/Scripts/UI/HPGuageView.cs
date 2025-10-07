@@ -24,7 +24,7 @@ public class HPGuageView : MonoBehaviour
         {
             guage.fillAmount = model.HP / model.MaxHP;
             text.text = model.HP.ToString();
-            Debug.Log("View changed: HP = " + model.HP);
+            //Debug.Log("View changed: HP = " + model.HP);
         }, this);
     }
 }

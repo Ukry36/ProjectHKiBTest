@@ -118,17 +118,15 @@ public class GearManager : MonoBehaviour
         if (gearSlotIndex >= MaxGearSlotCount || gearSlotIndex < 0)
             return;
         playerCardEquipData[cardIndex].ResetGear(cardIndex, gearSlotIndex);
+        OnSetCardData?.Invoke();
     }
 
     public void SetGearData(int cardIndex, int gearSlotIndex, Gear gear)
     {
-        Debug.Log("setgear called");
         if (cardIndex >= MaxCardCount || cardIndex < 0)
             return;
-        Debug.Log("in range of card");
         if (gearSlotIndex >= MaxGearSlotCount || gearSlotIndex < 0)
             return;
-        Debug.Log("in range of slot");
         if (gearSlotIndex != gear.IsEquippedInCard(cardIndex) && gear.IsEquippedInCard(cardIndex) >= 0)
         {
             ResetGearData(cardIndex, gear.IsEquippedInCard(cardIndex));

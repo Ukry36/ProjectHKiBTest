@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a4552f76dec9764db1bc225722a55f1, type: 3}
   m_Name: Delta PlayerData
   m_EditorClassIdentifier: 
-  <Speed>k__BackingField: 0
-  <SprintCoeff>k__BackingField: 0
+  <Speed>k__BackingField: 5
+  <SprintCoeff>k__BackingField: 2
   <WallLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 72
   <CanPushLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 0
-  <DefaultFootstepAudio>k__BackingField: {fileID: 0}
+  <DefaultFootstepAudio>k__BackingField: {fileID: 11400000, guid: d78d695b40ad7c64b8cb95741be6bae5, type: 2}
   <BaseATK>k__BackingField: 0
   <CriticalChanceRate>k__BackingField: 0
   <CriticalDamageRate>k__BackingField: 0

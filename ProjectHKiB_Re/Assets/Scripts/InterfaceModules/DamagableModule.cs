@@ -27,7 +27,7 @@ namespace Assets.Scripts.Interfaces.Modules
         public ParticlePlayer HitParticle { get; set; }
 
         [SerializeField] protected DamageManagerSO damageManager;
-        protected MovableModule _movable;
+        [SerializeField] protected MovableModule _movable;
 
         public Action OnDie { get; set; }
         public Action OnDamaged { get; set; }
@@ -47,9 +47,10 @@ namespace Assets.Scripts.Interfaces.Modules
             SuperArmourBuffer = new();
             HP = MaxHP;
             OnHPChanged?.Invoke(HP);
+
         }
         [Button]
-        public void Damage()
+        public void Damage10()
         {
 
             HP -= 10;

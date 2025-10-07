@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damageData: {fileID: 0}
-  _animationController: {fileID: 0}
+  _animationController: {fileID: 4477703336809250433}
 --- !u!1 &6324719739505011581
 GameObject:
   m_ObjectHideFlags: 0
@@ -176,7 +176,6 @@ GameObject:
   - component: {fileID: 1710609699395622963}
   - component: {fileID: 134181251543641144}
   - component: {fileID: 632756701656993134}
-  - component: {fileID: 8868315615596200486}
   - component: {fileID: 3400042886295887947}
   - component: {fileID: 4976197304720217056}
   - component: {fileID: 4388334069689700793}
@@ -316,18 +315,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <MovePoint>k__BackingField: {fileID: 3621825053621893356}
   movementManager: {fileID: 11400000, guid: 642ea6baceb016d4c8e15940b757d7cf, type: 2}
---- !u!114 &8868315615596200486
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6324719739634341053}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a03bee0247418ce4c80da1a5808d480e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &3400042886295887947
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -340,6 +327,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba000cbe4cf4aa549a28074705f5c44e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <CurrentTarget>k__BackingField: {fileID: 0}
   _movable: {fileID: 632756701656993134}
 --- !u!114 &4976197304720217056
 MonoBehaviour:
@@ -354,6 +342,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageManager: {fileID: 11400000, guid: 69175ed9e37d9e3408bdf3432f4a5b4c, type: 2}
+  _movable: {fileID: 632756701656993134}
 --- !u!114 &4388334069689700793
 MonoBehaviour:
   m_ObjectHideFlags: 0

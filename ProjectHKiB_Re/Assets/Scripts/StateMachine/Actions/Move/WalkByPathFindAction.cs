@@ -17,6 +17,7 @@ public class WalkByPathFindAction : StateActionSO
             }
             else
             {
+                if (targetable.CurrentTarget == null) return;
                 movementManager.WalkMove(stateController.transform, movable, movable.Speed, targetable.CurrentTarget.position - stateController.transform.position, movable.WallLayer);
             }
         }

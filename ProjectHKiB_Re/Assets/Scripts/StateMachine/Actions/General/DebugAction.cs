@@ -5,6 +5,6 @@ public class DebugAction : StateActionSO
     public string str;
     public override void Act(StateController stateController)
     {
-        Debug.Log(stateController.CurrentState.name + ": " + str);
+        Debug.Log(stateController.name + "/" + stateController.CurrentState.name + ": " + str);
     }
 }

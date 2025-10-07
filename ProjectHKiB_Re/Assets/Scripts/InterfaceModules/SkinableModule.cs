@@ -22,6 +22,7 @@ namespace Assets.Scripts.Interfaces.Modules
         public void ApplySkin(AnimatorController animatorController)
         {
             if (animatorController == null) return;
+            if (SkinData == null) return;
             spriteLibrary.spriteLibraryAsset = SkinData.bodyType.Bodytypes[animatorController];
             MaterialPropertyBlock materialPropertyBlock = new();
             materialPropertyBlock.SetTexture("_MainTex", SkinData.bodyType.MainTex[animatorController]);

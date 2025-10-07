@@ -1145,7 +1145,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6324719739634341053, guid: 312b7ed3679345a4bbc281cb78c590df, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6324719739634341055, guid: 312b7ed3679345a4bbc281cb78c590df, type: 3}
       propertyPath: m_RootOrder
@@ -1191,7 +1191,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8868315615596200486, guid: 312b7ed3679345a4bbc281cb78c590df, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 312b7ed3679345a4bbc281cb78c590df, type: 3}
 --- !u!1 &88251562
 GameObject:
@@ -6147,6 +6148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageManager: {fileID: 11400000, guid: 69175ed9e37d9e3408bdf3432f4a5b4c, type: 2}
+  _movable: {fileID: 327803503}
 --- !u!114 &327803501
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6177,6 +6179,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a03bee0247418ce4c80da1a5808d480e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <CurrentTarget>k__BackingField: {fileID: 0}
 --- !u!114 &327803503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8246,21 +8249,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   panelParent: {fileID: 670491448}
   filterProperty: {fileID: 11400000, guid: f0a265f5283123f4493fd2602bff1e17, type: 2}
-  OnPanelClicked:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 147051296}
-        m_TargetAssemblyTypeName: GearManager, Assembly-CSharp
-        m_MethodName: SetGearDataBySelector
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   cardSelectorForEdit: {fileID: 205304267}
 --- !u!1 &470854850
 GameObject:
@@ -21828,7 +21816,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damageData: {fileID: 0}
-  _animationController: {fileID: 0}
+  _animationController: {fileID: 327803498}
 --- !u!1 &1205437971
 GameObject:
   m_ObjectHideFlags: 0
@@ -22031,6 +22019,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageManager: {fileID: 11400000, guid: 69175ed9e37d9e3408bdf3432f4a5b4c, type: 2}
+  _movable: {fileID: 0}
 --- !u!1 &1217326443
 GameObject:
   m_ObjectHideFlags: 0
@@ -32380,7 +32369,7 @@ MonoBehaviour:
   databaseManager: {fileID: 724609690}
   gearManager: {fileID: 147051296}
   inventoryManager: {fileID: 1855532042}
-  player: {fileID: 0}
+  player: {fileID: 327803505}
 --- !u!4 &1845891765
 Transform:
   m_ObjectHideFlags: 0

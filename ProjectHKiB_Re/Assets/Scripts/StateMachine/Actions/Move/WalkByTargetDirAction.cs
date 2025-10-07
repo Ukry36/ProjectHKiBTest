@@ -9,6 +9,7 @@ public class WalkByTargetDirAction : StateActionSO
         if (stateController.TryGetComponent(out IMovable movable)
         && stateController.TryGetComponent(out ITargetable targetable))
         {
+            if (targetable.CurrentTarget == null) return;
             Vector2 dir = targetable.CurrentTarget.position - stateController.transform.position;
             if (_negate) dir *= -1;
             movementManager.WalkMove(stateController.transform, movable, movable.Speed, dir, movable.WallLayer);

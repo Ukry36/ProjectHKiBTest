@@ -45,6 +45,8 @@ public class Damager : MonoBehaviour
         gizmoTrig = 5;
         if (_damageData.initialSound)
             GameManager.instance.audioManager.PlayAudioOneShot(_damageData.initialSound, 1, transform.position);
+
+        if (!_animationController) return;
         if (_damageData.DLRUDamageEffects.ContainsKey(_animationController.AnimationDirection) && _damageData.DLRUDamageEffects[_animationController.AnimationDirection])
             GameManager.instance.particleManager.PlayParticle(_damageData.DLRUDamageEffects[_animationController.AnimationDirection].GetHashCode(), transform, _damageData.attatchParticleToBody);
 
