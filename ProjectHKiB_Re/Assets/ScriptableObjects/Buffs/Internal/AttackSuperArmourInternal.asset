@@ -14,10 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Description>k__BackingField: internal buff that make entity knockback proof when
     attacking
+  <IsBuffTimeInfinite>k__BackingField: 1
   <BuffTime>k__BackingField: 0
-  <UseToken>k__BackingField: 0
-  <TimeStackable>k__BackingField: 0
-  <Multiplyable>k__BackingField: 0
-  <UpdateBuffTime>k__BackingField: 0
+  <IsDebuff>k__BackingField: 0
   <Value>k__BackingField: 0
+  <IsValuePropositional>k__BackingField: 0
   <BuffType>k__BackingField: {fileID: 11400000, guid: d9b29e0b88136ff4ab72bcb89fffcfdd, type: 2}
+  <TimeStackType>k__BackingField: 2
+  <BuffStackType>k__BackingField: 2
+  <BuffRemoveType>k__BackingField: 0

@@ -5,9 +5,8 @@ using UnityEngine.UI;
 
 public class HPGuageView : MonoBehaviour
 {
-    public Image guageOutline;
     public Image guage;
-    public TextMeshProUGUI text;
+    //public TextMeshProUGUI text;
     [SerializeField] private DamagableModule target;
 
     public DamagableViewModel viewmodel;
@@ -23,7 +22,7 @@ public class HPGuageView : MonoBehaviour
         viewmodel.RegistReactiveCommand(model =>
         {
             guage.fillAmount = model.HP / model.MaxHP;
-            text.text = model.HP.ToString();
+            //text.text = model.HP.ToString();
             //Debug.Log("View changed: HP = " + model.HP);
         }, this);
     }
