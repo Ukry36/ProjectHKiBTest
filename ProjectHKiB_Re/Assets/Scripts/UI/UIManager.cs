@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
     {
         public string name;
         public GameObject window;
+        public UnityEngine.UI.Button initButton;
         public bool isPopup;
         public bool useHotkey;
         public EnumManager.InputType hotkey;
@@ -58,6 +59,7 @@ public class UIManager : MonoBehaviour
         if (!window.isPopup) CloseWindow();
         window.window.SetActive(true);
         openedWindows.Add(window);
+        if (window.initButton) window.initButton.Select();
     }
 
     public void CloseWindow()
