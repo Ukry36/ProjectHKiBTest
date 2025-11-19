@@ -25,7 +25,7 @@ public class UIManager : MonoBehaviour
     public int defaultPauseWindowIndex;
     public bool canExit = true;
 
-    public void Awake()
+    public void Start()
     {
         Initialize();
     }
@@ -33,11 +33,8 @@ public class UIManager : MonoBehaviour
     public void Initialize()
     {
         //OpenWindow(0);
-    }
-
-    public void Update()
-    {
-        if (GameManager.instance.inputManager.CancelInput) OnExitPressed();
+        GameManager.instance.inputManager.onMenu += OnOpenMenu;
+        GameManager.instance.inputManager.onMENUCancel += OnCloseWindow;
     }
 
     public void OpenWindow(string name)
@@ -74,17 +71,39 @@ public class UIManager : MonoBehaviour
         while (openedWindows.Count > 0) CloseWindow();
     }
 
-    public void OnExitPressed()
+    public void OnExitPressed(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
-        if (openedWindows.Count < 1)
+        if (context.started)
         {
-            Debug.Log("menu");
-            OpenWindow(defaultPauseWindowIndex);
+            if (openedWindows.Count < 1)
+            {
+                Debug.Log("menu");
+                OpenWindow(defaultPauseWindowIndex);
+            }
+            else
+            {
+                Debug.Log("close");
+                if (canExit) CloseWindow();
+            }
         }
-        else
+    }
+
+    public void OnOpenMenu(UnityEngine.InputSystem.InputAction.CallbackContext context)
+    {
+        if (context.started)
         {
-            Debug.Log("close");
+            OpenWindow(defaultPauseWindowIndex);
+            GameManager.instance.inputManager.MENUMode();
+        }
+    }
+
+    public void OnCloseWindow(UnityEngine.InputSystem.InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
             if (canExit) CloseWindow();
+            if (openedWindows.Count < 1)
+                GameManager.instance.inputManager.PLAYMode();
         }
     }
 
