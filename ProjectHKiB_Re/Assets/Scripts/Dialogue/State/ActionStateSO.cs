@@ -9,19 +9,19 @@ public class ActionStateSO : DialogueBaseStateSO
     private bool isWaitingGenericInput;
     private bool isWaitingSpecificInput;
 
-    public override void OnEnter()
+    public override void OnEnter(DialogueModule module)
     {
-        currentLine = dialogueModule.currentDialogue.lines[dialogueModule.currentLineNum];
+        currentLine = module.CurrentDialogue.lines[module.CurrentLineNum];
 
-        // dialogueModule.dialogueUI.SetActive(false);
-        // dialogueModule.choicePanel.SetActive(false);
+        // module.dialogueUI.SetActive(false);
+        // module.choicePanel.SetActive(false);
 
-       // Start Action Event
+        // Start Action Event
         currentLine.actionEvent?.Invoke();
 
         var opt = currentLine.actionOptions;
 
-        if (opt.waitSpecificInput && opt.inputKey != KeyCode.None)
+        if (opt.waitSpecificInput && opt.inputKey != EnumManager.InputType.None)
         {
             isWaitingSpecificInput = true;
         }
@@ -31,24 +31,24 @@ public class ActionStateSO : DialogueBaseStateSO
         }
         else if (opt.autoNextDelay > 0f)
         {
-            dialogueModule.RunCoroutine(WaitAndNext(opt.autoNextDelay));
-            dialogueModule.dialogueUI.SetActive(false);
-            dialogueModule.choicePanel.SetActive(false);
+            module.RunCoroutine(WaitAndNext(module, opt.autoNextDelay));
+            module.dialogueUI.SetActive(false);
+            module.choicePanel.SetActive(false);
         }
         else
         {
-            dialogueModule.HandleNextLine();
+            module.CheckDialogueEnd();
         }
     }
 
-    public override void OnUpdate()
+    public override void OnUpdate(DialogueModule module)
     {
         if (isWaitingSpecificInput)
         {
-            if (Input.GetKeyDown(currentLine.actionOptions.inputKey))
+            if (GameManager.instance.inputManager.GetInputByEnum(currentLine.actionOptions.inputKey))
             {
                 isWaitingSpecificInput = false;
-                dialogueModule.HandleNextLine();
+                module.CheckDialogueEnd();
             }
 
             return;
@@ -60,19 +60,19 @@ public class ActionStateSO : DialogueBaseStateSO
             if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
             {
                 isWaitingGenericInput = false;
-                dialogueModule.HandleNextLine();
+                module.CheckDialogueEnd();
             }
         }
     }
-    public override void OnExit()
+    public override void OnExit(DialogueModule module)
     {
         isWaitingSpecificInput = false;
         isWaitingGenericInput = false;
     }
 
-    private IEnumerator WaitAndNext(float delay)
+    private IEnumerator WaitAndNext(DialogueModule module, float delay)
     {
         yield return new WaitForSeconds(delay);
-        dialogueModule.HandleNextLine();
+        module.CheckDialogueEnd();
     }
 }

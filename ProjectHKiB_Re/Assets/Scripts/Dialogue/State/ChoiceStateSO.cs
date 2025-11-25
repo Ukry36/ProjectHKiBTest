@@ -10,45 +10,45 @@ public class ChoiceStateSO : DialogueBaseStateSO
 {
     private Line currentLine;
 
-    public override void OnEnter()
+    public override void OnEnter(DialogueModule module)
     {
-        currentLine = dialogueModule.currentDialogue.lines[dialogueModule.currentLineNum];
+        currentLine = module.CurrentDialogue.lines[module.CurrentLineNum];
 
         // Active UI
-        dialogueModule.dialogueUI.SetActive(false);
-        dialogueModule.choicePanel.SetActive(true);
+        module.dialogueUI.SetActive(false);
+        module.choicePanel.SetActive(true);
 
         // Choice Button Text = Can Write First Line
-        if (dialogueModule.choiceLineLabel != null)
+        if (module.choiceLineLabel != null)
         {
             if (currentLine.lines != null && currentLine.lines.Length > 0)
             {
-                string firstLine = dialogueModule.ResolveVariables(currentLine.lines[0]);
-                dialogueModule.choiceLineLabel.text = firstLine;
+                string firstLine = module.ResolveVariables(currentLine.lines[0]);
+                module.choiceLineLabel.text = firstLine;
             }
             else
             {
-                dialogueModule.choiceLineLabel.text = "";
+                module.choiceLineLabel.text = "";
             }
         }
 
         // Settin Button
-        for (int i = 0; i < dialogueModule.choiceButtons.Length; i++)
+        for (int i = 0; i < module.choiceButtons.Length; i++)
         {
-            var btn = dialogueModule.choiceButtons[i];
+            var btn = module.choiceButtons[i];
 
             if (currentLine.choices != null && i < currentLine.choices.Length)
             {
                 btn.gameObject.SetActive(true);
 
                 btn.Setup(
-                    dialogueModule.ResolveVariables(currentLine.choices[i].choiceText),
+                    module.ResolveVariables(currentLine.choices[i].choiceText),
                     currentLine.choices[i].nextLineIndex,
-                    dialogueModule.OnChoiceSelected
+                    module.OnChoiceSelected
                 );
 
                 // Choice Arrow
-                btn.cursorArrow = dialogueModule.cursorArrow;
+                btn.cursorArrow = module.cursorArrow;
             }
             else
             {
@@ -57,9 +57,9 @@ public class ChoiceStateSO : DialogueBaseStateSO
         }
 
         // CUrsor on First Panel
-        if (dialogueModule.choiceButtons.Length > 0)
+        if (module.choiceButtons.Length > 0)
         {
-            var first = dialogueModule.choiceButtons[0];
+            var first = module.choiceButtons[0];
             EventSystem.current.SetSelectedGameObject(first.gameObject);
             first.Focus();
         }
@@ -67,7 +67,7 @@ public class ChoiceStateSO : DialogueBaseStateSO
         GameManager.instance.inputManager.MENUMode();
     }
 
-    public override void OnUpdate()
+    public override void OnUpdate(DialogueModule module)
     {
         var input = GameManager.instance.inputManager;
 
@@ -83,9 +83,9 @@ public class ChoiceStateSO : DialogueBaseStateSO
         }
     }
 
-    public override void OnExit()
+    public override void OnExit(DialogueModule module)
     {
-        dialogueModule.choicePanel.SetActive(false);
-        dialogueModule.dialogueUI.SetActive(true);
+        module.choicePanel.SetActive(false);
+        module.dialogueUI.SetActive(true);
     }
 }

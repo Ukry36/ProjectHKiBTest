@@ -16,10 +16,10 @@ public class Line
 
     [Tooltip("이 라인이 끝나고 전환될 DialogueBaseStateSO")]
     public DialogueBaseStateSO nextState;
-    
+
     [Tooltip("Line에서 직접 실행할 UnityEvent (예: 컷신, 카메라 이동)")]
-    public UnityEvent actionEvent; 
-    
+    public UnityEvent actionEvent;
+
     [Tooltip("선택지 목록 (ChoiceStateSO가 처리합니다)")]
     public ChoiceData[] choices;
 
@@ -35,13 +35,13 @@ public class Line
 }
 
 [System.Serializable]
-public class ActionOptions 
+public class ActionOptions
 {
     [Tooltip("ActionState에서 특정 입력을 기다리는지 여부")]
     public bool waitSpecificInput = false;
 
     [Tooltip("waitSpecificInput이 true일 때, 이 키를 눌러야 다음 줄로 진행")]
-    public KeyCode inputKey = KeyCode.None;
+    public EnumManager.InputType inputKey;
 
     [Tooltip("ActionState에서 액션 후에 플레이어 입력을 기다릴지 여부")]
     public bool waitInputAfterAction = false;

@@ -186,7 +186,7 @@ public class InputManager : MonoBehaviour, @PlayerAction.IPLAYActions, PlayerAct
 
     public void OnConfirm(InputAction.CallbackContext context)
     {
-        ConfirmInput = context.started;
+        ConfirmInput = context.action.WasPressedThisFrame();
     }
 
     public void OnSkill(InputAction.CallbackContext context)

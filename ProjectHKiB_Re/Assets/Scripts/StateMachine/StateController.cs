@@ -32,6 +32,7 @@ public class StateController : InterfaceRegister
 
     public virtual void Start()
     {
+        RegisterModules(transform);
     }
 
     public virtual void ChangeState(StateSO state)

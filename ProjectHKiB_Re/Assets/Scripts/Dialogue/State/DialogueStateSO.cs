@@ -13,61 +13,61 @@ public class DialogueStateSO : DialogueBaseStateSO
     private Line currentLine;
     private int subLineIndex = 0;
 
-    public override void OnEnter()
+    public override void OnEnter(DialogueModule module)
     {
 
         GameManager.instance.inputManager.MENUMode();
-        currentLine = dialogueModule.currentDialogue.lines[dialogueModule.currentLineNum];
+        currentLine = module.CurrentDialogue.lines[module.CurrentLineNum];
         subLineIndex = 0;
 
         // UI Active
-        dialogueModule.dialogueUI.SetActive(true);
-        dialogueModule.choicePanel.SetActive(false);
-        dialogueModule.HideNextArrow();
+        module.dialogueUI.SetActive(true);
+        module.choicePanel.SetActive(false);
+        module.HideNextArrow();
 
         // {KEY} RESOLVE
-        string resolvedName = dialogueModule.ResolveVariables(currentLine.characterName);
+        string resolvedName = module.ResolveVariables(currentLine.characterName);
 
         // Set Character Name AND Text
-        dialogueModule.characterName.text = resolvedName;
+        module.characterName.text = resolvedName;
 
-        PrintCurrentSubLine();
+        PrintCurrentSubLine(module);
     }
 
-    private void PrintCurrentSubLine()
+    private void PrintCurrentSubLine(DialogueModule module)
     {
         string raw = currentLine.lines[subLineIndex];
-        string resolved = dialogueModule.ResolveVariables(raw);
+        string resolved = module.ResolveVariables(raw);
 
-        dialogueModule.lineText.text = "";
+        module.lineText.text = "";
 
         // DOTween Sequence Initializzen and ReUse
 
-        if (dialogueModule.linePrintingTweener != null && dialogueModule.linePrintingTweener.IsActive())
+        if (module.LinePrintingTweener != null && module.LinePrintingTweener.IsActive())
         {
-            dialogueModule.linePrintingTweener.Kill();
+            module.LinePrintingTweener.Kill();
         }
         // Teyping Effect Animation
-        dialogueModule.linePrintingTweener = dialogueModule.lineText
+        module.LinePrintingTweener = module.lineText
             .DOText(resolved, currentLine.duration)
             .SetEase(Ease.Linear)
-            .OnComplete(() => { dialogueModule.ShowNextArrow(); });
+            .OnComplete(() => { module.ShowNextArrow(); });
 
-        dialogueModule.linePrintingTweener?.Play();
+        module.LinePrintingTweener?.Play();
     }
 
-    
-    public override void OnUpdate()
+
+    public override void OnUpdate(DialogueModule module)
     {
         // Player Input(Click) Handling
         if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
         {
             // 타이핑 중이면 스킵
-            if (dialogueModule.linePrintingTweener != null &&
-                dialogueModule.linePrintingTweener.IsActive() &&
-                dialogueModule.linePrintingTweener.IsPlaying())
+            if (module.LinePrintingTweener != null &&
+                module.LinePrintingTweener.IsActive() &&
+                module.LinePrintingTweener.IsPlaying())
             {
-                dialogueModule.linePrintingTweener.Complete();
+                module.LinePrintingTweener.Complete();
                 return;
             }
 
@@ -75,14 +75,16 @@ public class DialogueStateSO : DialogueBaseStateSO
 
             if (currentLine.lines != null && subLineIndex < currentLine.lines.Length)
             {
-                dialogueModule.HideNextArrow();
-                PrintCurrentSubLine();
+                module.HideNextArrow();
+                PrintCurrentSubLine(module);
             }
             else
             {
-                dialogueModule.HideNextArrow();
-                dialogueModule.HandleNextLine();
+                module.HideNextArrow();
+                module.CheckDialogueEnd();
             }
         }
     }
+
+    public override void OnExit(DialogueModule module) { }
 }

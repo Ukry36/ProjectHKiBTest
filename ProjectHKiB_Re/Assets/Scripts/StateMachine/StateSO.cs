@@ -53,7 +53,7 @@ public class StateSO : ScriptableObject
         }
     }
 
-    public void UpdateState(StateController stateController)
+    public virtual void UpdateState(StateController stateController)
     {
         //Debug.Log("current anim time: " + stateController.animationController.animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
         //Debug.Log("current anim frame: " + stateController.animationController.animator.GetCurrentAnimatorStateInfo(0).length * stateController.animationController.animator.GetCurrentAnimatorStateInfo(0).normalizedTime * 60);
@@ -84,7 +84,7 @@ public class StateSO : ScriptableObject
         stateController.TransitionConditions[i] = true;
     }
 
-    public void ExitState(StateController stateController)
+    public virtual void ExitState(StateController stateController)
     {
         for (int i = 0; i < exitActions.Length; i++)
         {

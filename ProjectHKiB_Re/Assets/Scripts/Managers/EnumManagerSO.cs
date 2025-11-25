@@ -18,6 +18,7 @@ public class EnumManager
         HasLInput,
         HasRInput,
         HasUInput,
-        OnConfirm
+        OnConfirm,
+        None
     }
 }

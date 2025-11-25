@@ -5,14 +5,18 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "End State", menuName = "Scriptable Objects/Dialogue States/End State", order = 3)]
 public class EndStateSO : DialogueBaseStateSO
 {
-    public override void OnEnter()
+    public override void OnEnter(DialogueModule module)
     {
         Debug.Log("대화 종료!");
-        dialogueModule.dialogueUI.SetActive(false);
+        module.dialogueUI.SetActive(false);
 
         GameManager.instance.inputManager.PLAYMode();
-        
-        dialogueModule.currentDialogue = null;
-        dialogueModule.currentLineNum = -1;
+
+        module.CurrentDialogue = null;
+        module.CurrentLineNum = -1;
     }
+
+    public override void OnExit(DialogueModule module) { }
+
+    public override void OnUpdate(DialogueModule module) { }
 }

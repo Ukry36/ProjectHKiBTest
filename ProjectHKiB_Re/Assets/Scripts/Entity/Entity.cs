@@ -10,7 +10,7 @@ public abstract class Entity : StateController
     }
     public virtual void Initialize()
     {
-        RegisterModules(transform);
+        //RegisterModules(transform);
         //HealthController.Initialize(this, BaseMaxHP);
         // MovementController.Initialize();
     }
