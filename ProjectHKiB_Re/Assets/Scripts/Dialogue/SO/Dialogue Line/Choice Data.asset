@@ -1,0 +1,137 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4680225fbb7e9be42817340dc1da1a3e, type: 3}
+  m_Name: Choice Data
+  m_EditorClassIdentifier: 
+  lines:
+  - index: 0
+    characterName: Hero
+    lines:
+    - '<b><i><color=#f55>Hello World</color></i></b>
+
+      This is DIOLOGUE SYSTEM'
+    - THERE <s>THIS</s> ARE LINE
+    duration: 1
+    BG: {fileID: 0}
+    nextState: {fileID: 11400000, guid: 555d907b70322ce438390b7f5d23f64b, type: 2}
+    actionEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    choices: []
+    actionOptions:
+      waitSpecificInput: 0
+      inputKey: 0
+      waitInputAfterAction: 0
+      autoNextDelay: 0
+  - index: 0
+    characterName: '<mark=#FFFF0050>Hero</mark> '
+    lines:
+    - '<font-weight=700>Test</font-weight>
+
+      Sentence'
+    duration: 2
+    BG: {fileID: 0}
+    nextState: {fileID: 11400000, guid: 555d907b70322ce438390b7f5d23f64b, type: 2}
+    actionEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    choices: []
+    actionOptions:
+      waitSpecificInput: 0
+      inputKey: 0
+      waitInputAfterAction: 0
+      autoNextDelay: 0
+  - index: 1
+    characterName: System
+    lines:
+    - You <size=200%>Need</size> Choice
+    - Hurry Up! <sprite name="star">
+    duration: 1
+    BG: {fileID: 0}
+    nextState: {fileID: 11400000, guid: c21b4022f4afbdf42897c31c645d9b46, type: 2}
+    actionEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    choices:
+    - choiceText: Go to A
+      nextLineIndex: 10
+    - choiceText: Go to B
+      nextLineIndex: 20
+    actionOptions:
+      waitSpecificInput: 0
+      inputKey: 0
+      waitInputAfterAction: 0
+      autoNextDelay: 0
+  - index: 10
+    characterName: Hero
+    lines:
+    - This is A
+    duration: 1
+    BG: {fileID: 0}
+    nextState: {fileID: 11400000, guid: 555d907b70322ce438390b7f5d23f64b, type: 2}
+    actionEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    choices: []
+    actionOptions:
+      waitSpecificInput: 0
+      inputKey: 0
+      waitInputAfterAction: 0
+      autoNextDelay: 0
+  - index: 10
+    characterName: Hero
+    lines: []
+    duration: 1
+    BG: {fileID: 0}
+    nextState: {fileID: 11400000, guid: 771575fe342b16c40a3ea35c68ed20e1, type: 2}
+    actionEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    choices: []
+    actionOptions:
+      waitSpecificInput: 0
+      inputKey: 0
+      waitInputAfterAction: 0
+      autoNextDelay: 0
+  - index: 20
+    characterName: Hero
+    lines:
+    - This is B
+    duration: 1
+    BG: {fileID: 0}
+    nextState: {fileID: 11400000, guid: 555d907b70322ce438390b7f5d23f64b, type: 2}
+    actionEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    choices: []
+    actionOptions:
+      waitSpecificInput: 0
+      inputKey: 0
+      waitInputAfterAction: 0
+      autoNextDelay: 0
+  - index: 10
+    characterName: Hero
+    lines: []
+    duration: 1
+    BG: {fileID: 0}
+    nextState: {fileID: 11400000, guid: 771575fe342b16c40a3ea35c68ed20e1, type: 2}
+    actionEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    choices: []
+    actionOptions:
+      waitSpecificInput: 0
+      inputKey: 0
+      waitInputAfterAction: 0
+      autoNextDelay: 0
+  summaryTitle: 
+  summary: 

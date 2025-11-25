@@ -1,0 +1,107 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4680225fbb7e9be42817340dc1da1a3e, type: 3}
+  m_Name: Action Dialogue
+  m_EditorClassIdentifier: 
+  lines:
+  - index: 0
+    characterName: Actor
+    line: Before Action
+    duration: 2
+    BG: {fileID: 0}
+    nextState: {fileID: 11400000, guid: 555d907b70322ce438390b7f5d23f64b, type: 2}
+    actionEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    choices: []
+    actionOptions:
+      waitSpecificInput: 0
+      inputKey: 0
+      waitInputAfterAction: 0
+      autoNextDelay: 0
+  - index: 0
+    characterName: Actor
+    line: 'Action State : Wait 2 Sec'
+    duration: 2
+    BG: {fileID: 0}
+    nextState: {fileID: 11400000, guid: 7b131ae094deadf46b3fc58ad6f6731e, type: 2}
+    actionEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    choices: []
+    actionOptions:
+      waitSpecificInput: 0
+      inputKey: 0
+      waitInputAfterAction: 0
+      autoNextDelay: 0
+  - index: 0
+    characterName: Actor
+    line: Good Job Wait, Plz Input Enter
+    duration: 2
+    BG: {fileID: 0}
+    nextState: {fileID: 11400000, guid: 555d907b70322ce438390b7f5d23f64b, type: 2}
+    actionEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    choices: []
+    actionOptions:
+      waitSpecificInput: 0
+      inputKey: 0
+      waitInputAfterAction: 0
+      autoNextDelay: 0
+  - index: 0
+    characterName: Actor
+    line: 'Action State : Wait Input'
+    duration: 2
+    BG: {fileID: 0}
+    nextState: {fileID: 11400000, guid: 7b131ae094deadf46b3fc58ad6f6731e, type: 2}
+    actionEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    choices: []
+    actionOptions:
+      waitSpecificInput: 1
+      inputKey: 13
+      waitInputAfterAction: 0
+      autoNextDelay: 0
+  - index: 0
+    characterName: Actor
+    line: Well Job
+    duration: 2
+    BG: {fileID: 0}
+    nextState: {fileID: 11400000, guid: 555d907b70322ce438390b7f5d23f64b, type: 2}
+    actionEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    choices: []
+    actionOptions:
+      waitSpecificInput: 0
+      inputKey: 0
+      waitInputAfterAction: 0
+      autoNextDelay: 0
+  - index: 0
+    characterName: Actor
+    line: End
+    duration: 0
+    BG: {fileID: 0}
+    nextState: {fileID: 11400000, guid: 771575fe342b16c40a3ea35c68ed20e1, type: 2}
+    actionEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    choices: []
+    actionOptions:
+      waitSpecificInput: 0
+      inputKey: 0
+      waitInputAfterAction: 0
+      autoNextDelay: 0
+  summaryTitle: 
+  summary: 
