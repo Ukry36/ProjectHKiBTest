@@ -1,91 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 using UnityEngine;
-using TMPro;
 
-[CreateAssetMenu(fileName = "Choice State", menuName = "Scriptable Objects/Dialogue States/Choice State", order = 1)]
-public class ChoiceStateSO : DialogueBaseStateSO
+[CreateAssetMenu(fileName = "Choice State", menuName = "State Machine/Dialogue States/Choice State", order = 1)]
+public class ChoiceStateSO : StateSO
 {
-    private Line currentLine;
-
-    public override void OnEnter(DialogueModule module)
+    public override void EnterState(StateController stateController)
     {
-        currentLine = module.CurrentDialogue.lines[module.CurrentLineNum];
-
-        // Active UI
-        module.dialogueUI.SetActive(false);
-        module.choicePanel.SetActive(true);
-
-        // Choice Button Text = Can Write First Line
-        if (module.choiceLineLabel != null)
+        if (stateController.TryGetInterface(out IDialogueable dialogue))
         {
-            if (currentLine.lines != null && currentLine.lines.Length > 0)
-            {
-                string firstLine = module.ResolveVariables(currentLine.lines[0]);
-                module.choiceLineLabel.text = firstLine;
-            }
-            else
-            {
-                module.choiceLineLabel.text = "";
-            }
+            dialogue.StartLine();
+            dialogue.BindUpdateChoice();
         }
-
-        // Settin Button
-        for (int i = 0; i < module.choiceButtons.Length; i++)
-        {
-            var btn = module.choiceButtons[i];
-
-            if (currentLine.choices != null && i < currentLine.choices.Length)
-            {
-                btn.gameObject.SetActive(true);
-
-                btn.Setup(
-                    module.ResolveVariables(currentLine.choices[i].choiceText),
-                    currentLine.choices[i].nextLineIndex,
-                    module.OnChoiceSelected
-                );
-
-                // Choice Arrow
-                btn.cursorArrow = module.cursorArrow;
-            }
-            else
-            {
-                btn.gameObject.SetActive(false);
-            }
-        }
-
-        // CUrsor on First Panel
-        if (module.choiceButtons.Length > 0)
-        {
-            var first = module.choiceButtons[0];
-            EventSystem.current.SetSelectedGameObject(first.gameObject);
-            first.Focus();
-        }
-
-        GameManager.instance.inputManager.MENUMode();
+        else Debug.LogError("ERROR: Interface Not Found!!!");
+        base.EnterState(stateController);
     }
 
-    public override void OnUpdate(DialogueModule module)
+    public override void ExitState(StateController stateController)
     {
-        var input = GameManager.instance.inputManager;
-
-        // Enter -> Confirm INPUT
-        if (input.ConfirmInput)
+        if (stateController.TryGetInterface(out IDialogueable dialogue))
         {
-            var obj = EventSystem.current.currentSelectedGameObject;
-            if (obj != null)
-            {
-                var btn = obj.GetComponent<Button>();
-                btn?.onClick.Invoke();
-            }
+            dialogue.UnBindUpdateChoice();
         }
-    }
-
-    public override void OnExit(DialogueModule module)
-    {
-        module.choicePanel.SetActive(false);
-        module.dialogueUI.SetActive(true);
+        else Debug.LogError("ERROR: Interface Not Found!!!");
+        base.ExitState(stateController);
     }
 }

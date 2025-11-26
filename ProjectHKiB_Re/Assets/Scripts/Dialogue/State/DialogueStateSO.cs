@@ -1,90 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
-using TMPro;
-using DG.Tweening.Core;
 
-
-
-[CreateAssetMenu(fileName = "Dialogue State", menuName = "Scriptable Objects/Dialogue States/Dialogue State", order = 0)]
-public class DialogueStateSO : DialogueBaseStateSO
+[CreateAssetMenu(fileName = "Dialogue State", menuName = "State Machine/Dialogue States/Dialogue State", order = 0)]
+public class DialogueStateSO : StateSO
 {
-    private Line currentLine;
-    private int subLineIndex = 0;
-
-    public override void OnEnter(DialogueModule module)
+    public override void EnterState(StateController stateController)
     {
-
-        GameManager.instance.inputManager.MENUMode();
-        currentLine = module.CurrentDialogue.lines[module.CurrentLineNum];
-        subLineIndex = 0;
-
-        // UI Active
-        module.dialogueUI.SetActive(true);
-        module.choicePanel.SetActive(false);
-        module.HideNextArrow();
-
-        // {KEY} RESOLVE
-        string resolvedName = module.ResolveVariables(currentLine.characterName);
-
-        // Set Character Name AND Text
-        module.characterName.text = resolvedName;
-
-        PrintCurrentSubLine(module);
-    }
-
-    private void PrintCurrentSubLine(DialogueModule module)
-    {
-        string raw = currentLine.lines[subLineIndex];
-        string resolved = module.ResolveVariables(raw);
-
-        module.lineText.text = "";
-
-        // DOTween Sequence Initializzen and ReUse
-
-        if (module.LinePrintingTweener != null && module.LinePrintingTweener.IsActive())
+        if (stateController.TryGetInterface(out IDialogueable dialogue))
         {
-            module.LinePrintingTweener.Kill();
+            dialogue.StartLine();
+            dialogue.BindUpdateLine();
         }
-        // Teyping Effect Animation
-        module.LinePrintingTweener = module.lineText
-            .DOText(resolved, currentLine.duration)
-            .SetEase(Ease.Linear)
-            .OnComplete(() => { module.ShowNextArrow(); });
-
-        module.LinePrintingTweener?.Play();
+        else Debug.LogError("ERROR: Interface Not Found!!!");
+        base.EnterState(stateController);
     }
 
-
-    public override void OnUpdate(DialogueModule module)
+    public override void ExitState(StateController stateController)
     {
-        // Player Input(Click) Handling
-        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
+        if (stateController.TryGetInterface(out IDialogueable dialogue))
         {
-            // 타이핑 중이면 스킵
-            if (module.LinePrintingTweener != null &&
-                module.LinePrintingTweener.IsActive() &&
-                module.LinePrintingTweener.IsPlaying())
-            {
-                module.LinePrintingTweener.Complete();
-                return;
-            }
-
-            subLineIndex++;
-
-            if (currentLine.lines != null && subLineIndex < currentLine.lines.Length)
-            {
-                module.HideNextArrow();
-                PrintCurrentSubLine(module);
-            }
-            else
-            {
-                module.HideNextArrow();
-                module.CheckDialogueEnd();
-            }
+            dialogue.UnBindUpdateLine();
         }
+        else Debug.LogError("ERROR: Interface Not Found!!!");
+        base.ExitState(stateController);
     }
-
-    public override void OnExit(DialogueModule module) { }
 }

@@ -5,50 +5,43 @@ using UnityEngine;
 using DG.Tweening;
 using TMPro;
 using R3;
-using UnityEngine.EventSystems;
+using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(StateController))]
 public class DialogueModule : InterfaceModule, IDialogueable
 {
+    private static WaitForSeconds _waitForSeconds0_025 = new WaitForSeconds(0.025f);
+
     // === UI ===
     public TextMeshProUGUI lineText;
     public TextMeshProUGUI characterName;
-    public TextMeshProUGUI choiceLineLabel;
     public GameObject dialogueUI;
     public GameObject choicePanel;
     public RectTransform nextArrowRect;
-    public RectTransform cursorArrow;
-
-    public ChoiceButton[] choiceButtons;
-    public ScriptableObject currentStateSO;
+    public ButtonEnhancer[] choiceButtons;
 
     [System.Serializable]
-    public struct DialogueVariable // Variable Struct
-    {
-        public string key;
-        public string value;
-    }
+    public struct DialogueVariable { public string key; public string value; }
     public DialogueVariable[] initialVariables;
 
     //private Dictionary<string, string> variableTable;
     private Dictionary<string, ReactiveProperty<string>> variableTable;
 
     // === State Machine Parameter ===
-    public DialogueDataSO CurrentDialogue { get; set; }
-    public int CurrentLineNum { get; set; }
+    public StateMachineSO dialogueStateMachine;
+    [field: SerializeField] public DialogueDataSO CurrentDialogue { get; private set; }
+    private Line _currentLine;
+    [field: NaughtyAttributes.ReadOnly][field: SerializeField] public int LineIndex { get; private set; }
+    [field: NaughtyAttributes.ReadOnly][field: SerializeField] public int SubLineIndex { get; private set; }
+    [field: NaughtyAttributes.ReadOnly][field: SerializeField] public bool IsLineEnd { get; private set; }
+
     public void RunCoroutine(IEnumerator routine) { StartCoroutine(routine); }
 
     // === DOTween ===
     public Tweener LinePrintingTweener { get; set; }
     private Tween nextArrowMoveTween;
     private Vector2 nextArrowBasePos;
-
-
-    // **State SO Reference**
-    public DialogueBaseStateSO dialogueState;
-    public DialogueBaseStateSO choiceState;
-    public DialogueBaseStateSO actionState;
-    public DialogueBaseStateSO endState;
-    public StateMachineSO dialogueStateMachine;
 
     public override void Register(IInterfaceRegistable interfaceRegistable)
     {
@@ -69,18 +62,24 @@ public class DialogueModule : InterfaceModule, IDialogueable
         InitializeVariables();
     }
 
-    private Line currentLine;
-    private int subLineIndex = 0;
-    public void StartDialogue(DialogueDataSO dialogueData)
+    public Line FindLine(int lineIndex)
     {
-        GetComponent<StateController>().ResetStateMachine(dialogueStateMachine);
-        GameManager.instance.inputManager.MENUMode();
-        CurrentDialogue = dialogueData;
-        CurrentLineNum = 0;
-        dialogueUI.SetActive(true);
+        Line line = CurrentDialogue.lines.Find((a) => a.index == lineIndex);
+        if (line == null) ExitDialogue();
+
+        return line;
     }
 
-    public bool CheckDialogueEnd() => CurrentLineNum < CurrentDialogue.lines.Length;
+    public void StartDialogue(DialogueDataSO dialogueData)
+    {
+        GameManager.instance.inputManager.MENUMode();
+        CurrentDialogue = dialogueData;
+        LineIndex = 0;
+        SubLineIndex = 0;
+        dialogueUI.SetActive(true);
+        choicePanel.SetActive(false);
+        GetComponent<StateController>().ResetStateMachine(dialogueStateMachine);
+    }
 
     public void ExitDialogue()
     {
@@ -90,20 +89,16 @@ public class DialogueModule : InterfaceModule, IDialogueable
         choicePanel.SetActive(false);
     }
 
-    public void HandleInput() //?
-    {
-        //CurrentState.UpdateState(this);
-    }
-
     public void StartLine()
     {
-        currentLine = CurrentDialogue.lines[CurrentLineNum];
-        subLineIndex = 0;
+        IsLineEnd = false;
+        _currentLine = FindLine(LineIndex);
+        SubLineIndex = 0;
 
         HideNextArrow();
 
         // {KEY} RESOLVE
-        string resolvedName = ResolveVariables(currentLine.characterName);
+        string resolvedName = ResolveVariables(_currentLine.characterName);
 
         // Set Character Name AND Text
         characterName.text = resolvedName;
@@ -111,123 +106,131 @@ public class DialogueModule : InterfaceModule, IDialogueable
         PrintCurrentSubLine();
     }
 
-    public void StartChoice()
+    public void BindUpdateLine() => GameManager.instance.inputManager.onSubmit += UpdateLineBinder;
+    public void UnBindUpdateLine() => GameManager.instance.inputManager.onSubmit -= UpdateLineBinder;
+    private void UpdateLineBinder(InputAction.CallbackContext context)
     {
-        choicePanel.SetActive(true);
-
-        // Choice Button Text = Can Write First Line
-        if (choiceLineLabel != null)
-        {
-            if (currentLine.lines != null && currentLine.lines.Length > 0)
-                choiceLineLabel.text = ResolveVariables(currentLine.lines[0]);
-            else
-                choiceLineLabel.text = "";
-        }
-
-        // Settin Button
-        for (int i = 0; i < choiceButtons.Length; i++)
-        {
-            var btn = choiceButtons[i];
-
-            if (currentLine.choices != null && i < currentLine.choices.Length)
-            {
-                btn.gameObject.SetActive(true);
-
-                btn.Setup(
-                    ResolveVariables(currentLine.choices[i].choiceText),
-                    currentLine.choices[i].nextLineIndex,
-                    OnChoiceSelected
-                );
-
-                // Choice Arrow
-                btn.cursorArrow = cursorArrow;
-            }
-            else
-            {
-                btn.gameObject.SetActive(false);
-            }
-        }
-
-        // CUrsor on First Panel
-        if (choiceButtons.Length > 0)
-        {
-            var first = choiceButtons[0];
-            EventSystem.current.SetSelectedGameObject(first.gameObject);
-            first.Focus();
-        }
+        if (context.started) UpdateLine();
     }
-
-    public bool CheckLineType(StateSO type) => type == CurrentDialogue.lines[CurrentLineNum].nextState;
-
-    public bool CheckLineEnd()
+    private void UpdateLine()
     {
         if (LinePrintingTweener != null && LinePrintingTweener.IsActive() && LinePrintingTweener.IsPlaying())
         {
             LinePrintingTweener.Complete();
-            return false;
+            return;
         }
+        SubLineIndex++;
 
-        subLineIndex++;
-
-        if (currentLine.lines != null && subLineIndex < currentLine.lines.Length)
+        if (_currentLine.lines != null && SubLineIndex < _currentLine.lines.Length)
         {
             PrintCurrentSubLine();
-            return false;
+            return;
         }
-
-        return true;
+        ManageDialogueExit();
+        NextLine();
+        IsLineEnd = true;
     }
 
-    public void SetLine(int lineNum) => CurrentLineNum = lineNum;
-    public void NextLine() => CurrentLineNum++;
+    public void BindUpdateChoice() => GameManager.instance.inputManager.onSubmit += UpdateChoiceBinder;
+    public void UnBindUpdateChoice() => GameManager.instance.inputManager.onSubmit -= UpdateChoiceBinder;
+    private void UpdateChoiceBinder(InputAction.CallbackContext context)
+    {
+        if (context.started) UpdateChoice();
+    }
+    private void UpdateChoice()
+    {
+        if (LinePrintingTweener != null && LinePrintingTweener.IsActive() && LinePrintingTweener.IsPlaying())
+        {
+            LinePrintingTweener.Complete();
+            return;
+        }
+        SubLineIndex++;
+
+        if (_currentLine.lines == null || SubLineIndex == _currentLine.lines.Length)
+            StartCoroutine(Choice());
+
+        if (_currentLine.lines != null && SubLineIndex < _currentLine.lines.Length)
+            PrintCurrentSubLine();
+    }
+
+    public IEnumerator Choice()
+    {
+        yield return _waitForSeconds0_025;
+        choicePanel.SetActive(true);
+
+        // Settin Button
+        for (int i = 0; i < choiceButtons.Length; i++)
+        {
+            Button button = choiceButtons[i].button;
+
+            if (_currentLine.choices != null && i < _currentLine.choices.Length)
+            {
+                button.gameObject.SetActive(true);
+                button.onClick.RemoveAllListeners();
+                int index = _currentLine.choices[i].nextLineIndex;
+                button.onClick.AddListener(() => OnChoiceSelected(index));
+                choiceButtons[i].TMP.text = _currentLine.choices[i].choiceText;
+            }
+            else button.gameObject.SetActive(false);
+        }
+
+        // Cursor on First Panel
+        if (choiceButtons.Length > 0) choiceButtons[0].button.Select();
+    }
+
+    public bool CheckLineType(StateSO type)
+    {
+        Line line = FindLine(LineIndex);
+        if (line == null) return false;
+        return type == line.lineType;
+    }
+    public bool CheckLineEnd() => IsLineEnd;
+    public void SetLine(int lineNum) => LineIndex = lineNum;
+    public void NextLine() => LineIndex++;
+    public bool ManageDialogueExit()
+    {
+        Line line = FindLine(LineIndex);
+        if (line != null && line.isEndLine)
+        {
+            ExitDialogue();
+            return true;
+        }
+        return false;
+    }
 
     private void PrintCurrentSubLine()
     {
-        string raw = currentLine.lines[subLineIndex];
+        string raw = _currentLine.lines[SubLineIndex];
         string resolved = ResolveVariables(raw);
 
         lineText.text = "";
 
-        // DOTween Sequence Initializzen and ReUse
-
         if (LinePrintingTweener != null && LinePrintingTweener.IsActive())
-        {
             LinePrintingTweener.Kill();
-        }
+
         // Teyping Effect Animation
         LinePrintingTweener = lineText
-            .DOText(resolved, currentLine.duration)
+            .DOText(resolved, _currentLine.duration)
             .SetEase(Ease.Linear)
             .OnComplete(() => { ShowNextArrow(); });
 
         LinePrintingTweener?.Play();
     }
 
-    public void OnChoiceSelected(int logicalIndex)
+    public void OnChoiceSelected(int lineNum)
     {
-        if (CurrentDialogue == null || CurrentDialogue.lines == null || CurrentDialogue.lines.Length == 0)
+        if (CurrentDialogue == null || CurrentDialogue.lines == null || CurrentDialogue.lines.Count == 0)
         {
             Debug.LogWarning("OnChoiceSelected: currentDialogue is null or empty");
-            //ChangeState(endState);
+            ExitDialogue();
             return;
         }
 
-        // Change Index > Line Index
-        int arrayIndex = CurrentDialogue.FindLineIndexByLogicalIndex(logicalIndex);
+        if (!CurrentDialogue.lines.Exists((a) => a.index == lineNum)) ExitDialogue();
 
-        if (arrayIndex < 0)
-        {
-            Debug.LogWarning($"OnChoiceSelected: logicalIndex {logicalIndex} not found");
-            //ChangeState(endState);
-            return;
-        }
-
-        CurrentLineNum = arrayIndex - 1;
-
-        if (choicePanel) choicePanel.SetActive(false);
-        if (dialogueUI) dialogueUI.SetActive(true);
-
-        CheckDialogueEnd();
+        SetLine(lineNum);
+        choicePanel.SetActive(false);
+        IsLineEnd = true;
     }
 
     public void ShowNextArrow()

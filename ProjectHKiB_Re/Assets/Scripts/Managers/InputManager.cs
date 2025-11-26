@@ -21,7 +21,6 @@ public class InputManager : MonoBehaviour, @PlayerAction.IPLAYActions, PlayerAct
     public bool SkillInput { get; private set; }
 
     public bool ConfirmInput { get; private set; }
-    public bool UIConfirmInput { get; private set; }
     public bool PauseInput { get; private set; }
     public bool EquipmentOpenCloseInput { get; private set; }
     public bool InventoryOpenCloseInput { get; private set; }
@@ -198,17 +197,21 @@ public class InputManager : MonoBehaviour, @PlayerAction.IPLAYActions, PlayerAct
     public void OnMenu(InputAction.CallbackContext context)
     {
         CancelInput = context.started;
-        onMenu.Invoke(context);
+        onMenu?.Invoke(context);
     }
 
     public void OnNavigate(InputAction.CallbackContext context) { }
 
-    public void OnSubmit(InputAction.CallbackContext context) { }
+    public Action<InputAction.CallbackContext> onSubmit;
+    public void OnSubmit(InputAction.CallbackContext context)
+    {
+        onSubmit?.Invoke(context);
+    }
 
     public Action<InputAction.CallbackContext> onMENUCancel;
     public void OnCancel(InputAction.CallbackContext context)
     {
-        onMENUCancel.Invoke(context);
+        onMENUCancel?.Invoke(context);
     }
 
     public void OnPoint(InputAction.CallbackContext context) { }

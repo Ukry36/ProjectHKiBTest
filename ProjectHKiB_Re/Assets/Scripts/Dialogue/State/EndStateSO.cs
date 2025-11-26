@@ -11,9 +11,9 @@ public class EndStateSO : DialogueBaseStateSO
         module.dialogueUI.SetActive(false);
 
         GameManager.instance.inputManager.PLAYMode();
-
-        module.CurrentDialogue = null;
-        module.CurrentLineNum = -1;
+        /*
+                module.CurrentDialogue = null;
+                module.CurrentLineNum = -1;*/
     }
 
     public override void OnExit(DialogueModule module) { }

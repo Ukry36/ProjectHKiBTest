@@ -5,12 +5,11 @@ public abstract class Entity : StateController
 {
     public override void Start()
     {
-        base.Start();
         Initialize();
     }
-    public virtual void Initialize()
+    public override void Initialize()
     {
-        //RegisterModules(transform);
+        RegisterModules(transform);
         //HealthController.Initialize(this, BaseMaxHP);
         // MovementController.Initialize();
     }

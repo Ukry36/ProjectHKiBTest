@@ -19,6 +19,7 @@ public class EnumManager
         HasRInput,
         HasUInput,
         OnConfirm,
-        None
+        None,
+        OnSubmit
     }
 }

@@ -6,6 +6,7 @@ using UnityEngine.Events;
 public class Line
 {
     public int index;
+    public bool isEndLine;
     public string characterName;
 
     [TextArea]
@@ -14,27 +15,21 @@ public class Line
     public float duration;
     public Sprite BG;
 
-    [Tooltip("이 라인이 끝나고 전환될 DialogueBaseStateSO")]
-    public DialogueBaseStateSO nextState;
-
-    [Tooltip("Line에서 직접 실행할 UnityEvent (예: 컷신, 카메라 이동)")]
-    public UnityEvent actionEvent;
-
-    [Tooltip("선택지 목록 (ChoiceStateSO가 처리합니다)")]
+    public StateSO lineType;
     public ChoiceData[] choices;
-
     public ActionOptions actionOptions;
 
+    public UnityEvent actionEvent;
     public Line()
     {
-        if ((lines != null && lines.Length > 0) && (duration <= 0))
+        if (lines != null && lines.Length > 0 && (duration <= 0))
         {
             duration = lines[0].Length * 0.1f;
         }
     }
 }
 
-[System.Serializable]
+[Serializable]
 public class ActionOptions
 {
     [Tooltip("ActionState에서 특정 입력을 기다리는지 여부")]
@@ -52,7 +47,7 @@ public class ActionOptions
 
 
 
-[System.Serializable]
+[Serializable]
 public struct ChoiceData
 {
     public string choiceText;

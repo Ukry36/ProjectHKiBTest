@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23ffa63ce1c9f844b99882f818407756, type: 3}
-  m_Name: DialogueState
+  m_Script: {fileID: 11500000, guid: ae1e7a7e5c1ccf446bc428f5d277a7ce, type: 3}
+  m_Name: Dialogue State
   m_EditorClassIdentifier: 
   transitions:
   - availableTime: 0
     decisions:
-    - decision: {fileID: 0}
+    - decision: {fileID: 11400000, guid: 06e6c354eec580e44a0fcc593beba7de, type: 2}
       negate: 0
     trueState: {fileID: 11400000, guid: 8b0e1c3d31ef2f7419d911b0483031a7, type: 2}
     falseState: {fileID: 0}

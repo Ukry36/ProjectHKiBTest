@@ -32,6 +32,11 @@ public class StateController : InterfaceRegister
 
     public virtual void Start()
     {
+        Initialize();
+    }
+
+    public virtual void Initialize()
+    {
         RegisterModules(transform);
     }
 
