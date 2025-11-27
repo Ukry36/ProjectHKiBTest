@@ -25,6 +25,8 @@ public class UIManager : MonoBehaviour
     public int defaultPauseWindowIndex;
     public bool canExit = true;
 
+    public DialogueModule dialogueModule;
+
     public void Start()
     {
         Initialize();
@@ -35,6 +37,7 @@ public class UIManager : MonoBehaviour
         //OpenWindow(0);
         GameManager.instance.inputManager.onMenu += OnOpenMenu;
         GameManager.instance.inputManager.onMENUCancel += OnCloseWindow;
+        dialogueModule.onExitDialogue += () => { canExit = true; CloseWindow("Dialogue"); };
     }
 
     public void OpenWindow(string name)
@@ -64,6 +67,17 @@ public class UIManager : MonoBehaviour
         if (openedWindows.Count < 1) return;
         openedWindows[^1]?.window.SetActive(false);
         openedWindows.Remove(openedWindows[^1]);
+    }
+
+    public void CloseWindow(string name)
+    {
+        if (windows == null) return;
+        WindowItem window = openedWindows.Find((a) => a.name == name);
+        if (window != null)
+        {
+            window.window.SetActive(false);
+            openedWindows.Remove(window);
+        }
     }
 
     public void CloseAllWindows()
@@ -107,4 +121,12 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void StartDialogue(DialogueDataSO dialogueData)
+    {
+        OpenWindow("Dialogue");
+        canExit = false;
+        dialogueModule.StartDialogue(dialogueData);
+    }
+
+    public void ExitDialogue() => dialogueModule.ExitDialogue();
 }

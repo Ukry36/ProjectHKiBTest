@@ -7,6 +7,7 @@ using TMPro;
 using R3;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using System;
 
 [RequireComponent(typeof(StateController))]
 public class DialogueModule : InterfaceModule, IDialogueable
@@ -16,7 +17,6 @@ public class DialogueModule : InterfaceModule, IDialogueable
     // === UI ===
     public TextMeshProUGUI lineText;
     public TextMeshProUGUI characterName;
-    public GameObject dialogueUI;
     public GameObject choicePanel;
     public RectTransform nextArrowRect;
     public ButtonEnhancer[] choiceButtons;
@@ -42,6 +42,8 @@ public class DialogueModule : InterfaceModule, IDialogueable
     public Tweener LinePrintingTweener { get; set; }
     private Tween nextArrowMoveTween;
     private Vector2 nextArrowBasePos;
+
+    public Action onExitDialogue;
 
     public override void Register(IInterfaceRegistable interfaceRegistable)
     {
@@ -76,7 +78,6 @@ public class DialogueModule : InterfaceModule, IDialogueable
         CurrentDialogue = dialogueData;
         LineIndex = 0;
         SubLineIndex = 0;
-        dialogueUI.SetActive(true);
         choicePanel.SetActive(false);
         GetComponent<StateController>().ResetStateMachine(dialogueStateMachine);
     }
@@ -84,9 +85,7 @@ public class DialogueModule : InterfaceModule, IDialogueable
     public void ExitDialogue()
     {
         GetComponent<StateController>().EliminateStateMachine();
-        GameManager.instance.inputManager.PLAYMode();
-        dialogueUI.SetActive(false);
-        choicePanel.SetActive(false);
+        onExitDialogue.Invoke();
     }
 
     public void StartLine()
