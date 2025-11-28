@@ -85,6 +85,7 @@ public class DialogueModule : InterfaceModule, IDialogueable
     public void ExitDialogue()
     {
         GetComponent<StateController>().EliminateStateMachine();
+        choicePanel.SetActive(false);
         onExitDialogue.Invoke();
     }
 

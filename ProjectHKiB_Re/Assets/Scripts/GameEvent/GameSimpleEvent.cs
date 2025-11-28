@@ -15,7 +15,7 @@ public class GameSimpleEvent : GameEvent
     // start event by enabling controller update
     public override void TriggerEvent()
     {
-        _function.Invoke();
+        _function?.Invoke();
     }
 
     // end event by disabling controller update

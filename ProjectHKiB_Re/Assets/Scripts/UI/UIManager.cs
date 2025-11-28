@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor.PackageManager.UI;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -40,6 +41,13 @@ public class UIManager : MonoBehaviour
         dialogueModule.onExitDialogue += () => { canExit = true; CloseWindow("Dialogue"); };
     }
 
+    public void OnDestroy()
+    {
+        GameManager.instance.inputManager.onMenu -= OnOpenMenu;
+        GameManager.instance.inputManager.onMENUCancel -= OnCloseWindow;
+        dialogueModule.onExitDialogue -= () => { canExit = true; CloseWindow("Dialogue"); };
+    }
+
     public void OpenWindow(string name)
     {
         if (windows == null) return;
@@ -57,6 +65,7 @@ public class UIManager : MonoBehaviour
     {
         if (window == null) return;
         if (!window.isPopup) CloseWindow();
+        Debug.Log("Window opened: " + window.name);
         window.window.SetActive(true);
         openedWindows.Add(window);
         if (window.initButton) window.initButton.Select();
@@ -67,6 +76,7 @@ public class UIManager : MonoBehaviour
         if (openedWindows.Count < 1) return;
         openedWindows[^1]?.window.SetActive(false);
         openedWindows.Remove(openedWindows[^1]);
+        Debug.Log("Window closed");
     }
 
     public void CloseWindow(string name)
@@ -77,6 +87,7 @@ public class UIManager : MonoBehaviour
         {
             window.window.SetActive(false);
             openedWindows.Remove(window);
+            Debug.Log("Window closed: " + window.name);
         }
     }
 

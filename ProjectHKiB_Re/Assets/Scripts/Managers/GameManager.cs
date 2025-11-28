@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     public DatabaseManager databaseManager;
     public GearManager gearManager;
     public InventoryManager inventoryManager;
+    public UIManager UIManager;
 
     public Player player;
 
