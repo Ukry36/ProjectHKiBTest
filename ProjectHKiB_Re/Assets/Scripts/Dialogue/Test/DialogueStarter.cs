@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class DialogueStarter : MonoBehaviour
 {
-    public DialogueModule dialogueModule;
+    public UIManager uIManager;
     public DialogueDataSO testDialogue;
     public DialogueDataSO ActionDialogue;
 
@@ -13,14 +13,14 @@ public class DialogueStarter : MonoBehaviour
 
     void Start()
     {
-        dialogueModule.StartDialogue(testDialogue);
+        uIManager.StartDialogue(testDialogue);
     }
 
     void Update()
     {
         if (!isDialogueStarted && Input.GetKeyDown(KeyCode.J))
         {
-            dialogueModule.StartDialogue(ActionDialogue);
+            uIManager.StartDialogue(ActionDialogue);
             isDialogueStarted = true;
         }
     }
