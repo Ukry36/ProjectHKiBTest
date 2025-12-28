@@ -82,6 +82,7 @@ public class StateController : InterfaceRegister
 
     public void EliminateStateMachine()
     {
+        if(CurrentState) CurrentState.ExitState(this);
         CurrentState = null;
         StopAllCoroutines();
     }

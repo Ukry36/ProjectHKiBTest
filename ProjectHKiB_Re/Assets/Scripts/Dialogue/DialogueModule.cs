@@ -12,7 +12,7 @@ using System;
 [RequireComponent(typeof(StateController))]
 public class DialogueModule : InterfaceModule, IDialogueable
 {
-    private static WaitForSeconds _waitForSeconds0_025 = new WaitForSeconds(0.025f);
+    private static readonly WaitForSeconds _waitForSeconds0_025 = new(0.025f);
 
     // === UI ===
     public TextMeshProUGUI lineText;
