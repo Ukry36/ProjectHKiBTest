@@ -5,10 +5,11 @@ public class CardListView: MonoBehaviour
 
     public GearManagerViewModel viewModel;
 
-    private int CardCount => transform.childCount;
+    public GearManager gearManager;
 
-    private int CurrentCardNum => transform.GetChild(CardCount - 1).GetComponent<CardView>().cardNum;
-
+    private int CardAssetCount => transform.childCount;
+    private int GetCardNum(int i) => transform.GetChild(i).GetComponent<CardView>().cardNum;
+    private int CurrentCardNum => GetCardNum(CardAssetCount - 1);
 
     public void Start()
     {
@@ -17,7 +18,7 @@ public class CardListView: MonoBehaviour
 
     public void Initialize()
     {
-        viewModel = new(GameManager.instance.gearManager);
+        viewModel = new(gearManager);
 
         viewModel.RegistReactiveCommand(model =>
         {
@@ -25,11 +26,15 @@ public class CardListView: MonoBehaviour
         }, this);
     }
 
+    [NaughtyAttributes.Button] public void UpdateCards() => UpdateCards(gearManager);
     public void UpdateCards(GearManager gearManager)
     {
-        for (int i = 0; i < CardCount; i++)
+        while (CurrentCardNum >= gearManager.MaxCardCount) SelectCardUp();
+
+        for (int i = 0; i < CardAssetCount; i++)
         {
-            if (i < CardCount - gearManager.MaxCardCount)
+            int num = GetCardNum(i);
+            if (num >= gearManager.MaxCardCount)
                 transform.GetChild(i).gameObject.SetActive(false);
             else
                 transform.GetChild(i).gameObject.SetActive(true);
@@ -37,22 +42,18 @@ public class CardListView: MonoBehaviour
     }
 
     [NaughtyAttributes.Button]
-    public void Up()
+    public void SelectCardUp()
     {
-       int currentCardNumber =  CurrentCardNum;
-       if (currentCardNumber >= CardCount - 1) return;
-       
-       transform.GetChild(CardCount - currentCardNumber - 2).SetAsLastSibling();
+       if (CurrentCardNum <= 0) return;
+
+       transform.GetChild(CardAssetCount - 1).SetSiblingIndex(CardAssetCount - CurrentCardNum - 1);
     }
 
     [NaughtyAttributes.Button]
-    public void Down()
+    public void SelectCardDown()
     {
-        int currentCardNumber =  CurrentCardNum;
-       if (currentCardNumber <= 0) return;
-
-       transform.GetChild(CardCount - 1).SetSiblingIndex(CardCount - currentCardNumber - 1);
+       if (CurrentCardNum >= gearManager.MaxCardCount - 1) return;
+       
+       transform.GetChild(CardAssetCount - CurrentCardNum - 2).SetAsLastSibling();
     }
-
-
 }

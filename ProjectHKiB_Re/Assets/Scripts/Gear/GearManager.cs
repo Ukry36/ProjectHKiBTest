@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using NaughtyAttributes;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class GearManager : MonoBehaviour
 {
@@ -14,7 +12,7 @@ public class GearManager : MonoBehaviour
     public List<CardData> playerCardEquipData;
     public int currentEquippedCardIndex;
     [field: SerializeField] public int PhysicalMaxGearSlotCount { get; private set; }
-    private int _maxGearSlotCount;
+    [SerializeField] private int _maxGearSlotCount;
     public int MaxGearSlotCount
     {
         get => _maxGearSlotCount;
@@ -25,7 +23,7 @@ public class GearManager : MonoBehaviour
         }
     }
     [field: SerializeField] public int PhysicalMaxCardCount { get; private set; }
-    private int _maxCardCount;
+    [SerializeField] private int _maxCardCount;
     public int MaxCardCount
     {
         get => _maxCardCount;
