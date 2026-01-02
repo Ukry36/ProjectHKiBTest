@@ -40,6 +40,8 @@ public class GearManager : MonoBehaviour
     public Action OnMaxSlotChanged;
     public Action OnSetCardData;
 
+    public int currentEditingCardNum;
+
     public void Start()
     {
         gearMergeManager.OnRealGearMade += FindObjectOfType<Player>(true).SetGear;
@@ -50,8 +52,8 @@ public class GearManager : MonoBehaviour
             playerCardEquipData.Add(data);
             data.Initialize();
         }
-        SetMaxCard(1);
-        SetMaxSlot(4); /////////////////////////////////////// temp!!!!!!!
+        //SetMaxCard(1); /////////////////////////////////////// temp!!!!!!!
+        //SetMaxSlot(4); /////////////////////////////////////// temp!!!!!!!
         EquipCard(currentEquippedCardIndex);
         OnMaxCardChanged += () => EquipCard(currentEquippedCardIndex);
         OnMaxSlotChanged += () => EquipCard(currentEquippedCardIndex);

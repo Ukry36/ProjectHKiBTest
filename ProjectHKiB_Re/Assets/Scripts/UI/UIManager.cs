@@ -68,7 +68,7 @@ public class UIManager : MonoBehaviour
         Debug.Log("Window opened: " + window.name);
         window.window.SetActive(true);
         openedWindows.Add(window);
-        if (window.initButton) window.initButton.Select();
+        InitButton();
     }
 
     public void CloseWindow()
@@ -79,6 +79,8 @@ public class UIManager : MonoBehaviour
         Debug.Log($"Window closed, remaining window stack: {openedWindows.Count}");
         if (openedWindows.Count < 1)
             GameManager.instance.inputManager.PLAYMode();
+        else
+            InitButton();
     }
 
     public void CloseWindow(string name)
@@ -92,7 +94,15 @@ public class UIManager : MonoBehaviour
             Debug.Log($"Window closed: {window.name}, remaining window stack: {openedWindows.Count}");
             if (openedWindows.Count < 1)
                 GameManager.instance.inputManager.PLAYMode();
+            else
+                InitButton();
         }
+    }
+
+    public void InitButton()
+    {
+        WindowItem window = openedWindows[^1];
+        if (window.initButton) window.initButton.Select();
     }
 
     public void CloseAllWindows()
@@ -105,15 +115,9 @@ public class UIManager : MonoBehaviour
         if (context.started)
         {
             if (openedWindows.Count < 1)
-            {
-                Debug.Log("menu");
                 OpenWindow(defaultPauseWindowIndex);
-            }
             else
-            {
-                Debug.Log("close");
                 if (canExit) CloseWindow();
-            }
         }
     }
 
