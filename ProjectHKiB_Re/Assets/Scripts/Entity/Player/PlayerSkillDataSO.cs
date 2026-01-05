@@ -1,14 +1,20 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-[CreateAssetMenu(fileName = "Player Skill Data", menuName = "Scriptable Objects/Data/Player Skill Data", order = 3)]
-public class PlayerSkillDataSO : ScriptableObject
-{
-    [Serializable]
+[Serializable]
     public class GraffitiCode
     {
         public List<Vector2> code = new();
+        public Color color;
+
+        public int Width => (int)(code.Max(v => v.x) - code.Min(v => v.x) + 1);
+        public int Height => (int)(code.Max(v => v.y) - code.Min(v => v.y) + 1);
     }
+
+[CreateAssetMenu(fileName = "Player Skill Data", menuName = "Scriptable Objects/Data/Player Skill Data", order = 3)]
+public class PlayerSkillDataSO : ScriptableObject
+{
     public AttackDataSO attackData;
     public List<GraffitiCode> graffitiCodes;
     public List<GraffitiCode> graffitiAllCases;

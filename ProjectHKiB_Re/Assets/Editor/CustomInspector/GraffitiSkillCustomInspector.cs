@@ -28,7 +28,7 @@ public class GraffitiSkillCustomInspector : Editor
             skill.graffitiCodes ??= new();
 
             skill.graffitiCodes.Add(new());
-            skill.graffitiCodes[^1].code.Add(Vector2.zero);
+            skill.graffitiCodes[^1].code.Add(Vector2Int.zero);
         }
 
         if (skill.graffitiCodes != null)
@@ -61,7 +61,7 @@ public class GraffitiSkillCustomInspector : Editor
                                 GUILayout.Width(30), GUILayout.Height(30)))
                                 {
                                     calculate = true;
-                                    skill.graffitiCodes[i].code.Remove(new Vector2(x, y));
+                                    skill.graffitiCodes[i].code.Remove(new Vector2Int(x, y));
                                 }
                                 temp = false;
                             }
@@ -72,7 +72,7 @@ public class GraffitiSkillCustomInspector : Editor
                             GUILayout.Width(30), GUILayout.Height(30)))
                             {
                                 calculate = true;
-                                skill.graffitiCodes[i].code.Add(new Vector2(x, y));
+                                skill.graffitiCodes[i].code.Add(new Vector2Int(x, y));
                             }
                         }
                     }
