@@ -1,46 +1,61 @@
 using UnityEngine;
-using System.Collections.Generic;
 using UnityEngine.UI;
 
 public class GraffitiPatternView : MonoBehaviour 
 {
     public PlayerSkillDataSO playerSkillDataSO;
+    public Color transparent = new(0,0,0,0);
+
+    [NaughtyAttributes.Button]
+    public void Inititialize()
+    {
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            transform.GetChild(i).gameObject.SetActive(false);
+        }
+    }
 
     [NaughtyAttributes.Button]
     public void SetPattern() => SetPattern(playerSkillDataSO.graffitiCodes[0]);
     public void SetPattern(GraffitiCode graffitiCode)
     {
-        int width = graffitiCode.Width < transform.childCount ? graffitiCode.Width : transform.childCount;
-        for (int i = 0; i < transform.childCount; i++)
+        UpdateGridSize(graffitiCode.Height, graffitiCode.Width);
+        for (int i = 0; i < graffitiCode.Height * graffitiCode.Width; i++)
         {
-            Transform vertical = transform.GetChild(i);
-            vertical.gameObject.SetActive(i < width);
-            if (i < width)
-            {
-                int height = graffitiCode.Height < vertical.childCount ? graffitiCode.Height : vertical.childCount;
-                
-                for (int j = 0; j < vertical.childCount; j++)
-                {
-                    Transform pix = vertical.GetChild(j);
-                    pix.gameObject.SetActive(j < height);
-                    if (j < height)
-                    {
-                        Image img = pix.GetComponent<Image>();
-                        img.color = graffitiCode.color;
-                        img.enabled = false;
-                    }
-                }
-            }
+            if (i >= transform.childCount) break;
+            transform.GetChild(i).GetComponent<Image>().color = transparent;
         }
 
         for (int i = 0; i < graffitiCode.code.Count; i++)
         {
-            Vector2 coord = graffitiCode.code[i];
-            if ((int)coord.x >= transform.childCount) continue;
-            Transform vertical = transform.GetChild((int)coord.x);
-            if ((int)coord.y >= vertical.childCount) continue;
-            Image img = vertical.GetChild((int)coord.y).GetComponent<Image>();
-            img.enabled = true;
+            int index = (int)graffitiCode.code[i].x + (int)graffitiCode.code[i].y * graffitiCode.Width;
+            if (index >= transform.childCount) break;
+            transform.GetChild(index).GetComponent<Image>().color = graffitiCode.color;
+        }
+    }
+
+    public GridLayoutGroup grid;
+    public void UpdateGridSize(int rows, int cols)
+    {
+        float width = GetComponent<RectTransform>().rect.width;
+        float height = GetComponent<RectTransform>().rect.height;
+        
+        float availableWidth = width - grid.padding.horizontal;
+        float availableHeight = height - grid.padding.vertical;
+
+        int maxDim = Mathf.Max(rows, cols);
+        
+        float minSide = Mathf.Min(availableWidth, availableHeight);
+        
+        float combinedSpacing = grid.spacing.x * (maxDim - 1);
+        float cellSize = (minSide - combinedSpacing) / maxDim;
+
+        grid.cellSize = new Vector2(cellSize, cellSize);
+        grid.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
+        grid.constraintCount = cols;
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            transform.GetChild(i).gameObject.SetActive(i < rows * cols);
         }
     }
 }
