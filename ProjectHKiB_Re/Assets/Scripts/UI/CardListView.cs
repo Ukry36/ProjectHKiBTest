@@ -4,10 +4,11 @@ using System.Collections.Generic;
 
 public class CardListView: MonoBehaviour
 {
-
     public GearManagerViewModel viewModel;
 
     public GearManager gearManager;
+
+    private int _selectedNumber;
 
     public void Start()
     {
@@ -39,10 +40,12 @@ public class CardListView: MonoBehaviour
                 view.patternView.SetPattern(card.mergedGearList[0].graffitiCodes[0]);
             }
         }
+        gearManager.currentEditingCardNum = _selectedNumber;
     }
 
     public void SelectCard(int num)
     {
-        Debug.Log("wa");
+        _selectedNumber = num;
+        viewModel.Execute();
     }
 }
