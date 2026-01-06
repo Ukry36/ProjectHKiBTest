@@ -1,8 +1,8 @@
 using UnityEngine;
-using System.Collections.Generic;
 using UnityEngine.UI;
 
 public class CardView : MonoBehaviour 
 {
-    public List<Image> gears;
+    public GraffitiPatternView patternView;
+    public Image GearImage;
 }

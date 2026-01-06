@@ -101,7 +101,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 6, y: 6, z: 6, w: 6}
       outline: []
       physicsShape: []
@@ -122,7 +122,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 6, y: 6, z: 5, w: 6}
       outline: []
       physicsShape: []
@@ -143,7 +143,7 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -159,12 +159,12 @@ TextureImporter:
       name: UI_Line
       rect:
         serializedVersion: 2
-        x: 67
+        x: 65
         y: 7
         width: 2
         height: 2
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -180,12 +180,12 @@ TextureImporter:
       name: UI_Mark
       rect:
         serializedVersion: 2
-        x: 75
+        x: 69
         y: 6
         width: 2
         height: 4
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -193,6 +193,27 @@ TextureImporter:
       bones: []
       spriteID: 3ef73224e801e8f4d84228beba983fb7
       internalID: -1127048653
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_DoubleMark
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 6
+        width: 6
+        height: 4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 3, y: 0, z: 3, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1e116e8307729d44dbad069b961281eb
+      internalID: 1442863005
       vertices: []
       indices: 
       edges: []
@@ -209,6 +230,7 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       UI_Back: -909317414
+      UI_DoubleMark: 1442863005
       UI_Frame_normal: -1867668869
       UI_Frame_small: -167877762
       UI_Line: -15297769

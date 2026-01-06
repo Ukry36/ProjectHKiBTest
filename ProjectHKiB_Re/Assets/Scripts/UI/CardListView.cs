@@ -30,22 +30,13 @@ public class CardListView: MonoBehaviour
         for (int i = 0; i < transform.childCount; i++)
         {
             GameObject obj = transform.GetChild(i).gameObject;
-            if (i >= gearManager.MaxCardCount)
-                obj.SetActive(false);
-            else
+            obj.SetActive(i < gearManager.MaxCardCount);
+            if (i < gearManager.MaxCardCount)
             {
-                obj.SetActive(true);
-                CardView card = obj.GetComponent<CardView>();
-                for (int j = 0; j < card.gears.Count; j++)
-                {
-                    if(gearManager.GetCardData(i).gearList.Length > j && gearManager.GetCardData(i).gearList[j].data != null)
-                    {
-                        card.gears[j].gameObject.SetActive(true);
-                        card.gears[j].sprite = gearManager.GetCardData(i).gearList[j].data.itemIcon9x9;
-                    }
-                    else
-                        card.gears[j].gameObject.SetActive(false);
-                }
+                CardView view = obj.GetComponent<CardView>();
+                CardData card = gearManager.GetCardData(i); if (card == null) continue;
+                if (card.mergedGearList == null || card.mergedGearList.Length < 1) view.patternView.Inititialize();
+                view.patternView.SetPattern(card.mergedGearList[0].graffitiCodes[0]);
             }
         }
     }
