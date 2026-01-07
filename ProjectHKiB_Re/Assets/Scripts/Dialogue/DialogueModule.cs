@@ -19,7 +19,7 @@ public class DialogueModule : InterfaceModule, IDialogueable
     public TextMeshProUGUI characterName;
     public GameObject choicePanel;
     public RectTransform nextArrowRect;
-    public ButtonEnhancer[] choiceButtons;
+    public ButtonEnhanced[] choiceButtons;
 
     [System.Serializable]
     public struct DialogueVariable { public string key; public string value; }
@@ -161,7 +161,7 @@ public class DialogueModule : InterfaceModule, IDialogueable
         // Settin Button
         for (int i = 0; i < choiceButtons.Length; i++)
         {
-            Button button = choiceButtons[i].button;
+            ButtonEnhanced button = choiceButtons[i];
 
             if (_currentLine.choices != null && i < _currentLine.choices.Length)
             {
@@ -175,7 +175,7 @@ public class DialogueModule : InterfaceModule, IDialogueable
         }
 
         // Cursor on First Panel
-        if (choiceButtons.Length > 0) choiceButtons[0].button.Select();
+        if (choiceButtons.Length > 0) choiceButtons[0].Select();
     }
 
     public bool CheckLineType(StateSO type)

@@ -1,325 +1,159 @@
-﻿using System.Collections;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
-#if ENABLE_INPUT_SYSTEM
-using UnityEngine.InputSystem;
-#endif
-using TMPro;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
 
-
-[ExecuteInEditMode]
-public class ButtonEnhanced : MonoBehaviour, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler, ISelectHandler, IDeselectHandler, ISubmitHandler
+public class ButtonEnhanced : Button, ISelectHandler, IDeselectHandler
 {
-    // Content
-    public Sprite buttonIcon;
-    public string buttonText = "Button";
+    [FormerlySerializedAs("onSelected")]
+    [SerializeField]
+    private UnityEvent m_OnSelect = new();
+    [FormerlySerializedAs("onDeselected")]
+    [SerializeField]
+    private UnityEvent m_OnDeselect = new();
 
-    // Resources
-    public CanvasGroup normalCG;
-    public CanvasGroup highlightCG;
-    public CanvasGroup pressedCG;
-    public CanvasGroup disabledCG;
-    public TextMeshProUGUI normalText;
-    public TextMeshProUGUI highlightedText;
-    public TextMeshProUGUI pressedText;
-    public TextMeshProUGUI disabledText;
-    public Image normalImage;
-    public Image highlightImage;
-    public Image disabledImage;
-    public Image pressedImage;
-    public AudioSource soundSource;
-    [SerializeField] private GameObject rippleParent;
+    public TextMeshProUGUI TMP;
 
-    // Settings
-    public bool isInteractable = true;
-    public AudioClip hoverSound;
-    public AudioClip clickSound;
-    public bool useUINavigation = false;
-    public Navigation.Mode navigationMode = Navigation.Mode.Automatic;
-    public GameObject selectOnUp;
-    public GameObject selectOnDown;
-    public GameObject selectOnLeft;
-    public GameObject selectOnRight;
-    public bool wrapAround = false;
-    public bool useRipple = true;
-    [SerializeField] private AnimationSolution animationSolution = AnimationSolution.ScriptBased;
+    public bool overrideNavigation;
 
-    // Events
-    public UnityEvent onClick = new UnityEvent();
-    public UnityEvent onHover = new UnityEvent();
-    public UnityEvent onLeave = new UnityEvent();
-
-    // Helpers
-    bool isInitialized = false;
-    Button targetButton;
-    bool isPointerOn;
-    bool isPointerDown;
-    const int navHelper = 1;
-
-    // Anim
-    string hoverToPressed = "Hover to Pressed";
-    string normalToPressed = "Normal to Pressed";
-    string pressedToNormal = "Pressed to Normal";
-    string hoverToNormal = "Hover to Normal";
-    string normalToHover = "Normal to Hover";
-    string pressedToHover = "Pressed to Hover";
-
-    public enum AnimationSolution
+    private void SelectButton()
     {
-        Custom,
-        ScriptBased,
-        AnimationBased
+        if (!IsActive() || !IsInteractable())return;
+        m_OnSelect.Invoke();
+        DoStateTransition(SelectionState.Selected, false);
     }
 
-    void OnEnable()
+    private void DeselectButton()
     {
-        if (!isInitialized) { Initialize(); }
-        UpdateUI();
+        if (!IsActive() || !IsInteractable())return;
+        m_OnDeselect.Invoke();
+        DoStateTransition(SelectionState.Normal, false);
     }
 
-    void OnDisable()
+    public override void OnSelect(BaseEventData eventData)
     {
-        if (!isInteractable)
-            return;
-
-        if (disabledCG != null) { disabledCG.alpha = 0; }
-        if (normalCG != null) { normalCG.alpha = 1; }
-        if (highlightCG != null) { highlightCG.alpha = 0; }
-        if (pressedCG != null) { pressedCG.alpha = 0; }
+        base.OnSelect(eventData);
+        SelectButton();
     }
 
-    void Initialize()
+    public override void OnDeselect(BaseEventData eventData)
     {
-#if UNITY_EDITOR
-        if (!Application.isPlaying) { return; }
-#endif
-        if (TryGetComponent<Animator>(out var tempAnimator))
+        base.OnSelect(eventData);
+        DeselectButton();
+    }
+
+    private List<Transform> _selectables = new();
+
+    private int GetSiblingNumAndSetActiveSelectables(Transform child)
+    {
+        Transform parent = child.parent;
+        int siblingNum = 0;
+        _selectables.Clear();
+        for (int i = 0; i < parent.childCount; i++)
         {
-            if (animationSolution == AnimationSolution.ScriptBased) Destroy(tempAnimator);
+            if (parent.GetChild(i).gameObject.activeSelf)
+            {
+                _selectables.Add(parent.GetChild(i));
+                if (child == parent.GetChild(i)) 
+                    siblingNum = _selectables.Count - 1;
+            }
         }
-        else if (animationSolution == AnimationSolution.AnimationBased)
+        return siblingNum;
+    }
+
+    private int BoundIndex(int index)
+    {
+        if (index >= _selectables.Count) return BoundIndex(index - _selectables.Count);
+        else if (index < 0) return BoundIndex(_selectables.Count + index);
+        else return index;
+    }
+
+    // this codes temporarily manages only when parent GridLayoutGroup setting is UpperLeft / Horizontal / UpperLeft / not Flexible
+    public override Selectable FindSelectableOnUp() 
+    {
+        if (overrideNavigation && transform.parent.TryGetComponent(out GridLayoutGroup layout))
         {
-            gameObject.AddComponent<Animator>();
+            if (layout.constraint != GridLayoutGroup.Constraint.Flexible)
+            {
+                int siblingNum = GetSiblingNumAndSetActiveSelectables(transform);
+                Transform nextSelectable = _selectables[BoundIndex(siblingNum - layout.constraintCount)];
+                return nextSelectable.GetComponent<Selectable>();
+            }
         }
 
-        if (gameObject.GetComponent<Image>() == null)
+        return base.FindSelectableOnUp();
+    }
+    public override Selectable FindSelectableOnDown() 
+    {
+        if (overrideNavigation && transform.parent.TryGetComponent(out GridLayoutGroup layout))
         {
-            Image raycastImg = gameObject.AddComponent<Image>();
-            raycastImg.color = new Color(0, 0, 0, 0);
-            raycastImg.raycastTarget = true;
+            if (layout.constraint != GridLayoutGroup.Constraint.Flexible)
+            {
+                int siblingNum = GetSiblingNumAndSetActiveSelectables(transform);
+                Transform nextSelectable = _selectables[BoundIndex(siblingNum + layout.constraintCount)];
+                return nextSelectable.GetComponent<Selectable>();
+            }
         }
 
-        if (normalCG == null) { normalCG = new GameObject().AddComponent<CanvasGroup>(); normalCG.gameObject.AddComponent<RectTransform>(); normalCG.transform.SetParent(transform); normalCG.gameObject.name = "Normal"; }
-        if (highlightCG == null) { highlightCG = new GameObject().AddComponent<CanvasGroup>(); highlightCG.gameObject.AddComponent<RectTransform>(); highlightCG.transform.SetParent(transform); highlightCG.gameObject.name = "Highlight"; }
-        if (pressedCG == null) { pressedCG = new GameObject().AddComponent<CanvasGroup>(); pressedCG.gameObject.AddComponent<RectTransform>(); pressedCG.transform.SetParent(transform); pressedCG.gameObject.name = "PressedCG"; }
-        if (disabledCG == null) { disabledCG = new GameObject().AddComponent<CanvasGroup>(); disabledCG.gameObject.AddComponent<RectTransform>(); disabledCG.transform.SetParent(transform); disabledCG.gameObject.name = "Disabled"; }
-
-        if (useRipple && rippleParent != null) { rippleParent.SetActive(false); }
-        else if (!useRipple && rippleParent != null) { Destroy(rippleParent); }
-
-        if (targetButton == null)
+        return base.FindSelectableOnDown();
+    }
+    public override Selectable FindSelectableOnLeft() 
+    {
+        if (overrideNavigation && transform.parent.TryGetComponent(out GridLayoutGroup layout))
         {
-            if (gameObject.GetComponent<Button>() == null) { targetButton = gameObject.AddComponent<Button>(); }
-            else { targetButton = GetComponent<Button>(); }
-
-            targetButton.transition = Selectable.Transition.None;
-
-            Navigation customNav = new Navigation();
-            customNav.mode = Navigation.Mode.None;
-            targetButton.navigation = customNav;
+            if (layout.constraint != GridLayoutGroup.Constraint.Flexible)
+            {
+                int siblingNum = GetSiblingNumAndSetActiveSelectables(transform);
+                Transform nextSelectable = _selectables[BoundIndex(siblingNum - 1)];
+                return nextSelectable.GetComponent<Selectable>();
+            }
         }
-        if (useUINavigation) { AddUINavigation(); }
 
-        isInitialized = true;
+        return base.FindSelectableOnLeft();
     }
-
-    public void UpdateUI()
+    public override Selectable FindSelectableOnRight() 
     {
-        if (normalCG != null && isInteractable) { normalCG.alpha = 1; }
-        if (disabledCG != null && !isInteractable) { disabledCG.alpha = 1; }
-        if (highlightCG != null) { highlightCG.alpha = 0; }
-        if (pressedCG != null) { pressedCG.alpha = 0; }
-
-        if (!Application.isPlaying || !gameObject.activeInHierarchy) { return; }
-        if (!isInteractable) { StartCoroutine(nameof(SetDisabled)); }
-        else if (isInteractable && disabledCG.alpha == 1) { StartCoroutine(nameof(SetNormal)); }
-    }
-
-    public void SetText(string text) { buttonText = text; UpdateUI(); }
-    public void SetIcon(Sprite icon) { buttonIcon = icon; UpdateUI(); }
-
-    public void SetInteractable(bool value)
-    {
-        isInteractable = value;
-
-        if (!gameObject.activeInHierarchy) { return; }
-        if (!isInteractable) PlayDisableAnimation();
-        else if (isInteractable && disabledCG.alpha == 1) PlayNormalAnimation();
-    }
-
-    public void AddUINavigation()
-    {
-        if (targetButton == null)
-            return;
-
-        targetButton.transition = Selectable.Transition.None;
-        Navigation customNav = new Navigation
+        if (overrideNavigation && transform.parent.TryGetComponent(out GridLayoutGroup layout))
         {
-            mode = navigationMode
-        };
+            if (layout.constraint != GridLayoutGroup.Constraint.Flexible)
+            {
+                int siblingNum = GetSiblingNumAndSetActiveSelectables(transform);
+                Transform nextSelectable = _selectables[BoundIndex(siblingNum + 1)];
+                return nextSelectable.GetComponent<Selectable>();
+            }
+        }
 
-        if (navigationMode == Navigation.Mode.Vertical || navigationMode == Navigation.Mode.Horizontal) { customNav.wrapAround = wrapAround; }
-        else if (navigationMode == Navigation.Mode.Explicit) { StartCoroutine(nameof(InitUINavigation), customNav); return; }
-
-        targetButton.navigation = customNav;
+        return base.FindSelectableOnRight();
     }
 
-    public void OnPointerClick(PointerEventData eventData)
+    public override void OnMove(AxisEventData eventData)
     {
-        isPointerDown = false;
-        if (!isInteractable || eventData.button != PointerEventData.InputButton.Left) { return; }
-        if (soundSource != null) { soundSource.PlayOneShot(clickSound); }
-
-        // Invoke click actions
-        onClick.Invoke();
-    }
-
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        if (!isInteractable) { return; }
-        PlayPressAnimation();
-        isPointerDown = true;
-    }
-
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        if (!isInteractable) { return; }
-        PlayHoverAnimation();
-        isPointerDown = false;
-    }
-
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        if (!isInteractable) { return; }
-        if (soundSource != null) { soundSource.PlayOneShot(hoverSound); }
-
-        if (isPointerDown) PlayPressAnimation();
-        else PlayHoverAnimation();
-
-        onHover.Invoke();
-
-        isPointerOn = true;
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        if (!isInteractable) { return; }
-        PlayNormalAnimation();
-
-        onLeave.Invoke();
-
-        isPointerOn = false;
-    }
-
-    public void OnSelect(BaseEventData eventData)
-    {
-        if (!isInteractable) { return; }
-        PlayHoverAnimation();
-        if (useUINavigation) { onHover.Invoke(); }
-    }
-
-    public void OnDeselect(BaseEventData eventData)
-    {
-        if (!isInteractable) { return; }
-        PlayNormalAnimation();
-        if (useUINavigation) { onLeave.Invoke(); }
-    }
-
-    public void OnSubmit(BaseEventData eventData)
-    {
-        if (!isInteractable) { return; }
-        PlayNormalAnimation();
-        onClick.Invoke();
-    }
-
-    public void PlayDisableAnimation()
-    {
-        SetDisabled();
-    }
-
-    public void PlayNormalAnimation()
-    {
-        if (animationSolution == AnimationSolution.ScriptBased) SetNormal();
-        if (animationSolution == AnimationSolution.AnimationBased)
+        switch (eventData.moveDir)
         {
-            if (isPointerDown) gameObject.GetComponent<Animator>().Play(pressedToNormal);
-            else gameObject.GetComponent<Animator>().Play(hoverToNormal);
+            case MoveDirection.Right:
+                Navigate(eventData, FindSelectableOnRight());
+                break;
+
+            case MoveDirection.Up:
+                Navigate(eventData, FindSelectableOnUp());
+                break;
+
+            case MoveDirection.Left:
+                Navigate(eventData, FindSelectableOnLeft());
+                break;
+
+            case MoveDirection.Down:
+                Navigate(eventData, FindSelectableOnDown());
+                break;
         }
     }
 
-    public void PlayPressAnimation()
+    void Navigate(AxisEventData eventData, Selectable sel)
     {
-        if (animationSolution == AnimationSolution.ScriptBased) SetPressed();
-        if (animationSolution == AnimationSolution.AnimationBased)
-        {
-            if (isPointerOn) gameObject.GetComponent<Animator>().Play(hoverToPressed);
-            else gameObject.GetComponent<Animator>().Play(normalToPressed);
-        }
-    }
-
-    public void PlayHoverAnimation()
-    {
-        if (animationSolution == AnimationSolution.ScriptBased) SetHighlight();
-        if (animationSolution == AnimationSolution.AnimationBased)
-        {
-            if (isPointerDown) gameObject.GetComponent<Animator>().Play(pressedToHover);
-            else gameObject.GetComponent<Animator>().Play(normalToHover);
-        }
-    }
-
-    public void SetNormal()
-    {
-        normalCG.alpha = 1;
-        highlightCG.alpha = 0;
-        disabledCG.alpha = 0;
-        pressedCG.alpha = 0;
-    }
-
-    public void SetHighlight()
-    {
-        normalCG.alpha = 0;
-        highlightCG.alpha = 1;
-        disabledCG.alpha = 0;
-        pressedCG.alpha = 0;
-    }
-
-    public void SetDisabled()
-    {
-        normalCG.alpha = 0;
-        highlightCG.alpha = 0;
-        disabledCG.alpha = 1;
-        pressedCG.alpha = 0;
-    }
-
-    public void SetPressed()
-    {
-        normalCG.alpha = 0;
-        highlightCG.alpha = 0;
-        disabledCG.alpha = 0;
-        pressedCG.alpha = 1;
-    }
-
-    IEnumerator InitUINavigation(Navigation nav)
-    {
-        yield return new WaitForSecondsRealtime(navHelper);
-
-        if (selectOnUp != null) { nav.selectOnUp = selectOnUp.GetComponent<Selectable>(); }
-        if (selectOnDown != null) { nav.selectOnDown = selectOnDown.GetComponent<Selectable>(); }
-        if (selectOnLeft != null) { nav.selectOnLeft = selectOnLeft.GetComponent<Selectable>(); }
-        if (selectOnRight != null) { nav.selectOnRight = selectOnRight.GetComponent<Selectable>(); }
-
-        targetButton.navigation = nav;
+        if (sel != null && sel.IsActive())
+            eventData.selectedObject = sel.gameObject;
     }
 }
