@@ -15,7 +15,8 @@ public class ButtonEnhanced : Button, ISelectHandler, IDeselectHandler
     [SerializeField]
     private UnityEvent m_OnDeselect = new();
 
-    public TextMeshProUGUI TMP;
+    public TextMeshProUGUI text;
+    public TextMeshProUGUI number;
 
     public bool overrideNavigation;
 

@@ -12,7 +12,8 @@ namespace UnityEditor.UI
         SerializedProperty m_OnClickProperty;
         SerializedProperty m_OnSelectProperty;
         SerializedProperty m_OnDeselectProperty;
-        SerializedProperty m_TMPProperty;
+        SerializedProperty m_TextProperty;
+        SerializedProperty m_NumberProperty;
         SerializedProperty m_OverrideNavigationProperty;
 
         protected override void OnEnable()
@@ -21,7 +22,8 @@ namespace UnityEditor.UI
             m_OnClickProperty = serializedObject.FindProperty("m_OnClick");
             m_OnSelectProperty = serializedObject.FindProperty("m_OnSelect");
             m_OnDeselectProperty = serializedObject.FindProperty("m_OnDeselect");
-            m_TMPProperty = serializedObject.FindProperty("TMP");
+            m_TextProperty = serializedObject.FindProperty("text");
+            m_NumberProperty = serializedObject.FindProperty("number");
             m_OverrideNavigationProperty = serializedObject.FindProperty("overrideNavigation");
         }
 
@@ -32,7 +34,8 @@ namespace UnityEditor.UI
             EditorGUILayout.PropertyField(m_OverrideNavigationProperty);
             EditorGUILayout.Space();
 
-            EditorGUILayout.PropertyField(m_TMPProperty);
+            EditorGUILayout.PropertyField(m_TextProperty);
+            EditorGUILayout.PropertyField(m_NumberProperty);
             EditorGUILayout.PropertyField(m_OnClickProperty);
             EditorGUILayout.PropertyField(m_OnSelectProperty);
             EditorGUILayout.PropertyField(m_OnDeselectProperty);

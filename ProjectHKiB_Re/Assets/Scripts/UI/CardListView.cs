@@ -1,6 +1,7 @@
 using UnityEngine.UI;
 using UnityEngine;
 using System.Collections.Generic;
+using R3;
 
 public class CardListView: MonoBehaviour
 {
@@ -19,33 +20,29 @@ public class CardListView: MonoBehaviour
     {
         viewModel = new(gearManager);
 
-        viewModel.RegistReactiveCommand(model =>
-        {
-            UpdateCards(model);
-        }, this);
+        viewModel.CardList.Subscribe(list => UpdateList(list)).AddTo(this);
     }
 
-    [NaughtyAttributes.Button] public void UpdateCards() => UpdateCards(gearManager);
-    public void UpdateCards(GearManager gearManager)
+    public void UpdateList(List<CardData> cards)
     {
         for (int i = 0; i < transform.childCount; i++)
         {
             GameObject obj = transform.GetChild(i).gameObject;
-            obj.SetActive(i < gearManager.MaxCardCount);
-            if (i < gearManager.MaxCardCount)
+            obj.SetActive(i < cards.Count);
+            if (i < cards.Count)
             {
                 CardView view = obj.GetComponent<CardView>();
-                CardData card = gearManager.GetCardData(i); if (card == null) continue;
+                CardData card = cards.GetSafe(i); if (card == null) continue;
                 if (card.mergedGearList == null || card.mergedGearList.Length < 1) view.patternView.Inititialize();
                 view.patternView.SetPattern(card.mergedGearList[0].graffitiCodes[0]);
             }
         }
-        gearManager.currentEditingCardNum = _selectedNumber;
+        SelectCard(_selectedNumber);
     }
 
     public void SelectCard(int num)
     {
         _selectedNumber = num;
-        viewModel.Execute();
+        viewModel.SetCurrentEdittingCard(_selectedNumber);
     }
 }

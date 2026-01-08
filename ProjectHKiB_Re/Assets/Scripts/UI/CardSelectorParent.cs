@@ -1,5 +1,7 @@
+/*
 using System.Collections.Generic;
 using DG.Tweening;
+using R3;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -52,12 +54,7 @@ public class CardSelectorParent : MonoBehaviour, IPointerExitHandler
         topCard.SetCardData(allCards[0].cardData, 0);
 
         viewmodel = new(GameManager.instance.gearManager);
-        viewmodel.RegistReactiveCommand((model) =>
-            {
-                UpdateCardDatas(model);
-            }, this
-        );
-        viewmodel.Execute();
+        viewmodel.CardList.Subscribe(list => UpdateCardDatas(list)).AddTo(this);
     }
 
     public void SpreadCards(int index)
@@ -89,7 +86,7 @@ public class CardSelectorParent : MonoBehaviour, IPointerExitHandler
         sequences.Add(sequence);
     }
 
-    public void UpdateCardDatas(GearManager gearManager)
+    public void UpdateCardDatas(List<CardData> gearManager)
     {
         List<CardData> cardDatas = gearManager.playerCardEquipData;
         CardSelector[] allCards = cardsParent.GetComponentsInChildren<CardSelector>(true);
@@ -148,7 +145,8 @@ public class CardSelectorParent : MonoBehaviour, IPointerExitHandler
 
     public void SetGearData(Gear gear)
     {
-        viewmodel.SetGearData(topCard.index, currentSlot, gear);
+        viewmodel.SetCurrentEdittingCard(topCard.index);
+        viewmodel.SetGearData(currentSlot, gear);
     }
 
     public void SetInteractable(bool set)
@@ -179,3 +177,4 @@ public class CardSelectorParent : MonoBehaviour, IPointerExitHandler
             CollectCards();
     }
 }
+*/

@@ -1,3 +1,4 @@
+/*
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -74,4 +75,4 @@ public class InventoryView : MonoBehaviour
         panelParent.gameObject.SetActive(true);
         viewModel.Execute();
     }
-}
+}*/

@@ -169,7 +169,8 @@ public class DialogueModule : InterfaceModule, IDialogueable
                 button.onClick.RemoveAllListeners();
                 int index = _currentLine.choices[i].nextLineIndex;
                 button.onClick.AddListener(() => OnChoiceSelected(index));
-                choiceButtons[i].TMP.text = _currentLine.choices[i].choiceText;
+                if (choiceButtons[i].text)choiceButtons[i].text.text = _currentLine.choices[i].choiceText;
+                if (choiceButtons[i].number)choiceButtons[i].number.text = $"{i}";
             }
             else button.gameObject.SetActive(false);
         }

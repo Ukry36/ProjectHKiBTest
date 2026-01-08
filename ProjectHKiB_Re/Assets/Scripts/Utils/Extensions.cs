@@ -18,6 +18,13 @@ public static class Extensions
         dict.Add(key, value);
     }
 
+    public static T GetSafe<T>(this IList<T> list, int index, T defaultValue = default)
+    {
+        if (index < 0 || list == null) return defaultValue;
+        if (index >= list.Count) return defaultValue;
+        return list[index];
+    }
+
     public static string GetPath(this Component component) 
     {
         try 

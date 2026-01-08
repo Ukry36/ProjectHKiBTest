@@ -1,12 +1,13 @@
 using Assets.Scripts.Interfaces.Modules;
 using TMPro;
+using R3;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class HPGuageView : MonoBehaviour
 {
     public Image guage;
-    //public TextMeshProUGUI text;
+    public TextMeshProUGUI hpText;
     [SerializeField] private DamagableModule target;
 
     public DamagableViewModel viewmodel;
@@ -19,11 +20,7 @@ public class HPGuageView : MonoBehaviour
     public void RegisterTarget(IDamagable target)
     {
         viewmodel = new(target);
-        viewmodel.RegistReactiveCommand(model =>
-        {
-            guage.fillAmount = model.HP / model.MaxHP;
-            //text.text = model.HP.ToString();
-            //Debug.Log("View changed: HP = " + model.HP);
-        }, this);
+        viewmodel.HpRatio.Subscribe(ratio => guage.fillAmount = ratio).AddTo(this);
+        viewmodel.HpText.Subscribe (text  => {if (hpText) hpText.text = text;}).AddTo(this);
     }
 }
