@@ -1372,7 +1372,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 56, y: -134}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &52188094
@@ -1433,7 +1433,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 52188093}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -1942,6 +1954,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 186235711}
   - {fileID: 485343405}
   - {fileID: 1169605839}
   - {fileID: 585757722}
@@ -2186,7 +2199,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 170, y: -118}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &82632499
@@ -2247,7 +2260,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 82632498}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -2635,7 +2660,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 56, y: -278}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &103384668
@@ -2696,7 +2721,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 103384667}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -2932,7 +2969,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 56, y: -310}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &119046344
@@ -2993,7 +3030,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 119046343}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -3073,7 +3122,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 170, y: -86}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &124182919
@@ -3134,7 +3183,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 124182918}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -3557,7 +3618,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 56, y: -246}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &143851549
@@ -3618,7 +3679,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 143851548}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -4451,6 +4524,82 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1680205999910873713, guid: 1c166ff3410507740af33567b680a88a, type: 3}
   m_PrefabInstance: {fileID: 1609026236}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &186235710
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 186235711}
+  - component: {fileID: 186235713}
+  - component: {fileID: 186235712}
+  m_Layer: 5
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &186235711
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 186235710}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 73379547}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: -32}
+  m_SizeDelta: {x: 0, y: -64}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &186235712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 186235710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: -1867668869, guid: cd11d28ea4fa8774a9f39eddef97b9a7, type: 3}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &186235713
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 186235710}
+  m_CullTransparentMesh: 1
 --- !u!1 &196560510
 GameObject:
   m_ObjectHideFlags: 0
@@ -4490,7 +4639,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 170, y: -278}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &196560512
@@ -4551,7 +4700,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 196560511}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -5686,7 +5847,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 56, y: -86}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &253183429
@@ -5747,7 +5908,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 253183428}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -6653,7 +6826,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 170, y: -230}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &295680311
@@ -6714,7 +6887,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 295680310}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -8695,7 +8880,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 170, y: -310}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &347799273
@@ -8756,7 +8941,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 347799272}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -8992,7 +9189,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 170, y: -390}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &351073826
@@ -9053,7 +9250,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 351073825}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -9827,7 +10036,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 56, y: -54}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &402333604
@@ -9888,7 +10097,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 402333603}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -10767,7 +10988,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 170, y: -198}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &436346546
@@ -10828,7 +11049,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 436346545}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -11118,7 +11351,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 56, y: -390}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &455490443
@@ -11179,7 +11412,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 455490442}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -11259,7 +11504,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 56, y: -198}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &455975451
@@ -11320,7 +11565,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 455975450}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -11831,7 +12088,6 @@ GameObject:
   m_Component:
   - component: {fileID: 485343405}
   - component: {fileID: 485343409}
-  - component: {fileID: 485343408}
   - component: {fileID: 485343407}
   - component: {fileID: 485343406}
   m_Layer: 5
@@ -11855,12 +12111,12 @@ RectTransform:
   m_Children:
   - {fileID: 1078555458}
   m_Father: {fileID: 73379547}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -32}
-  m_SizeDelta: {x: 240, y: 176}
+  m_SizeDelta: {x: -16.000004, y: -84}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &485343406
 MonoBehaviour:
@@ -11874,7 +12130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Padding: {x: 8, y: 10, z: 8, w: 10}
+  m_Padding: {x: 0, y: 0, z: 0, w: 0}
   m_Softness: {x: 0, y: 0}
 --- !u!114 &485343407
 MonoBehaviour:
@@ -11890,10 +12146,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Content: {fileID: 1078555458}
   m_Horizontal: 1
-  m_Vertical: 1
-  m_MovementType: 1
+  m_Vertical: 0
+  m_MovementType: 2
   m_Elasticity: 0.1
-  m_Inertia: 1
+  m_Inertia: 0
   m_DecelerationRate: 0.135
   m_ScrollSensitivity: 1
   m_Viewport: {fileID: 485343405}
@@ -11906,36 +12162,6 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &485343408
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 485343404}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: -1867668869, guid: cd11d28ea4fa8774a9f39eddef97b9a7, type: 3}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!222 &485343409
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -12413,7 +12639,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 170, y: -326}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &499087867
@@ -12474,7 +12700,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 499087866}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -13525,7 +13763,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 170, y: -38}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &518674543
@@ -13586,7 +13824,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 518674542}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -13742,7 +13992,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 170, y: -6}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &550023833
@@ -13803,7 +14053,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 550023832}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -14115,7 +14377,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 170, y: -262}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &564027873
@@ -14176,7 +14438,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 564027872}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -14918,7 +15192,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 73379547}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -19698,7 +19972,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 56, y: -150}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &828294506
@@ -19759,7 +20033,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 828294505}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -24475,11 +24761,11 @@ RectTransform:
   m_Father: {fileID: 485343405}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 240, y: 176}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0, y: 1}
 --- !u!114 &1078555459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24493,10 +24779,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 8
-    m_Right: 8
-    m_Top: 10
-    m_Bottom: 10
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
@@ -24524,6 +24810,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1911bb1f88784e4883a1f5a79146c9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scrollRect: {fileID: 485343407}
   inventoryManager: {fileID: 1855532042}
   gearManager: {fileID: 147051296}
 --- !u!1 &1080244260
@@ -24851,7 +25138,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 170, y: -358}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1099823626
@@ -24912,7 +25199,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1099823625}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -25068,7 +25367,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 56, y: -6}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1106041576
@@ -25129,7 +25428,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1106041575}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -25365,7 +25676,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 56, y: -38}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1107592539
@@ -25426,7 +25737,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1107592538}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -25894,7 +26217,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 56, y: -22}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1122839998
@@ -25955,7 +26278,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1122839997}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -26790,7 +27125,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 170, y: -182}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1158156396
@@ -26851,7 +27186,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1158156395}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -26931,7 +27278,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 170, y: -214}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1160461769
@@ -26992,7 +27339,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1160461768}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -27072,7 +27431,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 170, y: -246}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1163039637
@@ -27133,7 +27492,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1163039636}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -27206,7 +27577,7 @@ RectTransform:
   m_Children:
   - {fileID: 340239047}
   m_Father: {fileID: 73379547}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -28288,7 +28659,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 56, y: -294}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1224022128
@@ -28349,7 +28720,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1224022127}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -28512,7 +28895,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 170, y: -54}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1232481449
@@ -28573,7 +28956,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1232481448}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -31453,7 +31848,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 56, y: -342}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1344998160
@@ -31514,7 +31909,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1344998159}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -32089,7 +32496,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 56, y: -214}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1361953535
@@ -32150,7 +32557,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1361953534}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -32935,7 +33354,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 170, y: -342}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1376114844
@@ -32996,7 +33415,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1376114843}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -33366,7 +33797,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 56, y: -166}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1390208305
@@ -33427,7 +33858,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1390208304}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -33641,7 +34084,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 170, y: -166}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1401413301
@@ -33702,7 +34145,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1401413300}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -36049,7 +36504,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 56, y: -70}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1475630904
@@ -36110,7 +36565,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1475630903}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -37195,7 +37662,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 56, y: -182}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1518204189
@@ -37256,7 +37723,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1518204188}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -38651,7 +39130,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 56, y: -262}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1542973027
@@ -38712,7 +39191,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1542973026}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -40807,7 +41298,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 170, y: -374}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1616877526
@@ -40868,7 +41359,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1616877525}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -42000,7 +42503,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 56, y: -374}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1651686938
@@ -42061,7 +42564,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1651686937}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -42141,7 +42656,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 56, y: -358}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1653113249
@@ -42202,7 +42717,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1653113248}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -43127,7 +43654,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 170, y: -150}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1706110782
@@ -43188,7 +43715,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1706110781}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -43754,9 +44293,9 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
+    x: 0.1669708
     y: 0
-    width: 1
+    width: 0.6666667
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
@@ -46857,7 +47396,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 56, y: -102}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1821921543
@@ -46918,7 +47457,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1821921542}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -51359,7 +51910,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 170, y: -294}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2029186971
@@ -51420,7 +51971,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 2029186970}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -52192,7 +52755,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 170, y: -22}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2082064036
@@ -52253,7 +52816,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 2082064035}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -52409,7 +52984,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 170, y: -102}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2086582582
@@ -52470,7 +53045,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 2086582581}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -52550,7 +53137,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 56, y: -118}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2095303910
@@ -52611,7 +53198,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 2095303909}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -52847,7 +53446,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 56, y: -230}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2106035695
@@ -52908,7 +53507,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 2106035694}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -53239,7 +53850,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 170, y: -70}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2110985274
@@ -53300,7 +53911,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 2110985273}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -54072,7 +54695,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 170, y: -134}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2145979609
@@ -54133,7 +54756,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 2145979608}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -54213,7 +54848,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64, y: -16}
+  m_AnchoredPosition: {x: 56, y: -326}
   m_SizeDelta: {x: 112, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2146227080
@@ -54274,7 +54909,19 @@ MonoBehaviour:
         m_CallState: 2
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078555462}
+        m_TargetAssemblyTypeName: AutoScroller, Assembly-CSharp
+        m_MethodName: ScrollTo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 2146227079}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []

@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using R3;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class GearListView : MonoBehaviour
+public class GearListView : AutoScroller
 {
     public InventoryViewModel invenViewModel;
     public GearManagerViewModel gearViewModel;
@@ -51,4 +52,6 @@ public class GearListView : MonoBehaviour
         if (_currentSelectingGear != null)
             gearViewModel.SetGearData(slotNum, _currentSelectingGear);
     }
+
+    
 }

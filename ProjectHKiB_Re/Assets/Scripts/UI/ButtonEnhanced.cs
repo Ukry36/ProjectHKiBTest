@@ -46,6 +46,12 @@ public class ButtonEnhanced : Button, ISelectHandler, IDeselectHandler
         DeselectButton();
     }
 
+    public void ObtainSelectionPoint()
+    {
+        EventSystem.current.SetSelectedGameObject(gameObject);
+        m_OnSelect.Invoke();
+    }
+
     private List<Transform> _selectables = new();
 
     private int GetSiblingNumAndSetActiveSelectables(Transform child)
