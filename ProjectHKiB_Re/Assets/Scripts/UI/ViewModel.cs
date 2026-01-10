@@ -67,11 +67,17 @@ public class GearManagerViewModel : ViewModel<GearManager>
     protected override void UpdateViewModelState()
     {
         _cardList.Value = _model.playerCardEquipData;
+        _cardList.ForceNotify();
     }
 
     public void SetGearData(int gearSlotIndex, Gear gear)
     {
         _model.SetGearData(_model.currentEditingCardNum, gearSlotIndex, gear);
+    }
+
+    public CardData GetCardData(int index)
+    {
+        return _cardList.Value.GetSafe(index);
     }
 
     public void SetCurrentEdittingCard(int index)
@@ -107,13 +113,13 @@ public class InventoryViewModel : ViewModel<InventoryManager>
     protected override void UpdateViewModelState()
     {
         _gearList.Value = _model.playerGearInventory.Values.ToList();
+        _gearList.ForceNotify();
         _itemList.Value = _model.playerInventory.Values.ToList();
+        _itemList.ForceNotify();
     }
 
-    public Gear GetGear(int index)
-    {
-        return _gearList.Value.GetSafe(index);
-    }
+    public Gear GetGear(int index) => _gearList.Value.GetSafe(index);
+    
 
     public override void Dispose()
     {

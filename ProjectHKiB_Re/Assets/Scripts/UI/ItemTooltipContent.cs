@@ -10,14 +10,14 @@ public class ItemTooltipContent : TooltipContent
         icon5x5s.Clear();
         if (icon9x9Only)
         {
-            icon9x9 = data.itemIcon9x9;
+            icon9x9 = data.itemIcon;
             image36x36 = null;
             description = "";
             return;
         }
         if (smallMode)
         {
-            icon9x9 = data.itemIcon9x9;
+            icon9x9 = data.itemIcon;
             image36x36 = null;
         }
         else

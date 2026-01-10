@@ -9,6 +9,9 @@ public class CardListView: MonoBehaviour
 
     public GearManager gearManager;
 
+    public CardView cardPreview;
+    public CardView cardSlotPreview;
+
     private int _selectedNumber;
 
     public void Start()
@@ -32,9 +35,7 @@ public class CardListView: MonoBehaviour
             if (i < cards.Count)
             {
                 CardView view = obj.GetComponent<CardView>();
-                CardData card = cards.GetSafe(i); if (card == null) continue;
-                if (card.mergedGearList == null || card.mergedGearList.Length < 1) view.patternView.Inititialize();
-                view.patternView.SetPattern(card.mergedGearList[0].graffitiCodes[0]);
+                view.UpdateCard(i);
             }
         }
         SelectCard(_selectedNumber);
@@ -43,6 +44,18 @@ public class CardListView: MonoBehaviour
     public void SelectCard(int num)
     {
         _selectedNumber = num;
+        if(viewModel == null) return;
+        
         viewModel.SetCurrentEdittingCard(_selectedNumber);
+        if(cardPreview)
+        {
+            cardPreview.transform.position = transform.GetChild(_selectedNumber).position;
+            cardPreview.UpdateCard(_selectedNumber);
+        }
+        if(cardSlotPreview)
+        {
+            cardSlotPreview.transform.position = transform.GetChild(_selectedNumber).position;
+            cardSlotPreview.UpdateCard(_selectedNumber);
+        }
     }
 }

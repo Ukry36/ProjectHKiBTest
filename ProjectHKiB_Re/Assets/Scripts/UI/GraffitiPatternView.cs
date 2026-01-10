@@ -3,11 +3,15 @@ using UnityEngine.UI;
 
 public class GraffitiPatternView : MonoBehaviour 
 {
-    public PlayerSkillDataSO playerSkillDataSO;
     public Color transparent = new(0,0,0,0);
 
+    public void Start()
+    {
+        Initialize();
+    }
+
     [NaughtyAttributes.Button]
-    public void Inititialize()
+    public void Initialize()
     {
         for (int i = 0; i < transform.childCount; i++)
         {
@@ -15,9 +19,7 @@ public class GraffitiPatternView : MonoBehaviour
         }
     }
 
-    [NaughtyAttributes.Button]
-    public void SetPattern() => SetPattern(playerSkillDataSO.graffitiCodes[0]);
-    public void SetPattern(GraffitiCode graffitiCode)
+    public void UpdatePattern(GraffitiCode graffitiCode)
     {
         UpdateGridSize(graffitiCode.Height, graffitiCode.Width);
         for (int i = 0; i < graffitiCode.Height * graffitiCode.Width; i++)

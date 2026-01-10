@@ -47,11 +47,12 @@ public class GearListView : AutoScroller
         _currentSelectingGear = invenViewModel.GetGear(index);
     }
 
+    public void SelectGearToEquip(Button button) => SelectGearToEquip(button.transform.GetSiblingIndex());
+    
     public void SetGearData(int slotNum)
     {
         if (_currentSelectingGear != null)
             gearViewModel.SetGearData(slotNum, _currentSelectingGear);
     }
-
     
 }

@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 524c6399cca402f489a33bf3d60ecf83, type: 3}
   m_Name: Hadaka GearData
   m_EditorClassIdentifier: 
-  itemIcon9x9: {fileID: 0}
+  itemImage36x36: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: 6f1031fd4fd3ef741b0f0d89a70e5ba0, type: 3}
   color: {r: 0, g: 0, b: 0, a: 0}
   name: "\uC54C\uBAB8"
   description: 
@@ -31,3 +32,5 @@ MonoBehaviour:
   subGearEffectDiscription: 
   mainGearEffects: []
   subGearEffects: []
+  graffitiCodes: []
+  graffitiAllCases: []

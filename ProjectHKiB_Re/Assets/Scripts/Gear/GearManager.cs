@@ -80,7 +80,7 @@ public class GearManager : MonoBehaviour
         if (max < 0 || max > PhysicalMaxGearSlotCount) return;
         for (int i = 0; i < playerCardEquipData.Count; i++)
         {
-            for (int j = 0; j < playerCardEquipData[i].gearList.Length; j++)
+            for (int j = 0; j < playerCardEquipData[i].GearList.Length; j++)
             {
                 if (j >= max)
                 {
@@ -123,6 +123,7 @@ public class GearManager : MonoBehaviour
 
     public void SetGearData(int cardIndex, int gearSlotIndex, Gear gear)
     {
+        //Debug.Log($"setGear! : {gear.data.name} to card {cardIndex}, slot {gearSlotIndex}");
         if (cardIndex >= MaxCardCount || cardIndex < 0)
             return;
         if (gearSlotIndex >= MaxGearSlotCount || gearSlotIndex < 0)
@@ -135,6 +136,7 @@ public class GearManager : MonoBehaviour
         gear.EquipTo(cardIndex, gearSlotIndex);
         playerCardEquipData[cardIndex].SetGear(cardIndex, gearSlotIndex, gear);
         OnSetCardData?.Invoke();
+        
     }
 
     public void EquipCard(CardData data)

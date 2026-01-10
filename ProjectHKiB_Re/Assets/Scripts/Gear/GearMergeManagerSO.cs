@@ -25,7 +25,7 @@ public class GearMergeManagerSO : ScriptableObject
     public void MergeCard(CardData card, int max)
     {
         int i, j, k;
-        int physMax = card.gearList.Length;
+        int physMax = card.GearList.Length;
         // If gear in slot is null or already merged, its value is false
         bool[] isGearAvailableSlot = new bool[physMax];
 
@@ -33,8 +33,8 @@ public class GearMergeManagerSO : ScriptableObject
         // if null, put defaultGear in
         for (i = 0; i < physMax; i++)
         {
-            isGearAvailableSlot[i] = card.gearList[i].data != null;
-            card.mergedGearList[i] = card.gearList[i].data == null ? defaultGearData : card.gearList[i].data;
+            isGearAvailableSlot[i] = card.GearList[i].data != null;
+            card.mergedGearList[i] = card.GearList[i].data == null ? defaultGearData : card.GearList[i].data;
         }
 
         // For all merged gears check if their mergeset gears are in equipped gears 
@@ -47,7 +47,7 @@ public class GearMergeManagerSO : ScriptableObject
             {
                 for (k = 0; k < max; k++)
                 {
-                    if (isGearAvailableSlot[k] && allMergedGearDatas[i].mergeSet[j] == card.gearList[k].data)
+                    if (isGearAvailableSlot[k] && allMergedGearDatas[i].mergeSet[j] == card.GearList[k].data)
                         inMergeSetGearSlots.Add(k);
                 }
             }

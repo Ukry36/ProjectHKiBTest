@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 524c6399cca402f489a33bf3d60ecf83, type: 3}
   m_Name: Training GearData
   m_EditorClassIdentifier: 
-  itemIcon9x9: {fileID: 0}
+  itemImage36x36: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: 1efba82a0967b584a9a88513d0a6418a, type: 3}
   color: {r: 0.2746106, g: 0.2743414, b: 0.4245283, a: 1}
   name: "\uCE04\uB9AC\uB2DD\uC758 \uAE30\uC5B4"
   description: 
@@ -30,3 +31,5 @@ MonoBehaviour:
   subGearEffectDiscription: 
   mainGearEffects: []
   subGearEffects: []
+  graffitiCodes: []
+  graffitiAllCases: []

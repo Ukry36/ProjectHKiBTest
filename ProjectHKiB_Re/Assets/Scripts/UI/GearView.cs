@@ -11,16 +11,16 @@ public class GearView : MonoBehaviour
 
     public void SetData(Gear gear)
     {
-        if (icon) icon.sprite = gear.data.itemIcon9x9;
+        if (icon) icon.sprite = gear.data.itemIcon;
         if (gearName) gearName.text = gear.data.name;
         if (patternView != null)
         {
             for (int i = 0; i < patternView.Length; i++)
             {
                 if (i < gear.data.graffitiCodes.Count) 
-                    patternView[i].SetPattern(gear.data.graffitiCodes[i]);
+                    patternView[i].UpdatePattern(gear.data.graffitiCodes[i]);
                 else 
-                    patternView[i].Inititialize();
+                    patternView[i].Initialize();
             }
         }
         if (itemColor) 

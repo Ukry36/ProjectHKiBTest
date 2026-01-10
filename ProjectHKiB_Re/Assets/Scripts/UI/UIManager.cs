@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor.PackageManager.UI;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class UIManager : MonoBehaviour
 {
@@ -10,13 +8,9 @@ public class UIManager : MonoBehaviour
     public class WindowItem
     {
         public string name;
-        public GameObject window;
-        public UnityEngine.UI.Button initButton;
-        public bool isPopup;
+        public Window window;
         public bool useHotkey;
         public EnumManager.InputType hotkey;
-        public UnityEvent OnWindowShow;
-        public UnityEvent OnWindowHide;
     }
 
     public List<WindowItem> windows;
@@ -64,23 +58,24 @@ public class UIManager : MonoBehaviour
     public void OpenWindow(WindowItem window)
     {
         if (window == null) return;
-        if (!window.isPopup) CloseWindow();
-        Debug.Log("Window opened: " + window.name);
-        window.window.SetActive(true);
+        if (!window.window.isPopup) CloseWindow();
+        //Debug.Log("Window opened: " + window.name);
+        window.window.Open();
         openedWindows.Add(window);
-        InitButton();
+        InitButton(false);
     }
 
     public void CloseWindow()
     {
         if (openedWindows.Count < 1) return;
-        openedWindows[^1]?.window.SetActive(false);
+        openedWindows[^1]?.window.Close();
+        bool isClosedWindowPopup = openedWindows[^1].window.isPopup;
         openedWindows.Remove(openedWindows[^1]);
-        Debug.Log($"Window closed, remaining window stack: {openedWindows.Count}");
+        //Debug.Log($"Window closed, remaining window stack: {openedWindows.Count}");
         if (openedWindows.Count < 1)
             GameManager.instance.inputManager.PLAYMode();
         else
-            InitButton();
+            InitButton(isClosedWindowPopup);
     }
 
     public void CloseWindow(string name)
@@ -89,20 +84,21 @@ public class UIManager : MonoBehaviour
         WindowItem window = openedWindows.Find((a) => a.name == name);
         if (window != null)
         {
-            window.window.SetActive(false);
+            window.window.Close();
+            bool isClosedWindowPopup = window.window.isPopup;
             openedWindows.Remove(window);
-            Debug.Log($"Window closed: {window.name}, remaining window stack: {openedWindows.Count}");
+            //Debug.Log($"Window closed: {window.name}, remaining window stack: {openedWindows.Count}");
             if (openedWindows.Count < 1)
                 GameManager.instance.inputManager.PLAYMode();
             else
-                InitButton();
+                InitButton(isClosedWindowPopup);
         }
     }
 
-    public void InitButton()
+    public void InitButton(bool fromPopupClose)
     {
         WindowItem window = openedWindows[^1];
-        if (window.initButton) window.initButton.Select();
+        window.window.SelectInitButton(fromPopupClose);
     }
 
     public void CloseAllWindows()
