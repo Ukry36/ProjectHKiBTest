@@ -10,7 +10,6 @@ public class GearManager : MonoBehaviour
 
     /*[HideInInspector]*/
     public List<CardData> playerCardEquipData;
-    public int currentEquippedCardIndex;
     [field: SerializeField] public int PhysicalMaxGearSlotCount { get; private set; }
     [SerializeField] private int _maxGearSlotCount;
     public int MaxGearSlotCount
@@ -54,11 +53,14 @@ public class GearManager : MonoBehaviour
         }
         //SetMaxCard(1); /////////////////////////////////////// temp!!!!!!!
         //SetMaxSlot(4); /////////////////////////////////////// temp!!!!!!!
-        EquipCard(currentEquippedCardIndex);
-        OnMaxCardChanged += () => EquipCard(currentEquippedCardIndex);
-        OnMaxSlotChanged += () => EquipCard(currentEquippedCardIndex);
-        OnSetCardData += () => EquipCard(currentEquippedCardIndex);
+        //EquipCard(currentEquippedCardIndex);
+        //OnMaxCardChanged += () => EquipCard(currentEquippedCardIndex);
+        //OnMaxSlotChanged += () => EquipCard(currentEquippedCardIndex);
+        //OnSetCardData += () => EquipCard(currentEquippedCardIndex);
     }
+    public int equippedCardIndex;
+    [Button]
+    public void EquipCard() => EquipCard(equippedCardIndex);
 
     [Button]
     public void AddMaxCard()
@@ -108,7 +110,7 @@ public class GearManager : MonoBehaviour
 
     public void SetEquippedCardData(CardData data)
     {
-        SetCardData(currentEquippedCardIndex, data);
+        SetCardData(equippedCardIndex, data);
     }
 
     public void ResetGearData(int cardIndex, int gearSlotIndex)
@@ -147,7 +149,7 @@ public class GearManager : MonoBehaviour
 
     public void EquipCard(int index)
     {
-        currentEquippedCardIndex = index;
+        equippedCardIndex = index;
         EquipCard(playerCardEquipData[index]);
     }
 
