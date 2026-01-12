@@ -1,31 +1,72 @@
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GearView : MonoBehaviour
-{
-    public Image icon;
-    public TextMeshProUGUI gearName;
-    public Image itemColor;
-    public GraffitiPatternView[] patternView;
 
-    public void SetData(Gear gear)
+public class GearView : MonoBehaviour 
+{
+    public GraffitiPatternView[] patternView;
+    public Image gearImage;
+    public TextMeshProUGUI gearName;
+    public TextMeshProUGUI description;
+
+    public bool keepEmptyPattern;
+
+    public void Start()
     {
-        if (icon) icon.sprite = gear.data.itemIcon;
-        if (gearName) gearName.text = gear.data.name;
-        if (patternView != null)
+        Initialize();
+    }
+
+    public void Initialize()
+    {
+        for (int i = 0; i < patternView.Length; i++)
         {
-            for (int i = 0; i < patternView.Length; i++)
+            patternView[i].Initialize();
+            if (!keepEmptyPattern && i > 0)
+                patternView[i].gameObject.SetActive(false);
+        }
+            
+        
+        if (gearImage) gearImage.enabled = false;
+        if (gearName) gearName.text = null;
+    }
+
+    public void UpdateGearFromInventory(int gearIndex) => UpdateGear(GameManager.instance.inventoryManager.playerGearInventory.Values.ToList().GetSafe(gearIndex).data);
+    public void UpdateGearFromCard(int slotNum) => UpdateGearFromCard(GameManager.instance.gearManager.CurrentEdittingCard, slotNum);
+    public void UpdateGearFromCard(int cardIndex, int slotNum) => UpdateGear(GameManager.instance.gearManager.GetCardData(cardIndex).GearList.GetSafe(slotNum).data);
+
+    public void UpdateGear(GearDataSO gear)
+    {
+        if (gear ==  null) 
+        {
+            Initialize();
+            return;
+        }
+        for (int i = 0; i < patternView.Length; i++)
+        {
+            patternView[i].gameObject.SetActive(true);
+            if (gear.graffitiCodes != null && i < gear.graffitiCodes.Count)
             {
-                if (i < gear.data.graffitiCodes.Count) 
-                    patternView[i].UpdatePattern(gear.data.graffitiCodes[i]);
-                else 
-                    patternView[i].Initialize();
+                patternView[i].UpdatePattern(gear.graffitiCodes[i]);
+            }
+            else
+            {
+                if (!keepEmptyPattern && i > 0) patternView[i].gameObject.SetActive(false);
+                else patternView[i].Initialize();
             }
         }
-        if (itemColor) 
+
+        if (gearImage)
         {
-            itemColor.color = gear.data.graffitiCodes[0].color;
+            gearImage.enabled = true;
+            if (gear.itemIcon != null)
+                gearImage.sprite = gear.itemIcon;
+            else 
+                gearImage.enabled = false;
         }
+        
+        if (gearName) gearName.text = gear.name;
+        if (description) description.text = gear.description;
     }
 }

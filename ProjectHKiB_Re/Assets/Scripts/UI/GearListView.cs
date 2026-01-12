@@ -42,17 +42,13 @@ public class GearListView : AutoScroller
         }
     }
 
-    public void SelectGearToEquip(int index)
-    {
-        _currentSelectingGear = invenViewModel.GetGear(index);
-    }
+    public void SelectGearToEquip(int index) => _currentSelectingGear = invenViewModel.GetGear(index);
+    
 
     public void SelectGearToEquip(Button button) => SelectGearToEquip(button.transform.GetSiblingIndex());
     
-    public void SetGearData(int slotNum)
-    {
-        if (_currentSelectingGear != null)
-            gearViewModel.SetGearData(slotNum, _currentSelectingGear);
-    }
+    public void SetGearData() => gearViewModel.SetGearData(_currentSelectingGear);
+
+    public void SetCurrentSelectingSlot(int slotNum) => gearViewModel.SetCurrentEdittingSlot(slotNum);
     
 }

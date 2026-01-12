@@ -9,10 +9,7 @@ public class CardListView: MonoBehaviour
 
     public GearManager gearManager;
 
-    public CardView cardPreview;
     public CardView cardSlotPreview;
-
-    private int _selectedNumber;
 
     public void Start()
     {
@@ -24,6 +21,7 @@ public class CardListView: MonoBehaviour
         viewModel = new(gearManager);
 
         viewModel.CardList.Subscribe(list => UpdateList(list)).AddTo(this);
+        //viewModel.CurrentCard.Subscribe(num => SelectCard(num)).AddTo(this);
     }
 
     public void UpdateList(List<CardData> cards)
@@ -38,24 +36,18 @@ public class CardListView: MonoBehaviour
                 view.UpdateCard(i);
             }
         }
-        SelectCard(_selectedNumber);
+        SelectCard(viewModel.CurrentCard.CurrentValue);
     }
 
     public void SelectCard(int num)
     {
-        _selectedNumber = num;
         if(viewModel == null) return;
         
-        viewModel.SetCurrentEdittingCard(_selectedNumber);
-        if(cardPreview)
-        {
-            cardPreview.transform.position = transform.GetChild(_selectedNumber).position;
-            cardPreview.UpdateCard(_selectedNumber);
-        }
+        viewModel.SetCurrentEdittingCard(num);
         if(cardSlotPreview)
         {
-            cardSlotPreview.transform.position = transform.GetChild(_selectedNumber).position;
-            cardSlotPreview.UpdateCard(_selectedNumber);
+            cardSlotPreview.transform.position = transform.GetChild(num).position;
+            cardSlotPreview.UpdateCard(num);
         }
     }
 }

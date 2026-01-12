@@ -51,14 +51,20 @@ public class DamagableViewModel : ViewModel<IDamagable>
 public class GearManagerViewModel : ViewModel<GearManager>
 {
     public ReadOnlyReactiveProperty<List<CardData>> CardList => _cardList;
+    public ReadOnlyReactiveProperty<int> CurrentCard => _currentCard;
+    public ReadOnlyReactiveProperty<int> CurrentSlot => _currentSlot;
 
     private readonly ReactiveProperty<List<CardData>> _cardList;
+    private readonly ReactiveProperty<int> _currentCard;
+    private readonly ReactiveProperty<int> _currentSlot;
 
     public GearManagerViewModel(GearManager model)
     {
         _model = model;
 
         _cardList = new ReactiveProperty<List<CardData>>(_model.playerCardEquipData);
+        _currentCard = new ReactiveProperty<int>(_model.CurrentEdittingCard);
+        _currentSlot = new ReactiveProperty<int>(_model.CurrentEdittingSlot);
         
         _model.OnMaxCardChanged += () => UpdateViewModelState();
         _model.OnMaxSlotChanged += () => UpdateViewModelState();
@@ -69,10 +75,10 @@ public class GearManagerViewModel : ViewModel<GearManager>
         _cardList.Value = _model.playerCardEquipData;
         _cardList.ForceNotify();
     }
-
-    public void SetGearData(int gearSlotIndex, Gear gear)
+    
+    public void SetGearData(Gear gear)
     {
-        _model.SetGearData(_model.currentEditingCardNum, gearSlotIndex, gear);
+        _model.SetGearData(_model.CurrentEdittingCard, _model.CurrentEdittingSlot, gear);
     }
 
     public CardData GetCardData(int index)
@@ -82,7 +88,16 @@ public class GearManagerViewModel : ViewModel<GearManager>
 
     public void SetCurrentEdittingCard(int index)
     {
-        _model.currentEditingCardNum = index;
+        _model.CurrentEdittingCard = index;
+        _currentCard.Value = index;
+        _currentCard.ForceNotify();
+    }
+
+    public void SetCurrentEdittingSlot(int index)
+    {
+        _model.CurrentEdittingSlot = index;
+        _currentSlot.Value = index;
+        _currentSlot.ForceNotify();
     }
 
     public override void Dispose()

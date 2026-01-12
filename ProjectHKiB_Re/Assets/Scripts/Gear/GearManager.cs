@@ -39,7 +39,10 @@ public class GearManager : MonoBehaviour
     public Action OnMaxSlotChanged;
     public Action OnSetCardData;
 
-    public int currentEditingCardNum;
+    public int CurrentEdittingCard {get => _currentEdittingCardNum; set => _currentEdittingCardNum = value; }
+    public int CurrentEdittingSlot  {get => _currentEdittingSlotNum; set => _currentEdittingSlotNum = value; }
+    private int _currentEdittingCardNum;
+    private int _currentEdittingSlotNum;
 
     public void Start()
     {
@@ -53,7 +56,7 @@ public class GearManager : MonoBehaviour
         }
         //SetMaxCard(1); /////////////////////////////////////// temp!!!!!!!
         //SetMaxSlot(4); /////////////////////////////////////// temp!!!!!!!
-        //EquipCard(currentEquippedCardIndex);
+        EquipCard(0);
         //OnMaxCardChanged += () => EquipCard(currentEquippedCardIndex);
         //OnMaxSlotChanged += () => EquipCard(currentEquippedCardIndex);
         //OnSetCardData += () => EquipCard(currentEquippedCardIndex);
@@ -93,6 +96,7 @@ public class GearManager : MonoBehaviour
         MaxGearSlotCount = max;
     }
 
+    public CardData GetCardData() => GetCardData(_currentEdittingCardNum);
     public CardData GetCardData(int index)
     {
         if (index >= playerCardEquipData.Count || index < 0)
@@ -100,6 +104,7 @@ public class GearManager : MonoBehaviour
         return playerCardEquipData[index];
     }
 
+    public void SetCardData(CardData data) => SetCardData(_currentEdittingCardNum, data);
     public void SetCardData(int cardIndex, CardData data)
     {
         if (cardIndex >= playerCardEquipData.Count || cardIndex < 0)
@@ -123,12 +128,15 @@ public class GearManager : MonoBehaviour
         OnSetCardData?.Invoke();
     }
 
+    public void SetGearData(Gear gear) => SetGearData(_currentEdittingCardNum, _currentEdittingSlotNum, gear);
     public void SetGearData(int cardIndex, int gearSlotIndex, Gear gear)
     {
         //Debug.Log($"setGear! : {gear.data.name} to card {cardIndex}, slot {gearSlotIndex}");
         if (cardIndex >= MaxCardCount || cardIndex < 0)
             return;
         if (gearSlotIndex >= MaxGearSlotCount || gearSlotIndex < 0)
+            return;
+        if (gear == null) 
             return;
         if (gearSlotIndex != gear.IsEquippedInCard(cardIndex) && gear.IsEquippedInCard(cardIndex) >= 0)
         {

@@ -20,6 +20,18 @@ public class ButtonEnhanced : Button, ISelectHandler, IDeselectHandler
 
     public bool overrideNavigation;
 
+    protected override void Start()
+    {
+        base.Start();
+        onClick.AddListener(DeselectButton);
+    }
+
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+        onClick.RemoveAllListeners();
+    }
+
     private void SelectButton()
     {
         if (!IsActive() || !IsInteractable())return;
