@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemImage36x36: {fileID: 0}
   itemIcon: {fileID: 21300000, guid: 1efba82a0967b584a9a88513d0a6418a, type: 3}
-  color: {r: 0.2746106, g: 0.2743414, b: 0.4245283, a: 1}
-  name: "\uCE04\uB9AC\uB2DD\uC758 \uAE30\uC5B4"
+  color: {r: 0.3818085, g: 0.3818085, b: 0.5660378, a: 1}
+  name: "\uCE04\uB9AC\uB2DD\uC758"
   description: 
   canStack: 0
   parentProperties:
@@ -31,5 +31,47 @@ MonoBehaviour:
   subGearEffectDiscription: 
   mainGearEffects: []
   subGearEffects: []
-  graffitiCodes: []
-  graffitiAllCases: []
+  graffitiCodes:
+  - code:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 1, y: 1}
+    - {x: 1, y: 2}
+    - {x: 2, y: 2}
+    color: {r: 0.38431373, g: 0.38431373, b: 0.5686275, a: 1}
+  graffitiAllCases:
+  - code:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 1, y: 1}
+    - {x: 1, y: 2}
+    - {x: 2, y: 2}
+    color: {r: 0, g: 0, b: 0, a: 0}
+  - code:
+    - {x: -1, y: 0}
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+    - {x: 0, y: 2}
+    - {x: 1, y: 2}
+    color: {r: 0, g: 0, b: 0, a: 0}
+  - code:
+    - {x: -1, y: -1}
+    - {x: 0, y: -1}
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+    color: {r: 0, g: 0, b: 0, a: 0}
+  - code:
+    - {x: -1, y: -2}
+    - {x: 0, y: -2}
+    - {x: 0, y: -1}
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    color: {r: 0, g: 0, b: 0, a: 0}
+  - code:
+    - {x: -2, y: -2}
+    - {x: -1, y: -2}
+    - {x: -1, y: -1}
+    - {x: -1, y: 0}
+    - {x: 0, y: 0}
+    color: {r: 0, g: 0, b: 0, a: 0}
