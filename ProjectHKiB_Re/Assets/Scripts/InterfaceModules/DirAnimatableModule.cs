@@ -156,14 +156,13 @@ public class DirAnimatableModule : AnimatableModule, IDirAnimatable
         LastSetAnimationDir8 = vectorDir;
         vectorDir.y = (vectorDir.x != 0 && vectorDir.y != 0) ? 0 : vectorDir.y;
         LastSetAnimationDir4 = vectorDir;
-        Animator.SetFloat("dirX", vectorDir.x);
-        Animator.SetFloat("dirY", vectorDir.y);
 
         AnimationDirection = LastSetAnimationDir4.y < 0 ? EnumManager.AnimDir.D :
                              LastSetAnimationDir4.x < 0 ? EnumManager.AnimDir.L :
                              LastSetAnimationDir4.x > 0 ? EnumManager.AnimDir.R :
                              LastSetAnimationDir4.y > 0 ? EnumManager.AnimDir.U :
                              AnimationDirection;
+        AnimationPlayer.SetDirection(AnimationDirection);
     }
 
     public void SetAnimationDirection(EnumManager.AnimDir animDir)
@@ -180,8 +179,7 @@ public class DirAnimatableModule : AnimatableModule, IDirAnimatable
         LastSetAnimationDir4 = dir;
         LastSetAnimationDir8 = dir;
         if (dir == Vector2.zero) return;
-        Animator.SetFloat("dirX", dir.x);
-        Animator.SetFloat("dirY", dir.y);
+        AnimationPlayer.SetDirection(animDir);
         AnimationDirection = animDir;
     }
 }

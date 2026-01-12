@@ -13628,7 +13628,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6acd6c0be9885c74b8314c16813f3a54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Animator>k__BackingField: {fileID: 553599553}
+  <AnimationPlayer>k__BackingField: {fileID: 553599553}
   <CurrentAnimation>k__BackingField: 
 --- !u!114 &295612129
 MonoBehaviour:
@@ -17455,7 +17455,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6acd6c0be9885c74b8314c16813f3a54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Animator>k__BackingField: {fileID: 990384396}
+  <AnimationPlayer>k__BackingField: {fileID: 990384401}
   <CurrentAnimation>k__BackingField: 
 --- !u!114 &473561861
 MonoBehaviour:
@@ -19829,27 +19829,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Library: []
   m_SpriteLibraryAsset: {fileID: 11400000, guid: dc2dd41c499c7ca4eab0722410cecb61, type: 2}
---- !u!95 &553599553
-Animator:
-  serializedVersion: 5
+--- !u!114 &553599553
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 553599548}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: ccc91f292e2fcb946bd0d92cf7be2bd0, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dfacbf76c0599c4aa3326aa7f0bc6a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animationData: {fileID: 11400000, guid: 34711525a5697a34185ef29e49f13646, type: 2}
+  playOnAwake: 1
+  onCustomEventTriggered:
+    m_PersistentCalls:
+      m_Calls: []
+  _spriteResolver: {fileID: 553599551}
+  _currentAnimDir: 0
 --- !u!1 &567477615
 GameObject:
   m_ObjectHideFlags: 0
@@ -19903,7 +19901,7 @@ GameObject:
   - component: {fileID: 567948721}
   - component: {fileID: 567948720}
   - component: {fileID: 567948719}
-  - component: {fileID: 567948718}
+  - component: {fileID: 567948722}
   m_Layer: 0
   m_Name: Animation_Door1
   m_TagString: Untagged
@@ -19926,27 +19924,6 @@ Transform:
   m_Father: {fileID: 388071274}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &567948718
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 567948716}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: ccc91f292e2fcb946bd0d92cf7be2bd0, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!212 &567948719
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -20028,6 +20005,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Library: []
   m_SpriteLibraryAsset: {fileID: 11400000, guid: 2fa843206a4d3944dbb3d3d6cee2933d, type: 2}
+--- !u!114 &567948722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 567948716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dfacbf76c0599c4aa3326aa7f0bc6a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animationData: {fileID: 11400000, guid: 34711525a5697a34185ef29e49f13646, type: 2}
+  playOnAwake: 1
+  onCustomEventTriggered:
+    m_PersistentCalls:
+      m_Calls: []
+  _spriteResolver: {fileID: 567948720}
+  _currentAnimDir: 0
 --- !u!1 &576922836
 GameObject:
   m_ObjectHideFlags: 0
@@ -27162,7 +27158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6acd6c0be9885c74b8314c16813f3a54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Animator>k__BackingField: {fileID: 1498998164}
+  <AnimationPlayer>k__BackingField: {fileID: 1498998165}
   <CurrentAnimation>k__BackingField: 
 --- !u!114 &690226493
 MonoBehaviour:
@@ -32410,7 +32406,6 @@ GameObject:
   - component: {fileID: 765899370}
   - component: {fileID: 765899371}
   - component: {fileID: 765899362}
-  - component: {fileID: 765899373}
   m_Layer: 0
   m_Name: Door1Teleport
   m_TagString: Untagged
@@ -32473,7 +32468,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6acd6c0be9885c74b8314c16813f3a54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Animator>k__BackingField: {fileID: 0}
+  <AnimationPlayer>k__BackingField: {fileID: 1498998165}
   <CurrentAnimation>k__BackingField: 
 --- !u!114 &765899367
 MonoBehaviour:
@@ -32569,20 +32564,6 @@ MonoBehaviour:
   chunk: {fileID: 1415830224}
   mathManager: {fileID: 11400000, guid: d70d30fe513b9cc4bb4206690e1ecbf7, type: 2}
   requiredDir: {x: 0, y: 1}
---- !u!114 &765899373
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 765899360}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6acd6c0be9885c74b8314c16813f3a54, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <Animator>k__BackingField: {fileID: 1498998164}
-  <CurrentAnimation>k__BackingField: 
 --- !u!1 &774311847
 GameObject:
   m_ObjectHideFlags: 0
@@ -38719,7 +38700,7 @@ GameObject:
   - component: {fileID: 990384399}
   - component: {fileID: 990384398}
   - component: {fileID: 990384397}
-  - component: {fileID: 990384396}
+  - component: {fileID: 990384401}
   m_Layer: 0
   m_Name: Animation_Door
   m_TagString: Untagged
@@ -38727,27 +38708,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
   m_IsActive: 1
---- !u!95 &990384396
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 990384395}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: ccc91f292e2fcb946bd0d92cf7be2bd0, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!212 &990384397
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -38844,6 +38804,25 @@ Transform:
   m_Father: {fileID: 913201190}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &990384401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 990384395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dfacbf76c0599c4aa3326aa7f0bc6a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animationData: {fileID: 11400000, guid: 34711525a5697a34185ef29e49f13646, type: 2}
+  playOnAwake: 1
+  onCustomEventTriggered:
+    m_PersistentCalls:
+      m_Calls: []
+  _spriteResolver: {fileID: 990384398}
+  _currentAnimDir: 0
 --- !u!1 &1002926550
 GameObject:
   m_ObjectHideFlags: 0
@@ -39387,7 +39366,7 @@ GameObject:
   - component: {fileID: 1067367002}
   - component: {fileID: 1067367001}
   - component: {fileID: 1067367000}
-  - component: {fileID: 1067366999}
+  - component: {fileID: 1067367003}
   m_Layer: 0
   m_Name: Animation_Door2
   m_TagString: Untagged
@@ -39410,27 +39389,6 @@ Transform:
   m_Father: {fileID: 388071274}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &1067366999
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1067366997}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: ccc91f292e2fcb946bd0d92cf7be2bd0, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!212 &1067367000
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -39512,6 +39470,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Library: []
   m_SpriteLibraryAsset: {fileID: 11400000, guid: 2fa843206a4d3944dbb3d3d6cee2933d, type: 2}
+--- !u!114 &1067367003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1067366997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dfacbf76c0599c4aa3326aa7f0bc6a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animationData: {fileID: 11400000, guid: 34711525a5697a34185ef29e49f13646, type: 2}
+  playOnAwake: 1
+  onCustomEventTriggered:
+    m_PersistentCalls:
+      m_Calls: []
+  _spriteResolver: {fileID: 1067367001}
+  _currentAnimDir: 0
 --- !u!1 &1090311187
 GameObject:
   m_ObjectHideFlags: 0
@@ -49301,7 +49278,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6acd6c0be9885c74b8314c16813f3a54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Animator>k__BackingField: {fileID: 990384396}
+  <AnimationPlayer>k__BackingField: {fileID: 990384401}
   <CurrentAnimation>k__BackingField: 
 --- !u!4 &1267673736
 Transform:
@@ -54675,7 +54652,6 @@ GameObject:
   - component: {fileID: 1457376258}
   - component: {fileID: 1457376253}
   - component: {fileID: 1457376256}
-  - component: {fileID: 1457376265}
   m_Layer: 0
   m_Name: Door2Teleport
   m_TagString: Untagged
@@ -54748,7 +54724,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6acd6c0be9885c74b8314c16813f3a54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Animator>k__BackingField: {fileID: 0}
+  <AnimationPlayer>k__BackingField: {fileID: 553599553}
   <CurrentAnimation>k__BackingField: 
 --- !u!114 &1457376260
 MonoBehaviour:
@@ -54834,20 +54810,6 @@ MonoBehaviour:
   chunk: {fileID: 1415830224}
   mathManager: {fileID: 11400000, guid: d70d30fe513b9cc4bb4206690e1ecbf7, type: 2}
   requiredDir: {x: 0, y: 1}
---- !u!114 &1457376265
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1457376252}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6acd6c0be9885c74b8314c16813f3a54, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <Animator>k__BackingField: {fileID: 553599553}
-  <CurrentAnimation>k__BackingField: 
 --- !u!1 &1488199063
 GameObject:
   m_ObjectHideFlags: 0
@@ -54997,7 +54959,7 @@ GameObject:
   - component: {fileID: 1498998163}
   - component: {fileID: 1498998162}
   - component: {fileID: 1498998161}
-  - component: {fileID: 1498998164}
+  - component: {fileID: 1498998165}
   m_Layer: 0
   m_Name: Animation_Door1
   m_TagString: Untagged
@@ -55101,27 +55063,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Library: []
   m_SpriteLibraryAsset: {fileID: 11400000, guid: c37a1ff42091c7143a84548898a90b85, type: 2}
---- !u!95 &1498998164
-Animator:
-  serializedVersion: 5
+--- !u!114 &1498998165
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1498998159}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: ccc91f292e2fcb946bd0d92cf7be2bd0, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dfacbf76c0599c4aa3326aa7f0bc6a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animationData: {fileID: 11400000, guid: 34711525a5697a34185ef29e49f13646, type: 2}
+  playOnAwake: 1
+  onCustomEventTriggered:
+    m_PersistentCalls:
+      m_Calls: []
+  _spriteResolver: {fileID: 1498998162}
+  _currentAnimDir: 0
 --- !u!1 &1501911314
 GameObject:
   m_ObjectHideFlags: 0
@@ -65292,7 +65252,7 @@ GameObject:
   - component: {fileID: 1891103343}
   - component: {fileID: 1891103342}
   - component: {fileID: 1891103341}
-  - component: {fileID: 1891103340}
+  - component: {fileID: 1891103344}
   m_Layer: 0
   m_Name: Animation_Door3
   m_TagString: Untagged
@@ -65315,27 +65275,6 @@ Transform:
   m_Father: {fileID: 388071274}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &1891103340
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1891103338}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: ccc91f292e2fcb946bd0d92cf7be2bd0, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!212 &1891103341
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -65417,6 +65356,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Library: []
   m_SpriteLibraryAsset: {fileID: 11400000, guid: 2fa843206a4d3944dbb3d3d6cee2933d, type: 2}
+--- !u!114 &1891103344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1891103338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dfacbf76c0599c4aa3326aa7f0bc6a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animationData: {fileID: 11400000, guid: 34711525a5697a34185ef29e49f13646, type: 2}
+  playOnAwake: 1
+  onCustomEventTriggered:
+    m_PersistentCalls:
+      m_Calls: []
+  _spriteResolver: {fileID: 1891103342}
+  _currentAnimDir: 0
 --- !u!1 &1894972464
 GameObject:
   m_ObjectHideFlags: 0
@@ -65993,7 +65951,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6acd6c0be9885c74b8314c16813f3a54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Animator>k__BackingField: {fileID: 567948718}
+  <AnimationPlayer>k__BackingField: {fileID: 567948722}
   <CurrentAnimation>k__BackingField: 
 --- !u!114 &1900522503
 MonoBehaviour:
@@ -67671,7 +67629,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6acd6c0be9885c74b8314c16813f3a54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Animator>k__BackingField: {fileID: 567948718}
+  <AnimationPlayer>k__BackingField: {fileID: 567948722}
   <CurrentAnimation>k__BackingField: 
 --- !u!114 &1959114221
 MonoBehaviour:
@@ -71762,7 +71720,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &2107268127

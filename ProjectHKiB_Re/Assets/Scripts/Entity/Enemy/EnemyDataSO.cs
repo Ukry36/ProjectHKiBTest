@@ -30,7 +30,7 @@ IPathFindableBase, IDamagableBase, IPoolable, IAnimatableBase, IFootstepBase
 
 
     [field: NaughtyAttributes.Foldout("Control")][field: SerializeField] public StateMachineSO StateMachine { get; set; }
-    [field: NaughtyAttributes.Foldout("Control")][field: SerializeField] public AnimatorController AnimatorController { get; set; }
+    [field: NaughtyAttributes.Foldout("Control")][field: SerializeField] public SimpleAnimationDataSO AnimationData { get; set; }
 
     public UnityEvent<int, int> OnGameObjectDisabled { get; set; }
     public float PathFindCooltime { get; set; }

@@ -24,6 +24,7 @@ public class SpriterNator : EditorWindow
         public int endFrame;
         //public bool shouldLoop;
         public int frameRate;
+        public bool check;
     }
 
     [MenuItem("Tools/SpriterNator")]
@@ -169,6 +170,7 @@ public class SpriterNator : EditorWindow
         GUI.backgroundColor = Color.white;
 
         GUI.backgroundColor = new Color(0.2f, 0.2f, 0.5f, .5f);
+        GUILayout.BeginHorizontal();
         if (GUILayout.Button(new GUIContent("+", "Add Category"), customButtonStyle))
         {
             AnimationDetails anim = new()
@@ -183,6 +185,41 @@ public class SpriterNator : EditorWindow
             }
             animationsList.Add(anim);
         }
+        if (GUILayout.Button(new GUIContent("DLRU", "DLRU Selected Category"), customButtonStyle))
+        {
+            List<AnimationDetails> select = animationsList.FindAll(a => a.check);
+            int index = animationsList.FindLastIndex(a => a.check) + 1;
+            int totalFrames = 0;
+            for (int i = 0; i < select.Count; i++)
+                totalFrames += select[i].frameRate;
+            
+            string[] dirs = {"D", "L", "R", "U"};
+            for (int s = 0; s < dirs.Length; s++)
+            {
+                for (int i = 0; i < select.Count; i++)
+                {
+                    if (s == 0) continue;
+                    
+                    var newAnimation = new AnimationDetails
+                    {
+                        name = select[i].name + dirs[s],
+                        sheetNum = select[i].sheetNum,
+                        startFrame = select[i].startFrame + totalFrames * s,
+                        frameRate = select[i].frameRate
+                    };
+                    animationsList.Insert(index, newAnimation);
+                    index++;
+                }
+            }
+
+            for (int i = 0; i < select.Count; i++)
+            {
+                select[i].check = false;
+                select[i].name = select[i].name + "D";
+            }
+            
+        }
+        GUILayout.EndHorizontal();
         GUI.backgroundColor = Color.white;
         {
             GUILayout.BeginVertical("box");
@@ -216,6 +253,7 @@ public class SpriterNator : EditorWindow
                 GUILayout.EndHorizontal();
 
                 GUILayout.BeginHorizontal();
+
                 if (GUILayout.Button(new GUIContent("▲", "Move Up"), GUILayout.Width(25)))
                 {
                     if (i > 0)
@@ -232,6 +270,10 @@ public class SpriterNator : EditorWindow
                 }
                 if (GUILayout.Button(new GUIContent("DLRU", "Make DLRU Categories"), GUILayout.Width(60)))
                 {
+                    if (name.EndsWith("D"))
+                    {
+                        name = name.TrimEnd('D');
+                    }
                     var newAnimation = new AnimationDetails
                     {
                         name = animationsList[i].name + "L",
@@ -292,10 +334,16 @@ public class SpriterNator : EditorWindow
 
                     animationsList.Insert(i + 1, anim);
                 }
+                bool remove = false;
                 if (GUILayout.Button(new GUIContent("-", "Remove Category"), GUILayout.Width(25)))
                 {
-                    animationsList.RemoveAt(i);
+                    remove = true;
                 }
+
+                animationsList[i].check = GUILayout.Toggle(animationsList[i].check, new GUIContent(" "));
+
+                if (remove) animationsList.RemoveAt(i);
+
                 //if (GUILayout.Button(new GUIContent("++", "Duplicate Category"), GUILayout.Width(100)))
                 //{
                 //    var newAnimation = new AnimationDetails
@@ -514,6 +562,7 @@ public class SpriterNator : EditorWindow
 
     private List<Sprite> GetSpritesForAnimation(AnimationDetails animDetail)
     {
+        if (animDetail.sheetNum > allSpritesList.Count || animDetail.sheetNum < 0) return new() {null};
         if (animDetail.endFrame < animDetail.startFrame || animDetail.endFrame >= allSpritesList[animDetail.sheetNum].Count)
         {
             Debug.LogError("SpriterNator: Invalid frame range for animation: " + animDetail.name);

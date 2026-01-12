@@ -12,63 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a4552f76dec9764db1bc225722a55f1, type: 3}
   m_Name: Lily PlayerData
   m_EditorClassIdentifier: 
-  <Speed>k__BackingField:
-    baseValue: 5
-    OnValueDecreased:
-      m_PersistentCalls:
-        m_Calls: []
-    OnValueIncreased:
-      m_PersistentCalls:
-        m_Calls: []
-    additionalBuff: 0
-    proportionalBuff: 0
-  <SprintCoeff>k__BackingField:
-    baseValue: 2
-    OnValueDecreased:
-      m_PersistentCalls:
-        m_Calls: []
-    OnValueIncreased:
-      m_PersistentCalls:
-        m_Calls: []
-    additionalBuff: 0
-    proportionalBuff: 0
+  <Speed>k__BackingField: 0
+  <SprintCoeff>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 72
   <CanPushLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 0
-  <FootStepAudio>k__BackingField: {fileID: 11400000, guid: d78d695b40ad7c64b8cb95741be6bae5, type: 2}
-  <ATK>k__BackingField:
-    baseValue: 100
-    OnValueDecreased:
-      m_PersistentCalls:
-        m_Calls: []
-    OnValueIncreased:
-      m_PersistentCalls:
-        m_Calls: []
-    additionalBuff: 0
-    proportionalBuff: 0
-  <CriticalChanceRate>k__BackingField:
-    baseValue: 0.1
-    OnValueDecreased:
-      m_PersistentCalls:
-        m_Calls: []
-    OnValueIncreased:
-      m_PersistentCalls:
-        m_Calls: []
-    additionalBuff: 0
-    proportionalBuff: 0
-  <CriticalDamageRate>k__BackingField:
-    baseValue: 2
-    OnValueDecreased:
-      m_PersistentCalls:
-        m_Calls: []
-    OnValueIncreased:
-      m_PersistentCalls:
-        m_Calls: []
-    additionalBuff: 0
-    proportionalBuff: 0
+  <DefaultFootstepAudio>k__BackingField: {fileID: 0}
+  <BaseATK>k__BackingField: 0
+  <CriticalChanceRate>k__BackingField: 0
+  <CriticalDamageRate>k__BackingField: 0
   <AttackDatas>k__BackingField: []
   <TargetLayers>k__BackingField:
   - serializedVersion: 2
@@ -76,109 +31,25 @@ MonoBehaviour:
   - serializedVersion: 2
     m_Bits: 8192
   <DamageParticle>k__BackingField: {fileID: 11400000, guid: cb51a1de9ae8e724fb7deaf1c56006c2, type: 2}
-  <DodgeCooltime>k__BackingField:
-    baseValue: 0
-    OnValueDecreased:
-      m_PersistentCalls:
-        m_Calls: []
-    OnValueIncreased:
-      m_PersistentCalls:
-        m_Calls: []
-    additionalBuff: 0
-    proportionalBuff: 0
-  <ContinuousDodgeLimit>k__BackingField:
-    baseValue: 0
-    OnValueDecreased:
-      m_PersistentCalls:
-        m_Calls: []
-    OnValueIncreased:
-      m_PersistentCalls:
-        m_Calls: []
-    additionalBuff: 0
-    proportionalBuff: 0
-  <KeepDodgeMaxTime>k__BackingField:
-    baseValue: 0
-    OnValueDecreased:
-      m_PersistentCalls:
-        m_Calls: []
-    OnValueIncreased:
-      m_PersistentCalls:
-        m_Calls: []
-    additionalBuff: 0
-    proportionalBuff: 0
-  <KeepDodgeMaxDistance>k__BackingField:
-    baseValue: 0
-    OnValueDecreased:
-      m_PersistentCalls:
-        m_Calls: []
-    OnValueIncreased:
-      m_PersistentCalls:
-        m_Calls: []
-    additionalBuff: 0
-    proportionalBuff: 0
-  <MaxHP>k__BackingField:
-    baseValue: 100
-    OnValueDecreased:
-      m_PersistentCalls:
-        m_Calls: []
-    OnValueIncreased:
-      m_PersistentCalls:
-        m_Calls: []
-    additionalBuff: 0
-    proportionalBuff: 0
-  <HP>k__BackingField:
-    baseValue: 0
-    OnValueDecreased:
-      m_PersistentCalls:
-        m_Calls: []
-    OnValueIncreased:
-      m_PersistentCalls:
-        m_Calls: []
-    additionalBuff: 0
-    proportionalBuff: 0
-  <DEF>k__BackingField:
-    baseValue: 0
-    OnValueDecreased:
-      m_PersistentCalls:
-        m_Calls: []
-    OnValueIncreased:
-      m_PersistentCalls:
-        m_Calls: []
-    additionalBuff: 0
-    proportionalBuff: 0
-  <Resistance>k__BackingField:
-    baseValue: 0
-    OnValueDecreased:
-      m_PersistentCalls:
-        m_Calls: []
-    OnValueIncreased:
-      m_PersistentCalls:
-        m_Calls: []
-    additionalBuff: 0
-    proportionalBuff: 0
+  <BaseDodgeCooltime>k__BackingField: 0
+  <InitialDodgeMaxDistance>k__BackingField: 0
+  <BaseDodgeSpeed>k__BackingField: 0
+  <BaseContinuousDodgeLimit>k__BackingField: 0
+  <KeepDodgeWallLayer>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 0
+  <BaseKeepDodgeMaxTime>k__BackingField: 0
+  <BaseDodgeInvincibleTime>k__BackingField: 0
+  <KeepDodgeParticle>k__BackingField: {fileID: 0}
+  <JustDodgeBuff>k__BackingField:
+    Buffs: []
+  <BaseMaxHP>k__BackingField: 0
+  <BaseDEF>k__BackingField: 0
   <Mass>k__BackingField: 1
   <HitSound>k__BackingField: {fileID: 0}
   <HitParticle>k__BackingField: {fileID: 0}
-  <MaxGP>k__BackingField:
-    baseValue: 0
-    OnValueDecreased:
-      m_PersistentCalls:
-        m_Calls: []
-    OnValueIncreased:
-      m_PersistentCalls:
-        m_Calls: []
-    additionalBuff: 0
-    proportionalBuff: 0
-  <GP>k__BackingField:
-    baseValue: 0
-    OnValueDecreased:
-      m_PersistentCalls:
-        m_Calls: []
-    OnValueIncreased:
-      m_PersistentCalls:
-        m_Calls: []
-    additionalBuff: 0
-    proportionalBuff: 0
+  <MaxGP>k__BackingField: 0
+  <GP>k__BackingField: 0
   <SkinData>k__BackingField: {fileID: 11400000, guid: 2a76691330d7a7f4cbabd147c4cec133, type: 2}
   <StateMachine>k__BackingField: {fileID: 11400000, guid: 1d95a8fa0bc3e7b40973736148392837, type: 2}
-  <AnimatorController>k__BackingField: {fileID: 9100000, guid: 9e01cf73739be76428ceb105013b14e6, type: 2}
+  <AnimationData>k__BackingField: {fileID: 11400000, guid: daad9d5cf78123747aab07a3c9568203, type: 2}

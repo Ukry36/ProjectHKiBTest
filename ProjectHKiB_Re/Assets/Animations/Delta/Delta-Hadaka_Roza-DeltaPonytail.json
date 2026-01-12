@@ -5,168 +5,360 @@
             "sheetNum": 0,
             "startFrame": 0,
             "endFrame": 3,
-            "frameRate": 4
+            "frameRate": 4,
+            "check": false
         },
         {
             "name": "IdleL",
             "sheetNum": 0,
             "startFrame": 4,
             "endFrame": 7,
-            "frameRate": 4
+            "frameRate": 4,
+            "check": false
         },
         {
             "name": "IdleR",
             "sheetNum": 0,
             "startFrame": 8,
             "endFrame": 11,
-            "frameRate": 4
+            "frameRate": 4,
+            "check": false
         },
         {
             "name": "IdleU",
             "sheetNum": 0,
             "startFrame": 12,
             "endFrame": 15,
-            "frameRate": 4
+            "frameRate": 4,
+            "check": false
         },
         {
             "name": "WalkD",
             "sheetNum": 0,
             "startFrame": 16,
             "endFrame": 23,
-            "frameRate": 8
+            "frameRate": 8,
+            "check": false
         },
         {
             "name": "WalkL",
             "sheetNum": 0,
             "startFrame": 24,
             "endFrame": 31,
-            "frameRate": 8
+            "frameRate": 8,
+            "check": false
         },
         {
             "name": "WalkR",
             "sheetNum": 0,
             "startFrame": 32,
             "endFrame": 39,
-            "frameRate": 8
+            "frameRate": 8,
+            "check": false
         },
         {
             "name": "WalkU",
             "sheetNum": 0,
             "startFrame": 40,
             "endFrame": 47,
-            "frameRate": 8
+            "frameRate": 8,
+            "check": false
         },
         {
             "name": "RunD",
             "sheetNum": 0,
             "startFrame": 48,
             "endFrame": 53,
-            "frameRate": 6
+            "frameRate": 6,
+            "check": false
         },
         {
             "name": "RunL",
             "sheetNum": 0,
             "startFrame": 54,
             "endFrame": 59,
-            "frameRate": 6
+            "frameRate": 6,
+            "check": false
         },
         {
             "name": "RunR",
             "sheetNum": 0,
             "startFrame": 60,
             "endFrame": 65,
-            "frameRate": 6
+            "frameRate": 6,
+            "check": false
         },
         {
             "name": "RunU",
             "sheetNum": 0,
             "startFrame": 66,
             "endFrame": 71,
-            "frameRate": 6
+            "frameRate": 6,
+            "check": false
         },
         {
             "name": "KnockbackD",
             "sheetNum": 0,
             "startFrame": 72,
             "endFrame": 79,
-            "frameRate": 8
+            "frameRate": 8,
+            "check": false
         },
         {
             "name": "KnockbackL",
             "sheetNum": 0,
             "startFrame": 80,
             "endFrame": 87,
-            "frameRate": 8
+            "frameRate": 8,
+            "check": false
         },
         {
             "name": "KnockbackR",
             "sheetNum": 0,
             "startFrame": 88,
             "endFrame": 95,
-            "frameRate": 8
+            "frameRate": 8,
+            "check": false
         },
         {
             "name": "KnockbackU",
             "sheetNum": 0,
             "startFrame": 96,
             "endFrame": 103,
-            "frameRate": 8
+            "frameRate": 8,
+            "check": false
         },
         {
-            "name": "NormalAttackD",
+            "name": "NormalAttack0D",
             "sheetNum": 1,
             "startFrame": 0,
-            "endFrame": 29,
-            "frameRate": 30
+            "endFrame": 4,
+            "frameRate": 5,
+            "check": false
         },
         {
-            "name": "NormalAttackL",
+            "name": "NormalAttack1D",
+            "sheetNum": 1,
+            "startFrame": 5,
+            "endFrame": 10,
+            "frameRate": 6,
+            "check": false
+        },
+        {
+            "name": "NormalAttack2D",
+            "sheetNum": 1,
+            "startFrame": 11,
+            "endFrame": 17,
+            "frameRate": 7,
+            "check": false
+        },
+        {
+            "name": "NormalAttack3D",
+            "sheetNum": 1,
+            "startFrame": 18,
+            "endFrame": 24,
+            "frameRate": 7,
+            "check": false
+        },
+        {
+            "name": "NormalAttack4D",
+            "sheetNum": 1,
+            "startFrame": 25,
+            "endFrame": 29,
+            "frameRate": 5,
+            "check": false
+        },
+        {
+            "name": "NormalAttack0L",
             "sheetNum": 1,
             "startFrame": 30,
-            "endFrame": 59,
-            "frameRate": 30
+            "endFrame": 34,
+            "frameRate": 5,
+            "check": false
         },
         {
-            "name": "NormalAttackR",
+            "name": "NormalAttack1L",
+            "sheetNum": 1,
+            "startFrame": 35,
+            "endFrame": 40,
+            "frameRate": 6,
+            "check": false
+        },
+        {
+            "name": "NormalAttack2L",
+            "sheetNum": 1,
+            "startFrame": 41,
+            "endFrame": 47,
+            "frameRate": 7,
+            "check": false
+        },
+        {
+            "name": "NormalAttack3L",
+            "sheetNum": 1,
+            "startFrame": 48,
+            "endFrame": 54,
+            "frameRate": 7,
+            "check": false
+        },
+        {
+            "name": "NormalAttack4L",
+            "sheetNum": 1,
+            "startFrame": 55,
+            "endFrame": 59,
+            "frameRate": 5,
+            "check": false
+        },
+        {
+            "name": "NormalAttack0R",
             "sheetNum": 1,
             "startFrame": 60,
-            "endFrame": 89,
-            "frameRate": 30
+            "endFrame": 64,
+            "frameRate": 5,
+            "check": false
         },
         {
-            "name": "NormalAttackU",
+            "name": "NormalAttack1R",
+            "sheetNum": 1,
+            "startFrame": 65,
+            "endFrame": 70,
+            "frameRate": 6,
+            "check": false
+        },
+        {
+            "name": "NormalAttack2R",
+            "sheetNum": 1,
+            "startFrame": 71,
+            "endFrame": 77,
+            "frameRate": 7,
+            "check": false
+        },
+        {
+            "name": "NormalAttack3R",
+            "sheetNum": 1,
+            "startFrame": 78,
+            "endFrame": 84,
+            "frameRate": 7,
+            "check": false
+        },
+        {
+            "name": "NormalAttack4R",
+            "sheetNum": 1,
+            "startFrame": 85,
+            "endFrame": 89,
+            "frameRate": 5,
+            "check": false
+        },
+        {
+            "name": "NormalAttack0U",
             "sheetNum": 1,
             "startFrame": 90,
-            "endFrame": 119,
-            "frameRate": 30
+            "endFrame": 94,
+            "frameRate": 5,
+            "check": false
         },
         {
-            "name": "DodgeStartEndD",
+            "name": "NormalAttack1U",
+            "sheetNum": 1,
+            "startFrame": 95,
+            "endFrame": 100,
+            "frameRate": 6,
+            "check": false
+        },
+        {
+            "name": "NormalAttack2U",
+            "sheetNum": 1,
+            "startFrame": 101,
+            "endFrame": 107,
+            "frameRate": 7,
+            "check": false
+        },
+        {
+            "name": "NormalAttack3U",
+            "sheetNum": 1,
+            "startFrame": 108,
+            "endFrame": 114,
+            "frameRate": 7,
+            "check": false
+        },
+        {
+            "name": "NormalAttack4U",
+            "sheetNum": 1,
+            "startFrame": 115,
+            "endFrame": 119,
+            "frameRate": 5,
+            "check": false
+        },
+        {
+            "name": "DodgeStartD",
             "sheetNum": 2,
             "startFrame": 0,
-            "endFrame": 5,
-            "frameRate": 6
+            "endFrame": 1,
+            "frameRate": 2,
+            "check": false
         },
         {
-            "name": "DodgeStartEndL",
+            "name": "DodgeEndD",
+            "sheetNum": 2,
+            "startFrame": 2,
+            "endFrame": 5,
+            "frameRate": 4,
+            "check": false
+        },
+        {
+            "name": "DodgeStartL",
             "sheetNum": 2,
             "startFrame": 6,
-            "endFrame": 11,
-            "frameRate": 6
+            "endFrame": 7,
+            "frameRate": 2,
+            "check": false
         },
         {
-            "name": "DodgeStartEndR",
+            "name": "DodgeEndL",
+            "sheetNum": 2,
+            "startFrame": 8,
+            "endFrame": 11,
+            "frameRate": 4,
+            "check": false
+        },
+        {
+            "name": "DodgeStartR",
             "sheetNum": 2,
             "startFrame": 12,
-            "endFrame": 17,
-            "frameRate": 6
+            "endFrame": 13,
+            "frameRate": 2,
+            "check": false
         },
         {
-            "name": "DodgeStartEndU",
+            "name": "DodgeEndR",
+            "sheetNum": 2,
+            "startFrame": 14,
+            "endFrame": 17,
+            "frameRate": 4,
+            "check": false
+        },
+        {
+            "name": "DodgeStartU",
             "sheetNum": 2,
             "startFrame": 18,
+            "endFrame": 19,
+            "frameRate": 2,
+            "check": false
+        },
+        {
+            "name": "DodgeEndU",
+            "sheetNum": 2,
+            "startFrame": 20,
             "endFrame": 23,
-            "frameRate": 6
+            "frameRate": 4,
+            "check": false
+        },
+        {
+            "name": "DodgeKeep",
+            "sheetNum": -1,
+            "startFrame": 0,
+            "endFrame": 0,
+            "frameRate": 1,
+            "check": false
         }
     ]
 }

@@ -3,19 +3,19 @@ using UnityEngine;
 
 public class AnimatableModule : InterfaceModule, IAnimatable
 {
-    public AnimatorController AnimatorController { get; set; }
+    public SimpleAnimationDataSO AnimationData { get; set; }
     public override void Register(IInterfaceRegistable interfaceRegistable)
     {
 
         interfaceRegistable.RegisterInterface<IAnimatable>(this);
     }
 
-    [field: SerializeField] public Animator Animator { get; set; }
+    [field: SerializeField] public SimpleAnimationPlayer AnimationPlayer { get; set; }
     [field: SerializeField] public string CurrentAnimation { get; protected set; }
 
     public virtual void Initialize()
     {
-        Animator.runtimeAnimatorController = AnimatorController;
+        AnimationPlayer.animationData = AnimationData;
         if (CurrentAnimation == "") CurrentAnimation = "Idle";
         Play(CurrentAnimation);
     }
@@ -23,7 +23,7 @@ public class AnimatableModule : InterfaceModule, IAnimatable
     public void Play(string animationName)
     {
         CurrentAnimation = animationName;
-        Animator.gameObject.SetActive(true);
-        Animator.Play(animationName, 0, 0);
+        AnimationPlayer.gameObject.SetActive(true);
+        AnimationPlayer.Play(animationName);
     }
 }

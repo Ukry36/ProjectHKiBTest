@@ -50,7 +50,7 @@ public class Enemy : Entity, IPoolable
         databaseManager.SetITargetable(this, BaseData);
         Initialize(BaseData.StateMachine);
         InitializeModules();
-        GetInterface<ISkinable>()?.ApplySkin(BaseData.AnimatorController);
+        GetInterface<ISkinable>()?.ApplySkin(BaseData.AnimationData);
     }
 
     public void InitializeFromPool(EnemyDataSO enemyData)

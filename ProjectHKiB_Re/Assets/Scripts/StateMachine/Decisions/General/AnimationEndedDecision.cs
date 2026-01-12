@@ -8,7 +8,7 @@ public class AnimationEndedDecision : StateDecisionSO
         if (stateController.TryGetInterface(out IDirAnimatable animatable))
             //if (stateController.animationController.animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
             //    Debug.Log(stateController.animationController.animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
-            return animatable.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1;
+            return animatable.AnimationPlayer.IsFirstLoopEnded();
         return false;
     }
 }

@@ -39,7 +39,7 @@ IDamagableBase, IGraffitiable, ISkinableBase, IAnimatableBase, IFootstepBase
     public SkinDataSO SkinData { get; set; }
 
     public StateMachineSO StateMachine { get; set; }
-    public AnimatorController AnimatorController { get; set; }
+    public SimpleAnimationDataSO AnimationData { get; set; }
     public StatBuffCompilation JustDodgeBuff { get; set; }
     public AudioDataSO DefaultFootstepAudio { get; set; }
 

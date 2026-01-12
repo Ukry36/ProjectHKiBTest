@@ -19,13 +19,13 @@ namespace Assets.Scripts.Interfaces.Modules
 
         }
 
-        public void ApplySkin(AnimatorController animatorController)
+        public void ApplySkin(SimpleAnimationDataSO animationData)
         {
-            if (animatorController == null) return;
+            if (animationData == null) return;
             if (SkinData == null) return;
-            spriteLibrary.spriteLibraryAsset = SkinData.bodyType.Bodytypes[animatorController];
+            spriteLibrary.spriteLibraryAsset = SkinData.bodyType.Bodytypes[animationData];
             MaterialPropertyBlock materialPropertyBlock = new();
-            materialPropertyBlock.SetTexture("_MainTex", SkinData.bodyType.MainTex[animatorController]);
+            materialPropertyBlock.SetTexture("_MainTex", SkinData.bodyType.MainTex[animationData]);
             materialPropertyBlock.SetTexture("_SkinTex", SkinData.skinTexture);
             materialPropertyBlock.SetTexture("_EmissionSkinTex", SkinData.emissionSkinTexture);
             spriteRenderer.SetPropertyBlock(materialPropertyBlock);

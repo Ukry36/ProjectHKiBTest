@@ -86,7 +86,7 @@ public class GearMergeManagerSO : ScriptableObject
                 mergedGearData.StateMachine = card.mergedGearList[i].playerBaseData.StateMachine;
                 mergedGearData.gearType = card.mergedGearList[i].gearType;
                 mergedGearData.AttackDatas = card.mergedGearList[i].playerBaseData.AttackDatas;
-                mergedGearData.AnimatorController = card.mergedGearList[i].playerBaseData.AnimatorController;
+                mergedGearData.AnimationData = card.mergedGearList[i].playerBaseData.AnimationData;
             }
             card.mergedGearList[i].ApplySubGearEffect(mergedGearData);
         }

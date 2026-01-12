@@ -27,7 +27,7 @@ public class Friendly : Entity, IPoolable
         GetInterface<IDamagable>()?.Initialize();
         GetInterface<IFootstep>()?.Initialize();
         GetInterface<IFootstep>()?.Initialize();
-        GetInterface<ISkinable>()?.ApplySkin(BaseData.AnimatorController);
+        GetInterface<ISkinable>()?.ApplySkin(BaseData.AnimationData);
         GetInterface<ITargetable>()?.Initialize();
         GetInterface<IAnimatable>()?.Initialize();
     }

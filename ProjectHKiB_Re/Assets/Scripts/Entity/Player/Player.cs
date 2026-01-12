@@ -76,7 +76,7 @@ public class Player : Entity, IGraffitiable
         InitializeModules();
 
         //graffiti
-        GetInterface<ISkinable>()?.ApplySkin(BaseData.AnimatorController);
+        GetInterface<ISkinable>()?.ApplySkin(BaseData.AnimationData);
     }
 
     public void SetGear(MergedPlayerBaseData mergedGear)

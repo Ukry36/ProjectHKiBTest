@@ -40,5 +40,5 @@ IDodgeableBase, IDamagableBase, IGraffitiable, ISkinableBase, IAnimatableBase, I
     [field: NaughtyAttributes.Foldout("Skin")][field: SerializeField] public SkinDataSO SkinData { get; set; }
 
     [field: NaughtyAttributes.Foldout("Control")][field: SerializeField] public StateMachineSO StateMachine { get; set; }
-    [field: NaughtyAttributes.Foldout("Control")][field: SerializeField] public AnimatorController AnimatorController { get; set; }
+    [field: NaughtyAttributes.Foldout("Control")][field: SerializeField] public SimpleAnimationDataSO AnimationData { get; set; }
 }

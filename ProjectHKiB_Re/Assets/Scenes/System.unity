@@ -4458,7 +4458,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 7, y: 9}
+  m_Size: {x: 5, y: 5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -13601,10 +13601,10 @@ GameObject:
   - component: {fileID: 327803498}
   - component: {fileID: 327803497}
   - component: {fileID: 327803496}
-  - component: {fileID: 327803490}
   - component: {fileID: 327803494}
   - component: {fileID: 327803493}
   - component: {fileID: 327803495}
+  - component: {fileID: 327803506}
   m_Layer: 10
   m_Name: Player
   m_TagString: Untagged
@@ -13632,27 +13632,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &327803490
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 327803487}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 88420511085a1e8429f1c920b5b933d1, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!61 &327803493
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -13748,7 +13727,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0f1216edf8a1cd438f8653f6af549f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Animator>k__BackingField: {fileID: 327803490}
+  <AnimationPlayer>k__BackingField: {fileID: 327803506}
   <CurrentAnimation>k__BackingField: 
   mathManager: {fileID: 11400000, guid: d70d30fe513b9cc4bb4206690e1ecbf7, type: 2}
 --- !u!114 &327803499
@@ -13863,6 +13842,25 @@ MonoBehaviour:
   databaseManager: {fileID: 11400000, guid: 6bc54106ea95a9242946feafc44a5dfe, type: 2}
   sprite: {fileID: 126782212}
   canInteractHeight: 0
+--- !u!114 &327803506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 327803487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dfacbf76c0599c4aa3326aa7f0bc6a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animationData: {fileID: 11400000, guid: 64c26bbc28dc143448b8f534be845bc2, type: 2}
+  playOnAwake: 1
+  onCustomEventTriggered:
+    m_PersistentCalls:
+      m_Calls: []
+  _spriteResolver: {fileID: 126782214}
+  _currentAnimDir: 0
 --- !u!1 &331044352
 GameObject:
   m_ObjectHideFlags: 0
@@ -68514,9 +68512,9 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.1669708
+    x: 0
     y: 0
-    width: 0.6666667
+    width: 1
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
