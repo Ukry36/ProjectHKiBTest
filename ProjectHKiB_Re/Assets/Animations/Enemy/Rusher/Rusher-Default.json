@@ -5,112 +5,192 @@
             "sheetNum": 0,
             "startFrame": 0,
             "endFrame": 1,
-            "frameRate": 2
+            "frameRate": 2,
+            "check": false
         },
         {
             "name": "IdleL",
             "sheetNum": 0,
             "startFrame": 2,
             "endFrame": 3,
-            "frameRate": 2
+            "frameRate": 2,
+            "check": false
         },
         {
             "name": "IdleR",
             "sheetNum": 0,
             "startFrame": 4,
             "endFrame": 5,
-            "frameRate": 2
+            "frameRate": 2,
+            "check": false
         },
         {
             "name": "IdleU",
             "sheetNum": 0,
             "startFrame": 6,
             "endFrame": 7,
-            "frameRate": 2
+            "frameRate": 2,
+            "check": false
         },
         {
             "name": "WalkD",
             "sheetNum": 0,
             "startFrame": 8,
             "endFrame": 9,
-            "frameRate": 2
+            "frameRate": 2,
+            "check": false
         },
         {
             "name": "WalkL",
             "sheetNum": 0,
             "startFrame": 10,
             "endFrame": 11,
-            "frameRate": 2
+            "frameRate": 2,
+            "check": false
         },
         {
             "name": "WalkR",
             "sheetNum": 0,
             "startFrame": 12,
             "endFrame": 13,
-            "frameRate": 2
+            "frameRate": 2,
+            "check": false
         },
         {
             "name": "WalkU",
             "sheetNum": 0,
             "startFrame": 14,
             "endFrame": 15,
-            "frameRate": 2
+            "frameRate": 2,
+            "check": false
         },
         {
-            "name": "Skill01D",
+            "name": "Skill01FrontD",
             "sheetNum": 0,
             "startFrame": 16,
-            "endFrame": 24,
-            "frameRate": 9
+            "endFrame": 20,
+            "frameRate": 5,
+            "check": false
         },
         {
-            "name": "Skill01L",
+            "name": "Skill01RearD",
+            "sheetNum": 0,
+            "startFrame": 21,
+            "endFrame": 24,
+            "frameRate": 4,
+            "check": false
+        },
+        {
+            "name": "Skill01FrontL",
             "sheetNum": 0,
             "startFrame": 25,
-            "endFrame": 33,
-            "frameRate": 9
+            "endFrame": 29,
+            "frameRate": 5,
+            "check": false
         },
         {
-            "name": "Skill01R",
+            "name": "Skill01RearL",
+            "sheetNum": 0,
+            "startFrame": 30,
+            "endFrame": 33,
+            "frameRate": 4,
+            "check": false
+        },
+        {
+            "name": "Skill01FrontR",
             "sheetNum": 0,
             "startFrame": 34,
-            "endFrame": 42,
-            "frameRate": 9
+            "endFrame": 38,
+            "frameRate": 5,
+            "check": false
         },
         {
-            "name": "Skill01U",
+            "name": "Skill01RearR",
+            "sheetNum": 0,
+            "startFrame": 39,
+            "endFrame": 42,
+            "frameRate": 4,
+            "check": false
+        },
+        {
+            "name": "Skill01FrontU",
             "sheetNum": 0,
             "startFrame": 43,
-            "endFrame": 51,
-            "frameRate": 9
+            "endFrame": 47,
+            "frameRate": 5,
+            "check": false
         },
         {
-            "name": "Skill02D",
+            "name": "Skill01RearU",
+            "sheetNum": 0,
+            "startFrame": 48,
+            "endFrame": 51,
+            "frameRate": 4,
+            "check": false
+        },
+        {
+            "name": "Skill02FrontD",
             "sheetNum": 0,
             "startFrame": 52,
-            "endFrame": 60,
-            "frameRate": 9
+            "endFrame": 56,
+            "frameRate": 5,
+            "check": false
         },
         {
-            "name": "Skill02L",
+            "name": "Skill02RearD",
+            "sheetNum": 0,
+            "startFrame": 57,
+            "endFrame": 60,
+            "frameRate": 4,
+            "check": false
+        },
+        {
+            "name": "Skill02FrontL",
             "sheetNum": 0,
             "startFrame": 61,
-            "endFrame": 69,
-            "frameRate": 9
+            "endFrame": 65,
+            "frameRate": 5,
+            "check": false
         },
         {
-            "name": "Skill02R",
+            "name": "Skill02RearL",
+            "sheetNum": 0,
+            "startFrame": 66,
+            "endFrame": 69,
+            "frameRate": 4,
+            "check": false
+        },
+        {
+            "name": "Skill02FrontR",
             "sheetNum": 0,
             "startFrame": 70,
-            "endFrame": 78,
-            "frameRate": 9
+            "endFrame": 74,
+            "frameRate": 5,
+            "check": false
         },
         {
-            "name": "Skill02U",
+            "name": "Skill02RearR",
+            "sheetNum": 0,
+            "startFrame": 75,
+            "endFrame": 78,
+            "frameRate": 4,
+            "check": false
+        },
+        {
+            "name": "Skill02FrontU",
             "sheetNum": 0,
             "startFrame": 79,
+            "endFrame": 83,
+            "frameRate": 5,
+            "check": false
+        },
+        {
+            "name": "Skill02RearU",
+            "sheetNum": 0,
+            "startFrame": 84,
             "endFrame": 87,
-            "frameRate": 9
+            "frameRate": 4,
+            "check": false
         }
     ]
 }

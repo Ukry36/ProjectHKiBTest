@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0889972bf4a71534a9dd1737754df357, type: 3}
   m_Name: Rusher_EnemyData
   m_EditorClassIdentifier: 
-  <PoolSize>k__BackingField: 0
   <Speed>k__BackingField: 5
   <SprintCoeff>k__BackingField: 2
   <WallLayer>k__BackingField:
@@ -21,7 +20,7 @@ MonoBehaviour:
   <CanPushLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 2048
-  <FootStepAudio>k__BackingField: {fileID: 0}
+  <DefaultFootstepAudio>k__BackingField: {fileID: 0}
   <BaseATK>k__BackingField: 100
   <CriticalChanceRate>k__BackingField: 0
   <CriticalDamageRate>k__BackingField: 0
@@ -32,10 +31,11 @@ MonoBehaviour:
   - serializedVersion: 2
     m_Bits: 1024
   <DamageParticle>k__BackingField: {fileID: 11400000, guid: b174f0a96b53f244399007d5550166a9, type: 2}
+  <PoolSize>k__BackingField: 0
   <BaseMaxHP>k__BackingField: 1000
   <BaseDEF>k__BackingField: 0
   <Mass>k__BackingField: 1
   <HitSound>k__BackingField: {fileID: 0}
   <HitParticle>k__BackingField: {fileID: 0}
   <StateMachine>k__BackingField: {fileID: 11400000, guid: 3c361795385b07f4b8fe25c7f5251045, type: 2}
-  <AnimatorController>k__BackingField: {fileID: 9100000, guid: 5dfa4a447753fb4429a3765d768c995b, type: 2}
+  <AnimationData>k__BackingField: {fileID: 11400000, guid: a8fe28a3356166e4fb1b72d7a898f463, type: 2}

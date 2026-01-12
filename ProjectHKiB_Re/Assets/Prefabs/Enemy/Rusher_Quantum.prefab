@@ -172,7 +172,6 @@ GameObject:
   - component: {fileID: 6324719739634341055}
   - component: {fileID: 6324719739634341052}
   - component: {fileID: -4043067357377278707}
-  - component: {fileID: 6324719739634341054}
   - component: {fileID: 6324719739634341050}
   - component: {fileID: 6324719739634341051}
   - component: {fileID: 1710609699395622963}
@@ -185,6 +184,7 @@ GameObject:
   - component: {fileID: 3904256491070087543}
   - component: {fileID: 6202066078166058179}
   - component: {fileID: 8626725692367093799}
+  - component: {fileID: 8546177191616803192}
   m_Layer: 11
   m_Name: Rusher_Quantum
   m_TagString: Untagged
@@ -255,27 +255,6 @@ MonoBehaviour:
       _serializedList: []
   _currentState: {fileID: 0}
   TransitionConditions: 
---- !u!95 &6324719739634341054
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6324719739634341053}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 5dfa4a447753fb4429a3765d768c995b, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!50 &6324719739634341050
 Rigidbody2D:
   serializedVersion: 4
@@ -373,6 +352,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a03bee0247418ce4c80da1a5808d480e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <CurrentTarget>k__BackingField: {fileID: 0}
 --- !u!114 &6195478279837076421
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -385,6 +365,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba000cbe4cf4aa549a28074705f5c44e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <CurrentTarget>k__BackingField: {fileID: 0}
   _movable: {fileID: 7350406890297509727}
 --- !u!114 &3393924605090609877
 MonoBehaviour:
@@ -399,6 +380,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageManager: {fileID: 11400000, guid: 69175ed9e37d9e3408bdf3432f4a5b4c, type: 2}
+  _movable: {fileID: 0}
 --- !u!114 &314853664394551743
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -426,7 +408,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0f1216edf8a1cd438f8653f6af549f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Animator>k__BackingField: {fileID: 6324719739634341054}
+  <AnimationPlayer>k__BackingField: {fileID: 8546177191616803192}
   <CurrentAnimation>k__BackingField: 
   mathManager: {fileID: 11400000, guid: d70d30fe513b9cc4bb4206690e1ecbf7, type: 2}
 --- !u!114 &6202066078166058179
@@ -457,6 +439,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entityToBuff: {fileID: 6324719739634341052}
   <CurrentBuffs>k__BackingField: []
+--- !u!114 &8546177191616803192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6324719739634341053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dfacbf76c0599c4aa3326aa7f0bc6a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animationData: {fileID: 11400000, guid: a8fe28a3356166e4fb1b72d7a898f463, type: 2}
+  playOnAwake: 1
+  onCustomEventTriggered:
+    m_PersistentCalls:
+      m_Calls: []
+  _spriteResolver: {fileID: 9067100866608486009}
+  _currentAnimDir: 0
 --- !u!1001 &6324719739667269833
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,0 +1,167 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a62b25bd3a0e9f8489d184b8ff14b3e1, type: 3}
+  m_Name: Rusher_AnimationBase
+  m_EditorClassIdentifier: 
+  sourceLibraryAsset: {fileID: 11400000, guid: 8489d749e010f9e489010892164bd720, type: 2}
+  defaultClipName: Idle
+  clips:
+  - clipName: Idle
+    categoryKeys:
+      _serializedList:
+      - Key: 0
+        Value: IdleD
+      - Key: 2
+        Value: IdleL
+      - Key: 1
+        Value: IdleR
+      - Key: 3
+        Value: IdleU
+    isLoop: 1
+    tickSeconds: 0.1
+    frames:
+    - labelKey: 0
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 1
+      durationModifier: 1
+      triggerEventName: 
+  - clipName: Walk
+    categoryKeys:
+      _serializedList:
+      - Key: 0
+        Value: WalkD
+      - Key: 2
+        Value: WalkL
+      - Key: 1
+        Value: WalkR
+      - Key: 3
+        Value: WalkU
+    isLoop: 1
+    tickSeconds: 0.1
+    frames:
+    - labelKey: 0
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 1
+      durationModifier: 1
+      triggerEventName: 
+  - clipName: Skill01Front
+    categoryKeys:
+      _serializedList:
+      - Key: 0
+        Value: Skill01FrontD
+      - Key: 2
+        Value: Skill01FrontL
+      - Key: 1
+        Value: Skill01FrontR
+      - Key: 3
+        Value: Skill01FrontU
+    isLoop: 1
+    tickSeconds: 0.1
+    frames:
+    - labelKey: 0
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 1
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 2
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 3
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 4
+      durationModifier: 1
+      triggerEventName: 
+  - clipName: Skill01Rear
+    categoryKeys:
+      _serializedList:
+      - Key: 0
+        Value: Skill01RearD
+      - Key: 2
+        Value: Skill01RearL
+      - Key: 1
+        Value: Skill01RearR
+      - Key: 3
+        Value: Skill01RearU
+    isLoop: 1
+    tickSeconds: 0.1
+    frames:
+    - labelKey: 0
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 1
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 2
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 3
+      durationModifier: 1
+      triggerEventName: 
+  - clipName: Skill02Front
+    categoryKeys:
+      _serializedList:
+      - Key: 0
+        Value: Skill02FrontD
+      - Key: 2
+        Value: Skill02FrontL
+      - Key: 1
+        Value: Skill02FrontR
+      - Key: 3
+        Value: Skill02FrontU
+    isLoop: 1
+    tickSeconds: 0.1
+    frames:
+    - labelKey: 0
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 1
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 2
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 3
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 4
+      durationModifier: 1
+      triggerEventName: 
+  - clipName: Skill02Rear
+    categoryKeys:
+      _serializedList:
+      - Key: 0
+        Value: Skill02RearD
+      - Key: 2
+        Value: Skill02RearL
+      - Key: 1
+        Value: Skill02RearR
+      - Key: 3
+        Value: Skill02RearU
+    isLoop: 1
+    tickSeconds: 0.1
+    frames:
+    - labelKey: 0
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 1
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 2
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 3
+      durationModifier: 1
+      triggerEventName: 
