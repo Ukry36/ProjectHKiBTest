@@ -32,6 +32,7 @@ public class GearView : MonoBehaviour
         if (gearName) gearName.text = null;
     }
 
+    public void UpdateGearFromInventory(Button button) => UpdateGearFromInventory(button.transform.GetSiblingIndex());
     public void UpdateGearFromInventory(int gearIndex) => UpdateGear(GameManager.instance.inventoryManager.playerGearInventory.Values.ToList().GetSafe(gearIndex).data);
     public void UpdateGearFromCard(int slotNum) => UpdateGearFromCard(GameManager.instance.gearManager.CurrentEdittingCard, slotNum);
     public void UpdateGearFromCard(int cardIndex, int slotNum) => UpdateGear(GameManager.instance.gearManager.GetCardData(cardIndex).GearList.GetSafe(slotNum).data);

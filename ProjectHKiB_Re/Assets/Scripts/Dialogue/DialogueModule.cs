@@ -5,7 +5,6 @@ using UnityEngine;
 using DG.Tweening;
 using TMPro;
 using R3;
-using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using System;
 
