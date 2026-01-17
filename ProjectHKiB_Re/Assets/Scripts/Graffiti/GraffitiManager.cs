@@ -1,81 +1,77 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GraffitiManager : MonoBehaviour
 {
     private List<Vector2> graffitiProgress = new();
-    private List<PlayerSkillDataSO> skillList = new();
-    
-    public PlayerSkillDataSO[] SkillListTemp;
-    private int completedSkillNum = -1;
-    private bool check = true;
-    //��ų �߰��ڵ�
+    private Vector2 graffitiStartPos;
+    public GearManager gearManager;
+    public InputManager inputManager;
+    public Cooltime graffitiTimer;
+    public float graffitiMaxTime = 6;
 
-    // public bool ContainsVector(Vector2 target)
-    // {
-
-    //     return false;
-    // }
-
-    //�̰� ���� ������ ��ũ��Ʈ ������ �ҵ�. 
-
-    //���� ��ǥ currentVector
+    public void StartGraffiti(Transform transform)
+    {
+        inputManager.GRAFFITIMode();
+        graffitiStartPos = transform.position;
+        graffitiProgress.Clear();
+        graffitiProgress.Add(graffitiStartPos);
+        graffitiTimer = new();
+        graffitiTimer.StartCooltime(graffitiMaxTime, EndGraffitiNormal);
+    }
 
     /// <summary>
     /// called everytime when player moves in graffiti
     /// </summary>
-    /// <param name="currentPlayerPos"> current player pos</param>
-    public void CheckGraffitiProgress(Vector2 currentPlayerPos) //�̰� �� �ǵ�� ��¼�� �̰� �� ����
+    /// <param name="playerPos"> current player pos</param>
+    public void ProcessGraffiti(Vector2 playerPos) 
     {  
-        
-        // ������ ������ ȣ��
+        Vector2 currentPos = playerPos - graffitiStartPos;
+        graffitiProgress.Add(Vector2.right * Mathf.RoundToInt(currentPos.x) + Vector2.up * Mathf.RoundToInt(currentPos.y));
 
-        // ValidateVectorSet�� 
-        //false�� �������� �ǵ��� �Բ�
-        //vectorset �ʱ�ȭ�ϰ� ����Ʈ �׸� �͵� ����.
-        //���ÿ�completedSkillNum >= 0�̸� CheckGraffitiComplete ȣ�� ,
-
-        //true�� �̵��� �ڸ��� ��¦��
-        // CheckCompleted >= 0 �� ���� �ǵ��, completedSkillNum�� ��
-        //get player's vector
-        
-        graffitiProgress.Add(currentPlayerPos);
-        
-        //print Vectorset();
-        int completedSkillNum = CheckCompleted();
-
-        if(completedSkillNum >= 0)
+        if(CheckCompleted() >= 0)
         {
-            //success feedback-> green effect
-            EndGraffiti();
+            //success feedback
             return;
         }
 
-
-        check = ValidateProgress(graffitiProgress);
-        //fail
-        if (!check)
+        if (!ValidateProgress())
         {
-            //fail feedback-> red effect
+            //fail feedback
             graffitiProgress.Clear();
         }
     }
 
-    private void EndGraffiti()
+    public void EndGraffitiNormal()
     {
-        TriggerSkill(completedSkillNum);
+        gearManager.EquipCard(CheckCompleted());
         graffitiProgress.Clear();
+        inputManager.PLAYMode();
+    }
+    public void EndGraffitiAttack()
+    {
+        EndGraffitiNormal();
+        // takes graffiti guage
+        // trigger special attack
+    }
+    public void EndGraffitiSkill()
+    {
+        EndGraffitiNormal();
+        // takes graffiti guage
+        // trigger special skill
     }
 
-    private bool ValidateProgress(List<Vector2> graffitiProgress)
+    private bool ValidateProgress()
     {
-        for(int skill = 0; skill < SkillListTemp.Length; skill++)
+        for(int cardNum = 0; cardNum < gearManager.MaxCardCount; cardNum++)
         {
-            for (int i = 0; i < SkillListTemp[skill].graffitiAllCases.Count; i++)
+            CardData card = gearManager.GetCardData(cardNum);
+            if (card != null) continue;
+            GearDataSO gear = card.mergedGearList.GetSafe(cardNum);
+            if (!gear || gear == gearManager.DefaultGearData) continue; 
+            for (int i = 0; i < gear.graffitiAllCases.Count; i++)
             {
-                List<Vector2> graffitiCode = SkillListTemp[skill].graffitiAllCases[i].code;
+                List<Vector2> graffitiCode = gear.graffitiAllCases[i].code;
                 bool isSkillValid = true;
                 for (int j = 0; j < graffitiProgress.Count; j++)
                 {
@@ -90,45 +86,23 @@ public class GraffitiManager : MonoBehaviour
         }
         return false;
     }
-
-    public void TriggerSkill(int num)
-    {
-        // trigger skill
-        // trigger func from player script
-    }
-    // �׶���Ƽ ���� ���� ��ǲ�� ������ ȣ��
-    // �÷��̾ ��ų �ߵ��ϵ��� ��
-
-    //List<Vector2> VectorSet()
-    //{
-    //    List<Vector2> patterns=null;
-//
-    //    foreach (var graffitiCode in SkillListTemp.graffitiAllCases){
-    //        if (graffitiProgress.All(vector => graffitiCode.code.Contains(vector)))
-    //            {
-    //                patterns = graffitiCode.code;  
-    //                break;
-    //            }
-    //    }
-    //    return patterns;
-    //}
-
     
-
-    // �̵��� ������ vectorset�� ��ų �߿� ���ԵǴ��� Ȯ��
     int CheckCompleted()
     {
-        for(int skill = 0; skill < SkillListTemp.Length; skill++)
+        for(int cardNum = 0; cardNum < gearManager.MaxCardCount; cardNum++)
         {
-            for (int i = 0; i < SkillListTemp[skill].graffitiAllCases.Count; i++)
+            CardData card = gearManager.GetCardData(cardNum);
+            if (card != null) continue;
+            GearDataSO gear = card.mergedGearList.GetSafe(cardNum);
+            if (!gear || gear == gearManager.DefaultGearData) continue; 
+            for (int i = 0; i < gear.graffitiAllCases.Count; i++)
             {
-                List<Vector2> graffitiCode = SkillListTemp[skill].graffitiAllCases[i].code;
+                List<Vector2> graffitiCode = gear.graffitiAllCases[i].code;
                 if (graffitiCode == graffitiProgress)
-                    return skill;
+                    return cardNum;
             }
         }
         return -1;
     }
-    // ���� vectorset�� ��ų �� �ϳ��� ��ġ�ϴ��� Ȯ��
 
 }

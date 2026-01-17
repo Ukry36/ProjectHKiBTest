@@ -294,7 +294,7 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""acaa6066-76eb-4aad-bd36-47cd1b0c69f4"",
-                    ""path"": ""<Keyboard>/1"",
+                    ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -896,6 +896,218 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""GRAFFITI"",
+            ""id"": ""1fb7457b-d495-4391-b079-9a6881d779a6"",
+            ""actions"": [
+                {
+                    ""name"": ""Move"",
+                    ""type"": ""Value"",
+                    ""id"": ""1e06173b-6a5a-4e99-8f23-b61531b07377"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""MovePressedD"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""c67a0f6f-abb2-4967-a654-5de439ab3aa9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MovePressedR"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""de96fc54-d5d1-442b-b371-b9ad2a057908"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MovePressedU"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""e0edcd01-28a9-4122-996d-e9952996faa4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MovePressedL"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""d67ee295-59c4-438d-ac6b-623bf645da08"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Attack"",
+                    ""type"": ""Button"",
+                    ""id"": ""0b8c5b1f-7bf6-4c97-be9a-f86f17247752"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""GraffitiSystem"",
+                    ""type"": ""Button"",
+                    ""id"": ""d66a3359-ccee-457e-8dee-e93575a3e6b5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Skill"",
+                    ""type"": ""Button"",
+                    ""id"": ""0af3c09c-3553-4185-ba7a-44d50390d94e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""2300fd54-1640-41e2-b036-583cd976c3e1"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""b900c1d4-6567-473f-9a07-e94213aede58"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PC"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""566314c9-16c1-4e29-a3c9-b6a10548661b"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PC"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""1b5dcfa6-6011-4ccc-abab-4939759eed84"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PC"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""726e7fb5-2afc-485c-b64c-1179f72b83c8"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PC"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bc521ee0-bfdd-4d94-8879-af46445cbcf5"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MovePressedD"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""af747597-e991-49c3-8ee4-74ecc3aec1a4"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MovePressedR"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ad24f526-9456-4883-b520-338bdafc2f63"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MovePressedU"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d52d0514-382f-4f9e-a19c-0f93e4bcbd91"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MovePressedL"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""16935eb9-0196-4bf9-baf8-18143c4537a0"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9d19b1df-3c85-4581-bb56-8c9e6dbda0c3"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GraffitiSystem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fc535f72-7818-4c94-bd67-c49b14474096"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Skill"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -938,6 +1150,16 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
         m_MENU_RightClick = m_MENU.FindAction("RightClick", throwIfNotFound: true);
         m_MENU_TrackedDevicePosition = m_MENU.FindAction("TrackedDevicePosition", throwIfNotFound: true);
         m_MENU_TrackedDeviceOrientation = m_MENU.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
+        // GRAFFITI
+        m_GRAFFITI = asset.FindActionMap("GRAFFITI", throwIfNotFound: true);
+        m_GRAFFITI_Move = m_GRAFFITI.FindAction("Move", throwIfNotFound: true);
+        m_GRAFFITI_MovePressedD = m_GRAFFITI.FindAction("MovePressedD", throwIfNotFound: true);
+        m_GRAFFITI_MovePressedR = m_GRAFFITI.FindAction("MovePressedR", throwIfNotFound: true);
+        m_GRAFFITI_MovePressedU = m_GRAFFITI.FindAction("MovePressedU", throwIfNotFound: true);
+        m_GRAFFITI_MovePressedL = m_GRAFFITI.FindAction("MovePressedL", throwIfNotFound: true);
+        m_GRAFFITI_Attack = m_GRAFFITI.FindAction("Attack", throwIfNotFound: true);
+        m_GRAFFITI_GraffitiSystem = m_GRAFFITI.FindAction("GraffitiSystem", throwIfNotFound: true);
+        m_GRAFFITI_Skill = m_GRAFFITI.FindAction("Skill", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1247,6 +1469,108 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
         }
     }
     public MENUActions @MENU => new MENUActions(this);
+
+    // GRAFFITI
+    private readonly InputActionMap m_GRAFFITI;
+    private List<IGRAFFITIActions> m_GRAFFITIActionsCallbackInterfaces = new List<IGRAFFITIActions>();
+    private readonly InputAction m_GRAFFITI_Move;
+    private readonly InputAction m_GRAFFITI_MovePressedD;
+    private readonly InputAction m_GRAFFITI_MovePressedR;
+    private readonly InputAction m_GRAFFITI_MovePressedU;
+    private readonly InputAction m_GRAFFITI_MovePressedL;
+    private readonly InputAction m_GRAFFITI_Attack;
+    private readonly InputAction m_GRAFFITI_GraffitiSystem;
+    private readonly InputAction m_GRAFFITI_Skill;
+    public struct GRAFFITIActions
+    {
+        private @PlayerAction m_Wrapper;
+        public GRAFFITIActions(@PlayerAction wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Move => m_Wrapper.m_GRAFFITI_Move;
+        public InputAction @MovePressedD => m_Wrapper.m_GRAFFITI_MovePressedD;
+        public InputAction @MovePressedR => m_Wrapper.m_GRAFFITI_MovePressedR;
+        public InputAction @MovePressedU => m_Wrapper.m_GRAFFITI_MovePressedU;
+        public InputAction @MovePressedL => m_Wrapper.m_GRAFFITI_MovePressedL;
+        public InputAction @Attack => m_Wrapper.m_GRAFFITI_Attack;
+        public InputAction @GraffitiSystem => m_Wrapper.m_GRAFFITI_GraffitiSystem;
+        public InputAction @Skill => m_Wrapper.m_GRAFFITI_Skill;
+        public InputActionMap Get() { return m_Wrapper.m_GRAFFITI; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(GRAFFITIActions set) { return set.Get(); }
+        public void AddCallbacks(IGRAFFITIActions instance)
+        {
+            if (instance == null || m_Wrapper.m_GRAFFITIActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_GRAFFITIActionsCallbackInterfaces.Add(instance);
+            @Move.started += instance.OnMove;
+            @Move.performed += instance.OnMove;
+            @Move.canceled += instance.OnMove;
+            @MovePressedD.started += instance.OnMovePressedD;
+            @MovePressedD.performed += instance.OnMovePressedD;
+            @MovePressedD.canceled += instance.OnMovePressedD;
+            @MovePressedR.started += instance.OnMovePressedR;
+            @MovePressedR.performed += instance.OnMovePressedR;
+            @MovePressedR.canceled += instance.OnMovePressedR;
+            @MovePressedU.started += instance.OnMovePressedU;
+            @MovePressedU.performed += instance.OnMovePressedU;
+            @MovePressedU.canceled += instance.OnMovePressedU;
+            @MovePressedL.started += instance.OnMovePressedL;
+            @MovePressedL.performed += instance.OnMovePressedL;
+            @MovePressedL.canceled += instance.OnMovePressedL;
+            @Attack.started += instance.OnAttack;
+            @Attack.performed += instance.OnAttack;
+            @Attack.canceled += instance.OnAttack;
+            @GraffitiSystem.started += instance.OnGraffitiSystem;
+            @GraffitiSystem.performed += instance.OnGraffitiSystem;
+            @GraffitiSystem.canceled += instance.OnGraffitiSystem;
+            @Skill.started += instance.OnSkill;
+            @Skill.performed += instance.OnSkill;
+            @Skill.canceled += instance.OnSkill;
+        }
+
+        private void UnregisterCallbacks(IGRAFFITIActions instance)
+        {
+            @Move.started -= instance.OnMove;
+            @Move.performed -= instance.OnMove;
+            @Move.canceled -= instance.OnMove;
+            @MovePressedD.started -= instance.OnMovePressedD;
+            @MovePressedD.performed -= instance.OnMovePressedD;
+            @MovePressedD.canceled -= instance.OnMovePressedD;
+            @MovePressedR.started -= instance.OnMovePressedR;
+            @MovePressedR.performed -= instance.OnMovePressedR;
+            @MovePressedR.canceled -= instance.OnMovePressedR;
+            @MovePressedU.started -= instance.OnMovePressedU;
+            @MovePressedU.performed -= instance.OnMovePressedU;
+            @MovePressedU.canceled -= instance.OnMovePressedU;
+            @MovePressedL.started -= instance.OnMovePressedL;
+            @MovePressedL.performed -= instance.OnMovePressedL;
+            @MovePressedL.canceled -= instance.OnMovePressedL;
+            @Attack.started -= instance.OnAttack;
+            @Attack.performed -= instance.OnAttack;
+            @Attack.canceled -= instance.OnAttack;
+            @GraffitiSystem.started -= instance.OnGraffitiSystem;
+            @GraffitiSystem.performed -= instance.OnGraffitiSystem;
+            @GraffitiSystem.canceled -= instance.OnGraffitiSystem;
+            @Skill.started -= instance.OnSkill;
+            @Skill.performed -= instance.OnSkill;
+            @Skill.canceled -= instance.OnSkill;
+        }
+
+        public void RemoveCallbacks(IGRAFFITIActions instance)
+        {
+            if (m_Wrapper.m_GRAFFITIActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IGRAFFITIActions instance)
+        {
+            foreach (var item in m_Wrapper.m_GRAFFITIActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_GRAFFITIActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public GRAFFITIActions @GRAFFITI => new GRAFFITIActions(this);
     private int m_PCSchemeIndex = -1;
     public InputControlScheme PCScheme
     {
@@ -1283,5 +1607,16 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
         void OnRightClick(InputAction.CallbackContext context);
         void OnTrackedDevicePosition(InputAction.CallbackContext context);
         void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
+    }
+    public interface IGRAFFITIActions
+    {
+        void OnMove(InputAction.CallbackContext context);
+        void OnMovePressedD(InputAction.CallbackContext context);
+        void OnMovePressedR(InputAction.CallbackContext context);
+        void OnMovePressedU(InputAction.CallbackContext context);
+        void OnMovePressedL(InputAction.CallbackContext context);
+        void OnAttack(InputAction.CallbackContext context);
+        void OnGraffitiSystem(InputAction.CallbackContext context);
+        void OnSkill(InputAction.CallbackContext context);
     }
 }
