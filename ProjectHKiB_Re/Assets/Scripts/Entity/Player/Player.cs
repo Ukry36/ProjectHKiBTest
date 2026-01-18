@@ -10,7 +10,7 @@ using Assets.Scripts.Interfaces.Modules;
 [RequireComponent(typeof(DirAnimatableModule))]
 [RequireComponent(typeof(FootStepModule))]
 [RequireComponent(typeof(BuffableModule))]
-public class Player : Entity, IGraffitiable
+public class Player : Entity
 {
     #region field
 
@@ -68,7 +68,6 @@ public class Player : Entity, IGraffitiable
         databaseManager.SetIDamagable(this, BaseData);
         databaseManager.SetIDodgeable(this, BaseData);
         databaseManager.SetIFootstep(this, BaseData);
-        databaseManager.SetGraffitiable(this, BaseData);
         databaseManager.SetISkinable(this, BaseData);
         databaseManager.SetITargetable(this, BaseData);
         databaseManager.SetIDirAnimatable(this, BaseData);

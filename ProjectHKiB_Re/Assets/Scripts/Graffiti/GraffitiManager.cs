@@ -7,8 +7,13 @@ public class GraffitiManager : MonoBehaviour
     private Vector2 graffitiStartPos;
     public GearManager gearManager;
     public InputManager inputManager;
-    public Cooltime graffitiTimer;
+    private Cooltime _graffitiTimer = new();
     public float graffitiMaxTime = 6;
+
+    public int MaxGP;
+    public int GP;
+
+    public bool IsGraffitiEnded => _graffitiTimer.IsCooltimeEnded;
 
     public void StartGraffiti(Transform transform)
     {
@@ -16,8 +21,8 @@ public class GraffitiManager : MonoBehaviour
         graffitiStartPos = transform.position;
         graffitiProgress.Clear();
         graffitiProgress.Add(graffitiStartPos);
-        graffitiTimer = new();
-        graffitiTimer.StartCooltime(graffitiMaxTime, EndGraffitiNormal);
+        _graffitiTimer.StartCooltime(graffitiMaxTime, EndGraffitiNormal);
+        GP--;
     }
 
     /// <summary>
@@ -41,9 +46,17 @@ public class GraffitiManager : MonoBehaviour
             graffitiProgress.Clear();
         }
     }
-
+    
+    public void EndGraffitiTime()
+    {
+        if (CheckCompleted() >= 0)
+            EndGraffitiAttack();
+        else
+            EndGraffitiNormal();
+    }
     public void EndGraffitiNormal()
     {
+        _graffitiTimer.CancelCooltime();
         gearManager.EquipCard(CheckCompleted());
         graffitiProgress.Clear();
         inputManager.PLAYMode();
@@ -51,14 +64,14 @@ public class GraffitiManager : MonoBehaviour
     public void EndGraffitiAttack()
     {
         EndGraffitiNormal();
-        // takes graffiti guage
         // trigger special attack
     }
     public void EndGraffitiSkill()
     {
         EndGraffitiNormal();
-        // takes graffiti guage
+        
         // trigger special skill
+        GP = 0;
     }
 
     private bool ValidateProgress()

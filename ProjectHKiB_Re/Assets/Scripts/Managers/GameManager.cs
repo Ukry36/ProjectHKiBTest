@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     public GearManager gearManager;
     public InventoryManager inventoryManager;
     public UIManager UIManager;
+    public GraffitiManager graffitiManager;
 
     public Player player;
 

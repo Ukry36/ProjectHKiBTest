@@ -3,7 +3,7 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "PlayerBaseData", menuName = "Scriptable Objects/Data/PlayerBaseData", order = 1)]
 public class PlayerBaseDataSO : ScriptableObject, IMovableBase, IAttackableBase, ITargetableBase,
-IDodgeableBase, IDamagableBase, IGraffitiable, ISkinableBase, IAnimatableBase, IFootstepBase
+IDodgeableBase, IDamagableBase, ISkinableBase, IAnimatableBase, IFootstepBase
 {
     [field: NaughtyAttributes.Foldout("Move")][field: SerializeField] public float Speed { get; set; }
     [field: NaughtyAttributes.Foldout("Move")][field: SerializeField] public float SprintCoeff { get; set; }

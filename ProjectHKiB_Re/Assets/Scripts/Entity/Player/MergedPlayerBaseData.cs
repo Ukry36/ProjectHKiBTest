@@ -2,7 +2,7 @@ using System;
 using UnityEditor.Animations;
 using UnityEngine;
 public class MergedPlayerBaseData : IMovableBase, IAttackableBase, ITargetableBase, IDodgeableBase,
-IDamagableBase, IGraffitiable, ISkinableBase, IAnimatableBase, IFootstepBase
+IDamagableBase, ISkinableBase, IAnimatableBase, IFootstepBase
 {
     public MovePoint MovePoint { get; set; }
     public float Speed { get; set; }

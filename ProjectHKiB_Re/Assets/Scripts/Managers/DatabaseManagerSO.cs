@@ -58,11 +58,6 @@ public class DatabaseManagerSO : ScriptableObject
         dodgeable.JustDodgeBuff = data.JustDodgeBuff;
     }
 
-    public void SetGraffitiable(IGraffitiable graffiriable, IGraffitiable data)
-    {
-        graffiriable.GP = data.GP;
-        graffiriable.MaxGP = data.MaxGP;
-    }
     public void SetIMovable(IInterfaceRegistable entity, IMovableBase data)
     => SetIMovable(entity.GetInterface<IMovable>(), data);
     public void SetIMovable(IMovableBase movable, IMovableBase data)
