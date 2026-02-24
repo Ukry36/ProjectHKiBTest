@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08cea4f0a0224344d9e342e6a30a2d6d, type: 3}
+  m_Name: LoadWaitReadyState
+  m_EditorClassIdentifier: 
+  transitions:
+  - availableTime: 0
+    decisions:
+    - decision: {fileID: 11400000, guid: 6e9d747bcb24b3a478990a796520f9b8, type: 2}
+      negate: 0
+    trueState: {fileID: 11400000, guid: 5837353d2e8cc6b43bb8808f14e39b80, type: 2}
+    falseState: {fileID: 11400000}
+  enterActions: []
+  updateActions: []
+  exitActions: []
+  subDecisions: []
+  frameDecisions: []

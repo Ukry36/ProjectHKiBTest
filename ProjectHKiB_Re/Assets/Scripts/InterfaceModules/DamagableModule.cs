@@ -63,6 +63,7 @@ namespace Assets.Scripts.Interfaces.Modules
         {
 
             HP -= 10;
+            Debug.Log($"[Damage10] {name} HP now = {HP}");
             OnDamaged?.Invoke();
         }
 
@@ -94,6 +95,18 @@ namespace Assets.Scripts.Interfaces.Modules
             if (amount <= 0) return;
             HP += amount;
             if (HP > MaxHP) HP = MaxHP;
+            OnHPChanged?.Invoke(HP);
+        }
+        //Save 시스템에서 Hp 저장
+        public void ApplySavedHP(float savedHp)
+        {
+            // 현재 MaxHP 기준으로 clamp
+            HP = Mathf.Clamp(savedHp, 0f, MaxHP);
+
+            // "현재 MaxHP"를 기준으로 prev 동기화해서
+            // 이후 MaxHP 변경 이벤트에서 HP가 또 비율 보정되는 걸 줄임
+            _prevMaxHP = MaxHP;
+
             OnHPChanged?.Invoke(HP);
         }
     }
