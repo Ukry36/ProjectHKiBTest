@@ -5,13 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "State", menuName = "State Machine/State")]
 public class StateSO : ScriptableObject
 {
-    [Serializable]
-    public struct SubDecision
-    {
-        public StateDecisionSO decision;
-        public StateActionSO action;
-        public bool negate;
-    }
+    [HideInInspector] public float temporaryID;
 
     [Serializable]
     public struct FrameDecision
@@ -24,8 +18,6 @@ public class StateSO : ScriptableObject
     public StateActionSO[] enterActions;
     public StateActionSO[] updateActions;
     public StateActionSO[] exitActions;
-
-    public SubDecision[] subDecisions;
     public FrameDecision[] frameDecisions;
 
     public virtual void EnterState(StateController stateController)
@@ -36,6 +28,7 @@ public class StateSO : ScriptableObject
         }
         ReserveFrameDecisions(stateController);
         ReserveTransitions(stateController);
+        Debug.Log(name);
     }
 
     public void ReserveFrameDecisions(StateController stateController)
@@ -55,18 +48,8 @@ public class StateSO : ScriptableObject
 
     public virtual void UpdateState(StateController stateController)
     {
-        //Debug.Log("current anim time: " + stateController.animationController.animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
-        //Debug.Log("current anim frame: " + stateController.animationController.animator.GetCurrentAnimatorStateInfo(0).length * stateController.animationController.animator.GetCurrentAnimatorStateInfo(0).normalizedTime * 60);
-        int i;
-        for (i = 0; i < updateActions.Length; i++)
-        {
+        for (int i = 0; i < updateActions.Length; i++)
             updateActions[i].Act(stateController);
-        }
-        for (i = 0; i < subDecisions.Length; i++)
-        {
-            if (subDecisions[i].negate ^ subDecisions[i].decision.Decide(stateController))
-                subDecisions[i].action.Act(stateController);
-        }
     }
 
     public IEnumerator DelayedActionCoroutine(int i, StateController stateController)
@@ -109,38 +92,42 @@ public class StateSO : ScriptableObject
         ReserveTransitions(stateController);
     }
 
-    public void CheckTransition(StateController stateController)
+    public void CheckDecision(StateController stateController)
     {
         for (int i = 0; i < transitions.Length; i++)
         {
-            bool canTransition = true;
-            if (!stateController.TransitionConditions[i])
-                continue;
-            for (int j = 0; j < transitions[i].decisions.Length; j++)
+            if (transitions[i].activationInput != EnumManager.InputType.None) continue;
+            if (!stateController.TransitionConditions[i])                     continue;
+
+            if (transitions[i].CheckDecisions(stateController))
             {
-                if (!transitions[i].decisions[j].decision.Decide(stateController) ^ transitions[i].decisions[j].negate)
-                {
-                    canTransition = false;
-                    break;
-                }
+                if (transitions[i].action) {transitions[i].action.Act(stateController);}
+                if (transitions[i].trueState) { stateController.ChangeState(transitions[i].trueState); break; }
             }
-            if (canTransition)
+            else
             {
-                /*
-                string debugMessage = "";
-                for (int j = 0; j < transitions[i].decisions.Length; j++)
-                {
-                    debugMessage += transitions[i].decisions[j].decision.name
-                                + ": "
-                                + transitions[i].decisions[j].decision.Decide(stateController) + " ";
-                }
-                debugMessage += "time: " + (Time.time - stateController.lastChangeStateTime);
-                Debug.Log(transitions[i].trueState.name + "\n" + debugMessage);
-                */
-                if (transitions[i].trueState) stateController.ChangeState(transitions[i].trueState);
-                break;
+                if (transitions[i].falseState) { stateController.ChangeState(transitions[i].falseState); break; }
             }
-            if (transitions[i].falseState) stateController.ChangeState(transitions[i].falseState);
+        }
+    }
+
+    public void CheckInputDecision(StateController stateController, EnumManager.InputType inputType)
+    {
+        for (int i = 0; i < transitions.Length; i++)
+        {
+            if (transitions[i].activationInput == EnumManager.InputType.None) continue;
+            if (!stateController.TransitionConditions[i])                     continue;
+            if (inputType != transitions[i].activationInput)                  continue;
+
+            if (transitions[i].CheckDecisions(stateController))
+            {
+                if (transitions[i].action) {transitions[i].action.Act(stateController);}
+                if (transitions[i].trueState) { stateController.ChangeState(transitions[i].trueState); break; }
+            }
+            else
+            {
+                if (transitions[i].falseState) { stateController.ChangeState(transitions[i].falseState); break; }
+            }
         }
     }
 }

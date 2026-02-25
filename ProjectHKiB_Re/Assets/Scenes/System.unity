@@ -13388,6 +13388,7 @@ MonoBehaviour:
     floatVariables:
       _serializedList: []
   _currentState: {fileID: 0}
+  _stateMachine: {fileID: 0}
   TransitionConditions: 
   yay: {fileID: 1601855039}
   databaseManager: {fileID: 11400000, guid: 6bc54106ea95a9242946feafc44a5dfe, type: 2}
@@ -29804,6 +29805,7 @@ MonoBehaviour:
     floatVariables:
       _serializedList: []
   _currentState: {fileID: 0}
+  _stateMachine: {fileID: 0}
   TransitionConditions: 
   parameters:
     boolVariables:
@@ -63202,6 +63204,7 @@ MonoBehaviour:
     floatVariables:
       _serializedList: []
   _currentState: {fileID: 0}
+  _stateMachine: {fileID: 0}
   TransitionConditions: 
 --- !u!1 &1575683469
 GameObject:
@@ -68690,10 +68693,10 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.21137673
+    x: 0
     y: 0
-    width: 0.5784271
-    height: 0.9989807
+    width: 1
+    height: 1
   near clip plane: 0.1
   far clip plane: 5000
   field of view: 40

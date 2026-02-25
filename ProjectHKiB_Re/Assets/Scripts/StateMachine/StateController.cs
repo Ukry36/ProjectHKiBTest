@@ -6,6 +6,7 @@ public class StateController : InterfaceRegister
 {
     [HideInInspector] public CustomVariableSets customVariables = new();
     [NaughtyAttributes.ReadOnly][SerializeField] protected StateSO _currentState;
+    [NaughtyAttributes.ReadOnly][SerializeField] protected StateMachineSO _stateMachine;
     public StateSO CurrentState
     {
         get => _currentState;
@@ -50,8 +51,7 @@ public class StateController : InterfaceRegister
     public virtual void UpdateState()
     {
         CurrentState.UpdateState(this);
-        //Debug.Log("CheckTransition: " + _currentState.name);
-        CurrentState.CheckTransition(this);
+        CurrentState.CheckDecision(this);
     }
 
     public void Update()
@@ -76,12 +76,17 @@ public class StateController : InterfaceRegister
             Debug.LogError("ERROR: StateMachine Missing!!!");
             return;
         }
+        stateMachine.UnbindCommands();
+        _stateMachine = stateMachine;
+        stateMachine.BindCommands(this);
         CurrentState = stateMachine.initialState;
         CurrentState.EnterState(this);
     }
 
     public void EliminateStateMachine()
     {
+        if (_stateMachine) _stateMachine.UnbindCommands();
+        _stateMachine = null;
         if(CurrentState) CurrentState.ExitState(this);
         CurrentState = null;
         StopAllCoroutines();

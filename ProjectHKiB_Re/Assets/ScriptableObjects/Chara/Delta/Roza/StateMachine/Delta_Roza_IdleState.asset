@@ -12,37 +12,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb85084ca5989854b9dbc2cce1298255, type: 3}
   m_Name: Delta_Roza_IdleState
   m_EditorClassIdentifier: 
+  temporaryID: 0.5699455
   transitions:
-  - availableTime: 0
+  - activationInput: 10
+    availableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: 35a37da16a3d9df4189d1ba8142bdbc6, type: 2}
       negate: 0
     trueState: {fileID: 11400000, guid: cde19cdd37735d7408d033a391c4fc1e, type: 2}
     falseState: {fileID: 0}
-  - availableTime: 0
-    decisions:
-    - decision: {fileID: 11400000, guid: 2b1f8f5f882c1164c9cf0d6f28cc38c7, type: 2}
-      negate: 0
+    action: {fileID: 0}
+  - activationInput: 2
+    availableTime: 0
+    decisions: []
     trueState: {fileID: 11400000, guid: 70ce19e7fc1c9c04fa078dc65a2ed083, type: 2}
     falseState: {fileID: 0}
-  - availableTime: 0
+    action: {fileID: 0}
+  - activationInput: 10
+    availableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: af28755f24b9a564da14f64bdd3a7f40, type: 2}
       negate: 0
     trueState: {fileID: 11400000, guid: cc4bdcdcb162f684aa4182056b09d1ac, type: 2}
     falseState: {fileID: 0}
-  - availableTime: 0
+    action: {fileID: 0}
+  - activationInput: 3
+    availableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: 5080e5686af385f43ba3c3c0a486210c, type: 2}
       negate: 0
-    - decision: {fileID: 11400000, guid: 984a567cf4b1d834cbe7e86dbe8cf828, type: 2}
-      negate: 0
     trueState: {fileID: 11400000, guid: 3e9e252439afd3f4688d00ad06d06ef5, type: 2}
     falseState: {fileID: 0}
+    action: {fileID: 0}
   enterActions: []
   updateActions:
   - {fileID: 11400000, guid: 4ff9702b721b89147abd80a03aeb1ff4, type: 2}
   exitActions: []
-  subDecisions: []
   frameDecisions: []
   animationName: Idle

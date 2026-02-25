@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb85084ca5989854b9dbc2cce1298255, type: 3}
   m_Name: Delta_Roza_WalkState
   m_EditorClassIdentifier: 
+  temporaryID: 0.3466095
   transitions:
-  - availableTime: 0
+  - activationInput: 10
+    availableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: 35a37da16a3d9df4189d1ba8142bdbc6, type: 2}
       negate: 1
@@ -21,38 +23,42 @@ MonoBehaviour:
       negate: 0
     trueState: {fileID: 11400000, guid: aaecd269a081e2a4e8930f4993757b90, type: 2}
     falseState: {fileID: 0}
-  - availableTime: 0
+    action: {fileID: 0}
+  - activationInput: 10
+    availableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: 25fc0810a2a69f84e991d13a162ddaae, type: 2}
       negate: 0
     trueState: {fileID: 11400000, guid: 343c8aa1b5e54e241a0bf7d75e56e217, type: 2}
     falseState: {fileID: 0}
-  - availableTime: 0
-    decisions:
-    - decision: {fileID: 11400000, guid: 2b1f8f5f882c1164c9cf0d6f28cc38c7, type: 2}
-      negate: 0
+    action: {fileID: 0}
+  - activationInput: 2
+    availableTime: 0
+    decisions: []
     trueState: {fileID: 11400000, guid: 70ce19e7fc1c9c04fa078dc65a2ed083, type: 2}
     falseState: {fileID: 0}
-  - availableTime: 0
+    action: {fileID: 0}
+  - activationInput: 10
+    availableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: af28755f24b9a564da14f64bdd3a7f40, type: 2}
       negate: 0
     trueState: {fileID: 11400000, guid: cc4bdcdcb162f684aa4182056b09d1ac, type: 2}
     falseState: {fileID: 0}
-  - availableTime: 0
+    action: {fileID: 0}
+  - activationInput: 3
+    availableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: 5080e5686af385f43ba3c3c0a486210c, type: 2}
       negate: 0
-    - decision: {fileID: 11400000, guid: 984a567cf4b1d834cbe7e86dbe8cf828, type: 2}
-      negate: 0
     trueState: {fileID: 11400000, guid: 3e9e252439afd3f4688d00ad06d06ef5, type: 2}
     falseState: {fileID: 0}
+    action: {fileID: 0}
   enterActions: []
   updateActions:
   - {fileID: 11400000, guid: 7263eacb51896564e8bf3466a98c6b58, type: 2}
   - {fileID: 11400000, guid: c63fa6e559283a9479d938d317595868, type: 2}
   exitActions: []
-  subDecisions: []
   frameDecisions:
   - time: 0.2
     action: {fileID: 11400000, guid: dc2ca73e8a612af42974f1a56f5895c5, type: 2}

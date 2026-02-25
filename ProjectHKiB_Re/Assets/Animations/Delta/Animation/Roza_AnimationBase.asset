@@ -126,7 +126,7 @@ MonoBehaviour:
     tickSeconds: 0.1
     frames:
     - labelKey: 0
-      durationModifier: 2
+      durationModifier: 1
       triggerEventName: 
     - labelKey: 1
       durationModifier: 1
@@ -149,17 +149,78 @@ MonoBehaviour:
     - labelKey: 7
       durationModifier: 1
       triggerEventName: 
-  - clipName: NormalAttack
+  - clipName: NormalAttack0
     categoryKeys:
       _serializedList:
       - Key: 0
-        Value: NormalAttackD
+        Value: NormalAttack0D
       - Key: 2
-        Value: NormalAttackL
+        Value: NormalAttack0L
       - Key: 1
-        Value: NormalAttackR
+        Value: NormalAttack0R
       - Key: 3
-        Value: NormalAttackU
+        Value: NormalAttack0U
+    isLoop: 1
+    tickSeconds: 0.1
+    frames:
+    - labelKey: 0
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 1
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 2
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 3
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 4
+      durationModifier: 1
+      triggerEventName: 
+  - clipName: NormalAttack1
+    categoryKeys:
+      _serializedList:
+      - Key: 0
+        Value: NormalAttack1D
+      - Key: 2
+        Value: NormalAttack1L
+      - Key: 1
+        Value: NormalAttack1R
+      - Key: 3
+        Value: NormalAttack1U
+    isLoop: 1
+    tickSeconds: 0.1
+    frames:
+    - labelKey: 0
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 1
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 2
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 3
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 4
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 5
+      durationModifier: 1
+      triggerEventName: 
+  - clipName: NormalAttack2
+    categoryKeys:
+      _serializedList:
+      - Key: 0
+        Value: NormalAttack2D
+      - Key: 2
+        Value: NormalAttack2L
+      - Key: 1
+        Value: NormalAttack2R
+      - Key: 3
+        Value: NormalAttack2U
     isLoop: 1
     tickSeconds: 0.1
     frames:
@@ -184,87 +245,18 @@ MonoBehaviour:
     - labelKey: 6
       durationModifier: 1
       triggerEventName: 
-    - labelKey: 7
-      durationModifier: 1
-      triggerEventName: 
-    - labelKey: 8
-      durationModifier: 1
-      triggerEventName: 
-    - labelKey: 9
-      durationModifier: 1
-      triggerEventName: 
-    - labelKey: 10
-      durationModifier: 1
-      triggerEventName: 
-    - labelKey: 11
-      durationModifier: 1
-      triggerEventName: 
-    - labelKey: 12
-      durationModifier: 1
-      triggerEventName: 
-    - labelKey: 13
-      durationModifier: 1
-      triggerEventName: 
-    - labelKey: 14
-      durationModifier: 1
-      triggerEventName: 
-    - labelKey: 15
-      durationModifier: 1
-      triggerEventName: 
-    - labelKey: 16
-      durationModifier: 1
-      triggerEventName: 
-    - labelKey: 17
-      durationModifier: 1
-      triggerEventName: 
-    - labelKey: 18
-      durationModifier: 1
-      triggerEventName: 
-    - labelKey: 19
-      durationModifier: 1
-      triggerEventName: 
-    - labelKey: 20
-      durationModifier: 1
-      triggerEventName: 
-    - labelKey: 21
-      durationModifier: 1
-      triggerEventName: 
-    - labelKey: 22
-      durationModifier: 1
-      triggerEventName: 
-    - labelKey: 23
-      durationModifier: 1
-      triggerEventName: 
-    - labelKey: 24
-      durationModifier: 1
-      triggerEventName: 
-    - labelKey: 25
-      durationModifier: 1
-      triggerEventName: 
-    - labelKey: 26
-      durationModifier: 1
-      triggerEventName: 
-    - labelKey: 27
-      durationModifier: 1
-      triggerEventName: 
-    - labelKey: 28
-      durationModifier: 1
-      triggerEventName: 
-    - labelKey: 29
-      durationModifier: 1
-      triggerEventName: 
-  - clipName: DodgeStartEnd
+  - clipName: NormalAttack3
     categoryKeys:
       _serializedList:
       - Key: 0
-        Value: DodgeStartEndD
+        Value: NormalAttack3D
       - Key: 2
-        Value: DodgeStartEndL
+        Value: NormalAttack3L
       - Key: 1
-        Value: DodgeStartEndR
+        Value: NormalAttack3R
       - Key: 3
-        Value: DodgeStartEndU
-    isLoop: 0
+        Value: NormalAttack3U
+    isLoop: 1
     tickSeconds: 0.1
     frames:
     - labelKey: 0
@@ -285,12 +277,90 @@ MonoBehaviour:
     - labelKey: 5
       durationModifier: 1
       triggerEventName: 
-  - clipName: Empty
+    - labelKey: 6
+      durationModifier: 1
+      triggerEventName: 
+  - clipName: NormalAttack4
     categoryKeys:
       _serializedList:
       - Key: 0
-        Value: Empty
-    isLoop: 0
+        Value: NormalAttack4D
+      - Key: 2
+        Value: NormalAttack4L
+      - Key: 1
+        Value: NormalAttack4R
+      - Key: 3
+        Value: NormalAttack4U
+    isLoop: 1
+    tickSeconds: 0.1
+    frames:
+    - labelKey: 0
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 1
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 2
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 3
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 4
+      durationModifier: 1
+      triggerEventName: 
+  - clipName: DodgeStart
+    categoryKeys:
+      _serializedList:
+      - Key: 0
+        Value: DodgeStartD
+      - Key: 2
+        Value: DodgeStartL
+      - Key: 1
+        Value: DodgeStartR
+      - Key: 3
+        Value: DodgeStartU
+    isLoop: 1
+    tickSeconds: 0.1
+    frames:
+    - labelKey: 0
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 1
+      durationModifier: 1
+      triggerEventName: 
+  - clipName: DodgeEnd
+    categoryKeys:
+      _serializedList:
+      - Key: 0
+        Value: DodgeEndD
+      - Key: 2
+        Value: DodgeEndL
+      - Key: 1
+        Value: DodgeEndR
+      - Key: 3
+        Value: DodgeEndU
+    isLoop: 1
+    tickSeconds: 0.1
+    frames:
+    - labelKey: 0
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 1
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 2
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 3
+      durationModifier: 1
+      triggerEventName: 
+  - clipName: DodgeKeep
+    categoryKeys:
+      _serializedList:
+      - Key: 0
+        Value: DodgeKeep
+    isLoop: 1
     tickSeconds: 0.1
     frames:
     - labelKey: 0

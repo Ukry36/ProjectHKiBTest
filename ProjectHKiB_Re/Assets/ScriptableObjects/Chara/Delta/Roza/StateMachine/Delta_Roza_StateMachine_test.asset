@@ -26,3 +26,62 @@ MonoBehaviour:
     floatVariables:
       _serializedList: []
   initialState: {fileID: 11400000, guid: aaecd269a081e2a4e8930f4993757b90, type: 2}
+  allStates:
+  - {fileID: 11400000, guid: d8a697e426d3541408e400975310c7ee, type: 2}
+  - {fileID: 11400000, guid: 2b9bdc2d4bc52e441943094105a7bcb0, type: 2}
+  - {fileID: 11400000, guid: f46601a8232c1504c9495f450a30d73d, type: 2}
+  - {fileID: 11400000, guid: 3e9e252439afd3f4688d00ad06d06ef5, type: 2}
+  - {fileID: 11400000, guid: 0ef79efe3c752334593e6fe0a7e5e44f, type: 2}
+  - {fileID: 11400000, guid: d9ae1ebd689d5514a81b47adf81f7560, type: 2}
+  - {fileID: 11400000, guid: aaecd269a081e2a4e8930f4993757b90, type: 2}
+  - {fileID: 11400000, guid: cc4bdcdcb162f684aa4182056b09d1ac, type: 2}
+  - {fileID: 11400000, guid: 70ce19e7fc1c9c04fa078dc65a2ed083, type: 2}
+  - {fileID: 11400000, guid: 0285686de3f42dd49be8eef7006d0ab4, type: 2}
+  - {fileID: 11400000, guid: f0e9e8927fb8d4f4993a046c90e0d337, type: 2}
+  - {fileID: 11400000, guid: c2d912afd25cc1945bccc3f601764d75, type: 2}
+  - {fileID: 11400000, guid: 895db63db3096e947a02a127d170274e, type: 2}
+  - {fileID: 11400000, guid: 343c8aa1b5e54e241a0bf7d75e56e217, type: 2}
+  - {fileID: 11400000, guid: cde19cdd37735d7408d033a391c4fc1e, type: 2}
+  _commandPairs:
+  - conditionState: {fileID: 11400000, guid: d8a697e426d3541408e400975310c7ee, type: 2}
+    triggerInput: 3
+  - conditionState: {fileID: 11400000, guid: d8a697e426d3541408e400975310c7ee, type: 2}
+    triggerInput: 2
+  - conditionState: {fileID: 11400000, guid: 2b9bdc2d4bc52e441943094105a7bcb0, type: 2}
+    triggerInput: 2
+  - conditionState: {fileID: 11400000, guid: f46601a8232c1504c9495f450a30d73d, type: 2}
+    triggerInput: 3
+  - conditionState: {fileID: 11400000, guid: aaecd269a081e2a4e8930f4993757b90, type: 2}
+    triggerInput: 2
+  - conditionState: {fileID: 11400000, guid: aaecd269a081e2a4e8930f4993757b90, type: 2}
+    triggerInput: 3
+  - conditionState: {fileID: 11400000, guid: cc4bdcdcb162f684aa4182056b09d1ac, type: 2}
+    triggerInput: 3
+  - conditionState: {fileID: 11400000, guid: 70ce19e7fc1c9c04fa078dc65a2ed083, type: 2}
+    triggerInput: 3
+  - conditionState: {fileID: 11400000, guid: 70ce19e7fc1c9c04fa078dc65a2ed083, type: 2}
+    triggerInput: 2
+  - conditionState: {fileID: 11400000, guid: 0285686de3f42dd49be8eef7006d0ab4, type: 2}
+    triggerInput: 3
+  - conditionState: {fileID: 11400000, guid: 0285686de3f42dd49be8eef7006d0ab4, type: 2}
+    triggerInput: 2
+  - conditionState: {fileID: 11400000, guid: f0e9e8927fb8d4f4993a046c90e0d337, type: 2}
+    triggerInput: 3
+  - conditionState: {fileID: 11400000, guid: f0e9e8927fb8d4f4993a046c90e0d337, type: 2}
+    triggerInput: 2
+  - conditionState: {fileID: 11400000, guid: c2d912afd25cc1945bccc3f601764d75, type: 2}
+    triggerInput: 3
+  - conditionState: {fileID: 11400000, guid: c2d912afd25cc1945bccc3f601764d75, type: 2}
+    triggerInput: 2
+  - conditionState: {fileID: 11400000, guid: 895db63db3096e947a02a127d170274e, type: 2}
+    triggerInput: 3
+  - conditionState: {fileID: 11400000, guid: 895db63db3096e947a02a127d170274e, type: 2}
+    triggerInput: 2
+  - conditionState: {fileID: 11400000, guid: 343c8aa1b5e54e241a0bf7d75e56e217, type: 2}
+    triggerInput: 2
+  - conditionState: {fileID: 11400000, guid: 343c8aa1b5e54e241a0bf7d75e56e217, type: 2}
+    triggerInput: 3
+  - conditionState: {fileID: 11400000, guid: cde19cdd37735d7408d033a391c4fc1e, type: 2}
+    triggerInput: 2
+  - conditionState: {fileID: 11400000, guid: cde19cdd37735d7408d033a391c4fc1e, type: 2}
+    triggerInput: 3

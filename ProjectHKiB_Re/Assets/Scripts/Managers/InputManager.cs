@@ -21,12 +21,6 @@ public class InputManager : MonoBehaviour, @PlayerAction.IPLAYActions, PlayerAct
     public bool SkillInput { get; private set; }
 
     public bool ConfirmInput { get; private set; }
-    public bool PauseInput { get; private set; }
-    public bool EquipmentOpenCloseInput { get; private set; }
-    public bool InventoryOpenCloseInput { get; private set; }
-
-    public bool NextInput { get; private set; }
-    public bool PrevInput { get; private set; }
     public bool CancelInput { get; private set; }
     public bool SprintInput { get; private set; }
     /*
@@ -104,15 +98,34 @@ public class InputManager : MonoBehaviour, @PlayerAction.IPLAYActions, PlayerAct
         {
             EnumManager.InputType.OnMove => !MoveInput.Equals(Vector2.zero),
             EnumManager.InputType.OnSprint => SprintInput,
-            EnumManager.InputType.OnAttack => AttackInput,
-            EnumManager.InputType.OnDodge => DodgeInput,
             EnumManager.InputType.HasDodge => DodgeProgressInput,
             EnumManager.InputType.HasDInput => MoveInput.y < 0,
             EnumManager.InputType.HasLInput => MoveInput.x < 0,
             EnumManager.InputType.HasRInput => MoveInput.x > 0,
             EnumManager.InputType.HasUInput => MoveInput.y > 0,
-            EnumManager.InputType.OnConfirm => ConfirmInput,
             _ => false,
+        };
+    }
+
+    public void Bind(EnumManager.InputType inputType, Action<InputAction.CallbackContext> action)
+    {
+        switch (inputType)
+        {
+            case EnumManager.InputType.OnAttack:  inputs.PLAY.Attack.performed += action; break;
+            case EnumManager.InputType.OnDodge:   inputs.PLAY.Dodge.performed += action; break;
+            case EnumManager.InputType.OnConfirm: inputs.PLAY.Confirm.performed += action; break;
+            default: break;
+        };
+    }
+
+    public void UnBind(EnumManager.InputType inputType, Action<InputAction.CallbackContext> action)
+    {
+        switch (inputType)
+        {
+            case EnumManager.InputType.OnAttack:  inputs.PLAY.Attack.performed -= action; break;
+            case EnumManager.InputType.OnDodge:   inputs.PLAY.Dodge.performed -= action; break;
+            case EnumManager.InputType.OnConfirm: inputs.PLAY.Confirm.performed -= action; break;
+            default: break;
         };
     }
 
@@ -176,13 +189,16 @@ public class InputManager : MonoBehaviour, @PlayerAction.IPLAYActions, PlayerAct
         SprintInput = context.performed;
     }
 
+    public Action<InputAction.CallbackContext> onAttack;
     public void OnAttack(InputAction.CallbackContext context)
     {
+        onAttack?.Invoke(context);
         AttackInput = context.started;
     }
-
+    public Action<InputAction.CallbackContext> onDodge;
     public void OnDodge(InputAction.CallbackContext context)
     {
+        onDodge?.Invoke(context);
         DodgeInput = context.started;
         DodgeProgressInput = context.performed;
     }
