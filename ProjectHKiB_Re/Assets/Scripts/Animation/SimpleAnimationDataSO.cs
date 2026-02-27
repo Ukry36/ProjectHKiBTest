@@ -3,7 +3,7 @@ using AYellowpaper.SerializedCollections;
 using UnityEngine;
 using UnityEngine.U2D.Animation;
 
-[CreateAssetMenu(fileName = "NewAnimationData", menuName = "Custom/Simple Animation Data")]
+[CreateAssetMenu(fileName = "NewAnimationData", menuName = "Animation/Simple Animation Data")]
 public class SimpleAnimationDataSO : ScriptableObject
 {
     [Header("Reference for Auto-Generation")]
@@ -65,6 +65,7 @@ public class SimpleAnimationClip
     public SerializedDictionary<EnumManager.AnimDir, string> categoryKeys = new();
     public bool isLoop = true;
     public float tickSeconds = 0.1f;
+    public float maxPlaySeconds = -1;
 
     public List<AnimationFrame> frames = new();
 }

@@ -14,6 +14,8 @@ public class SimpleAnimationPlayer : MonoBehaviour
 
     [Header("Settings")]
     public bool playOnAwake = true;
+    public string overrideClipName;
+    public bool disableWhenStop = false;
 
     [Header("Event Handlers")]
     public Dictionary<string, Action> animationEvents = new();
@@ -23,15 +25,25 @@ public class SimpleAnimationPlayer : MonoBehaviour
     public StringEvent onCustomEventTriggered;
 
     [SerializeField] private SpriteResolver _spriteResolver;
-    private Sequence _currentSequence;
+    protected Sequence _currentSequence;
     private SimpleAnimationClip _currentClip;
-    private int _loop = 0;
+    protected int _loop = 0;
     [SerializeField] [NaughtyAttributes.ReadOnly] private EnumManager.AnimDir _currentAnimDir = EnumManager.AnimDir.D;
 
-    private void Start()
+    protected void Start()
     {
-        if (playOnAwake && !string.IsNullOrEmpty(animationData.defaultClipName))
-            Play(animationData.defaultClipName);
+        Initialize();
+    }
+
+    public void Initialize()
+    {
+        if (playOnAwake)
+        {
+            if(!string.IsNullOrEmpty(overrideClipName))
+                Play(overrideClipName);
+            else if(!string.IsNullOrEmpty(animationData.defaultClipName))
+                Play(animationData.defaultClipName);
+        }
     }
 
     public void Play(string clipName)
@@ -51,7 +63,13 @@ public class SimpleAnimationPlayer : MonoBehaviour
         }
     }
 
-    private void PlayClip(SimpleAnimationClip clip)
+    public void Play(SimpleAnimationClip clip)
+    {
+        _loop = 0;
+        PlayClip(clip);
+    }
+
+    protected void PlayClip(SimpleAnimationClip clip)
     {
         if (_currentSequence != null && _currentSequence.IsActive())
             _currentSequence.Kill();
@@ -74,6 +92,9 @@ public class SimpleAnimationPlayer : MonoBehaviour
 
         _currentSequence.AppendCallback(() => _loop++);
 
+        if (clip.maxPlaySeconds > 0)
+            _currentSequence.InsertCallback(clip.maxPlaySeconds, Stop);
+
         if (clip.isLoop)
             _currentSequence.SetLoops(-1);
     }
@@ -82,6 +103,7 @@ public class SimpleAnimationPlayer : MonoBehaviour
     {
         if (_currentSequence != null && _currentSequence.IsActive())
             _currentSequence.Kill();
+        if (disableWhenStop) gameObject.SetActive(false);
     }
 
     public void Pause()
@@ -103,7 +125,7 @@ public class SimpleAnimationPlayer : MonoBehaviour
         Play(_currentClip.clipName);
     }
 
-    private void ApplyFrame(SimpleAnimationClip clip, int frameIndex)
+    protected void ApplyFrame(SimpleAnimationClip clip, int frameIndex)
     {
         var frame = clip.frames[frameIndex];
 

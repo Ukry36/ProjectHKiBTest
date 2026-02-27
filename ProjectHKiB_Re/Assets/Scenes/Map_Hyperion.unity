@@ -13650,6 +13650,7 @@ MonoBehaviour:
     floatVariables:
       _serializedList: []
   _currentState: {fileID: 0}
+  _stateMachine: {fileID: 0}
   TransitionConditions: 
 --- !u!114 &295612130
 MonoBehaviour:
@@ -17477,6 +17478,7 @@ MonoBehaviour:
     floatVariables:
       _serializedList: []
   _currentState: {fileID: 0}
+  _stateMachine: {fileID: 0}
   TransitionConditions: 
 --- !u!114 &473561862
 MonoBehaviour:
@@ -17650,6 +17652,7 @@ MonoBehaviour:
     floatVariables:
       _serializedList: []
   _currentState: {fileID: 0}
+  _stateMachine: {fileID: 0}
   TransitionConditions: 
 --- !u!114 &492271854
 MonoBehaviour:
@@ -19843,6 +19846,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animationData: {fileID: 11400000, guid: 34711525a5697a34185ef29e49f13646, type: 2}
   playOnAwake: 1
+  overrideClipName: 
+  disableWhenStop: 0
   onCustomEventTriggered:
     m_PersistentCalls:
       m_Calls: []
@@ -20019,6 +20024,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animationData: {fileID: 11400000, guid: 34711525a5697a34185ef29e49f13646, type: 2}
   playOnAwake: 1
+  overrideClipName: 
+  disableWhenStop: 0
   onCustomEventTriggered:
     m_PersistentCalls:
       m_Calls: []
@@ -27180,6 +27187,7 @@ MonoBehaviour:
     floatVariables:
       _serializedList: []
   _currentState: {fileID: 0}
+  _stateMachine: {fileID: 0}
   TransitionConditions: 
 --- !u!114 &690226494
 MonoBehaviour:
@@ -32490,6 +32498,7 @@ MonoBehaviour:
     floatVariables:
       _serializedList: []
   _currentState: {fileID: 0}
+  _stateMachine: {fileID: 0}
   TransitionConditions: 
 --- !u!114 &765899368
 MonoBehaviour:
@@ -38818,6 +38827,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animationData: {fileID: 11400000, guid: 34711525a5697a34185ef29e49f13646, type: 2}
   playOnAwake: 1
+  overrideClipName: 
+  disableWhenStop: 0
   onCustomEventTriggered:
     m_PersistentCalls:
       m_Calls: []
@@ -38949,6 +38960,7 @@ MonoBehaviour:
     floatVariables:
       _serializedList: []
   _currentState: {fileID: 0}
+  _stateMachine: {fileID: 0}
   TransitionConditions: 
 --- !u!114 &1002926556
 MonoBehaviour:
@@ -39484,6 +39496,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animationData: {fileID: 11400000, guid: 34711525a5697a34185ef29e49f13646, type: 2}
   playOnAwake: 1
+  overrideClipName: 
+  disableWhenStop: 0
   onCustomEventTriggered:
     m_PersistentCalls:
       m_Calls: []
@@ -49265,6 +49279,7 @@ MonoBehaviour:
     floatVariables:
       _serializedList: []
   _currentState: {fileID: 0}
+  _stateMachine: {fileID: 0}
   TransitionConditions: 
 --- !u!114 &1267673735
 MonoBehaviour:
@@ -54746,6 +54761,7 @@ MonoBehaviour:
     floatVariables:
       _serializedList: []
   _currentState: {fileID: 0}
+  _stateMachine: {fileID: 0}
   TransitionConditions: 
 --- !u!114 &1457376262
 MonoBehaviour:
@@ -55077,6 +55093,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animationData: {fileID: 11400000, guid: 34711525a5697a34185ef29e49f13646, type: 2}
   playOnAwake: 1
+  overrideClipName: 
+  disableWhenStop: 0
   onCustomEventTriggered:
     m_PersistentCalls:
       m_Calls: []
@@ -65370,6 +65388,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animationData: {fileID: 11400000, guid: 34711525a5697a34185ef29e49f13646, type: 2}
   playOnAwake: 1
+  overrideClipName: 
+  disableWhenStop: 0
   onCustomEventTriggered:
     m_PersistentCalls:
       m_Calls: []
@@ -65973,6 +65993,7 @@ MonoBehaviour:
     floatVariables:
       _serializedList: []
   _currentState: {fileID: 0}
+  _stateMachine: {fileID: 0}
   TransitionConditions: 
 --- !u!114 &1900522504
 MonoBehaviour:
@@ -67651,6 +67672,7 @@ MonoBehaviour:
     floatVariables:
       _serializedList: []
   _currentState: {fileID: 0}
+  _stateMachine: {fileID: 0}
   TransitionConditions: 
 --- !u!114 &1959114222
 MonoBehaviour:
@@ -80221,6 +80243,7 @@ MonoBehaviour:
     floatVariables:
       _serializedList: []
   _currentState: {fileID: 0}
+  _stateMachine: {fileID: 0}
   TransitionConditions: 
 --- !u!114 &5432255176120973856
 MonoBehaviour:
@@ -80242,6 +80265,7 @@ MonoBehaviour:
     floatVariables:
       _serializedList: []
   _currentState: {fileID: 0}
+  _stateMachine: {fileID: 0}
   TransitionConditions: 
 --- !u!114 &5432255176449969754
 MonoBehaviour:
@@ -80263,6 +80287,7 @@ MonoBehaviour:
     floatVariables:
       _serializedList: []
   _currentState: {fileID: 0}
+  _stateMachine: {fileID: 0}
   TransitionConditions: 
 --- !u!114 &5432255176942453693
 MonoBehaviour:
@@ -80284,6 +80309,7 @@ MonoBehaviour:
     floatVariables:
       _serializedList: []
   _currentState: {fileID: 0}
+  _stateMachine: {fileID: 0}
   TransitionConditions: 
 --- !u!1 &5529382897977571781
 GameObject:
@@ -97362,6 +97388,7 @@ MonoBehaviour:
     floatVariables:
       _serializedList: []
   _currentState: {fileID: 0}
+  _stateMachine: {fileID: 0}
   TransitionConditions: 
 --- !u!1 &7120848930569611664
 GameObject:
@@ -97795,6 +97822,7 @@ MonoBehaviour:
     floatVariables:
       _serializedList: []
   _currentState: {fileID: 0}
+  _stateMachine: {fileID: 0}
   TransitionConditions: 
 --- !u!114 &8911168699804130252
 MonoBehaviour:
@@ -97816,6 +97844,7 @@ MonoBehaviour:
     floatVariables:
       _serializedList: []
   _currentState: {fileID: 0}
+  _stateMachine: {fileID: 0}
   TransitionConditions: 
 --- !u!114 &8911168700904589077
 MonoBehaviour:
@@ -97837,6 +97866,7 @@ MonoBehaviour:
     floatVariables:
       _serializedList: []
   _currentState: {fileID: 0}
+  _stateMachine: {fileID: 0}
   TransitionConditions: 
 --- !u!114 &8911168701164593745
 MonoBehaviour:
@@ -97858,6 +97888,7 @@ MonoBehaviour:
     floatVariables:
       _serializedList: []
   _currentState: {fileID: 0}
+  _stateMachine: {fileID: 0}
   TransitionConditions: 
 --- !u!114 &8911168701493597739
 MonoBehaviour:
@@ -97879,4 +97910,5 @@ MonoBehaviour:
     floatVariables:
       _serializedList: []
   _currentState: {fileID: 0}
+  _stateMachine: {fileID: 0}
   TransitionConditions: 
