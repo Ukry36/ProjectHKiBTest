@@ -6,8 +6,9 @@ namespace Assets.Scripts.Interfaces.Modules
     public class SkinableModule : InterfaceModule, ISkinable
     {
         [field: SerializeField] public SkinDataSO SkinData { get; set; }
-        public SpriteLibrary spriteLibrary;
-        public SpriteRenderer spriteRenderer;
+        public SpriteLibrary mainSpriteLibrary;
+        public SpriteRenderer mainSpriteRenderer;
+        public SpriteRenderer effectSpriteRenderer;
 
         public override void Register(IInterfaceRegistable interfaceRegistable)
         {
@@ -23,12 +24,15 @@ namespace Assets.Scripts.Interfaces.Modules
         {
             if (animationData == null) return;
             if (SkinData == null) return;
-            spriteLibrary.spriteLibraryAsset = SkinData.bodyType.Bodytypes[animationData];
+            mainSpriteLibrary.spriteLibraryAsset = SkinData.bodyType.Bodytypes[animationData];
             MaterialPropertyBlock materialPropertyBlock = new();
-            materialPropertyBlock.SetTexture("_MainTex", SkinData.bodyType.MainTex[animationData]);
+            //materialPropertyBlock.SetTexture("_MainTex", SkinData.bodyType.MainTex[animationData]);
             materialPropertyBlock.SetTexture("_SkinTex", SkinData.skinTexture);
             materialPropertyBlock.SetTexture("_EmissionSkinTex", SkinData.emissionSkinTexture);
-            spriteRenderer.SetPropertyBlock(materialPropertyBlock);
+            mainSpriteRenderer.SetPropertyBlock(materialPropertyBlock);
+
+            materialPropertyBlock.SetTexture("_SkinTex", SkinData.effectSkinTexture);
+            effectSpriteRenderer.SetPropertyBlock(materialPropertyBlock);
         }
     }
 }

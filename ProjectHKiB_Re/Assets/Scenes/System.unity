@@ -13294,8 +13294,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <SkinData>k__BackingField: {fileID: 0}
-  spriteLibrary: {fileID: 126782215}
-  spriteRenderer: {fileID: 126782213}
+  mainSpriteLibrary: {fileID: 126782215}
+  mainSpriteRenderer: {fileID: 126782213}
+  effectSpriteRenderer: {fileID: 2144363247}
 --- !u!114 &327803500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51066,7 +51067,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damageData: {fileID: 0}
-  _animationPlayer: {fileID: 2144363245}
+  _effectAnimationPlayer: {fileID: 2144363245}
+  _effectSpritelibrary: {fileID: 2144363248}
 --- !u!1 &1208513316
 GameObject:
   m_ObjectHideFlags: 0
