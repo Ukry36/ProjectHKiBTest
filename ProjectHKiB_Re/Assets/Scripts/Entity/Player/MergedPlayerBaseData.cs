@@ -1,6 +1,7 @@
 using System;
 using UnityEditor.Animations;
 using UnityEngine;
+using UnityEngine.U2D.Animation;
 public class MergedPlayerBaseData : IMovableBase, IAttackableBase, ITargetableBase, IDodgeableBase,
 IDamagableBase, ISkinableBase, IAnimatableBase, IFootstepBase
 {
@@ -45,4 +46,8 @@ IDamagableBase, ISkinableBase, IAnimatableBase, IFootstepBase
 
     public EntityTypeSO entityType;
     public GearTypeSO gearType;
+
+    
+    public SimpleAnimationDataSO EffectAnimationData { get; set; }
+    public SpriteLibraryAsset EffectSpriteLibrary { get; set; }
 }

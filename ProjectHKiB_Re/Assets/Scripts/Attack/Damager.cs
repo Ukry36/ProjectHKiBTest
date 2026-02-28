@@ -1,11 +1,25 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.U2D.Animation;
 
 public class Damager : MonoBehaviour
 {
     [SerializeField] private DamageDataSO _damageData;
     private IAttackable _attackable;
-    [SerializeField] private DirAnimatableModule _animationController;
+    [SerializeField] private SimpleAnimationPlayer _effectAnimationPlayer;
+    [SerializeField] private SpriteLibrary _effectSpritelibrary;
+
+    public void Start()
+    {
+        _effectAnimationPlayer.gameObject.SetActive(false);
+    }
+
+    public void Initialize(SimpleAnimationDataSO effectAnimationData, SpriteLibraryAsset effectSpriteLibrary)
+    {
+        _effectAnimationPlayer.gameObject.SetActive(false);
+        _effectAnimationPlayer.animationData = effectAnimationData;
+        _effectSpritelibrary.spriteLibraryAsset = effectSpriteLibrary;
+    }
 
     public void SetAttackable(IAttackable attackable)
     => _attackable = attackable;
@@ -46,15 +60,19 @@ public class Damager : MonoBehaviour
         if (_damageData.initialSound)
             GameManager.instance.audioManager.PlayAudioOneShot(_damageData.initialSound, 1, transform.position);
 
-        if (!_animationController) return;
-        if (_damageData.DLRUDamageEffects.ContainsKey(_animationController.AnimationDirection) && _damageData.DLRUDamageEffects[_animationController.AnimationDirection])
-            GameManager.instance.particleManager.PlayParticle(_damageData.DLRUDamageEffects[_animationController.AnimationDirection].GetHashCode(), transform, _damageData.attatchParticleToBody);
+        if (!_effectAnimationPlayer) return;
+
+        _effectAnimationPlayer.gameObject.SetActive(true);
+        _effectAnimationPlayer.Play(_damageData.effectAnimationClipName);
+        
+        if (_damageData.DLRUDamageEffects.ContainsKey(_effectAnimationPlayer.CurrentAnimDir) && _damageData.DLRUDamageEffects[_effectAnimationPlayer.CurrentAnimDir])
+            GameManager.instance.particleManager.PlayParticle(_damageData.DLRUDamageEffects[_effectAnimationPlayer.CurrentAnimDir].GetHashCode(), transform, _damageData.attatchParticleToBody);
 
         int colLength = Physics2D.OverlapBoxNonAlloc
         (
-            transform.position + _animationController.LastSetAnimationQuaternion4 * _damageData.downwardDamageArea.offset,
+            transform.position + _effectAnimationPlayer.CurrentAnimDir.DirToQuaternion4() * _damageData.downwardDamageArea.offset,
             _damageData.downwardDamageArea.size,
-            _animationController.LastSetAnimationAngle4,
+            _effectAnimationPlayer.CurrentAnimDir.DirToAngle4(),
             col,
             _damageData.damageLayer
         );
@@ -77,8 +95,8 @@ public class Damager : MonoBehaviour
             Vector2 offset = _damageData.downwardDamageArea.offset;
             Vector2 size = _damageData.downwardDamageArea.size;
 
-            offset = _animationController.LastSetAnimationQuaternion4 * offset;
-            size = _animationController.LastSetAnimationQuaternion4 * size;
+            offset = _effectAnimationPlayer.CurrentAnimDir.DirToQuaternion4() * offset;
+            size = _effectAnimationPlayer.CurrentAnimDir.DirToQuaternion4() * size;
 
             Gizmos.DrawWireCube((Vector2)transform.position + offset, size);
             gizmoTrig--;

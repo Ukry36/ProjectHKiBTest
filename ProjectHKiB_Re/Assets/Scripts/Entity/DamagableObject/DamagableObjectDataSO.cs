@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.U2D.Animation;
 
 [CreateAssetMenu(fileName = "DamagableObjectDataSO", menuName = "Scriptable Objects/Data/DamagableObjectData", order = 0)]
 public class DamagableObjectDataSO : ScriptableObject, IDamagableBase, IMovableBase, IAttackableBase
@@ -23,4 +24,7 @@ public class DamagableObjectDataSO : ScriptableObject, IDamagableBase, IMovableB
     public float CriticalDamageRate { get; set; }
     public AttackDataSO[] AttackDatas { get; set; }
     [field: SerializeField] public DamageParticleDataSO DamageParticle { get; set; }
+    
+    [field: SerializeField] public SimpleAnimationDataSO EffectAnimationData { get; set; }
+    [field: SerializeField] public SpriteLibraryAsset EffectSpriteLibrary { get; set; }
 }
