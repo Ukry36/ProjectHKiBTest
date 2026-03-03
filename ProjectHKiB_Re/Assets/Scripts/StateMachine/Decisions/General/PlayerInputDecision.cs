@@ -6,6 +6,15 @@ public class PlayerInputDecision : StateDecisionSO
     [SerializeField] private EnumManager.InputType _inputType;
     public override bool Decide(StateController stateController)
     {
-        return GameManager.instance.inputManager.GetInputByEnum(_inputType);
+        bool result = GameManager.instance.inputManager.GetInputByEnum(_inputType);
+        Debug.Log($"[PlayerInputDecision] Type: {_inputType}, Result: {result}");
+        return result;
+    }
+
+    public EnumManager.InputType InputType => _inputType;
+
+    public void SetInputType(EnumManager.InputType inputType)
+    {
+        _inputType = inputType;
     }
 }

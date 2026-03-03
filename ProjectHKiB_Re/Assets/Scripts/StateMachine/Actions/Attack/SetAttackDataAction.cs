@@ -5,11 +5,13 @@ public class SetAttackDataAction : StateActionSO
     [SerializeField] private int attackNumber;
     public override void Act(StateController stateController)
     {
+        Debug.Log("[SetAttackDataAction] Act() called");
         if (stateController.TryGetInterface(out IAttackable attackable))
         {
+            Debug.Log("[SetAttackDataAction] IAttackable found");
             attackable.SetAttackData(attackNumber);
         }
         else
-            Debug.LogError("ERROR: Interface Not Found!!!");
+            Debug.LogError("ERROR: SetAttackDataAction - Interface Not Found!!!");
     }
 }

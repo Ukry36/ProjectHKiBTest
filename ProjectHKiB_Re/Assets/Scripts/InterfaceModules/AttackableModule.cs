@@ -41,6 +41,7 @@ public class AttackableModule : InterfaceModule, IAttackable
 
     public void SetAttackData(int attackNumber)
     {
+        Debug.Log($"[Attack] SetAttackData called with attackNumber: {attackNumber}");
         if (AttackDatas == null)
         {
             Debug.LogError("ERROR: AttackDatas is missing!!!"); return;
@@ -52,15 +53,18 @@ public class AttackableModule : InterfaceModule, IAttackable
             AttackNumber = attackNumber;
         else
             AttackNumber = 0;
+        Debug.Log($"[Attack] AttackNumber set to: {AttackNumber}");
     }
 
     public void Attack(int damageNumber)
     {
+        Debug.Log($"[Attack] Attack called with damageNumber: {damageNumber}, AttackNumber: {AttackNumber}");
         if (!damager)
         {
             Debug.LogError("ERROR: Damager is missing!!!"); return;
         }
         damager.SetDamageData(AttackNumber, damageNumber);
+        Debug.Log("[Attack] Calling damager.Damage()");
         damager.Damage();
     }
 }

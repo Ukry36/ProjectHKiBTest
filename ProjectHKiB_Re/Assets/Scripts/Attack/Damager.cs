@@ -42,9 +42,19 @@ public class Damager : MonoBehaviour
     private readonly Collider2D[] col = new Collider2D[72];
     public void Damage()
     {
+        Debug.Log("[Damager] Damage() called");
         gizmoTrig = 5;
         if (_damageData.initialSound)
             GameManager.instance.audioManager.PlayAudioOneShot(_damageData.initialSound, 1, transform.position);
+<<<<<<< Updated upstream
+=======
+
+        if (!_animationController) 
+        { 
+            Debug.LogWarning("[Damager] AnimationController is null!");
+            return;
+        }
+>>>>>>> Stashed changes
         if (_damageData.DLRUDamageEffects.ContainsKey(_animationController.AnimationDirection) && _damageData.DLRUDamageEffects[_animationController.AnimationDirection])
             GameManager.instance.particleManager.PlayParticle(_damageData.DLRUDamageEffects[_animationController.AnimationDirection].GetHashCode(), transform, _damageData.attatchParticleToBody);
 
@@ -56,11 +66,14 @@ public class Damager : MonoBehaviour
             col,
             _damageData.damageLayer
         );
+        Debug.Log($"[Damager] OverlapBox found {colLength} colliders");
 
         for (int i = 0; i < colLength; i++)
         {
+            Debug.Log($"[Damager] Checking collider {i}: {col[i].gameObject.name}");
             if (col[i].TryGetComponent(out IDamagable component))
             {
+                Debug.Log($"[Damager] Found IDamagable on {col[i].gameObject.name}, applying damage");
                 component.Damage(_damageData, _attackable, _damageData.downwardDamageArea.pivot + this.transform.position);
             }
         }

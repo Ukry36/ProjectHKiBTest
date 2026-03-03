@@ -47,7 +47,10 @@ public class StateController : InterfaceRegister
     public void Update()
     {
         if (this.enabled && CurrentState)
+        {
+            Debug.Log($"[StateController] Update frame {Time.frameCount}: current state = {CurrentState.name}");
             UpdateState();
+        }
     }
 
     public void Initialize(StateMachineSO stateMachine)

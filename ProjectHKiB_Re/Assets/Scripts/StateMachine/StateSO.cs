@@ -111,14 +111,26 @@ public class StateSO : ScriptableObject
 
     public void CheckTransition(StateController stateController)
     {
+        Debug.Log($"[StateSO] CheckTransition called on {this.name}, transitions count: {transitions.Length}");
         for (int i = 0; i < transitions.Length; i++)
         {
             bool canTransition = true;
             if (!stateController.TransitionConditions[i])
+            {
+                Debug.Log($"[StateSO] Transition {i} not available yet (availableTime not met)");
                 continue;
+            }
+
+            Debug.Log($"[StateSO] Transition {i} checking decisions...");
             for (int j = 0; j < transitions[i].decisions.Length; j++)
             {
-                if (!transitions[i].decisions[j].decision.Decide(stateController) ^ transitions[i].decisions[j].negate)
+                var decision = transitions[i].decisions[j].decision;
+                Debug.Log($"[StateSO]   Decision {j} type: {decision.GetType().Name}");
+                bool decisionResult = decision.Decide(stateController);
+                bool negate = transitions[i].decisions[j].negate;
+                bool finalResult = decisionResult ^ negate;
+                Debug.Log($"[StateSO]   Decision {j}: result={decisionResult}, negate={negate}, final={finalResult}");
+                if (!finalResult)
                 {
                     canTransition = false;
                     break;
@@ -126,21 +138,18 @@ public class StateSO : ScriptableObject
             }
             if (canTransition)
             {
-                /*
-                string debugMessage = "";
-                for (int j = 0; j < transitions[i].decisions.Length; j++)
+                if (transitions[i].trueState)
                 {
-                    debugMessage += transitions[i].decisions[j].decision.name
-                                + ": "
-                                + transitions[i].decisions[j].decision.Decide(stateController) + " ";
+                    Debug.Log($"[StateSO] Transition {i} TRUE -> going to {transitions[i].trueState.name}");
+                    stateController.ChangeState(transitions[i].trueState);
                 }
-                debugMessage += "time: " + (Time.time - stateController.lastChangeStateTime);
-                Debug.Log(transitions[i].trueState.name + "\n" + debugMessage);
-                */
-                if (transitions[i].trueState) stateController.ChangeState(transitions[i].trueState);
                 break;
             }
-            if (transitions[i].falseState) stateController.ChangeState(transitions[i].falseState);
+            else if (transitions[i].falseState)
+            {
+                Debug.Log($"[StateSO] Transition {i} FALSE -> going to {transitions[i].falseState.name}");
+                stateController.ChangeState(transitions[i].falseState);
+            }
         }
     }
 }

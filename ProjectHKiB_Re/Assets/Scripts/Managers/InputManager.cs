@@ -146,4 +146,153 @@ public class InputManager : MonoBehaviour
             _ => false,
         };
     }
+<<<<<<< Updated upstream
+=======
+
+    public void PLAYMode()
+    {
+        inputs.PLAY.Enable();
+        inputs.MENU.Disable();
+        inputs.GRAFFITI.Disable();
+        Debug.Log("PLAYMode");
+    }
+
+    public void MENUMode()
+    {
+        inputs.PLAY.Disable();
+        inputs.MENU.Enable();
+        inputs.GRAFFITI.Disable();
+        Debug.Log("MENUMode");
+    }
+
+    public void GRAFFITIMode()
+    {
+        inputs.PLAY.Disable();
+        inputs.MENU.Disable();
+        inputs.GRAFFITI.Enable();
+        Debug.Log("GRAFFITIMode");
+    }
+
+    public void OnMove(InputAction.CallbackContext context)
+    {
+        MoveInput = context.ReadValue<Vector2>();
+        Debug.Log($"[InputManager] OnMove: MoveInput = {MoveInput}");
+        if (MoveInput.x != 0 || MoveInput.y != 0)
+            LastSetMoveInput = MoveInput;
+    }
+
+    public void OnMovePressedD(InputAction.CallbackContext context)
+    {
+        DInput = context.started;
+        if (!MoveInputPressed) MoveInputPressed = context.started;
+    }
+
+    public void OnMovePressedR(InputAction.CallbackContext context)
+    {
+        RInput = context.started;
+        if (!MoveInputPressed) MoveInputPressed = context.started;
+    }
+
+    public void OnMovePressedU(InputAction.CallbackContext context)
+    {
+        UInput = context.started;
+        if (!MoveInputPressed) MoveInputPressed = context.started;
+    }
+
+    public void OnMovePressedL(InputAction.CallbackContext context)
+    {
+        LInput = context.started;
+        if (!MoveInputPressed) MoveInputPressed = context.started;
+    }
+
+    public void OnSprint(InputAction.CallbackContext context)
+    {
+        SprintInput = context.performed;
+    }
+
+    public void OnAttack(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            AttackInput = true;
+            Debug.Log("[InputManager] Attack Input Detected!");
+            Debug.Log($"[InputManager] AttackInput set to TRUE at frame: {Time.frameCount}");
+        }
+    }
+
+    private void Update()
+    {
+        // input stays true until cleared in LateUpdate
+    }
+
+    private void LateUpdate()
+    {
+        // Clear one-frame inputs AFTER StateController.Update() has processed them
+        // BUT keep MoveInput continuous
+        Debug.Log($"[InputManager] LateUpdate frame {Time.frameCount}: clearing inputs. AttackInput was: {AttackInput}");
+        AttackInput = false;
+        DInput = false;
+        RInput = false;
+        UInput = false;
+        LInput = false;
+        ConfirmInput = false;
+    }
+
+    public void OnDodge(InputAction.CallbackContext context)
+    {
+        DodgeInput = context.started;
+        DodgeProgressInput = context.performed;
+    }
+
+    public void OnGraffitiSystem(InputAction.CallbackContext context)
+    {
+        GraffitiStartInput = context.started;
+        GraffitiEndInput = context.canceled;
+    }
+
+    public void OnConfirm(InputAction.CallbackContext context)
+    {
+        ConfirmInput = context.performed;
+    }
+
+    public void OnSkill(InputAction.CallbackContext context)
+    {
+        SkillInput = context.started;
+    }
+
+    public Action<InputAction.CallbackContext> onMenu;
+    public void OnMenu(InputAction.CallbackContext context)
+    {
+        CancelInput = context.started;
+        onMenu?.Invoke(context);
+    }
+
+    public void OnNavigate(InputAction.CallbackContext context) { }
+
+    public Action<InputAction.CallbackContext> onSubmit;
+    public void OnSubmit(InputAction.CallbackContext context)
+    {
+        onSubmit?.Invoke(context);
+    }
+
+    public Action<InputAction.CallbackContext> onMENUCancel;
+    public void OnCancel(InputAction.CallbackContext context)
+    {
+        onMENUCancel?.Invoke(context);
+    }
+
+    public void OnPoint(InputAction.CallbackContext context) { }
+
+    public void OnClick(InputAction.CallbackContext context) { }
+
+    public void OnScrollWheel(InputAction.CallbackContext context) { }
+
+    public void OnMiddleClick(InputAction.CallbackContext context) { }
+
+    public void OnRightClick(InputAction.CallbackContext context) { }
+
+    public void OnTrackedDevicePosition(InputAction.CallbackContext context) { }
+
+    public void OnTrackedDeviceOrientation(InputAction.CallbackContext context) { }
+>>>>>>> Stashed changes
 }
