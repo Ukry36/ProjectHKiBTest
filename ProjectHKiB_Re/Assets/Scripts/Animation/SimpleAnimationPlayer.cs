@@ -28,6 +28,7 @@ public class SimpleAnimationPlayer : MonoBehaviour
     public StringEvent onCustomEventTriggered;
 
     [SerializeField] private SpriteResolver _spriteResolver;
+    [SerializeField] private SpriteRenderer _spriteRenderer;
     protected Sequence _currentSequence;
     private SimpleAnimationClip _currentClip;
     protected int _loop = 0;
@@ -74,6 +75,7 @@ public class SimpleAnimationPlayer : MonoBehaviour
 
     protected void PlayClip(SimpleAnimationClip clip)
     {
+        if (_spriteRenderer) _spriteRenderer.enabled = true;
         if (_currentSequence != null && _currentSequence.IsActive())
             _currentSequence.Kill();
         
@@ -106,7 +108,7 @@ public class SimpleAnimationPlayer : MonoBehaviour
     {
         if (_currentSequence != null && _currentSequence.IsActive())
             _currentSequence.Kill();
-        if (disableWhenStop) gameObject.SetActive(false);
+        if (disableWhenStop) _spriteRenderer.enabled = false;
     }
 
     public void Pause()
@@ -150,7 +152,6 @@ public class SimpleAnimationPlayer : MonoBehaviour
         
         _spriteResolver.SetCategoryAndLabel(categoryKey, frame.labelKey);
 
-        // 이벤트 트리거
         if (!string.IsNullOrEmpty(frame.triggerEventName))
         {
             if (animationEvents.ContainsKey(frame.triggerEventName))

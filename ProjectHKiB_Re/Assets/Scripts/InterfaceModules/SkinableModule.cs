@@ -26,7 +26,7 @@ namespace Assets.Scripts.Interfaces.Modules
             if (SkinData == null) return;
             mainSpriteLibrary.spriteLibraryAsset = SkinData.bodyType.Bodytypes[animationData];
             MaterialPropertyBlock materialPropertyBlock = new();
-            //materialPropertyBlock.SetTexture("_MainTex", SkinData.bodyType.MainTex[animationData]);
+            materialPropertyBlock.SetTexture("_MainTex", SkinData.bodyType.MainTex[animationData]);
             materialPropertyBlock.SetTexture("_SkinTex", SkinData.skinTexture);
             materialPropertyBlock.SetTexture("_EmissionSkinTex", SkinData.emissionSkinTexture);
             mainSpriteRenderer.SetPropertyBlock(materialPropertyBlock);

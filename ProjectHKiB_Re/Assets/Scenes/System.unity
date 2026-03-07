@@ -13418,6 +13418,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _spriteResolver: {fileID: 126782214}
+  _spriteRenderer: {fileID: 126782213}
   <CurrentAnimDir>k__BackingField: 0
 --- !u!1 &331044352
 GameObject:
@@ -68782,9 +68783,9 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.041457284
+    x: 0
     y: 0
-    width: 0.917923
+    width: 1
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
@@ -83885,6 +83886,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _spriteResolver: {fileID: 2144363246}
+  _spriteRenderer: {fileID: 2144363247}
   <CurrentAnimDir>k__BackingField: 0
 --- !u!114 &2144363246
 MonoBehaviour:
