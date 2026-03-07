@@ -28,7 +28,6 @@ public class StateSO : ScriptableObject
         }
         ReserveFrameDecisions(stateController);
         ReserveTransitions(stateController);
-        Debug.Log(name);
     }
 
     public void ReserveFrameDecisions(StateController stateController)

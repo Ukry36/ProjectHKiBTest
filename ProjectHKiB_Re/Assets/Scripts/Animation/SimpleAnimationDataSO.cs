@@ -3,7 +3,7 @@ using AYellowpaper.SerializedCollections;
 using UnityEngine;
 using UnityEngine.U2D.Animation;
 
-[CreateAssetMenu(fileName = "NewAnimationData", menuName = "Animation/Simple Animation Data")]
+[CreateAssetMenu(fileName = "NewAnimationData", menuName = "Simple Animation Data")]
 public class SimpleAnimationDataSO : ScriptableObject
 {
     [Header("Reference for Auto-Generation")]
@@ -50,6 +50,33 @@ public class SimpleAnimationDataSO : ScriptableObject
         }
 
         Debug.Log($"Generated {clips.Count} clips from {sourceLibraryAsset.name}");
+    }
+
+    [NaughtyAttributes.Button]
+    public void SetMaxPlaySecondsToItsLength()
+    {
+        if (clips == null) return;
+        foreach (var clip in clips)
+        {
+            if (clip == null || clip.frames == null) break;
+            float sum = 0;
+            foreach(var frame in clip.frames)
+            {
+                if (frame == null) break;
+                sum += frame.durationModifier * clip.tickSeconds;
+            }
+            clip.maxPlaySeconds = sum;
+        }
+    }
+    [NaughtyAttributes.Button]
+    public void DisableMaxPlaySeconds()
+    {
+        if (clips == null) return;
+        foreach (var clip in clips)
+        {
+            if (clip == null || clip.frames == null) break;
+            clip.maxPlaySeconds = -1;
+        }
     }
 
     public SimpleAnimationClip GetClip(string name)

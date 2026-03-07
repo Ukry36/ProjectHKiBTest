@@ -125,7 +125,7 @@ public class SimpleAnimationPlayer : MonoBehaviour
     {
         CurrentAnimDir = animDir;
 
-        if (_currentClip.resetWhenDirectionChange)
+        if (_currentClip != null && _currentClip.resetWhenDirectionChange)
         {
             Stop();
             Play(_currentClip.clipName);
