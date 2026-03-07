@@ -13411,8 +13411,9 @@ MonoBehaviour:
   playOnAwake: 1
   overrideClipName: 
   disableWhenStop: 0
-  syncDirection: 0
-  playersToSync: []
+  syncDirection: 1
+  playersToSync:
+  - {fileID: 2144363245}
   onCustomEventTriggered:
     m_PersistentCalls:
       m_Calls: []
@@ -68781,9 +68782,9 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.041457284
+    x: 0
     y: 0
-    width: 0.917923
+    width: 1
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
@@ -83877,7 +83878,7 @@ MonoBehaviour:
   animationData: {fileID: 0}
   playOnAwake: 1
   overrideClipName: 
-  disableWhenStop: 0
+  disableWhenStop: 1
   syncDirection: 0
   playersToSync: []
   onCustomEventTriggered:
@@ -83920,7 +83921,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 81a439506ff5bc94a9bc41dad982fea3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

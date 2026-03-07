@@ -26,10 +26,11 @@ namespace Assets.Editor
 
         private void ProcessPixelWeights(Texture2D texture, string fileName)
         {
-            if (!fileName.Contains('_'))
+            if (!fileName.Contains(']') && fileName.StartsWith('['))
                 return;
 
-            var mapName = fileName.Split('_')[0] + PixelMapSuffix;
+            var mapName = fileName.Split(']')[0] + PixelMapSuffix;
+            mapName = mapName.Replace("[", "");
             var map = FindPixelMap(mapName);
             if (map == null)
                 return;
