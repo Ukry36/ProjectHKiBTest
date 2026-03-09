@@ -75,7 +75,6 @@ public class SimpleAnimationPlayer : MonoBehaviour
 
     protected void PlayClip(SimpleAnimationClip clip)
     {
-        if (_spriteRenderer) _spriteRenderer.enabled = true;
         if (_currentSequence != null && _currentSequence.IsActive())
             _currentSequence.Kill();
         
@@ -151,6 +150,7 @@ public class SimpleAnimationPlayer : MonoBehaviour
             categoryKey = clip.categoryKeys[CurrentAnimDir];
         
         _spriteResolver.SetCategoryAndLabel(categoryKey, frame.labelKey);
+        if (_spriteRenderer) _spriteRenderer.enabled = true;
 
         if (!string.IsNullOrEmpty(frame.triggerEventName))
         {
