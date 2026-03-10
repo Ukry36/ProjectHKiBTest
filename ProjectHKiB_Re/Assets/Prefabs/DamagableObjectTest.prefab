@@ -60,6 +60,7 @@ MonoBehaviour:
     floatVariables:
       _serializedList: []
   _currentState: {fileID: 0}
+  _stateMachine: {fileID: 0}
   TransitionConditions: 
   <BaseData>k__BackingField: {fileID: 11400000, guid: 54dac4c6b254eec468419efeceee2cd5, type: 2}
   databaseManager: {fileID: 11400000, guid: 6bc54106ea95a9242946feafc44a5dfe, type: 2}
@@ -127,6 +128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageManager: {fileID: 11400000, guid: 69175ed9e37d9e3408bdf3432f4a5b4c, type: 2}
+  _movable: {fileID: 7832830431802389940}
 --- !u!114 &7832830431802389940
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -18,7 +18,10 @@ public class SimpleAnimationPlayer : MonoBehaviour
     public bool disableWhenStop = false;
     public bool syncDirection = false;
     [NaughtyAttributes.ShowIf("syncDirection")] 
-    public SimpleAnimationPlayer[] playersToSync;
+    public SimpleAnimationPlayer[] playersToSyncDirection;
+    public bool syncAnimation = false;
+    [NaughtyAttributes.ShowIf("syncAnimation")] 
+    public SimpleAnimationPlayer[] playersToSyncAnimation;
 
     [Header("Event Handlers")]
     public Dictionary<string, Action> animationEvents = new();
@@ -54,6 +57,10 @@ public class SimpleAnimationPlayer : MonoBehaviour
     {
         if (animationData == null) return;
         SimpleAnimationClip clip = animationData.GetClip(clipName);
+
+        for (int i = 0; i < playersToSyncAnimation.Length; i++)
+            playersToSyncAnimation[i].Play(clipName);
+        
 
         if (clip != null)
         {
@@ -105,6 +112,8 @@ public class SimpleAnimationPlayer : MonoBehaviour
 
     public void Stop()
     {
+        for (int i = 0; i < playersToSyncAnimation.Length; i++)
+            playersToSyncAnimation[i].Stop();
         if (_currentSequence != null && _currentSequence.IsActive())
             _currentSequence.Kill();
         if (disableWhenStop) _spriteRenderer.enabled = false;
@@ -112,12 +121,16 @@ public class SimpleAnimationPlayer : MonoBehaviour
 
     public void Pause()
     {
+        for (int i = 0; i < playersToSyncAnimation.Length; i++)
+            playersToSyncAnimation[i].Pause();
         if (_currentSequence != null && _currentSequence.IsActive())
             _currentSequence.Pause();
     }
 
     public void Resume()
     {
+        for (int i = 0; i < playersToSyncAnimation.Length; i++)
+            playersToSyncAnimation[i].Resume();
         if (_currentSequence != null && _currentSequence.IsActive())
             _currentSequence.Play();
     }
@@ -133,8 +146,8 @@ public class SimpleAnimationPlayer : MonoBehaviour
         }
 
         if (syncDirection)
-            for (int i = 0; i < playersToSync.Length; i++)
-                playersToSync[i].SetDirection(animDir);
+            for (int i = 0; i < playersToSyncDirection.Length; i++)
+                playersToSyncDirection[i].SetDirection(animDir);
     }
 
     protected void ApplyFrame(SimpleAnimationClip clip, int frameIndex)

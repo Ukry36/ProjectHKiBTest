@@ -19849,11 +19849,14 @@ MonoBehaviour:
   overrideClipName: 
   disableWhenStop: 0
   syncDirection: 0
-  playersToSync: []
+  playersToSyncDirection: []
+  syncAnimation: 0
+  playersToSyncAnimation: []
   onCustomEventTriggered:
     m_PersistentCalls:
       m_Calls: []
   _spriteResolver: {fileID: 553599551}
+  _spriteRenderer: {fileID: 0}
   <CurrentAnimDir>k__BackingField: 0
 --- !u!1 &567477615
 GameObject:
@@ -20029,11 +20032,14 @@ MonoBehaviour:
   overrideClipName: 
   disableWhenStop: 0
   syncDirection: 0
-  playersToSync: []
+  playersToSyncDirection: []
+  syncAnimation: 0
+  playersToSyncAnimation: []
   onCustomEventTriggered:
     m_PersistentCalls:
       m_Calls: []
   _spriteResolver: {fileID: 567948720}
+  _spriteRenderer: {fileID: 0}
   <CurrentAnimDir>k__BackingField: 0
 --- !u!1 &576922836
 GameObject:
@@ -38834,11 +38840,14 @@ MonoBehaviour:
   overrideClipName: 
   disableWhenStop: 0
   syncDirection: 0
-  playersToSync: []
+  playersToSyncDirection: []
+  syncAnimation: 0
+  playersToSyncAnimation: []
   onCustomEventTriggered:
     m_PersistentCalls:
       m_Calls: []
   _spriteResolver: {fileID: 990384398}
+  _spriteRenderer: {fileID: 0}
   <CurrentAnimDir>k__BackingField: 0
 --- !u!1 &1002926550
 GameObject:
@@ -39505,11 +39514,14 @@ MonoBehaviour:
   overrideClipName: 
   disableWhenStop: 0
   syncDirection: 0
-  playersToSync: []
+  playersToSyncDirection: []
+  syncAnimation: 0
+  playersToSyncAnimation: []
   onCustomEventTriggered:
     m_PersistentCalls:
       m_Calls: []
   _spriteResolver: {fileID: 1067367001}
+  _spriteRenderer: {fileID: 0}
   <CurrentAnimDir>k__BackingField: 0
 --- !u!1 &1090311187
 GameObject:
@@ -48539,6 +48551,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1863313840860731647, guid: 816f408f75c75ef43b20546275f83bd2, type: 3}
+      propertyPath: _movable
+      value: 
+      objectReference: {fileID: 1249962987}
     m_RemovedComponents:
     - {fileID: 8549578458478149775, guid: 816f408f75c75ef43b20546275f83bd2, type: 3}
     - {fileID: 2452671810070010264, guid: 816f408f75c75ef43b20546275f83bd2, type: 3}
@@ -48625,6 +48641,17 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+--- !u!114 &1249962987 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7832830431802389940, guid: 816f408f75c75ef43b20546275f83bd2, type: 3}
+  m_PrefabInstance: {fileID: 1220103122}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab6af0b098eea8f48973baff03ad8962, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1250971145
 GameObject:
   m_ObjectHideFlags: 0
@@ -55104,11 +55131,14 @@ MonoBehaviour:
   overrideClipName: 
   disableWhenStop: 0
   syncDirection: 0
-  playersToSync: []
+  playersToSyncDirection: []
+  syncAnimation: 0
+  playersToSyncAnimation: []
   onCustomEventTriggered:
     m_PersistentCalls:
       m_Calls: []
   _spriteResolver: {fileID: 1498998162}
+  _spriteRenderer: {fileID: 0}
   <CurrentAnimDir>k__BackingField: 0
 --- !u!1 &1501911314
 GameObject:
@@ -65401,11 +65431,14 @@ MonoBehaviour:
   overrideClipName: 
   disableWhenStop: 0
   syncDirection: 0
-  playersToSync: []
+  playersToSyncDirection: []
+  syncAnimation: 0
+  playersToSyncAnimation: []
   onCustomEventTriggered:
     m_PersistentCalls:
       m_Calls: []
   _spriteResolver: {fileID: 1891103342}
+  _spriteRenderer: {fileID: 0}
   <CurrentAnimDir>k__BackingField: 0
 --- !u!1 &1894972464
 GameObject:
