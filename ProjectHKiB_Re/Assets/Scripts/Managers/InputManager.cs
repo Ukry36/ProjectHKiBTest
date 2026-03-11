@@ -189,16 +189,13 @@ public class InputManager : MonoBehaviour, @PlayerAction.IPLAYActions, PlayerAct
         SprintInput = context.performed;
     }
 
-    public Action<InputAction.CallbackContext> onAttack;
     public void OnAttack(InputAction.CallbackContext context)
     {
-        onAttack?.Invoke(context);
         AttackInput = context.started;
     }
-    public Action<InputAction.CallbackContext> onDodge;
+    
     public void OnDodge(InputAction.CallbackContext context)
     {
-        onDodge?.Invoke(context);
         DodgeInput = context.started;
         DodgeProgressInput = context.performed;
     }

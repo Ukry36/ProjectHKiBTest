@@ -30,6 +30,7 @@ public class CommandPair
     public void Unbind()
     {
         GameManager.instance.inputManager.UnBind(triggerInput, _cachedBindFunction);
+        _cachedBindFunction = null;
     }
 
 }
