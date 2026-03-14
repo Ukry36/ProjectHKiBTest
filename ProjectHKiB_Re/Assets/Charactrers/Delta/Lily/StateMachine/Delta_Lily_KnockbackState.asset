@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb85084ca5989854b9dbc2cce1298255, type: 3}
+  m_Name: Delta_Lily_KnockbackState
+  m_EditorClassIdentifier: 
+  temporaryID: 0.29490903
+  transitions:
+  - activationInput: 10
+    availableTime: 0.9
+    disableTime: 0
+    decisions:
+    - decision: {fileID: 11400000, guid: af28755f24b9a564da14f64bdd3a7f40, type: 2}
+      negate: 1
+    trueState: {fileID: 11400000, guid: b8d19e493c5bf4744a4296a5379c4fc2, type: 2}
+    falseState: {fileID: 0}
+    action: {fileID: 0}
+  - activationInput: 3
+    availableTime: 0.5
+    disableTime: 0
+    decisions: []
+    trueState: {fileID: 11400000, guid: 8d26b5cd1f931844d9d9c38df7061ba3, type: 2}
+    falseState: {fileID: 0}
+    action: {fileID: 0}
+  enterActions: []
+  updateActions:
+  - {fileID: 11400000, guid: 4ff9702b721b89147abd80a03aeb1ff4, type: 2}
+  - {fileID: 11400000, guid: f9ec5cad21eb1e34180a208621fc76de, type: 2}
+  exitActions:
+  - {fileID: 11400000, guid: f3797200be3d3f141a9ff7dc9b1bbe6c, type: 2}
+  frameDecisions: []
+  animationName: Knockback

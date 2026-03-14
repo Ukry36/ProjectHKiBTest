@@ -42,6 +42,7 @@ public class StateSO : ScriptableObject
         {
             stateController.TransitionConditions[i] = false;
             stateController.TransitionSequences[i] = stateController.StartCoroutine(TransitionWaitAvailableCoroutine(i, stateController));
+            stateController.TransitionSequences[i] = stateController.StartCoroutine(TransitionWaitDisableCoroutine(i, stateController));
         }
     }
 
@@ -64,6 +65,15 @@ public class StateSO : ScriptableObject
         if (transitions[i].availableTime > 0)
             yield return new WaitForSeconds(transitions[i].availableTime);
         stateController.TransitionConditions[i] = true;
+    }
+
+    public IEnumerator TransitionWaitDisableCoroutine(int i, StateController stateController)
+    {
+        if (transitions[i].disableTime > 0)
+        {
+            yield return new WaitForSeconds(transitions[i].disableTime);
+            stateController.TransitionConditions[i] = false;
+        }
     }
 
     public virtual void ExitState(StateController stateController)

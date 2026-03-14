@@ -5,11 +5,11 @@ using UnityEngine;
 [Serializable]
     public class GraffitiCode
     {
-        public List<Vector2> code = new();
+        public List<Vector2Int> code = new();
         public Color color;
 
-        public int Width => (int)(code.Max(v => v.x) - code.Min(v => v.x) + 1);
-        public int Height => (int)(code.Max(v => v.y) - code.Min(v => v.y) + 1);
+        public int Width => code.Max(v => v.x) - code.Min(v => v.x) + 1;
+        public int Height => code.Max(v => v.y) - code.Min(v => v.y) + 1;
     }
 
 [CreateAssetMenu(fileName = "Player Skill Data", menuName = "Scriptable Objects/Data/Player Skill Data", order = 3)]
@@ -24,10 +24,10 @@ public class PlayerSkillDataSO : ScriptableObject
         graffitiAllCases.Clear();
         foreach (GraffitiCode graffitiCode in graffitiCodes)
         {
-            foreach (Vector2 center in graffitiCode.code)
+            foreach (Vector2Int center in graffitiCode.code)
             {
                 GraffitiCode skillCase = new() { code = new(graffitiCode.code.Count) };
-                foreach (Vector2 point in graffitiCode.code)
+                foreach (Vector2Int point in graffitiCode.code)
                 {
                     skillCase.code.Add(point - center);
                 }

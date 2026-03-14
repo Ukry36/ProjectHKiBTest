@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efeb684fc92f83442884c1d1b5628dbc, type: 3}
+  m_Name: Delta_Lily_AttackData2
+  m_EditorClassIdentifier: 
+  damageDatas:
+  - {fileID: 11400000, guid: 0f81e94b3653d1e438e7c8e0adcf9524, type: 2}
+  - {fileID: 11400000, guid: 88a699d19dbeabb4484c5f37973b256d, type: 2}
+  - {fileID: 11400000, guid: 17a9916597623f54e9f9f7248b3f23d0, type: 2}
+  - {fileID: 11400000, guid: 85739a9a42021ad44a0a72fc8f8c97d2, type: 2}
+  - {fileID: 11400000, guid: 6a6a3857e36728e44ac521a02a56d005, type: 2}
+  attackMoveMinRange: 0
+  attackMoveMaxRange: 3
+  isAutoTarget: 0
+  initialSound: {fileID: 0}
+  coolTime: 0
+  attackAreaIndicatorData:
+    downwardIndicatorArea:
+      offset: {x: 0, y: 0}
+      size: {x: 0, y: 0}
+      pivot: {x: 0, y: 0, z: 0}
+    time: 0

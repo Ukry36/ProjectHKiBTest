@@ -9,6 +9,7 @@ public class StateTransition
     }
     public EnumManager.InputType activationInput = EnumManager.InputType.None;
     public float availableTime;
+    public float disableTime;
     public DecisionSet[] decisions;
     public StateSO trueState;
     public StateSO falseState;

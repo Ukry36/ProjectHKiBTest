@@ -20,6 +20,12 @@ public class EnumManager
         HasUInput,
         OnConfirm,
         None,
-        OnSubmit
+        OnSubmit,
+        OnSkill,
+        OnGraffiti,
+        OnMoveDown,
+        OnMoveLeft,
+        OnMoveRight,
+        OnMoveUp
     }
 }

@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb85084ca5989854b9dbc2cce1298255, type: 3}
+  m_Name: Delta_Lily_IdleState
+  m_EditorClassIdentifier: 
+  temporaryID: 0.5699455
+  transitions:
+  - activationInput: 10
+    availableTime: 0
+    disableTime: 0
+    decisions:
+    - decision: {fileID: 11400000, guid: 35a37da16a3d9df4189d1ba8142bdbc6, type: 2}
+      negate: 0
+    trueState: {fileID: 11400000, guid: 9b2a86a847957324398e6941c2ff5dca, type: 2}
+    falseState: {fileID: 0}
+    action: {fileID: 0}
+  - activationInput: 2
+    availableTime: 0
+    disableTime: 0
+    decisions: []
+    trueState: {fileID: 11400000, guid: 220d91a2702dcf54987a29f5c25ff3da, type: 2}
+    falseState: {fileID: 0}
+    action: {fileID: 0}
+  - activationInput: 10
+    availableTime: 0
+    disableTime: 0
+    decisions:
+    - decision: {fileID: 11400000, guid: af28755f24b9a564da14f64bdd3a7f40, type: 2}
+      negate: 0
+    trueState: {fileID: 11400000, guid: 3d3b2ee0e6959894c8bb4dab4b0ad661, type: 2}
+    falseState: {fileID: 0}
+    action: {fileID: 0}
+  - activationInput: 3
+    availableTime: 0
+    disableTime: 0
+    decisions:
+    - decision: {fileID: 11400000, guid: 5080e5686af385f43ba3c3c0a486210c, type: 2}
+      negate: 0
+    trueState: {fileID: 11400000, guid: 8d26b5cd1f931844d9d9c38df7061ba3, type: 2}
+    falseState: {fileID: 0}
+    action: {fileID: 0}
+  enterActions: []
+  updateActions:
+  - {fileID: 11400000, guid: 4ff9702b721b89147abd80a03aeb1ff4, type: 2}
+  exitActions: []
+  frameDecisions: []
+  animationName: Idle

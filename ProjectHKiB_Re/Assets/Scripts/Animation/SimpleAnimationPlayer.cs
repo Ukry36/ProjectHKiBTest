@@ -33,9 +33,11 @@ public class SimpleAnimationPlayer : MonoBehaviour
     [SerializeField] private SpriteResolver _spriteResolver;
     [SerializeField] private SpriteRenderer _spriteRenderer;
     protected Sequence _currentSequence;
+    protected List<string> _reservedClips;
     private SimpleAnimationClip _currentClip;
     protected int _loop = 0;
     [field:SerializeField] [field: NaughtyAttributes.ReadOnly] public EnumManager.AnimDir CurrentAnimDir {get; private set;} = EnumManager.AnimDir.D;
+    public bool IsFirstLoopEnded => _loop > 0;
 
     protected void Start()
     {
@@ -51,6 +53,7 @@ public class SimpleAnimationPlayer : MonoBehaviour
             else if(animationData && !string.IsNullOrEmpty(animationData.defaultClipName))
                 Play(animationData.defaultClipName);
         }
+        _reservedClips = new(10);
     }
 
     public void Play(string clipName)
@@ -80,6 +83,12 @@ public class SimpleAnimationPlayer : MonoBehaviour
         PlayClip(clip);
     }
 
+    public void Reserve(string clipName)
+    {
+        if (_reservedClips.Count < _reservedClips.Capacity)
+            _reservedClips.Add(clipName);
+    }
+
     protected void PlayClip(SimpleAnimationClip clip)
     {
         if (_currentSequence != null && _currentSequence.IsActive())
@@ -101,13 +110,23 @@ public class SimpleAnimationPlayer : MonoBehaviour
             _currentSequence.AppendInterval(duration);
         }
 
-        _currentSequence.AppendCallback(() => _loop++);
+        _currentSequence.AppendCallback(ManageLoop);
 
         if (clip.maxPlaySeconds > 0)
             _currentSequence.InsertCallback(clip.maxPlaySeconds, Stop);
 
         if (clip.isLoop)
             _currentSequence.SetLoops(-1);
+    }
+
+    public void ManageLoop()
+    {
+        _loop++;
+        if (IsFirstLoopEnded && _reservedClips.Count > 0)
+        {
+            Play(_reservedClips[0]);
+            _reservedClips.RemoveAt(0);
+        }
     }
 
     public void Stop()
@@ -174,8 +193,6 @@ public class SimpleAnimationPlayer : MonoBehaviour
             onCustomEventTriggered?.Invoke(frame.triggerEventName);
         }
     }
-
-    public bool IsFirstLoopEnded() => _loop > 0;
 
     public void RegisterEvent(string eventName, Action callback)
     {

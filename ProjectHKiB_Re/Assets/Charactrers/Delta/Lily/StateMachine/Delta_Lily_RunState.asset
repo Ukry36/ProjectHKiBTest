@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb85084ca5989854b9dbc2cce1298255, type: 3}
+  m_Name: Delta_Lily_RunState
+  m_EditorClassIdentifier: 
+  temporaryID: 0.7339513
+  transitions:
+  - activationInput: 10
+    availableTime: 0
+    disableTime: 0
+    decisions:
+    - decision: {fileID: 11400000, guid: 35a37da16a3d9df4189d1ba8142bdbc6, type: 2}
+      negate: 1
+    - decision: {fileID: 11400000, guid: 0b58246cfba562f40bb61edc58b554f3, type: 2}
+      negate: 0
+    trueState: {fileID: 11400000, guid: b8d19e493c5bf4744a4296a5379c4fc2, type: 2}
+    falseState: {fileID: 0}
+    action: {fileID: 0}
+  - activationInput: 10
+    availableTime: 0
+    disableTime: 0
+    decisions:
+    - decision: {fileID: 11400000, guid: 25fc0810a2a69f84e991d13a162ddaae, type: 2}
+      negate: 1
+    trueState: {fileID: 11400000, guid: 9b2a86a847957324398e6941c2ff5dca, type: 2}
+    falseState: {fileID: 0}
+    action: {fileID: 0}
+  - activationInput: 2
+    availableTime: 0
+    disableTime: 0
+    decisions: []
+    trueState: {fileID: 11400000, guid: 220d91a2702dcf54987a29f5c25ff3da, type: 2}
+    falseState: {fileID: 0}
+    action: {fileID: 0}
+  - activationInput: 10
+    availableTime: 0
+    disableTime: 0
+    decisions:
+    - decision: {fileID: 11400000, guid: af28755f24b9a564da14f64bdd3a7f40, type: 2}
+      negate: 0
+    trueState: {fileID: 11400000, guid: 3d3b2ee0e6959894c8bb4dab4b0ad661, type: 2}
+    falseState: {fileID: 0}
+    action: {fileID: 0}
+  - activationInput: 3
+    availableTime: 0
+    disableTime: 0
+    decisions:
+    - decision: {fileID: 11400000, guid: 5080e5686af385f43ba3c3c0a486210c, type: 2}
+      negate: 0
+    trueState: {fileID: 11400000, guid: 3e9e252439afd3f4688d00ad06d06ef5, type: 2}
+    falseState: {fileID: 0}
+    action: {fileID: 0}
+  enterActions:
+  - {fileID: 11400000, guid: 3cc6dd3a1c010ec4d801db6d591c8a4f, type: 2}
+  updateActions:
+  - {fileID: 11400000, guid: 7263eacb51896564e8bf3466a98c6b58, type: 2}
+  - {fileID: 11400000, guid: c63fa6e559283a9479d938d317595868, type: 2}
+  exitActions:
+  - {fileID: 11400000, guid: 797efcf4b4a2d0449b5517e4e60eed74, type: 2}
+  frameDecisions:
+  - time: 0.1
+    action: {fileID: 11400000, guid: dc2ca73e8a612af42974f1a56f5895c5, type: 2}
+  - time: 0.4
+    action: {fileID: 11400000, guid: dc2ca73e8a612af42974f1a56f5895c5, type: 2}
+  - time: 0.6
+    action: {fileID: 11400000, guid: 5d9f179b3d3f4c940b9682d51c25f9e0, type: 2}
+  animationName: Run

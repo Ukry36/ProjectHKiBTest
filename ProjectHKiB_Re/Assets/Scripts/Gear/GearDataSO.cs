@@ -25,10 +25,10 @@ public class GearDataSO : ItemDataSO
         graffitiAllCases.Clear();
         foreach (GraffitiCode graffitiCode in graffitiCodes)
         {
-            foreach (Vector2 center in graffitiCode.code)
+            foreach (Vector2Int center in graffitiCode.code)
             {
                 GraffitiCode skillCase = new() { code = new(graffitiCode.code.Count) };
-                foreach (Vector2 point in graffitiCode.code)
+                foreach (Vector2Int point in graffitiCode.code)
                 {
                     skillCase.code.Add(point - center);
                 }
