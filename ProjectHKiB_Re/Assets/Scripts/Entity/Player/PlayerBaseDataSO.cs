@@ -35,8 +35,8 @@ IDodgeableBase, IDamagableBase, ISkinableBase, IAnimatableBase, IFootstepBase
     [field: NaughtyAttributes.Foldout("Health")][field: SerializeField] public AudioDataSO HitSound { get; set; }
     [field: NaughtyAttributes.Foldout("Health")][field: SerializeField] public ParticlePlayer HitParticle { get; set; }
 
-    [field: NaughtyAttributes.Foldout("Graffiti")][field: SerializeField] public int MaxGP { get; set; }
-    [field: NaughtyAttributes.Foldout("Graffiti")][field: SerializeField] public int GP { get; set; }
+    [field: NaughtyAttributes.Foldout("Graffiti")][field: SerializeField] public StateSO GraffitiAttackState { get; set; }
+    [field: NaughtyAttributes.Foldout("Graffiti")][field: SerializeField] public StateSO GraffitiSkillState { get; set; }
 
     [field: NaughtyAttributes.Foldout("Control")][field: SerializeField] public StateMachineSO StateMachine { get; set; }
     [field: NaughtyAttributes.Foldout("Visual")][field: SerializeField] public SkinDataSO SkinData { get; set; }

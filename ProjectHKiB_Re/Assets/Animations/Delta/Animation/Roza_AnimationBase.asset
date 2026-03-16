@@ -28,6 +28,8 @@ MonoBehaviour:
         Value: IdleU
     isLoop: 1
     tickSeconds: 0.1
+    maxPlaySeconds: -1
+    resetWhenDirectionChange: 1
     frames:
     - labelKey: 0
       durationModifier: 12
@@ -54,6 +56,8 @@ MonoBehaviour:
         Value: WalkU
     isLoop: 1
     tickSeconds: 0.1
+    maxPlaySeconds: -1
+    resetWhenDirectionChange: 1
     frames:
     - labelKey: 0
       durationModifier: 1
@@ -92,6 +96,8 @@ MonoBehaviour:
         Value: RunU
     isLoop: 1
     tickSeconds: 0.1
+    maxPlaySeconds: -1
+    resetWhenDirectionChange: 1
     frames:
     - labelKey: 0
       durationModifier: 1
@@ -124,6 +130,8 @@ MonoBehaviour:
         Value: KnockbackU
     isLoop: 1
     tickSeconds: 0.1
+    maxPlaySeconds: -1
+    resetWhenDirectionChange: 1
     frames:
     - labelKey: 0
       durationModifier: 1
@@ -162,6 +170,8 @@ MonoBehaviour:
         Value: NormalAttack0U
     isLoop: 1
     tickSeconds: 0.1
+    maxPlaySeconds: -1
+    resetWhenDirectionChange: 1
     frames:
     - labelKey: 0
       durationModifier: 1
@@ -191,6 +201,8 @@ MonoBehaviour:
         Value: NormalAttack1U
     isLoop: 1
     tickSeconds: 0.1
+    maxPlaySeconds: -1
+    resetWhenDirectionChange: 1
     frames:
     - labelKey: 0
       durationModifier: 1
@@ -223,6 +235,8 @@ MonoBehaviour:
         Value: NormalAttack2U
     isLoop: 1
     tickSeconds: 0.1
+    maxPlaySeconds: -1
+    resetWhenDirectionChange: 1
     frames:
     - labelKey: 0
       durationModifier: 1
@@ -258,6 +272,8 @@ MonoBehaviour:
         Value: NormalAttack3U
     isLoop: 1
     tickSeconds: 0.1
+    maxPlaySeconds: -1
+    resetWhenDirectionChange: 1
     frames:
     - labelKey: 0
       durationModifier: 1
@@ -293,6 +309,8 @@ MonoBehaviour:
         Value: NormalAttack4U
     isLoop: 1
     tickSeconds: 0.1
+    maxPlaySeconds: -1
+    resetWhenDirectionChange: 1
     frames:
     - labelKey: 0
       durationModifier: 1
@@ -322,6 +340,8 @@ MonoBehaviour:
         Value: DodgeStartU
     isLoop: 1
     tickSeconds: 0.1
+    maxPlaySeconds: -1
+    resetWhenDirectionChange: 1
     frames:
     - labelKey: 0
       durationModifier: 1
@@ -342,6 +362,8 @@ MonoBehaviour:
         Value: DodgeEndU
     isLoop: 1
     tickSeconds: 0.1
+    maxPlaySeconds: -1
+    resetWhenDirectionChange: 1
     frames:
     - labelKey: 0
       durationModifier: 1
@@ -362,7 +384,53 @@ MonoBehaviour:
         Value: DodgeKeep
     isLoop: 1
     tickSeconds: 0.1
+    maxPlaySeconds: -1
+    resetWhenDirectionChange: 1
     frames:
     - labelKey: 0
+      durationModifier: 1
+      triggerEventName: 
+  - clipName: Transform
+    categoryKeys:
+      _serializedList:
+      - Key: 0
+        Value: Transform
+    isLoop: 0
+    tickSeconds: 0.1
+    maxPlaySeconds: -1
+    resetWhenDirectionChange: 1
+    frames:
+    - labelKey: 0
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 1
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 2
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 3
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 4
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 5
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 6
+      durationModifier: 1
+      triggerEventName: 
+  - clipName: Transforming
+    categoryKeys:
+      _serializedList:
+      - Key: 0
+        Value: Transform
+    isLoop: 0
+    tickSeconds: 0.1
+    maxPlaySeconds: -1
+    resetWhenDirectionChange: 1
+    frames:
+    - labelKey: 6
       durationModifier: 1
       triggerEventName: 

@@ -34,8 +34,8 @@ IDamagableBase, ISkinableBase, IAnimatableBase, IFootstepBase
     public AudioDataSO HitSound { get; set; }
     public ParticlePlayer HitParticle { get; set; }
 
-    public int MaxGP { get; set; }
-    public int GP { get; set; }
+    public StateSO GraffitiAttackState { get; set; }
+    public StateSO GraffitiSkillState { get; set; }
 
     public SkinDataSO SkinData { get; set; }
 

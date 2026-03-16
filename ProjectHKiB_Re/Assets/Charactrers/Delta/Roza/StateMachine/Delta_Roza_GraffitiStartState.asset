@@ -12,17 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb85084ca5989854b9dbc2cce1298255, type: 3}
   m_Name: Delta_Roza_GraffitiStartState
   m_EditorClassIdentifier: 
+  temporaryID: 0.71523994
   transitions:
-  - availableTime: 0.15
+  - activationInput: 10
+    availableTime: 0
+    disableTime: 0
     decisions: []
     trueState: {fileID: 11400000, guid: d9ae1ebd689d5514a81b47adf81f7560, type: 2}
     falseState: {fileID: 0}
+    action: {fileID: 0}
   enterActions:
   - {fileID: 11400000, guid: 2ba8bf12327fa2b4e931e52dea5b663e, type: 2}
   - {fileID: 11400000, guid: 9d29c5b17685af144aaabb51ca64e9ad, type: 2}
   - {fileID: 11400000, guid: b67b655ec5759574ea747ce9c1f9f7d4, type: 2}
   updateActions: []
   exitActions: []
-  subDecisions: []
   frameDecisions: []
   animationName: DodgeStart

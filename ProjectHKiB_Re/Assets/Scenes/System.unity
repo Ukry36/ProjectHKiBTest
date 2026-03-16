@@ -27757,7 +27757,7 @@ Transform:
   m_Children:
   - {fileID: 980040270}
   m_Father: {fileID: 1845891765}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &684965945
 GameObject:
@@ -32318,7 +32318,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1845891765}
-  m_RootOrder: 14
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &781276478
 MonoBehaviour:
@@ -32333,10 +32333,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gearManager: {fileID: 147051296}
-  inputManager: {fileID: 0}
+  inputManager: {fileID: 1800336235}
   graffitiMaxTime: 6
-  MaxGP: 0
-  GP: 0
+  tinkers: []
+  GPRecovertime: 10
+  MaxGP: 5
 --- !u!1 &781526499
 GameObject:
   m_ObjectHideFlags: 0
@@ -36018,7 +36019,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1845891765}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &858256630
 GameObject:
@@ -54946,7 +54947,7 @@ Transform:
   m_Children:
   - {fileID: 1876752276}
   m_Father: {fileID: 1845891765}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1310757089
 MonoBehaviour:
@@ -58387,7 +58388,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1845891765}
-  m_RootOrder: 13
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1423476069
 GameObject:
@@ -66779,7 +66780,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1845891765}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1646426892
 MonoBehaviour:
@@ -68734,9 +68735,9 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.041457284
+    x: 0
     y: 0
-    width: 0.917923
+    width: 1
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
@@ -74178,13 +74179,13 @@ Transform:
   - {fileID: 724609689}
   - {fileID: 1800336234}
   - {fileID: 147051295}
+  - {fileID: 781276477}
   - {fileID: 1855532041}
   - {fileID: 1646426891}
   - {fileID: 1310757088}
   - {fileID: 857761131}
   - {fileID: 681393689}
   - {fileID: 1414484761}
-  - {fileID: 781276477}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -74374,7 +74375,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1845891765}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1855532042
 MonoBehaviour:

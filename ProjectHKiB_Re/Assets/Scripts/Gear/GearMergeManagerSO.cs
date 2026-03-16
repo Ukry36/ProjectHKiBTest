@@ -89,6 +89,8 @@ public class GearMergeManagerSO : ScriptableObject
                 mergedGearData.AnimationData = card.mergedGearList[i].playerBaseData.AnimationData;
                 mergedGearData.EffectAnimationData = card.mergedGearList[i].playerBaseData.EffectAnimationData;
                 mergedGearData.EffectSpriteLibrary = card.mergedGearList[i].playerBaseData.EffectSpriteLibrary;
+                mergedGearData.GraffitiAttackState = card.mergedGearList[i].playerBaseData.GraffitiAttackState;
+                mergedGearData.GraffitiSkillState = card.mergedGearList[i].playerBaseData.GraffitiSkillState;
             }
             card.mergedGearList[i].ApplySubGearEffect(mergedGearData);
         }
@@ -109,5 +111,7 @@ public class GearMergeManagerSO : ScriptableObject
         databaseManager.SetISkinable(mergedGearData, playerBaseData);
         databaseManager.SetITargetable(mergedGearData, playerBaseData);
         databaseManager.SetIFootstep(mergedGearData, playerBaseData);
+        mergedGearData.GraffitiAttackState = playerBaseData.GraffitiAttackState;
+        mergedGearData.GraffitiSkillState = playerBaseData.GraffitiSkillState;
     }
 }

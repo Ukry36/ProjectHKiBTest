@@ -389,7 +389,7 @@ MonoBehaviour:
       _serializedList:
       - Key: 0
         Value: Transform
-    isLoop: 1
+    isLoop: 0
     tickSeconds: 0.1
     maxPlaySeconds: -1
     resetWhenDirectionChange: 1
@@ -412,6 +412,19 @@ MonoBehaviour:
     - labelKey: 5
       durationModifier: 1
       triggerEventName: 
+    - labelKey: 6
+      durationModifier: 1
+      triggerEventName: 
+  - clipName: Transforming
+    categoryKeys:
+      _serializedList:
+      - Key: 0
+        Value: Transform
+    isLoop: 0
+    tickSeconds: 0.1
+    maxPlaySeconds: -1
+    resetWhenDirectionChange: 1
+    frames:
     - labelKey: 6
       durationModifier: 1
       triggerEventName: 

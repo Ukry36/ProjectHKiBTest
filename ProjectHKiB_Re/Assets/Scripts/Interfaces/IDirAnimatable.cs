@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEditor.Animations;
 using System;
 
 public interface IDirAnimatable : IAnimatable

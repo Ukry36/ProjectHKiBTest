@@ -1,6 +1,15 @@
 using System;
 using UnityEngine;
 
+public interface IDamagableBase
+{
+    public float BaseMaxHP { get; set; }
+    public float BaseDEF { get; set; }
+
+    public AudioDataSO HitSound { get; set; }
+    public ParticlePlayer HitParticle { get; set; }
+}
+
 public interface IDamagable : IDamagableBase, IInitializable
 {
     public FloatBuffContainer MaxHPBuffer { get; set; }
