@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb85084ca5989854b9dbc2cce1298255, type: 3}
   m_Name: Delta_Lily_NormalAttack5State
   m_EditorClassIdentifier: 
-  temporaryID: 0.8049935
+  temporaryID: 0.14830412
   transitions:
   - activationInput: 10
     availableTime: 0.4
@@ -82,7 +82,9 @@ MonoBehaviour:
   - activationInput: 13
     availableTime: 0
     disableTime: 0
-    decisions: []
+    decisions:
+    - decision: {fileID: 11400000, guid: 53320624076daab44995584c81b2539a, type: 2}
+      negate: 0
     trueState: {fileID: 11400000, guid: bbb5b3ec0403b954d908ae30160cfa1a, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}

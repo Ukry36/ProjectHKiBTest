@@ -51,7 +51,9 @@ MonoBehaviour:
   - activationInput: 13
     availableTime: 0
     disableTime: 0
-    decisions: []
+    decisions:
+    - decision: {fileID: 11400000, guid: 53320624076daab44995584c81b2539a, type: 2}
+      negate: 0
     trueState: {fileID: 11400000, guid: bbb5b3ec0403b954d908ae30160cfa1a, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}

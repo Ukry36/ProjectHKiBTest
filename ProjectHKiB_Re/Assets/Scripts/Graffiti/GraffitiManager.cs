@@ -171,23 +171,31 @@ public class GraffitiManager : MonoBehaviour
     {
         StartTinker();
         _graffitiTimer.CancelCooltime();
-        if (CheckCompleted() >= 0) gearManager.EquipCard(CheckCompleted());
-        
-        graffitiProgress.Clear();
-        inputManager.PLAYMode();
         
         if (sequence != null && sequence.active) sequence.Complete();
+        
         for (int i = 0; i < graffitiMoveCount; i++) 
         {
-            //tinkers[i].ClearReservation();
-            if (CheckCompleted() >= 0) tinkers[i].Reserve("BiggerExit");
-            else                       tinkers[i].Reserve("NormalExit");
+            if (CheckCompleted() >= 0) 
+            {
+                tinkers[i].ClearReservation();
+                tinkers[i].Reserve("BiggerStart");
+                tinkers[i].Reserve("BiggerIdle");
+                tinkers[i].Reserve("BiggerExit");
+                Debug.Log("wa");
+            }
+            else tinkers[i].Reserve("NormalExit");
             tinkers[i].Reserve("Stop");
         }
+
+        graffitiProgress.Clear();
+        inputManager.PLAYMode();
     }
     
     public void EndGraffitiAttack()
     {
+        if (CheckCompleted() >= 0) gearManager.EquipCard(CheckCompleted());
+        else player.ChangeState(player.BaseData.StateMachine.initialState);
         EndGraffitiProgress();
         StartCoroutine(EndGraffitiAttackCoroutine());
     }
@@ -200,6 +208,8 @@ public class GraffitiManager : MonoBehaviour
     }
     public void EndGraffitiSkill()
     {
+        if (CheckCompleted() >= 0) gearManager.EquipCard(CheckCompleted());
+        else player.ChangeState(player.BaseData.StateMachine.initialState);
         GP = 0;
         EndGraffitiProgress();
         StartCoroutine(EndGraffitiSkillCoroutine());
