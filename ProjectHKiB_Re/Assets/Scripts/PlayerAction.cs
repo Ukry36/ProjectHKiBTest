@@ -38,7 +38,7 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""MovePressedD"",
-                    ""type"": ""PassThrough"",
+                    ""type"": ""Button"",
                     ""id"": ""0c54a6f6-43e6-4566-abf2-9218a4cbf605"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
@@ -47,7 +47,7 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""MovePressedR"",
-                    ""type"": ""PassThrough"",
+                    ""type"": ""Button"",
                     ""id"": ""fc18bde9-9db7-4114-8f1f-02ca7ed275d2"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
@@ -56,7 +56,7 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""MovePressedU"",
-                    ""type"": ""PassThrough"",
+                    ""type"": ""Button"",
                     ""id"": ""fae81133-8a35-4c1e-8e7d-b825150c29ab"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
@@ -65,7 +65,7 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""MovePressedL"",
-                    ""type"": ""PassThrough"",
+                    ""type"": ""Button"",
                     ""id"": ""29bfa6e9-f199-41c9-a176-fd81b57d43b4"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
@@ -912,7 +912,7 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""MovePressedD"",
-                    ""type"": ""PassThrough"",
+                    ""type"": ""Button"",
                     ""id"": ""c67a0f6f-abb2-4967-a654-5de439ab3aa9"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
@@ -921,7 +921,7 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""MovePressedR"",
-                    ""type"": ""PassThrough"",
+                    ""type"": ""Button"",
                     ""id"": ""de96fc54-d5d1-442b-b371-b9ad2a057908"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
@@ -930,7 +930,7 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""MovePressedU"",
-                    ""type"": ""PassThrough"",
+                    ""type"": ""Button"",
                     ""id"": ""e0edcd01-28a9-4122-996d-e9952996faa4"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
@@ -939,7 +939,7 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""MovePressedL"",
-                    ""type"": ""PassThrough"",
+                    ""type"": ""Button"",
                     ""id"": ""d67ee295-59c4-438d-ac6b-623bf645da08"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
@@ -1087,6 +1087,17 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""042b03ac-156a-4df8-89c9-df344adb8525"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""9d19b1df-3c85-4581-bb56-8c9e6dbda0c3"",
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
@@ -1100,6 +1111,17 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""fc535f72-7818-4c94-bd67-c49b14474096"",
                     ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Skill"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f86f8dfc-03b6-472d-b350-46e963b9e430"",
+                    ""path"": ""<Keyboard>/leftShift"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

@@ -58,6 +58,7 @@ public class SimpleAnimationPlayer : MonoBehaviour
 
     public void Play(string clipName)
     {
+        if (clipName == "Stop") { Stop(); return; }
         if (animationData == null) return;
         SimpleAnimationClip clip = animationData.GetClip(clipName);
 
@@ -85,8 +86,14 @@ public class SimpleAnimationPlayer : MonoBehaviour
 
     public void Reserve(string clipName)
     {
+        if (!_currentClip.isLoop && IsFirstLoopEnded && _reservedClips.Count < 1) {Play(clipName); return;}
         if (_reservedClips.Count < _reservedClips.Capacity)
             _reservedClips.Add(clipName);
+    }
+
+    public void ClearReservation()
+    {
+        _reservedClips.Clear();
     }
 
     protected void PlayClip(SimpleAnimationClip clip)

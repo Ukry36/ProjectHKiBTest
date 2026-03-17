@@ -1,11 +1,13 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "Apply Sprint Action", menuName = "State Machine/Action/Graffiti/StartGraffiti")]
+[CreateAssetMenu(fileName = "StartGraffitiAction", menuName = "State Machine/Action/Graffiti/StartGraffiti")]
 public class StartGraffitiAction : StateActionSO
 {
     public bool apply;
     public override void Act(StateController stateController)
     {
-        GameManager.instance.graffitiManager.StartGraffiti(stateController.transform);
-
+        if(stateController.TryGetInterface(out IGraffitiable graffitiable))
+        {
+            GameManager.instance.graffitiManager.StartGraffiti(graffitiable.GraffitiTinkerOffset + (Vector2)stateController.transform.position);
+        }
     }
 }

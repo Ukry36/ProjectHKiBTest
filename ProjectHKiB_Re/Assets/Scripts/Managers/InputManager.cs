@@ -116,10 +116,12 @@ public class InputManager : MonoBehaviour, @PlayerAction.IPLAYActions, PlayerAct
             case EnumManager.InputType.OnConfirm:  inputs.PLAY.Confirm.performed += action; break;
             case EnumManager.InputType.OnSkill:    inputs.PLAY.Skill.performed += action; break;
             case EnumManager.InputType.OnGraffiti: inputs.PLAY.GraffitiSystem.performed += action; break;
-            case EnumManager.InputType.OnMoveDown: inputs.PLAY.MovePressedD.performed += action; break;
-            case EnumManager.InputType.OnMoveLeft: inputs.PLAY.MovePressedL.performed += action; break;
-            case EnumManager.InputType.OnMoveRight:inputs.PLAY.MovePressedR.performed += action; break;
-            case EnumManager.InputType.OnMoveUp:   inputs.PLAY.MovePressedU.performed += action; break;
+            case EnumManager.InputType.OnGraffitiMoveDown: inputs.GRAFFITI.MovePressedD.performed += action; break;
+            case EnumManager.InputType.OnGraffitiMoveLeft: inputs.GRAFFITI.MovePressedL.performed += action; break;
+            case EnumManager.InputType.OnGraffitiMoveRight:inputs.GRAFFITI.MovePressedR.performed += action; break;
+            case EnumManager.InputType.OnGraffitiMoveUp:   inputs.GRAFFITI.MovePressedU.performed += action; break;
+            case EnumManager.InputType.OnGraffitiAttack:   inputs.GRAFFITI.Attack.performed += action; break;
+            case EnumManager.InputType.OnGraffitiSkill:    inputs.GRAFFITI.Skill.performed += action; break;
             default: break;
         };
     }
@@ -133,10 +135,12 @@ public class InputManager : MonoBehaviour, @PlayerAction.IPLAYActions, PlayerAct
             case EnumManager.InputType.OnConfirm:  inputs.PLAY.Confirm.performed -= action; break;
             case EnumManager.InputType.OnSkill:    inputs.PLAY.Skill.performed -= action; break;
             case EnumManager.InputType.OnGraffiti: inputs.PLAY.GraffitiSystem.performed -= action; break;
-            case EnumManager.InputType.OnMoveDown: inputs.PLAY.MovePressedD.performed -= action; break;
-            case EnumManager.InputType.OnMoveLeft: inputs.PLAY.MovePressedL.performed -= action; break;
-            case EnumManager.InputType.OnMoveRight:inputs.PLAY.MovePressedR.performed -= action; break;
-            case EnumManager.InputType.OnMoveUp:   inputs.PLAY.MovePressedU.performed -= action; break;
+            case EnumManager.InputType.OnGraffitiMoveDown: inputs.GRAFFITI.MovePressedD.performed -= action; break;
+            case EnumManager.InputType.OnGraffitiMoveLeft: inputs.GRAFFITI.MovePressedL.performed -= action; break;
+            case EnumManager.InputType.OnGraffitiMoveRight:inputs.GRAFFITI.MovePressedR.performed -= action; break;
+            case EnumManager.InputType.OnGraffitiMoveUp:   inputs.GRAFFITI.MovePressedU.performed -= action; break;
+            case EnumManager.InputType.OnGraffitiAttack:   inputs.GRAFFITI.Attack.performed -= action; break;
+            case EnumManager.InputType.OnGraffitiSkill:    inputs.GRAFFITI.Skill.performed -= action; break;
             default: break;
         };
     }

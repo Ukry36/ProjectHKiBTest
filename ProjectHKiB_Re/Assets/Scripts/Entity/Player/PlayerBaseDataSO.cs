@@ -4,7 +4,7 @@ using UnityEngine.U2D.Animation;
 
 [CreateAssetMenu(fileName = "PlayerBaseData", menuName = "Scriptable Objects/Data/PlayerBaseData", order = 1)]
 public class PlayerBaseDataSO : ScriptableObject, IMovableBase, IAttackableBase, ITargetableBase,
-IDodgeableBase, IDamagableBase, ISkinableBase, IAnimatableBase, IFootstepBase
+IDodgeableBase, IDamagableBase, ISkinableBase, IAnimatableBase, IFootstepBase, IGraffitiableBase
 {
     [field: NaughtyAttributes.Foldout("Move")][field: SerializeField] public float Speed { get; set; }
     [field: NaughtyAttributes.Foldout("Move")][field: SerializeField] public float SprintCoeff { get; set; }
@@ -37,6 +37,7 @@ IDodgeableBase, IDamagableBase, ISkinableBase, IAnimatableBase, IFootstepBase
 
     [field: NaughtyAttributes.Foldout("Graffiti")][field: SerializeField] public StateSO GraffitiAttackState { get; set; }
     [field: NaughtyAttributes.Foldout("Graffiti")][field: SerializeField] public StateSO GraffitiSkillState { get; set; }
+    [field: NaughtyAttributes.Foldout("Graffiti")][field: SerializeField] public Vector2 GraffitiTinkerOffset { get; set; }
 
     [field: NaughtyAttributes.Foldout("Control")][field: SerializeField] public StateMachineSO StateMachine { get; set; }
     [field: NaughtyAttributes.Foldout("Visual")][field: SerializeField] public SkinDataSO SkinData { get; set; }

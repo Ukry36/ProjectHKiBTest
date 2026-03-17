@@ -10,6 +10,7 @@ using Assets.Scripts.Interfaces.Modules;
 [RequireComponent(typeof(DirAnimatableModule))]
 [RequireComponent(typeof(FootStepModule))]
 [RequireComponent(typeof(BuffableModule))]
+[RequireComponent(typeof(GraffitiableModule))]
 public class Player : Entity
 {
     #region field
@@ -29,9 +30,6 @@ public class Player : Entity
         }
     }
     */
-
-    public int MaxGP { get; set; }
-    public int GP { get; set; }
 
     public MergedPlayerBaseData BaseData;
 
@@ -71,6 +69,7 @@ public class Player : Entity
         databaseManager.SetISkinable(this, BaseData);
         databaseManager.SetITargetable(this, BaseData);
         databaseManager.SetIDirAnimatable(this, BaseData);
+        databaseManager.SetIGraffitiable(this, BaseData);
         Initialize(BaseData.StateMachine);
         InitializeModules();
 

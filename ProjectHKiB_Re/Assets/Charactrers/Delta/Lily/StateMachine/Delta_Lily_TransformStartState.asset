@@ -10,14 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eb85084ca5989854b9dbc2cce1298255, type: 3}
-  m_Name: Delta_Lily_GraffitiStartState
+  m_Name: Delta_Lily_TransformStartState
   m_EditorClassIdentifier: 
-  temporaryID: 0
+  temporaryID: 0.79451
   transitions:
   - activationInput: 10
-    availableTime: 0.15
+    availableTime: 0
     disableTime: 0
-    decisions: []
+    decisions:
+    - decision: {fileID: 11400000, guid: e0cf4cc32ccc02a468f21e9caa6b837d, type: 2}
+      negate: 0
     trueState: {fileID: 11400000, guid: 371aa8472d3a5964baaaf7547950ebc5, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
@@ -25,5 +27,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2ba8bf12327fa2b4e931e52dea5b663e, type: 2}
   updateActions: []
   exitActions: []
-  frameDecisions: []
+  frameDecisions:
+  - time: 0.5
+    action: {fileID: 11400000, guid: 8f37dbc52929a7144a022e28ce38157d, type: 2}
   animationName: Transform

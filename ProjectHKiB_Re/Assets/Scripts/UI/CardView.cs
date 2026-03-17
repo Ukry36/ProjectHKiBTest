@@ -30,7 +30,6 @@ public class CardView : MonoBehaviour
     public void UpdateCard(CardData card)
     {
         if (card ==  null) Initialize();
-        
         for (int i = 0; i < patternView.Length; i++)
         {
             patternView[i].gameObject.SetActive(true);

@@ -1,0 +1,110 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a62b25bd3a0e9f8489d184b8ff14b3e1, type: 3}
+  m_Name: Tinker
+  m_EditorClassIdentifier: 
+  sourceLibraryAsset: {fileID: 7108339969198208228, guid: 1b4424f28a08fc144b5288907f8be7a4, type: 3}
+  defaultClipName: NormalIdle
+  clips:
+  - clipName: NormalStart
+    categoryKeys:
+      _serializedList:
+      - Key: 0
+        Value: NormalStart
+    isLoop: 0
+    tickSeconds: 0.1
+    maxPlaySeconds: -1
+    resetWhenDirectionChange: 1
+    frames:
+    - labelKey: 0
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 1
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 2
+      durationModifier: 1
+      triggerEventName: 
+  - clipName: NormalIdle
+    categoryKeys:
+      _serializedList:
+      - Key: 0
+        Value: NormalIdle
+    isLoop: 1
+    tickSeconds: 0.1
+    maxPlaySeconds: -1
+    resetWhenDirectionChange: 1
+    frames:
+    - labelKey: 0
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 1
+      durationModifier: 1
+      triggerEventName: 
+  - clipName: NormalExit
+    categoryKeys:
+      _serializedList:
+      - Key: 0
+        Value: NormalExit
+    isLoop: 0
+    tickSeconds: 0.1
+    maxPlaySeconds: -1
+    resetWhenDirectionChange: 1
+    frames:
+    - labelKey: 0
+      durationModifier: 1
+      triggerEventName: 
+  - clipName: BiggerStart
+    categoryKeys:
+      _serializedList:
+      - Key: 0
+        Value: BiggerStart
+    isLoop: 1
+    tickSeconds: 0.1
+    maxPlaySeconds: -1
+    resetWhenDirectionChange: 0
+    frames:
+    - labelKey: 0
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 1
+      durationModifier: 1
+      triggerEventName: 
+  - clipName: BiggerIdle
+    categoryKeys:
+      _serializedList:
+      - Key: 0
+        Value: BiggerIdle
+    isLoop: 1
+    tickSeconds: 0.1
+    maxPlaySeconds: -1
+    resetWhenDirectionChange: 1
+    frames:
+    - labelKey: 0
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 1
+      durationModifier: 1
+      triggerEventName: 
+  - clipName: BiggerExit
+    categoryKeys:
+      _serializedList:
+      - Key: 0
+        Value: BiggerExit
+    isLoop: 0
+    tickSeconds: 0.1
+    maxPlaySeconds: -1
+    resetWhenDirectionChange: 1
+    frames:
+    - labelKey: 0
+      durationModifier: 1
+      triggerEventName: 

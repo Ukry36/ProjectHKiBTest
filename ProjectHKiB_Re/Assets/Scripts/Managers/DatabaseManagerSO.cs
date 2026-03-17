@@ -98,4 +98,13 @@ public class DatabaseManagerSO : ScriptableObject
     {
         animatable.AnimationData = data.AnimationData;
     }
+
+    public void SetIGraffitiable(IInterfaceRegistable entity, IGraffitiableBase data)
+    => SetIGraffitiable(entity.GetInterface<IGraffitiable>(), data);
+    public void SetIGraffitiable(IGraffitiableBase graffitiable, IGraffitiableBase data)
+    {
+        graffitiable.GraffitiAttackState = data.GraffitiAttackState;
+        graffitiable.GraffitiSkillState = data.GraffitiSkillState;
+        graffitiable.GraffitiTinkerOffset = data.GraffitiTinkerOffset;
+    }
 }

@@ -23,9 +23,11 @@ public class EnumManager
         OnSubmit,
         OnSkill,
         OnGraffiti,
-        OnMoveDown,
-        OnMoveLeft,
-        OnMoveRight,
-        OnMoveUp
+        OnGraffitiMoveDown,
+        OnGraffitiMoveLeft,
+        OnGraffitiMoveRight,
+        OnGraffitiMoveUp,
+        OnGraffitiAttack,
+        OnGraffitiSkill
     }
 }

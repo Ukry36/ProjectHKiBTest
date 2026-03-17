@@ -10,19 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eb85084ca5989854b9dbc2cce1298255, type: 3}
-  m_Name: Delta_Lily_GraffitiState
+  m_Name: Delta_Roza_TransformingState
   m_EditorClassIdentifier: 
-  temporaryID: 0
-  transitions:
-  - activationInput: 10
-    availableTime: 0
-    disableTime: 0
-    decisions:
-    - decision: {fileID: 11400000, guid: f4036a4ea808c7943b57ed7ffa9724ab, type: 2}
-      negate: 0
-    trueState: {fileID: 11400000, guid: 65232dbca2f88fb48ae80f43b769b8e0, type: 2}
-    falseState: {fileID: 0}
-    action: {fileID: 0}
+  temporaryID: 0.09549238
+  transitions: []
   enterActions: []
   updateActions: []
   exitActions: []

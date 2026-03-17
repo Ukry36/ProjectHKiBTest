@@ -3,7 +3,7 @@ using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.U2D.Animation;
 public class MergedPlayerBaseData : IMovableBase, IAttackableBase, ITargetableBase, IDodgeableBase,
-IDamagableBase, ISkinableBase, IAnimatableBase, IFootstepBase
+IDamagableBase, ISkinableBase, IAnimatableBase, IFootstepBase, IGraffitiableBase
 {
     public MovePoint MovePoint { get; set; }
     public float Speed { get; set; }
@@ -36,6 +36,7 @@ IDamagableBase, ISkinableBase, IAnimatableBase, IFootstepBase
 
     public StateSO GraffitiAttackState { get; set; }
     public StateSO GraffitiSkillState { get; set; }
+    public Vector2 GraffitiTinkerOffset { get; set; }
 
     public SkinDataSO SkinData { get; set; }
 
