@@ -23,6 +23,13 @@ MonoBehaviour:
     trueState: {fileID: 11400000, guid: 371aa8472d3a5964baaaf7547950ebc5, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
+  - activationInput: 20
+    availableTime: 0
+    disableTime: 0
+    decisions: []
+    trueState: {fileID: 11400000, guid: 8d26b5cd1f931844d9d9c38df7061ba3, type: 2}
+    falseState: {fileID: 0}
+    action: {fileID: 0}
   enterActions:
   - {fileID: 11400000, guid: 2ba8bf12327fa2b4e931e52dea5b663e, type: 2}
   updateActions: []

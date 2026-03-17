@@ -28,6 +28,8 @@ public class EnumManager
         OnGraffitiMoveRight,
         OnGraffitiMoveUp,
         OnGraffitiAttack,
-        OnGraffitiSkill
+        OnGraffitiSkill,
+        OnGraffitiCancel,
+        OnGraffitiReset
     }
 }

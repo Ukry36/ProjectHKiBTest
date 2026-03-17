@@ -902,15 +902,6 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
             ""id"": ""1fb7457b-d495-4391-b079-9a6881d779a6"",
             ""actions"": [
                 {
-                    ""name"": ""Move"",
-                    ""type"": ""Value"",
-                    ""id"": ""1e06173b-6a5a-4e99-8f23-b61531b07377"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
                     ""name"": ""MovePressedD"",
                     ""type"": ""Button"",
                     ""id"": ""c67a0f6f-abb2-4967-a654-5de439ab3aa9"",
@@ -972,64 +963,18 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Cancel"",
+                    ""type"": ""Button"",
+                    ""id"": ""60da3b1f-6470-455d-8e1e-c62ec71d82ef"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
-                {
-                    ""name"": ""2D Vector"",
-                    ""id"": ""2300fd54-1640-41e2-b036-583cd976c3e1"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""b900c1d4-6567-473f-9a07-e94213aede58"",
-                    ""path"": ""<Keyboard>/upArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""PC"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""566314c9-16c1-4e29-a3c9-b6a10548661b"",
-                    ""path"": ""<Keyboard>/leftArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""PC"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""1b5dcfa6-6011-4ccc-abab-4939759eed84"",
-                    ""path"": ""<Keyboard>/downArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""PC"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""726e7fb5-2afc-485c-b64c-1179f72b83c8"",
-                    ""path"": ""<Keyboard>/rightArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""PC"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
                 {
                     ""name"": """",
                     ""id"": ""bc521ee0-bfdd-4d94-8879-af46445cbcf5"",
@@ -1087,17 +1032,6 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""042b03ac-156a-4df8-89c9-df344adb8525"",
-                    ""path"": ""<Keyboard>/z"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Attack"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""9d19b1df-3c85-4581-bb56-8c9e6dbda0c3"",
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
@@ -1120,12 +1054,12 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""f86f8dfc-03b6-472d-b350-46e963b9e430"",
+                    ""id"": ""4a6e79e9-488e-4a2f-b0ae-fbdf57fa24ca"",
                     ""path"": ""<Keyboard>/leftShift"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Skill"",
+                    ""action"": ""Cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1174,7 +1108,6 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
         m_MENU_TrackedDeviceOrientation = m_MENU.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
         // GRAFFITI
         m_GRAFFITI = asset.FindActionMap("GRAFFITI", throwIfNotFound: true);
-        m_GRAFFITI_Move = m_GRAFFITI.FindAction("Move", throwIfNotFound: true);
         m_GRAFFITI_MovePressedD = m_GRAFFITI.FindAction("MovePressedD", throwIfNotFound: true);
         m_GRAFFITI_MovePressedR = m_GRAFFITI.FindAction("MovePressedR", throwIfNotFound: true);
         m_GRAFFITI_MovePressedU = m_GRAFFITI.FindAction("MovePressedU", throwIfNotFound: true);
@@ -1182,6 +1115,7 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
         m_GRAFFITI_Attack = m_GRAFFITI.FindAction("Attack", throwIfNotFound: true);
         m_GRAFFITI_GraffitiSystem = m_GRAFFITI.FindAction("GraffitiSystem", throwIfNotFound: true);
         m_GRAFFITI_Skill = m_GRAFFITI.FindAction("Skill", throwIfNotFound: true);
+        m_GRAFFITI_Cancel = m_GRAFFITI.FindAction("Cancel", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1495,7 +1429,6 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
     // GRAFFITI
     private readonly InputActionMap m_GRAFFITI;
     private List<IGRAFFITIActions> m_GRAFFITIActionsCallbackInterfaces = new List<IGRAFFITIActions>();
-    private readonly InputAction m_GRAFFITI_Move;
     private readonly InputAction m_GRAFFITI_MovePressedD;
     private readonly InputAction m_GRAFFITI_MovePressedR;
     private readonly InputAction m_GRAFFITI_MovePressedU;
@@ -1503,11 +1436,11 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
     private readonly InputAction m_GRAFFITI_Attack;
     private readonly InputAction m_GRAFFITI_GraffitiSystem;
     private readonly InputAction m_GRAFFITI_Skill;
+    private readonly InputAction m_GRAFFITI_Cancel;
     public struct GRAFFITIActions
     {
         private @PlayerAction m_Wrapper;
         public GRAFFITIActions(@PlayerAction wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Move => m_Wrapper.m_GRAFFITI_Move;
         public InputAction @MovePressedD => m_Wrapper.m_GRAFFITI_MovePressedD;
         public InputAction @MovePressedR => m_Wrapper.m_GRAFFITI_MovePressedR;
         public InputAction @MovePressedU => m_Wrapper.m_GRAFFITI_MovePressedU;
@@ -1515,6 +1448,7 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
         public InputAction @Attack => m_Wrapper.m_GRAFFITI_Attack;
         public InputAction @GraffitiSystem => m_Wrapper.m_GRAFFITI_GraffitiSystem;
         public InputAction @Skill => m_Wrapper.m_GRAFFITI_Skill;
+        public InputAction @Cancel => m_Wrapper.m_GRAFFITI_Cancel;
         public InputActionMap Get() { return m_Wrapper.m_GRAFFITI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1524,9 +1458,6 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_GRAFFITIActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_GRAFFITIActionsCallbackInterfaces.Add(instance);
-            @Move.started += instance.OnMove;
-            @Move.performed += instance.OnMove;
-            @Move.canceled += instance.OnMove;
             @MovePressedD.started += instance.OnMovePressedD;
             @MovePressedD.performed += instance.OnMovePressedD;
             @MovePressedD.canceled += instance.OnMovePressedD;
@@ -1548,13 +1479,13 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
             @Skill.started += instance.OnSkill;
             @Skill.performed += instance.OnSkill;
             @Skill.canceled += instance.OnSkill;
+            @Cancel.started += instance.OnCancel;
+            @Cancel.performed += instance.OnCancel;
+            @Cancel.canceled += instance.OnCancel;
         }
 
         private void UnregisterCallbacks(IGRAFFITIActions instance)
         {
-            @Move.started -= instance.OnMove;
-            @Move.performed -= instance.OnMove;
-            @Move.canceled -= instance.OnMove;
             @MovePressedD.started -= instance.OnMovePressedD;
             @MovePressedD.performed -= instance.OnMovePressedD;
             @MovePressedD.canceled -= instance.OnMovePressedD;
@@ -1576,6 +1507,9 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
             @Skill.started -= instance.OnSkill;
             @Skill.performed -= instance.OnSkill;
             @Skill.canceled -= instance.OnSkill;
+            @Cancel.started -= instance.OnCancel;
+            @Cancel.performed -= instance.OnCancel;
+            @Cancel.canceled -= instance.OnCancel;
         }
 
         public void RemoveCallbacks(IGRAFFITIActions instance)
@@ -1632,7 +1566,6 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
     }
     public interface IGRAFFITIActions
     {
-        void OnMove(InputAction.CallbackContext context);
         void OnMovePressedD(InputAction.CallbackContext context);
         void OnMovePressedR(InputAction.CallbackContext context);
         void OnMovePressedU(InputAction.CallbackContext context);
@@ -1640,5 +1573,6 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
         void OnAttack(InputAction.CallbackContext context);
         void OnGraffitiSystem(InputAction.CallbackContext context);
         void OnSkill(InputAction.CallbackContext context);
+        void OnCancel(InputAction.CallbackContext context);
     }
 }

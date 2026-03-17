@@ -122,6 +122,8 @@ public class InputManager : MonoBehaviour, @PlayerAction.IPLAYActions, PlayerAct
             case EnumManager.InputType.OnGraffitiMoveUp:   inputs.GRAFFITI.MovePressedU.performed += action; break;
             case EnumManager.InputType.OnGraffitiAttack:   inputs.GRAFFITI.Attack.performed += action; break;
             case EnumManager.InputType.OnGraffitiSkill:    inputs.GRAFFITI.Skill.performed += action; break;
+            case EnumManager.InputType.OnGraffitiReset:    inputs.GRAFFITI.GraffitiSystem.performed += action; break;
+            case EnumManager.InputType.OnGraffitiCancel:   inputs.GRAFFITI.Cancel.performed += action; break;
             default: break;
         };
     }
@@ -141,6 +143,8 @@ public class InputManager : MonoBehaviour, @PlayerAction.IPLAYActions, PlayerAct
             case EnumManager.InputType.OnGraffitiMoveUp:   inputs.GRAFFITI.MovePressedU.performed -= action; break;
             case EnumManager.InputType.OnGraffitiAttack:   inputs.GRAFFITI.Attack.performed -= action; break;
             case EnumManager.InputType.OnGraffitiSkill:    inputs.GRAFFITI.Skill.performed -= action; break;
+            case EnumManager.InputType.OnGraffitiReset:    inputs.GRAFFITI.GraffitiSystem.performed -= action; break;
+            case EnumManager.InputType.OnGraffitiCancel:   inputs.GRAFFITI.Cancel.performed -= action; break;
             default: break;
         };
     }

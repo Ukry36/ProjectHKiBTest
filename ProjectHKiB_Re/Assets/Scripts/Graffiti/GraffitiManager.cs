@@ -68,7 +68,6 @@ public class GraffitiManager : MonoBehaviour
 
     public void StartGraffiti(Vector2 startPos)
     {
-        Debug.Log("Start");
         if (!CanGraffiti) return;
         inputManager.GRAFFITIMode();
         _graffitiWorldStartPos = startPos;
@@ -77,6 +76,13 @@ public class GraffitiManager : MonoBehaviour
         GP--;
         graffitiMoveCount = 0;
         canGraffitiTinker = false;
+        
+        ProcessGraffiti(Vector2Int.zero);
+    }
+    public void ResetGraffiti()
+    {
+        graffitiProgress.Clear();
+        graffitiMoveCount = 0;
         
         ProcessGraffiti(Vector2Int.zero);
     }
@@ -97,7 +103,6 @@ public class GraffitiManager : MonoBehaviour
     /// <param name="pos"> current position</param>
     public void ProcessGraffiti(Vector2Int pos) 
     {
-        Debug.Log("Process");
         graffitiCurrentIntPos = pos;
 
         if (!graffitiProgress.Contains(pos)) 
@@ -164,7 +169,6 @@ public class GraffitiManager : MonoBehaviour
     }
     public void EndGraffitiProgress()
     {
-        Debug.Log("End");
         StartTinker();
         _graffitiTimer.CancelCooltime();
         if (CheckCompleted() >= 0) gearManager.EquipCard(CheckCompleted());
@@ -252,6 +256,8 @@ public class GraffitiManager : MonoBehaviour
         inputManager.Bind(EnumManager.InputType.OnGraffitiMoveUp, ProcessGraffitiUp);
         inputManager.Bind(EnumManager.InputType.OnGraffitiAttack, EndGraffitiAttack);
         inputManager.Bind(EnumManager.InputType.OnGraffitiSkill, EndGraffitiSkill);
+        inputManager.Bind(EnumManager.InputType.OnGraffitiReset, ResetGraffiti);
+        inputManager.Bind(EnumManager.InputType.OnGraffitiCancel, CancelGraffiti);
     }
 
     private void UnBindInputs()
@@ -262,6 +268,8 @@ public class GraffitiManager : MonoBehaviour
         inputManager.UnBind(EnumManager.InputType.OnGraffitiMoveUp, ProcessGraffitiUp);
         inputManager.UnBind(EnumManager.InputType.OnGraffitiAttack, EndGraffitiAttack);
         inputManager.UnBind(EnumManager.InputType.OnGraffitiSkill, EndGraffitiSkill);
+        inputManager.UnBind(EnumManager.InputType.OnGraffitiReset, ResetGraffiti);
+        inputManager.UnBind(EnumManager.InputType.OnGraffitiCancel, CancelGraffiti);
     }
 
     public void ProcessGraffitiDown(InputAction.CallbackContext context) { if (context.performed) ProcessGraffiti(graffitiCurrentIntPos + Vector2Int.down); }
@@ -270,5 +278,7 @@ public class GraffitiManager : MonoBehaviour
     public void ProcessGraffitiUp(InputAction.CallbackContext context) { if (context.performed) ProcessGraffiti(graffitiCurrentIntPos + Vector2Int.up); }
     public void EndGraffitiAttack(InputAction.CallbackContext context) { if (context.performed) EndGraffitiAttack(); }
     public void EndGraffitiSkill(InputAction.CallbackContext context) { if (context.performed) EndGraffitiSkill(); }
+    public void ResetGraffiti(InputAction.CallbackContext context) { if (context.performed) ResetGraffiti(); }
+    public void CancelGraffiti(InputAction.CallbackContext context) { if (context.performed) EndGraffitiProgress(); }
 
 }
