@@ -63,7 +63,7 @@ public class GraffitiManager : MonoBehaviour
     {
         if(_GP == MaxGP || !_GPRecoverTimer.IsCooltimeEnded) return;
         _GPRecoverTimer.CancelCooltime();
-        _GPRecoverTimer.StartCooltime(10, RecoverGP);
+        _GPRecoverTimer.StartCooltime(GPRecovertime, RecoverGP);
     }
 
     public void StartGraffiti(Vector2 startPos)
