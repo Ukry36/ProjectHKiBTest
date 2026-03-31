@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 public interface IMovableBase
@@ -12,6 +11,9 @@ public interface IMovableBase
 
 public interface IMovable : IMovableBase, IInitializable
 {
+    public float BaseSpeed { get; }
+    public FloatBuffContainer SpeedBuffer { get; set; }
+
     public struct ExternalForce
     {
         public readonly Vector3 GetForce
@@ -27,6 +29,7 @@ public interface IMovable : IMovableBase, IInitializable
                 return result;
             }
         }
+
         public Dictionary<int, Vector3> SetForce { get; set; }
 
         public ExternalForce(bool use)
@@ -34,11 +37,13 @@ public interface IMovable : IMovableBase, IInitializable
             SetForce = new();
         }
     }
+
     public MovePoint MovePoint { get; set; }
     public Vector3 LastSetDir { get; set; }
     public bool IsKnockbackMove { get; set; }
     public bool IsSprinting { get; set; }
     public ExternalForce ExForce { get; set; }
+
     public void KnockBack(Vector3 dir, float strength);
     public void EndKnockbackEarly();
     public void KnockBackEndCallback();

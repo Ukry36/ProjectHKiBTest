@@ -28,6 +28,10 @@ public class StateSO : ScriptableObject
         }
         ReserveFrameDecisions(stateController);
         ReserveTransitions(stateController);
+<<<<<<< Updated upstream
+=======
+        //Debug.Log(name);
+>>>>>>> Stashed changes
     }
 
     public void ReserveFrameDecisions(StateController stateController)
