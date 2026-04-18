@@ -16,18 +16,10 @@ public class StateSO : ScriptableObject
 {
     [HideInInspector] public float temporaryID;
 
-    [Serializable]
-    public struct FrameDecision
-    {
-        public float time;
-        public StateActionSO action;
-    }
-
     public StateTransition[] transitions;
     public StateActionSO[] enterActions;
     public StateActionSO[] updateActions;
     public StateActionSO[] exitActions;
-    public FrameDecision[] frameDecisions;
     public ActionSequence[] actionSequence;
     public bool loopActionSequence;
     public bool useTimer;
@@ -46,12 +38,6 @@ public class StateSO : ScriptableObject
         if (actionSequence.Length > 0) stateController.StartActionSequence(actionSequence, loopActionSequence);
     }
 
-    public void ReserveFrameDecisions(StateController stateController)
-    {
-        for (int i = 0; i < frameDecisions.Length; i++)
-            stateController.FrameActionSequences[i] = stateController.StartCoroutine(DelayedActionCoroutine(i, stateController));
-    }
-
     public void ReserveTransitions(StateController stateController)
     {
         for (int i = 0; i < transitions.Length; i++)
@@ -66,14 +52,6 @@ public class StateSO : ScriptableObject
     {
         for (int i = 0; i < updateActions.Length; i++)
             updateActions[i].Act(stateController);
-    }
-
-    public IEnumerator DelayedActionCoroutine(int i, StateController stateController)
-    {
-        if (!frameDecisions[i].action) yield break;
-        if (frameDecisions[i].time > 0)
-            yield return new WaitForSeconds(frameDecisions[i].time);
-        frameDecisions[i].action.Act(stateController);
     }
 
     public IEnumerator TransitionWaitAvailableCoroutine(int i, StateController stateController)
@@ -114,7 +92,6 @@ public class StateSO : ScriptableObject
     public void ResetStateTimer(StateController stateController)
     {
         ResetTimers(stateController);
-        ReserveFrameDecisions(stateController);
         ReserveTransitions(stateController);
     }
 

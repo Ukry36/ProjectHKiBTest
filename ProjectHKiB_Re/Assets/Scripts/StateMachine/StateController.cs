@@ -18,7 +18,6 @@ public class StateController : InterfaceRegister
             //Debug.Log(_currentState);
         }
     }
-    [HideInInspector] public List<Coroutine> FrameActionSequences = new(20);
     [HideInInspector] public List<Coroutine> TransitionSequences = new(10);
     [HideInInspector] public List<bool> TransitionConditions = new(10);
     [HideInInspector] public List<Cooltime> Timers = new(10);
@@ -54,9 +53,6 @@ public class StateController : InterfaceRegister
 
     public virtual void Awake()
     {
-        for (int i = 0; i < 20; i++)
-            FrameActionSequences.Add(null);
-        
         for (int i = 0; i < 10; i++)
         {
             TransitionSequences.Add(null);
