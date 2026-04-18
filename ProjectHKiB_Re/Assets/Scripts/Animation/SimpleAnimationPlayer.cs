@@ -64,7 +64,6 @@ public class SimpleAnimationPlayer : MonoBehaviour
 
         for (int i = 0; i < playersToSyncAnimation.Length; i++)
             playersToSyncAnimation[i].Play(clipName);
-        
 
         if (clip != null)
         {

@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.U2D.Animation;
 
@@ -6,21 +5,26 @@ public class Damager : MonoBehaviour
 {
     [SerializeField] private DamageDataSO _damageData;
     private IAttackable _attackable;
-    [SerializeField] private SimpleAnimationPlayer _effectAnimationPlayer;
-    [SerializeField] private SpriteLibrary _effectSpritelibrary;
+    [SerializeField] private SimpleAnimationPlayer[] _effectAnimationPlayer;
+    [SerializeField] private SpriteLibrary[] _effectSpritelibrary;
 
     public void Start()
     {
-        _effectAnimationPlayer.gameObject.SetActive(false);
+        for (int i = 0; i < _effectAnimationPlayer.Length; i++)
+            _effectAnimationPlayer[i].gameObject.SetActive(false);
     }
 
     public void Initialize(SimpleAnimationDataSO effectAnimationData, SpriteLibraryAsset effectSpriteLibrary)
     {
-        _effectAnimationPlayer.gameObject.SetActive(false);
-        if (effectAnimationData && effectSpriteLibrary)
+        for (int i = 0; i < _effectAnimationPlayer.Length; i++)
         {
-            _effectAnimationPlayer.animationData = effectAnimationData;
-            _effectSpritelibrary.spriteLibraryAsset = effectSpriteLibrary;
+            _effectAnimationPlayer[i].gameObject.SetActive(false);
+
+            if (effectAnimationData && effectSpriteLibrary)
+            {
+                _effectAnimationPlayer[i].animationData = effectAnimationData;
+                _effectSpritelibrary[i].spriteLibraryAsset = effectSpriteLibrary;
+            }
         }
     }
 
@@ -60,22 +64,26 @@ public class Damager : MonoBehaviour
     public void Damage()
     {
         gizmoTrig = 5;
+        gizmoRefPlayer = _damageData.animPlayerNumber;
+
         if (_damageData.initialSound)
             GameManager.instance.audioManager.PlayAudioOneShot(_damageData.initialSound, 1, transform.position);
 
-        if (!_effectAnimationPlayer) return;
+        if (!_effectAnimationPlayer[_damageData.animPlayerNumber]) return;
 
-        _effectAnimationPlayer.gameObject.SetActive(true);
-        _effectAnimationPlayer.Play(_damageData.effectAnimationClipName);
+        _effectAnimationPlayer[_damageData.animPlayerNumber].gameObject.SetActive(true);
+        _effectAnimationPlayer[_damageData.animPlayerNumber].Play(_damageData.effectAnimationClipName);
         
-        if (_damageData.DLRUDamageEffects.ContainsKey(_effectAnimationPlayer.CurrentAnimDir) && _damageData.DLRUDamageEffects[_effectAnimationPlayer.CurrentAnimDir])
-            GameManager.instance.particleManager.PlayParticle(_damageData.DLRUDamageEffects[_effectAnimationPlayer.CurrentAnimDir].GetHashCode(), transform, _damageData.attatchParticleToBody);
+        EnumManager.AnimDir animDir = _effectAnimationPlayer[_damageData.animPlayerNumber].CurrentAnimDir;
+
+        if (_damageData.DLRUDamageEffects.ContainsKey(animDir) && _damageData.DLRUDamageEffects[animDir])
+            GameManager.instance.particleManager.PlayParticle(_damageData.DLRUDamageEffects[animDir].GetHashCode(), transform, _damageData.attatchParticleToBody);
 
         int colLength = Physics2D.OverlapBoxNonAlloc
         (
-            transform.position + _effectAnimationPlayer.CurrentAnimDir.DirToQuaternion4() * _damageData.downwardDamageArea.offset,
+            transform.position + animDir.DirToQuaternion4() * _damageData.downwardDamageArea.offset,
             _damageData.downwardDamageArea.size,
-            _effectAnimationPlayer.CurrentAnimDir.DirToAngle4(),
+            animDir.DirToAngle4(),
             col,
             _damageData.damageLayer
         );
@@ -89,6 +97,14 @@ public class Damager : MonoBehaviour
         }
     }
 
+    public void StopEffect(int animPlayerNum)
+    {
+        if (!_effectAnimationPlayer[animPlayerNum]) return;
+
+        _effectAnimationPlayer[animPlayerNum].Stop();
+    }
+
+    private int gizmoRefPlayer;
     private int gizmoTrig;
     private void OnDrawGizmos()
     {
@@ -98,8 +114,8 @@ public class Damager : MonoBehaviour
             Vector2 offset = _damageData.downwardDamageArea.offset;
             Vector2 size = _damageData.downwardDamageArea.size;
 
-            offset = _effectAnimationPlayer.CurrentAnimDir.DirToQuaternion4() * offset;
-            size = _effectAnimationPlayer.CurrentAnimDir.DirToQuaternion4() * size;
+            offset = _effectAnimationPlayer[gizmoRefPlayer].CurrentAnimDir.DirToQuaternion4() * offset;
+            size = _effectAnimationPlayer[gizmoRefPlayer].CurrentAnimDir.DirToQuaternion4() * size;
 
             Gizmos.DrawWireCube((Vector2)transform.position + offset, size);
             gizmoTrig--;

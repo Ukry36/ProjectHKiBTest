@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a62b25bd3a0e9f8489d184b8ff14b3e1, type: 3}
   m_Name: Roza_AnimationBase
   m_EditorClassIdentifier: 
-  sourceLibraryAsset: {fileID: 11400000, guid: e5ce77674c2df2942b6562005e5052f4, type: 2}
+  sourceLibraryAsset: {fileID: 0}
   defaultClipName: Idle
   clips:
   - clipName: Idle
@@ -259,7 +259,7 @@ MonoBehaviour:
     - labelKey: 6
       durationModifier: 1
       triggerEventName: 
-  - clipName: NormalAttack3
+  - clipName: NormalAttack3Start
     categoryKeys:
       _serializedList:
       - Key: 0
@@ -287,6 +287,101 @@ MonoBehaviour:
     - labelKey: 3
       durationModifier: 1
       triggerEventName: 
+  - clipName: Spin0
+    categoryKeys:
+      _serializedList:
+      - Key: 0
+        Value: Spin
+    isLoop: 1
+    tickSeconds: 0.1
+    maxPlaySeconds: -1
+    resetWhenDirectionChange: 0
+    frames:
+    - labelKey: 0
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 1
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 2
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 3
+      durationModifier: 1
+      triggerEventName: 
+  - clipName: Spin1
+    categoryKeys:
+      _serializedList:
+      - Key: 0
+        Value: Spin
+    isLoop: 1
+    tickSeconds: 0.075
+    maxPlaySeconds: -1
+    resetWhenDirectionChange: 0
+    frames:
+    - labelKey: 0
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 1
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 2
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 3
+      durationModifier: 1
+      triggerEventName: 
+  - clipName: Spin2
+    categoryKeys:
+      _serializedList:
+      - Key: 0
+        Value: Spin
+    isLoop: 1
+    tickSeconds: 0.05
+    maxPlaySeconds: -1
+    resetWhenDirectionChange: 0
+    frames:
+    - labelKey: 0
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 1
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 2
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 3
+      durationModifier: 1
+      triggerEventName: 
+  - clipName: Spin3
+    categoryKeys:
+      _serializedList:
+      - Key: 0
+        Value: DodgeKeep
+    isLoop: 1
+    tickSeconds: 0.1
+    maxPlaySeconds: -1
+    resetWhenDirectionChange: 1
+    frames:
+    - labelKey: 0
+      durationModifier: 1
+      triggerEventName: 
+  - clipName: NormalAttack3End
+    categoryKeys:
+      _serializedList:
+      - Key: 0
+        Value: NormalAttack3D
+      - Key: 2
+        Value: NormalAttack3L
+      - Key: 1
+        Value: NormalAttack3R
+      - Key: 3
+        Value: NormalAttack3U
+    isLoop: 1
+    tickSeconds: 0.1
+    maxPlaySeconds: -1
+    resetWhenDirectionChange: 1
+    frames:
     - labelKey: 4
       durationModifier: 1
       triggerEventName: 
@@ -432,5 +527,143 @@ MonoBehaviour:
     resetWhenDirectionChange: 1
     frames:
     - labelKey: 6
+      durationModifier: 1
+      triggerEventName: 
+  - clipName: Skill1
+    categoryKeys:
+      _serializedList:
+      - Key: 0
+        Value: NormalAttack1D
+      - Key: 2
+        Value: NormalAttack1L
+      - Key: 1
+        Value: NormalAttack1R
+      - Key: 3
+        Value: NormalAttack1U
+    isLoop: 1
+    tickSeconds: 0.1
+    maxPlaySeconds: -1
+    resetWhenDirectionChange: 1
+    frames:
+    - labelKey: 0
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 1
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 2
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 3
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 4
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 5
+      durationModifier: 1
+      triggerEventName: 
+  - clipName: Skill2
+    categoryKeys:
+      _serializedList:
+      - Key: 0
+        Value: Skill2D
+      - Key: 2
+        Value: Skill2L
+      - Key: 1
+        Value: Skill2R
+      - Key: 3
+        Value: Skill2U
+    isLoop: 1
+    tickSeconds: 0.1
+    maxPlaySeconds: -1
+    resetWhenDirectionChange: 1
+    frames:
+    - labelKey: 0
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 1
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 2
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 3
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 4
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 5
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 6
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 7
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 8
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 9
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 10
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 11
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 12
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 13
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 14
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 15
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 16
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 17
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 18
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 19
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 20
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 21
+      durationModifier: 1
+      triggerEventName: 
+  - clipName: SpinFail
+    categoryKeys:
+      _serializedList:
+      - Key: 0
+        Value: SpinFail
+    isLoop: 1
+    tickSeconds: 0.1
+    maxPlaySeconds: -1
+    resetWhenDirectionChange: 0
+    frames:
+    - labelKey: 0
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 1
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 2
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 3
       durationModifier: 1
       triggerEventName: 

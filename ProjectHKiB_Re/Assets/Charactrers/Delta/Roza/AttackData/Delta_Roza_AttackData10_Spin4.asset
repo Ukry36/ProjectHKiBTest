@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efeb684fc92f83442884c1d1b5628dbc, type: 3}
+  m_Name: Delta_Roza_AttackData10_Spin4
+  m_EditorClassIdentifier: 
+  damageDatas:
+  - {fileID: 11400000, guid: b4712edee008c1e4386e46465e7222f6, type: 2}
+  - {fileID: 11400000, guid: 189d5b7415d426240b7cf10fb0973a0e, type: 2}
+  - {fileID: 11400000, guid: ee125b30b74261b4aa9edc97423695b2, type: 2}
+  - {fileID: 11400000, guid: 68e0dcfa1cb8744478a7035829892077, type: 2}
+  attackMoveMinRange: 0
+  attackMoveMaxRange: 0
+  isAutoTarget: 0
+  initialSound: {fileID: 0}
+  coolTime: 0
+  attackAreaIndicatorData:
+    downwardIndicatorArea:
+      offset: {x: 0, y: 0}
+      size: {x: 0, y: 0}
+      pivot: {x: 0, y: 0, z: 0}
+    time: 0

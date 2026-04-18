@@ -1,0 +1,1783 @@
+fileFormatVersion: 2
+guid: c13ce057ccc4e3f48986cd1c2d1d7bbe
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 16
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_0'
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1824
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 134, z: 0, w: 348}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4c519bd2f35a9c74f9bfd4cd944d2c5a
+      internalID: 578406489
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_1'
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 1824
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 134, z: 0, w: 348}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fa9c2ea283b071943a3978903b50bdbc
+      internalID: 1413336895
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_2'
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 1824
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 134, z: 0, w: 348}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 734d8afdc776576468e8162fb3061d0c
+      internalID: 41946834
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_3'
+      rect:
+        serializedVersion: 2
+        x: 1056
+        y: 1824
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 134, z: 0, w: 348}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b0b68dfdf05e7a64e872664bbb616f9f
+      internalID: 1796619405
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_4'
+      rect:
+        serializedVersion: 2
+        x: 1408
+        y: 1824
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 134, z: 0, w: 348}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 310555dfcf6d4aa4bb09b29531caec0c
+      internalID: 298758839
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_5'
+      rect:
+        serializedVersion: 2
+        x: 1760
+        y: 1824
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 134, z: 0, w: 348}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1ec998cd89ded2f4eae188e538e1be84
+      internalID: -1448976560
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_6'
+      rect:
+        serializedVersion: 2
+        x: 2112
+        y: 1824
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 134, z: 0, w: 348}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e85e9244c6fcda74398b8d1ffbb6f62b
+      internalID: 1707614514
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_7'
+      rect:
+        serializedVersion: 2
+        x: 2464
+        y: 1824
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 134, z: 0, w: 348}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e23884ad4ab75dd4da2076412d7365be
+      internalID: -1538400279
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_8'
+      rect:
+        serializedVersion: 2
+        x: 2816
+        y: 1824
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 134, z: 0, w: 348}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 630a14fad929cd64faa6bd697709f8c6
+      internalID: -971502401
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_9'
+      rect:
+        serializedVersion: 2
+        x: 3168
+        y: 1824
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 134, z: 0, w: 348}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3738b2c3b66f3564e8d9dda30bb0576c
+      internalID: 2106296618
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_10'
+      rect:
+        serializedVersion: 2
+        x: 3520
+        y: 1824
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 134, z: 0, w: 348}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bca037cd3341db74d94aef635a650694
+      internalID: 1926646072
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_11'
+      rect:
+        serializedVersion: 2
+        x: 3872
+        y: 1824
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 134, z: 0, w: 348}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 86ea6054575d94740aa1fdbb5912276d
+      internalID: -638397456
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_12'
+      rect:
+        serializedVersion: 2
+        x: 4224
+        y: 1824
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 134, z: 0, w: 348}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b3321ea59bc892f4d80d0a426ba75e6e
+      internalID: 1426696849
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_13'
+      rect:
+        serializedVersion: 2
+        x: 4576
+        y: 1824
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 134, z: 0, w: 348}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 479931ce6f00e254bbc92ea17f7af120
+      internalID: -1284061334
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_14'
+      rect:
+        serializedVersion: 2
+        x: 4928
+        y: 1824
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 134, z: 0, w: 348}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 189585e4e883c0844b74d8e78823b92c
+      internalID: 1461850239
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_15'
+      rect:
+        serializedVersion: 2
+        x: 5280
+        y: 1824
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 134, z: 0, w: 348}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1dd4aadef8ebaa243837a73fc49cc7b7
+      internalID: -933608935
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_16'
+      rect:
+        serializedVersion: 2
+        x: 5632
+        y: 1824
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 134, z: 0, w: 348}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 295af236d472e9142bb8b059ba40debd
+      internalID: -1503243746
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_17'
+      rect:
+        serializedVersion: 2
+        x: 5984
+        y: 1824
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 134, z: 0, w: 348}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0d8e887d8323b4e428d131538b446ca3
+      internalID: 190519354
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_18'
+      rect:
+        serializedVersion: 2
+        x: 6336
+        y: 1824
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 134, z: 0, w: 348}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4f5ffdc48d58af148ba3b66282954a7d
+      internalID: 643018380
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_19'
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1216
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 6, y: 0, z: 212, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 751a15689320c99448839b4c875f7791
+      internalID: -1733718994
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_20'
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 1216
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 6, y: 0, z: 212, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 85b902e6906543045b4e05c18328f6d2
+      internalID: -1192331056
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_21'
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 1216
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 6, y: 0, z: 212, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 60e1a24b8ea290d4ba305f5f156b9c73
+      internalID: -1807243056
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_22'
+      rect:
+        serializedVersion: 2
+        x: 1056
+        y: 1216
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 6, y: 0, z: 212, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 842dec0897b5bb4429736f22edf292ef
+      internalID: 1862524189
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_23'
+      rect:
+        serializedVersion: 2
+        x: 1408
+        y: 1216
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 6, y: 0, z: 212, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5887a5c0739522c4d92d273af59e0ebb
+      internalID: 324596184
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_24'
+      rect:
+        serializedVersion: 2
+        x: 1760
+        y: 1216
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 6, y: 0, z: 212, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9811dc655b41cdd409ad4c9f4b4d1534
+      internalID: -844408668
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_25'
+      rect:
+        serializedVersion: 2
+        x: 2112
+        y: 1216
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 6, y: 0, z: 212, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d0f921d06c286c94ba0ccb383ce2ddfe
+      internalID: -964907605
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_26'
+      rect:
+        serializedVersion: 2
+        x: 2464
+        y: 1216
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 6, y: 0, z: 212, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2ed6acfdbe800ae4ca8819259be70954
+      internalID: -2055192444
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_27'
+      rect:
+        serializedVersion: 2
+        x: 2816
+        y: 1216
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 6, y: 0, z: 212, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2d3c8f552af83e64987a69039f8e44f8
+      internalID: 2304020
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_28'
+      rect:
+        serializedVersion: 2
+        x: 3168
+        y: 1216
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 6, y: 0, z: 212, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cb2041a5d1048ae4f82d2e6469ec21bd
+      internalID: 313827516
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_29'
+      rect:
+        serializedVersion: 2
+        x: 3520
+        y: 1216
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 6, y: 0, z: 212, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dcda83897e3f8084bb191c8ce5421c60
+      internalID: 1951898487
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_30'
+      rect:
+        serializedVersion: 2
+        x: 3872
+        y: 1216
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 6, y: 0, z: 212, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 10a9b3a95e43492478e4930c980d499b
+      internalID: 2121890698
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_31'
+      rect:
+        serializedVersion: 2
+        x: 4224
+        y: 1216
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 6, y: 0, z: 212, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a77761c0023ca784397f00d1dea47ad9
+      internalID: 1301790280
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_32'
+      rect:
+        serializedVersion: 2
+        x: 4576
+        y: 1216
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 6, y: 0, z: 212, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 157af01ac93ecb84abe2d28ce14ffa24
+      internalID: -1114390699
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_33'
+      rect:
+        serializedVersion: 2
+        x: 4928
+        y: 1216
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 6, y: 0, z: 212, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0c445d93d693a654e8b84edb1df02384
+      internalID: 473410634
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_34'
+      rect:
+        serializedVersion: 2
+        x: 5280
+        y: 1216
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 6, y: 0, z: 212, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c43af8dd2113af47982eba48859db96
+      internalID: -1709073301
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_35'
+      rect:
+        serializedVersion: 2
+        x: 5632
+        y: 1216
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 6, y: 0, z: 212, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 342c67ee533e5844b832ed569104076d
+      internalID: 1381670708
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_36'
+      rect:
+        serializedVersion: 2
+        x: 5984
+        y: 1216
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 6, y: 0, z: 212, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: acda2811a1841364a8494317bcf91e21
+      internalID: -914644351
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_37'
+      rect:
+        serializedVersion: 2
+        x: 6336
+        y: 1216
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 6, y: 0, z: 212, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 691105b568b4ced45aa83a6c60b6ba59
+      internalID: 1952381823
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_38'
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 608
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 212, y: 0, z: 6, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6378eb7496aa3194a853ae0086237043
+      internalID: 752005765
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_39'
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 608
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 212, y: 0, z: 6, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: df3e981e01c626741bfcd813a1faa4e7
+      internalID: 693844142
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_40'
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 608
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 212, y: 0, z: 6, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 08d3ade204f66f04a93ead3265311e21
+      internalID: 568897220
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_41'
+      rect:
+        serializedVersion: 2
+        x: 1056
+        y: 608
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 212, y: 0, z: 6, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 71e47eba5e692264cbc0a659692e7353
+      internalID: -431726764
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_42'
+      rect:
+        serializedVersion: 2
+        x: 1408
+        y: 608
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 212, y: 0, z: 6, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e56a24ee8f9e10344b879fc4d7fc0aed
+      internalID: 248774423
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_43'
+      rect:
+        serializedVersion: 2
+        x: 1760
+        y: 608
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 212, y: 0, z: 6, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f184a7f5fb0fd9e41a83113f411fa4ce
+      internalID: -140918803
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_44'
+      rect:
+        serializedVersion: 2
+        x: 2112
+        y: 608
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 212, y: 0, z: 6, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc6804499b866034cb6c305ae77ab8e8
+      internalID: 1699425474
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_45'
+      rect:
+        serializedVersion: 2
+        x: 2464
+        y: 608
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 212, y: 0, z: 6, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2616424c45325534d979003c3fc9dfc2
+      internalID: -179692612
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_46'
+      rect:
+        serializedVersion: 2
+        x: 2816
+        y: 608
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 212, y: 0, z: 6, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c1f1de1a45dfbd04db68270c51537977
+      internalID: -1149686092
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_47'
+      rect:
+        serializedVersion: 2
+        x: 3168
+        y: 608
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 212, y: 0, z: 6, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 892f7713a65a33c4ba2bbff666b20085
+      internalID: 1919637483
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_48'
+      rect:
+        serializedVersion: 2
+        x: 3520
+        y: 608
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 212, y: 0, z: 6, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c7b573f367a1a2741bf360aa8d60b736
+      internalID: 55021119
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_49'
+      rect:
+        serializedVersion: 2
+        x: 3872
+        y: 608
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 212, y: 0, z: 6, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b2aa64e6973faae43a951f0a79f5b4ee
+      internalID: 1941273422
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_50'
+      rect:
+        serializedVersion: 2
+        x: 4224
+        y: 608
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 212, y: 0, z: 6, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 08e16e2ede6677140995e60f199ed067
+      internalID: 1266794196
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_51'
+      rect:
+        serializedVersion: 2
+        x: 4576
+        y: 608
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 212, y: 0, z: 6, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 049c0ffa61e1dd44ab35fce9dc5c6962
+      internalID: -1364319143
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_52'
+      rect:
+        serializedVersion: 2
+        x: 4928
+        y: 608
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 212, y: 0, z: 6, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b2842821f2d051844b6e2817c7cc7ba4
+      internalID: -1095481384
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_53'
+      rect:
+        serializedVersion: 2
+        x: 5280
+        y: 608
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 212, y: 0, z: 6, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7b411cf3ab0185145ae8799810fd62e5
+      internalID: -2001540935
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_54'
+      rect:
+        serializedVersion: 2
+        x: 5632
+        y: 608
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 212, y: 0, z: 6, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b826a07f05be40c4588b7a113ac3e71c
+      internalID: 393830653
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_55'
+      rect:
+        serializedVersion: 2
+        x: 5984
+        y: 608
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 212, y: 0, z: 6, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f8a3b9bc0c3b000498d9c7fd3e4a1514
+      internalID: -74279755
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_56'
+      rect:
+        serializedVersion: 2
+        x: 6336
+        y: 608
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 212, y: 0, z: 6, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 31e328f5f515adf4190c421a2dcff3ce
+      internalID: -836810345
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_57'
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 348, z: 0, w: 134}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26284128647eb2c45b23977a29ff4fd9
+      internalID: -267480841
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_58'
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 0
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 348, z: 0, w: 134}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 14e17f85f7abae54e84f8e91d4026284
+      internalID: 2143911161
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_59'
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 0
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 348, z: 0, w: 134}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 31eacdb0308721b43a5fce0357d6ed4d
+      internalID: 1758811246
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_60'
+      rect:
+        serializedVersion: 2
+        x: 1056
+        y: 0
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 348, z: 0, w: 134}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 39572713e0d827041a391cbf2d6d9c62
+      internalID: 618038886
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_61'
+      rect:
+        serializedVersion: 2
+        x: 1408
+        y: 0
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 348, z: 0, w: 134}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 45e2195eae468d34a868acd293d646c7
+      internalID: -2092512107
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_62'
+      rect:
+        serializedVersion: 2
+        x: 1760
+        y: 0
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 348, z: 0, w: 134}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 57b60b99f8d3f2c4690d7859d196b1fe
+      internalID: -110601555
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_63'
+      rect:
+        serializedVersion: 2
+        x: 2112
+        y: 0
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 348, z: 0, w: 134}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2684b566413e94e4eb5aca441d223ca2
+      internalID: -1984102823
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_64'
+      rect:
+        serializedVersion: 2
+        x: 2464
+        y: 0
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 348, z: 0, w: 134}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 34831982e13022b499b3d94e5cae6e70
+      internalID: -1310704055
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_65'
+      rect:
+        serializedVersion: 2
+        x: 2816
+        y: 0
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 348, z: 0, w: 134}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b753273f324afdc48a36fd3264e34386
+      internalID: -102134222
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_66'
+      rect:
+        serializedVersion: 2
+        x: 3168
+        y: 0
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 348, z: 0, w: 134}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9027dc261403aba4683a6cffe692befa
+      internalID: 659919188
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_67'
+      rect:
+        serializedVersion: 2
+        x: 3520
+        y: 0
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 348, z: 0, w: 134}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c2d301fbdcaa911468429c7abd0e2a72
+      internalID: 322359204
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_68'
+      rect:
+        serializedVersion: 2
+        x: 3872
+        y: 0
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 348, z: 0, w: 134}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2d1b8fb5ef0c9704a8deef5944441e47
+      internalID: -2054801358
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_69'
+      rect:
+        serializedVersion: 2
+        x: 4224
+        y: 0
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 348, z: 0, w: 134}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2ed7f9e9e169bc94db6e661215345dfd
+      internalID: 1498062660
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_70'
+      rect:
+        serializedVersion: 2
+        x: 4576
+        y: 0
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 348, z: 0, w: 134}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6483af84bcb8db04cb600692ec013fbe
+      internalID: -896500265
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_71'
+      rect:
+        serializedVersion: 2
+        x: 4928
+        y: 0
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 348, z: 0, w: 134}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a259e663513e2244597a6c0bf59e50f4
+      internalID: -914874343
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_72'
+      rect:
+        serializedVersion: 2
+        x: 5280
+        y: 0
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 348, z: 0, w: 134}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 71e0575086af0a340bcf4311206989c1
+      internalID: -391490455
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_73'
+      rect:
+        serializedVersion: 2
+        x: 5632
+        y: 0
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 348, z: 0, w: 134}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ffe4d9252f1f51f4885e7413eb2250e9
+      internalID: 1322673663
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_74'
+      rect:
+        serializedVersion: 2
+        x: 5984
+        y: 0
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 348, z: 0, w: 134}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 38c43970a45f02d42af69004178f3ab3
+      internalID: 1353870686
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '[Extra]_Delta_Roza_Skill2STrail_75'
+      rect:
+        serializedVersion: 2
+        x: 6336
+        y: 0
+        width: 352
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 348, z: 0, w: 134}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6a2c62cc1d99d1c4ca653e49a479aaa0
+      internalID: -2129842727
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      '[Extra]_Delta_Roza_Skill2STrail_0': 578406489
+      '[Extra]_Delta_Roza_Skill2STrail_1': 1413336895
+      '[Extra]_Delta_Roza_Skill2STrail_10': 1926646072
+      '[Extra]_Delta_Roza_Skill2STrail_11': -638397456
+      '[Extra]_Delta_Roza_Skill2STrail_12': 1426696849
+      '[Extra]_Delta_Roza_Skill2STrail_13': -1284061334
+      '[Extra]_Delta_Roza_Skill2STrail_14': 1461850239
+      '[Extra]_Delta_Roza_Skill2STrail_15': -933608935
+      '[Extra]_Delta_Roza_Skill2STrail_16': -1503243746
+      '[Extra]_Delta_Roza_Skill2STrail_17': 190519354
+      '[Extra]_Delta_Roza_Skill2STrail_18': 643018380
+      '[Extra]_Delta_Roza_Skill2STrail_19': -1733718994
+      '[Extra]_Delta_Roza_Skill2STrail_2': 41946834
+      '[Extra]_Delta_Roza_Skill2STrail_20': -1192331056
+      '[Extra]_Delta_Roza_Skill2STrail_21': -1807243056
+      '[Extra]_Delta_Roza_Skill2STrail_22': 1862524189
+      '[Extra]_Delta_Roza_Skill2STrail_23': 324596184
+      '[Extra]_Delta_Roza_Skill2STrail_24': -844408668
+      '[Extra]_Delta_Roza_Skill2STrail_25': -964907605
+      '[Extra]_Delta_Roza_Skill2STrail_26': -2055192444
+      '[Extra]_Delta_Roza_Skill2STrail_27': 2304020
+      '[Extra]_Delta_Roza_Skill2STrail_28': 313827516
+      '[Extra]_Delta_Roza_Skill2STrail_29': 1951898487
+      '[Extra]_Delta_Roza_Skill2STrail_3': 1796619405
+      '[Extra]_Delta_Roza_Skill2STrail_30': 2121890698
+      '[Extra]_Delta_Roza_Skill2STrail_31': 1301790280
+      '[Extra]_Delta_Roza_Skill2STrail_32': -1114390699
+      '[Extra]_Delta_Roza_Skill2STrail_33': 473410634
+      '[Extra]_Delta_Roza_Skill2STrail_34': -1709073301
+      '[Extra]_Delta_Roza_Skill2STrail_35': 1381670708
+      '[Extra]_Delta_Roza_Skill2STrail_36': -914644351
+      '[Extra]_Delta_Roza_Skill2STrail_37': 1952381823
+      '[Extra]_Delta_Roza_Skill2STrail_38': 752005765
+      '[Extra]_Delta_Roza_Skill2STrail_39': 693844142
+      '[Extra]_Delta_Roza_Skill2STrail_4': 298758839
+      '[Extra]_Delta_Roza_Skill2STrail_40': 568897220
+      '[Extra]_Delta_Roza_Skill2STrail_41': -431726764
+      '[Extra]_Delta_Roza_Skill2STrail_42': 248774423
+      '[Extra]_Delta_Roza_Skill2STrail_43': -140918803
+      '[Extra]_Delta_Roza_Skill2STrail_44': 1699425474
+      '[Extra]_Delta_Roza_Skill2STrail_45': -179692612
+      '[Extra]_Delta_Roza_Skill2STrail_46': -1149686092
+      '[Extra]_Delta_Roza_Skill2STrail_47': 1919637483
+      '[Extra]_Delta_Roza_Skill2STrail_48': 55021119
+      '[Extra]_Delta_Roza_Skill2STrail_49': 1941273422
+      '[Extra]_Delta_Roza_Skill2STrail_5': -1448976560
+      '[Extra]_Delta_Roza_Skill2STrail_50': 1266794196
+      '[Extra]_Delta_Roza_Skill2STrail_51': -1364319143
+      '[Extra]_Delta_Roza_Skill2STrail_52': -1095481384
+      '[Extra]_Delta_Roza_Skill2STrail_53': -2001540935
+      '[Extra]_Delta_Roza_Skill2STrail_54': 393830653
+      '[Extra]_Delta_Roza_Skill2STrail_55': -74279755
+      '[Extra]_Delta_Roza_Skill2STrail_56': -836810345
+      '[Extra]_Delta_Roza_Skill2STrail_57': -267480841
+      '[Extra]_Delta_Roza_Skill2STrail_58': 2143911161
+      '[Extra]_Delta_Roza_Skill2STrail_59': 1758811246
+      '[Extra]_Delta_Roza_Skill2STrail_6': 1707614514
+      '[Extra]_Delta_Roza_Skill2STrail_60': 618038886
+      '[Extra]_Delta_Roza_Skill2STrail_61': -2092512107
+      '[Extra]_Delta_Roza_Skill2STrail_62': -110601555
+      '[Extra]_Delta_Roza_Skill2STrail_63': -1984102823
+      '[Extra]_Delta_Roza_Skill2STrail_64': -1310704055
+      '[Extra]_Delta_Roza_Skill2STrail_65': -102134222
+      '[Extra]_Delta_Roza_Skill2STrail_66': 659919188
+      '[Extra]_Delta_Roza_Skill2STrail_67': 322359204
+      '[Extra]_Delta_Roza_Skill2STrail_68': -2054801358
+      '[Extra]_Delta_Roza_Skill2STrail_69': 1498062660
+      '[Extra]_Delta_Roza_Skill2STrail_7': -1538400279
+      '[Extra]_Delta_Roza_Skill2STrail_70': -896500265
+      '[Extra]_Delta_Roza_Skill2STrail_71': -914874343
+      '[Extra]_Delta_Roza_Skill2STrail_72': -391490455
+      '[Extra]_Delta_Roza_Skill2STrail_73': 1322673663
+      '[Extra]_Delta_Roza_Skill2STrail_74': 1353870686
+      '[Extra]_Delta_Roza_Skill2STrail_75': -2129842727
+      '[Extra]_Delta_Roza_Skill2STrail_8': -971502401
+      '[Extra]_Delta_Roza_Skill2STrail_9': 2106296618
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

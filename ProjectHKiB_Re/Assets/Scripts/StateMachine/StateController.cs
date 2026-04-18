@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using DG.Tweening;
 
 public class StateController : InterfaceRegister
 {
@@ -17,17 +18,50 @@ public class StateController : InterfaceRegister
             //Debug.Log(_currentState);
         }
     }
-    [HideInInspector] public List<Coroutine> FrameActionSequences = new(10);
+    [HideInInspector] public List<Coroutine> FrameActionSequences = new(20);
     [HideInInspector] public List<Coroutine> TransitionSequences = new(10);
     [HideInInspector] public List<bool> TransitionConditions = new(10);
+    [HideInInspector] public List<Cooltime> Timers = new(10);
+    private Sequence _actionSequence;
+    private ActionSequence[] _currentActionSequence;
+    private int _sequenceInt;
+    public void StartActionSequence(ActionSequence[] actionSequence, bool loop)
+    {
+        if (_actionSequence != null && _actionSequence.active) _actionSequence.Kill();
+        _sequenceInt = 0;
+        _actionSequence = DOTween.Sequence();
+        _currentActionSequence = actionSequence;
+        _actionSequence.AppendCallback(ActionSequenceResetCallback);
+        for (int i = 0; i < actionSequence.Length; i++)
+        {
+            _actionSequence.AppendInterval(actionSequence[i].time);
+            _actionSequence.AppendCallback(ActionSequenceCallback);
+        }
+        if (loop) _actionSequence.SetLoops(-1, LoopType.Restart);
+        _actionSequence.Play();
+    }
+    public void ActionSequenceResetCallback() => _sequenceInt = 0;
+    public void ActionSequenceCallback()
+    {
+        _currentActionSequence[_sequenceInt].action.Act(this);
+        _sequenceInt++;
+    }
+    public void StopActionSequence()
+    {
+        if (_actionSequence != null && _actionSequence.active) _actionSequence.Kill();
+        _sequenceInt = 0;
+    }
 
     public virtual void Awake()
     {
+        for (int i = 0; i < 20; i++)
+            FrameActionSequences.Add(null);
+        
         for (int i = 0; i < 10; i++)
         {
-            FrameActionSequences.Add(null);
             TransitionSequences.Add(null);
             TransitionConditions.Add(false);
+            Timers.Add(new());
         }
     }
 
@@ -116,7 +150,24 @@ public class StateController : InterfaceRegister
 
     public void SetIntParameter(string name, int value)
     {
-        customVariables.intVariables[name].Value = value;
+        if (!customVariables.intVariables.ContainsKey(name))
+        {
+            Debug.LogWarning("Warning: Generated missing variable: " + name);
+            customVariables.intVariables[name] = new() { Value = value };
+        }
+        else
+            customVariables.intVariables[name].Value = value;
+    }
+
+    public void IncrementIntParameter(string name, int value)
+    {
+        if (!customVariables.intVariables.ContainsKey(name))
+        {
+            Debug.LogWarning("Warning: Generated missing variable: " + name);
+            customVariables.intVariables[name] = new() { Value = value };
+        }
+        else
+            customVariables.intVariables[name].Value += value;
     }
 
     public bool GetBoolParameter(string name)
@@ -128,5 +179,16 @@ public class StateController : InterfaceRegister
         }
 
         return customVariables.boolVariables[name].Value;
+    }
+
+    public int GetIntParameter(string name)
+    {
+        if (!customVariables.intVariables.ContainsKey(name))
+        {
+            Debug.LogWarning("Warning: Generated missing variable: " + name);
+            customVariables.intVariables[name] = new() { Value = 0 };
+        }
+
+        return customVariables.intVariables[name].Value;
     }
 }

@@ -29,7 +29,15 @@ MonoBehaviour:
   - {fileID: 11400000, guid: addfbac65abc9e6469a1abdc818bf315, type: 2}
   - {fileID: 11400000, guid: 52e536a243bc95f438ecaedfe8043444, type: 2}
   - {fileID: 11400000, guid: dccc9945a221c9948ba03c8920ad9bee, type: 2}
+  - {fileID: 11400000, guid: f0eac746fddcaed46a4337fa5a5c1df0, type: 2}
   - {fileID: 11400000, guid: 70bad8e703ee9934b9681b28531fd1a5, type: 2}
+  - {fileID: 11400000, guid: 66616997119e8384c9ff820c78918724, type: 2}
+  - {fileID: 11400000, guid: e4aba52ed58f6b74aa2b4dd685fa1123, type: 2}
+  - {fileID: 11400000, guid: a1d69b8907812fc4492acfa94077b342, type: 2}
+  - {fileID: 11400000, guid: 1075e486ea39ff141bcb841025b9683e, type: 2}
+  - {fileID: 11400000, guid: 18107a39b7c9f844b82fdaf4b02746ad, type: 2}
+  - {fileID: 11400000, guid: 8040cf2d8f4feb34dafbdad4058c88b3, type: 2}
+  - {fileID: 11400000, guid: 1e94ffe007dea9947a300bdafdd69547, type: 2}
   <TargetLayers>k__BackingField:
   - serializedVersion: 2
     m_Bits: 2048
@@ -54,8 +62,9 @@ MonoBehaviour:
   <Mass>k__BackingField: 1
   <HitSound>k__BackingField: {fileID: 0}
   <HitParticle>k__BackingField: {fileID: 0}
-  <MaxGP>k__BackingField: 20
-  <GP>k__BackingField: 0
+  <GraffitiAttackState>k__BackingField: {fileID: 0}
+  <GraffitiSkillState>k__BackingField: {fileID: 0}
+  <GraffitiTinkerOffset>k__BackingField: {x: 0, y: 0}
   <StateMachine>k__BackingField: {fileID: 11400000, guid: 47609f3cd80fb7a4baf9d1efb58ff385, type: 2}
   <SkinData>k__BackingField: {fileID: 11400000, guid: e45c1540f2d605b4694419c56070e7a9, type: 2}
   <AnimationData>k__BackingField: {fileID: 11400000, guid: 64c26bbc28dc143448b8f534be845bc2, type: 2}

@@ -1,0 +1,91 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a62b25bd3a0e9f8489d184b8ff14b3e1, type: 3}
+  m_Name: Roza_Skill2Splash
+  m_EditorClassIdentifier: 
+  sourceLibraryAsset: {fileID: 11400000, guid: 6da972eeb9f6e534ca148ab9e0528123, type: 2}
+  defaultClipName: Splash1
+  clips:
+  - clipName: Splash1
+    categoryKeys:
+      _serializedList:
+      - Key: 0
+        Value: Splash1D
+      - Key: 2
+        Value: Splash1L
+      - Key: 1
+        Value: Splash1R
+      - Key: 3
+        Value: Splash1U
+    isLoop: 0
+    tickSeconds: 0.1
+    maxPlaySeconds: 0.70000005
+    resetWhenDirectionChange: 1
+    frames:
+    - labelKey: 0
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 1
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 2
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 3
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 4
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 5
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 6
+      durationModifier: 1
+      triggerEventName: 
+  - clipName: Splash2
+    categoryKeys:
+      _serializedList:
+      - Key: 0
+        Value: Splash2D
+      - Key: 2
+        Value: Splash2L
+      - Key: 1
+        Value: Splash2R
+      - Key: 3
+        Value: Splash2U
+    isLoop: 0
+    tickSeconds: 0.1
+    maxPlaySeconds: 0.70000005
+    resetWhenDirectionChange: 1
+    frames:
+    - labelKey: 0
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 1
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 2
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 3
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 4
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 5
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 6
+      durationModifier: 1
+      triggerEventName: 

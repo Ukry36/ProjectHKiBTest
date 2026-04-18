@@ -38,12 +38,14 @@ namespace Assets.Editor
             var skinData = texture.GetPixels32();
             for (var i = 0; i < skinData.Length; i++)
             {
-                if (map.lookup.TryGetValue(skinData[i], out var position))
+                Color32 temp = skinData[i];
+                if (temp.a > 0) temp.a = 255;
+                if (map.lookup.TryGetValue(temp, out var position))
                 {
                     skinData[i].r = (byte)position.x;
                     skinData[i].g = (byte)position.y;
                     skinData[i].b = 0;
-                    skinData[i].a = 255;
+                    //skinData[i].a = 255;
                 }
                 else
                 {

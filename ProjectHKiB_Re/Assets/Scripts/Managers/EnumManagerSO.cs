@@ -30,6 +30,18 @@ public class EnumManager
         OnGraffitiAttack,
         OnGraffitiSkill,
         OnGraffitiCancel,
-        OnGraffitiReset
+        OnGraffitiReset,
+        HasAttack,
+        HasSkill
+    }
+
+    public enum CompareType
+    {
+        SameAs,
+        BiggerThan,
+        BiggerOrSameAs,
+        SmallerThan,
+        SmallerOrSameAs,
+        NotSame
     }
 }

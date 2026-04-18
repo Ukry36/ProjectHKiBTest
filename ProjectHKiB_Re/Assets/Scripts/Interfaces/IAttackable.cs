@@ -27,4 +27,6 @@ public interface IAttackable : IAttackableBase, IInitializable
     public void SetAttackData(int attackNumber);
 
     public void Attack(int damageNumber);
+
+    public void StopEffect(int animPlayerNum);
 }

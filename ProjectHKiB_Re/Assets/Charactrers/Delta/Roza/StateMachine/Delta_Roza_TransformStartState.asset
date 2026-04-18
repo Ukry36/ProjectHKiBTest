@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb85084ca5989854b9dbc2cce1298255, type: 3}
   m_Name: Delta_Roza_TransformStartState
   m_EditorClassIdentifier: 
-  temporaryID: 0.12689723
+  temporaryID: 0
   transitions:
   - activationInput: 10
     availableTime: 0
@@ -32,9 +32,19 @@ MonoBehaviour:
     action: {fileID: 0}
   enterActions:
   - {fileID: 11400000, guid: 2ba8bf12327fa2b4e931e52dea5b663e, type: 2}
-  updateActions: []
-  exitActions: []
+  updateActions:
+  - {fileID: 11400000, guid: 7263eacb51896564e8bf3466a98c6b58, type: 2}
+  - {fileID: 11400000, guid: 4ff9702b721b89147abd80a03aeb1ff4, type: 2}
+  exitActions:
+  - {fileID: 11400000, guid: eeb57eb8267872f41ad7104a78faf7cd, type: 2}
   frameDecisions:
   - time: 0.5
     action: {fileID: 11400000, guid: 8f37dbc52929a7144a022e28ce38157d, type: 2}
+  actionSequence:
+  - time: 0.5
+    action: {fileID: 11400000, guid: 8f37dbc52929a7144a022e28ce38157d, type: 2}
+  loopActionSequence: 0
+  useTimer: 0
+  timerID: 0
+  time: 0
   animationName: Transform

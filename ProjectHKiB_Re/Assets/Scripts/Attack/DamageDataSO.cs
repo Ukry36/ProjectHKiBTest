@@ -12,6 +12,7 @@ public class DamageDataSO : ScriptableObject
     public bool camShake;
     public SerializedDictionary<EnumManager.AnimDir, ParticlePlayer> DLRUDamageEffects;
     public string effectAnimationClipName;
+    public int animPlayerNumber;
     public bool attatchParticleToBody;
     public BoxData downwardDamageArea;
 }

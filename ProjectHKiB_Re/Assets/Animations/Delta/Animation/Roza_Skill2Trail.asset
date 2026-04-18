@@ -1,0 +1,90 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a62b25bd3a0e9f8489d184b8ff14b3e1, type: 3}
+  m_Name: Roza_Skill2Trail
+  m_EditorClassIdentifier: 
+  sourceLibraryAsset: {fileID: 11400000, guid: eea3767a15b7f284b9f9375b7f8ca386, type: 2}
+  defaultClipName: Idle
+  clips:
+  - clipName: Idle
+    categoryKeys:
+      _serializedList:
+      - Key: 0
+        Value: IdleD
+      - Key: 2
+        Value: IdleL
+      - Key: 1
+        Value: IdleR
+      - Key: 3
+        Value: IdleU
+    isLoop: 0
+    tickSeconds: 0.1
+    maxPlaySeconds: 1.9000003
+    resetWhenDirectionChange: 1
+    frames:
+    - labelKey: 0
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 1
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 2
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 3
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 4
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 5
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 6
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 7
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 8
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 9
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 10
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 11
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 12
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 13
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 14
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 15
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 16
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 17
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 18
+      durationModifier: 1
+      triggerEventName: 

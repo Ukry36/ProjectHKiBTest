@@ -1,6 +1,15 @@
 using System;
 using System.Collections;
+using System.Linq;
+using UnityEditor;
 using UnityEngine;
+
+[Serializable]
+public struct ActionSequence
+{
+    public float time;
+    public StateActionSO action;
+}
 
 [CreateAssetMenu(fileName = "State", menuName = "State Machine/State")]
 public class StateSO : ScriptableObject
@@ -19,6 +28,11 @@ public class StateSO : ScriptableObject
     public StateActionSO[] updateActions;
     public StateActionSO[] exitActions;
     public FrameDecision[] frameDecisions;
+    public ActionSequence[] actionSequence;
+    public bool loopActionSequence;
+    public bool useTimer;
+    [NaughtyAttributes.ShowIf("useTimer")] [NaughtyAttributes.MinValue(0)][NaughtyAttributes.MaxValue(9)] public int timerID;
+    [NaughtyAttributes.ShowIf("useTimer")] public float time;
 
     public virtual void EnterState(StateController stateController)
     {
@@ -26,8 +40,10 @@ public class StateSO : ScriptableObject
         {
             enterActions[i].Act(stateController);
         }
-        ReserveFrameDecisions(stateController);
+        //ReserveFrameDecisions(stateController);
         ReserveTransitions(stateController);
+        if (useTimer) stateController.Timers[timerID].StartCooltime(time);
+        if (actionSequence.Length > 0) stateController.StartActionSequence(actionSequence, loopActionSequence);
     }
 
     public void ReserveFrameDecisions(StateController stateController)
@@ -78,6 +94,7 @@ public class StateSO : ScriptableObject
 
     public virtual void ExitState(StateController stateController)
     {
+        if (actionSequence.Length > 0) stateController.StopActionSequence();
         for (int i = 0; i < exitActions.Length; i++)
         {
             exitActions[i].Act(stateController);

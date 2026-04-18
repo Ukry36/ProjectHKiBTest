@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb85084ca5989854b9dbc2cce1298255, type: 3}
+  m_Name: Delta_Roza_SpinEndDecision
+  m_EditorClassIdentifier: 
+  temporaryID: 0.31012753
+  transitions:
+  - activationInput: 2
+    availableTime: 0
+    disableTime: 0
+    decisions: []
+    trueState: {fileID: 11400000, guid: f947b045de4f1ae4580310148f9ff10c, type: 2}
+    falseState: {fileID: 0}
+    action: {fileID: 0}
+  - activationInput: 10
+    availableTime: 0.2
+    disableTime: 0
+    decisions: []
+    trueState: {fileID: 11400000, guid: 510a0daef79d5994fb9c5b2feb696a46, type: 2}
+    falseState: {fileID: 0}
+    action: {fileID: 0}
+  - activationInput: 10
+    availableTime: 0
+    disableTime: 0
+    decisions:
+    - decision: {fileID: 11400000, guid: af28755f24b9a564da14f64bdd3a7f40, type: 2}
+      negate: 0
+    trueState: {fileID: 11400000, guid: cc4bdcdcb162f684aa4182056b09d1ac, type: 2}
+    falseState: {fileID: 0}
+    action: {fileID: 0}
+  - activationInput: 3
+    availableTime: 0
+    disableTime: 0
+    decisions:
+    - decision: {fileID: 11400000, guid: 5080e5686af385f43ba3c3c0a486210c, type: 2}
+      negate: 0
+    trueState: {fileID: 11400000, guid: 3e9e252439afd3f4688d00ad06d06ef5, type: 2}
+    falseState: {fileID: 0}
+    action: {fileID: 0}
+  enterActions:
+  - {fileID: 11400000, guid: 04454d4853f31824184fdd1c5f2810e4, type: 2}
+  - {fileID: 11400000, guid: eae65f2d6a38b2f4cb44dd59ca5a19ff, type: 2}
+  updateActions:
+  - {fileID: 11400000, guid: 7263eacb51896564e8bf3466a98c6b58, type: 2}
+  exitActions:
+  - {fileID: 11400000, guid: f6965e0eaa3b13e4196f346eff01ca0f, type: 2}
+  - {fileID: 11400000, guid: eeb57eb8267872f41ad7104a78faf7cd, type: 2}
+  frameDecisions:
+  - time: 0
+    action: {fileID: 11400000, guid: b858f92dbe65dc24aad92d5e2442ce86, type: 2}
+  - time: 0.1
+    action: {fileID: 11400000, guid: b858f92dbe65dc24aad92d5e2442ce86, type: 2}
+  useTimer: 0
+  timerID: 0
+  time: 0
+  animationName: Spin1

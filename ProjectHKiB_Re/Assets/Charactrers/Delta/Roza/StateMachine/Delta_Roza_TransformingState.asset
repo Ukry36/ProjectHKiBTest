@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb85084ca5989854b9dbc2cce1298255, type: 3}
   m_Name: Delta_Roza_TransformingState
   m_EditorClassIdentifier: 
-  temporaryID: 0.09549238
+  temporaryID: 0
   transitions:
   - activationInput: 20
     availableTime: 0
@@ -25,4 +25,7 @@ MonoBehaviour:
   updateActions: []
   exitActions: []
   frameDecisions: []
+  useTimer: 0
+  timerID: 0
+  time: 0
   animationName: Transforming

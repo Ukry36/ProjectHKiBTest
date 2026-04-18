@@ -182,7 +182,6 @@ public class GraffitiManager : MonoBehaviour
                 tinkers[i].Reserve("BiggerStart");
                 tinkers[i].Reserve("BiggerIdle");
                 tinkers[i].Reserve("BiggerExit");
-                Debug.Log("wa");
             }
             else tinkers[i].Reserve("NormalExit");
             tinkers[i].Reserve("Stop");

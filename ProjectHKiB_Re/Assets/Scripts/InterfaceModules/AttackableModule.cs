@@ -73,4 +73,9 @@ public class AttackableModule : InterfaceModule, IAttackable
         damager.SetDamageData(AttackNumber, damageNumber);
         damager.Damage();
     }
+
+    public void StopEffect(int animPlayerNum)
+    {
+        damager.StopEffect(animPlayerNum);
+    }
 }
