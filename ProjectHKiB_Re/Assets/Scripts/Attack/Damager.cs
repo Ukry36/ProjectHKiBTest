@@ -72,7 +72,7 @@ public class Damager : MonoBehaviour
         if (!_effectAnimationPlayer[_damageData.animPlayerNumber]) return;
 
         _effectAnimationPlayer[_damageData.animPlayerNumber].gameObject.SetActive(true);
-        _effectAnimationPlayer[_damageData.animPlayerNumber].Play(_damageData.effectAnimationClipName);
+        if (_damageData.effectAnimationClipName != "") _effectAnimationPlayer[_damageData.animPlayerNumber].Play(_damageData.effectAnimationClipName);
         
         EnumManager.AnimDir animDir = _effectAnimationPlayer[_damageData.animPlayerNumber].CurrentAnimDir;
 

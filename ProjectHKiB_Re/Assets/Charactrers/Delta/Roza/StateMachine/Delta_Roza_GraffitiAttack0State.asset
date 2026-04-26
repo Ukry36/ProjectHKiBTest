@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb85084ca5989854b9dbc2cce1298255, type: 3}
   m_Name: Delta_Roza_GraffitiAttack0State
   m_EditorClassIdentifier: 
-  temporaryID: 0.26261452
+  temporaryID: 0.89124584
   transitions:
   - activationInput: 10
     availableTime: 0
@@ -72,16 +72,24 @@ MonoBehaviour:
     action: {fileID: 0}
   enterActions:
   - {fileID: 11400000, guid: 9d29c5b17685af144aaabb51ca64e9ad, type: 2}
-  - {fileID: 11400000, guid: 1351f32d55bac064c817154fa4dd7f0b, type: 2}
+  - {fileID: 11400000, guid: b89ae5ebcfdfb7d408151ba5b83f721e, type: 2}
   updateActions:
   - {fileID: 11400000, guid: 4ff9702b721b89147abd80a03aeb1ff4, type: 2}
   exitActions:
   - {fileID: 11400000, guid: 2d2ede8c60ae88540b1236d23e2593bb, type: 2}
-  frameDecisions:
-  - time: 0.1
-    action: {fileID: 11400000, guid: 6f31d4110f1af4641baeb5989f3e88f0, type: 2}
-  - time: 0.1
+  actionSequence:
+  - time: 0
+    action: {fileID: 11400000, guid: d0a7d3108e2aabc429b91a94d89f5aac, type: 2}
+  - time: 0.2
+    action: {fileID: 11400000, guid: 9d29c5b17685af144aaabb51ca64e9ad, type: 2}
+  - time: 0
     action: {fileID: 11400000, guid: b858f92dbe65dc24aad92d5e2442ce86, type: 2}
-  - time: 0.3
-    action: {fileID: 11400000, guid: 03710fb441c78374d9eed2e431948e9e, type: 2}
+  - time: 0
+    action: {fileID: 11400000, guid: 6f31d4110f1af4641baeb5989f3e88f0, type: 2}
+  - time: 0
+    action: {fileID: 11400000, guid: d0a7d3108e2aabc429b91a94d89f5aac, type: 2}
+  loopActionSequence: 0
+  useTimer: 0
+  timerID: 0
+  time: 0
   animationName: NormalAttack1

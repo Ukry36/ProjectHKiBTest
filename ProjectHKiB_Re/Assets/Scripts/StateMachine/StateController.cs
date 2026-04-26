@@ -42,6 +42,7 @@ public class StateController : InterfaceRegister
     public void ActionSequenceResetCallback() => _sequenceInt = 0;
     public void ActionSequenceCallback()
     {
+        if (_currentActionSequence[_sequenceInt].action != null)
         _currentActionSequence[_sequenceInt].action.Act(this);
         _sequenceInt++;
     }
