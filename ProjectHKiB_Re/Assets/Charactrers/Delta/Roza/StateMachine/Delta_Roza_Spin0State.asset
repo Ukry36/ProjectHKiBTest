@@ -64,15 +64,6 @@ MonoBehaviour:
   updateActions:
   - {fileID: 11400000, guid: 7263eacb51896564e8bf3466a98c6b58, type: 2}
   exitActions: []
-  frameDecisions:
-  - time: 0
-    action: {fileID: 11400000, guid: b858f92dbe65dc24aad92d5e2442ce86, type: 2}
-  - time: 0.1
-    action: {fileID: 11400000, guid: 03710fb441c78374d9eed2e431948e9e, type: 2}
-  - time: 0.2
-    action: {fileID: 11400000, guid: 473066400c317a545a994284df256a68, type: 2}
-  - time: 0.3
-    action: {fileID: 11400000, guid: 836ef1a0739971745aa92304f6a6b07e, type: 2}
   actionSequence:
   - time: 0.1
     action: {fileID: 11400000, guid: b858f92dbe65dc24aad92d5e2442ce86, type: 2}

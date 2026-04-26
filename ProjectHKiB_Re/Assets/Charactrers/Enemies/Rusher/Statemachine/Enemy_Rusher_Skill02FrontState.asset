@@ -12,27 +12,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb85084ca5989854b9dbc2cce1298255, type: 3}
   m_Name: Enemy_Rusher_Skill02FrontState
   m_EditorClassIdentifier: 
+  temporaryID: 0
   transitions:
-  - availableTime: 0.7
+  - activationInput: 10
+    availableTime: 0.7
+    disableTime: 0
     decisions: []
     trueState: {fileID: 11400000, guid: 672fdf0d584d8804b84652d8b060a0f3, type: 2}
     falseState: {fileID: 0}
-  - availableTime: 0
+    action: {fileID: 0}
+  - activationInput: 10
+    availableTime: 0
+    disableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: af28755f24b9a564da14f64bdd3a7f40, type: 2}
       negate: 0
     trueState: {fileID: 11400000, guid: b452f8afb98d05c4c81413b3c75d8ad3, type: 2}
     falseState: {fileID: 0}
+    action: {fileID: 0}
   enterActions:
   - {fileID: 11400000, guid: 1351f32d55bac064c817154fa4dd7f0b, type: 2}
   updateActions: []
   exitActions: []
-  subDecisions: []
-  frameDecisions:
+  actionSequence:
   - time: 0
     action: {fileID: 11400000, guid: 71982149ac30a7a4791b6ac3c0ba0594, type: 2}
-  - time: 0.2
-    action: {fileID: 11400000, guid: 3f2db075cb2df38479816567c741e5de, type: 2}
   - time: 0
     action: {fileID: 11400000, guid: a4e5a8c76179c6f4792a0febb01bf265, type: 2}
+  - time: 0.2
+    action: {fileID: 11400000, guid: 3f2db075cb2df38479816567c741e5de, type: 2}
+  loopActionSequence: 0
+  useTimer: 0
+  timerID: 0
+  time: 0
   animationName: Skill02Front

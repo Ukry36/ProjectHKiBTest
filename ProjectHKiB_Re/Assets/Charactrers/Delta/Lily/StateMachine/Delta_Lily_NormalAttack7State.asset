@@ -96,15 +96,19 @@ MonoBehaviour:
   exitActions:
   - {fileID: 11400000, guid: 2d2ede8c60ae88540b1236d23e2593bb, type: 2}
   - {fileID: 11400000, guid: aa530d35489b80d41ad00cf373b34b3c, type: 2}
-  frameDecisions:
+  actionSequence:
   - time: 0
     action: {fileID: 11400000, guid: 6f31d4110f1af4641baeb5989f3e88f0, type: 2}
   - time: 0
     action: {fileID: 11400000, guid: b858f92dbe65dc24aad92d5e2442ce86, type: 2}
   - time: 0.2
     action: {fileID: 11400000, guid: 6f31d4110f1af4641baeb5989f3e88f0, type: 2}
-  - time: 0.2
+  - time: 0
     action: {fileID: 11400000, guid: 03710fb441c78374d9eed2e431948e9e, type: 2}
-  - time: 0.4
+  - time: 0.2
     action: {fileID: 11400000, guid: 3f2db075cb2df38479816567c741e5de, type: 2}
+  loopActionSequence: 0
+  useTimer: 0
+  timerID: 0
+  time: 0
   animationName: NormalAttack4

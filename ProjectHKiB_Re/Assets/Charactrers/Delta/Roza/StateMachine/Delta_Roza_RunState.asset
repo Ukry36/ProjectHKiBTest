@@ -75,11 +75,15 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c63fa6e559283a9479d938d317595868, type: 2}
   exitActions:
   - {fileID: 11400000, guid: 797efcf4b4a2d0449b5517e4e60eed74, type: 2}
-  frameDecisions:
+  actionSequence:
   - time: 0.1
     action: {fileID: 11400000, guid: dc2ca73e8a612af42974f1a56f5895c5, type: 2}
-  - time: 0.4
+  - time: 0.3
     action: {fileID: 11400000, guid: dc2ca73e8a612af42974f1a56f5895c5, type: 2}
-  - time: 0.6
-    action: {fileID: 11400000, guid: 5d9f179b3d3f4c940b9682d51c25f9e0, type: 2}
+  - time: 0.2
+    action: {fileID: 0}
+  loopActionSequence: 1
+  useTimer: 0
+  timerID: 0
+  time: 0
   animationName: Run

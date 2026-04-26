@@ -86,9 +86,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4ff9702b721b89147abd80a03aeb1ff4, type: 2}
   exitActions:
   - {fileID: 11400000, guid: 2d2ede8c60ae88540b1236d23e2593bb, type: 2}
-  frameDecisions:
+  actionSequence:
   - time: 0
     action: {fileID: 11400000, guid: 6f31d4110f1af4641baeb5989f3e88f0, type: 2}
   - time: 0
     action: {fileID: 11400000, guid: b858f92dbe65dc24aad92d5e2442ce86, type: 2}
+  loopActionSequence: 0
+  useTimer: 0
+  timerID: 0
+  time: 0
   animationName: NormalAttack3

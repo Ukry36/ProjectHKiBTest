@@ -14,6 +14,12 @@ public struct ActionSequence
 [CreateAssetMenu(fileName = "State", menuName = "State Machine/State")]
 public class StateSO : ScriptableObject
 {
+
+    [NaughtyAttributes.Button]
+    public void Save()
+    {
+        AssetDatabase.SaveAssets();
+    }
     [HideInInspector] public float temporaryID;
 
     public StateTransition[] transitions;

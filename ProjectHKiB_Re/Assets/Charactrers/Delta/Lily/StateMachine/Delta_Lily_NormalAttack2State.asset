@@ -77,17 +77,21 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4ff9702b721b89147abd80a03aeb1ff4, type: 2}
   exitActions:
   - {fileID: 11400000, guid: 2d2ede8c60ae88540b1236d23e2593bb, type: 2}
-  frameDecisions:
+  actionSequence:
   - time: 0
     action: {fileID: 11400000, guid: 6f31d4110f1af4641baeb5989f3e88f0, type: 2}
   - time: 0.1
     action: {fileID: 11400000, guid: b858f92dbe65dc24aad92d5e2442ce86, type: 2}
-  - time: 0.2
+  - time: 0.1
     action: {fileID: 11400000, guid: 03710fb441c78374d9eed2e431948e9e, type: 2}
-  - time: 0.3
+  - time: 0.1
     action: {fileID: 11400000, guid: 473066400c317a545a994284df256a68, type: 2}
-  - time: 0.4
+  - time: 0.1
     action: {fileID: 11400000, guid: 836ef1a0739971745aa92304f6a6b07e, type: 2}
-  - time: 0.5
+  - time: 0.1
     action: {fileID: 11400000, guid: 63c822d5094e77b4da77887b0c74392c, type: 2}
+  loopActionSequence: 0
+  useTimer: 0
+  timerID: 0
+  time: 0
   animationName: NormalAttack2

@@ -34,7 +34,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2ba8bf12327fa2b4e931e52dea5b663e, type: 2}
   updateActions: []
   exitActions: []
-  frameDecisions:
+  actionSequence:
   - time: 0.5
     action: {fileID: 11400000, guid: 8f37dbc52929a7144a022e28ce38157d, type: 2}
+  loopActionSequence: 0
+  useTimer: 0
+  timerID: 0
+  time: 0
   animationName: Transform

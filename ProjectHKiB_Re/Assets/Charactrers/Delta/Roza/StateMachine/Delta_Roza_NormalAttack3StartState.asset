@@ -69,13 +69,14 @@ MonoBehaviour:
   updateActions:
   - {fileID: 11400000, guid: 4ff9702b721b89147abd80a03aeb1ff4, type: 2}
   exitActions: []
-  frameDecisions:
+  actionSequence:
   - time: 0.1
     action: {fileID: 11400000, guid: 6f31d4110f1af4641baeb5989f3e88f0, type: 2}
-  - time: 0.2
+  - time: 0.1
     action: {fileID: 11400000, guid: b858f92dbe65dc24aad92d5e2442ce86, type: 2}
-  - time: 0.3
+  - time: 0.1
     action: {fileID: 11400000, guid: 03710fb441c78374d9eed2e431948e9e, type: 2}
+  loopActionSequence: 0
   useTimer: 1
   timerID: 0
   time: 12

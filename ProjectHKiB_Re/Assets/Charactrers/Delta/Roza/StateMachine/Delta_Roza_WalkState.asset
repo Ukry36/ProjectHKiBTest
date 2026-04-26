@@ -73,11 +73,15 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7263eacb51896564e8bf3466a98c6b58, type: 2}
   - {fileID: 11400000, guid: c63fa6e559283a9479d938d317595868, type: 2}
   exitActions: []
-  frameDecisions:
+  actionSequence:
   - time: 0.2
     action: {fileID: 11400000, guid: dc2ca73e8a612af42974f1a56f5895c5, type: 2}
-  - time: 0.6
+  - time: 0.4
     action: {fileID: 11400000, guid: dc2ca73e8a612af42974f1a56f5895c5, type: 2}
-  - time: 0.8
-    action: {fileID: 11400000, guid: 5d9f179b3d3f4c940b9682d51c25f9e0, type: 2}
+  - time: 0.2
+    action: {fileID: 0}
+  loopActionSequence: 1
+  useTimer: 0
+  timerID: 0
+  time: 0
   animationName: Walk
