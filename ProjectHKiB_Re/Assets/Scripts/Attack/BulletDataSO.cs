@@ -2,13 +2,17 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Bullet Data", menuName = "Scriptable Objects/Data/Bullet Data", order = 3)]
 public class BulletDataSO : ScriptableObject
 {
-    public DamageDataSO damageData;
-    public AudioDataSO initialSound;
-    public float initialSpeed; // 나중에 단위 꼭 붙이기!!
-    public float acceleration;
-    public float lifeTime;
+    public SimpleAnimationDataSO bulletAnimation;
     public ParticlePlayer trailParticle;
-    public bool disappearWhenDamage;
-    public bool disappearWhenHit;
-    public Sprite sprite;
+    public DamageDataSO damageData;
+    public int pierce;
+    public bool stopWhenAttacked;
+    public int attackMoveMinRange;
+    public int attackMoveMaxRange;
+    public bool isAutoTarget;
+    public AudioDataSO initialSound;
+    public AttackAreaIndicatorData attackAreaIndicatorData;
+    public float initialSpeedmps; 
+    public float velocitympss;
+    public float lifeTimesecond;
 }

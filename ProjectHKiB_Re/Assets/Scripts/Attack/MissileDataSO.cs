@@ -7,5 +7,4 @@ public class MissileDataSO : BulletDataSO
     public float verticalAcceleration;
     public float startChasingTime;
     public float canDamageHeight;
-
 }

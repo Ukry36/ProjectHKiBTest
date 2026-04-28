@@ -15,6 +15,7 @@ namespace Assets.Scripts.Interfaces.Modules
         public bool IsKnockbackMove { get; set; }
         public bool IsSprinting { get; set; }
         public IMovable.ExternalForce ExForce { get; set; }
+        [field: SerializeField] public float ZLevel{get;set;}
 
         [SerializeField] protected MovementManagerSO movementManager;
         private Coroutine knockBackCoroutine;
