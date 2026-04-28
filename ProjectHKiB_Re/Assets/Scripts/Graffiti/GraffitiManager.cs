@@ -14,6 +14,7 @@ public class GraffitiManager : MonoBehaviour
     private Vector2Int graffitiCurrentIntPos;
     private int graffitiMoveCount;
     private bool canGraffitiTinker;
+    private bool biggerTinkerPresent;
     public GearManager gearManager;
     public InputManager inputManager;
     private Cooltime _graffitiTimer = new();
@@ -72,19 +73,28 @@ public class GraffitiManager : MonoBehaviour
         inputManager.GRAFFITIMode();
         _graffitiWorldStartPos = startPos;
         graffitiProgress.Clear();
-        _graffitiTimer.StartCooltime(graffitiMaxTime, EndGraffitiTime);
+        _graffitiTimer.StartCooltime(graffitiMaxTime, GraffitiTimeout);
         GP--;
         graffitiMoveCount = 0;
         canGraffitiTinker = false;
+        biggerTinkerPresent = false;
         
         ProcessGraffiti(Vector2Int.zero);
     }
     public void ResetGraffiti()
     {
+        CancelAllTinkerAnimation();
         graffitiProgress.Clear();
         graffitiMoveCount = 0;
         
         ProcessGraffiti(Vector2Int.zero);
+    }
+    public void GraffitiTimeout()
+    {
+        if (CheckCompleted() >= 0)
+            StartCoroutine(EndGraffitiAttackCoroutine());
+        else
+            GraffitiEndProcess();
     }
 
     public void StartTinker()
@@ -92,9 +102,9 @@ public class GraffitiManager : MonoBehaviour
         if (canGraffitiTinker) return;
         canGraffitiTinker = true;
         for (int i = 0; i < graffitiMoveCount; i++)
-            GraffitiTinker(i, _graffitiWorldStartPos + graffitiProgress[i]);
+            PlayNormalTinkerAnimation(i, _graffitiWorldStartPos + graffitiProgress[i]);
         if (CheckCompleted() >= 0)
-            GraffitiTinkerComplete();
+            PlayBiggerTinkerAnimation();
     }
 
     /// <summary>
@@ -108,25 +118,26 @@ public class GraffitiManager : MonoBehaviour
         if (!graffitiProgress.Contains(pos)) 
         {
             graffitiProgress.Add(pos);
-            GraffitiTinker(graffitiMoveCount, GraffitiWorldPos);
+            PlayNormalTinkerAnimation(graffitiMoveCount, GraffitiWorldPos);
             graffitiMoveCount++;
         }
-        else GraffitiTinker(graffitiProgress.IndexOf(pos), GraffitiWorldPos);
+        else PlayNormalTinkerAnimation(graffitiProgress.IndexOf(pos), GraffitiWorldPos);
 
         if(CheckCompleted() >= 0)
         {
-            GraffitiTinkerComplete();//success feedback
+            PlayBiggerTinkerAnimation();//success feedback
             return;
         }
 
         if (!ValidateProgress())
         {
-            //fail feedback
+            CancelBiggerTinkerAnimation();//fail feedback
+            
             //graffitiProgress.Clear();
         }
     }
 
-    public void GraffitiTinker(int animatorIndex, Vector2 pos)
+    public void PlayNormalTinkerAnimation(int animatorIndex, Vector2 pos)
     {
         if (canGraffitiTinker && animatorIndex < tinkers.Length && tinkers[animatorIndex])
         {
@@ -138,7 +149,7 @@ public class GraffitiManager : MonoBehaviour
 
     private Sequence sequence;
     private int tempTinkerIndex;
-    public void GraffitiTinkerComplete()
+    public void PlayBiggerTinkerAnimation()
     {
         if (!canGraffitiTinker) return;
         sequence = DOTween.Sequence();
@@ -149,25 +160,39 @@ public class GraffitiManager : MonoBehaviour
         }
         tempTinkerIndex = 0;
         sequence.Play();
+        biggerTinkerPresent = true;
     }
-
     private void BiggerTinkerCallback()
     {
-        tinkers[tempTinkerIndex].ClearReservation();
         tinkers[tempTinkerIndex].Play("NormalExit");
         tinkers[tempTinkerIndex].Reserve("BiggerStart");
         tinkers[tempTinkerIndex].Reserve("BiggerIdle");
         tempTinkerIndex++;
     }
-    
-    public void EndGraffitiTime()
+
+    public void CancelBiggerTinkerAnimation()
     {
-        if (CheckCompleted() >= 0)
-            EndGraffitiAttack();
-        else
-            EndGraffitiProgress();
+        if (!canGraffitiTinker || !biggerTinkerPresent) return;
+        for (int i = 0; i < graffitiMoveCount; i++)
+        {
+            tinkers[i].Play("BiggerExit");
+            tinkers[i].Reserve("NormalStart");
+            tinkers[i].Reserve("NormalIdle");
+        }
+        biggerTinkerPresent = false;
     }
-    public void EndGraffitiProgress()
+
+    public void CancelAllTinkerAnimation()
+    {
+        if (!canGraffitiTinker) return;
+        for (int i = 0; i < graffitiMoveCount; i++)
+        {
+            tinkers[i].Play("NormalExit");
+            tinkers[i].Reserve("Stop");
+        }
+    }
+    
+    public void GraffitiEndProcess()
     {
         StartTinker();
         _graffitiTimer.CancelCooltime();
@@ -176,9 +201,9 @@ public class GraffitiManager : MonoBehaviour
         
         for (int i = 0; i < graffitiMoveCount; i++) 
         {
+            tinkers[i].ClearReservation();
             if (CheckCompleted() >= 0) 
             {
-                tinkers[i].ClearReservation();
                 tinkers[i].Reserve("BiggerStart");
                 tinkers[i].Reserve("BiggerIdle");
                 tinkers[i].Reserve("BiggerExit");
@@ -187,36 +212,26 @@ public class GraffitiManager : MonoBehaviour
             tinkers[i].Reserve("Stop");
         }
 
+        if (CheckCompleted() >= 0) gearManager.EquipCard(CheckCompleted());
+        else player.ChangeState(player.BaseData.StateMachine.initialState);
+
         graffitiProgress.Clear();
         inputManager.PLAYMode();
     }
-    
-    public void EndGraffitiAttack()
-    {
-        if (CheckCompleted() >= 0) gearManager.EquipCard(CheckCompleted());
-        else player.ChangeState(player.BaseData.StateMachine.initialState);
-        EndGraffitiProgress();
-        StartCoroutine(EndGraffitiAttackCoroutine());
-    }
     private IEnumerator EndGraffitiAttackCoroutine()
     {
+        if (CheckCompleted() < 0) yield break;
+        GraffitiEndProcess();
         yield return null;
-        player.ChangeState(player.BaseData.StateMachine.initialState);
         if (player.BaseData.GraffitiAttackState != null)
             player.ChangeState(player.BaseData.GraffitiAttackState);
     }
-    public void EndGraffitiSkill()
+    private IEnumerator GraffitiEndSkillCoroutine()
     {
-        if (CheckCompleted() >= 0) gearManager.EquipCard(CheckCompleted());
-        else player.ChangeState(player.BaseData.StateMachine.initialState);
         GP = 0;
-        EndGraffitiProgress();
-        StartCoroutine(EndGraffitiSkillCoroutine());
-    }
-    private IEnumerator EndGraffitiSkillCoroutine()
-    {
+        if (CheckCompleted() < 0) yield break;
+        GraffitiEndProcess();
         yield return null;
-        player.ChangeState(player.BaseData.StateMachine.initialState);
         if (player.BaseData.GraffitiSkillState != null)
             player.ChangeState(player.BaseData.GraffitiSkillState);
     }
@@ -239,7 +254,7 @@ public class GraffitiManager : MonoBehaviour
         return false;
     }
     
-    int CheckCompleted()
+    private int CheckCompleted()
     {
         for(int cardNum = 0; cardNum < gearManager.MaxCardCount; cardNum++)
         {
@@ -250,7 +265,8 @@ public class GraffitiManager : MonoBehaviour
             for (int i = 0; i < gear.graffitiAllCases.Count; i++)
             {
                 List<Vector2Int> graffitiCode = gear.graffitiAllCases[i].code;
-                if (graffitiCode.OrderBy(x => x.x).ThenBy(y => y.y).SequenceEqual(graffitiProgress.OrderBy(x => x.x).ThenBy(y => y.y)))
+                if (graffitiCode.Count == graffitiProgress.Count 
+                    &&graffitiCode.OrderBy(x => x.x).ThenBy(y => y.y).SequenceEqual(graffitiProgress.OrderBy(x => x.x).ThenBy(y => y.y)))
                     return cardNum;
             }
         }
@@ -285,9 +301,9 @@ public class GraffitiManager : MonoBehaviour
     public void ProcessGraffitiLeft(InputAction.CallbackContext context) { if (context.performed) ProcessGraffiti(graffitiCurrentIntPos + Vector2Int.left); }
     public void ProcessGraffitiRight(InputAction.CallbackContext context) { if (context.performed) ProcessGraffiti(graffitiCurrentIntPos + Vector2Int.right); }
     public void ProcessGraffitiUp(InputAction.CallbackContext context) { if (context.performed) ProcessGraffiti(graffitiCurrentIntPos + Vector2Int.up); }
-    public void EndGraffitiAttack(InputAction.CallbackContext context) { if (context.performed) EndGraffitiAttack(); }
-    public void EndGraffitiSkill(InputAction.CallbackContext context) { if (context.performed) EndGraffitiSkill(); }
+    public void EndGraffitiAttack(InputAction.CallbackContext context) { if (context.performed) StartCoroutine(EndGraffitiAttackCoroutine()); }
+    public void EndGraffitiSkill(InputAction.CallbackContext context) { if (context.performed) StartCoroutine(GraffitiEndSkillCoroutine()); }
     public void ResetGraffiti(InputAction.CallbackContext context) { if (context.performed) ResetGraffiti(); }
-    public void CancelGraffiti(InputAction.CallbackContext context) { if (context.performed) EndGraffitiProgress(); }
+    public void CancelGraffiti(InputAction.CallbackContext context) { if (context.performed) GraffitiEndProcess(); }
 
 }

@@ -46,24 +46,32 @@ public class SimpleAnimationPlayer : MonoBehaviour
 
     public void Initialize()
     {
+        _reservedClips = new(10);
         if (playOnAwake)
         {
             if(!string.IsNullOrEmpty(overrideClipName))
-                Play(overrideClipName);
+                PlayInternal(overrideClipName);
             else if(animationData && !string.IsNullOrEmpty(animationData.defaultClipName))
-                Play(animationData.defaultClipName);
+                PlayInternal(animationData.defaultClipName);
         }
-        _reservedClips = new(10);
     }
 
     public void Play(string clipName)
     {
-        if (clipName == "Stop") { Stop(); return; }
+        ClearReservation();
+        PlayInternal(clipName);
+    }
+    
+    private void PlayInternal(string clipName)
+    {
         if (animationData == null) return;
+        
+        if (clipName == "Stop") { Stop(); return; }
+        
         SimpleAnimationClip clip = animationData.GetClip(clipName);
 
         for (int i = 0; i < playersToSyncAnimation.Length; i++)
-            playersToSyncAnimation[i].Play(clipName);
+            playersToSyncAnimation[i].PlayInternal(clipName);
 
         if (clip != null)
         {
@@ -85,14 +93,14 @@ public class SimpleAnimationPlayer : MonoBehaviour
 
     public void Reserve(string clipName)
     {
-        if (!_currentClip.isLoop && IsFirstLoopEnded && _reservedClips.Count < 1) {Play(clipName); return;}
+        if (!_currentClip.isLoop && IsFirstLoopEnded && _reservedClips.Count < 1) {PlayInternal(clipName); return;}
         if (_reservedClips.Count < _reservedClips.Capacity)
             _reservedClips.Add(clipName);
     }
 
     public void ClearReservation()
     {
-        _reservedClips.Clear();
+        _reservedClips?.Clear();
     }
 
     protected void PlayClip(SimpleAnimationClip clip)
@@ -130,7 +138,7 @@ public class SimpleAnimationPlayer : MonoBehaviour
         _loop++;
         if (IsFirstLoopEnded && _reservedClips.Count > 0)
         {
-            Play(_reservedClips[0]);
+            PlayInternal(_reservedClips[0]);
             _reservedClips.RemoveAt(0);
         }
     }
@@ -167,7 +175,7 @@ public class SimpleAnimationPlayer : MonoBehaviour
         if (_currentClip != null && _currentClip.resetWhenDirectionChange)
         {
             Stop();
-            Play(_currentClip.clipName);
+            PlayInternal(_currentClip.clipName);
         }
 
         if (syncDirection)

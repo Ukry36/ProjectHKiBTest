@@ -5,6 +5,6 @@ public class DebugAction : StateActionSO
     public string str;
     public override void Act(StateController stateController)
     {
-        Debug.Log(stateController.name + "/" + stateController.CurrentState.name + ": " + str + stateController.GetInterface<IDirAnimatable>().LastSetAnimationDir4);
+        Debug.Log(stateController.name + "/" + stateController.CurrentState.name + ": " + str);
     }
 }
