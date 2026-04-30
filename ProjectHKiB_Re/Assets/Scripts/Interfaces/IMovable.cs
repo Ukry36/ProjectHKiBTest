@@ -39,6 +39,8 @@ public interface IMovable : IMovableBase, IInitializable
     public bool IsKnockbackMove { get; set; }
     public bool IsSprinting { get; set; }
     public ExternalForce ExForce { get; set; }
+    public Transform[] BodyComponents { get; set; }
+    public float ZLevel { get; set; }
     public void KnockBack(Vector3 dir, float strength);
     public void EndKnockbackEarly();
     public void KnockBackEndCallback();

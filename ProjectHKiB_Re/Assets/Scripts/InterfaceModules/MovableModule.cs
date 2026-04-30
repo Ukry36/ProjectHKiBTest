@@ -15,11 +15,26 @@ namespace Assets.Scripts.Interfaces.Modules
         public bool IsKnockbackMove { get; set; }
         public bool IsSprinting { get; set; }
         public IMovable.ExternalForce ExForce { get; set; }
-        [field: SerializeField] public float ZLevel{get;set;}
+        [field: SerializeField] public Transform[] BodyComponents { get; set; }
+        public float ZLevel 
+        { 
+            get => ZLevel; 
+            set { ZLevel = value; SetBodyPartZLevel(value); }
+        }
 
         [SerializeField] protected MovementManagerSO movementManager;
         private Coroutine knockBackCoroutine;
         private Action OnKnockBackEnded;
+
+        private void SetBodyPartZLevel(float z)
+        {
+            for(int i = 0; i < BodyComponents.Length; i++)
+            {
+                BodyComponents[i].position += Vector3.up * z;
+                MovePoint.transform.position += Vector3.up * z;
+                transform.position += Vector3.up * z;
+            }
+        }
 
         public override void Register(IInterfaceRegistable interfaceRegistable)
         {

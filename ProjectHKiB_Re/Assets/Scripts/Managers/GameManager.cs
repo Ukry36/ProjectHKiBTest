@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -25,9 +26,9 @@ public class GameManager : MonoBehaviour
 
     public Player player;
 
+
     private void Awake()
     {
         instance = this;
     }
-
 }
