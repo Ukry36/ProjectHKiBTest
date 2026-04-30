@@ -1,61 +1,41 @@
-using AYellowpaper.SerializedCollections;
+
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Collections.Generic;
 
-
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
+[RequireComponent(typeof(Tilemap))]
 public class HeightMapGenerator: MonoBehaviour
 {
-    public Tilemap heightTilemap;
-    public SerializedDictionary<TileBase, float> zValueMap;
-    public GameObject RelativeHeightMapPrefab;
     public Tilemap referenceTilemap;
 
-#if UNITY_EDITOR
-    [NaughtyAttributes.Button]
-    public void GenerateDictionary()
+    public void Initialize(GameObject dynamicHeightPrefab, Dictionary<TileBase, float> zValueMap)
     {
-        zValueMap = new();
-        string[] guids = AssetDatabase.FindAssets("t:HeightTile");
-        
-        foreach (string guid in guids)
-        {
-            string path = AssetDatabase.GUIDToAssetPath(guid);
-            HeightTile tile = AssetDatabase.LoadAssetAtPath<HeightTile>(path);
-            zValueMap.Add(tile, tile.zLevel);
-        }
-    }
-#endif
-
-    public void Start()
-    {
-        Dictionary<float, RelativeHeightMap> childRelativeHeightMaps = new();
-        //might be possible using tilemap.GetSprite to get one tile's detailed heightmap..
+        Tilemap heightTilemap = GetComponent<Tilemap>();
+        Dictionary<float, DynamicHeightMap> childs = new();
         BoundsInt bounds = heightTilemap.cellBounds;
+        IMovable player = GameManager.instance.player.GetInterface<IMovable>();
 
         for (int x = bounds.min.x; x < bounds.max.x; x++)
         {
             for (int y = bounds.min.y; y < bounds.max.y; y++)
             {
-                TileBase tile = heightTilemap.GetTile(Vector3Int.right * x + Vector3Int.up * y);
-                TileBase refTile = referenceTilemap.GetTile(Vector3Int.right * x + Vector3Int.up * y);
+                Vector3Int pos = Vector3Int.right * x + Vector3Int.up * y;
+                TileBase tile = heightTilemap.GetTile(pos);
+                TileBase refTile = referenceTilemap.GetTile(pos);
                 
                 if (tile != null && zValueMap.TryGetValue(tile, out float z))
                 {
-                    if (!childRelativeHeightMaps.ContainsKey(z))
+                    if (!childs.ContainsKey(z))
                     {
-                        childRelativeHeightMaps[z] = Instantiate(RelativeHeightMapPrefab, transform.position, Quaternion.identity, transform).GetComponent<RelativeHeightMap>();
-                        childRelativeHeightMaps[z].baseZLevel = z;
+                        childs[z] = Instantiate(dynamicHeightPrefab, transform.position, Quaternion.identity, transform.parent).GetComponent<DynamicHeightMap>();
+                        childs[z].Initialize(z, player);
                     }
-                    childRelativeHeightMaps[z].relativeHeightTilemap.SetTile(Vector3Int.right * x + Vector3Int.up * y, refTile);
+                    Tilemap tilemap = childs[z].GetComponent<Tilemap>();
+                    tilemap.SetTile(pos, refTile);
+                    tilemap.SetTransformMatrix(pos, referenceTilemap.GetTransformMatrix(pos));
                 }
             }
         }
-        Destroy(heightTilemap);
-        Destroy(this);
+        Destroy(gameObject);
     }
 }

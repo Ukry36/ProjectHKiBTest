@@ -2392,7 +2392,7 @@
     "hlslDeclarationOverride": 0,
     "m_Hidden": false,
     "m_Value": {
-        "m_SerializedTexture": "{\"texture\":{\"fileID\":2800000,\"guid\":\"80613833c0453a844b2891eea266ee63\",\"type\":3}}",
+        "m_SerializedTexture": "{\"texture\":{\"instanceID\":0}}",
         "m_Guid": ""
     },
     "isMainTexture": false,
@@ -3273,7 +3273,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Texture2DMaterialSlot",
     "m_ObjectId": "d0427899e3c04b4f9b057a17a996de42",
     "m_Id": 0,
-    "m_DisplayName": "RelativeHeight",
+    "m_DisplayName": "IDMapRenderTexture",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
@@ -3729,11 +3729,11 @@
     "m_Guid": {
         "m_GuidSerialized": "0837d8b2-d881-431f-89cc-723f479dde55"
     },
-    "m_Name": "RelativeHeight",
+    "m_Name": "IDMapRenderTexture",
     "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "RelativeHeight",
-    "m_DefaultReferenceName": "_RelativeHeight",
-    "m_OverrideReferenceName": "_RelativeHeight",
+    "m_RefNameGeneratedByDisplayName": "IDMapRenderTexture",
+    "m_DefaultReferenceName": "_IDMapRenderTexture",
+    "m_OverrideReferenceName": "_IDMapRenderTexture",
     "m_GeneratePropertyBlock": true,
     "m_UseCustomSlotLabel": false,
     "m_CustomSlotLabel": "",

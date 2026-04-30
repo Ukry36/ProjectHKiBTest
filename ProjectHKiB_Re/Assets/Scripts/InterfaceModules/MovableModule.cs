@@ -16,10 +16,11 @@ namespace Assets.Scripts.Interfaces.Modules
         public bool IsSprinting { get; set; }
         public IMovable.ExternalForce ExForce { get; set; }
         [field: SerializeField] public Transform[] BodyComponents { get; set; }
+        private float _zLevel;
         public float ZLevel 
         { 
-            get => ZLevel; 
-            set { ZLevel = value; SetBodyPartZLevel(value); }
+            get => _zLevel; 
+            set { _zLevel = value; SetBodyPartZLevel(value); }
         }
 
         [SerializeField] protected MovementManagerSO movementManager;
