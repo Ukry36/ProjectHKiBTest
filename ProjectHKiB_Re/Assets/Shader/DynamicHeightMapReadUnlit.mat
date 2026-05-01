@@ -11,8 +11,8 @@ Material:
   m_Shader: {fileID: -6465566751694194690, guid: 9c23223410683d94ea1ef1ce52bd1af6, type: 3}
   m_ValidKeywords:
   - _INPUTCHANNEL_R
+  m_InvalidKeywords:
   - _OUTPUTCHANNEL_R
-  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -22,6 +22,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _DetailedID:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _IDMapRenderTexture:
         m_Texture: {fileID: 8400000, guid: e7ffd1075841d6d41b1e22709aab6e31, type: 2}
         m_Scale: {x: 1, y: 1}
@@ -50,6 +54,8 @@ Material:
     m_Floats:
     - _INPUTCHANNEL: 0
     - _OUTPUTCHANNEL: 0
+    - _Offset: 0
     - _UseDither: 0
+    - _test: 0
     m_Colors: []
   m_BuildTextureStacks: []

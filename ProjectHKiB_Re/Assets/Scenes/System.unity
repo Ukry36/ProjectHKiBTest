@@ -11525,7 +11525,7 @@ GameObject:
   - component: {fileID: 281765181}
   - component: {fileID: 281765183}
   - component: {fileID: 281765182}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: IDMapTerxturizer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11559,7 +11559,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RenderShadows: 1
+  m_RenderShadows: 0
   m_RequiresDepthTextureOption: 2
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
@@ -11608,7 +11608,7 @@ Camera:
   field of view: 40
   orthographic: 1
   orthographic size: 7.5
-  m_Depth: 0
+  m_Depth: 1
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 65536
@@ -13550,7 +13550,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 327803487}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4, y: -3, z: 0}
+  m_LocalPosition: {x: 47, y: -3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -42046,7 +42046,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 955506755}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.25, y: 0.75, z: 0}
+  m_LocalPosition: {x: -2.0000005, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -42091,10 +42091,10 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1837625035
-  m_SortingLayer: 4
+  m_SortingLayerID: -1528881133
+  m_SortingLayer: 10
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 1610e020b21160a4593a0d0f9e05d430, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 07b867da4c8902a418bd7d590e42dfe9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -71628,10 +71628,10 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.17957745
+    x: 0
     y: 0
-    width: 0.64084506
-    height: 1
+    width: 0.56338024
+    height: 0.8791209
   near clip plane: 0.1
   far clip plane: 5000
   field of view: 40
@@ -71660,7 +71660,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1718942438}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4, y: -3, z: -10}
+  m_LocalPosition: {x: 47, y: -3, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

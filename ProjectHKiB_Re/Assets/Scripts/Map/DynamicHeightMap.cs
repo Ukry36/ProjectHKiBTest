@@ -11,9 +11,10 @@ public class DynamicHeightMap: MonoBehaviour
     [SerializeField] [ReadOnly] private float dynamicZlevel;
     private IMovable player;
 
-    public void Initialize(float baseZLevel, IMovable player)
+    public void Initialize(float baseZLevel, IMovable player, int sortingOrder)
     {
         tilemapRenderer = GetComponent<TilemapRenderer>();
+        tilemapRenderer.sortingOrder = sortingOrder;
         this.baseZLevel = baseZLevel;
         this.player = player;
     }
@@ -21,6 +22,6 @@ public class DynamicHeightMap: MonoBehaviour
     public void SetRelativeZlevel()
     {
         dynamicZlevel = baseZLevel - player.ZLevel;
-        tilemapRenderer.material.SetFloat("_BaseID", (baseZLevel - player.ZLevel)/256);
+        tilemapRenderer.material.SetFloat("_BaseID", (baseZLevel - player.ZLevel)/16);
     }
 }

@@ -2,8 +2,10 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Collections.Generic;
-
+using System.Linq;
 [RequireComponent(typeof(Tilemap))]
+
+[RequireComponent(typeof(TilemapRenderer))]
 public class HeightMapGenerator: MonoBehaviour
 {
     public Tilemap referenceTilemap;
@@ -11,6 +13,7 @@ public class HeightMapGenerator: MonoBehaviour
     public void Initialize(GameObject dynamicHeightPrefab, Dictionary<TileBase, float> zValueMap)
     {
         Tilemap heightTilemap = GetComponent<Tilemap>();
+        TilemapRenderer renderer = GetComponent<TilemapRenderer>();
         Dictionary<float, DynamicHeightMap> childs = new();
         BoundsInt bounds = heightTilemap.cellBounds;
         IMovable player = GameManager.instance.player.GetInterface<IMovable>();
@@ -28,7 +31,7 @@ public class HeightMapGenerator: MonoBehaviour
                     if (!childs.ContainsKey(z))
                     {
                         childs[z] = Instantiate(dynamicHeightPrefab, transform.position, Quaternion.identity, transform.parent).GetComponent<DynamicHeightMap>();
-                        childs[z].Initialize(z, player);
+                        childs[z].Initialize(z, player, renderer.sortingOrder);
                     }
                     Tilemap tilemap = childs[z].GetComponent<Tilemap>();
                     tilemap.SetTile(pos, refTile);
