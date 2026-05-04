@@ -32,12 +32,11 @@ public class ForceFieldTest : MonoBehaviour
 
                 if (isCenter)
                 {
-                    movables[i].ExForce.SetForce[this.GetInstanceID()]
-                    = (this.transform.position - movables[i].MovePoint.transform.position).normalized * strength;
+                    movables[i].ExForce.SetForce(GetInstanceID(), (transform.position - movables[i].MovePoint.transform.position).normalized * strength);
                 }
                 else
                 {
-                    movables[i].ExForce.SetForce[this.GetInstanceID()] = dir.normalized * strength;
+                    movables[i].ExForce.SetForce(GetInstanceID(), dir.normalized * strength);
                 }
             }
             yield return null;
@@ -48,7 +47,7 @@ public class ForceFieldTest : MonoBehaviour
     {
         if (collision.TryGetComponent(out IMovable component))
         {
-            component.ExForce.SetForce[this.GetInstanceID()] = Vector3.zero;
+            component.ExForce.SetForce(GetInstanceID(), Vector3.zero);
             movables.Remove(component);
             collision.transform.position = component.MovePoint.transform.position;
         }

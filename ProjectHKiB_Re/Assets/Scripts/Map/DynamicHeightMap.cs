@@ -7,21 +7,13 @@ using UnityEngine.Tilemaps;
 public class DynamicHeightMap: MonoBehaviour
 {
     private TilemapRenderer tilemapRenderer;
-    [SerializeField] [ReadOnly] private float baseZLevel;
-    [SerializeField] [ReadOnly] private float dynamicZlevel;
-    private IMovable player;
+    public float z;
 
     public void Initialize(float baseZLevel, IMovable player, int sortingOrder)
     {
         tilemapRenderer = GetComponent<TilemapRenderer>();
         tilemapRenderer.sortingOrder = sortingOrder;
-        this.baseZLevel = baseZLevel;
-        this.player = player;
-    }
-
-    public void SetRelativeZlevel()
-    {
-        dynamicZlevel = baseZLevel - player.ZLevel;
-        tilemapRenderer.material.SetFloat("_BaseID", (baseZLevel - player.ZLevel)/16);
+        this.z = baseZLevel;
+        tilemapRenderer.material.SetFloat("_BaseID", baseZLevel/16);
     }
 }

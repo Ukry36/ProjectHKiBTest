@@ -12,7 +12,6 @@ using UnityEditor;
 public class HeightMapManager: MonoBehaviour
 {
     public RenderTexture renderTexture;
-    private DynamicHeightMap[] dynamicHeightMaps;
     public GameObject DynamicHeightMapPrefab;
     public SerializedDictionary<TileBase, float> zValueMap;
 
@@ -37,13 +36,10 @@ public class HeightMapManager: MonoBehaviour
         HeightMapGenerator[] generators = FindObjectsOfType<HeightMapGenerator>();
         for (int i = 0; i < generators.Length; i++)
             generators[i].Initialize(DynamicHeightMapPrefab, zValueMap);
-        dynamicHeightMaps = FindObjectsOfType<DynamicHeightMap>();
     }
 
     public void Update()
     {
         Shader.SetGlobalTexture("_RelativeHeight", renderTexture);
-        for (int i = 0; i < dynamicHeightMaps.Length; i++)
-            dynamicHeightMaps[i].SetRelativeZlevel();
     }
 }

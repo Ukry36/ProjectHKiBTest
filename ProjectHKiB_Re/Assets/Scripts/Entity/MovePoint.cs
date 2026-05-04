@@ -4,6 +4,7 @@ using UnityEngine;
 public class MovePoint : MonoBehaviour
 {
     private Transform parent;
+    public float radius;
     public void Initialize()
     {
         parent = transform.parent;

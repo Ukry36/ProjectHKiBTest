@@ -10,36 +10,40 @@ public interface IMovableBase
     public float Mass { get; set; }
 }
 
+public class ExternalForce
+{
+    public Vector3 GetSumForce()
+    {
+        Vector3 result = new();
+        if (Forces?.Count > 0)
+        {
+            foreach (var key in Forces.Keys)
+                result += Forces[key];
+        }
+        return result;
+    }
+
+    public void SetForce(int ID, Vector3 force)
+    {
+        Forces[ID] = force;
+    }
+
+    public Dictionary<int, Vector3> Forces { get; set; }
+    public ExternalForce(bool use)
+    {
+        Forces = new();
+    }
+}
+
 public interface IMovable : IMovableBase, IInitializable
 {
-    public struct ExternalForce
-    {
-        public readonly Vector3 GetForce
-        {
-            get
-            {
-                Vector3 result = new();
-                if (SetForce?.Count > 0)
-                {
-                    foreach (var key in SetForce.Keys)
-                        result += SetForce[key];
-                }
-                return result;
-            }
-        }
-        public Dictionary<int, Vector3> SetForce { get; set; }
-
-        public ExternalForce(bool use)
-        {
-            SetForce = new();
-        }
-    }
+    public Vector3 Velocity { get; set; }
     public MovePoint MovePoint { get; set; }
     public Vector3 LastSetDir { get; set; }
     public bool IsKnockbackMove { get; set; }
     public bool IsSprinting { get; set; }
     public ExternalForce ExForce { get; set; }
-    public Transform[] BodyComponents { get; set; }
+    public BodyComponent[] BodyComponents { get; set; }
     public float ZLevel { get; set; }
     public void KnockBack(Vector3 dir, float strength);
     public void EndKnockbackEarly();

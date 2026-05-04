@@ -4,6 +4,7 @@ namespace Assets.Scripts.Interfaces.Modules
 {
     public class MovableModule : InterfaceModule, IMovable
     {
+        public Vector3 Velocity { get; set; }
         public float Speed { get; set; }
         public float SprintCoeff { get; set; }
         public LayerMask WallLayer { get; set; }
@@ -14,14 +15,17 @@ namespace Assets.Scripts.Interfaces.Modules
         public Vector3 LastSetDir { get; set; }
         public bool IsKnockbackMove { get; set; }
         public bool IsSprinting { get; set; }
-        public IMovable.ExternalForce ExForce { get; set; }
-        [field: SerializeField] public Transform[] BodyComponents { get; set; }
-        private float _zLevel;
+        public ExternalForce ExForce { get; set; }
+        [field: SerializeField] public BodyComponent[] BodyComponents { get; set; }
+
         public float ZLevel 
         { 
-            get => _zLevel; 
-            set { _zLevel = value; SetBodyPartZLevel(value); }
+            get => transform.position.z; 
+            set { SetBodyPartZLevel(value);}
         }
+
+        [NaughtyAttributes.Button]public void ZPlus1() => ZLevel += 1;
+        [NaughtyAttributes.Button]public void ZMinus1() => ZLevel -= 1;
 
         [SerializeField] protected MovementManagerSO movementManager;
         private Coroutine knockBackCoroutine;
@@ -29,12 +33,10 @@ namespace Assets.Scripts.Interfaces.Modules
 
         private void SetBodyPartZLevel(float z)
         {
-            for(int i = 0; i < BodyComponents.Length; i++)
-            {
-                BodyComponents[i].position += Vector3.up * z;
-                MovePoint.transform.position += Vector3.up * z;
-                transform.position += Vector3.up * z;
-            }
+            float d = z - transform.position.z;
+            for(int i = 0; i < BodyComponents.Length; i++) BodyComponents[i].SetZ(z, d);
+            MovePoint.transform.position += Vector3.forward * d;
+            transform.position += Vector3.forward * d;
         }
 
         public override void Register(IInterfaceRegistable interfaceRegistable)
