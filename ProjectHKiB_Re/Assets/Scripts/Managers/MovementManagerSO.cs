@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
-
+/*
 [CreateAssetMenu(fileName = "Movement Manager", menuName = "Scriptable Objects/Manager/Movement Manager")]
 public class MovementManagerSO : ScriptableObject
 {
@@ -94,7 +94,7 @@ public class MovementManagerSO : ScriptableObject
             if (col.transform.TryGetComponent(out IMovable component))
             {
                 Debug.DrawLine(component.MovePoint.transform.position, component.MovePoint.transform.position + dir, Color.red, 0.5f);
-                component.KnockBack(dir /*- entityTransform.position + component.MovePoint.transform.position*/, strength);
+                component.KnockBack(dir , strength); // dir- entityTransform.position + component.MovePoint.transform.position
                 GameManager.instance.damageParticleManager.PlayHitParticle(KnockBackChainReactionParticle, 0, false, false, component.MovePoint.transform.position, 0);
             }
         }
@@ -106,19 +106,6 @@ public class MovementManagerSO : ScriptableObject
         movable.ExForce.SetForce(KNOCKBACKFORCEID, Vector3.zero);
         entityTransform.position = movable.MovePoint.transform.position;
     }
-
-    /*
-    public void AttackMove(Transform entityTransform, IMovable movable, Transform targetTransform, float maxDistance)
-    {
-        Vector3 dir = (targetTransform.position - entityTransform.position).normalized;
-        float distance = maxDistance;
-        Vector3 targetPos = collisionManager.GetNearestPos(entityTransform.position, dir, distance, movable.WallLayer);
-
-        Transform movepointTransform = movable.MovePoint.transform;
-        movepointTransform.position = targetPos - 0.5f * dir;
-        AllignMovePoint(movepointTransform);
-        entityTransform.position = movepointTransform.position;
-    }*/
 
     public void AttackMove(Transform entityTransform, IMovable movable, Vector3 targetPos, float maxDistance)
     {
@@ -329,68 +316,5 @@ public class MovementManagerSO : ScriptableObject
         movable.MovePoint.transform.position += dir;
         AllignMovePoint(movable.MovePoint.transform);
     }
-
-/*
-    private void ProcessMovementStep(Transform entityTransform, IMovable movable)
-    {
-        float remainingDist = movable.Velocity.magnitude;
-        Vector2 direction = movable.Velocity.normalized;
-        float zVelocity = 
-
-        // 6. 1틱 내 이동 거리가 1 이하가 될 때까지 반복
-        while (remainingDist > 1.0f)
-        {
-            // 3. 레이캐스트 (길이는 무조건 1)
-            RaycastHit2D hit = Physics2D.Raycast(entityTransform.position, direction, 1.0f);
-
-            if (hit.collider == null)
-            {
-                // 3.1 아무것도 없으면 무브포인트 설정
-                movePoint = (Vector2)entityTransform.position + direction;
-                ExecuteMove(1.0f); // 이동 실행
-            }
-            else
-            {
-                // 3.2 무언가 있다면 반대 방향 힘 추가 및 속도 재계산
-                AddForce("Reaction", -direction * 10f); // 임의의 반발력 수치
-                
-                // 엔티티라면 힘 전달
-                var otherEntity = hit.collider.GetComponent<IMovable>();
-                otherEntity?.ExForce.SetForce("TransferredForce", direction * movable.Velocity.magnitude);
-
-                // 속도 재계산 후 루프 다시 시작
-                movable.Velocity *= 0.5f; // 충돌 시 속도 감쇄 예시
-                break; 
-            }
-
-            remainingDist -= 1.0f;
-
-            // 4. 시간상 2칸 이상 더 갈 수 있는지 확인 (간소화된 조건)
-            if (remainingDist < 1.0f) break;
-        }
-
-        // 5. 마찰력 계산 및 최종 이동
-        ApplyFriction();
-    }
-
-    private void ExecuteMove(float distance)
-    {
-        // 5. 속도를 정수 거리 느낌으로 반올림하여 이동
-        float roundedDist = Mathf.Round(distance);
-        transform.position = Vector2.MoveTowards(transform.position, movePoint, roundedDist);
-    }
-
-    private void ApplyFriction()
-    {
-        // 5. 바닥에 있다면 속도에 비례한 마찰력 추가
-        if (isGrounded && velocity.magnitude > 0.1f)
-        {
-            Vector2 friction = -velocity.normalized * frictionCoefficient;
-            AddForce("Friction", friction);
-        }
-        else
-        {
-            RemoveForce("Friction");
-        }
-    }*/
 }
+*/

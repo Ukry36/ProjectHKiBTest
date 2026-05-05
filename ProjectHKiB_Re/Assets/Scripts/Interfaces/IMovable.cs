@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 public interface IMovableBase
 {
-    public float Speed { get; set; }
+    public float WalkSpeed { get; set; }
     public float SprintCoeff { get; set; }
     public LayerMask WallLayer { get; set; }
     public LayerMask CanPushLayer { get; set; }
@@ -44,7 +44,7 @@ public interface IMovable : IMovableBase, IInitializable
     public bool IsSprinting { get; set; }
     public ExternalForce ExForce { get; set; }
     public BodyComponent[] BodyComponents { get; set; }
-    public float ZLevel { get; set; }
+    public float ZPosition { get; set; }
     public void KnockBack(Vector3 dir, float strength);
     public void EndKnockbackEarly();
     public void KnockBackEndCallback();

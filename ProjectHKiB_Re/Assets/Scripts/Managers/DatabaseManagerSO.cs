@@ -64,7 +64,7 @@ public class DatabaseManagerSO : ScriptableObject
     => SetIMovable(entity.GetInterface<IMovable>(), data);
     public void SetIMovable(IMovableBase movable, IMovableBase data)
     {
-        movable.Speed = data.Speed;
+        movable.WalkSpeed = data.WalkSpeed;
         movable.SprintCoeff = data.SprintCoeff;
         movable.WallLayer = data.WallLayer;
         movable.CanPushLayer = data.CanPushLayer;

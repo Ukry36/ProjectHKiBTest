@@ -82,7 +82,7 @@ public class InputManager : MonoBehaviour, @PlayerAction.IPLAYActions, PlayerAct
         inputs.PLAY.Enable();
         inputs.MENU.Disable();
         inputs.GRAFFITI.Disable();
-        Debug.Log("PLAYMode");
+        //Debug.Log("PLAYMode");
     }
 
     public void MENUMode()
@@ -90,7 +90,7 @@ public class InputManager : MonoBehaviour, @PlayerAction.IPLAYActions, PlayerAct
         inputs.PLAY.Disable();
         inputs.MENU.Enable();
         inputs.GRAFFITI.Disable();
-        Debug.Log("MENUMode");
+        //Debug.Log("MENUMode");
     }
 
     public void GRAFFITIMode()
@@ -98,7 +98,7 @@ public class InputManager : MonoBehaviour, @PlayerAction.IPLAYActions, PlayerAct
         inputs.PLAY.Disable();
         inputs.MENU.Disable();
         inputs.GRAFFITI.Enable();
-        Debug.Log("GRAFFITIMode");
+        //Debug.Log("GRAFFITIMode");
     }
 
     public void OnMove(InputAction.CallbackContext context)

@@ -4,7 +4,7 @@ using UnityEngine;
 public class BodyComponent: MonoBehaviour
 {
     private Renderer _renderer;
-    public void Start()
+    public void Awake()
     {
         _renderer = GetComponent<Renderer>();
     } 

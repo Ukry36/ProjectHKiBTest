@@ -5,7 +5,7 @@ namespace Assets.Scripts.Interfaces.Modules
     public class MovableModule : InterfaceModule, IMovable
     {
         public Vector3 Velocity { get; set; }
-        public float Speed { get; set; }
+        public float WalkSpeed { get; set; }
         public float SprintCoeff { get; set; }
         public LayerMask WallLayer { get; set; }
         public LayerMask CanPushLayer { get; set; }
@@ -18,16 +18,16 @@ namespace Assets.Scripts.Interfaces.Modules
         public ExternalForce ExForce { get; set; }
         [field: SerializeField] public BodyComponent[] BodyComponents { get; set; }
 
-        public float ZLevel 
+        public float ZPosition 
         { 
             get => transform.position.z; 
             set { SetBodyPartZLevel(value);}
         }
 
-        [NaughtyAttributes.Button]public void ZPlus1() => ZLevel += 1;
-        [NaughtyAttributes.Button]public void ZMinus1() => ZLevel -= 1;
+        [NaughtyAttributes.Button]public void ZPlus1() => ZPosition += 1;
+        [NaughtyAttributes.Button]public void ZMinus1() => ZPosition -= 1;
 
-        [SerializeField] protected MovementManagerSO movementManager;
+        //[SerializeField] protected MovementManagerSO movementManager;
         private Coroutine knockBackCoroutine;
         private Action OnKnockBackEnded;
 

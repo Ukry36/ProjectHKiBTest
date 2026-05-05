@@ -12,7 +12,7 @@ public class DamagableObjectDataSO : ScriptableObject, IDamagableBase, IMovableB
 
 
     [field: SerializeField] public float Mass { get; set; }
-    [field: SerializeField] public float Speed { get; set; }
+    [field: SerializeField] public float WalkSpeed { get; set; }
     [field: SerializeField] public float SprintCoeff { get; set; }
     [field: SerializeField] public LayerMask WallLayer { get; set; }
     [field: SerializeField] public AudioDataSO FootStepAudio { get; set; }

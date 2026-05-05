@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a4552f76dec9764db1bc225722a55f1, type: 3}
   m_Name: Lily PlayerData
   m_EditorClassIdentifier: 
-  <Speed>k__BackingField: 5
+  <WalkSpeed>k__BackingField: 5
   <SprintCoeff>k__BackingField: 2
   <WallLayer>k__BackingField:
     serializedVersion: 2
@@ -53,8 +53,9 @@ MonoBehaviour:
   <Mass>k__BackingField: 1
   <HitSound>k__BackingField: {fileID: 0}
   <HitParticle>k__BackingField: {fileID: 0}
-  <MaxGP>k__BackingField: 0
-  <GP>k__BackingField: 0
+  <GraffitiAttackState>k__BackingField: {fileID: 0}
+  <GraffitiSkillState>k__BackingField: {fileID: 0}
+  <GraffitiTinkerOffset>k__BackingField: {x: 0, y: 0}
   <StateMachine>k__BackingField: {fileID: 11400000, guid: 72922fc61a71fee48ad7eba5e9851b8b, type: 2}
   <SkinData>k__BackingField: {fileID: 11400000, guid: 2a76691330d7a7f4cbabd147c4cec133, type: 2}
   <AnimationData>k__BackingField: {fileID: 11400000, guid: c7f213e610025a142b626dfd9d6befd0, type: 2}

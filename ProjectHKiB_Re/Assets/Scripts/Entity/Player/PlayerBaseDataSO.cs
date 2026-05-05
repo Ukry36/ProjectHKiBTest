@@ -13,7 +13,7 @@ IDodgeableBase, IDamagableBase, ISkinableBase, IAnimatableBase, IFootstepBase, I
     }
     
     [field: Header("Move")]
-    [field: SerializeField] public float Speed { get; set; }
+    [field: SerializeField] public float WalkSpeed { get; set; }
     [field: SerializeField] public float SprintCoeff { get; set; }
     [field: SerializeField] public LayerMask WallLayer { get; set; }
     [field: SerializeField] public LayerMask CanPushLayer { get; set; }

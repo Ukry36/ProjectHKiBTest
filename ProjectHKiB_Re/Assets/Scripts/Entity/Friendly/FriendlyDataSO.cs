@@ -9,7 +9,7 @@ using UnityEngine.U2D.Animation;
 public class FriendlyDataSO : ScriptableObject, IMovableBase, IAttackableBase, IDamagableBase, IPoolable,
 IAnimatableBase, ITargetableBase, IPathFindableBase, IFootstepBase
 {
-    [field: NaughtyAttributes.Foldout("Move")][field: SerializeField] public float Speed { get; set; }
+    [field: NaughtyAttributes.Foldout("Move")][field: SerializeField] public float WalkSpeed { get; set; }
     [field: NaughtyAttributes.Foldout("Move")][field: SerializeField] public float SprintCoeff { get; set; }
     [field: NaughtyAttributes.Foldout("Move")][field: SerializeField] public LayerMask WallLayer { get; set; }
     [field: NaughtyAttributes.Foldout("Move")][field: SerializeField] public LayerMask CanPushLayer { get; set; }

@@ -13,12 +13,12 @@ public class WalkByPathFindAction : StateActionSO
             {
                 Vector3 targetPos = pathfindable.NextPath;
                 //Debug.DrawLine(targetPos - Vector3.one * 0.5f, targetPos + Vector3.one * 0.5f);
-                movementManager.WalkMove(stateController.transform, movable, movable.Speed, targetPos - stateController.transform.position, movable.WallLayer);
+                movementManager.WalkMove(stateController.transform, movable, movable.WalkSpeed, targetPos - stateController.transform.position, movable.WallLayer);
             }
             else
             {
                 if (targetable.CurrentTarget == null) return;
-                movementManager.WalkMove(stateController.transform, movable, movable.Speed, targetable.CurrentTarget.position - stateController.transform.position, movable.WallLayer);
+                movementManager.WalkMove(stateController.transform, movable, movable.WalkSpeed, targetable.CurrentTarget.position - stateController.transform.position, movable.WallLayer);
             }
         }
         else

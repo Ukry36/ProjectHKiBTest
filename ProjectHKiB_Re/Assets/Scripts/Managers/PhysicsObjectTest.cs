@@ -1,32 +1,29 @@
 using UnityEngine;
 
-public class PhysicsManager3 : MonoBehaviour
+public class PhysicsObjectTest : InterfaceModule, IMovable
 {
-    [Header("참조")]
     [SerializeField] private Transform       entityTransform;
- 
-    [Header("격자")]
     [SerializeField] private float           gridSize        = 1f; 
- 
-    [Header("Z축 (높이)")]
+    
+    [Header("physics")]
     [SerializeField] private float           gravity         = -9.8f;
     [SerializeField] private float           Height   = 2f; 
     [SerializeField] private float           verticalCollisionOffset  = 0.0f;
- 
-    [Header("물리 계수")]
     [SerializeField] private float           frictionCoeff   = 0.85f;
     [SerializeField] private float           bounceCoeff     = 0.3f;  
     [SerializeField] private float           airFriction     = 0.98f;   
     [SerializeField] private float           stopThreshold   = 0.05f;  
     [SerializeField] private float           stopAccelerateThreshold;
  
-    [Header("레이어")]
-    [SerializeField] private LayerMask       wallLayer;
     [SerializeField] private LayerMask       floorLayer;
  
-    public Vector3 Velocity { get; private set; }
-    public float ZPosition { get; private set; }
-    public float ZVelocity { get; private set; }
+    public Vector3 Velocity { get; set; }
+    public float ZPosition 
+    { 
+        get => transform.position.z; 
+        set { SetBodyPartZLevel(value);}
+    }
+    public float ZVelocity { get; set; }
     public bool IsGrounded;
 
     public ExternalForce ExForce { get; set; }
@@ -38,6 +35,11 @@ public class PhysicsManager3 : MonoBehaviour
     public Vector2 WalkingDir { get; set; }
     public float SprintCoeff { get; set; }
     public float WalkSpeed { get; set; }
+    public LayerMask WallLayer { get; set; }
+    public LayerMask CanPushLayer { get; set; }
+    public AudioDataSO FootStepAudio { get; set; }
+    public bool IsKnockbackMove { get; set; }
+    public BodyComponent[] BodyComponents { get; set; }
  
     private const int GRAVITY_FORCE_ID    = 0;
     private const int GROUND_FORCE_ID     = 1;
@@ -51,15 +53,33 @@ public class PhysicsManager3 : MonoBehaviour
     private ContactFilter2D contactFilter = new();
     private Collider2D[]    overlapBuffer = new Collider2D[16];
 
-    private void Awake()
+    public void KnockBack(Vector3 dir, float strength) => ExForce.AddForce(PULSE_FORCE_ID, dir * strength);
+    public void EndKnockbackEarly(){}
+    public void KnockBackEndCallback(){}
+
+    public override void Register(IInterfaceRegistable interfaceRegistable)
     {
- 
+        interfaceRegistable.RegisterInterface<IMovable>(this);
+    }
+
+    public void Initialize()
+    {
+        MovePoint.Initialize();
+        ExForce = new();
         prevEntityPos = entityTransform.position;
  
         ExForce.SetForce(GRAVITY_FORCE_ID,    Vector3.zero);
         ExForce.SetForce(GROUND_FORCE_ID,     Vector3.zero);
         ExForce.SetForce(WALL_REACT_FORCE_ID, Vector3.zero);
         ExForce.SetForce(PULSE_FORCE_ID,      Vector3.zero);
+    }
+
+    private void SetBodyPartZLevel(float z)
+    {
+        float d = z - transform.position.z;
+        for(int i = 0; i < BodyComponents.Length; i++) BodyComponents[i].SetZ(z, d);
+        MovePoint.transform.position += Vector3.forward * d;
+        transform.position += Vector3.forward * d;
     }
  
     private void FixedUpdate()
@@ -273,7 +293,7 @@ public class PhysicsManager3 : MonoBehaviour
  
     private bool OverlapCheckHorizontal(Vector2 point, float radius)
     {
-        int cnt = Physics2D.OverlapCircleNonAlloc(point, radius, overlapBuffer, wallLayer, contactFilter.minDepth, contactFilter.maxDepth);
+        int cnt = Physics2D.OverlapCircleNonAlloc(point, radius, overlapBuffer, WallLayer, contactFilter.minDepth, contactFilter.maxDepth);
         for (int i = 0; i < cnt; i++)
         {
             Transform t = overlapBuffer[i].transform;

@@ -6,7 +6,7 @@ public class MergedPlayerBaseData : IMovableBase, IAttackableBase, ITargetableBa
 IDamagableBase, ISkinableBase, IAnimatableBase, IFootstepBase, IGraffitiableBase
 {
     public MovePoint MovePoint { get; set; }
-    public float Speed { get; set; }
+    public float WalkSpeed { get; set; }
     public float SprintCoeff { get; set; }
     public LayerMask WallLayer { get; set; }
     public LayerMask CanPushLayer { get; set; }
