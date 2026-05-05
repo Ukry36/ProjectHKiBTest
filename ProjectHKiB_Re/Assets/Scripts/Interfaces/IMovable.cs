@@ -12,7 +12,7 @@ public interface IMovableBase
 
 public class ExternalForce
 {
-    public Vector3 GetSumForce()
+    public Vector3 GetTotalForce()
     {
         Vector3 result = new();
         if (Forces?.Count > 0)
@@ -23,16 +23,16 @@ public class ExternalForce
         return result;
     }
 
-    public void SetForce(int ID, Vector3 force)
+    public void SetForce(int ID, Vector3 force) => Forces[ID] = force;
+    
+
+    public void AddForce(int ID, Vector3 force)
     {
-        Forces[ID] = force;
+        if (Forces.ContainsKey(ID)) Forces[ID] += force;
+        else                        SetForce(ID, force);
     }
 
     public Dictionary<int, Vector3> Forces { get; set; }
-    public ExternalForce(bool use)
-    {
-        Forces = new();
-    }
 }
 
 public interface IMovable : IMovableBase, IInitializable

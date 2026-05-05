@@ -1,13 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class PhysicsManager : MonoBehaviour
+public class PhysicsManager3 : MonoBehaviour
 {
-    // ───────────────────────────────────────────
-    //  Inspector 설정
-    // ───────────────────────────────────────────
- 
     [Header("참조")]
     [SerializeField] private Transform       entityTransform;
  
@@ -16,7 +10,8 @@ public class PhysicsManager : MonoBehaviour
  
     [Header("Z축 (높이)")]
     [SerializeField] private float           gravity         = -9.8f;
-    [SerializeField] private float           zColliderHalf   = 0.4f; 
+    [SerializeField] private float           Height   = 2f; 
+    [SerializeField] private float           verticalCollisionOffset  = 0.0f;
  
     [Header("물리 계수")]
     [SerializeField] private float           frictionCoeff   = 0.85f;
@@ -28,7 +23,6 @@ public class PhysicsManager : MonoBehaviour
     [Header("레이어")]
     [SerializeField] private LayerMask       wallLayer;
     [SerializeField] private LayerMask       floorLayer;
-    [SerializeField] private LayerMask       entityLayer;
  
     public Vector3 Velocity { get; private set; }
     public float ZPosition { get; private set; }
@@ -48,12 +42,13 @@ public class PhysicsManager : MonoBehaviour
     private const int GRAVITY_FORCE_ID    = 0;
     private const int GROUND_FORCE_ID     = 1;
     private const int WALL_REACT_FORCE_ID = 2;
+    private const int PULSE_FORCE_ID = 3;
  
     private float moveBudget;
  
     private Vector3 prevEntityPos;
  
-    private ContactFilter2D contactFilter = new ContactFilter2D();
+    private ContactFilter2D contactFilter = new();
     private Collider2D[]    overlapBuffer = new Collider2D[16];
 
     private void Awake()
@@ -64,95 +59,116 @@ public class PhysicsManager : MonoBehaviour
         ExForce.SetForce(GRAVITY_FORCE_ID,    Vector3.zero);
         ExForce.SetForce(GROUND_FORCE_ID,     Vector3.zero);
         ExForce.SetForce(WALL_REACT_FORCE_ID, Vector3.zero);
+        ExForce.SetForce(PULSE_FORCE_ID,      Vector3.zero);
     }
  
     private void FixedUpdate()
     {
-        
-        Vector3 totalForce = ExForce.GetTotalForce();
- 
-        UpdateZPhysics(totalForce.z);
+        // 1. Update vertical Physics 
+        UpdateVerticalPhysics(ExForce.GetTotalForce().z);
 
-        Vector2 xyForce = (Vector2)totalForce;
-        Vector2 xyVel   = (Vector2)Velocity;
- 
-        xyVel += xyForce / Mass * Time.fixedDeltaTime;
-        xyVel = ApplyFriction(xyVel);
-        Velocity = new Vector3(xyVel.x, xyVel.y, Velocity.z); 
- 
-        moveBudget = xyVel.magnitude;
- 
-        if (moveBudget <= stopThreshold)
+        // 2. Calculate XY Total Force
+        Vector2 horizonForce = (Vector2)ExForce.GetTotalForce();
+        Vector2 horizonVelocity   = (Vector2)Velocity;
+
+        horizonVelocity += horizonForce / Mass * Time.fixedDeltaTime;
+
+        // 3. Blend walk intent to current horizontal velocity
+        if (IsWalking)
+            horizonVelocity = BlendWalkIntent(horizonVelocity, WalkingDir);
+
+        // 4. Apply friction
+        horizonVelocity = ApplyFriction(horizonVelocity);
+        Velocity = new Vector3(horizonVelocity.x, horizonVelocity.y, Velocity.z);
+
+        // 5. Stop if too slow
+        if (horizonVelocity.magnitude <= stopThreshold)
         {
-            xyVel = ApplyFriction(xyVel);
-            Velocity = new Vector3(xyVel.x, xyVel.y, Velocity.z);
             SnapMovePointToGrid();
             return;
         }
- 
-        Vector2 moveDir = xyVel.normalized;
-        moveDir = PhysicsHorizontalMovement(moveDir, ref xyVel, ref moveBudget);
 
-        
-        if (IsWalking)
-            WalkMove(WalkingDir);
-        else
-            TrackMovePoint();
-        
+        // 6. Update horizontal Physics 
+        UpdateHorizontalPhysics(horizonVelocity.normalized, ref horizonVelocity, ref moveBudget);
+        SnapMovePointToGrid();
+
+        // 7. Entity follows MovePoint
+        Vector3 targetPos = new(MovePoint.transform.position.x,
+                                MovePoint.transform.position.y,
+                                ZPosition);
+        entityTransform.position = Vector3.MoveTowards(
+            entityTransform.position, targetPos,
+            horizonVelocity.magnitude * Time.fixedDeltaTime);
+
         prevEntityPos = entityTransform.position;
+        
+        // 8. Reset temporary force
+        ExForce.SetForce(PULSE_FORCE_ID, Vector3.zero);
     }
- 
-    private void UpdateZPhysics(float zForce)
+
+    private void UpdateVerticalPhysics(float zForce)
     {
         if (IsGrounded && zForce <= 0f)
         {
             ExForce.SetForce(GROUND_FORCE_ID, Vector3.back * zForce);
-            ZVelocity  = 0f;
+            ZVelocity = 0f;
         }
         else
         {
-            // acceleration
             ZVelocity += gravity * Time.fixedDeltaTime;
             ZPosition += ZVelocity * Time.fixedDeltaTime;
-            
-            int cnt = Physics2D.OverlapCircleNonAlloc(MovePoint.transform.position, 0.4f, overlapBuffer, floorLayer, contactFilter.minDepth -0.01f, contactFilter.maxDepth);
+
+            int cnt = Physics2D.OverlapCircleNonAlloc(
+                MovePoint.transform.position, 0.4f,
+                overlapBuffer, floorLayer,
+                contactFilter.minDepth - 0.01f, contactFilter.maxDepth);
+
             IsGrounded = cnt > 0;
 
-            if (IsGrounded) // grounded now!
+            if (IsGrounded)
             {
-                ZPosition  = overlapBuffer[0].transform.position.z;
-                ZVelocity  = -ZVelocity * bounceCoeff;
-                if (Mathf.Abs(ZVelocity) < stopThreshold)
-                    ZVelocity = 0f;
-                if (Mathf.Abs(ZVelocity) > stopAccelerateThreshold)
-                    ZVelocity = stopAccelerateThreshold * Mathf.Sign(ZVelocity);
+                ZPosition = overlapBuffer[0].transform.position.z + 1f;
+                ZVelocity = -ZVelocity * bounceCoeff;
+                if (Mathf.Abs(ZVelocity) < stopThreshold) ZVelocity = 0f;
+                ZVelocity = Mathf.Clamp(ZVelocity,
+                    -stopAccelerateThreshold, stopAccelerateThreshold);
             }
         }
-        // check Renderer component's offset!!!!!!!!!!!!!!!!!!!!
+
         Vector3 ep = entityTransform.position;
         entityTransform.position = new Vector3(ep.x, ep.y, ZPosition);
- 
-        contactFilter.useDepth  = true;
-        contactFilter.minDepth  = ZPosition - zColliderHalf;
-        contactFilter.maxDepth  = ZPosition + zColliderHalf;
+
+        contactFilter.useDepth    = true;
+        contactFilter.minDepth    = ZPosition + verticalCollisionOffset;
+        contactFilter.maxDepth    = ZPosition + Height + verticalCollisionOffset;
         contactFilter.useTriggers = false;
     }
 
-    private Vector2 PhysicsHorizontalMovement(Vector2 dir, ref Vector2 vel, ref float budget)
+    private Vector2 BlendWalkIntent(Vector2 currentVel, Vector2 walkDir)
+    {
+        float speed = WalkSpeed * (IsSprinting ? SprintCoeff : 1f);
+        Vector2 walkVel = walkDir.normalized * speed;
+
+        float externalMag = currentVel.magnitude;
+        float walkInfluence = Mathf.Clamp01(1f - externalMag / (speed * 3f));
+
+        return Vector2.Lerp(currentVel, currentVel + walkVel, walkInfluence);
+    }
+
+    private void UpdateHorizontalPhysics(Vector2 dir, ref Vector2 vel, ref float budget)
     {
         Transform mpTr = MovePoint.transform;
         int safetyLoop = 20;
- 
+        budget = vel.magnitude;
+
         while (budget > stopThreshold && safetyLoop-- > 0)
         {
             float stepDist = Mathf.Min(budget, gridSize);
- 
-            Vector2 targetPos = SnapToGrid((Vector2)mpTr.position + dir * stepDist);
- 
             RaycastHit2D hit = CastWithFilter((Vector2)mpTr.position, dir, stepDist);
- 
+
             if (!hit)
             {
+                Vector2 targetPos = SnapToGrid((Vector2)mpTr.position + dir * stepDist);
                 mpTr.position = new Vector3(targetPos.x, targetPos.y, ZPosition);
                 budget -= stepDist;
             }
@@ -160,29 +176,23 @@ public class PhysicsManager : MonoBehaviour
             {
                 IMovable hitMovable = hit.collider.GetComponentInParent<IMovable>();
                 if (hitMovable != null)
-                {
                     TransferForce(hitMovable, vel, hit.normal);
-                }
- 
+
                 Vector2 reflect = Vector2.Reflect(vel, hit.normal) * bounceCoeff;
                 vel = reflect;
                 dir = vel.normalized;
                 budget = vel.magnitude;
- 
+
                 ExForce.SetForce(WALL_REACT_FORCE_ID, new Vector3(-vel.x, -vel.y, 0f) * Mass);
- 
+
                 dir = GetAvailableDirHorizontal((Vector2)mpTr.position, dir);
- 
-                if (dir == Vector2.zero)
-                    break;
+                if (dir == Vector2.zero) break;
             }
- 
-            if (budget <= 1f)
-                break;
+
+            if (budget <= stopThreshold) break;
         }
- 
-        SnapMovePointToGrid();
-        return dir;
+
+        Velocity = new Vector3(vel.x, vel.y, Velocity.z);
     }
 
     private Vector3 GetAvailableDirHorizontal(Vector2 origin, Vector2 dir)
@@ -240,81 +250,26 @@ public class PhysicsManager : MonoBehaviour
         LastSetDir = moveDir;
         return moveDir;
     }
- 
-    // ───────────────────────────────────────────
-    //  friction
-    // ───────────────────────────────────────────
 
     private Vector2 ApplyFriction(Vector2 vel)
     {
         if (IsGrounded)
         {
-            // 마찰: 속도에 비례한 반대 방향 감속
             vel *= frictionCoeff;
             if (vel.magnitude < stopThreshold)
                 vel = Vector2.zero;
         }
         else
         {
-            // 공기저항
             vel *= airFriction;
         }
         return vel;
     }
 
-    public void TrackMovePoint()
-    {
-        if ((Vector2)Velocity != Vector2.zero)
-        {
-            Vector3 targetPos = entityTransform.position + GetAvailableDirHorizontal(entityTransform.position, Velocity.normalized);
-
-            entityTransform.position = Vector3.MoveTowards( entityTransform.position, targetPos, ((Vector2)Velocity).magnitude * Time.fixedDeltaTime);
-            MovePoint.transform.position = entityTransform.position;
-            SnapMovePointToGrid();
-        }
-    }
-
-    public void WalkMove(Vector3 dir)
-    {
-        float speed = WalkSpeed;
-        if (IsSprinting) speed *= SprintCoeff;
-        Vector3 moveDir = speed * dir.normalized + Velocity;
-        speed = moveDir.magnitude;
-
-        moveDir = SetDirection8One(moveDir); // Direction where i want to go
-
-        Vector3 movePointPos = MovePoint.transform.position;
-        Vector3 entityPos = entityTransform.position;
-
-        float xProgress = 1 - Mathf.Abs(movePointPos.x - entityPos.x);
-        float yProgress = 1 - Mathf.Abs(movePointPos.y - entityPos.y);
-        bool xReversed = (movePointPos.x - entityPos.x) * moveDir.x < 0;
-        bool yReversed = (movePointPos.y - entityPos.y) * moveDir.y < 0;
-
-        bool canPushMovepoint = false;
-        if (xProgress == 1 && yProgress == 1
-            || xReversed && xProgress < 0.9f
-            || yReversed && yProgress < 0.9f) canPushMovepoint = true;
-
-        if (canPushMovepoint)
-        {
-            moveDir = GetAvailableDirHorizontal(entityTransform.position, moveDir);
-            MovePoint.transform.position += moveDir;
-            SnapMovePointToGrid();
-        }
-
-        entityTransform.position = Vector3.MoveTowards(entityTransform.position, movePointPos, speed * Time.fixedDeltaTime);
-    }
-
     private void TransferForce(IMovable target, Vector2 vel, Vector2 normal)
     {
-        Vector3 impulse = (Vector3)vel * Mass;
-        target.ExForce.SetForce(entityTransform.GetInstanceID(), impulse); // AddForce: 1틱 적용 후 소멸하는 임시 힘
+        target.ExForce.SetForce(PULSE_FORCE_ID, (Vector3)vel * Mass);
     }
- 
-    // ───────────────────────────────────────────
-    //  Util
-    // ───────────────────────────────────────────
  
     private bool OverlapCheckHorizontal(Vector2 point, float radius)
     {
@@ -329,23 +284,6 @@ public class PhysicsManager : MonoBehaviour
         return false;
     }
 
-    public Vector2 SetDirection8One(Vector2 item)
-    {
-        if (Mathf.Abs(item.x) * MathManagerSO.tan225 > Mathf.Abs(item.y))
-        {
-            return item.x > 0 ? Vector2.right : Vector2.left;
-        }
-        if (Mathf.Abs(item.y) * MathManagerSO.tan225 > Mathf.Abs(item.x))
-        {
-            return item.y > 0 ? Vector2.up : Vector2.down;
-        }
-        return SetVectorOne(item);
-    }
-
-    public Vector2 SetVectorOne(Vector2 item) => (item.x < 0 ? Vector2.left : item.x > 0 ? Vector2.right : Vector2.zero)
-                                               + (item.y < 0 ? Vector2.down : item.y > 0 ? Vector2.up : Vector2.zero);
- 
-    /// <summary>ContactFilter2D(Z범위 포함)로 레이캐스트.</summary>
     private RaycastHit2D CastWithFilter(Vector2 origin, Vector2 dir, float dist)
     {
         RaycastHit2D[] hits = new RaycastHit2D[8];

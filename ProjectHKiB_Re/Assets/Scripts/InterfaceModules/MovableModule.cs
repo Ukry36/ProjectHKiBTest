@@ -47,7 +47,7 @@ namespace Assets.Scripts.Interfaces.Modules
         public void Initialize()
         {
             MovePoint.Initialize();
-            ExForce = new(true);
+            ExForce = new();
         }
 
         public virtual void KnockBack(Vector3 dir, float strength)

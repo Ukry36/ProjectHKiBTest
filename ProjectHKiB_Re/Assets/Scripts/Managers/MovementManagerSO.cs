@@ -15,7 +15,7 @@ public class MovementManagerSO : ScriptableObject
 
     public void FollowMovePointIdle(Transform entityTransform, IMovable movable)
     {
-        Vector3 force = movable.ExForce.GetSumForce();
+        Vector3 force = movable.ExForce.GetTotalForce();
         if (!force.Equals(Vector3.zero))
         {
             Vector3 refdir = GetAvailableDir(entityTransform, movable, force.normalized, movable.WallLayer);
@@ -171,7 +171,7 @@ public class MovementManagerSO : ScriptableObject
         if (movable.IsSprinting) speed *= movable.SprintCoeff;
         Transform movePointTransform = movable.MovePoint.transform;
         dir = dir.normalized;
-        Vector3 refDir = speed * dir + movable.ExForce.GetSumForce();
+        Vector3 refDir = speed * dir + movable.ExForce.GetTotalForce();
         if (dir == Vector3.zero)
             speed += refDir.magnitude;
         else
