@@ -28,10 +28,8 @@ public class DamagableObject : Entity
     }
 
 
-    [SerializeField] private MovementManagerSO movementManager;
     public override void UpdateState()
     {
         base.UpdateState();
-        movementManager.FollowMovePointIdle(transform, GetInterface<IMovable>());
     }
 }

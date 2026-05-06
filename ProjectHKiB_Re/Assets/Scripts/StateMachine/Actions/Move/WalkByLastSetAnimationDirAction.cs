@@ -2,12 +2,12 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "WalkByLastSetAnimationDir", menuName = "State Machine/Action/Move/WalkByLastSetAnimationDirAction")]
 public class WalkByLastSetAnimationDirAction : StateActionSO
 {
-    public MovementManagerSO movementManager;
     public override void Act(StateController stateController)
     {
         if (stateController.TryGetInterface(out IMovable movable) && stateController.TryGetInterface(out IDirAnimatable animatable))
         {
-            movementManager.WalkMove(stateController.transform, movable, movable.WalkSpeed, animatable.LastSetAnimationDir8, movable.WallLayer);
+            movable.IsWalking = true;
+            movable.WalkingDir = animatable.LastSetAnimationDir8;
         }
         else
             Debug.LogError("ERROR: Interface Not Found!!!");

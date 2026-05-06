@@ -15,24 +15,23 @@ public class ExternalForce
     public Vector3 GetTotalForce()
     {
         Vector3 result = new();
-        if (Forces?.Count > 0)
+        if (forces?.Count > 0)
         {
-            foreach (var key in Forces.Keys)
-                result += Forces[key];
+            foreach (var key in forces.Keys)
+                result += forces[key];
         }
         return result;
     }
 
-    public void SetForce(int ID, Vector3 force) => Forces[ID] = force;
+    public void SetForce(int ID, Vector3 force) => forces[ID] = force;
     
-
     public void AddForce(int ID, Vector3 force)
     {
-        if (Forces.ContainsKey(ID)) Forces[ID] += force;
+        if (forces.ContainsKey(ID)) forces[ID] += force;
         else                        SetForce(ID, force);
     }
 
-    public Dictionary<int, Vector3> Forces { get; set; }
+    private Dictionary<int, Vector3> forces = new();
 }
 
 public interface IMovable : IMovableBase, IInitializable
@@ -41,6 +40,8 @@ public interface IMovable : IMovableBase, IInitializable
     public MovePoint MovePoint { get; set; }
     public Vector3 LastSetDir { get; set; }
     public bool IsKnockbackMove { get; set; }
+    public bool IsWalking { get; set; }
+    public Vector2 WalkingDir { get; set; }
     public bool IsSprinting { get; set; }
     public ExternalForce ExForce { get; set; }
     public BodyComponent[] BodyComponents { get; set; }

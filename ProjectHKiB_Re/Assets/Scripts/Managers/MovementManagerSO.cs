@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
-/*
+
 [CreateAssetMenu(fileName = "Movement Manager", menuName = "Scriptable Objects/Manager/Movement Manager")]
 public class MovementManagerSO : ScriptableObject
 {
@@ -317,4 +317,3 @@ public class MovementManagerSO : ScriptableObject
         AllignMovePoint(movable.MovePoint.transform);
     }
 }
-*/

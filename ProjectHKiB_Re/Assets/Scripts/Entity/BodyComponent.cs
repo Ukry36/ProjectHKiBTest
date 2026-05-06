@@ -11,6 +11,6 @@ public class BodyComponent: MonoBehaviour
     public void SetZ(float z, float d)
     {
         transform.position += Vector3.up * d;
-        _renderer.material.SetFloat("_Offset", z);
+        if (_renderer)_renderer.material.SetFloat("_Offset", z);
     }
 }

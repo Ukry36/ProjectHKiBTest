@@ -6,6 +6,8 @@ namespace Assets.Scripts.Interfaces.Modules
     {
         public Vector3 Velocity { get; set; }
         public float WalkSpeed { get; set; }
+        public bool IsWalking { get; set; }
+    public Vector2 WalkingDir { get; set; }
         public float SprintCoeff { get; set; }
         public LayerMask WallLayer { get; set; }
         public LayerMask CanPushLayer { get; set; }
@@ -41,7 +43,7 @@ namespace Assets.Scripts.Interfaces.Modules
 
         public override void Register(IInterfaceRegistable interfaceRegistable)
         {
-            interfaceRegistable.RegisterInterface<IMovable>(this);
+            //interfaceRegistable.RegisterInterface<IMovable>(this);
         }
 
         public void Initialize()
@@ -56,15 +58,16 @@ namespace Assets.Scripts.Interfaces.Modules
             if (IsKnockbackMove) EndKnockbackEarly();
 
             IsKnockbackMove = true;
-            knockBackCoroutine =
-            StartCoroutine(movementManager.KnockBackCoroutine(transform, this, dir, strength, Mass, OnKnockBackEnded));
+            Debug.LogError("ERROR: Not Implemented!!!");
+            //knockBackCoroutine = StartCoroutine(movementManager.KnockBackCoroutine(transform, this, dir, strength, Mass, OnKnockBackEnded));
         }
 
         public virtual void EndKnockbackEarly()
         {
             if (IsKnockbackMove)
             {
-                movementManager.EndKnockbackEarly(transform, this);
+                Debug.LogError("ERROR: Not Implemented!!!");
+                //movementManager.EndKnockbackEarly(transform, this);
                 StopCoroutine(knockBackCoroutine);
             }
             KnockBackEndCallback();
