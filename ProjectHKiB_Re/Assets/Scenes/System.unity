@@ -13796,7 +13796,7 @@ MonoBehaviour:
   entityTransform: {fileID: 327803489}
   physManager: {fileID: 1995211712}
   Height: 2
-  verticalCollisionOffset: 0.0001
+  verticalCollisionOffset: 0
   frictionCoeff: 0
   bounceCoeff: 0.3
   airFriction: 0.98
@@ -13807,6 +13807,7 @@ MonoBehaviour:
     m_Bits: 128
   IsGrounded: 0
   <MovePoint>k__BackingField: {fileID: 1369237907}
+  <IsWalking>k__BackingField: 0
   <WalkSpeed>k__BackingField: 0
   <BodyComponents>k__BackingField:
   - {fileID: 126782219}
@@ -13817,7 +13818,21 @@ MonoBehaviour:
   moveBudget: 0
   prevEntityPos: {x: 0, y: 0, z: 0}
   resolvedThisStep: 0
-  contactFilter:
+  contactFilterVectical:
+    useTriggers: 0
+    useLayerMask: 0
+    useDepth: 0
+    useOutsideDepth: 0
+    useNormalAngle: 0
+    useOutsideNormalAngle: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 0
+    minDepth: 0
+    maxDepth: 0
+    minNormalAngle: 0
+    maxNormalAngle: 0
+  contactFilterHorizontal:
     useTriggers: 0
     useLayerMask: 0
     useDepth: 0
@@ -58718,7 +58733,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: b4b29323a9ba3ae49a7663a1bc3b0114, type: 3}
     - target: {fileID: 7315716775037562920, guid: 2893ff20aac0f7045a4794806307541f, type: 3}
       propertyPath: m_Color.a
-      value: 0.0627451
+      value: 0.23921569
       objectReference: {fileID: 0}
     - target: {fileID: 7315716775037562920, guid: 2893ff20aac0f7045a4794806307541f, type: 3}
       propertyPath: m_Color.b
@@ -83045,7 +83060,8 @@ MonoBehaviour:
   gridSize: 1
   settleBlendThreshold: 0.5
   settleStrength: 5
-  stopThreshold: 0
+  stopThreshold: 0.01
+  MaxPhysicsStep: 10
 --- !u!4 &1995211713
 Transform:
   m_ObjectHideFlags: 0

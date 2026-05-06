@@ -6,7 +6,7 @@ public class WalkByInputAction : StateActionSO
     {
         if (stateController.TryGetInterface(out IMovable movable))
         {
-            movable.IsWalking = true;
+            //movable.IsWalking = true;
             movable.WalkingDir = GameManager.instance.inputManager.MoveInput;
         }
         else

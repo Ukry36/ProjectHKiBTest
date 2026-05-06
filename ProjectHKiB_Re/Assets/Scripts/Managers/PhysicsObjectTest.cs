@@ -32,12 +32,12 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
     [field: SerializeField] public MovePoint MovePoint { get; set; }
     public Vector3 LastSetDir { get; set; }
     public bool IsSprinting { get; set; }
-    public bool IsWalking { get; set; }
+    [field: SerializeField]public bool IsWalking { get; set; }
     public bool IsWalkingDominant 
     { 
         get
         {
-            if (IsWalking)
+            if (IsWalking && IsGrounded)
             {
                 float spd = IsSprinting ? WalkSpeed * SprintCoeff : WalkSpeed;
                 return spd * 3 > Velocity.magnitude;
@@ -61,7 +61,8 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
     public Vector3 prevEntityPos;
     public bool resolvedThisStep;
  
-    public ContactFilter2D contactFilter = new();
+    public ContactFilter2D contactFilterVectical = new();
+    public ContactFilter2D contactFilterHorizontal = new();
 
     public void KnockBack(Vector3 dir, float strength) => ExForce.AddForce(PhysicsManager.IMPULSE_FORCE_ID, dir * strength);
     public void EndKnockbackEarly(){}

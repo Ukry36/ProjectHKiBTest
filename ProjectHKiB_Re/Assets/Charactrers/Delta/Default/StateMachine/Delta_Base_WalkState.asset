@@ -39,11 +39,13 @@ MonoBehaviour:
     trueState: {fileID: 11400000, guid: 0187dcaaf05e07247a1a34f10afb1d5b, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
-  enterActions: []
+  enterActions:
+  - {fileID: 11400000, guid: 217113240b14257419d7c57b4ac7bbf9, type: 2}
   updateActions:
   - {fileID: 11400000, guid: 7263eacb51896564e8bf3466a98c6b58, type: 2}
   - {fileID: 11400000, guid: c63fa6e559283a9479d938d317595868, type: 2}
-  exitActions: []
+  exitActions:
+  - {fileID: 11400000, guid: c6957ca062c946d4dae6e55b598dec77, type: 2}
   actionSequence:
   - time: 0.2
     action: {fileID: 11400000, guid: dc2ca73e8a612af42974f1a56f5895c5, type: 2}

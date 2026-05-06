@@ -9,6 +9,7 @@ public class PhysicsManager : MonoBehaviour
     public const int GROUND_FORCE_ID     = 1;
     public const int WALL_REACT_FORCE_ID = 2;
     public const int IMPULSE_FORCE_ID = 3;
+    public const float EPSILON = 0.0001f;
     
     private Collider2D[] overlapBuffer = new Collider2D[32];
     public float gravity = -9.8f;
@@ -16,7 +17,7 @@ public class PhysicsManager : MonoBehaviour
     public float settleBlendThreshold = 3f;
     public float settleStrength = 8f;
     public float stopThreshold = 0.01f;  
-    public const int MAX_PHYS_STEP = 20;
+    public int MaxPhysicsStep = 10;
 
     public void AddPhysicsObject(PhysicsObjectTest obj)
     {
@@ -53,7 +54,7 @@ public class PhysicsManager : MonoBehaviour
             obj.moveBudget *= budgetBlend;
         }
 
-        for (int i = 0; i < MAX_PHYS_STEP; i++)
+        for (int i = 0; i < MaxPhysicsStep; i++)
         {
             for (int j = 0; j < AllPhysicsEntitys.Count; j++)
             {
@@ -65,7 +66,6 @@ public class PhysicsManager : MonoBehaviour
                     SnapMovePointToGrid(obj);
                     continue;
                 }
-                if (obj.moveBudget < 0) continue;
 
                 // 6. Update horizontal Physics 
                 StepHorizontalPhysics(obj, obj.tempVelocity.normalized);
@@ -86,8 +86,7 @@ public class PhysicsManager : MonoBehaviour
             obj.LastSetDir = obj.IsWalkingDominant ? obj.WalkingDir : obj.Velocity.normalized;
             obj.ExForce.SetForce(IMPULSE_FORCE_ID, Vector3.zero);
             obj.Velocity = new Vector3(obj.tempVelocity.x, obj.tempVelocity.y, obj.Velocity.z);
-            AllPhysicsEntitys[i].resolvedThisStep = false;
-            AllPhysicsEntitys[i].IsWalking = false;
+            obj.resolvedThisStep = false;
         }
     }
 
@@ -106,7 +105,7 @@ public class PhysicsManager : MonoBehaviour
             int cnt = Physics2D.OverlapCircleNonAlloc(
                 obj.MovePoint.transform.position, 0.4f,
                 overlapBuffer, obj.floorLayer,
-                obj.contactFilter.minDepth - 0.01f, obj.contactFilter.maxDepth);
+                obj.contactFilterVectical.minDepth - 0.01f, obj.contactFilterVectical.maxDepth);
 
             obj.IsGrounded = cnt > 0;
 
@@ -123,15 +122,19 @@ public class PhysicsManager : MonoBehaviour
         Vector3 ep = obj.entityTransform.position;
         obj.entityTransform.position = new Vector3(ep.x, ep.y, obj.ZPosition);
 
-        obj.contactFilter.useDepth  = true;
-        obj.contactFilter.minDepth  = obj.ZPosition + obj.verticalCollisionOffset;
-        obj.contactFilter.maxDepth  = obj.ZPosition + obj.Height + obj.verticalCollisionOffset;
-        obj.contactFilter.layerMask = obj.WallLayer;
+        obj.contactFilterVectical.useDepth  = true;
+        obj.contactFilterVectical.SetDepth(obj.ZPosition + obj.verticalCollisionOffset + EPSILON, obj.ZPosition + obj.Height + obj.verticalCollisionOffset - EPSILON);
+        obj.contactFilterVectical.SetLayerMask(obj.floorLayer);
+        obj.contactFilterHorizontal.useDepth  = true;
+        obj.contactFilterHorizontal.SetDepth(obj.ZPosition + obj.verticalCollisionOffset + EPSILON, obj.ZPosition + obj.Height + obj.verticalCollisionOffset - EPSILON);
+        obj.contactFilterHorizontal.SetLayerMask(obj.WallLayer);
     }
 
     private Vector2 BlendWalkIntent(PhysicsObjectTest obj, Vector2 currentVel, Vector2 walkDir)
     {
-        float speed = obj.WalkSpeed * (obj.IsSprinting ? obj.SprintCoeff : 1f) * (1 - Mathf.Clamp01(obj.frictionCoeff * obj.frictionWalkInfluence));
+        float speed = obj.WalkSpeed * (obj.IsSprinting ? obj.SprintCoeff : 1f);
+        if (obj.IsGrounded) speed *= 1 - Mathf.Clamp01(obj.frictionCoeff * obj.frictionWalkInfluence);
+        else                speed *= (1 - Mathf.Clamp01(obj.airFriction * obj.frictionWalkInfluence)) * 0.1f;
         return currentVel + walkDir.normalized * speed;
     }
 
@@ -156,88 +159,24 @@ public class PhysicsManager : MonoBehaviour
         obj.entityTransform.position = Vector3.MoveTowards(
             obj.entityTransform.position, targetPos, followDist);
     }
-    private void UpdateHorizontalPhysics(PhysicsObjectTest obj, Vector2 dir)
-    {
-        int safetyLoop = MAX_PHYS_STEP;
-        obj.moveBudget = obj.tempVelocity.magnitude;
-
-        while (obj.moveBudget > stopThreshold && safetyLoop-- > 0)
-        {
-            Transform mpTr = obj.MovePoint.transform;
-            float stepDist = Mathf.Min(obj.moveBudget, gridSize);
-            RaycastHit2D hit = CastWithFilter(obj, (Vector2)mpTr.position, dir, stepDist);
-
-            if (!hit)
-            {
-                Vector2 targetPos = SnapToGrid((Vector2)mpTr.position + dir * stepDist);
-                mpTr.position = new Vector3(targetPos.x, targetPos.y, obj.ZPosition);
-                obj.moveBudget -= stepDist;
-            }
-            else
-            {
-                IMovable hitMovable = hit.collider.GetComponentInParent<IMovable>();
-                if (hitMovable != null)
-                    TransferForce(obj, hitMovable, obj.tempVelocity, hit.normal);
-
-                Vector2 reflect = Vector2.Reflect(obj.tempVelocity, hit.normal) * obj.bounceCoeff;
-                obj.tempVelocity = reflect;
-                dir = obj.tempVelocity.normalized;
-                obj.moveBudget = obj.tempVelocity.magnitude;
-
-                obj.ExForce.SetForce(WALL_REACT_FORCE_ID, new Vector3(-obj.tempVelocity.x, -obj.tempVelocity.y, 0f) * obj.Mass);
-
-                dir = GetAvailableDirHorizontal(obj, (Vector2)mpTr.position, dir);
-                if (dir == Vector2.zero) break;
-            }
-
-            if (obj.moveBudget <= stopThreshold) break;
-        }
-
-        obj.Velocity = new Vector3(obj.tempVelocity.x, obj.tempVelocity.y, obj.Velocity.z);
-    }
-    private void StepHorizontalPhysics1(PhysicsObjectTest obj, Vector2 dir)
-    {
-        if (dir == Vector2.zero) return;
-
-        Transform mpTr = obj.MovePoint.transform;
-        float stepDist = Mathf.Min(obj.moveBudget, gridSize);
-        RaycastHit2D hit = CastWithFilter(obj, (Vector2)mpTr.position, dir, stepDist);
-        if (!hit)
-        {
-            Vector2 targetPos = SnapToGrid((Vector2)mpTr.position + dir * stepDist);
-            mpTr.position = new Vector3(targetPos.x, targetPos.y, obj.ZPosition);
-            obj.moveBudget -= stepDist;
-        }
-        else
-        {
-            if (hit.collider.TryGetComponent(out IMovable hitMovable))
-                TransferForce(obj, hitMovable, obj.tempVelocity, hit.normal);
-            Vector2 reflect;
-            if (obj.IsWalkingDominant) reflect = GetAvailableDirHorizontal(obj, (Vector2)mpTr.position, dir) * obj.tempVelocity.magnitude;
-            else                       reflect = Vector2.Reflect(obj.tempVelocity, hit.normal) * obj.bounceCoeff;
-            
-            obj.tempVelocity = reflect;
-            obj.moveBudget = obj.tempVelocity.magnitude;
-            obj.ExForce.SetForce(WALL_REACT_FORCE_ID, new Vector3(-obj.tempVelocity.x, -obj.tempVelocity.y, 0f) * obj.Mass);
-        }
-        ////////////////////////////////////////////////
-
-        obj.Velocity = new Vector3(obj.tempVelocity.x, obj.tempVelocity.y, obj.Velocity.z);
-    }
 
     private void StepHorizontalPhysics(PhysicsObjectTest obj, Vector2 dir)
     {
         if (dir == Vector2.zero) return;
 
         Transform    mpTr = obj.MovePoint.transform;
-        RaycastHit2D hit  = CastWithFilter(obj, (Vector2)mpTr.position, dir, gridSize);
+        RaycastHit2D hit  = CastWithFilterHorizontal(obj, (Vector2)mpTr.position, dir, gridSize);
 
         if (!hit)
         {
+            if (obj.moveBudget < 0) return;
+            float step;
+            if (obj.moveBudget < 1) step = obj.moveBudget;
+            else                    step = gridSize; 
             Vector2 prevPos = mpTr.position;
-            Vector2 targetPos = SnapToGrid((Vector2)mpTr.position + dir * gridSize);
+            Vector2 targetPos = SnapToGrid((Vector2)mpTr.position + dir * step);
             mpTr.position = new Vector3(targetPos.x, targetPos.y, obj.ZPosition);
-            obj.moveBudget -= gridSize * Vector2.Distance(targetPos, prevPos);
+            obj.moveBudget -= Vector2.Distance(targetPos, prevPos);
         }
         else
         {
@@ -257,15 +196,14 @@ public class PhysicsManager : MonoBehaviour
         if (obj.IsWalkingDominant)
         {
             Vector2 slideDir = GetAvailableDirHorizontal(obj, origin, dir);
-            obj.tempVelocity = slideDir * obj.tempVelocity.magnitude;
+            obj.tempVelocity = slideDir.normalized * obj.tempVelocity.magnitude;
         }
         else
         {
             obj.tempVelocity = Vector2.Reflect(obj.tempVelocity, normal) * obj.bounceCoeff;
             obj.ExForce.AddForce(IMPULSE_FORCE_ID, new Vector3(-obj.tempVelocity.x, -obj.tempVelocity.y, 0f) * obj.Mass);
+            //obj.moveBudget = obj.tempVelocity.magnitude * Time.fixedDeltaTime;
         }
-
-        obj.moveBudget = obj.tempVelocity.magnitude * Time.fixedDeltaTime;
     }
     private void ResolveEntityCollision(PhysicsObjectTest obj, PhysicsObjectTest otherObj, Vector2 normal, Vector2 origin, Vector2 dir)
     {
@@ -281,12 +219,12 @@ public class PhysicsManager : MonoBehaviour
             {
                 Vector2 slideDir = GetAvailableDirHorizontal(obj, origin, dir);
                 obj.tempVelocity = slideDir * obj.tempVelocity.magnitude;
-                obj.moveBudget   = obj.tempVelocity.magnitude * Time.fixedDeltaTime;
+                //obj.moveBudget   = obj.tempVelocity.magnitude * Time.fixedDeltaTime;
             }
             else              // obj == phys, other == walk → obj Impulse
             {
                 obj.tempVelocity = Vector2.Reflect(obj.tempVelocity, normal) * obj.bounceCoeff;
-                obj.moveBudget   = obj.tempVelocity.magnitude * Time.fixedDeltaTime;
+                //obj.moveBudget   = obj.tempVelocity.magnitude * Time.fixedDeltaTime;
             }
 
             if (otherWalking) // other == walk → other slide (use its LastSetDir)
@@ -294,13 +232,13 @@ public class PhysicsManager : MonoBehaviour
                 Vector2 otherDir      = otherObj.LastSetDir;
                 Vector2 otherSlideDir = GetAvailableDirHorizontal(otherObj, otherObj.MovePoint.transform.position, otherDir);
                 otherObj.tempVelocity = otherSlideDir * otherObj.tempVelocity.magnitude;
-                otherObj.moveBudget   = otherObj.tempVelocity.magnitude * Time.fixedDeltaTime;
+                //otherObj.moveBudget   = otherObj.tempVelocity.magnitude * Time.fixedDeltaTime;
             }
             else              // obj == walk, other == phys → other Impulse
             {
                 Vector2 impulseOnOther = obj.Mass * obj.tempVelocity.magnitude * obj.tempVelocity.normalized / otherObj.Mass;
                 otherObj.tempVelocity += impulseOnOther * (1f + otherObj.bounceCoeff);
-                otherObj.moveBudget    = otherObj.tempVelocity.magnitude * Time.fixedDeltaTime;
+                //otherObj.moveBudget    = otherObj.tempVelocity.magnitude * Time.fixedDeltaTime;
             }
         }
         else // all two are phys
@@ -321,8 +259,8 @@ public class PhysicsManager : MonoBehaviour
             obj.tempVelocity      += impulse / mA;
             otherObj.tempVelocity -= impulse / mB;
 
-            obj.moveBudget      = obj.tempVelocity.magnitude      * Time.fixedDeltaTime;
-            otherObj.moveBudget = otherObj.tempVelocity.magnitude * Time.fixedDeltaTime;
+            //obj.moveBudget      = obj.tempVelocity.magnitude      * Time.fixedDeltaTime;
+            //otherObj.moveBudget = otherObj.tempVelocity.magnitude * Time.fixedDeltaTime;
         }
 
         if (!objWalking)
@@ -398,13 +336,10 @@ public class PhysicsManager : MonoBehaviour
         }
         return vel;
     }
-    private void TransferForce(PhysicsObjectTest obj, IMovable target, Vector2 vel, Vector2 normal)
-    {
-        target.ExForce.AddForce(IMPULSE_FORCE_ID, (Vector3)vel * obj.Mass);
-    }
+
     private bool OverlapCheckHorizontal(PhysicsObjectTest obj, Vector2 point, float radius)
     {
-        int cnt = Physics2D.OverlapCircleNonAlloc(point, radius, overlapBuffer, obj.WallLayer, obj.contactFilter.minDepth, obj.contactFilter.maxDepth);
+        int cnt = Physics2D.OverlapCircleNonAlloc(point, radius, overlapBuffer, obj.WallLayer, obj.contactFilterHorizontal.minDepth, obj.contactFilterHorizontal.maxDepth);
         for (int i = 0; i < cnt; i++)
         {
             Transform t = overlapBuffer[i].transform;
@@ -414,10 +349,10 @@ public class PhysicsManager : MonoBehaviour
         }
         return false;
     }
-    private RaycastHit2D CastWithFilter(PhysicsObjectTest obj, Vector2 origin, Vector2 dir, float dist)
+    private RaycastHit2D CastWithFilterHorizontal(PhysicsObjectTest obj, Vector2 origin, Vector2 dir, float dist)
     {
         RaycastHit2D[] hits = new RaycastHit2D[8];
-        int cnt = Physics2D.Raycast(origin, dir, obj.contactFilter, hits, dist);
+        int cnt = Physics2D.Raycast(origin, dir, obj.contactFilterHorizontal, hits, dist);
         for (int i = 0; i < cnt; i++)
         {
             if (hits[i].transform == obj.entityTransform) continue;
