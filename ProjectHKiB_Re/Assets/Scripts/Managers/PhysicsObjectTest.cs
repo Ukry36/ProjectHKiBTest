@@ -41,7 +41,7 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
             if (IsWalking && IsGrounded)
             {
                 float spd = IsSprinting ? WalkSpeed * SprintCoeff : WalkSpeed;
-                return spd * 1f > ExForce.GetTotalForce().magnitude;
+                return (spd * WalkingDir - (Vector2)Velocity).sqrMagnitude < 0.1f;
             }
             else return false;
         }
