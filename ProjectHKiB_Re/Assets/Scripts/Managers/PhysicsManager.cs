@@ -36,12 +36,12 @@ public class PhysicsManager : MonoBehaviour
             // 2. Calculate XY Total Force
             Vector2 horizonForce = (Vector2)obj.ExForce.GetTotalForce();
             obj.tempVelocity   = (Vector2)obj.Velocity;
-
+            
             obj.tempVelocity += horizonForce / obj.Mass * Time.fixedDeltaTime;
 
             // 3. Apply friction
             obj.tempVelocity = ApplyFriction(obj, obj.tempVelocity);
-
+            Debug.Log(obj.tempVelocity);
             // 4. Blend walk intent to current horizontal obj.velocity
             if (obj.IsWalking)
                 obj.tempVelocity = BlendWalkIntent(obj, obj.tempVelocity, obj.WalkingDir);
@@ -52,6 +52,7 @@ public class PhysicsManager : MonoBehaviour
             float budgetBlend = Mathf.Clamp01(speed / settleBlendThreshold);
             obj.moveBudget += speed * Time.fixedDeltaTime;
             obj.moveBudget *= budgetBlend;
+            Debug.Log(obj.tempVelocity);
         }
 
         for (int i = 0; i < MaxPhysicsStep; i++)
@@ -195,8 +196,7 @@ public class PhysicsManager : MonoBehaviour
     {
         if (obj.IsWalkingDominant)
         {
-            Vector2 slideDir = GetAvailableDirHorizontal(obj, origin, dir);
-            obj.tempVelocity = slideDir.normalized * obj.tempVelocity.magnitude;
+            obj.tempVelocity = GetModifiedVelocityHorizontal(obj, origin, obj.tempVelocity);
         }
         else
         {
@@ -217,8 +217,7 @@ public class PhysicsManager : MonoBehaviour
         {
             if (objWalking)   // obj == walk → obj slide
             {
-                Vector2 slideDir = GetAvailableDirHorizontal(obj, origin, dir);
-                obj.tempVelocity = slideDir * obj.tempVelocity.magnitude;
+                obj.tempVelocity = GetModifiedVelocityHorizontal(obj, origin, obj.tempVelocity);
                 //obj.moveBudget   = obj.tempVelocity.magnitude * Time.fixedDeltaTime;
             }
             else              // obj == phys, other == walk → obj Impulse
@@ -229,9 +228,7 @@ public class PhysicsManager : MonoBehaviour
 
             if (otherWalking) // other == walk → other slide (use its LastSetDir)
             {
-                Vector2 otherDir      = otherObj.LastSetDir;
-                Vector2 otherSlideDir = GetAvailableDirHorizontal(otherObj, otherObj.MovePoint.transform.position, otherDir);
-                otherObj.tempVelocity = otherSlideDir * otherObj.tempVelocity.magnitude;
+                otherObj.tempVelocity = GetModifiedVelocityHorizontal(otherObj, otherObj.MovePoint.transform.position, otherObj.tempVelocity);
                 //otherObj.moveBudget   = otherObj.tempVelocity.magnitude * Time.fixedDeltaTime;
             }
             else              // obj == walk, other == phys → other Impulse
@@ -270,49 +267,50 @@ public class PhysicsManager : MonoBehaviour
 
         otherObj.Velocity = new Vector3(otherObj.tempVelocity.x, otherObj.tempVelocity.y, otherObj.Velocity.z);
     }
-    private Vector3 GetAvailableDirHorizontal(PhysicsObjectTest obj, Vector2 origin, Vector2 dir)
+    private Vector3 GetModifiedVelocityHorizontal(PhysicsObjectTest obj, Vector2 origin, Vector2 vector)
     {
+        Vector2 dir = vector.normalized;
         if (dir == Vector2.zero) return Vector2.zero;
  
         // check if entity can simply go through
-        if (!OverlapCheckHorizontal(obj, origin + dir.normalized * gridSize, 0.2f))
+        if (!OverlapCheckHorizontal(obj, origin + dir * gridSize, 0.2f))
         {
             //obj.LastSetDir = dir;
-            return dir;
+            return vector;
         }
 
         // else, there is something
-        Vector2 moveDir = dir;
+        Vector2 result = vector;
         Vector2 xTilt   = new(Mathf.Sign(dir.x), 0f);
         Vector2 yTilt   = new(0f, Mathf.Sign(dir.y));
  
         bool xWalled = dir.x != 0f && OverlapCheckHorizontal(obj, origin + xTilt, 0.4f);
         bool yWalled = dir.y != 0f && OverlapCheckHorizontal(obj, origin + yTilt, 0.4f);
  
-        if (xWalled) moveDir.x = 0f;
-        if (yWalled) moveDir.y = 0f;
+        if (xWalled) result.x = 0f;
+        if (yWalled) result.y = 0f;
  
         // if there is no wall at x, y dir, it might mean there is only diagonal wall
         // if so, randomly choose where to go
         if (!xWalled && !yWalled)
         {
             if (OverlapCheckHorizontal(obj, origin + xTilt + yTilt, 0.4f))
-                moveDir = Random.value > 0.5f ? xTilt : yTilt;
+                result = Random.value > 0.5f ? xTilt : yTilt;
         }
  
         // seek 45d slides 
-        if (moveDir == Vector2.zero)
+        if (result == Vector2.zero)
         {
-            Vector2 slideUp   = Quaternion.Euler(0, 0,  45) * dir;
-            Vector2 slideDown = Quaternion.Euler(0, 0, -45) * dir;
+            Vector2 slideUp   = Quaternion.Euler(0, 0,  45) * vector;
+            Vector2 slideDown = Quaternion.Euler(0, 0, -45) * vector;
  
             bool canUp   = !OverlapCheckHorizontal(obj, origin + slideUp   * 0.5f, 0.2f);
             bool canDown = !OverlapCheckHorizontal(obj, origin + slideDown  * 0.5f, 0.2f);
  
             if (canUp && canDown)
             {
-                moveDir = Random.value > 0.5f ? slideUp : slideDown;
-                return moveDir;
+                result = Random.value > 0.5f ? slideUp : slideDown;
+                return result;
             }
             if (canUp)   return slideUp;
             if (canDown) return slideDown;
@@ -320,7 +318,7 @@ public class PhysicsManager : MonoBehaviour
             return Vector2.zero; // completely stops
         }
  
-        return moveDir;
+        return result;
     }
     private Vector2 ApplyFriction(PhysicsObjectTest obj, Vector2 vel)
     {

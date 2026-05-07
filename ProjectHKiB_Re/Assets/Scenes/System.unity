@@ -13480,7 +13480,6 @@ GameObject:
   - component: {fileID: 327803489}
   - component: {fileID: 327803505}
   - component: {fileID: 327803504}
-  - component: {fileID: 327803503}
   - component: {fileID: 327803502}
   - component: {fileID: 327803501}
   - component: {fileID: 327803500}
@@ -13593,7 +13592,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageManager: {fileID: 11400000, guid: 69175ed9e37d9e3408bdf3432f4a5b4c, type: 2}
-  _movable: {fileID: 327803503}
+  _movable: {fileID: 0}
 --- !u!114 &327803501
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13625,24 +13624,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <CurrentTarget>k__BackingField: {fileID: 0}
---- !u!114 &327803503
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 327803487}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab6af0b098eea8f48973baff03ad8962, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <MovePoint>k__BackingField: {fileID: 1369237907}
-  <BodyComponents>k__BackingField:
-  - {fileID: 126782219}
-  - {fileID: 2144363250}
-  - {fileID: 1650586135}
-  - {fileID: 955506758}
 --- !u!114 &327803504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13797,7 +13778,7 @@ MonoBehaviour:
   physManager: {fileID: 1995211712}
   Height: 2
   verticalCollisionOffset: 0
-  frictionCoeff: 0
+  frictionCoeff: 0.5
   bounceCoeff: 0.3
   airFriction: 0.98
   stopAccelerateThreshold: 0
