@@ -13798,7 +13798,8 @@ MonoBehaviour:
   tempVelocity: {x: 0, y: 0}
   moveBudget: 0
   prevEntityPos: {x: 0, y: 0, z: 0}
-  resolvedThisStep: 0
+  collisionResolved: 0
+  delayFollowMove: 0
   contactFilterVectical:
     useTriggers: 0
     useLayerMask: 0
@@ -71773,9 +71774,9 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.17957745
+    x: 0
     y: 0
-    width: 0.64084506
+    width: 1
     height: 1
   near clip plane: 0.1
   far clip plane: 5000

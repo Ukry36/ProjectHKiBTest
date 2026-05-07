@@ -59,7 +59,8 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
     public float moveBudget;
  
     public Vector3 prevEntityPos;
-    public bool resolvedThisStep;
+    public bool collisionResolved;
+    public bool delayFollowMove;
  
     public ContactFilter2D contactFilterVectical = new();
     public ContactFilter2D contactFilterHorizontal = new();

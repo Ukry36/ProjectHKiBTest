@@ -33,61 +33,53 @@ public class PhysicsManager : MonoBehaviour
             // 1. Update vertical Physics 
             UpdateVerticalPhysics(obj, obj.ExForce.GetTotalForce().z);
 
-            // 2. Calculate XY Total Force
+            // 2. Preprocess horizontal force
             Vector2 horizonForce = (Vector2)obj.ExForce.GetTotalForce();
             obj.tempVelocity   = (Vector2)obj.Velocity;
-            
             obj.tempVelocity += horizonForce / obj.Mass * Time.fixedDeltaTime;
-
-            // 3. Apply friction
             obj.tempVelocity = ApplyFriction(obj, obj.tempVelocity);
-            Debug.Log(obj.tempVelocity);
-            // 4. Blend walk intent to current horizontal obj.velocity
+
+            // 3. Blend walk intent to current horizontal obj.velocity
             if (obj.IsWalking)
                 obj.tempVelocity = BlendWalkIntent(obj, obj.tempVelocity, obj.WalkingDir);
 
-            // 4.5. Prepare for physics update
+            // 4. Prepare for physics update
             float speed = obj.tempVelocity.magnitude;
-
-            float budgetBlend = Mathf.Clamp01(speed / settleBlendThreshold);
             obj.moveBudget += speed * Time.fixedDeltaTime;
-            obj.moveBudget *= budgetBlend;
-            Debug.Log(obj.tempVelocity);
         }
 
-        for (int i = 0; i < MaxPhysicsStep; i++)
+        for (int i = 0; i < MaxPhysicsStep; i++) // 5. Update horizontal physics
         {
             for (int j = 0; j < AllPhysicsEntitys.Count; j++)
             {
                 PhysicsObjectTest obj = AllPhysicsEntitys[j];
-                // 5. Stop if too slow
-                if (obj.tempVelocity.magnitude <= stopThreshold)
-                {
-                    obj.moveBudget = 0f;
-                    SnapMovePointToGrid(obj);
-                    continue;
-                }
 
-                // 6. Update horizontal Physics 
-                StepHorizontalPhysics(obj, obj.tempVelocity.normalized);
-                SnapMovePointToGrid(obj);
+                // Stop if all the budgets are consumed or the velocity is too slow
+                if (obj.moveBudget <= 0 && !obj.delayFollowMove || obj.tempVelocity.magnitude <= stopThreshold) continue;
+                
+                obj.delayFollowMove = false;
+
+                // Update horizontal Physics 
+                if (!obj.collisionResolved) //this is for detecting "collision resolve from another entity" this step
+                {
+                    StepHorizontalPhysics(obj, obj.tempVelocity.normalized); // if collision occourd, 
+                    if (!obj.delayFollowMove) FollowMovepoint(obj);          //delay the FollowMovepoint to next step
+                }
+                obj.collisionResolved = false;
             }
         }
 
         for (int i = 0; i < AllPhysicsEntitys.Count; i++)
         {
+            // 6. Reset things
             PhysicsObjectTest obj = AllPhysicsEntitys[i];
-
-            // 7. Entity follows obj.MovePoint
-            FollowMovepoint(obj);
-            
+            SnapMovePointToGrid(obj);
             obj.prevEntityPos = obj.entityTransform.position;
-
-            // 8. Reset cirtain things
             obj.LastSetDir = obj.IsWalkingDominant ? obj.WalkingDir : obj.Velocity.normalized;
             obj.ExForce.SetForce(IMPULSE_FORCE_ID, Vector3.zero);
             obj.Velocity = new Vector3(obj.tempVelocity.x, obj.tempVelocity.y, obj.Velocity.z);
-            obj.resolvedThisStep = false;
+            obj.collisionResolved = false;
+            obj.delayFollowMove = false;
         }
     }
 
@@ -141,24 +133,13 @@ public class PhysicsManager : MonoBehaviour
 
     private void FollowMovepoint(PhysicsObjectTest obj)
     {
-        Vector3 targetPos = new(
-            obj.MovePoint.transform.position.x,
-            obj.MovePoint.transform.position.y,
-            obj.ZPosition);
+        Vector3 prevPos = obj.entityTransform.position;
+        float followDist = obj.tempVelocity.magnitude * Time.fixedDeltaTime;
+        Vector3 followPos = (Vector2)prevPos + obj.tempVelocity * Time.fixedDeltaTime;
 
-        float speed = obj.tempVelocity.magnitude;
+        obj.entityTransform.position = Vector3.MoveTowards(obj.entityTransform.position, followPos, followDist);
 
-        float t = 1f - Mathf.Clamp01(speed / settleBlendThreshold);
-
-        float physDist = speed * Time.fixedDeltaTime;
-
-        float distToTarget = Vector2.Distance(obj.entityTransform.position, targetPos);
-        float settleDist   = distToTarget * t * settleStrength * Time.fixedDeltaTime;
-
-        float followDist = physDist + settleDist;
-
-        obj.entityTransform.position = Vector3.MoveTowards(
-            obj.entityTransform.position, targetPos, followDist);
+        obj.moveBudget -= Vector3.Distance(prevPos, obj.entityTransform.position);
     }
 
     private void StepHorizontalPhysics(PhysicsObjectTest obj, Vector2 dir)
@@ -166,18 +147,13 @@ public class PhysicsManager : MonoBehaviour
         if (dir == Vector2.zero) return;
 
         Transform    mpTr = obj.MovePoint.transform;
-        RaycastHit2D hit  = CastWithFilterHorizontal(obj, (Vector2)mpTr.position, dir, gridSize);
+        RaycastHit2D hit  = CastWithFilterHorizontal(obj, (Vector2)obj.transform.position, dir, gridSize);
 
         if (!hit)
         {
-            if (obj.moveBudget < 0) return;
-            float step;
-            if (obj.moveBudget < 1) step = obj.moveBudget;
-            else                    step = gridSize; 
-            Vector2 prevPos = mpTr.position;
-            Vector2 targetPos = SnapToGrid((Vector2)mpTr.position + dir * step);
+            Vector2 targetPos = SnapToGrid((Vector2)obj.transform.position 
+                                            + dir * (obj.moveBudget < 1 ? obj.moveBudget : gridSize));
             mpTr.position = new Vector3(targetPos.x, targetPos.y, obj.ZPosition);
-            obj.moveBudget -= Vector2.Distance(targetPos, prevPos);
         }
         else
         {
@@ -185,9 +161,14 @@ public class PhysicsManager : MonoBehaviour
             PhysicsObjectTest otherObj = hitIsMovable ? hitMovable as PhysicsObjectTest : null;
 
             if (hitIsMovable && otherObj != null)
+            {
                 ResolveEntityCollision(obj, otherObj, hit.normal, (Vector2)mpTr.position, dir);
+                otherObj.moveBudget   = otherObj.tempVelocity.magnitude * Time.fixedDeltaTime;
+            }
             else
                 ResolveStaticCollision(obj, hit.normal, (Vector2)mpTr.position, dir);
+            obj.moveBudget = obj.tempVelocity.magnitude * Time.fixedDeltaTime;
+            obj.delayFollowMove = true;
         }
 
         obj.Velocity = new Vector3(obj.tempVelocity.x, obj.tempVelocity.y, obj.Velocity.z);
@@ -202,14 +183,10 @@ public class PhysicsManager : MonoBehaviour
         {
             obj.tempVelocity = Vector2.Reflect(obj.tempVelocity, normal) * obj.bounceCoeff;
             obj.ExForce.AddForce(IMPULSE_FORCE_ID, new Vector3(-obj.tempVelocity.x, -obj.tempVelocity.y, 0f) * obj.Mass);
-            //obj.moveBudget = obj.tempVelocity.magnitude * Time.fixedDeltaTime;
         }
     }
     private void ResolveEntityCollision(PhysicsObjectTest obj, PhysicsObjectTest otherObj, Vector2 normal, Vector2 origin, Vector2 dir)
     {
-        if (otherObj.resolvedThisStep) return;
-        obj.resolvedThisStep = true;
-
         bool objWalking   = obj.IsWalkingDominant;
         bool otherWalking = otherObj.IsWalkingDominant;
 
@@ -218,24 +195,20 @@ public class PhysicsManager : MonoBehaviour
             if (objWalking)   // obj == walk → obj slide
             {
                 obj.tempVelocity = GetModifiedVelocityHorizontal(obj, origin, obj.tempVelocity);
-                //obj.moveBudget   = obj.tempVelocity.magnitude * Time.fixedDeltaTime;
             }
             else              // obj == phys, other == walk → obj Impulse
             {
                 obj.tempVelocity = Vector2.Reflect(obj.tempVelocity, normal) * obj.bounceCoeff;
-                //obj.moveBudget   = obj.tempVelocity.magnitude * Time.fixedDeltaTime;
             }
 
             if (otherWalking) // other == walk → other slide (use its LastSetDir)
             {
                 otherObj.tempVelocity = GetModifiedVelocityHorizontal(otherObj, otherObj.MovePoint.transform.position, otherObj.tempVelocity);
-                //otherObj.moveBudget   = otherObj.tempVelocity.magnitude * Time.fixedDeltaTime;
             }
             else              // obj == walk, other == phys → other Impulse
             {
                 Vector2 impulseOnOther = obj.Mass * obj.tempVelocity.magnitude * obj.tempVelocity.normalized / otherObj.Mass;
                 otherObj.tempVelocity += impulseOnOther * (1f + otherObj.bounceCoeff);
-                //otherObj.moveBudget    = otherObj.tempVelocity.magnitude * Time.fixedDeltaTime;
             }
         }
         else // all two are phys
@@ -255,9 +228,6 @@ public class PhysicsManager : MonoBehaviour
 
             obj.tempVelocity      += impulse / mA;
             otherObj.tempVelocity -= impulse / mB;
-
-            //obj.moveBudget      = obj.tempVelocity.magnitude      * Time.fixedDeltaTime;
-            //otherObj.moveBudget = otherObj.tempVelocity.magnitude * Time.fixedDeltaTime;
         }
 
         if (!objWalking)
@@ -266,6 +236,8 @@ public class PhysicsManager : MonoBehaviour
             otherObj.ExForce.AddForce(IMPULSE_FORCE_ID, new Vector3(-otherObj.tempVelocity.x, -otherObj.tempVelocity.y, 0f) * otherObj.Mass);
 
         otherObj.Velocity = new Vector3(otherObj.tempVelocity.x, otherObj.tempVelocity.y, otherObj.Velocity.z);
+        otherObj.collisionResolved = true;
+        otherObj.delayFollowMove = true;
     }
     private Vector3 GetModifiedVelocityHorizontal(PhysicsObjectTest obj, Vector2 origin, Vector2 vector)
     {
@@ -295,11 +267,11 @@ public class PhysicsManager : MonoBehaviour
         if (!xWalled && !yWalled)
         {
             if (OverlapCheckHorizontal(obj, origin + xTilt + yTilt, 0.4f))
-                result = Random.value > 0.5f ? xTilt : yTilt;
+                result *= Random.value > 0.5f ? xTilt : yTilt;
         }
  
         // seek 45d slides 
-        if (result == Vector2.zero)
+        if (result == Vector2.zero && dir.x != 0f && dir.y != 0f)
         {
             Vector2 slideUp   = Quaternion.Euler(0, 0,  45) * vector;
             Vector2 slideDown = Quaternion.Euler(0, 0, -45) * vector;
@@ -317,7 +289,6 @@ public class PhysicsManager : MonoBehaviour
  
             return Vector2.zero; // completely stops
         }
- 
         return result;
     }
     private Vector2 ApplyFriction(PhysicsObjectTest obj, Vector2 vel)
