@@ -49,7 +49,6 @@ public class ForceFieldTest : MonoBehaviour
         {
             component.ExForce.SetForce(GetInstanceID(), Vector3.zero);
             movables.Remove(component);
-            collision.transform.position = component.MovePoint.transform.position;
         }
     }
 }

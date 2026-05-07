@@ -13778,8 +13778,8 @@ MonoBehaviour:
   physManager: {fileID: 1995211712}
   Height: 2
   verticalCollisionOffset: 0
-  frictionCoeff: 0
-  bounceCoeff: 0.3
+  frictionCoeff: 0.85
+  bounceCoeff: 0
   airFriction: 0.98
   stopAccelerateThreshold: 0
   frictionWalkInfluence: 1
@@ -83040,8 +83040,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gravity: -9.8
   gridSize: 1
-  settleBlendThreshold: 1
+  settleBlendThreshold: 0.5
   settleStrength: 8
+  settleQuitDist: 0.1
   stopThreshold: 0.01
   MaxPhysicsStep: 10
 --- !u!4 &1995211713

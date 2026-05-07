@@ -33,24 +33,14 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
     public Vector3 LastSetDir { get; set; }
     public bool IsSprinting { get; set; }
     [field: SerializeField]public bool IsWalking { get; set; }
-    
-    public bool IsWalkingDominant 
-    { 
+
+    public bool IsWalkingDominant
+    {
         get
         {
-            if (IsWalking && IsGrounded)
-            {
-                float spd = IsSprinting ? WalkSpeed * SprintCoeff : WalkSpeed;
-                return (spd * WalkingDir - (Vector2)Velocity).sqrMagnitude < 0.1f;
-            }
-            else return false;
+            float spd = IsSprinting ? WalkSpeed * SprintCoeff : WalkSpeed;
+            return (IsWalking || Velocity.magnitude < spd) && IsGrounded && ExForce.GetTotalForce().magnitude < spd * Mass;
         }
-    }
-
-    [NaughtyAttributes.Button]
-    public void Impulse()
-    {
-        ExForce.AddForce(PhysicsManager.IMPULSE_FORCE_ID, Vector2.right * 5);
     }
 
     public Vector2 WalkingDir { get; set; }
