@@ -33,6 +33,7 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
     public Vector3 LastSetDir { get; set; }
     public bool IsSprinting { get; set; }
     [field: SerializeField]public bool IsWalking { get; set; }
+    
     public bool IsWalkingDominant 
     { 
         get
@@ -40,11 +41,12 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
             if (IsWalking && IsGrounded)
             {
                 float spd = IsSprinting ? WalkSpeed * SprintCoeff : WalkSpeed;
-                return spd * 3 > Velocity.magnitude;
+                return spd * 1.1f > Velocity.magnitude;
             }
             else return false;
         }
     }
+
     public Vector2 WalkingDir { get; set; }
     public float SprintCoeff { get; set; }
     [field: SerializeField]public float WalkSpeed { get; set; }

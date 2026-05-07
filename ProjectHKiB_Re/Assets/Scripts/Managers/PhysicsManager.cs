@@ -9,7 +9,7 @@ public class PhysicsManager : MonoBehaviour
     public const int GROUND_FORCE_ID     = 1;
     public const int WALL_REACT_FORCE_ID = 2;
     public const int IMPULSE_FORCE_ID = 3;
-    public const float EPSILON = 0.0001f;
+    public const float EPSILON = 0.001f;
     
     private Collider2D[] overlapBuffer = new Collider2D[32];
     public float gravity = -9.8f;
@@ -62,8 +62,14 @@ public class PhysicsManager : MonoBehaviour
                 // Update horizontal Physics 
                 if (!obj.collisionResolved) //this is for detecting "collision resolve from another entity" this step
                 {
-                    StepHorizontalPhysics(obj, obj.tempVelocity.normalized); // if collision occourd, 
-                    if (!obj.delayFollowMove) FollowMovepoint(obj);          //delay the FollowMovepoint to next step
+                    float distToMovePoint = Vector2.Distance(
+                        (Vector2)obj.entityTransform.position,
+                        (Vector2)obj.MovePoint.transform.position);
+                    if (obj.IsWalkingDominant && distToMovePoint < EPSILON || !obj.IsWalkingDominant)
+                    {
+                        StepHorizontalPhysics(obj, obj.tempVelocity.normalized);
+                    }
+                    if (!obj.delayFollowMove) FollowMovepoint(obj);          //if collision occourd, delay the FollowMovepoint to next step
                 }
                 obj.collisionResolved = false;
             }
@@ -73,6 +79,7 @@ public class PhysicsManager : MonoBehaviour
         {
             // 6. Reset things
             PhysicsObjectTest obj = AllPhysicsEntitys[i];
+            SettleToGrid(obj);
             SnapMovePointToGrid(obj);
             obj.prevEntityPos = obj.entityTransform.position;
             obj.LastSetDir = obj.IsWalkingDominant ? obj.WalkingDir : obj.Velocity.normalized;
@@ -133,13 +140,50 @@ public class PhysicsManager : MonoBehaviour
 
     private void FollowMovepoint(PhysicsObjectTest obj)
     {
-        Vector3 prevPos = obj.entityTransform.position;
-        float followDist = obj.tempVelocity.magnitude * Time.fixedDeltaTime;
-        Vector3 followPos = (Vector2)prevPos + obj.tempVelocity * Time.fixedDeltaTime;
+        Vector3 prevPos    = obj.entityTransform.position;
+        float   followDist = obj.tempVelocity.magnitude * Time.fixedDeltaTime; // 이 스텝에서 이동 가능한 거리
 
-        obj.entityTransform.position = Vector3.MoveTowards(obj.entityTransform.position, followPos, followDist);
+        Vector3 target = obj.IsWalkingDominant
+            ? new Vector3(obj.MovePoint.transform.position.x,
+                          obj.MovePoint.transform.position.y,
+                          obj.ZPosition)                                         // Walking: MovePoint를 목표로
+            : new Vector3(prevPos.x + obj.tempVelocity.x * Time.fixedDeltaTime,
+                          prevPos.y + obj.tempVelocity.y * Time.fixedDeltaTime,
+                          obj.ZPosition);                                        // Physics: vel*dt 목표 유지
 
+        obj.entityTransform.position = Vector3.MoveTowards(obj.entityTransform.position, target, followDist);
         obj.moveBudget -= Vector3.Distance(prevPos, obj.entityTransform.position);
+    }
+
+    private void SettleToGrid(PhysicsObjectTest obj)
+    {
+        float speed = obj.tempVelocity.magnitude;
+        if (speed >= settleBlendThreshold) return;
+
+        float t           = 1f - Mathf.Clamp01(speed / settleBlendThreshold);
+        float blendAmount = t * settleStrength * Time.fixedDeltaTime;
+
+        Vector2 entityPos  = obj.entityTransform.position;
+        Vector2 snappedPos = SnapToGrid(entityPos);
+        Vector2 delta      = snappedPos - entityPos;
+
+        if (delta.magnitude < EPSILON)
+        {
+            obj.entityTransform.position  = new Vector3(snappedPos.x, snappedPos.y, obj.ZPosition);
+            obj.MovePoint.transform.position = new Vector3(snappedPos.x, snappedPos.y, obj.ZPosition);
+            obj.tempVelocity              = Vector2.zero;
+            return;
+        }
+
+        Vector2 newEntityPos         = Vector2.Lerp(entityPos, snappedPos, blendAmount);
+        obj.entityTransform.position = new Vector3(newEntityPos.x, newEntityPos.y, obj.ZPosition);
+
+        Vector2 mpPos       = obj.MovePoint.transform.position;
+        Vector2 newMpPos    = Vector2.Lerp(mpPos, snappedPos, blendAmount);
+        obj.MovePoint.transform.position = new Vector3(newMpPos.x, newMpPos.y, obj.ZPosition);
+
+        Vector2 settleCorrection = delta.normalized * (delta.magnitude * t * settleStrength);
+        obj.tempVelocity        += settleCorrection * Time.fixedDeltaTime;
     }
 
     private void StepHorizontalPhysics(PhysicsObjectTest obj, Vector2 dir)
@@ -151,8 +195,10 @@ public class PhysicsManager : MonoBehaviour
 
         if (!hit)
         {
-            Vector2 targetPos = SnapToGrid((Vector2)obj.transform.position 
-                                            + dir * (obj.moveBudget < 1 ? obj.moveBudget : gridSize));
+            float advance = (!obj.IsWalkingDominant && obj.moveBudget < gridSize)
+                            ? obj.moveBudget
+                            : gridSize;
+            Vector2 targetPos = SnapToGrid((Vector2)obj.transform.position + dir * advance);
             mpTr.position = new Vector3(targetPos.x, targetPos.y, obj.ZPosition);
         }
         else
