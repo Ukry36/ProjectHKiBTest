@@ -24,21 +24,16 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
         get => transform.position.z; 
         set { SetBodyPartZLevel(value);}
     }
-    [NaughtyAttributes.Button]
-    public void Jump()
-    {
-        ExForce += Vector3.forward * 50;
-    }
     public float ZVelocity { get; set; }
-    public bool IsGrounded;
-    public bool IsGroundedPrev;
+    public bool IsGrounded { get; set; }
+    public bool IsGroundedPrev { get; set; }
 
-    public Vector3 ExForce { get; set; }
+    [field: NaughtyAttributes.ReadOnly][field: SerializeField] public Vector3 ExForce { get; set; }
     public float Mass {get;set;}
     [field: SerializeField] public MovePoint MovePoint { get; set; }
     public Vector3 LastSetDir { get; set; }
     public bool IsSprinting { get; set; }
-    [field: SerializeField]public bool IsWalking { get; set; }
+    public bool IsWalking { get; set; }
 
     public bool IsWalkingDominant
     {
@@ -58,15 +53,22 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
     public bool IsKnockbackMove { get; set; }
     [field: SerializeField] public BodyComponent[] BodyComponents { get; set; }
 
-    public Vector2 tempVelocity;
+    public Vector2 TempVelocity { get; set; }
  
-    public float moveBudget;
+    public float MoveBudget { get; set; }
  
-    public Vector3 prevEntityPos;
-    public bool collisionResolved;
-    public bool delayFollowMove;
+    public Vector3 PrevEntityPos { get; set; }
+    public bool CollisionResolved { get; set; }
+    public bool DelayFollowMove { get; set; }
 
     public ZCollider2D zCollider;
+
+    [NaughtyAttributes.Button]
+    public void Jump()
+    {
+        ExForce += 100 * jump * Vector3.forward;
+    }
+    public float jump;
 
     public void KnockBack(Vector3 dir, float strength) => ExForce += dir * strength;
     public void EndKnockbackEarly(){}
@@ -81,7 +83,7 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
     {
         MovePoint.Initialize(this);
         ExForce = new();
-        prevEntityPos = entityTransform.position;
+        PrevEntityPos = entityTransform.position;
         physManager.AddPhysicsObject(this);
     }
 

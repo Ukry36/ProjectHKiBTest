@@ -13787,22 +13787,16 @@ MonoBehaviour:
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
-  IsGrounded: 0
-  IsGroundedPrev: 0
+  <ExForce>k__BackingField: {x: 0, y: 0, z: 800}
   <MovePoint>k__BackingField: {fileID: 1369237907}
-  <IsWalking>k__BackingField: 0
   <WalkSpeed>k__BackingField: 0
   <BodyComponents>k__BackingField:
   - {fileID: 126782219}
   - {fileID: 2144363250}
   - {fileID: 1650586135}
   - {fileID: 955506758}
-  tempVelocity: {x: 0, y: 0}
-  moveBudget: 0
-  prevEntityPos: {x: 0, y: 0, z: 0}
-  collisionResolved: 0
-  delayFollowMove: 0
   zCollider: {fileID: 327803512}
+  jump: 2
 --- !u!114 &327803512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29896,11 +29890,11 @@ MonoBehaviour:
   m_Priority: 10
   m_StandbyUpdate: 2
   m_LookAt: {fileID: 0}
-  m_Follow: {fileID: 327803489}
+  m_Follow: {fileID: 126782212}
   m_Lens:
     FieldOfView: 40
     OrthographicSize: 7
-    NearClipPlane: 0.1
+    NearClipPlane: -5000
     FarClipPlane: 5000
     Dutch: 0
     ModeOverride: 0
@@ -71767,7 +71761,7 @@ Camera:
     y: 0
     width: 0.64084506
     height: 1
-  near clip plane: 0.1
+  near clip plane: -5000
   far clip plane: 5000
   field of view: 40
   orthographic: 1
@@ -71795,7 +71789,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1718942438}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 15, y: -5, z: -10}
+  m_LocalPosition: {x: 15, y: -4.9999, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -74298,11 +74292,11 @@ MonoBehaviour:
   m_Priority: 10
   m_StandbyUpdate: 2
   m_LookAt: {fileID: 0}
-  m_Follow: {fileID: 327803489}
+  m_Follow: {fileID: 126782212}
   m_Lens:
     FieldOfView: 40
     OrthographicSize: 7
-    NearClipPlane: 0.1
+    NearClipPlane: -5000
     FarClipPlane: 5000
     Dutch: 0
     ModeOverride: 0
