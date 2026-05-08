@@ -25,12 +25,11 @@ public class ForceFieldEvent : GameEvent
         {
             if (CurrentTargets[i].TryGetComponent(out IMovable movable))
             {
-                //IMovable movable = component.movable;
                 Vector3 force = isCenter
                     ? (transform.position - movable.MovePoint.transform.position).normalized * strength
                     : (Vector3)(dir.normalized * strength);
 
-                movable.ExForce.AddForce(PhysicsManager.IMPULSE_FORCE_ID, force);
+                movable.ExForce += force;
             }
         } 
     }

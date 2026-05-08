@@ -7,7 +7,7 @@ namespace Assets.Scripts.Interfaces.Modules
         public Vector3 Velocity { get; set; }
         public float WalkSpeed { get; set; }
         public bool IsWalking { get; set; }
-    public Vector2 WalkingDir { get; set; }
+        public Vector2 WalkingDir { get; set; }
         public float SprintCoeff { get; set; }
         public LayerMask WallLayer { get; set; }
         public LayerMask CanPushLayer { get; set; }
@@ -17,7 +17,7 @@ namespace Assets.Scripts.Interfaces.Modules
         public Vector3 LastSetDir { get; set; }
         public bool IsKnockbackMove { get; set; }
         public bool IsSprinting { get; set; }
-        public ExternalForce ExForce { get; set; }
+        public Vector3 ExForce { get; set; }
         [field: SerializeField] public BodyComponent[] BodyComponents { get; set; }
 
         public float ZPosition 

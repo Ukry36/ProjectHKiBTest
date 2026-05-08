@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Movement Manager", menuName = "Scriptable Objects/Manager/Movement Manager")]
 public class MovementManagerSO : ScriptableObject
 {
+    /*
     public MathManagerSO mathManager;
     public DamageParticleDataSO KnockBackChainReactionParticle;
 
@@ -315,5 +316,5 @@ public class MovementManagerSO : ScriptableObject
         dir = GetAvailableDir(entityTransform, movable, dir.normalized, movable.WallLayer);
         movable.MovePoint.transform.position += dir;
         AllignMovePoint(movable.MovePoint.transform);
-    }
+    }*/
 }

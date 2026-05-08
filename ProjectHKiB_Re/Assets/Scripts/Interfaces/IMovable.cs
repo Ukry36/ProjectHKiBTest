@@ -43,7 +43,7 @@ public interface IMovable : IMovableBase, IInitializable
     public bool IsWalking { get; set; }
     public Vector2 WalkingDir { get; set; }
     public bool IsSprinting { get; set; }
-    public ExternalForce ExForce { get; set; }
+    public Vector3 ExForce { get; set; }
     public BodyComponent[] BodyComponents { get; set; }
     public float ZPosition { get; set; }
     public void KnockBack(Vector3 dir, float strength);

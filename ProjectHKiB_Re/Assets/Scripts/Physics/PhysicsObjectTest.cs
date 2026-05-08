@@ -24,10 +24,16 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
         get => transform.position.z; 
         set { SetBodyPartZLevel(value);}
     }
+    [NaughtyAttributes.Button]
+    public void Jump()
+    {
+        ExForce += Vector3.forward * 50;
+    }
     public float ZVelocity { get; set; }
     public bool IsGrounded;
+    public bool IsGroundedPrev;
 
-    public ExternalForce ExForce { get; set; }
+    public Vector3 ExForce { get; set; }
     public float Mass {get;set;}
     [field: SerializeField] public MovePoint MovePoint { get; set; }
     public Vector3 LastSetDir { get; set; }
@@ -39,7 +45,7 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
         get
         {
             float spd = IsSprinting ? WalkSpeed * SprintCoeff : WalkSpeed;
-            return (IsWalking || Velocity.magnitude < spd) && IsGrounded && ExForce.GetTotalForce().magnitude < spd * Mass;
+            return (IsWalking || Velocity.magnitude < spd) && IsGrounded && ExForce.magnitude < spd * Mass;
         }
     }
 
@@ -59,11 +65,10 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
     public Vector3 prevEntityPos;
     public bool collisionResolved;
     public bool delayFollowMove;
- 
-    public ContactFilter2D contactFilterVectical = new();
-    public ContactFilter2D contactFilterHorizontal = new();
 
-    public void KnockBack(Vector3 dir, float strength) => ExForce.AddForce(PhysicsManager.IMPULSE_FORCE_ID, dir * strength);
+    public ZCollider2D zCollider;
+
+    public void KnockBack(Vector3 dir, float strength) => ExForce += dir * strength;
     public void EndKnockbackEarly(){}
     public void KnockBackEndCallback(){}
 

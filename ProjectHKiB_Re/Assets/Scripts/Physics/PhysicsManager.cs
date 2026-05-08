@@ -23,7 +23,6 @@ public class PhysicsManager : MonoBehaviour
     public void AddPhysicsObject(PhysicsObjectTest obj)
     {
         AllPhysicsEntitys.Add(obj);
-        obj.ExForce.SetForce(GRAVITY_FORCE_ID, Vector3.forward * gravity);
     }
     
     private void FixedUpdate()
@@ -32,11 +31,11 @@ public class PhysicsManager : MonoBehaviour
         {
             PhysicsObjectTest obj = AllPhysicsEntitys[i];
             // 1. Update vertical Physics 
-            UpdateVerticalPhysics(obj, obj.ExForce.GetTotalForce().z);
+            UpdateVerticalPhysics(obj, obj.ExForce.z);
 
             // 2. Preprocess horizontal force
             obj.Velocity = ApplyFriction(obj, obj.Velocity);
-            Vector2 horizonForce = (Vector2)obj.ExForce.GetTotalForce();
+            Vector2 horizonForce = (Vector2)obj.ExForce;
             obj.tempVelocity   = (Vector2)obj.Velocity;
             obj.tempVelocity += horizonForce / obj.Mass * Time.fixedDeltaTime;
 
@@ -86,7 +85,7 @@ public class PhysicsManager : MonoBehaviour
             SettleToGrid(obj);
             obj.prevEntityPos = obj.entityTransform.position;
             obj.LastSetDir = obj.IsWalking ? obj.WalkingDir : obj.Velocity.normalized;
-            obj.ExForce.SetForce(IMPULSE_FORCE_ID, Vector3.zero);
+            obj.ExForce = Vector3.zero;
             obj.Velocity = new Vector3(obj.tempVelocity.x, obj.tempVelocity.y, obj.Velocity.z);
             if (obj.moveBudget < 0) obj.moveBudget = 0;
             obj.collisionResolved = false;
@@ -96,24 +95,17 @@ public class PhysicsManager : MonoBehaviour
 
     private void UpdateVerticalPhysics(PhysicsObjectTest obj, float zForce)
     {
-        if (obj.IsGrounded && zForce <= 0f)
-        {
-            obj.ExForce.SetForce(GROUND_FORCE_ID, Vector3.back * zForce);
-            obj.ZVelocity = 0f;
-        }
-        else
-        {
-            obj.ZVelocity += zForce / obj.Mass * Time.fixedDeltaTime;
-            obj.ZPosition += obj.ZVelocity * Time.fixedDeltaTime;
-
-            int cnt = ZPhysics2D.OverlapCircleNonAlloc(
+        obj.ExForce += Vector3.forward * gravity;
+        int cnt = ZPhysics2D.OverlapCircleNonAlloc(
                 obj.MovePoint.transform.position, 0.4f,
                 overlapBuffer, obj.floorLayer,
-                obj.contactFilterVectical.minDepth - 0.01f, obj.contactFilterVectical.maxDepth);
+                obj.zCollider.ZMin - 0.01f, obj.zCollider.ZMax);
 
-            obj.IsGrounded = cnt > 0;
+        obj.IsGrounded = cnt > 0;
 
-            if (obj.IsGrounded)
+        if (obj.IsGrounded && zForce <= 0f)
+        {
+            if (!obj.IsGroundedPrev)
             {
                 obj.ZPosition = overlapBuffer[0].ZGetTop();
                 obj.ZVelocity = -obj.ZVelocity * obj.bounceCoeff;
@@ -121,17 +113,20 @@ public class PhysicsManager : MonoBehaviour
                 obj.ZVelocity = Mathf.Clamp(obj.ZVelocity,
                     -obj.stopAccelerateThreshold, obj.stopAccelerateThreshold);
             }
+            else
+            {
+                obj.ExForce += Vector3.back * zForce;
+                obj.ZVelocity = 0f;
+            }
         }
-
+        else
+        {
+            obj.ZVelocity += zForce / obj.Mass * Time.fixedDeltaTime;
+            obj.ZPosition += obj.ZVelocity * Time.fixedDeltaTime;
+        }
+        obj.IsGroundedPrev = obj.IsGrounded;
         Vector3 ep = obj.entityTransform.position;
         obj.entityTransform.position = new Vector3(ep.x, ep.y, obj.ZPosition);
-
-        obj.contactFilterVectical.useDepth  = true;
-        obj.contactFilterVectical.SetDepth(obj.ZPosition + obj.verticalCollisionOffset + EPSILON, obj.ZPosition + obj.Height + obj.verticalCollisionOffset - EPSILON);
-        obj.contactFilterVectical.SetLayerMask(obj.floorLayer);
-        obj.contactFilterHorizontal.useDepth  = true;
-        obj.contactFilterHorizontal.SetDepth(obj.ZPosition + obj.verticalCollisionOffset + EPSILON, obj.ZPosition + obj.Height + obj.verticalCollisionOffset - EPSILON);
-        obj.contactFilterHorizontal.SetLayerMask(obj.WallLayer);
     }
 
     private Vector2 BlendWalkIntent(PhysicsObjectTest obj, Vector2 currentVel, Vector2 walkDir)
@@ -224,7 +219,7 @@ public class PhysicsManager : MonoBehaviour
         else
         {
             obj.tempVelocity -= (1f + obj.bounceCoeff) * Vector2.Dot(obj.tempVelocity, normal) * normal;
-            obj.ExForce.AddForce(IMPULSE_FORCE_ID, new Vector3(-obj.tempVelocity.x, -obj.tempVelocity.y, 0f) * obj.Mass);
+            obj.ExForce += new Vector3(-obj.tempVelocity.x, -obj.tempVelocity.y, 0f) * obj.Mass;
         }
     }
     private void ResolveEntityCollision(PhysicsObjectTest obj, PhysicsObjectTest otherObj, Vector2 normal, Vector2 origin)
@@ -273,9 +268,9 @@ public class PhysicsManager : MonoBehaviour
         }
 
         if (!objWalking)
-            obj.ExForce.AddForce(IMPULSE_FORCE_ID, new Vector3(-obj.tempVelocity.x, -obj.tempVelocity.y, 0f) * obj.Mass);
+            obj.ExForce += new Vector3(-obj.tempVelocity.x, -obj.tempVelocity.y, 0f) * obj.Mass;
         if (!otherWalking)
-            otherObj.ExForce.AddForce(IMPULSE_FORCE_ID, new Vector3(-otherObj.tempVelocity.x, -otherObj.tempVelocity.y, 0f) * otherObj.Mass);
+            otherObj.ExForce += new Vector3(-otherObj.tempVelocity.x, -otherObj.tempVelocity.y, 0f) * otherObj.Mass;
 
         otherObj.Velocity = new Vector3(otherObj.tempVelocity.x, otherObj.tempVelocity.y, otherObj.Velocity.z);
         otherObj.collisionResolved = true;
@@ -350,7 +345,7 @@ public class PhysicsManager : MonoBehaviour
 
     private bool OverlapCheckHorizontal(PhysicsObjectTest obj, Vector2 point, float radius)
     {
-        int cnt = ZPhysics2D.OverlapCircleNonAlloc(point, radius, overlapBuffer,obj.WallLayer, obj.contactFilterHorizontal.minDepth, obj.contactFilterHorizontal.maxDepth);
+        int cnt = ZPhysics2D.OverlapCircleNonAlloc(point, radius, overlapBuffer,obj.WallLayer, obj.zCollider.ZMin, obj.zCollider.ZMax);
         for (int i = 0; i < cnt; i++)
         {
             Transform t = overlapBuffer[i].transform;
@@ -363,7 +358,7 @@ public class PhysicsManager : MonoBehaviour
     private RaycastHit2D CastWithFilterHorizontal(PhysicsObjectTest obj, Vector2 origin, Vector2 dir, float dist)
     {
         RaycastHit2D[] hits = new RaycastHit2D[8];
-        int cnt = ZPhysics2D.RaycastNonAlloc(origin, dir, dist, hits, overlapBuffer, obj.WallLayer, obj.contactFilterHorizontal.minDepth, obj.contactFilterHorizontal.maxDepth);
+        int cnt = ZPhysics2D.RaycastNonAlloc(origin, dir, dist, hits, overlapBuffer, obj.WallLayer, obj.zCollider.ZMin, obj.zCollider.ZMax);
         for (int i = 0; i < cnt; i++)
         {
             if (hits[i].transform == obj.entityTransform) continue;

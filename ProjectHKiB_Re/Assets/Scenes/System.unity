@@ -13788,6 +13788,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   IsGrounded: 0
+  IsGroundedPrev: 0
   <MovePoint>k__BackingField: {fileID: 1369237907}
   <IsWalking>k__BackingField: 0
   <WalkSpeed>k__BackingField: 0
@@ -13801,34 +13802,7 @@ MonoBehaviour:
   prevEntityPos: {x: 0, y: 0, z: 0}
   collisionResolved: 0
   delayFollowMove: 0
-  contactFilterVectical:
-    useTriggers: 0
-    useLayerMask: 0
-    useDepth: 0
-    useOutsideDepth: 0
-    useNormalAngle: 0
-    useOutsideNormalAngle: 0
-    layerMask:
-      serializedVersion: 2
-      m_Bits: 0
-    minDepth: 0
-    maxDepth: 0
-    minNormalAngle: 0
-    maxNormalAngle: 0
-  contactFilterHorizontal:
-    useTriggers: 0
-    useLayerMask: 0
-    useDepth: 0
-    useOutsideDepth: 0
-    useNormalAngle: 0
-    useOutsideNormalAngle: 0
-    layerMask:
-      serializedVersion: 2
-      m_Bits: 0
-    minDepth: 0
-    maxDepth: 0
-    minNormalAngle: 0
-    maxNormalAngle: 0
+  zCollider: {fileID: 327803512}
 --- !u!114 &327803512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71789,9 +71763,9 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
+    x: 0.17957745
     y: 0
-    width: 1
+    width: 0.64084506
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
@@ -76289,7 +76263,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa7155796051b734daa718462081dc5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BindingMode: 0
+  m_BindingMode: 3
   m_FollowOffset: {x: 0, y: 0, z: -10}
   m_XDamping: 0
   m_YDamping: 0
@@ -78019,7 +77993,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa7155796051b734daa718462081dc5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BindingMode: 0
+  m_BindingMode: 3
   m_FollowOffset: {x: 0, y: 0, z: -10}
   m_XDamping: 0
   m_YDamping: 0
