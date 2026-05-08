@@ -5,10 +5,15 @@ using UnityEngine;
 public class GetBuffEventAction : StateActionSO
 {
     public override void Act(StateController stateController)
-    {
+    {   
         if (stateController.TryGetInterface(out IGetBuff getBuff) && stateController.TryGetInterface(out IEvent @event))
         {
-            getBuff.GetBuff(@event.CurrentTarget, getBuff.Buff);
+            foreach (Collider2D col in @event.CurrentTargets)
+            {
+                Transform transform = col.transform;
+                if (transform.TryGetComponent(out MovePoint movePoint)) transform = movePoint.parent;
+                getBuff.GetBuff(transform, getBuff.Buff);
+            }
         }
         else Debug.LogError("ERROR: Interface Not Found!!!");
     }

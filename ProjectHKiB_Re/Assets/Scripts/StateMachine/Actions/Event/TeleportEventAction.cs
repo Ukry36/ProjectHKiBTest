@@ -6,23 +6,27 @@ public class TeleportEventAction : StateActionSO
     {
         if (stateController.TryGetInterface(out ITeleportEventable teleport) && stateController.TryGetInterface(out IEvent @event))
         {
-            if (@event.CurrentTarget.TryGetComponent(out IMovable movable))
+            foreach (Collider2D col in @event.CurrentTargets)
             {
-                movable.MovePoint.transform.position = teleport.Destination.position;
-                @event.CurrentTarget.transform.position = teleport.Destination.position;
-            }
-            else Debug.Log("Entity " + @event.CurrentTarget.name + " has no such interface: movable");
-            if (@event.CurrentTarget.TryGetComponent(out IDirAnimatable dirAnimatable))
-            {
-                dirAnimatable.SetAnimationDirection(teleport.EndDir);
-            }
-            if (@event.CurrentTarget.gameObject.layer == LayerMask.NameToLayer("Player"))
-            {
-                GameManager.instance.cameraManager.StrictMovement
-                (
-                    teleport.Destination.position,
-                    GameManager.instance.cameraManager.GetCurrentCameraPos()
-                );
+                Transform transform = col.transform;
+                if (transform.TryGetComponent(out MovePoint movePoint)) transform = movePoint.parent;
+                if (transform.TryGetComponent(out IMovable movable))
+                {
+                    movable.MovePoint.transform.position = teleport.Destination.position;
+                    transform.transform.position = teleport.Destination.position;
+                }
+                if (transform.TryGetComponent(out IDirAnimatable dirAnimatable))
+                {
+                    dirAnimatable.SetAnimationDirection(teleport.EndDir);
+                }
+                if (transform.gameObject.layer == LayerMask.NameToLayer("Player"))
+                {
+                    GameManager.instance.cameraManager.StrictMovement
+                    (
+                        teleport.Destination.position,
+                        GameManager.instance.cameraManager.GetCurrentCameraPos()
+                    );
+                }
             }
         }
         else Debug.LogError("ERROR: Interface Not Found!!!");

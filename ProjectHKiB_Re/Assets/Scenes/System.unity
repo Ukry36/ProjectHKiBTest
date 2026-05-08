@@ -13493,6 +13493,7 @@ GameObject:
   - component: {fileID: 327803509}
   - component: {fileID: 327803508}
   - component: {fileID: 327803511}
+  - component: {fileID: 327803512}
   m_Layer: 10
   m_Name: Player
   m_TagString: Untagged
@@ -13828,6 +13829,20 @@ MonoBehaviour:
     maxDepth: 0
     minNormalAngle: 0
     maxNormalAngle: 0
+--- !u!114 &327803512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 327803487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b7f3eb09f024cb428d07333159e5629, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zCenter: 1
+  height: 2
 --- !u!1 &331044352
 GameObject:
   m_ObjectHideFlags: 0
@@ -71774,9 +71789,9 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.17957745
+    x: 0
     y: 0
-    width: 0.64084506
+    width: 1
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
@@ -83042,7 +83057,7 @@ MonoBehaviour:
   gridSize: 1
   settleBlendThreshold: 0.5
   settleStrength: 8
-  settleQuitDist: 0.1
+  settleQuitDist: 0
   stopThreshold: 0.01
   MaxPhysicsStep: 10
 --- !u!4 &1995211713

@@ -43,12 +43,12 @@ namespace Assets.Scripts.Interfaces.Modules
 
         public override void Register(IInterfaceRegistable interfaceRegistable)
         {
-            //interfaceRegistable.RegisterInterface<IMovable>(this);
+            interfaceRegistable.RegisterInterface<IMovable>(this);
         }
 
         public void Initialize()
         {
-            MovePoint.Initialize();
+            MovePoint.Initialize(this);
             ExForce = new();
         }
 

@@ -8,7 +8,13 @@ public class SupplyEventAction : StateActionSO
     {
         if (stateController.TryGetInterface(out ISupply supply) && stateController.TryGetInterface(out IEvent @event))
         {
-            supply.Supply(@event.CurrentTarget, supply.Amount);
+            foreach (Collider2D col in @event.CurrentTargets)
+            {
+                Transform transform = col.transform;
+                if (transform.TryGetComponent(out MovePoint movePoint)) transform = movePoint.parent;
+                supply.Supply(transform, supply.Amount);
+            }
+            
         }
         else Debug.LogError("ERROR: Interface Not Found!!!");
     }

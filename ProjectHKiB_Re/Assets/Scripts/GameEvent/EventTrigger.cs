@@ -6,8 +6,9 @@ public abstract class GameEventTrigger : MonoBehaviour
     public IEvent Event { get; set; }
     [SerializeField] private float _cooltime;
     protected bool _canTrigger = true;
-    [SerializeField] protected ContactFilter2D _contactFilter;
-    [SerializeField] protected Collider2D _collider2D;
+    [SerializeField] protected LayerMask _layerMask;
+    protected ContactFilter2D _contactFilter = new();
+    [SerializeField] protected ZCollider2D _collider2D;
     protected readonly Collider2D[] colliders = new Collider2D[10];
     public ChunkData chunk;
 
@@ -17,11 +18,13 @@ public abstract class GameEventTrigger : MonoBehaviour
 
         if (!_collider2D)
         {
-            if (TryGetComponent(out Collider2D col))
+            if (TryGetComponent(out ZCollider2D col))
                 _collider2D = col;
             else
                 Debug.LogError("ERROR: No collider is attatched to the trigger!!!");
         }
+        _contactFilter.useLayerMask = true;
+        _contactFilter.layerMask = _layerMask;
     }
 
     public void Initialize(IEvent @event)
@@ -36,11 +39,12 @@ public abstract class GameEventTrigger : MonoBehaviour
             sequence.OnComplete(() => _canTrigger = true);
             sequence.Play();
         }
+        else _canTrigger = true;
     }
 
-    public void Update()
+    public void FixedUpdate()
     {
-        if (this.gameObject.activeSelf)
+        if (gameObject.activeSelf)
         {
             if (chunk)
             {
@@ -49,8 +53,6 @@ public abstract class GameEventTrigger : MonoBehaviour
             }
             else UpdateTrigger();
         }
-
-
     }
 
     public abstract void UpdateTrigger();

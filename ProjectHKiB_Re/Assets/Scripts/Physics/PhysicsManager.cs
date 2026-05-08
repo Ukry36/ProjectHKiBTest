@@ -14,7 +14,7 @@ public class PhysicsManager : MonoBehaviour
     private Collider2D[] overlapBuffer = new Collider2D[32];
     public float gravity = -9.8f;
     public float gridSize = 1f; 
-    public float settleBlendThreshold = 3f;
+    public float settleBlendThreshold = 0.5f;
     public float settleStrength = 8f;
     public float settleQuitDist = 0.1f;
     public float stopThreshold = 0.01f;  
@@ -68,7 +68,7 @@ public class PhysicsManager : MonoBehaviour
                     float distToMovePoint = Vector2.Distance(
                         (Vector2)obj.entityTransform.position,
                         (Vector2)obj.MovePoint.transform.position);
-                    if (obj.IsWalkingDominant && distToMovePoint < EPSILON || !obj.IsWalkingDominant)
+                    if (obj.IsWalkingDominant && distToMovePoint < EPSILON && obj.IsWalking || !obj.IsWalkingDominant)
                     {
                         StepHorizontalPhysics(obj, obj.tempVelocity.normalized);
                     }
@@ -85,10 +85,10 @@ public class PhysicsManager : MonoBehaviour
             SnapMovePointToGrid(obj);
             SettleToGrid(obj);
             obj.prevEntityPos = obj.entityTransform.position;
-            obj.LastSetDir = obj.IsWalkingDominant ? obj.WalkingDir : obj.Velocity.normalized;
+            obj.LastSetDir = obj.IsWalking ? obj.WalkingDir : obj.Velocity.normalized;
             obj.ExForce.SetForce(IMPULSE_FORCE_ID, Vector3.zero);
             obj.Velocity = new Vector3(obj.tempVelocity.x, obj.tempVelocity.y, obj.Velocity.z);
-            obj.moveBudget = 0;
+            if (obj.moveBudget < 0) obj.moveBudget = 0;
             obj.collisionResolved = false;
             obj.delayFollowMove = false;
         }
@@ -106,7 +106,7 @@ public class PhysicsManager : MonoBehaviour
             obj.ZVelocity += zForce / obj.Mass * Time.fixedDeltaTime;
             obj.ZPosition += obj.ZVelocity * Time.fixedDeltaTime;
 
-            int cnt = Physics2D.OverlapCircleNonAlloc(
+            int cnt = ZPhysics2D.OverlapCircleNonAlloc(
                 obj.MovePoint.transform.position, 0.4f,
                 overlapBuffer, obj.floorLayer,
                 obj.contactFilterVectical.minDepth - 0.01f, obj.contactFilterVectical.maxDepth);
@@ -115,7 +115,7 @@ public class PhysicsManager : MonoBehaviour
 
             if (obj.IsGrounded)
             {
-                obj.ZPosition = overlapBuffer[0].transform.position.z;
+                obj.ZPosition = overlapBuffer[0].ZGetTop();
                 obj.ZVelocity = -obj.ZVelocity * obj.bounceCoeff;
                 if (Mathf.Abs(obj.ZVelocity) < stopThreshold) obj.ZVelocity = 0f;
                 obj.ZVelocity = Mathf.Clamp(obj.ZVelocity,
@@ -179,7 +179,6 @@ public class PhysicsManager : MonoBehaviour
 
         Vector2 newEntityPos         = Vector2.Lerp(entityPos, snappedPos, blendAmount);
         obj.entityTransform.position = new Vector3(newEntityPos.x, newEntityPos.y, obj.ZPosition);
-        Debug.Log(delta);
         Vector2 settleCorrection = delta.normalized * (delta.magnitude * t * settleStrength);
         obj.tempVelocity        += settleCorrection * Time.fixedDeltaTime;
     }
@@ -193,9 +192,9 @@ public class PhysicsManager : MonoBehaviour
 
         if (!hit)
         {
-            float advance = (!obj.IsWalkingDominant && obj.moveBudget < gridSize)
-                            ? obj.moveBudget
-                            : gridSize;
+            float advance = obj.moveBudget < gridSize ? obj.moveBudget : gridSize;
+            if (obj.IsWalkingDominant) advance = gridSize;
+
             Vector2 targetPos = SnapToGrid((Vector2)obj.transform.position + dir * advance);
             mpTr.position = new Vector3(targetPos.x, targetPos.y, obj.ZPosition);
         }
@@ -209,8 +208,7 @@ public class PhysicsManager : MonoBehaviour
                 ResolveEntityCollision(obj, otherObj, hit.normal, (Vector2)mpTr.position);
                 otherObj.moveBudget   = otherObj.tempVelocity.magnitude * Time.fixedDeltaTime;
             }
-            else
-                ResolveStaticCollision(obj, hit.normal, (Vector2)mpTr.position);
+            else ResolveStaticCollision(obj, hit.normal, (Vector2)mpTr.position);
             obj.moveBudget = obj.tempVelocity.magnitude * Time.fixedDeltaTime;
             obj.delayFollowMove = true;
         }
@@ -352,7 +350,7 @@ public class PhysicsManager : MonoBehaviour
 
     private bool OverlapCheckHorizontal(PhysicsObjectTest obj, Vector2 point, float radius)
     {
-        int cnt = Physics2D.OverlapCircleNonAlloc(point, radius, overlapBuffer, obj.WallLayer, obj.contactFilterHorizontal.minDepth, obj.contactFilterHorizontal.maxDepth);
+        int cnt = ZPhysics2D.OverlapCircleNonAlloc(point, radius, overlapBuffer,obj.WallLayer, obj.contactFilterHorizontal.minDepth, obj.contactFilterHorizontal.maxDepth);
         for (int i = 0; i < cnt; i++)
         {
             Transform t = overlapBuffer[i].transform;
@@ -365,7 +363,7 @@ public class PhysicsManager : MonoBehaviour
     private RaycastHit2D CastWithFilterHorizontal(PhysicsObjectTest obj, Vector2 origin, Vector2 dir, float dist)
     {
         RaycastHit2D[] hits = new RaycastHit2D[8];
-        int cnt = Physics2D.Raycast(origin, dir, obj.contactFilterHorizontal, hits, dist);
+        int cnt = ZPhysics2D.RaycastNonAlloc(origin, dir, dist, hits, overlapBuffer, obj.WallLayer, obj.contactFilterHorizontal.minDepth, obj.contactFilterHorizontal.maxDepth);
         for (int i = 0; i < cnt; i++)
         {
             if (hits[i].transform == obj.entityTransform) continue;

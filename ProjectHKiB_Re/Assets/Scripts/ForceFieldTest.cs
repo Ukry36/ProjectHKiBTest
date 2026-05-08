@@ -5,50 +5,50 @@ using UnityEngine;
 
 public class ForceFieldTest : MonoBehaviour
 {
-    public List<IMovable> movables = new();
+    private HashSet<IMovable> movables = new();
     public Vector2 dir;
     public float strength;
     public bool isCenter;
     public bool yeet;
 
-    public void OnTriggerEnter2D(Collider2D collision)
+    private void FixedUpdate()
     {
-        if (collision.TryGetComponent(out IMovable component))
+        if (movables.Count < 1) return;
+        if (yeet) dir = Quaternion.Euler(0, 0, -1) * dir;
+
+        foreach (IMovable movable in movables)
         {
-            movables.Add(component);
-            if (movables.Count < 2)
-                StartCoroutine(Force());
+            Vector3 force = isCenter
+                ? (transform.position - movable.MovePoint.transform.position).normalized * strength
+                : (Vector3)(dir.normalized * strength);
+
+            movable.ExForce.SetForce(GetInstanceID(), force);
         }
     }
 
-    public IEnumerator Force()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        while (movables.Count > 0)
+        if (collision.TryGetComponent(out MovePoint component))
         {
-            for (int i = 0; i < movables.Count; i++)
-            {
-                if (yeet)
-                    dir = Quaternion.Euler(0, 0, -1) * dir;
+            movables.Add(component.movable);
+            Debug.Log("dd");
+        }
+            
+    }
 
-                if (isCenter)
-                {
-                    movables[i].ExForce.SetForce(GetInstanceID(), (transform.position - movables[i].MovePoint.transform.position).normalized * strength);
-                }
-                else
-                {
-                    movables[i].ExForce.SetForce(GetInstanceID(), dir.normalized * strength);
-                }
-            }
-            yield return null;
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.TryGetComponent(out MovePoint component))
+        {
+            component.movable.ExForce.SetForce(GetInstanceID(), Vector3.zero);
+            movables.Remove(component.movable);
         }
     }
 
-    public void OnTriggerExit2D(Collider2D collision)
+    private void OnDisable()
     {
-        if (collision.TryGetComponent(out IMovable component))
-        {
-            component.ExForce.SetForce(GetInstanceID(), Vector3.zero);
-            movables.Remove(component);
-        }
+        foreach (IMovable movable in movables)
+            movable.ExForce.SetForce(GetInstanceID(), Vector3.zero);
+        movables.Clear();
     }
 }

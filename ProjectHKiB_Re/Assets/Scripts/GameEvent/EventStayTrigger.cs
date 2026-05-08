@@ -1,3 +1,5 @@
+using System.Linq;
+using UnityEngine;
 public class EventStayTrigger : GameEventTrigger
 {
     public override void UpdateTrigger()
@@ -7,7 +9,7 @@ public class EventStayTrigger : GameEventTrigger
         {
             if (_canTrigger)
             {
-                Event.RegisterTarget(colliders[0].transform);
+                Event.RegisterTarget(colliders, length);
                 Event.TriggerEvent();
                 CoolTime();
             }

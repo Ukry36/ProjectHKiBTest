@@ -74,7 +74,7 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
 
     public void Initialize()
     {
-        MovePoint.Initialize();
+        MovePoint.Initialize(this);
         ExForce = new();
         prevEntityPos = entityTransform.position;
         physManager.AddPhysicsObject(this);
