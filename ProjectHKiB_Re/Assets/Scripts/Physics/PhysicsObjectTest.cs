@@ -34,13 +34,12 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
     public Vector3 LastSetDir { get; set; }
     public bool IsSprinting { get; set; }
     public bool IsWalking { get; set; }
-    [NaughtyAttributes.ReadOnly][SerializeField] private bool _isWalkingDominant;
     public bool IsWalkingDominant
     {
         get
         {
             float spd = IsSprinting ? WalkSpeed * SprintCoeff : WalkSpeed;
-            _isWalkingDominant = (IsWalking || Velocity.magnitude < spd) && IsGrounded && ExForce.magnitude < spd * Mass;
+            //Debug.Log(IsWalking && IsGrounded && ExForce.magnitude < spd * Mass);
             return (IsWalking || Velocity.magnitude < spd) && IsGrounded && ExForce.magnitude < spd * Mass;
         }
     }
@@ -55,15 +54,6 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
     [field: SerializeField] public BodyComponent[] BodyComponents { get; set; }
 
     public Vector2 TempVelocity { get; set; }
-    public Vector2 WalkBlendedVelocity 
-    { 
-        get
-        {
-            float speed = WalkSpeed * (IsSprinting ? SprintCoeff : 1f);
-            speed *= (1 - Mathf.Clamp01(airFriction * frictionWalkInfluence)) * (IsGrounded ? 1f : 0.5f);
-            return TempVelocity + (IsWalking ? WalkingDir.normalized * speed : Vector3.zero);
-        }
-    }
  
     public float MoveBudget { get; set; }
  
@@ -104,5 +94,8 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
         MovePoint.transform.position += Vector3.forward * d;
         transform.position += Vector3.forward * d;
     }
+
+    public Vector3 _prevRenderPos;
+    public Vector3 _nextRenderPos;
  
 }

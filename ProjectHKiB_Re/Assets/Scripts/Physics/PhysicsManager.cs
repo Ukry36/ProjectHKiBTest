@@ -65,10 +65,8 @@ public class PhysicsManager : MonoBehaviour
                 // Update horizontal Physics 
                 if (!obj.CollisionResolved) //this is for detecting "collision resolve from another entity" this step
                 {
-                    float distToMovePoint = Vector2.Distance(
-                        (Vector2)obj.entityTransform.position,
-                        (Vector2)obj.MovePoint.transform.position);
-                    if ((obj.IsWalkingDominant && distToMovePoint < EPSILON && obj.IsWalking) || !obj.IsWalkingDominant)
+                    float distToMovePoint = Vector2.Distance((Vector2)obj.entityTransform.position, (Vector2)obj.MovePoint.transform.position);
+                    if ((obj.IsWalkingDominant && distToMovePoint < 0.1 && obj.IsWalking) || !obj.IsWalkingDominant)
                     {
                         StepHorizontalPhysics(obj, obj.TempVelocity.normalized);
                     }
@@ -86,11 +84,12 @@ public class PhysicsManager : MonoBehaviour
             SettleToGrid(obj);
             obj.PrevEntityPos = obj.entityTransform.position;
             obj.LastSetDir = obj.IsWalking ? obj.WalkingDir : obj.Velocity.normalized;
-            obj.ExForce = Vector3.zero;
             obj.Velocity = new Vector3(obj.TempVelocity.x, obj.TempVelocity.y, obj.Velocity.z);
+            obj.ExForce = Vector3.zero;
             if (obj.MoveBudget < 0) obj.MoveBudget = 0;
             obj.CollisionResolved = false;
             obj.DelayFollowMove = false;
+            RecordRenderPosition(obj);
         }
     }
 
@@ -130,6 +129,9 @@ public class PhysicsManager : MonoBehaviour
     private Vector2 BlendWalkIntent(PhysicsObjectTest obj, Vector2 currentVel, Vector2 walkDir)
     {
         float speed = obj.WalkSpeed * (obj.IsSprinting ? obj.SprintCoeff : 1f);
+        
+        //if (obj.IsWalkingDominant) return walkDir.normalized * speed;
+    
         if (obj.IsGrounded) speed *= 1 - Mathf.Clamp01(obj.frictionCoeff * obj.frictionWalkInfluence);
         else                speed *= (1 - Mathf.Clamp01(obj.airFriction * obj.frictionWalkInfluence)) * 0.5f;
         return currentVel + walkDir.normalized * speed;
@@ -138,6 +140,7 @@ public class PhysicsManager : MonoBehaviour
     private void FollowMovepoint(PhysicsObjectTest obj)
     {
         Vector3 prevPos    = obj.entityTransform.position;
+        Debug.Log("follow" + obj.TempVelocity);
         float   followDist = obj.TempVelocity.magnitude * Time.fixedDeltaTime;
         Vector3 target = obj.IsWalkingDominant
             ? new Vector3(obj.MovePoint.transform.position.x,
@@ -155,7 +158,6 @@ public class PhysicsManager : MonoBehaviour
     {
         float speed = obj.TempVelocity.magnitude;
         if (speed >= settleBlendThreshold) return;
-        Debug.Log("Settle");
 
         float t           = 1f - Mathf.Pow(Mathf.Clamp01(speed / settleBlendThreshold), 4);
         float blendAmount = t * settleStrength * Time.fixedDeltaTime;
@@ -206,14 +208,16 @@ public class PhysicsManager : MonoBehaviour
             obj.MoveBudget = obj.TempVelocity.magnitude * Time.fixedDeltaTime;
             obj.DelayFollowMove = true;
         }
-
-        obj.Velocity = new Vector3(obj.TempVelocity.x, obj.TempVelocity.y, obj.Velocity.z);
+        if (!obj.IsWalkingDominant)
+            obj.Velocity = new Vector3(obj.TempVelocity.x, obj.TempVelocity.y, obj.Velocity.z);
     }
     private void ResolveStaticCollision(PhysicsObjectTest obj, Vector2 normal, Vector2 origin)
     {
         if (obj.IsWalkingDominant)
         {
+            Debug.Log("before: " + obj.TempVelocity);
             obj.TempVelocity = GetModifiedVelocityHorizontal(obj, origin, obj.TempVelocity);
+            Debug.Log("mod" + obj.TempVelocity);
         }
         else
         {
@@ -283,7 +287,6 @@ public class PhysicsManager : MonoBehaviour
         // check if entity can simply go through
         if (!OverlapCheckHorizontal(obj, origin + dir * gridSize, 0.2f))
         {
-            //obj.LastSetDir = dir;
             return vector;
         }
 
@@ -309,8 +312,8 @@ public class PhysicsManager : MonoBehaviour
         // seek 45d slides 
         if (result == Vector2.zero && dir.x != 0f && dir.y != 0f)
         {
-            Vector2 slideUp   = Quaternion.Euler(0, 0,  45) * vector;
-            Vector2 slideDown = Quaternion.Euler(0, 0, -45) * vector;
+            Vector2 slideUp   = Quaternion.Euler(0, 0,  45) * dir;
+            Vector2 slideDown = Quaternion.Euler(0, 0, -45) * dir;
  
             bool canUp   = !OverlapCheckHorizontal(obj, origin + slideUp   * 0.5f, 0.2f);
             bool canDown = !OverlapCheckHorizontal(obj, origin + slideDown  * 0.5f, 0.2f);
@@ -334,6 +337,8 @@ public class PhysicsManager : MonoBehaviour
             vel *= obj.frictionCoeff;
             if (vel.magnitude < stopThreshold)
                 vel = Vector2.zero;
+            //if (obj.IsWalkingDominant && !obj.IsWalking)
+            //    vel = Vector2.zero;
         }
         else
         {
@@ -378,6 +383,23 @@ public class PhysicsManager : MonoBehaviour
         Transform mpTr   = obj.MovePoint.transform;
         Vector2   snapped = SnapToGrid(mpTr.position);
         mpTr.position = new Vector3(snapped.x, snapped.y, obj.ZPosition);
+    }
+
+    // PhysicsManager.FixedUpdate 끝에서 호출
+    public void RecordRenderPosition(PhysicsObjectTest obj)
+    {
+        obj._prevRenderPos = obj._nextRenderPos;
+        obj._nextRenderPos = obj.entityTransform.position;
+    }
+
+    private void Update()
+    {
+        float alpha = (Time.time - Time.fixedTime) / Time.fixedDeltaTime;
+        foreach (var obj in AllPhysicsEntitys)
+        {
+            Vector3 interpolated = Vector3.Lerp(obj._prevRenderPos, obj._nextRenderPos, alpha);
+            obj.entityTransform.position = interpolated;
+        }
     }
     
 }

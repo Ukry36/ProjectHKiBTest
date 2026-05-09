@@ -13787,6 +13787,7 @@ MonoBehaviour:
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
+  <Velocity>k__BackingField: {x: 0, y: 0, z: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 800}
   <MovePoint>k__BackingField: {fileID: 1369237907}
   <WalkSpeed>k__BackingField: 0
@@ -13797,6 +13798,8 @@ MonoBehaviour:
   - {fileID: 955506758}
   zCollider: {fileID: 327803512}
   jump: 2
+  _prevRenderPos: {x: 0, y: 0, z: 0}
+  _nextRenderPos: {x: 0, y: 0, z: 0}
 --- !u!114 &327803512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71723,7 +71726,7 @@ MonoBehaviour:
   m_UpdateMethod: 2
   m_BlendUpdateMethod: 1
   m_DefaultBlend:
-    m_Style: 6
+    m_Style: 1
     m_Time: 2
     m_CustomCurve:
       serializedVersion: 2
@@ -71757,9 +71760,9 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.17957745
+    x: 0.17771883
     y: 0
-    width: 0.64084506
+    width: 0.6436782
     height: 1
   near clip plane: -5000
   far clip plane: 5000
