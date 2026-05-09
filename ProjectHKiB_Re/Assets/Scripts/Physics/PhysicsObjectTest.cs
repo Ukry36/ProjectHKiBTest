@@ -40,7 +40,7 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
         {
             float spd = IsSprinting ? WalkSpeed * SprintCoeff : WalkSpeed;
             //Debug.Log(IsWalking && IsGrounded && ExForce.magnitude < spd * Mass);
-            return (IsWalking || Velocity.magnitude < spd) && IsGrounded && ExForce.magnitude < spd * Mass;
+            return IsWalking && IsGrounded && ExForce.magnitude < spd * Mass;
         }
     }
 
