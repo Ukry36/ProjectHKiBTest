@@ -34,10 +34,10 @@ public class PhysicsManager : MonoBehaviour
             UpdateVerticalPhysics(obj);
 
             // 2. Preprocess horizontal force
-            obj.Velocity = ApplyFriction(obj, obj.Velocity);
+            obj.Velocity         = ApplyFriction(obj, obj.Velocity);
             Vector2 horizonForce = (Vector2)obj.ExForce;
-            obj.TempVelocity   = (Vector2)obj.Velocity;
-            obj.TempVelocity += horizonForce / obj.Mass * Time.fixedDeltaTime;
+            obj.TempVelocity     = (Vector2)obj.Velocity;
+            obj.TempVelocity    += horizonForce / obj.Mass * Time.fixedDeltaTime;
 
             // 3. Blend walk intent to current horizontal obj.velocity
             if (obj.IsWalking)
@@ -45,9 +45,10 @@ public class PhysicsManager : MonoBehaviour
 
             // 4. Prepare for physics update
             float speed = obj.TempVelocity.magnitude;
-            float budgetBlend = Mathf.Clamp01(speed / settleBlendThreshold);
+            //float budgetBlend = Mathf.Clamp01(speed / settleBlendThreshold);
             obj.MoveBudget += speed * Time.fixedDeltaTime;
-            obj.MoveBudget *= budgetBlend;
+            //obj.MoveBudget *= budgetBlend;
+
         }
 
         for (int i = 0; i < MaxPhysicsStep; i++) // 5. Update horizontal physics
@@ -67,7 +68,7 @@ public class PhysicsManager : MonoBehaviour
                     float distToMovePoint = Vector2.Distance(
                         (Vector2)obj.entityTransform.position,
                         (Vector2)obj.MovePoint.transform.position);
-                    if (obj.IsWalkingDominant && distToMovePoint < EPSILON && obj.IsWalking || !obj.IsWalkingDominant)
+                    if ((obj.IsWalkingDominant && distToMovePoint < EPSILON && obj.IsWalking) || !obj.IsWalkingDominant)
                     {
                         StepHorizontalPhysics(obj, obj.TempVelocity.normalized);
                     }
@@ -154,6 +155,7 @@ public class PhysicsManager : MonoBehaviour
     {
         float speed = obj.TempVelocity.magnitude;
         if (speed >= settleBlendThreshold) return;
+        Debug.Log("Settle");
 
         float t           = 1f - Mathf.Pow(Mathf.Clamp01(speed / settleBlendThreshold), 4);
         float blendAmount = t * settleStrength * Time.fixedDeltaTime;
