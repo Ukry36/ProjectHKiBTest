@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class PhysicsObjectTest : InterfaceModule, IMovable
 {
-    public Transform       entityTransform;
-
     public PhysicsManager physManager;
     
     [Header("physics")]
@@ -39,10 +37,21 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
         get
         {
             float spd = IsSprinting ? WalkSpeed * SprintCoeff : WalkSpeed;
-            //Debug.Log(IsWalking && IsGrounded && ExForce.magnitude < spd * Mass);
-            return IsWalking && IsGrounded && ExForce.magnitude < spd * Mass;
+            return RealIsWalking && IsGrounded && ExForce.magnitude < spd * Mass;
         }
     }
+    public Vector2 WalkingVector 
+    { 
+        get
+        {
+            float spd = (IsSprinting ? WalkSpeed * SprintCoeff : WalkSpeed) * (IsGrounded ? 1f : 0.5f);
+            spd *= 1 - Mathf.Clamp01(frictionCoeff * frictionWalkInfluence);
+            return WalkingDir.normalized * spd;
+        }
+    }
+
+    public Vector2 RealWalkingVector { get; set; }
+    public bool RealIsWalking { get => IsWalking && RealWalkingVector.sqrMagnitude > 0; }
 
     public Vector2 WalkingDir { get; set; }
     public float SprintCoeff { get; set; }
@@ -83,7 +92,7 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
     {
         MovePoint.Initialize(this);
         ExForce = new();
-        PrevEntityPos = entityTransform.position;
+        PrevEntityPos = transform.position;
         physManager.AddPhysicsObject(this);
     }
 
