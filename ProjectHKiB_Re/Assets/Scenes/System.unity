@@ -13775,11 +13775,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52dc97a2c4e9bfc4da98bb47b1a9f01a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entityTransform: {fileID: 327803489}
   physManager: {fileID: 1995211712}
   Height: 2
   verticalCollisionOffset: 0
-  frictionCoeff: 0.85
+  frictionCoeff: 0.9
   bounceCoeff: 0
   airFriction: 0.98
   stopAccelerateThreshold: 0
@@ -71760,9 +71759,9 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.17771883
+    x: 0
     y: 0
-    width: 0.6436782
+    width: 1
     height: 1
   near clip plane: -5000
   far clip plane: 5000
@@ -83026,7 +83025,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gravity: -9.8
   gridSize: 1
-  settleBlendThreshold: 0.5
+  settleBlendThreshold: 1
   settleStrength: 8
   settleQuitDist: 0
   stopThreshold: 0.01

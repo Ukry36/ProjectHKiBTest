@@ -13,6 +13,12 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
     public float airFriction     = 0.98f;   
     public float stopAccelerateThreshold;
     public float frictionWalkInfluence = 1;
+
+    public MovementMode Mode;
+    public GridState    Grid   = new();
+    public PhysicsState Phys   = new();
+
+    public float ModeTransitionThreshold;
  
     public LayerMask floorLayer;
  
@@ -37,21 +43,20 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
         get
         {
             float spd = IsSprinting ? WalkSpeed * SprintCoeff : WalkSpeed;
-            return RealIsWalking && IsGrounded && ExForce.magnitude < spd * Mass;
+            return IsWalking && RealWalkingVector.sqrMagnitude > 0 && IsGrounded && ((Vector2)ExForce).magnitude < spd * Mass;
         }
     }
     public Vector2 WalkingVector 
     { 
         get
         {
-            float spd = (IsSprinting ? WalkSpeed * SprintCoeff : WalkSpeed) * (IsGrounded ? 1f : 0.5f);
+            float spd = (IsSprinting ? WalkSpeed * SprintCoeff : WalkSpeed) * (IsGrounded ? 1f : 0.1f);
             spd *= 1 - Mathf.Clamp01(frictionCoeff * frictionWalkInfluence);
             return WalkingDir.normalized * spd;
         }
     }
 
     public Vector2 RealWalkingVector { get; set; }
-    public bool RealIsWalking { get => IsWalking && RealWalkingVector.sqrMagnitude > 0; }
 
     public Vector2 WalkingDir { get; set; }
     public float SprintCoeff { get; set; }
