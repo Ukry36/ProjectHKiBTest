@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PhysicsObjectTest : InterfaceModule, IMovable
 {
-    public PhysicsManager physManager;
+    public PhysicsManager2 physManager;
     
     [Header("physics")]
     
@@ -66,6 +66,7 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
     public AudioDataSO FootStepAudio { get; set; }
     public bool IsKnockbackMove { get; set; }
     [field: SerializeField] public BodyComponent[] BodyComponents { get; set; }
+    public float WalkAcceleration = 30f;
 
     public Vector2 TempVelocity { get; set; }
  

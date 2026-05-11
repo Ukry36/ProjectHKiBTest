@@ -15,6 +15,7 @@ public class PhysicsManager : MonoBehaviour
     public float settleQuitDist = 0.1f;
     public float stopThreshold = 0.01f;  
     public int MaxPhysicsStep = 10;
+    public bool enable;
 
     public void AddPhysicsObject(PhysicsObjectTest obj)
     {
@@ -23,6 +24,7 @@ public class PhysicsManager : MonoBehaviour
     
     private void FixedUpdate()
     {
+        if (!enable) return;
         for (int i = 0; i < AllPhysicsEntitys.Count; i++)
         {
             PhysicsObjectTest obj = AllPhysicsEntitys[i];
