@@ -214,21 +214,25 @@ public class PhysicsManager2 : MonoBehaviour
         float maxSpd = (obj.IsSprinting ? obj.WalkSpeed * obj.SprintCoeff : obj.WalkSpeed) * (obj.IsGrounded ? 1f : 0.1f);
         float frictionAccInfluence = 1 - Mathf.Clamp01(obj.frictionCoeff * obj.frictionWalkInfluence);
     
-        // ─ [수정됨] Grid Velocity 2D 연산 ───────────────────────────────────
+        // ─ Grid Velocity 2D 연산 ───────────────────────────────────
+        // Physics 모드와 동일하게 "마찰 → 보행 가속" 순서로 처리한다.
+        obj.Grid.Velocity = ApplyFriction(obj, obj.Grid.Velocity);
+        
         if (inputDir != Vector2Int.zero)
         {
-            // 2D 목표 속도 벡터
-            Vector2 targetVelocity = ((Vector2)inputDir).normalized * maxSpd;
-            float accel = obj.WalkAcceleration * frictionAccInfluence * Time.fixedDeltaTime;
-    
-            // 스칼라 증감이 아닌 Vector2.MoveTowards를 사용! 
-            // -> 방향 전환 시 관성을 이겨내며 둥글게(혹은 부드럽게) 속도 방향이 바뀜
-            obj.Grid.Velocity = Vector2.MoveTowards(obj.Grid.Velocity, targetVelocity, accel);
+            Vector2 walkDir = ((Vector2)inputDir).normalized;
+        
+            float currentAlongWalk = Vector2.Dot(obj.Grid.Velocity, walkDir);
+            float deficit          = maxSpd - currentAlongWalk;
+        
+            if (deficit > 0f)
+            {
+                float accel = obj.WalkAcceleration * frictionAccInfluence * Time.fixedDeltaTime;
+                obj.Grid.Velocity += walkDir * Mathf.Min(accel, deficit);
+            }
         }
         else
         {
-            // 입력이 없으면 마찰력에 의해 감속
-            obj.Grid.Velocity *= obj.frictionCoeff;
             if (obj.Grid.Velocity.magnitude < gridSettleSpeed)
             {
                 obj.Grid.Velocity = Vector2.zero;
@@ -415,31 +419,34 @@ public class PhysicsManager2 : MonoBehaviour
 
     private void UpdatePhysicsMovement(PhysicsObjectTest obj)
     {
-        // 마찰 & 외력
-        obj.Phys.Velocity  = ApplyFriction(obj, obj.Phys.Velocity);
+        bool isActivelyWalking = obj.IsWalking && obj.WalkingDir.sqrMagnitude > EPSILON;
+
+        // ─ 마찰 적용 (항상 전체 속도에 적용) ─────────────────────────────────
+        obj.Phys.Velocity = ApplyFriction(obj, obj.Phys.Velocity);
+
+        // ─ 외력 ───────────────────────────────────────────────────────────────
         obj.Phys.Velocity += (Vector2)obj.ExForce / obj.Mass * Time.fixedDeltaTime;
 
-        // 걷기 입력이 있으면 속도 보강
-        if (obj.IsWalking && obj.WalkingDir.sqrMagnitude > EPSILON)
+        // ─ 보행 가속 ──────────────────────────────────────────────────────────
+        if (isActivelyWalking)
         {
-            float   maxSpd   = (obj.IsSprinting ? obj.WalkSpeed * obj.SprintCoeff : obj.WalkSpeed) * (obj.IsGrounded ? 1f : 0.1f);
-            Vector2 walkDir  = obj.WalkingDir.normalized;
+            float maxSpd = (obj.IsSprinting ? obj.WalkSpeed * obj.SprintCoeff : obj.WalkSpeed)
+                           * (obj.IsGrounded ? 1f : 0.1f);
+            Vector2 walkDir = obj.WalkingDir.normalized;
+            float frictionAccInfluence = 1 - Mathf.Clamp01(obj.frictionCoeff * obj.frictionWalkInfluence);
 
-            // 걷기 방향 성분만 추출해서 목표 속도까지만 가속
-            float   currentAlongWalk = Vector2.Dot(obj.Phys.Velocity, walkDir);
-            float   deficit          = maxSpd - currentAlongWalk;
+            float currentAlongWalk = Vector2.Dot(obj.Phys.Velocity, walkDir);
+            float deficit          = maxSpd - currentAlongWalk;
 
             if (deficit > 0f)
             {
-                // 빙판이면 WalkAcceleration 낮게 설정 → 천천히 가속
-                float accel = obj.WalkAcceleration * Time.fixedDeltaTime;
+                float accel = obj.WalkAcceleration * frictionAccInfluence * Time.fixedDeltaTime;
                 obj.Phys.Velocity += walkDir * Mathf.Min(accel, deficit);
             }
-            // deficit <= 0: 이미 그 방향으로 충분히 빠름 → 건드리지 않음
-            // (날아가는 상태에서 걷기 입력이 속도를 꺾지 않음)
+            // deficit <= 0 (초과 속도)인 경우 마찰이 자연스럽게 maxSpd로 수렴시켜 줌
         }
 
-        // ─ CCD 서브스텝 ───────────────────────────
+        // ─ CCD 서브스텝 (기존과 동일) ────────────────────────────────────────────
         float totalDist = obj.Phys.Velocity.magnitude * Time.fixedDeltaTime;
         if (totalDist < EPSILON) return;
 
@@ -452,9 +459,7 @@ public class PhysicsManager2 : MonoBehaviour
             if (delta.sqrMagnitude < EPSILON) break;
 
             Vector2      origin = obj.transform.position;
-            RaycastHit2D hit    = CastWithFilterHorizontal(obj, origin,
-                                                            delta.normalized,
-                                                            delta.magnitude);
+            RaycastHit2D hit    = CastWithFilterHorizontal(obj, origin, delta.normalized, delta.magnitude);
             if (!hit)
             {
                 obj.transform.position += new Vector3(delta.x, delta.y, 0f);
@@ -462,14 +467,11 @@ public class PhysicsManager2 : MonoBehaviour
             else
             {
                 bool isMovable = hit.collider.TryGetComponent(out PhysicsObjectTest other);
-
                 if (isMovable && other != null)
                     ResolveEntityCollision(obj, other, hit.normal);
                 else
                     ResolveStaticCollision(obj, hit.normal);
 
-                // 충돌 후 남은 서브스텝은 새 속도로 계속
-                // (완전 정지가 아니라면 이어서 진행)
                 if (obj.Phys.Velocity.sqrMagnitude < stopThreshold * stopThreshold) break;
             }
         }
