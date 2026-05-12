@@ -23,6 +23,8 @@ public class GridState
 public class PhysicsState
 {
     public Vector2 Velocity;
+    public bool SkipSettleFrame;
+    public int KeepPhysicsFrame;
 }
 
 
@@ -46,9 +48,11 @@ public class PhysicsManager2 : MonoBehaviour
     public float stopThreshold            = 0.01f;
     public bool enable;
     public float gridSettleSpeed = 3f;
+    public int keepPhysicsFrame = 2;
 
     // ── Buffer ────────────────────────────────────
     private readonly Collider2D[] overlapBuffer = new Collider2D[32];
+    private readonly List<PhysicsObjectTest> pendingPhysicsEntities = new();
 
     // ── Cell Occupancy Map ────────────────────────
     // Dynamic entity occupancy only. Static walls are still queried through ZPhysics2D.
@@ -97,6 +101,10 @@ public class PhysicsManager2 : MonoBehaviour
             if (obj.Mode == MovementMode.Physics)
                 UpdatePhysicsMovement(obj);
         }
+
+        foreach (var obj in pendingPhysicsEntities)
+            UpdatePhysicsMovement(obj);
+        pendingPhysicsEntities.Clear();
 
         // ── Phase 5 : PostProcess ───────────────────
         foreach (var obj in AllPhysicsEntitys)
@@ -189,7 +197,7 @@ public class PhysicsManager2 : MonoBehaviour
         bool wantsPhysics = !obj.IsGrounded || exForceMag >= threshold;
         bool wantsGrid    = obj.IsGrounded && exForceMag < threshold;
 
-        if (obj.Mode == MovementMode.Physics && wantsGrid)
+        if (obj.Mode == MovementMode.Physics && wantsGrid && obj.Phys.KeepPhysicsFrame > 0)
         {
             obj.Mode = MovementMode.Grid;
 
@@ -214,7 +222,10 @@ public class PhysicsManager2 : MonoBehaviour
             obj.Mode = MovementMode.Physics;
             obj.Phys.Velocity = obj.Grid.Velocity; // GridVelocity to PhysicsVelocity
             obj.Grid.Velocity = Vector2.zero;
+            obj.Phys.SkipSettleFrame = true;
+            obj.Phys.KeepPhysicsFrame = keepPhysicsFrame;
         }
+        obj.Phys.KeepPhysicsFrame--;
     }
 
     // ═════════════════════════════════════════════
@@ -223,6 +234,7 @@ public class PhysicsManager2 : MonoBehaviour
 
     private void UpdateGridMovement(PhysicsObjectTest obj)
     {
+        Debug.Log("start:" + obj.Velocity);
         // ─ 정착 중 처리 (기존과 동일) ─
         if (obj.Grid.IsSettling)
         {
@@ -234,6 +246,7 @@ public class PhysicsManager2 : MonoBehaviour
             }
             obj.Grid.IsSettling = false;
         }
+        Debug.Log("after settle:" + obj.Velocity);
     
         // ─ InputDir 갱신 (기존과 동일) ─
         Vector2Int inputDir = Vector2Int.zero;
@@ -251,7 +264,7 @@ public class PhysicsManager2 : MonoBehaviour
         // ─ Grid Velocity 2D 연산 ───────────────────────────────────
         // Physics 모드와 동일하게 "마찰 → 보행 가속" 순서로 처리한다.
         obj.Grid.Velocity = ApplyFriction(obj, obj.Grid.Velocity);
-        
+        Debug.Log("after friction:" + obj.Velocity);
         if (inputDir != Vector2Int.zero)
         {
             Vector2 walkDir = ((Vector2)inputDir).normalized;
@@ -313,6 +326,7 @@ public class PhysicsManager2 : MonoBehaviour
         Vector2 worldTarget = CellToWorld(obj.Grid.TargetCell);
         Vector2 newPos      = Vector2.Lerp(worldCur, worldTarget, obj.Grid.CellProgress);
         obj.transform.position = new Vector3(newPos.x, newPos.y, obj.ZPosition);
+        Debug.Log("moved:" + obj.Velocity);
     }
 
     // ═════════════════════════════════════════════
@@ -392,7 +406,7 @@ public class PhysicsManager2 : MonoBehaviour
         }
 
         if (occupant != null)
-            ApplyWalkImpulseToPhysics(obj, occupant, moveDir);
+            TryResolveEntityCollision(obj, occupant, -moveDir);
 
         bool slid = TrySlideGrid(obj, moveDir);
         if (!slid) obj.Grid.Velocity = Vector2.zero; // 완전히 막힘 → 즉시 정지
@@ -433,22 +447,6 @@ public class PhysicsManager2 : MonoBehaviour
         return false;
     }
 
-    /// <summary>Grid 엔티티가 Physics 엔티티에 충격량 전달.</summary>
-    private void ApplyWalkImpulseToPhysics(PhysicsObjectTest walker, PhysicsObjectTest target, Vector2Int dir)
-    {
-        //float spd     = walker.IsSprinting ? walker.WalkSpeed * walker.SprintCoeff : walker.WalkSpeed;
-        //float impulse = walker.Mass * spd / Mathf.Max(target.Mass, EPSILON);
-
-        SwitchGridToPhysics(walker);
-        SwitchGridToPhysics(target);
-
-        Vector2 normal = (Vector2)walker.transform.position - (Vector2)target.transform.position;
-
-        TryResolveEntityCollision(walker, target, normal);
-
-        //target.Phys.Velocity += (1f + target.bounceCoeff) * impulse * ((Vector2)dir).normalized;
-    }
-
     private void SwitchGridToPhysics(PhysicsObjectTest obj)
     {
         if (obj.Mode != MovementMode.Grid) return;
@@ -459,8 +457,11 @@ public class PhysicsManager2 : MonoBehaviour
         obj.Mode          = MovementMode.Physics;
         obj.Phys.Velocity = obj.Grid.Velocity;
         obj.Grid.Velocity = Vector2.zero;
+        obj.Phys.SkipSettleFrame = true;
+        obj.Phys.KeepPhysicsFrame = keepPhysicsFrame;
 
         AddCellOccupant(WorldToCell(obj.transform.position), obj);
+        pendingPhysicsEntities.Add(obj);
     }
 
     // ═════════════════════════════════════════════
@@ -518,11 +519,11 @@ public class PhysicsManager2 : MonoBehaviour
                 skipCollision = true;
                 continue;
             }
-            skipCollision = false;
-
             Vector2Int previousCell = WorldToCell(origin);
-            obj.transform.position += new Vector3(delta.x, delta.y, 0f);
+            obj.transform.position += (Vector3)delta;
             UpdatePhysicsCellOccupancy(obj, previousCell);
+            //if (skipCollision) break;
+            skipCollision = false;
         }
     }
 
@@ -662,10 +663,10 @@ public class PhysicsManager2 : MonoBehaviour
         AddCellOccupant(WorldToCell(obj.transform.position), obj);
     }
 
-    /// <summary>정적 벽과의 충돌 (반발 + 미끄러짐).</summary>
     private bool TryResolveEntityCollision(PhysicsObjectTest objA, PhysicsObjectTest objB, Vector2 normal)
     {
-        Debug.Log("entityc");
+        objA.Phys.SkipSettleFrame = true;
+        objB.Phys.SkipSettleFrame = true;
         bool aIsGrid = objA.Mode == MovementMode.Grid;
         bool bIsGrid = objB.Mode == MovementMode.Grid;
 
@@ -674,20 +675,71 @@ public class PhysicsManager2 : MonoBehaviour
         float   mA = Mathf.Max(objA.Mass, EPSILON);
         float   mB = Mathf.Max(objB.Mass, EPSILON);
 
+        bool collisionHandled = false;
+
+        // ─────────────────────────────────────────────
+        // 1. 속도 보정 (Impulse - 충격량 전달)
+        // ─────────────────────────────────────────────
         float vRel = Vector2.Dot(vA - vB, normal);
-        if (vRel >= 0f) return false;
+        if (vRel < 0f) // 서로 가까워지는 상태일 때만 충격량 적용
+        {
+            float e = (objA.bounceCoeff + objB.bounceCoeff) * 0.5f;
+            float j = -(1f + e) * vRel / (1f / mA + 1f / mB);
 
-        float e = (objA.bounceCoeff + objB.bounceCoeff) * 0.5f;
-        float j = -(1f + e) * vRel / (1f / mA + 1f / mB);
+            Vector2 impulse = j * normal;
 
-        Vector2 impulse = j * normal;
+            if (aIsGrid) SwitchGridToPhysics(objA);
+            if (bIsGrid) SwitchGridToPhysics(objB);
 
-        if (aIsGrid) SwitchGridToPhysics(objA);
-        if (bIsGrid) SwitchGridToPhysics(objB);
+            objA.Phys.Velocity = vA + impulse / mA;
+            objB.Phys.Velocity = vB - impulse / mB;
+            
+            collisionHandled = true;
+        }
 
-        objA.Phys.Velocity = vA + impulse / mA;
-        objB.Phys.Velocity = vB - impulse / mB;
-        return true;
+        // ─────────────────────────────────────────────
+        // 2. 위치 보정 (Penetration Resolution) - 통과 방지의 핵심!
+        // ─────────────────────────────────────────────
+        Vector2 posA = objA.transform.position;
+        Vector2 posB = objB.transform.position;
+        float dist = Vector2.Distance(posA, posB);
+        
+        // 두 오브젝트가 겹침을 허용하지 않는 최소 거리
+        // (벽 오버랩 반경이 0.4f이므로 엔티티 지름인 0.8f * gridSize 정도가 적당합니다)
+        float allowedDistance = gridSize * 0.8f; 
+
+        // vRel >= 0 이더라도 두 객체가 최소 거리보다 겹쳐있다면 강제로 밀어냅니다.
+        if (dist < allowedDistance)
+        {
+            if (aIsGrid) SwitchGridToPhysics(objA);
+            if (bIsGrid) SwitchGridToPhysics(objB);
+
+            // 밀어낼 방향 (완전히 겹쳐서 dist가 0일 경우 기존 normal 사용)
+            Vector2 pushDir = dist > EPSILON ? (posA - posB) / dist : normal;
+            float penetration = allowedDistance - dist;
+            float totalInverseMass = (1f / mA) + (1f / mB);
+
+            // 한 번에 밀어낼 비율 (너무 크면 떨림(Jitter) 발생, 0.5~0.8 권장)
+            float percent = 0.5f; 
+            Vector2 correction = pushDir * (penetration / totalInverseMass * percent);
+
+            // 이동 전의 셀 좌표 저장
+            Vector2Int prevCellA = WorldToCell(objA.transform.position);
+            Vector2Int prevCellB = WorldToCell(objB.transform.position);
+
+            // 질량의 역수에 비례하여 위치 강제 이동
+            objA.transform.position += (Vector3)(correction * (1f / mA));
+            objB.transform.position -= (Vector3)(correction * (1f / mB));
+
+            // 위치가 변경되었으므로 셀 점유 상태 즉시 갱신 (오류 방지)
+            UpdatePhysicsCellOccupancy(objA, prevCellA);
+            UpdatePhysicsCellOccupancy(objB, prevCellB);
+
+            collisionHandled = true;
+        }
+
+        // 속도가 처리되었거나, 위치가 겹쳐서 밀어냈다면 CCD 진행을 막기 위해 true 반환
+        return collisionHandled;
     }
 
     private void ResolveStaticCollision(PhysicsObjectTest obj, Vector2 normal)
@@ -792,13 +844,19 @@ public class PhysicsManager2 : MonoBehaviour
     /// <summary>Settle Physics Mode Entity To The Grid Smoothly.</summary>
     private void SettleToGrid(PhysicsObjectTest obj)
     {
+        if (obj.Phys.KeepPhysicsFrame > 0) return;
+        if (obj.Phys.SkipSettleFrame)
+        {
+            obj.Phys.SkipSettleFrame = false;
+            return;
+        }
         float speed = obj.Phys.Velocity.magnitude;
         if (speed >= PhysSettleBlendThreshold) return;
 
         float   t         = 1f - Mathf.Clamp01(speed / PhysSettleBlendThreshold);
         float   blend     = t * PhysSettleStrength * Time.fixedDeltaTime;
         Vector2 entityPos = obj.transform.position;
-        Vector2 nearCell  = CellToWorld(WorldToCell(entityPos));
+        Vector2 nearCell  = CellToWorld(WorldToCell(entityPos + obj.Phys.Velocity.normalized * 0.5f));
         Vector2 delta     = nearCell - entityPos;
 
         if (delta.magnitude < EPSILON)
