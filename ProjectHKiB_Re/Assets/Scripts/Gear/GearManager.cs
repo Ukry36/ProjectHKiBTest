@@ -11,6 +11,7 @@ public class GearManager : MonoBehaviour
     /*[HideInInspector]*/
     public List<CardData> playerCardEquipData;
     [field: SerializeField] public int PhysicalMaxGearSlotCount { get; private set; }
+
     [SerializeField] private int _maxGearSlotCount;
     public int MaxGearSlotCount
     {
@@ -21,7 +22,9 @@ public class GearManager : MonoBehaviour
             OnMaxSlotChanged?.Invoke();
         }
     }
+
     [field: SerializeField] public int PhysicalMaxCardCount { get; private set; }
+
     [SerializeField] private int _maxCardCount;
     public int MaxCardCount
     {
@@ -39,29 +42,35 @@ public class GearManager : MonoBehaviour
     public Action OnMaxSlotChanged;
     public Action OnSetCardData;
 
-    public int CurrentEdittingCard {get => _currentEdittingCardNum; set => _currentEdittingCardNum = value; }
-    public int CurrentEdittingSlot  {get => _currentEdittingSlotNum; set => _currentEdittingSlotNum = value; }
+    public int CurrentEdittingCard { get => _currentEdittingCardNum; set => _currentEdittingCardNum = value; }
+    public int CurrentEdittingSlot { get => _currentEdittingSlotNum; set => _currentEdittingSlotNum = value; }
+
     private int _currentEdittingCardNum;
     private int _currentEdittingSlotNum;
+
+    public int equippedCardIndex;
 
     public void Start()
     {
         gearMergeManager.OnRealGearMade += FindObjectOfType<Player>(true).SetGear;
         playerCardEquipData = new(PhysicalMaxCardCount);
+
         for (int i = 0; i < PhysicalMaxCardCount; i++)
         {
             CardData data = new();
             playerCardEquipData.Add(data);
             data.Initialize();
         }
+
         //SetMaxCard(1); /////////////////////////////////////// temp!!!!!!!
         //SetMaxSlot(4); /////////////////////////////////////// temp!!!!!!!
         EquipCard(0);
+
         //OnMaxCardChanged += () => EquipCard(currentEquippedCardIndex);
         //OnMaxSlotChanged += () => EquipCard(currentEquippedCardIndex);
         //OnSetCardData += () => EquipCard(currentEquippedCardIndex);
     }
-    public int equippedCardIndex;
+
     [Button]
     public void EquipCard() => EquipCard(equippedCardIndex);
 
@@ -80,9 +89,11 @@ public class GearManager : MonoBehaviour
 
     [Button] public void AddMaxSlot() => SetMaxSlot(MaxGearSlotCount + 1);
     [Button] public void SubMaxSlot() => SetMaxSlot(MaxGearSlotCount - 1);
+
     public void SetMaxSlot(int max)
     {
         if (max < 0 || max > PhysicalMaxGearSlotCount) return;
+
         for (int i = 0; i < playerCardEquipData.Count; i++)
         {
             for (int j = 0; j < playerCardEquipData[i].GearList.Length; j++)
@@ -93,22 +104,27 @@ public class GearManager : MonoBehaviour
                 }
             }
         }
+
         MaxGearSlotCount = max;
     }
 
     public CardData GetCardData() => GetCardData(_currentEdittingCardNum);
+
     public CardData GetCardData(int index)
     {
         if (index >= playerCardEquipData.Count || index < 0)
             return null;
+
         return playerCardEquipData[index];
     }
 
     public void SetCardData(CardData data) => SetCardData(_currentEdittingCardNum, data);
+
     public void SetCardData(int cardIndex, CardData data)
     {
         if (cardIndex >= playerCardEquipData.Count || cardIndex < 0)
             return;
+
         playerCardEquipData[cardIndex] = data;
         OnSetCardData?.Invoke();
     }
@@ -124,20 +140,24 @@ public class GearManager : MonoBehaviour
             return;
         if (gearSlotIndex >= MaxGearSlotCount || gearSlotIndex < 0)
             return;
+
         playerCardEquipData[cardIndex].ResetGear(cardIndex, gearSlotIndex);
         OnSetCardData?.Invoke();
     }
 
     public void SetGearData(Gear gear) => SetGearData(_currentEdittingCardNum, _currentEdittingSlotNum, gear);
+
     public void SetGearData(int cardIndex, int gearSlotIndex, Gear gear)
     {
         //Debug.Log($"setGear! : {gear.data.name} to card {cardIndex}, slot {gearSlotIndex}");
+
         if (cardIndex >= MaxCardCount || cardIndex < 0)
             return;
         if (gearSlotIndex >= MaxGearSlotCount || gearSlotIndex < 0)
             return;
-        if (gear == null) 
+        if (gear == null)
             return;
+
         if (gearSlotIndex != gear.IsEquippedInCard(cardIndex) && gear.IsEquippedInCard(cardIndex) >= 0)
         {
             ResetGearData(cardIndex, gear.IsEquippedInCard(cardIndex));
@@ -146,7 +166,6 @@ public class GearManager : MonoBehaviour
         gear.EquipTo(cardIndex, gearSlotIndex);
         playerCardEquipData[cardIndex].SetGear(cardIndex, gearSlotIndex, gear);
         OnSetCardData?.Invoke();
-        
     }
 
     public void EquipCard(CardData data)
@@ -161,10 +180,26 @@ public class GearManager : MonoBehaviour
         EquipCard(playerCardEquipData[index]);
     }
 
-
     public void MergeGear(CardData data)
     {
         if (data == null) return;
         gearMergeManager.MergeCard(data, MaxGearSlotCount);
+    }
+
+    //버프 시스템용
+    public Gear GetEquippedGear(int slotIndex)
+    {
+        CardData currentCard = GetCardData(equippedCardIndex);
+        if (currentCard == null) return null;
+        if (currentCard.GearList == null) return null;
+        if (slotIndex < 0 || slotIndex >= currentCard.GearList.Length) return null;
+        if (slotIndex >= MaxGearSlotCount) return null;
+
+        return currentCard.GearList[slotIndex];
+    }
+
+    public Gear GetCurrentWeaponGear(int weaponSlotIndex = 0)
+    {
+        return GetEquippedGear(weaponSlotIndex);
     }
 }

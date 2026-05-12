@@ -1,16 +1,22 @@
 using System;
 using UnityEngine;
+
 namespace Assets.Scripts.Interfaces.Modules
 {
     public class MovableModule : InterfaceModule, IMovable
     {
+        [field: SerializeField] public float BaseSpeed { get; private set; } = 3f;
+        public FloatBuffContainer SpeedBuffer { get; set; }
         public float Speed { get; set; }
+
         public float SprintCoeff { get; set; }
         public LayerMask WallLayer { get; set; }
         public LayerMask CanPushLayer { get; set; }
         public AudioDataSO FootStepAudio { get; set; }
         public float Mass { get; set; }
+
         [field: SerializeField] public MovePoint MovePoint { get; set; }
+
         public Vector3 LastSetDir { get; set; }
         public bool IsKnockbackMove { get; set; }
         public bool IsSprinting { get; set; }
@@ -24,6 +30,7 @@ namespace Assets.Scripts.Interfaces.Modules
         }
 
         [SerializeField] protected MovementManagerSO movementManager;
+
         private Coroutine knockBackCoroutine;
         private Action OnKnockBackEnded;
 
@@ -46,6 +53,16 @@ namespace Assets.Scripts.Interfaces.Modules
         {
             MovePoint.Initialize();
             ExForce = new(true);
+
+            SpeedBuffer = new FloatBuffContainer(BaseSpeed);
+            SpeedBuffer.OnBuffed += OnSpeedBuffed;
+
+            Speed = SpeedBuffer.BuffedStat;
+        }
+
+        private void OnSpeedBuffed(float buffedSpeed)
+        {
+            Speed = buffedSpeed;
         }
 
         public virtual void KnockBack(Vector3 dir, float strength)
@@ -55,7 +72,7 @@ namespace Assets.Scripts.Interfaces.Modules
 
             IsKnockbackMove = true;
             knockBackCoroutine =
-            StartCoroutine(movementManager.KnockBackCoroutine(transform, this, dir, strength, Mass, OnKnockBackEnded));
+                StartCoroutine(movementManager.KnockBackCoroutine(transform, this, dir, strength, Mass, OnKnockBackEnded));
         }
 
         public virtual void EndKnockbackEarly()
@@ -67,8 +84,17 @@ namespace Assets.Scripts.Interfaces.Modules
             }
             KnockBackEndCallback();
         }
+
         public virtual void KnockBackEndCallback() => IsKnockbackMove = false;
+
         protected virtual void Awake() => OnKnockBackEnded += KnockBackEndCallback;
-        protected virtual void OnDestroy() => OnKnockBackEnded -= KnockBackEndCallback;
+
+        protected virtual void OnDestroy()
+        {
+            OnKnockBackEnded -= KnockBackEndCallback;
+
+            if (SpeedBuffer != null)
+                SpeedBuffer.OnBuffed -= OnSpeedBuffed;
+        }
     }
 }
