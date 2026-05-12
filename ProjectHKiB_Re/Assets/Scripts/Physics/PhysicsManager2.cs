@@ -436,13 +436,17 @@ public class PhysicsManager2 : MonoBehaviour
     /// <summary>Grid 엔티티가 Physics 엔티티에 충격량 전달.</summary>
     private void ApplyWalkImpulseToPhysics(PhysicsObjectTest walker, PhysicsObjectTest target, Vector2Int dir)
     {
-        float spd     = walker.IsSprinting ? walker.WalkSpeed * walker.SprintCoeff : walker.WalkSpeed;
-        float impulse = walker.Mass * spd / Mathf.Max(target.Mass, EPSILON);
+        //float spd     = walker.IsSprinting ? walker.WalkSpeed * walker.SprintCoeff : walker.WalkSpeed;
+        //float impulse = walker.Mass * spd / Mathf.Max(target.Mass, EPSILON);
 
-        if (target.Mode == MovementMode.Grid)
-            SwitchGridToPhysics(target);
+        SwitchGridToPhysics(walker);
+        SwitchGridToPhysics(target);
 
-        target.Phys.Velocity += (1f + target.bounceCoeff) * impulse * ((Vector2)dir).normalized;
+        Vector2 normal = (Vector2)walker.transform.position - (Vector2)target.transform.position;
+
+        TryResolveEntityCollision(walker, target, normal);
+
+        //target.Phys.Velocity += (1f + target.bounceCoeff) * impulse * ((Vector2)dir).normalized;
     }
 
     private void SwitchGridToPhysics(PhysicsObjectTest obj)
@@ -470,10 +474,10 @@ public class PhysicsManager2 : MonoBehaviour
         // ─ 마찰 적용 (항상 전체 속도에 적용) ─────────────────────────────────
         obj.Phys.Velocity = ApplyFriction(obj, obj.Phys.Velocity);
 
-        // ─ 외력 ───────────────────────────────────────────────────────────────
+        // ─ ExForce ──────────────────────────────────────────────────────────
         obj.Phys.Velocity += (Vector2)obj.ExForce / Mathf.Max(obj.Mass, EPSILON) * Time.fixedDeltaTime;
 
-        // ─ 보행 가속 ──────────────────────────────────────────────────────────
+        // ─ Walk Acceleration ─────────────────────────────────────────────────
         if (isActivelyWalking)
         {
             float maxSpd = (obj.IsSprinting ? obj.WalkSpeed * obj.SprintCoeff : obj.WalkSpeed)
@@ -500,18 +504,21 @@ public class PhysicsManager2 : MonoBehaviour
         int   steps = Mathf.Max(1, Mathf.CeilToInt(totalDist / gridSize));
         float dt    = Time.fixedDeltaTime / steps;
 
-        for (int s = 0; s < steps; s++)
+        bool skipCollision = false;
+        for (int s = 0; s < steps || skipCollision; s++)
         {
             Vector2 delta = obj.Phys.Velocity * dt;
             if (delta.sqrMagnitude < EPSILON) break;
 
             Vector2 origin       = obj.transform.position;
             Vector2 nextPosition = origin + delta;
-            if (TryResolveCellCollision(obj, nextPosition, delta.normalized))
+            if (!skipCollision && TryResolveCellCollision(obj, nextPosition, delta.normalized))
             {
                 if (obj.Phys.Velocity.sqrMagnitude < stopThreshold * stopThreshold) break;
+                skipCollision = true;
                 continue;
             }
+            skipCollision = false;
 
             Vector2Int previousCell = WorldToCell(origin);
             obj.transform.position += new Vector3(delta.x, delta.y, 0f);
@@ -544,11 +551,11 @@ public class PhysicsManager2 : MonoBehaviour
         if (IsStaticWall(obj, currentCell))
         {
             normal = -fallbackDir;
-            if (normal.sqrMagnitude < EPSILON)
-                normal = Vector2.up;
             normal.Normalize();
-            return true;
+            //Debug.Log("staticCur");
+            return true; // current position is walled
         }
+        if (nextCell == currentCell) return false;
 
         Vector2Int dirCell = DirectionToCellStep(fallbackDir);
 
@@ -566,37 +573,16 @@ public class PhysicsManager2 : MonoBehaviour
                 normal += new Vector2(0f, -dirCell.y);
         }
 
-        if (normal.sqrMagnitude >= EPSILON)
+        if (normal.sqrMagnitude > 0)
         {
             normal.Normalize();
-            return true;
-        }
-
-        if (nextCell == currentCell) return false;
+            //Debug.Log("staticDir");
+            return true; // Next cell based on movement direction is walled
+        }                // This is used when nextCell == currentCell but real entity destination is walled
 
         Vector2Int cellDelta = nextCell - currentCell;
 
-        if (cellDelta.x != 0)
-        {
-            Vector2Int xCell = currentCell + new Vector2Int(cellDelta.x, 0);
-            if (IsStaticWall(obj, xCell))
-                normal += new Vector2(-Mathf.Sign(cellDelta.x), 0f);
-        }
-
-        if (cellDelta.y != 0)
-        {
-            Vector2Int yCell = currentCell + new Vector2Int(0, cellDelta.y);
-            if (IsStaticWall(obj, yCell))
-                normal += new Vector2(0f, -Mathf.Sign(cellDelta.y));
-        }
-
-        if (normal.sqrMagnitude >= EPSILON)
-        {
-            normal.Normalize();
-            return true;
-        }
-
-        if (!IsStaticWall(obj, nextCell)) return false;
+        if (!IsStaticWall(obj, nextCell)) return false; // no wall
 
         if (cellDelta.x != 0 && cellDelta.y == 0)
             normal = new Vector2(-Mathf.Sign(cellDelta.x), 0f);
@@ -609,6 +595,7 @@ public class PhysicsManager2 : MonoBehaviour
             normal = Vector2.up;
 
         normal.Normalize();
+        //Debug.Log("staticDiagonal");
         return true;
     }
 
@@ -678,6 +665,7 @@ public class PhysicsManager2 : MonoBehaviour
     /// <summary>정적 벽과의 충돌 (반발 + 미끄러짐).</summary>
     private bool TryResolveEntityCollision(PhysicsObjectTest objA, PhysicsObjectTest objB, Vector2 normal)
     {
+        Debug.Log("entityc");
         bool aIsGrid = objA.Mode == MovementMode.Grid;
         bool bIsGrid = objB.Mode == MovementMode.Grid;
 
@@ -707,21 +695,14 @@ public class PhysicsManager2 : MonoBehaviour
         float vDotN = Vector2.Dot(obj.Phys.Velocity, normal);
         if (vDotN >= 0f) return; // 이미 벽에서 멀어지는 중
 
-        // 법선 방향 반발
-        obj.Phys.Velocity -= (1f + obj.bounceCoeff) * vDotN * normal;
-
-        // 마찰에 의한 접선 감속
-        Vector2 tangent       = obj.Phys.Velocity - Vector2.Dot(obj.Phys.Velocity, normal) * normal;
-        obj.Phys.Velocity     = tangent * obj.frictionCoeff;
+        obj.Phys.Velocity -= (1f + obj.bounceCoeff) * vDotN * normal; // bounce
 
         if (obj.Phys.Velocity.magnitude < stopThreshold)
             obj.Phys.Velocity = Vector2.zero;
     }
 
     /// <summary>두 Physics 엔티티 간 충돌 (운동량 보존).</summary>
-    private void ResolveEntityCollision(PhysicsObjectTest objA,
-                                         PhysicsObjectTest objB,
-                                         Vector2           normal)
+    private void ResolveEntityCollision(PhysicsObjectTest objA, PhysicsObjectTest objB, Vector2 normal)
     {
         // Grid 모드 엔티티가 섞인 경우
         bool aIsGrid = objA.Mode == MovementMode.Grid;

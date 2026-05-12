@@ -5,9 +5,6 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
     public PhysicsManager2 physManager;
     
     [Header("physics")]
-    
-    public float Height   = 2f; 
-    public float verticalCollisionOffset  = 0.0f;
     public float frictionCoeff   = 0.85f;
     public float bounceCoeff     = 0.3f;  
     public float airFriction     = 0.98f;   
@@ -38,23 +35,6 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
     public Vector3 LastSetDir { get; set; }
     public bool IsSprinting { get; set; }
     public bool IsWalking { get; set; }
-    public bool IsWalkingDominant
-    {
-        get
-        {
-            float spd = IsSprinting ? WalkSpeed * SprintCoeff : WalkSpeed;
-            return IsWalking && RealWalkingVector.sqrMagnitude > 0 && IsGrounded && ((Vector2)ExForce).magnitude < spd * Mass;
-        }
-    }
-    public Vector2 WalkingVector 
-    { 
-        get
-        {
-            float spd = (IsSprinting ? WalkSpeed * SprintCoeff : WalkSpeed) * (IsGrounded ? 1f : 0.1f);
-            spd *= 1 - Mathf.Clamp01(frictionCoeff * frictionWalkInfluence);
-            return WalkingDir.normalized * spd;
-        }
-    }
 
     public Vector2 RealWalkingVector { get; set; }
 
@@ -68,13 +48,8 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
     [field: SerializeField] public BodyComponent[] BodyComponents { get; set; }
     public float WalkAcceleration = 30f;
 
-    public Vector2 TempVelocity { get; set; }
- 
-    public float MoveBudget { get; set; }
  
     public Vector3 PrevEntityPos { get; set; }
-    public bool CollisionResolved { get; set; }
-    public bool DelayFollowMove { get; set; }
 
     public ZCollider2D zCollider;
 

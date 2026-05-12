@@ -13509,7 +13509,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 327803487}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 15, y: -3, z: 0}
+  m_LocalPosition: {x: 10, y: -3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -13775,10 +13775,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  Height: 2
-  verticalCollisionOffset: 0
   frictionCoeff: 0.9
-  bounceCoeff: 0
+  bounceCoeff: 1
   airFriction: 0.98
   stopAccelerateThreshold: 0
   frictionWalkInfluence: 1
@@ -13793,7 +13791,7 @@ MonoBehaviour:
     IsSettling: 0
   Phys:
     Velocity: {x: 0, y: 0}
-  ModeTransitionThreshold: 3
+  ModeTransitionThreshold: 0
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -71637,9 +71635,9 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
+    x: 0.17844523
     y: 0
-    width: 1
+    width: 0.64310956
     height: 1
   near clip plane: -5000
   far clip plane: 5000
@@ -71669,7 +71667,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1718942438}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 15, y: -2.9999, z: -10}
+  m_LocalPosition: {x: 10, y: -2.9999, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -77232,7 +77230,6 @@ Transform:
   - {fileID: 857761131}
   - {fileID: 681393689}
   - {fileID: 1414484761}
-  - {fileID: 1995211713}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -82872,58 +82869,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1995124448}
   m_CullTransparentMesh: 1
---- !u!1 &1995211711
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1995211713}
-  - component: {fileID: 1995211712}
-  m_Layer: 0
-  m_Name: PhysicsManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1995211712
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1995211711}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8927ef70b8f784f41afe9c9d8e1932c4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gravity: -9.8
-  gridSize: 1
-  settleBlendThreshold: 1
-  settleStrength: 8
-  settleQuitDist: 0
-  stopThreshold: 0.01
-  MaxPhysicsStep: 10
-  enable: 0
---- !u!4 &1995211713
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1995211711}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1845891765}
-  m_RootOrder: 16
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1996233908
 GameObject:
   m_ObjectHideFlags: 0
