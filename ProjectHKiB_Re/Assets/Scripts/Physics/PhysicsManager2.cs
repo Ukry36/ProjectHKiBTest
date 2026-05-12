@@ -23,8 +23,7 @@ public class GridState
 public class PhysicsState
 {
     public Vector2 Velocity;
-    public bool SkipSettleFrame;
-    public int KeepPhysicsFrame;
+    public bool KeepPhysics;
 }
 
 
@@ -48,7 +47,6 @@ public class PhysicsManager2 : MonoBehaviour
     public float stopThreshold            = 0.01f;
     public bool enable;
     public float gridSettleSpeed = 3f;
-    public int keepPhysicsFrame = 2;
 
     // ── Buffer ────────────────────────────────────
     private readonly Collider2D[] overlapBuffer = new Collider2D[32];
@@ -197,7 +195,13 @@ public class PhysicsManager2 : MonoBehaviour
         bool wantsPhysics = !obj.IsGrounded || exForceMag >= threshold;
         bool wantsGrid    = obj.IsGrounded && exForceMag < threshold;
 
-        if (obj.Mode == MovementMode.Physics && wantsGrid && obj.Phys.KeepPhysicsFrame > 0)
+        if (obj.Mode == MovementMode.Physics && obj.Phys.KeepPhysics)
+        {
+            obj.Phys.KeepPhysics = false;
+            return;
+        }
+
+        if (obj.Mode == MovementMode.Physics && wantsGrid)
         {
             obj.Mode = MovementMode.Grid;
 
@@ -222,10 +226,8 @@ public class PhysicsManager2 : MonoBehaviour
             obj.Mode = MovementMode.Physics;
             obj.Phys.Velocity = obj.Grid.Velocity; // GridVelocity to PhysicsVelocity
             obj.Grid.Velocity = Vector2.zero;
-            obj.Phys.SkipSettleFrame = true;
-            obj.Phys.KeepPhysicsFrame = keepPhysicsFrame;
+            obj.Phys.KeepPhysics = true;
         }
-        obj.Phys.KeepPhysicsFrame--;
     }
 
     // ═════════════════════════════════════════════
@@ -234,7 +236,7 @@ public class PhysicsManager2 : MonoBehaviour
 
     private void UpdateGridMovement(PhysicsObjectTest obj)
     {
-        Debug.Log("start:" + obj.Velocity);
+        //Debug.Log("start:" + obj.Grid.Velocity);
         // ─ 정착 중 처리 (기존과 동일) ─
         if (obj.Grid.IsSettling)
         {
@@ -246,7 +248,7 @@ public class PhysicsManager2 : MonoBehaviour
             }
             obj.Grid.IsSettling = false;
         }
-        Debug.Log("after settle:" + obj.Velocity);
+        //Debug.Log("after settle:" + obj.Grid.Velocity);
     
         // ─ InputDir 갱신 (기존과 동일) ─
         Vector2Int inputDir = Vector2Int.zero;
@@ -264,7 +266,7 @@ public class PhysicsManager2 : MonoBehaviour
         // ─ Grid Velocity 2D 연산 ───────────────────────────────────
         // Physics 모드와 동일하게 "마찰 → 보행 가속" 순서로 처리한다.
         obj.Grid.Velocity = ApplyFriction(obj, obj.Grid.Velocity);
-        Debug.Log("after friction:" + obj.Velocity);
+        //Debug.Log("after friction:" + obj.Grid.Velocity);
         if (inputDir != Vector2Int.zero)
         {
             Vector2 walkDir = ((Vector2)inputDir).normalized;
@@ -326,7 +328,7 @@ public class PhysicsManager2 : MonoBehaviour
         Vector2 worldTarget = CellToWorld(obj.Grid.TargetCell);
         Vector2 newPos      = Vector2.Lerp(worldCur, worldTarget, obj.Grid.CellProgress);
         obj.transform.position = new Vector3(newPos.x, newPos.y, obj.ZPosition);
-        Debug.Log("moved:" + obj.Velocity);
+        //Debug.Log("moved:" + obj.Grid.Velocity);
     }
 
     // ═════════════════════════════════════════════
@@ -457,8 +459,7 @@ public class PhysicsManager2 : MonoBehaviour
         obj.Mode          = MovementMode.Physics;
         obj.Phys.Velocity = obj.Grid.Velocity;
         obj.Grid.Velocity = Vector2.zero;
-        obj.Phys.SkipSettleFrame = true;
-        obj.Phys.KeepPhysicsFrame = keepPhysicsFrame;
+        obj.Phys.KeepPhysics = true;
 
         AddCellOccupant(WorldToCell(obj.transform.position), obj);
         pendingPhysicsEntities.Add(obj);
@@ -665,8 +666,8 @@ public class PhysicsManager2 : MonoBehaviour
 
     private bool TryResolveEntityCollision(PhysicsObjectTest objA, PhysicsObjectTest objB, Vector2 normal)
     {
-        objA.Phys.SkipSettleFrame = true;
-        objB.Phys.SkipSettleFrame = true;
+        objA.Phys.KeepPhysics = true;
+        objB.Phys.KeepPhysics = true;
         bool aIsGrid = objA.Mode == MovementMode.Grid;
         bool bIsGrid = objB.Mode == MovementMode.Grid;
 
@@ -753,48 +754,6 @@ public class PhysicsManager2 : MonoBehaviour
             obj.Phys.Velocity = Vector2.zero;
     }
 
-    /// <summary>두 Physics 엔티티 간 충돌 (운동량 보존).</summary>
-    private void ResolveEntityCollision(PhysicsObjectTest objA, PhysicsObjectTest objB, Vector2 normal)
-    {
-        // Grid 모드 엔티티가 섞인 경우
-        bool aIsGrid = objA.Mode == MovementMode.Grid;
-        bool bIsGrid = objB.Mode == MovementMode.Grid;
-
-        if (aIsGrid || bIsGrid)
-        {
-            // Grid ↔ Physics: 물리 엔티티에만 충격량
-            if (!aIsGrid)
-            {
-                float vDotN = Vector2.Dot(objA.Phys.Velocity, normal);
-                if (vDotN < 0f)
-                    objA.Phys.Velocity -= (1f + objA.bounceCoeff) * vDotN * normal;
-            }
-            if (!bIsGrid)
-            {
-                float vDotN = Vector2.Dot(objB.Phys.Velocity, -normal);
-                if (vDotN < 0f)
-                    objB.Phys.Velocity -= (1f + objB.bounceCoeff) * vDotN * (-normal);
-            }
-            return;
-        }
-
-        // Physics ↔ Physics: 계수 반발 탄성 충돌
-        Vector2 vA   = objA.Phys.Velocity;
-        Vector2 vB   = objB.Phys.Velocity;
-        float   mA   = objA.Mass;
-        float   mB   = objB.Mass;
-
-        float vRel = Vector2.Dot(vA - vB, normal);
-        if (vRel >= 0f) return; // 이미 멀어지는 중
-
-        float e = (objA.bounceCoeff + objB.bounceCoeff) * 0.5f;
-        float j = -(1f + e) * vRel / (1f / mA + 1f / mB);
-
-        Vector2 impulse        = j * normal;
-        objA.Phys.Velocity    += impulse / mA;
-        objB.Phys.Velocity    -= impulse / mB;
-    }
-
     // ═════════════════════════════════════════════
     //  Update Vertical Physics
     // ═════════════════════════════════════════════
@@ -844,12 +803,7 @@ public class PhysicsManager2 : MonoBehaviour
     /// <summary>Settle Physics Mode Entity To The Grid Smoothly.</summary>
     private void SettleToGrid(PhysicsObjectTest obj)
     {
-        if (obj.Phys.KeepPhysicsFrame > 0) return;
-        if (obj.Phys.SkipSettleFrame)
-        {
-            obj.Phys.SkipSettleFrame = false;
-            return;
-        }
+        if (obj.Phys.KeepPhysics) return;
         float speed = obj.Phys.Velocity.magnitude;
         if (speed >= PhysSettleBlendThreshold) return;
 

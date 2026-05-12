@@ -36,7 +36,6 @@ public class ExternalForce
 
 public interface IMovable : IMovableBase, IInitializable
 {
-    public Vector3 Velocity { get; set; }
     public MovePoint MovePoint { get; set; }
     public Vector3 LastSetDir { get; set; }
     public bool IsKnockbackMove { get; set; }

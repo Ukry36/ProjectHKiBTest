@@ -19,7 +19,6 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
  
     public LayerMask floorLayer;
  
-    [field: NaughtyAttributes.ReadOnly][field: SerializeField]public Vector3 Velocity { get; set; }
     public float ZPosition 
     { 
         get => transform.position.z; 
