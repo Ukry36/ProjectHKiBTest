@@ -38,11 +38,14 @@ public class FloatBuffContainer
     }
 
     public void AddBuff(StatBuffSO buff, int effectIndex, int multiplyer, bool stack)
+        => AddBuff(buff, effectIndex, null, multiplyer, stack);
+
+    public void AddBuff(StatBuffSO buff, int effectIndex, Gear sourceGear, int multiplyer, bool stack)
     {
         var effect = buff.GetEffect(effectIndex);
         if (effect == null) return;
 
-        int effectID = buff.GetEffectID(effectIndex);
+        int effectID = buff.GetEffectID(effectIndex, sourceGear);
 
         if (effect.IsDebuff) multiplyer *= -1;
 
@@ -65,11 +68,14 @@ public class FloatBuffContainer
     }
 
     public void RemoveBuff(StatBuffSO buff, int effectIndex, int multiplyer, bool remove)
+        => RemoveBuff(buff, effectIndex, null, multiplyer, remove);
+
+    public void RemoveBuff(StatBuffSO buff, int effectIndex, Gear sourceGear, int multiplyer, bool remove)
     {
         var effect = buff.GetEffect(effectIndex);
         if (effect == null) return;
 
-        int effectID = buff.GetEffectID(effectIndex);
+        int effectID = buff.GetEffectID(effectIndex, sourceGear);
 
         if (_statBuffAddList.ContainsKey(effectID))
         {
@@ -125,11 +131,14 @@ public class BoolBuffContainer
     public bool BuffedStat => StatBuff;
 
     public void AddBuff(StatBuffSO buff, int effectIndex, int multiplyer, bool stack)
+        => AddBuff(buff, effectIndex, null, multiplyer, stack);
+
+    public void AddBuff(StatBuffSO buff, int effectIndex, Gear sourceGear, int multiplyer, bool stack)
     {
         var effect = buff.GetEffect(effectIndex);
         if (effect == null) return;
 
-        int effectID = buff.GetEffectID(effectIndex);
+        int effectID = buff.GetEffectID(effectIndex, sourceGear);
 
         if (_statBuffList.ContainsKey(effectID) && stack)
             _statBuffList[effectID] += effect.IsDebuff ? -multiplyer : multiplyer;
@@ -140,11 +149,14 @@ public class BoolBuffContainer
     }
 
     public void RemoveBuff(StatBuffSO buff, int effectIndex, int multiplyer, bool remove)
+        => RemoveBuff(buff, effectIndex, null, multiplyer, remove);
+
+    public void RemoveBuff(StatBuffSO buff, int effectIndex, Gear sourceGear, int multiplyer, bool remove)
     {
         var effect = buff.GetEffect(effectIndex);
         if (effect == null) return;
 
-        int effectID = buff.GetEffectID(effectIndex);
+        int effectID = buff.GetEffectID(effectIndex, sourceGear);
 
         if (_statBuffList.ContainsKey(effectID))
         {
@@ -163,5 +175,79 @@ public class BoolBuffContainer
         }
 
         OnBuffed?.Invoke(BuffedStat);
+    }
+}
+
+public class CooltimeMultiplierBuffContainer
+{
+    public Action<float> OnBuffed;
+
+    private readonly float _baseMultiplier;
+    private readonly Dictionary<int, float> _cooltimeBuffList = new(10);
+
+    public CooltimeMultiplierBuffContainer(float baseMultiplier = 1f)
+    {
+        _baseMultiplier = baseMultiplier;
+    }
+
+    public float BuffedMultiplier
+    {
+        get
+        {
+            float result = _baseMultiplier;
+            foreach (var item in _cooltimeBuffList)
+                result += item.Value;
+
+            return Mathf.Max(0f, result);
+        }
+    }
+
+    public void AddBuff(StatBuffSO buff, int effectIndex, int multiplyer, bool stack)
+        => AddBuff(buff, effectIndex, null, multiplyer, stack);
+
+    public void AddBuff(StatBuffSO buff, int effectIndex, Gear sourceGear, int multiplyer, bool stack)
+    {
+        var effect = buff.GetEffect(effectIndex);
+        if (effect == null) return;
+
+        int effectID = buff.GetEffectID(effectIndex, sourceGear);
+
+        float value = effect.Value * multiplyer;
+
+        // Debuff면 쿨타임 증가, Buff면 쿨타임 감소
+        if (!effect.IsDebuff)
+            value *= -1f;
+
+        if (_cooltimeBuffList.ContainsKey(effectID) && stack)
+            _cooltimeBuffList[effectID] += value;
+        else
+            _cooltimeBuffList[effectID] = value;
+
+        OnBuffed?.Invoke(BuffedMultiplier);
+    }
+
+    public void RemoveBuff(StatBuffSO buff, int effectIndex, int multiplyer, bool remove)
+        => RemoveBuff(buff, effectIndex, null, multiplyer, remove);
+
+    public void RemoveBuff(StatBuffSO buff, int effectIndex, Gear sourceGear, int multiplyer, bool remove)
+    {
+        var effect = buff.GetEffect(effectIndex);
+        if (effect == null) return;
+
+        int effectID = buff.GetEffectID(effectIndex, sourceGear);
+        if (!_cooltimeBuffList.ContainsKey(effectID)) return;
+
+        float value = effect.Value * multiplyer;
+
+        // AddBuff와 같은 부호 규칙을 맞춰야 정상 제거됨
+        if (!effect.IsDebuff)
+            value *= -1f;
+
+        _cooltimeBuffList[effectID] -= value;
+
+        if (remove || Mathf.Abs(_cooltimeBuffList[effectID]) <= 0.0001f)
+            _cooltimeBuffList.Remove(effectID);
+
+        OnBuffed?.Invoke(BuffedMultiplier);
     }
 }

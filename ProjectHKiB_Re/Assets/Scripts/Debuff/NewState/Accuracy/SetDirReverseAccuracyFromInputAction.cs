@@ -1,0 +1,40 @@
+using UnityEngine;
+
+[CreateAssetMenu(
+    fileName = "SetDirReverseAccuracyFromInputAction",
+    menuName = "State Machine/Action/SetDir/SetDirReverseAccuracyFromInputAction"
+)]
+public class SetDirReverseAccuracyFromInputAction : StateActionSO
+{
+    [SerializeField] private bool negative;
+
+    public override void Act(StateController stateController)
+    {
+        if (!stateController.TryGetInterface(out IDirAnimatable animatable)) return;
+        if (!stateController.TryGetInterface(out IAttackable attackable)) return;
+        if (attackable is not AttackableModule attackableModule) return;
+
+        Vector2 baseDir = GameManager.instance.inputManager.MoveInput;
+        if (baseDir.sqrMagnitude <= 0.0001f) return;
+
+        baseDir.Normalize();
+
+        bool shouldReverse = attackableModule.TryRollAccuracyDebuff();
+        Vector2 finalDir = shouldReverse ? baseDir * -1f : baseDir;
+
+        if (negative)
+            finalDir *= -1f;
+
+        if (!animatable.CheckIfLastSetDirectionSame(finalDir))
+            animatable.SetAnimationDirection(finalDir);
+
+#if UNITY_EDITOR
+        Debug.Log(
+            $"[AccuracyReverse/Input] {stateController.name} | " +
+            $"chance={attackableModule.AccuracyMissChance:F2} | " +
+            $"reversed={shouldReverse} | " +
+            $"baseDir={baseDir} | finalDir={finalDir}"
+        );
+#endif
+    }
+}

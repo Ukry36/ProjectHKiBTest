@@ -10,21 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d404a4644b4e68d40a814bdcf9d0d820, type: 3}
-  m_Name: Sadness
+  m_Name: RunawayTest
   m_EditorClassIdentifier: 
-  <Description>k__BackingField: "(\uC774\uB3D9\uC18D\uB3C4 \uAC10\uC18C \uC18C) +
-    (\uC800\uD56D -1)"
+  <Description>k__BackingField: "Value \uD56D\uC0C1 1\nIdle / Move / AttackBranch
+    \uAC19\uC740 \uC0C1\uC704 \uC0C1\uD0DC\uB4E4\uC5D0\uC11C\nDecision = IsRunawayDecision\nTrue
+    State = Backstep Target State\nFalse State = \uC5C6\uC74C"
   <IsBuffTimeInfinite>k__BackingField: 0
-  <BuffTime>k__BackingField: 0
-  <TimeStackType>k__BackingField: 1
+  <BuffTime>k__BackingField: 2
+  <TimeStackType>k__BackingField: 0
   <BuffStackType>k__BackingField: 0
   <BuffRemoveType>k__BackingField: 0
   <Effects>k__BackingField:
-  - <BuffType>k__BackingField: {fileID: 11400000, guid: d67239f1a85a134428b8ee4ce734e2dd, type: 2}
-    <IsDebuff>k__BackingField: 1
-    <Value>k__BackingField: 1
-    <IsValuePropositional>k__BackingField: 0
-  - <BuffType>k__BackingField: {fileID: 11400000, guid: 76ccfc27f53ed0a4ba32218bb173d74a, type: 2}
+  - <BuffType>k__BackingField: {fileID: 11400000, guid: 1221a595873866a4db38504d9d7e8e8a, type: 2}
     <IsDebuff>k__BackingField: 0
     <Value>k__BackingField: 1
     <IsValuePropositional>k__BackingField: 0

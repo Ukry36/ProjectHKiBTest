@@ -5,7 +5,7 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class GraffitiManager : MonoBehaviour
+public class GraffitiManager : MonoBehaviour, IGPRecoverBuffable
 {
     public Player player;
     [SerializeField] private List<Vector2Int> graffitiProgress = new();
@@ -25,6 +25,16 @@ public class GraffitiManager : MonoBehaviour
 
     public int MaxGP = 5;
     [SerializeField]private int _GP;
+
+    // 추가: GP 회복 쿨타임 배율 버퍼
+    public CooltimeMultiplierBuffContainer GPRecoverCooltimeBuffer { get; private set; }
+
+    // 현재 진행 중 GP 회복 타이머의 원본 시간
+    private float _currentBaseGPRecoverTime;
+
+    public float GPRecoverCooltimeMultiplier =>
+        GPRecoverCooltimeBuffer != null ? GPRecoverCooltimeBuffer.BuffedMultiplier : 1f;
+
     public int GP 
     { 
         get => _GP;
@@ -47,6 +57,7 @@ public class GraffitiManager : MonoBehaviour
     {
         Initialize();
     }
+
     public void Oestroy()
     {
         UnBindInputs();
@@ -54,16 +65,53 @@ public class GraffitiManager : MonoBehaviour
 
     public void Initialize()
     {
+        GPRecoverCooltimeBuffer = new CooltimeMultiplierBuffContainer(1f);
+        GPRecoverCooltimeBuffer.OnBuffed += OnGPRecoverCooltimeMultiplierChanged;
+
         _GP = MaxGP;
+        _currentBaseGPRecoverTime = GPRecovertime;
         StartGPRecoverTimer();
         BindInputs();
     }
+
     public void RecoverGP() => GP++;
+
     public void StartGPRecoverTimer()
     {
-        if(_GP == MaxGP || !_GPRecoverTimer.IsCooltimeEnded) return;
+        if (_GP == MaxGP || !_GPRecoverTimer.IsCooltimeEnded) return;
+
+        _currentBaseGPRecoverTime = GPRecovertime;
+
+        float finalRecoverTime = _currentBaseGPRecoverTime * GPRecoverCooltimeMultiplier;
+
         _GPRecoverTimer.CancelCooltime();
-        _GPRecoverTimer.StartCooltime(GPRecovertime, RecoverGP);
+        _GPRecoverTimer.StartCooltime(finalRecoverTime, RecoverGP);
+    }
+
+    public void RefreshGPRecoverTimer()
+    {
+        if (_GPRecoverTimer == null || _GPRecoverTimer.IsCooltimeEnded) return;
+        if (_GP >= MaxGP) return;
+        if (_currentBaseGPRecoverTime <= 0f) return;
+
+        float elapsed = _GPRecoverTimer.ElapsedTime;
+        float newTotal = _currentBaseGPRecoverTime * GPRecoverCooltimeMultiplier;
+        float newRemain = Mathf.Max(0f, newTotal - elapsed);
+
+        _GPRecoverTimer.CancelCooltime();
+
+        if (newRemain <= 0f)
+        {
+            RecoverGP();
+            return;
+        }
+
+        _GPRecoverTimer.StartCooltime(newRemain, RecoverGP);
+    }
+
+    private void OnGPRecoverCooltimeMultiplierChanged(float multiplier)
+    {
+        RefreshGPRecoverTimer();
     }
 
     public void StartGraffiti(Vector2 startPos)
@@ -79,6 +127,7 @@ public class GraffitiManager : MonoBehaviour
         
         ProcessGraffiti(Vector2Int.zero);
     }
+
     public void ResetGraffiti()
     {
         graffitiProgress.Clear();
@@ -167,6 +216,7 @@ public class GraffitiManager : MonoBehaviour
         else
             EndGraffitiProgress();
     }
+
     public void EndGraffitiProgress()
     {
         StartTinker();
@@ -199,6 +249,7 @@ public class GraffitiManager : MonoBehaviour
         EndGraffitiProgress();
         StartCoroutine(EndGraffitiAttackCoroutine());
     }
+
     private IEnumerator EndGraffitiAttackCoroutine()
     {
         yield return null;
@@ -206,6 +257,7 @@ public class GraffitiManager : MonoBehaviour
         if (player.BaseData.GraffitiAttackState != null)
             player.ChangeState(player.BaseData.GraffitiAttackState);
     }
+
     public void EndGraffitiSkill()
     {
         if (CheckCompleted() >= 0) gearManager.EquipCard(CheckCompleted());
@@ -214,6 +266,7 @@ public class GraffitiManager : MonoBehaviour
         EndGraffitiProgress();
         StartCoroutine(EndGraffitiSkillCoroutine());
     }
+
     private IEnumerator EndGraffitiSkillCoroutine()
     {
         yield return null;
@@ -290,5 +343,4 @@ public class GraffitiManager : MonoBehaviour
     public void EndGraffitiSkill(InputAction.CallbackContext context) { if (context.performed) EndGraffitiSkill(); }
     public void ResetGraffiti(InputAction.CallbackContext context) { if (context.performed) ResetGraffiti(); }
     public void CancelGraffiti(InputAction.CallbackContext context) { if (context.performed) EndGraffitiProgress(); }
-
 }

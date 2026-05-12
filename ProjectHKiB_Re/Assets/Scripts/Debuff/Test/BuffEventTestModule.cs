@@ -1,78 +1,104 @@
-using Assets.Scripts.Interfaces.Modules;
 using UnityEngine;
 
-[RequireComponent(typeof(GetBuffEventModule))]
 public class BuffEventTestModule : MonoBehaviour
 {
     [Header("Target")]
     [SerializeField] private Transform _defaultTarget;
     [SerializeField] private bool _useSelfIfTargetIsNull = true;
 
-    [Header("Test Trigger")]
-    [SerializeField] private bool _useKeyInput = true;
-    [SerializeField] private KeyCode _testKey = KeyCode.B;
-    [SerializeField] private bool _useTriggerEnter = false;
+    [Header("First Emotion")]
+    [SerializeField] private KeyCode _firstKey = KeyCode.B;
+    [SerializeField] private EmotionColor _firstColor = EmotionColor.Sadness;
+    [SerializeField] private int _firstStack = 1;
 
-    [Header("Debug")]
+    [Header("Second Emotion")]
+    [SerializeField] private KeyCode _secondKey = KeyCode.N;
+    [SerializeField] private EmotionColor _secondColor = EmotionColor.Happiness;
+    [SerializeField] private int _secondStack = 1;
+
+    [Header("Option")]
+    [SerializeField] private float _overrideDuration = -1f;
     [SerializeField] private bool _showLog = true;
-
-    private GetBuffEventModule _getBuffEventModule;
-
-    private void Awake()
-    {
-        _getBuffEventModule = GetComponent<GetBuffEventModule>();
-    }
 
     private void Update()
     {
-        if (_useKeyInput && Input.GetKeyDown(_testKey))
-        {
-            ApplyBuffToDefaultTarget();
-        }
+        if (Input.GetKeyDown(_firstKey))
+            ApplyEmotionToDefaultTarget(_firstColor, _firstStack);
+
+        if (Input.GetKeyDown(_secondKey))
+            ApplyEmotionToDefaultTarget(_secondColor, _secondStack);
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (!_useTriggerEnter) return;
-
-        ApplyBuff(other.transform);
-    }
-
-    public void ApplyBuffToDefaultTarget()
+    private void ApplyEmotionToDefaultTarget(EmotionColor color, int stack)
     {
         Transform target = _defaultTarget;
 
         if (target == null && _useSelfIfTargetIsNull)
             target = transform;
 
-        ApplyBuff(target);
+        ApplyEmotion(target, color, stack);
     }
 
-    public void ApplyBuff(Transform target)
+    public void ApplyEmotion(Transform target, EmotionColor color, int stack)
     {
-        if (_getBuffEventModule == null)
-        {
-            Debug.LogError("[BuffEventTestModule] GetBuffEventModule을 찾지 못함.");
-            return;
-        }
-
-        if (_getBuffEventModule.Buff == null)
-        {
-            Debug.LogError("[BuffEventTestModule] Buff가 비어 있음.");
-            return;
-        }
-
         if (target == null)
         {
             Debug.LogError("[BuffEventTestModule] Target이 null임.");
             return;
         }
 
-        _getBuffEventModule.GetBuff(target, _getBuffEventModule.Buff);
+        IEmotionModule emotionModule = FindEmotionModule(target);
+
+        if (emotionModule == null)
+        {
+            Debug.LogError($"[BuffEventTestModule] {target.name} 에서 IEmotionModule을 찾지 못함.");
+            return;
+        }
+
+        emotionModule.ApplyColor(color, stack, _overrideDuration);
 
         if (_showLog)
         {
-            Debug.Log($"[BuffEventTestModule] {target.name} 에게 {_getBuffEventModule.Buff.name} 버프 적용");
+            Debug.Log(
+                $"[BuffEventTestModule] {target.name} 에게 {color} {stack}스택 적용"
+            );
         }
+    }
+
+    private IEmotionModule FindEmotionModule(Transform target)
+    {
+        if (target.TryGetComponent(out InterfaceRegister register) &&
+            register.TryGetInterface(out IEmotionModule emotionModule))
+        {
+            return emotionModule;
+        }
+
+        InterfaceRegister parentRegister = target.GetComponentInParent<InterfaceRegister>();
+        if (parentRegister != null &&
+            parentRegister.TryGetInterface(out emotionModule))
+        {
+            return emotionModule;
+        }
+
+        InterfaceRegister childRegister = target.GetComponentInChildren<InterfaceRegister>();
+        if (childRegister != null &&
+            childRegister.TryGetInterface(out emotionModule))
+        {
+            return emotionModule;
+        }
+
+        EmotionModule directModule = target.GetComponent<EmotionModule>();
+        if (directModule != null)
+            return directModule;
+
+        EmotionModule parentModule = target.GetComponentInParent<EmotionModule>();
+        if (parentModule != null)
+            return parentModule;
+
+        EmotionModule childModule = target.GetComponentInChildren<EmotionModule>();
+        if (childModule != null)
+            return childModule;
+
+        return null;
     }
 }

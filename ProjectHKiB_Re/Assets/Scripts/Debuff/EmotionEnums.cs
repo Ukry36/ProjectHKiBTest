@@ -1,16 +1,14 @@
 public enum EmotionColor
 {
+    // 기본 감정색
     Sadness,
     Excitement,
     Happiness,
     Anger,
     Void,
-    Fear
-}
+    Fear,
 
-public enum EmotionReaction
-{
-    None,
+    // 반응 감정색
     Collapse,
     Madness,
     Longing,

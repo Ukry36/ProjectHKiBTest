@@ -9,17 +9,53 @@ public class Cooltime
 {
     public float Time { get; private set; }
     public bool IsCooltimeEnded { get; private set; }
-    public float ElapsedTime { get => GameManager.instance.cooltimeManager.GetElapsedTime(GetHashCode()); }
-    public float RemainTime { get => Time - ElapsedTime; }
+
+    private TweenCallback _cooltimeEndCallback;
+
+    public float ElapsedTime => GameManager.instance.cooltimeManager.GetElapsedTime(GetHashCode());
+    public float RemainTime => Mathf.Max(0f, Time - ElapsedTime);
 
     public void StartCooltime(float cooltime, TweenCallback cooltimeEndCallback = null)
     {
         Time = cooltime;
+
         if (!IsCooltimeEnded)
             CancelCooltime();
+
         IsCooltimeEnded = false;
-        cooltimeEndCallback += () => IsCooltimeEnded = true;
-        GameManager.instance.cooltimeManager.StartCooltime(this.GetHashCode(), this, cooltimeEndCallback);
+        _cooltimeEndCallback = cooltimeEndCallback;
+        _cooltimeEndCallback += () => IsCooltimeEnded = true;
+
+        GameManager.instance.cooltimeManager.StartCooltime(GetHashCode(), this, _cooltimeEndCallback);
+    }
+
+    /// <summary>
+    /// 현재까지 진행된 시간은 유지하고, "총 쿨타임"만 새 값으로 다시 계산
+    /// 예) 30초 중 10초 지난 상태에서 newTotalCooltime = 33 이면 남은 시간은 23초
+    /// </summary>
+    public void RecalculateTotalCooltime(float newTotalCooltime)
+    {
+        if (IsCooltimeEnded)
+        {
+            Time = newTotalCooltime;
+            return;
+        }
+
+        float elapsed = ElapsedTime;
+        float newRemain = Mathf.Max(0f, newTotalCooltime - elapsed);
+
+        CancelCooltime();
+        Time = newTotalCooltime;
+
+        if (newRemain <= 0f)
+        {
+            IsCooltimeEnded = true;
+            _cooltimeEndCallback?.Invoke();
+            return;
+        }
+
+        IsCooltimeEnded = false;
+        GameManager.instance.cooltimeManager.StartCooltime(GetHashCode(), this, _cooltimeEndCallback, newRemain);
     }
 
     public void ExtendCooltime(float cooltime, TweenCallback cooltimeEndCallback = null)
@@ -31,7 +67,7 @@ public class Cooltime
 
     public void CancelCooltime()
     {
-        GameManager.instance.cooltimeManager.CancelCooltime(this.GetHashCode());
+        GameManager.instance.cooltimeManager.CancelCooltime(GetHashCode());
         IsCooltimeEnded = true;
     }
 
@@ -57,15 +93,24 @@ public class Cooltime
 public class CooltimeManager : MonoBehaviour
 {
     private readonly Dictionary<int, Sequence> _cooltimes = new();
+
     public void StartCooltime(int ID, Cooltime cooltime, TweenCallback cooltimeEnded)
     {
+        StartCooltime(ID, cooltime, cooltimeEnded, cooltime.Time);
+    }
+
+    public void StartCooltime(int ID, Cooltime cooltime, TweenCallback cooltimeEnded, float duration)
+    {
+        CancelCooltime(ID);
+
         Sequence sequence = DOTween.Sequence();
-        sequence.AppendInterval(cooltime.Time);
+        sequence.AppendInterval(duration);
         sequence.OnComplete(cooltimeEnded);
         _cooltimes[ID] = sequence;
     }
 
-    public float GetElapsedTime(int ID) => _cooltimes.ContainsKey(ID) ? _cooltimes[ID].ElapsedDelay() : 0;
+    public float GetElapsedTime(int ID)
+        => _cooltimes.ContainsKey(ID) ? _cooltimes[ID].ElapsedDelay() : 0f;
 
     public void CancelCooltime(int ID)
     {

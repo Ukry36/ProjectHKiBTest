@@ -25,6 +25,16 @@ public class StatBuffSO : ScriptableObject
     [field: SerializeField] public bool IsBuffTimeInfinite { get; set; }
     [field: SerializeField] public float BuffTime { get; set; }
 
+    [Header("Emotion Buff")]
+    [SerializeField] private bool isEmotionBuff;
+    [SerializeField] private EmotionColor emotionColor;
+    [SerializeField] private int maxStack = 200;
+
+    public bool IsEmotionBuff => isEmotionBuff;
+    public EmotionColor EmotionColor => emotionColor;
+    public int MaxStack => maxStack;
+
+
     [field: SerializeField] public TimeStackTypeEnum TimeStackType { get; set; }
     [field: SerializeField] public BuffStackTypeEnum BuffStackType { get; set; }
     [field: SerializeField] public BuffRemoveTypeEnum BuffRemoveType { get; set; }
@@ -36,6 +46,11 @@ public class StatBuffSO : ScriptableObject
         return HashCode.Combine(ID, effectIndex);
     }
 
+    public int GetEffectID(int effectIndex, Gear sourceGear)
+    {
+        return HashCode.Combine(ID, effectIndex, sourceGear);
+    }
+
     public BuffEffect GetEffect(int effectIndex)
     {
         if (Effects == null || effectIndex < 0 || effectIndex >= Effects.Length) return null;
@@ -43,6 +58,9 @@ public class StatBuffSO : ScriptableObject
     }
 
     public void AddBuff(InterfaceRegister interfaceReg, int multiplyer = 1, bool stack = true)
+        => AddBuff(interfaceReg, null, multiplyer, stack);
+
+    public void AddBuff(InterfaceRegister interfaceReg, Gear sourceGear, int multiplyer = 1, bool stack = true)
     {
         if (Effects == null) return;
 
@@ -51,11 +69,14 @@ public class StatBuffSO : ScriptableObject
             BuffEffect effect = Effects[i];
             if (effect == null || effect.BuffType == null) continue;
 
-            effect.BuffType.AddBuff(interfaceReg, this, i, multiplyer, stack);
+            effect.BuffType.AddBuff(interfaceReg, this, i, sourceGear, multiplyer, stack);
         }
     }
 
     public void RemoveBuff(InterfaceRegister interfaceReg, int multiplyer = 1, bool remove = true)
+        => RemoveBuff(interfaceReg, null, multiplyer, remove);
+
+    public void RemoveBuff(InterfaceRegister interfaceReg, Gear sourceGear, int multiplyer = 1, bool remove = true)
     {
         if (Effects == null) return;
 
@@ -64,7 +85,7 @@ public class StatBuffSO : ScriptableObject
             BuffEffect effect = Effects[i];
             if (effect == null || effect.BuffType == null) continue;
 
-            effect.BuffType.RemoveBuff(interfaceReg, this, i, multiplyer, remove);
+            effect.BuffType.RemoveBuff(interfaceReg, this, i, sourceGear, multiplyer, remove);
         }
     }
 }

@@ -22,6 +22,42 @@ public class AttackableModule : InterfaceModule, IAttackable
 
     public Cooltime attackCooltime;
 
+    public CooltimeMultiplierBuffContainer AttackCooltimeBuffer { get; private set; }
+
+    private float _currentBaseAttackCooltime;
+
+    public float AttackCooltimeMultiplier =>
+        AttackCooltimeBuffer != null ? AttackCooltimeBuffer.BuffedMultiplier : 1f;
+
+    //Accuracy Debuff Method
+    public FloatBuffContainer AccuracyMissChanceBuffer { get; private set; }
+
+    public float AccuracyMissChance =>
+        AccuracyMissChanceBuffer != null ? Mathf.Clamp01(AccuracyMissChanceBuffer.BuffedStat) : 0f;
+
+    public bool HasRolledAccuracyDebuffThisAttack { get; private set; }
+    public bool IsAccuracyDirDistortedThisAttack { get; private set; }
+
+    //SelfDamage Debuff Method
+    public FloatBuffContainer SelfDamageChanceBuffer { get; private set; }
+
+    public float SelfDamageChance =>
+        SelfDamageChanceBuffer != null ? Mathf.Clamp01(SelfDamageChanceBuffer.BuffedStat) : 0f;
+
+    public bool IsSelfDamageTriggered { get; private set; }
+    public int PendingSelfDamageDamageNumber { get; private set; }
+
+    // Groggy / Runaway Debuff Method
+    public BoolBuffContainer GroggyBuffer { get; private set; }
+    public BoolBuffContainer RunawayBuffer { get; private set; }
+
+    public bool IsGroggy =>
+        GroggyBuffer != null && GroggyBuffer.BuffedStat;
+
+    public bool IsRunaway =>
+        RunawayBuffer != null && RunawayBuffer.BuffedStat;
+
+
     public override void Register(IInterfaceRegistable interfaceRegistable)
     {
         interfaceRegistable.RegisterInterface<IAttackable>(this);
@@ -30,11 +66,41 @@ public class AttackableModule : InterfaceModule, IAttackable
     public virtual void Initialize()
     {
         ATKBuffer = new(BaseATK);
+        AttackCooltimeBuffer = new CooltimeMultiplierBuffContainer(1f);
+        AccuracyMissChanceBuffer = new FloatBuffContainer(0f);
+        SelfDamageChanceBuffer = new FloatBuffContainer(0f);
+        AttackCooltimeBuffer.OnBuffed += OnAttackCooltimeBuffChanged;
+
+        GroggyBuffer = new BoolBuffContainer();
+        RunawayBuffer = new BoolBuffContainer();
+
+
         SetAttacker();
         attackCooltime = new();
         IsAttackCooltime = false;
+        _currentBaseAttackCooltime = 0f;
+
+        ResetAccuracyDebuffAttackState();
+        ResetSelfDamageState();
+
         if (damager != null)
             damager.Initialize(EffectAnimationData, EffectSpriteLibrary);
+    }
+    
+    public void ResetAccuracyDebuffAttackState()
+    {
+        HasRolledAccuracyDebuffThisAttack = false;
+        IsAccuracyDirDistortedThisAttack = false;
+    }
+
+    public bool TryRollAccuracyDebuff()
+    {
+        if (HasRolledAccuracyDebuffThisAttack)
+            return IsAccuracyDirDistortedThisAttack;
+
+        HasRolledAccuracyDebuffThisAttack = true;
+        IsAccuracyDirDistortedThisAttack = Random.value < AccuracyMissChance;
+        return IsAccuracyDirDistortedThisAttack;
     }
 
     public void SetAttacker()
@@ -46,7 +112,67 @@ public class AttackableModule : InterfaceModule, IAttackable
     public void StartAttackCooltime()
     {
         IsAttackCooltime = true;
-        attackCooltime.StartCooltime(AttackDatas[AttackNumber].coolTime, () => IsAttackCooltime = false);
+
+        _currentBaseAttackCooltime = AttackDatas[AttackNumber].coolTime;
+        float finalCooltime = _currentBaseAttackCooltime * AttackCooltimeMultiplier;
+
+        attackCooltime.StartCooltime(finalCooltime, () => IsAttackCooltime = false);
+    }
+
+    private void OnAttackCooltimeBuffChanged(float multiplier)
+    {
+        if (attackCooltime == null || attackCooltime.IsCooltimeEnded) return;
+        if (_currentBaseAttackCooltime <= 0f) return;
+
+        float newTotalCooltime = _currentBaseAttackCooltime * multiplier;
+        attackCooltime.RecalculateTotalCooltime(newTotalCooltime);
+    }
+
+    public void ResetSelfDamageState()
+    {
+        IsSelfDamageTriggered = false;
+        PendingSelfDamageDamageNumber = 0;
+    }
+
+    public void RollSelfDamage(int damageNumber)
+    {
+        PendingSelfDamageDamageNumber = damageNumber;
+        IsSelfDamageTriggered = Random.value < SelfDamageChance;
+    }
+
+    public void ExecuteSelfDamage()
+    {
+        if (AttackDatas == null)
+        {
+            Debug.LogError("ERROR: AttackDatas is missing!!!");
+            return;
+        }
+
+        if (AttackNumber < 0 || AttackNumber >= AttackDatas.Length)
+        {
+            Debug.LogError($"ERROR: AttackData[{AttackNumber}] is missing!!!");
+            return;
+        }
+
+        if (AttackDatas[AttackNumber].damageDatas == null ||
+            PendingSelfDamageDamageNumber < 0 ||
+            PendingSelfDamageDamageNumber >= AttackDatas[AttackNumber].damageDatas.Length)
+        {
+            Debug.LogError($"ERROR: DamageData[{PendingSelfDamageDamageNumber}] is missing!!!");
+            return;
+        }
+
+        if (TryGetComponent(out IDamagable selfDamagable))
+        {
+            DamageDataSO selfDamageData = AttackDatas[AttackNumber].damageDatas[PendingSelfDamageDamageNumber];
+            selfDamagable.Damage(selfDamageData, this, transform.position);
+        }
+        else
+        {
+            Debug.LogError("ERROR: Self damage failed - IDamagable not found.");
+        }
+
+        ResetSelfDamageState();
     }
 
     public void SetAttackData(int attackNumber)
@@ -55,6 +181,8 @@ public class AttackableModule : InterfaceModule, IAttackable
         {
             Debug.LogError("ERROR: AttackDatas is missing!!!"); return;
         }
+        
+        ResetAccuracyDebuffAttackState();
 
         DamageIndicatorRandomPosInfo = Random.value;
 

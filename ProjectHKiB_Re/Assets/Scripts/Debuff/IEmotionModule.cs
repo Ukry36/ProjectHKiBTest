@@ -1,4 +1,4 @@
-public interface IEnemyDebuff : IInitializable
+public interface IEmotionModule : IInitializable
 {
     void ApplyColor(EmotionColor color, int stack, float overrideDuration = -1f);
     int GetStacks(EmotionColor color);
