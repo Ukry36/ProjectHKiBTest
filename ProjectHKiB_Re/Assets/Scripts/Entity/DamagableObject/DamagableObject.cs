@@ -1,8 +1,5 @@
 using Assets.Scripts.Interfaces.Modules;
 using UnityEngine;
-[RequireComponent(typeof(AttackableModule))]
-[RequireComponent(typeof(MovableModule))]
-[RequireComponent(typeof(DamagableModule))]
 public class DamagableObject : Entity
 {
     [field: SerializeField] public DamagableObjectDataSO BaseData { get; set; }

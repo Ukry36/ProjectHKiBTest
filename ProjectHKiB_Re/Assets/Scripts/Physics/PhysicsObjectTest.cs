@@ -33,8 +33,8 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
     public bool IsGroundedPrev { get; set; }
 
     [field: NaughtyAttributes.ReadOnly][field: SerializeField] public Vector3 ExForce { get; set; }
-    public float Mass {get;set;}
-    [field: SerializeField] public MovePoint MovePoint { get; set; }
+    [field: SerializeField] public float Mass {get;set;}
+    public MovePoint MovePoint { get; set; }
     public Vector3 LastSetDir { get; set; }
     public bool IsSprinting { get; set; }
     public bool IsWalking { get; set; }
@@ -61,7 +61,7 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
     public Vector2 WalkingDir { get; set; }
     public float SprintCoeff { get; set; }
     [field: SerializeField]public float WalkSpeed { get; set; }
-    public LayerMask WallLayer { get; set; }
+    [field: SerializeField]public LayerMask WallLayer { get; set; }
     public LayerMask CanPushLayer { get; set; }
     public AudioDataSO FootStepAudio { get; set; }
     public bool IsKnockbackMove { get; set; }
@@ -96,7 +96,8 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
 
     public void Initialize()
     {
-        MovePoint.Initialize(this);
+        if (!physManager) physManager = FindObjectOfType<PhysicsManager2>();
+        if (MovePoint) MovePoint.Initialize(this);
         ExForce = new();
         PrevEntityPos = transform.position;
         physManager.AddPhysicsObject(this);
@@ -106,7 +107,7 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
     {
         float d = z - transform.position.z;
         for(int i = 0; i < BodyComponents.Length; i++) BodyComponents[i].SetZ(z, d);
-        MovePoint.transform.position += Vector3.forward * d;
+        if (MovePoint)MovePoint.transform.position += Vector3.forward * d;
         transform.position += Vector3.forward * d;
     }
 

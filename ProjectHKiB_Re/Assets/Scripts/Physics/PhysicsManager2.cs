@@ -51,8 +51,8 @@ public class PhysicsManager2 : MonoBehaviour
     private readonly Collider2D[] overlapBuffer = new Collider2D[32];
 
     // ── Cell Occupancy Map ────────────────────────
-    // This only stores dynamic entities! Not static walls!
-    private readonly Dictionary<Vector2Int, PhysicsObjectTest> cellOccupancy = new();
+    // Dynamic entity occupancy only. Static walls are still queried through ZPhysics2D.
+    private readonly Dictionary<Vector2Int, List<PhysicsObjectTest>> cellOccupancy = new();
 
     // ═════════════════════════════════════════════
     //  Public API
@@ -77,12 +77,12 @@ public class PhysicsManager2 : MonoBehaviour
         foreach (var obj in AllPhysicsEntitys)
             UpdateVerticalPhysics(obj);
 
-        // ── Phase 2 : Rebuild Cell Occupancy Map ───
-        RebuildCellOccupancy();
-
-        // ── Phase 3 : Change Physics Mode  ─────────
+        // Phase 2: update modes before rebuilding occupancy.
         foreach (var obj in AllPhysicsEntitys)
             UpdateMode(obj);
+
+        // Phase 3: rebuild dynamic entity occupancy.
+        RebuildCellOccupancy();
 
         // ── Phase 4a : Grid Mod Movement ───────────
         foreach (var obj in AllPhysicsEntitys)
@@ -108,7 +108,7 @@ public class PhysicsManager2 : MonoBehaviour
             obj.PrevEntityPos  = obj.transform.position;
             obj.LastSetDir     = obj.IsWalking
                                      ? (Vector3)obj.WalkingDir
-                                     : (Vector3)(Vector2)obj.Phys.Velocity.normalized;
+                                     : (Vector3)obj.Phys.Velocity.normalized;
             RecordRenderPosition(obj);
         }
     }
@@ -122,18 +122,51 @@ public class PhysicsManager2 : MonoBehaviour
         cellOccupancy.Clear();
         foreach (var obj in AllPhysicsEntitys)
         {
-            if (obj.Mode != MovementMode.Grid) continue;
-            // resserve in both CurrentCell and TargetCell to prevent collision during movement
-            cellOccupancy[obj.Grid.CurrentCell] = obj;
-            cellOccupancy[obj.Grid.TargetCell]  = obj;
+            if (obj.Mode == MovementMode.Grid)
+            {
+                // Reserve both cells so moving grid entities cannot be crossed mid-step.
+                AddCellOccupant(obj.Grid.CurrentCell, obj);
+                AddCellOccupant(obj.Grid.TargetCell, obj);
+            }
+            else
+            {
+                AddCellOccupant(WorldToCell(obj.transform.position), obj);
+            }
         }
     }
 
     /// <summary>If there is entity on cell, return it. Else, return null.</summary>
-    private PhysicsObjectTest GetGridOccupant(Vector2Int cell)
+    private PhysicsObjectTest GetCellOccupant(Vector2Int cell, PhysicsObjectTest ignore = null)
     {
-        cellOccupancy.TryGetValue(cell, out var occupant);
-        return occupant;
+        if (!cellOccupancy.TryGetValue(cell, out var occupants)) return null;
+
+        for (int i = 0; i < occupants.Count; i++)
+        {
+            PhysicsObjectTest occupant = occupants[i];
+            if (occupant != null && occupant != ignore) return occupant;
+        }
+        return null;
+    }
+
+    private void AddCellOccupant(Vector2Int cell, PhysicsObjectTest obj)
+    {
+        if (!cellOccupancy.TryGetValue(cell, out var occupants))
+        {
+            occupants = new List<PhysicsObjectTest>();
+            cellOccupancy[cell] = occupants;
+        }
+
+        if (!occupants.Contains(obj))
+            occupants.Add(obj);
+    }
+
+    private void RemoveCellOccupant(Vector2Int cell, PhysicsObjectTest obj)
+    {
+        if (!cellOccupancy.TryGetValue(cell, out var occupants)) return;
+
+        occupants.Remove(obj);
+        if (occupants.Count == 0)
+            cellOccupancy.Remove(cell);
     }
 
     /// <summary>Check if there is static wall collider.</summary>
@@ -154,7 +187,7 @@ public class PhysicsManager2 : MonoBehaviour
         float threshold  = obj.ModeTransitionThreshold;
 
         bool wantsPhysics = !obj.IsGrounded || exForceMag >= threshold;
-        bool wantsGrid    =  obj.IsGrounded && exForceMag <  threshold;
+        bool wantsGrid    = obj.IsGrounded && exForceMag < threshold;
 
         if (obj.Mode == MovementMode.Physics && wantsGrid)
         {
@@ -213,6 +246,7 @@ public class PhysicsManager2 : MonoBehaviour
     
         float maxSpd = (obj.IsSprinting ? obj.WalkSpeed * obj.SprintCoeff : obj.WalkSpeed) * (obj.IsGrounded ? 1f : 0.1f);
         float frictionAccInfluence = 1 - Mathf.Clamp01(obj.frictionCoeff * obj.frictionWalkInfluence);
+        float WalkAcceleration = obj.IsSprinting ? obj.WalkAcceleration * obj.SprintCoeff : obj.WalkAcceleration;
     
         // ─ Grid Velocity 2D 연산 ───────────────────────────────────
         // Physics 모드와 동일하게 "마찰 → 보행 가속" 순서로 처리한다.
@@ -227,7 +261,7 @@ public class PhysicsManager2 : MonoBehaviour
         
             if (deficit > 0f)
             {
-                float accel = obj.WalkAcceleration * frictionAccInfluence * Time.fixedDeltaTime;
+                float accel = WalkAcceleration * frictionAccInfluence * Time.fixedDeltaTime;
                 obj.Grid.Velocity += walkDir * Mathf.Min(accel, deficit);
             }
         }
@@ -347,17 +381,17 @@ public class PhysicsManager2 : MonoBehaviour
     private void TryMoveToCell(PhysicsObjectTest obj, Vector2Int desiredCell, Vector2Int moveDir)
     {
         bool staticWall          = IsStaticWall(obj, desiredCell);
-        PhysicsObjectTest occupant = GetGridOccupant(desiredCell);
+        PhysicsObjectTest occupant = GetCellOccupant(desiredCell, obj);
 
         if (!staticWall && occupant == null)
         {
             obj.Grid.TargetCell   = desiredCell;
             obj.Grid.CellProgress = 0f;
-            cellOccupancy[desiredCell] = obj;
+            AddCellOccupant(desiredCell, obj);
             return;
         }
 
-        if (occupant != null && occupant.Mode == MovementMode.Physics)
+        if (occupant != null)
             ApplyWalkImpulseToPhysics(obj, occupant, moveDir);
 
         bool slid = TrySlideGrid(obj, moveDir);
@@ -371,12 +405,12 @@ public class PhysicsManager2 : MonoBehaviour
         {
             var slideX = new Vector2Int(inputDir.x, 0);
             var cellX  = obj.Grid.CurrentCell + slideX;
-            if (!IsStaticWall(obj, cellX) && GetGridOccupant(cellX) == null)
+            if (!IsStaticWall(obj, cellX) && GetCellOccupant(cellX, obj) == null)
             {
                 obj.Grid.TargetCell      = cellX;
                 obj.Grid.CellProgress    = 0f;
                 obj.Grid.LastMoveDir     = slideX;
-                cellOccupancy[cellX]     = obj;
+                AddCellOccupant(cellX, obj);
                 return true;
             }
         }
@@ -384,12 +418,12 @@ public class PhysicsManager2 : MonoBehaviour
         {
             var slideY = new Vector2Int(0, inputDir.y);
             var cellY  = obj.Grid.CurrentCell + slideY;
-            if (!IsStaticWall(obj, cellY) && GetGridOccupant(cellY) == null)
+            if (!IsStaticWall(obj, cellY) && GetCellOccupant(cellY, obj) == null)
             {
                 obj.Grid.TargetCell      = cellY;
                 obj.Grid.CellProgress    = 0f;
                 obj.Grid.LastMoveDir     = slideY;
-                cellOccupancy[cellY]     = obj;
+                AddCellOccupant(cellY, obj);
                 return true;
             }
         }
@@ -400,17 +434,29 @@ public class PhysicsManager2 : MonoBehaviour
     }
 
     /// <summary>Grid 엔티티가 Physics 엔티티에 충격량 전달.</summary>
-    private void ApplyWalkImpulseToPhysics(PhysicsObjectTest walker,
-                                            PhysicsObjectTest target,
-                                            Vector2Int dir)
+    private void ApplyWalkImpulseToPhysics(PhysicsObjectTest walker, PhysicsObjectTest target, Vector2Int dir)
     {
         float spd     = walker.IsSprinting ? walker.WalkSpeed * walker.SprintCoeff : walker.WalkSpeed;
-        float impulse = walker.Mass * spd / target.Mass;
-        target.Phys.Velocity += (Vector2)dir * impulse * (1f + target.bounceCoeff);
+        float impulse = walker.Mass * spd / Mathf.Max(target.Mass, EPSILON);
 
-        // Physics 모드로 강제 전환
         if (target.Mode == MovementMode.Grid)
-            target.Mode = MovementMode.Physics;
+            SwitchGridToPhysics(target);
+
+        target.Phys.Velocity += (1f + target.bounceCoeff) * impulse * ((Vector2)dir).normalized;
+    }
+
+    private void SwitchGridToPhysics(PhysicsObjectTest obj)
+    {
+        if (obj.Mode != MovementMode.Grid) return;
+
+        RemoveCellOccupant(obj.Grid.CurrentCell, obj);
+        RemoveCellOccupant(obj.Grid.TargetCell, obj);
+
+        obj.Mode          = MovementMode.Physics;
+        obj.Phys.Velocity = obj.Grid.Velocity;
+        obj.Grid.Velocity = Vector2.zero;
+
+        AddCellOccupant(WorldToCell(obj.transform.position), obj);
     }
 
     // ═════════════════════════════════════════════
@@ -425,7 +471,7 @@ public class PhysicsManager2 : MonoBehaviour
         obj.Phys.Velocity = ApplyFriction(obj, obj.Phys.Velocity);
 
         // ─ 외력 ───────────────────────────────────────────────────────────────
-        obj.Phys.Velocity += (Vector2)obj.ExForce / obj.Mass * Time.fixedDeltaTime;
+        obj.Phys.Velocity += (Vector2)obj.ExForce / Mathf.Max(obj.Mass, EPSILON) * Time.fixedDeltaTime;
 
         // ─ 보행 가속 ──────────────────────────────────────────────────────────
         if (isActivelyWalking)
@@ -434,19 +480,20 @@ public class PhysicsManager2 : MonoBehaviour
                            * (obj.IsGrounded ? 1f : 0.1f);
             Vector2 walkDir = obj.WalkingDir.normalized;
             float frictionAccInfluence = 1 - Mathf.Clamp01(obj.frictionCoeff * obj.frictionWalkInfluence);
+            float WalkAcceleration = obj.IsSprinting ? obj.WalkAcceleration * obj.SprintCoeff : obj.WalkAcceleration;
 
             float currentAlongWalk = Vector2.Dot(obj.Phys.Velocity, walkDir);
             float deficit          = maxSpd - currentAlongWalk;
 
             if (deficit > 0f)
             {
-                float accel = obj.WalkAcceleration * frictionAccInfluence * Time.fixedDeltaTime;
+                float accel = WalkAcceleration * frictionAccInfluence * Time.fixedDeltaTime;
                 obj.Phys.Velocity += walkDir * Mathf.Min(accel, deficit);
             }
             // deficit <= 0 (초과 속도)인 경우 마찰이 자연스럽게 maxSpd로 수렴시켜 줌
         }
 
-        // ─ CCD 서브스텝 (기존과 동일) ────────────────────────────────────────────
+        // ─ CCD Sub Step ────────────────────────────────────────────
         float totalDist = obj.Phys.Velocity.magnitude * Time.fixedDeltaTime;
         if (totalDist < EPSILON) return;
 
@@ -458,22 +505,17 @@ public class PhysicsManager2 : MonoBehaviour
             Vector2 delta = obj.Phys.Velocity * dt;
             if (delta.sqrMagnitude < EPSILON) break;
 
-            Vector2      origin = obj.transform.position;
-            RaycastHit2D hit    = CastWithFilterHorizontal(obj, origin, delta.normalized, delta.magnitude);
-            if (!hit)
+            Vector2 origin       = obj.transform.position;
+            Vector2 nextPosition = origin + delta;
+            if (TryResolveCellCollision(obj, nextPosition, delta.normalized))
             {
-                obj.transform.position += new Vector3(delta.x, delta.y, 0f);
-            }
-            else
-            {
-                bool isMovable = hit.collider.TryGetComponent(out PhysicsObjectTest other);
-                if (isMovable && other != null)
-                    ResolveEntityCollision(obj, other, hit.normal);
-                else
-                    ResolveStaticCollision(obj, hit.normal);
-
                 if (obj.Phys.Velocity.sqrMagnitude < stopThreshold * stopThreshold) break;
+                continue;
             }
+
+            Vector2Int previousCell = WorldToCell(origin);
+            obj.transform.position += new Vector3(delta.x, delta.y, 0f);
+            UpdatePhysicsCellOccupancy(obj, previousCell);
         }
     }
 
@@ -481,7 +523,185 @@ public class PhysicsManager2 : MonoBehaviour
     //  충돌 처리
     // ═════════════════════════════════════════════
 
+    /// <summary>Resolve static or entity collision using grid cells.</summary>
+    private bool TryResolveCellCollision(PhysicsObjectTest obj, Vector2 nextPosition, Vector2 fallbackDir)
+    {
+        Vector2Int currentCell = WorldToCell(obj.transform.position);
+        Vector2Int nextCell    = WorldToCell(nextPosition);
+
+        if (TryGetStaticCellCollisionNormal(obj, currentCell, nextCell, fallbackDir, out Vector2 staticNormal))
+        {
+            ResolveStaticCollision(obj, staticNormal);
+            return true;
+        }
+
+        return TryResolveDynamicCellCollision(obj, currentCell, nextCell, fallbackDir);
+    }
+
+    private bool TryGetStaticCellCollisionNormal(PhysicsObjectTest obj, Vector2Int currentCell, Vector2Int nextCell, Vector2 fallbackDir, out Vector2 normal)
+    {
+        normal = Vector2.zero;
+        if (IsStaticWall(obj, currentCell))
+        {
+            normal = -fallbackDir;
+            if (normal.sqrMagnitude < EPSILON)
+                normal = Vector2.up;
+            normal.Normalize();
+            return true;
+        }
+
+        Vector2Int dirCell = DirectionToCellStep(fallbackDir);
+
+        if (dirCell.x != 0)
+        {
+            Vector2Int xCell = currentCell + new Vector2Int(dirCell.x, 0);
+            if (IsStaticWall(obj, xCell))
+                normal += new Vector2(-dirCell.x, 0f);
+        }
+
+        if (dirCell.y != 0)
+        {
+            Vector2Int yCell = currentCell + new Vector2Int(0, dirCell.y);
+            if (IsStaticWall(obj, yCell))
+                normal += new Vector2(0f, -dirCell.y);
+        }
+
+        if (normal.sqrMagnitude >= EPSILON)
+        {
+            normal.Normalize();
+            return true;
+        }
+
+        if (nextCell == currentCell) return false;
+
+        Vector2Int cellDelta = nextCell - currentCell;
+
+        if (cellDelta.x != 0)
+        {
+            Vector2Int xCell = currentCell + new Vector2Int(cellDelta.x, 0);
+            if (IsStaticWall(obj, xCell))
+                normal += new Vector2(-Mathf.Sign(cellDelta.x), 0f);
+        }
+
+        if (cellDelta.y != 0)
+        {
+            Vector2Int yCell = currentCell + new Vector2Int(0, cellDelta.y);
+            if (IsStaticWall(obj, yCell))
+                normal += new Vector2(0f, -Mathf.Sign(cellDelta.y));
+        }
+
+        if (normal.sqrMagnitude >= EPSILON)
+        {
+            normal.Normalize();
+            return true;
+        }
+
+        if (!IsStaticWall(obj, nextCell)) return false;
+
+        if (cellDelta.x != 0 && cellDelta.y == 0)
+            normal = new Vector2(-Mathf.Sign(cellDelta.x), 0f);
+        else if (cellDelta.y != 0 && cellDelta.x == 0)
+            normal = new Vector2(0f, -Mathf.Sign(cellDelta.y));
+        else
+            normal = -fallbackDir;
+
+        if (normal.sqrMagnitude < EPSILON)
+            normal = Vector2.up;
+
+        normal.Normalize();
+        return true;
+    }
+
+    private bool TryResolveDynamicCellCollision(PhysicsObjectTest obj, Vector2Int currentCell, Vector2Int nextCell, Vector2 fallbackDir)
+    {
+        if (TryResolveCellOccupant(obj, currentCell, -fallbackDir))
+            return true;
+
+        Vector2Int dirCell = DirectionToCellStep(fallbackDir);
+
+        if (dirCell.x != 0)
+        {
+            Vector2 normal = new(-dirCell.x, 0f);
+            if (TryResolveCellOccupant(obj, currentCell + new Vector2Int(dirCell.x, 0), normal))
+                return true;
+        }
+
+        if (dirCell.y != 0)
+        {
+            Vector2 normal = new(0f, -dirCell.y);
+            if (TryResolveCellOccupant(obj, currentCell + new Vector2Int(0, dirCell.y), normal))
+                return true;
+        }
+
+        if (dirCell.x != 0 && dirCell.y != 0)
+        {
+            Vector2Int diagonalCell = currentCell + dirCell;
+            if (TryResolveCellOccupant(obj, diagonalCell, -fallbackDir))
+                return true;
+        }
+
+        if (nextCell != currentCell)
+            return TryResolveCellOccupant(obj, nextCell, -fallbackDir);
+
+        return false;
+    }
+
+    private bool TryResolveCellOccupant(PhysicsObjectTest obj, Vector2Int cell, Vector2 fallbackNormal)
+    {
+        PhysicsObjectTest occupant = GetCellOccupant(cell, obj);
+        if (occupant == null) return false;
+
+        Vector2 normal = (Vector2)obj.transform.position - (Vector2)occupant.transform.position;
+        if (normal.sqrMagnitude < EPSILON)
+            normal = fallbackNormal;
+        if (normal.sqrMagnitude < EPSILON)
+            normal = Vector2.up;
+
+        return TryResolveEntityCollision(obj, occupant, normal.normalized);
+    }
+
+    private Vector2Int DirectionToCellStep(Vector2 dir)
+    {
+        return new Vector2Int(
+            dir.x > EPSILON ? 1 : dir.x < -EPSILON ? -1 : 0,
+            dir.y > EPSILON ? 1 : dir.y < -EPSILON ? -1 : 0);
+    }
+
+    private void UpdatePhysicsCellOccupancy(PhysicsObjectTest obj, Vector2Int previousCell)
+    {
+        if (obj.Mode != MovementMode.Physics) return;
+
+        RemoveCellOccupant(previousCell, obj);
+        AddCellOccupant(WorldToCell(obj.transform.position), obj);
+    }
+
     /// <summary>정적 벽과의 충돌 (반발 + 미끄러짐).</summary>
+    private bool TryResolveEntityCollision(PhysicsObjectTest objA, PhysicsObjectTest objB, Vector2 normal)
+    {
+        bool aIsGrid = objA.Mode == MovementMode.Grid;
+        bool bIsGrid = objB.Mode == MovementMode.Grid;
+
+        Vector2 vA = aIsGrid ? objA.Grid.Velocity : objA.Phys.Velocity;
+        Vector2 vB = bIsGrid ? objB.Grid.Velocity : objB.Phys.Velocity;
+        float   mA = Mathf.Max(objA.Mass, EPSILON);
+        float   mB = Mathf.Max(objB.Mass, EPSILON);
+
+        float vRel = Vector2.Dot(vA - vB, normal);
+        if (vRel >= 0f) return false;
+
+        float e = (objA.bounceCoeff + objB.bounceCoeff) * 0.5f;
+        float j = -(1f + e) * vRel / (1f / mA + 1f / mB);
+
+        Vector2 impulse = j * normal;
+
+        if (aIsGrid) SwitchGridToPhysics(objA);
+        if (bIsGrid) SwitchGridToPhysics(objB);
+
+        objA.Phys.Velocity = vA + impulse / mA;
+        objB.Phys.Velocity = vB - impulse / mB;
+        return true;
+    }
+
     private void ResolveStaticCollision(PhysicsObjectTest obj, Vector2 normal)
     {
         float vDotN = Vector2.Dot(obj.Phys.Velocity, normal);
@@ -656,24 +876,6 @@ public class PhysicsManager2 : MonoBehaviour
             return true;
         }
         return false;
-    }
-
-    private RaycastHit2D CastWithFilterHorizontal(PhysicsObjectTest obj,
-                                                    Vector2           origin,
-                                                    Vector2           dir,
-                                                    float             dist)
-    {
-        RaycastHit2D[] hits = new RaycastHit2D[32];
-        int cnt = ZPhysics2D.RaycastNonAlloc(
-            origin, dir, dist, hits, overlapBuffer,
-            obj.WallLayer, obj.zCollider.ZMin, obj.zCollider.ZMax);
-
-        for (int i = 0; i < cnt; i++)
-        {
-            if (hits[i].transform == obj.transform) continue;
-            return hits[i];
-        }
-        return default;
     }
 
     // ═════════════════════════════════════════════

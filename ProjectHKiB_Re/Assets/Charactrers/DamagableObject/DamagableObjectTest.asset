@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <BaseMaxHP>k__BackingField: 1000
   <BaseDEF>k__BackingField: 0
-  <Mass>k__BackingField: 3
   <HitSound>k__BackingField: {fileID: 0}
   <HitParticle>k__BackingField: {fileID: 0}
-  <Speed>k__BackingField: 0
+  <Mass>k__BackingField: 1
+  <WalkSpeed>k__BackingField: 0
   <SprintCoeff>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
@@ -28,3 +28,5 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 11264
   <DamageParticle>k__BackingField: {fileID: 11400000, guid: b174f0a96b53f244399007d5550166a9, type: 2}
+  <EffectAnimationData>k__BackingField: {fileID: 0}
+  <EffectSpriteLibrary>k__BackingField: {fileID: 0}
