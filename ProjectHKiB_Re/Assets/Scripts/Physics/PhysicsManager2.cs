@@ -107,8 +107,8 @@ public class PhysicsManager2 : MonoBehaviour
         // ── Phase 5 : PostProcess ───────────────────
         foreach (var obj in AllPhysicsEntitys)
         {
-            if (obj.Mode == MovementMode.Physics)
-                SettleToGrid(obj);
+            //if (obj.Mode == MovementMode.Physics)
+                //SettleToGrid(obj);
 
             obj.ExForce        = Vector3.zero;
             obj.PrevEntityPos  = obj.transform.position;
@@ -506,25 +506,27 @@ public class PhysicsManager2 : MonoBehaviour
         int   steps = Mathf.Max(1, Mathf.CeilToInt(totalDist / gridSize));
         float dt    = Time.fixedDeltaTime / steps;
 
-        bool skipCollision = false;
-        for (int s = 0; s < steps || skipCollision; s++)
+        bool collided = false;
+        for (int s = 0; s < steps; s++)
         {
             Vector2 delta = obj.Phys.Velocity * dt;
             if (delta.sqrMagnitude < EPSILON) break;
 
             Vector2 origin       = obj.transform.position;
             Vector2 nextPosition = origin + delta;
-            if (!skipCollision && TryResolveCellCollision(obj, nextPosition, delta.normalized))
+            if (TryResolveCellCollision(obj, nextPosition, delta.normalized))
             {
-                if (obj.Phys.Velocity.sqrMagnitude < stopThreshold * stopThreshold) break;
-                skipCollision = true;
-                continue;
+                totalDist = obj.Phys.Velocity.magnitude * Time.fixedDeltaTime;
+                steps = Mathf.Max(1, Mathf.CeilToInt(totalDist / gridSize));
+                dt    = Time.fixedDeltaTime / steps;
+                delta = obj.Phys.Velocity * dt;
+                collided = true;
             }
             Vector2Int previousCell = WorldToCell(origin);
             obj.transform.position += (Vector3)delta;
             UpdatePhysicsCellOccupancy(obj, previousCell);
-            //if (skipCollision) break;
-            skipCollision = false;
+
+            if (collided) break;
         }
     }
 
