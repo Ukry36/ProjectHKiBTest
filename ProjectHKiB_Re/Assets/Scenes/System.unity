@@ -13804,6 +13804,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 1
   height: 2
+  useSlopeDU: 0
+  upMostOffset: 0
+  downMostOffset: 0
+  useSlopeRL: 0
+  leftMostOffset: 0
+  rightMostOffset: 0
 --- !u!1 &331044352
 GameObject:
   m_ObjectHideFlags: 0
@@ -71613,9 +71619,9 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.17844523
+    x: 0
     y: 0
-    width: 0.64310956
+    width: 1
     height: 1
   near clip plane: -5000
   far clip plane: 5000
@@ -89133,3 +89139,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 0.5
   height: 1
+  useSlopeDU: 0
+  upMostOffset: 0
+  downMostOffset: 0
+  useSlopeRL: 0
+  leftMostOffset: 0
+  rightMostOffset: 0
