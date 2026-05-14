@@ -6,14 +6,33 @@ public abstract class ZCollider2D : MonoBehaviour
     public float zCenter;
     public float height = 1f;
 
+    [NaughtyAttributes.HideIf("useSlopeRL")]
+    public bool useSlopeDU;
+    [NaughtyAttributes.ShowIf("useSlopeDU")]
+    public float upMostOffset;
+    [NaughtyAttributes.ShowIf("useSlopeDU")]
+    public float downMostOffset;
+
+    [NaughtyAttributes.HideIf("useSlopeDU")]
+    public bool useSlopeRL;
+    [NaughtyAttributes.ShowIf("useSlopeRL")]
+    public float leftMostOffset;
+    [NaughtyAttributes.ShowIf("useSlopeRL")]
+    public float rightMostOffset;
+    
+
     public float ZMin => transform.position.z + zCenter - height / 2f;
     public float ZMax => transform.position.z + zCenter + height / 2f;
+
+    public abstract float Zmin(Vector2 horizontalPos);
+    public abstract float Zmax(Vector2 horizontalPos);
 
     protected abstract Collider2D Col { get; }
 
 #if UNITY_EDITOR
     public static bool UseZAxis; // false = 2D, true = 3D
-    public static int ZCoeff = 1; // false = 2D, true = 3D
+    public static int ZCoeff = 1; // 
+    public static bool local = true;
     
     [NaughtyAttributes.Button]
     public void ToggleGizmoDimension()
@@ -22,16 +41,25 @@ public abstract class ZCollider2D : MonoBehaviour
     }
 
     [NaughtyAttributes.Button]
-    public void ToggleGizmoZCoeff()
+    public void InvertGizmoZ()
     {
         ZCoeff = -ZCoeff;
     }
 
+    [NaughtyAttributes.Button]
+    public void GizmoAllShowToggle() => local = !local;
     protected abstract void DrawGizmo();
 
     private void OnDrawGizmosSelected()
     {
-        if (Col == null) return;
+        if (Col == null || !local) return;
+        Gizmos.color = new Color(0.2f, 1f, 0.2f, 0.9f);
+        DrawGizmo();
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (Col == null || local) return;
         Gizmos.color = new Color(0.2f, 1f, 0.2f, 0.9f);
         DrawGizmo();
     }

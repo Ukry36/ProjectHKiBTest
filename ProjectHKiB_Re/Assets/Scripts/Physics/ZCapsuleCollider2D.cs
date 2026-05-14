@@ -56,18 +56,6 @@ public class ZCapsuleCollider2D : ZCollider2D
             foreach (var pt in new[] { perpDir * sideExt, -perpDir * sideExt, bodyDir * bodyExt, -bodyDir * bodyExt })
                 Gizmos.DrawLine(new Vector3(cUp.x + pt.x, cUp.y + pt.y, 0),
                                 new Vector3(cDown.x + pt.x, cDown.y + pt.y, 0));
-            /*
-            // 2D 모드: XY 평면에서 Y=Z 치환 캡슐 (X폭 vs Z높이)
-            float r2d      = Mathf.Min(_col.size.x / 2f, height / 2f);
-            float halfBody = Mathf.Max(0f, height / 2f - r2d);
-            var   c2d      = new Vector3(pos.x + off.x, zCenter, 0);
-            var   cap1     = c2d + Vector3.up * halfBody;
-            var   cap2     = c2d - Vector3.up * halfBody;
-
-            DrawArc(cap1, r2d,   0, 180, Vector3.right, Vector3.up, 16);
-            DrawArc(cap2, r2d, 180, 360, Vector3.right, Vector3.up, 16);
-            Gizmos.DrawLine(cap1 + Vector3.right * r2d, cap2 + Vector3.right * r2d);
-            Gizmos.DrawLine(cap1 - Vector3.right * r2d, cap2 - Vector3.right * r2d);*/
         }
     }
 #endif

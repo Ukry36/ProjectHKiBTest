@@ -21,7 +21,7 @@ public class ZEdgeCollider2D : ZCollider2D
     {
         var pos    = transform.position;
         var off    = _col.offset;
-        var origin = new Vector3(pos.x + off.x, pos.y + off.y, pos.z);
+        var origin = new Vector3(pos.x + off.x, pos.y + off.y, ZCoeff * pos.z);
 
         if (UseZAxis)
             DrawExtrudedEdge3D(_col.points, origin, ZCoeff * (pos.z + ZMin), ZCoeff * (pos.z + ZMax));

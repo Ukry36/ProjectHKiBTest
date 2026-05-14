@@ -24,14 +24,14 @@ public class ZCompositeCollider2D : ZCollider2D
     {
         var pos    = transform.position;
         var off    = _col.offset;
-        var origin = new Vector3(pos.x + off.x, pos.y + off.y, pos.z);
+        var origin = new Vector3(pos.x + off.x, pos.y + off.y, 0);
 
         for (int i = 0; i < _col.pathCount; i++)
         {
             _col.GetPath(i, _pathBuf);
             var pts = _pathBuf.ToArray();
             if (UseZAxis)
-                DrawExtrudedPolygon3D(pts, origin, ZCoeff * (pos.z + ZMin), ZCoeff * (pos.z + ZMax));
+                DrawExtrudedPolygon3D(pts, origin, ZCoeff * ZMin, ZCoeff * ZMax);
             else
                 DrawExtrudedPolygon2D(pts, pos + (Vector3)off, ZMin, ZMax);
         }

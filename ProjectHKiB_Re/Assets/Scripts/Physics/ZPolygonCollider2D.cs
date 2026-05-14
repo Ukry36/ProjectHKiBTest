@@ -20,10 +20,10 @@ public class ZPolygonCollider2D : ZCollider2D
     {
         var pos    = transform.position;
         var off    = _col.offset;
-        var origin = new Vector3(pos.x + off.x, pos.y + off.y, pos.z);
+        var origin = new Vector3(pos.x + off.x, pos.y + off.y, 0);
 
         if (UseZAxis)
-            DrawExtrudedPolygon3D(_col.points, origin, ZCoeff * (pos.z + ZMin), ZCoeff * (pos.z + ZMax));
+            DrawExtrudedPolygon3D(_col.points, origin, ZCoeff * ZMin, ZCoeff * ZMax);
         else
             DrawExtrudedPolygon2D(_col.points, pos + (Vector3)off, ZMin, ZMax);
     }
