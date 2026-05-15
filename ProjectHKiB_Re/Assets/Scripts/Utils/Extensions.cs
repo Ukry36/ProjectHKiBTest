@@ -74,28 +74,4 @@ public static class Extensions
             _ => 0,
         };
     }
-    
-    public static float ZGetHeight(this Collider2D col)
-    {
-        if (ZPhysics2D.TryGet(col, out ZCollider2D zCol)) return zCol.height;
-        else return 0;
-    }
-
-    public static float ZGetCenter(this Collider2D col)
-    {
-        if (ZPhysics2D.TryGet(col, out ZCollider2D zCol)) return zCol.zCenter;
-        else return 0;
-    }
-
-    public static float ZGetTop(this Collider2D col)
-    {
-        if (ZPhysics2D.TryGet(col, out ZCollider2D zCol)) return zCol.ZMax;
-        else return col.transform.position.z;
-    }
-
-    public static float ZGetBottom(this Collider2D col)
-    {
-        if (ZPhysics2D.TryGet(col, out ZCollider2D zCol)) return zCol.ZMin;
-        else return col.transform.position.z;
-    }
 }

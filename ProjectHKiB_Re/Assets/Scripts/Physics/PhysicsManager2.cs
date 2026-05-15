@@ -12,10 +12,10 @@ public class GridState
 {
     public Vector2Int CurrentCell;
     public Vector2Int TargetCell;
-    public float      CellProgress; // 0~1, 셀 간 보간 진행도
+    public float      CellProgress; 
     public Vector2Int InputDir;
-    public Vector2Int LastMoveDir; // 마지막으로 이동한 방향 (슬라이딩 지속용)
-    public Vector2    Velocity;   // 현재 격자 이동 속도 (units/sec)
+    public Vector2Int LastMoveDir; 
+    public Vector2    Velocity; 
     public bool       IsSettling;
 }
 
@@ -47,6 +47,9 @@ public class PhysicsManager2 : MonoBehaviour
     public float stopThreshold            = 0.01f;
     public bool enable;
     public float gridSettleSpeed = 3f;
+    public float stepUpTolerance = 0.5f;
+    public float stepDownTolerance = 0.2f;
+    public float bounceTolerance = 0.1f;
 
     // ── Buffer ────────────────────────────────────
     private readonly Collider2D[] overlapBuffer = new Collider2D[32];
@@ -188,7 +191,6 @@ public class PhysicsManager2 : MonoBehaviour
 
     private void UpdateMode(PhysicsObjectTest obj)
     {
-        // XY 외력만 판정 (Z 중력 제외)
         float exForceMag = ((Vector2)obj.ExForce).magnitude;
         float threshold  = obj.ModeTransitionThreshold;
 
@@ -764,33 +766,100 @@ public class PhysicsManager2 : MonoBehaviour
     {
         obj.ExForce += Vector3.forward * gravity;
 
-        int cnt = ZPhysics2D.OverlapCircleNonAlloc(
-            obj.transform.position, 0.4f,
-            overlapBuffer, obj.floorLayer,
-            obj.zCollider.ZMin - EPSILON, obj.zCollider.ZMax + EPSILON);
+        ZCollider2D floor   = ZPhysics2D.ZCircleGetFloor   
+        (obj.transform.position, 0.4f, obj.floorLayer, obj.zCollider.ZMin - stepDownTolerance - EPSILON, obj.zCollider.ZMin + stepUpTolerance + EPSILON);
+        ZCollider2D ceiling = ZPhysics2D.ZCircleGetCeiling 
+        (obj.transform.position, 0.4f, obj.floorLayer, obj.zCollider.ZMax + stepDownTolerance + EPSILON, obj.zCollider.ZMax - stepUpTolerance - EPSILON);
+        obj.ZVelocity += obj.ExForce.z / obj.Mass * Time.fixedDeltaTime;
+        Vector3 surfaceNormal = floor ? floor.GetSurfaceNormal() : Vector3.forward;
+        Vector2 horizVel  = obj.Mode == MovementMode.Grid ? obj.Grid.Velocity : obj.Phys.Velocity;
+        Vector3 vel = new(horizVel.x, horizVel.y, obj.ZVelocity);
+        bool towardsFloor = Vector3.Dot(surfaceNormal, vel) < EPSILON;
+        obj.IsGrounded = floor && floor.ZmaxCircle(obj.transform.position, 0.4f) > obj.zCollider.ZMin - EPSILON && towardsFloor;
 
-        obj.ZVelocity  += obj.ExForce.z / obj.Mass * Time.fixedDeltaTime;
-        obj.IsGrounded  = cnt > 0;
-
-        if (obj.IsGrounded && obj.ExForce.z <= EPSILON)
+        bool calcFloat = true;
+        bool calcGround = false;
+        if (obj.IsGrounded)
         {
-            obj.ZPosition = overlapBuffer[0].ZGetTop();
-            if (!obj.IsGroundedPrev) // Manage bounce
+            calcFloat = false;
+            if (!obj.IsGroundedPrev) // just grounded -> bounce
             {
-                obj.ZVelocity = -obj.ZVelocity * obj.bounceCoeff;
-                if (Mathf.Abs(obj.ZVelocity) < stopThreshold) obj.ZVelocity = 0f;
-                obj.ZVelocity = Mathf.Clamp(obj.ZVelocity,
-                    -obj.stopAccelerateThreshold, obj.stopAccelerateThreshold);
+                Debug.Log("bounce! before v: " + obj.ZVelocity);
+
+                if (towardsFloor)
+                {
+                    // v' = v - (1+e)*dot(v,n)*n
+                    Vector3 reflected   = vel - (1f + obj.bounceCoeff) * Vector3.Dot(vel, surfaceNormal) * surfaceNormal;
+                    obj.ZVelocity       = reflected.z;
+                    Vector2 newHorizVel = new(reflected.x, reflected.y);
+
+                    if (obj.Mode == MovementMode.Grid) obj.Grid.Velocity = newHorizVel;
+                    else                               obj.Phys.Velocity = newHorizVel;
+                }
+                float verAcc       = Mathf.Abs(obj.ExForce.z / Mathf.Max(obj.Mass, EPSILON));
+                float minEscapeVel = verAcc * bounceTolerance;
+
+                if (obj.ZVelocity > minEscapeVel) calcFloat = true;
+                else                              obj.ZVelocity  = 0f;
+                
             }
-            else // Cancel out downforce
-            {
-                obj.ExForce   += Vector3.back * obj.ExForce.z;
-                obj.ZVelocity  = 0f;
-            }
+            else calcGround = true; // already grounded
         }
-        else
+        else if (obj.IsGroundedPrev && floor && towardsFloor) // not grounded but flat (stepUP or stepDown)
+        {
+            obj.IsGrounded = true;
+            calcFloat = false;
+            calcGround = true;
+        }
+
+        if (calcGround)
+        {
+            obj.ZPosition = floor.ZmaxCircle(obj.transform.position, 0.4f);
+
+            float slopeDot = Vector3.Dot(surfaceNormal, Vector3.forward);
+            if (slopeDot < 1f - EPSILON || obj.ExForce.z < EPSILON)
+            {
+                Vector3 downForce      = Vector3.forward * obj.ExForce.z;
+                Vector3 normalComp     = Vector3.Dot(downForce, surfaceNormal) * surfaceNormal;
+                Vector3 slideForce     = downForce - normalComp;
+                Vector2 slideVelDelta  = (Vector2)slideForce / Mathf.Max(obj.Mass, EPSILON) * Time.fixedDeltaTime;
+
+                if (obj.Mode == MovementMode.Grid) obj.Grid.Velocity += slideVelDelta;
+                else                               obj.Phys.Velocity += slideVelDelta;
+            }
+            obj.ZVelocity = 0f;
+            obj.ExForce = new(obj.ExForce.x, obj.ExForce.y, 0);
+        }
+
+        if (calcFloat)
         {
             obj.ZPosition += obj.ZVelocity * Time.fixedDeltaTime;
+            if (ceiling != null && obj.ZVelocity > EPSILON) // ceiling collision
+            {
+                float ceilBottom = ceiling.Zmin(obj.transform.position);
+                if (obj.ZPosition >= ceilBottom)
+                {
+                    obj.ZPosition = ceilBottom; // 천장 안으로 파고들지 않게 클램프
+                    Vector3 ceilNormal = ceiling.GetSurfaceNormal();
+                    float vDotN = Vector3.Dot(vel, ceilNormal);
+                    if (vDotN < 0f) 
+                    {
+                        Vector3 reflected = vel - (1f + obj.bounceCoeff) * vDotN * ceilNormal;
+                        obj.ZVelocity = reflected.z;
+                        Vector2 newHorizVel = new(reflected.x, reflected.y);
+                        if (obj.Mode == MovementMode.Grid)
+                            obj.Grid.Velocity = newHorizVel;
+                        else
+                            obj.Phys.Velocity = newHorizVel;
+                    }
+                    else
+                    {
+                        // 방향 계산이 애매한 엣지케이스 — ZVelocity만 반전
+                        obj.ZVelocity = -Mathf.Abs(obj.ZVelocity) * obj.bounceCoeff;
+                    }
+                    if (Mathf.Abs(obj.ZVelocity) < stopThreshold) obj.ZVelocity = 0f;
+                }
+            }
         }
 
         obj.IsGroundedPrev     = obj.IsGrounded;
@@ -861,8 +930,8 @@ public class PhysicsManager2 : MonoBehaviour
         int cnt = ZPhysics2D.OverlapCircleNonAlloc(
             point, radius, overlapBuffer,
             obj != null ? obj.WallLayer : ~0,
-            obj != null ? obj.zCollider.ZMin : float.MinValue,
-            obj != null ? obj.zCollider.ZMax : float.MaxValue);
+            obj != null ? obj.zCollider.ZMin + stepUpTolerance + EPSILON : float.MinValue,
+            obj != null ? obj.zCollider.ZMax /*- flatTolerance - EPSILON*/ : float.MaxValue);
 
         for (int i = 0; i < cnt; i++)
         {

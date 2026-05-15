@@ -47,6 +47,12 @@ public static class ZPhysics2D
         return FilterByZ(point, results, count, zMin, zMax);
     }
 
+    public static int OverlapPointNonAlloc(Vector2 point, Collider2D[] results, int layerMask, float zMin, float zMax)
+    {
+        int count = Physics2D.OverlapPointNonAlloc(point, results, layerMask);
+        return FilterByZ(point, results, count, zMin, zMax);
+    }
+
     public static int RaycastNonAlloc(Vector2 origin, Vector2 direction, float distance, RaycastHit2D[] hitResults, int layerMask, float zMin, float zMax)
     {
         int count = Physics2D.RaycastNonAlloc(origin, direction, hitResults, distance, layerMask);
@@ -73,45 +79,190 @@ public static class ZPhysics2D
 
     private static readonly Collider2D[] _pointOverlapResults = new Collider2D[16];
 
-    public static Vector3 ZRayGetFloorNormal(Vector2 origin, float height, int layerMask)
+    /// <summary>
+    /// returns the collider which has highest point 
+    /// inside the area of vertical line from zMin to zMax
+    /// </summary>
+    public static ZCollider2D ZPointGetFloor(Vector2 origin, int layerMask, float zMin, float zMax)
     {
         int count = Physics2D.OverlapPointNonAlloc(origin, _pointOverlapResults, layerMask);
 
         ZCollider2D bestCol = null;
-        float maxZ = float.MinValue;
+        float maxZ = zMin;
 
         for (int i = 0; i < count; i++)
         {
             if (!_registry.TryGetValue(_pointOverlapResults[i], out var zCol)) continue;
             float currentZTop = zCol.Zmax(origin);
-            if (currentZTop <= height && currentZTop > maxZ)
+            if (currentZTop <= zMax && currentZTop > maxZ)
             {
                 maxZ = currentZTop;
                 bestCol = zCol;
             }
         }
-        if (bestCol == null) return new Vector3(0, 0, 1f);
-        return bestCol.GetSurfaceNormal();
+        return bestCol;
     }
 
-    public static Vector3 ZRayGetCeilingNormal(Vector2 origin, float height, int layerMask)
+    /// <summary>
+    /// returns the collider which has lowest point 
+    /// inside the area of vertical line from zMin to zMax
+    /// </summary>
+    public static ZCollider2D ZPointGetCeiling(Vector2 origin, int layerMask, float zMin, float zMax)
     {
         int count = Physics2D.OverlapPointNonAlloc(origin, _pointOverlapResults, layerMask);
 
         ZCollider2D bestCol = null;
-        float minZ = float.MaxValue;
+        float minZ = zMax;
 
         for (int i = 0; i < count; i++)
         {
             if (!_registry.TryGetValue(_pointOverlapResults[i], out var zCol)) continue;
             float currentZBottom = zCol.Zmin(origin);
-            if (currentZBottom >= height && currentZBottom < minZ)
+            if (currentZBottom >= zMin && currentZBottom < minZ)
             {
                 minZ = currentZBottom;
                 bestCol = zCol;
             }
         }
-        if (bestCol == null) return new Vector3(0, 0, -1f);
-        return bestCol.GetSurfaceNormal(true);
+        return bestCol;
+    }
+
+    public static IEnumerable<Vector2> BoxSamplePoints(Vector2 center, Vector2 size, float angle)
+    {
+        float rad = angle * Mathf.Deg2Rad;
+        float cos = Mathf.Cos(rad), sin = Mathf.Sin(rad);
+        Vector2 hx = new Vector2( cos,  sin) * (size.x * 0.5f);
+        Vector2 hy = new Vector2(-sin,  cos) * (size.y * 0.5f);
+
+        yield return center;
+        yield return center + hx + hy;
+        yield return center + hx - hy;
+        yield return center - hx + hy;
+        yield return center - hx - hy;
+    }
+
+    public static IEnumerable<Vector2> CircleSamplePoints(Vector2 center, float radius)
+    {
+        yield return center;
+        yield return center + Vector2.up    * radius;
+        yield return center + Vector2.down  * radius;
+        yield return center + Vector2.left  * radius;
+        yield return center + Vector2.right * radius;
+    }
+    
+    /// <summary>
+    /// returns the collider which has highest point 
+    /// inside the area of box whose vertical coverage is from zMin to zMax
+    /// </summary>
+    public static ZCollider2D ZBoxGetFloor(Vector2 origin, Vector2 size, float angle, int layerMask, float zMin, float zMax)
+    {
+        int count = Physics2D.OverlapBoxNonAlloc(origin, size, angle, _pointOverlapResults, layerMask);
+
+        ZCollider2D bestCol = null;
+        float maxZ = zMin;
+        var samples = BoxSamplePoints(origin, size, angle);
+
+        for (int i = 0; i < count; i++)
+        {
+            if (!_registry.TryGetValue(_pointOverlapResults[i], out var zCol)) continue;
+
+            float currentZTop = float.MinValue;
+            foreach (var p in samples)
+                currentZTop = Mathf.Max(currentZTop, zCol.Zmax(p));
+
+            if (currentZTop <= zMax && currentZTop > maxZ)
+            {
+                maxZ = currentZTop;
+                bestCol = zCol;
+            }
+        }
+        return bestCol;
+    }
+
+    /// <summary>
+    /// returns the collider which has lowest point 
+    /// inside the area of box whose vertical coverage is from zMin to zMax
+    /// </summary>
+    public static ZCollider2D ZBoxGetCeiling(Vector2 origin, Vector2 size, float angle, int layerMask, float zMin, float zMax)
+    {
+        int count = Physics2D.OverlapBoxNonAlloc(origin, size, angle, _pointOverlapResults, layerMask);
+
+        ZCollider2D bestCol = null;
+        float minZ = zMax;
+        var samples = BoxSamplePoints(origin, size, angle);
+
+        for (int i = 0; i < count; i++)
+        {
+            if (!_registry.TryGetValue(_pointOverlapResults[i], out var zCol)) continue;
+
+            float currentZBottom = float.MaxValue;
+            foreach (var p in samples)
+                currentZBottom = Mathf.Min(currentZBottom, zCol.Zmin(p));
+
+            if (currentZBottom >= zMin && currentZBottom < minZ)
+            {
+                minZ = currentZBottom;
+                bestCol = zCol;
+            }
+        }
+        return bestCol;
+    }
+
+    /// <summary>
+    /// returns the collider which has highest point 
+    /// inside the area of cilinder whose vertical coverage is from zMin to zMax
+    /// </summary>
+    public static ZCollider2D ZCircleGetFloor(Vector2 origin, float radius, int layerMask, float zMin, float zMax)
+    {
+        int count = Physics2D.OverlapCircleNonAlloc(origin, radius, _pointOverlapResults, layerMask);
+
+        ZCollider2D bestCol = null;
+        float maxZ = zMin;
+        var samples = CircleSamplePoints(origin, radius);
+
+        for (int i = 0; i < count; i++)
+        {
+            if (!_registry.TryGetValue(_pointOverlapResults[i], out var zCol)) continue;
+
+            float currentZTop = float.MinValue;
+            foreach (var p in samples)
+                currentZTop = Mathf.Max(currentZTop, zCol.Zmax(p));
+
+            if (currentZTop <= zMax && currentZTop > maxZ)
+            {
+                maxZ = currentZTop;
+                bestCol = zCol;
+            }
+        }
+        return bestCol;
+    }
+
+    /// <summary>
+    /// returns the collider which has lowest point 
+    /// inside the area of cilinder whose vertical coverage is from zMin to zMax
+    /// </summary>
+    public static ZCollider2D ZCircleGetCeiling(Vector2 origin, float radius, int layerMask, float zMin, float zMax)
+    {
+        int count = Physics2D.OverlapCircleNonAlloc(origin, radius, _pointOverlapResults, layerMask);
+
+        ZCollider2D bestCol = null;
+        float minZ = zMax;
+        var samples = CircleSamplePoints(origin, radius);
+
+        for (int i = 0; i < count; i++)
+        {
+            if (!_registry.TryGetValue(_pointOverlapResults[i], out var zCol)) continue;
+
+            float currentZBottom = float.MaxValue;
+            foreach (var p in samples)
+                currentZBottom = Mathf.Min(currentZBottom, zCol.Zmin(p));
+
+            if (currentZBottom >= zMin && currentZBottom < minZ)
+            {
+                minZ = currentZBottom;
+                bestCol = zCol;
+            }
+        }
+        return bestCol;
     }
 }

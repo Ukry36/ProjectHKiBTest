@@ -20,11 +20,41 @@ public abstract class ZCollider2D : MonoBehaviour
     [NaughtyAttributes.ShowIf("useSlopeRL")]
     public float rightMostOffset;
 
+    public bool isStair;
+
     public float ZMin => transform.position.z + zCenter - height / 2f;
     public float ZMax => transform.position.z + zCenter + height / 2f;
 
-    public virtual float Zmin(Vector2 horizontalPos) => ZMin + SlopeOffset(horizontalPos);
-    public virtual float Zmax(Vector2 horizontalPos) => ZMax + SlopeOffset(horizontalPos);
+    public virtual float Zmin(Vector2 origin) => ZMin + SlopeOffset(origin);
+    public virtual float Zmax(Vector2 origin) => ZMax + SlopeOffset(origin);
+    public virtual float ZminCircle(Vector2 origin, float radius)
+    {
+        float min = float.MaxValue;
+        var samples = ZPhysics2D.CircleSamplePoints(origin, radius);
+        foreach (var p in samples) min = Mathf.Min(min, Zmin(p));
+        return min;
+    }
+    public virtual float ZmaxCircle(Vector2 origin, float radius)
+    {
+        float max = float.MinValue;
+        var samples = ZPhysics2D.CircleSamplePoints(origin, radius);
+        foreach (var p in samples) max = Mathf.Max(max, Zmax(p));
+        return max;
+    }
+    public virtual float ZminBox(Vector2 origin, Vector2 size, float angle)
+    {
+        float min = float.MaxValue;
+        var samples = ZPhysics2D.BoxSamplePoints(origin, size, angle);
+        foreach (var p in samples) min = Mathf.Min(min, Zmin(p));
+        return min;
+    }
+    public virtual float ZmaxBox(Vector2 origin, Vector2 size, float angle)
+    {
+        float max = float.MinValue;
+        var samples = ZPhysics2D.BoxSamplePoints(origin, size, angle);
+        foreach (var p in samples) max = Mathf.Max(max, Zmax(p));
+        return max;
+    }
     protected abstract Collider2D Col { get; }
 
     protected float SlopeOffset(Vector2 worldPos)
@@ -316,26 +346,28 @@ public abstract class ZCollider2D : MonoBehaviour
     {
         float multiplier = isCeiling ? -1f : 1f;
 
-        if (useSlopeDU)
+        if (!isStair)
         {
-            Bounds b = Col.bounds;
-            float range = b.max.y - b.min.y;
-            if (range < Mathf.Epsilon) return new Vector3(0, 0, multiplier);
-            
-            float dzdy = (upMostOffset - downMostOffset) / range;
-            return new Vector3(0, -dzdy * multiplier, multiplier).normalized;
-        }
-        
-        if (useSlopeRL)
-        {
-            Bounds b = Col.bounds;
-            float range = b.max.x - b.min.x;
-            if (range < Mathf.Epsilon) return new Vector3(0, 0, multiplier);
-            
-            float dzdx = (rightMostOffset - leftMostOffset) / range;
-            return new Vector3(-dzdx * multiplier, 0, multiplier).normalized;
-        }
+            if (useSlopeDU)
+            {
+                Bounds b = Col.bounds;
+                float range = b.max.y - b.min.y;
+                if (range < Mathf.Epsilon) return new Vector3(0, 0, multiplier);
 
+                float dzdy = (upMostOffset - downMostOffset) / range;
+                return new Vector3(0, -dzdy * multiplier, multiplier).normalized;
+            }
+
+            if (useSlopeRL)
+            {
+                Bounds b = Col.bounds;
+                float range = b.max.x - b.min.x;
+                if (range < Mathf.Epsilon) return new Vector3(0, 0, multiplier);
+
+                float dzdx = (rightMostOffset - leftMostOffset) / range;
+                return new Vector3(-dzdx * multiplier, 0, multiplier).normalized;
+            }
+        }
         return new Vector3(0, 0, multiplier);
     }
 

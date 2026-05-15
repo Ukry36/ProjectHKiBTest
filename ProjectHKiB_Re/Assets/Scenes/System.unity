@@ -13508,7 +13508,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 327803487}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 12, y: -6, z: 0}
+  m_LocalPosition: {x: 7, y: -11, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -13754,7 +13754,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
   frictionCoeff: 0.9
-  bounceCoeff: 1
+  bounceCoeff: 0.3
   airFriction: 0.98
   stopAccelerateThreshold: 0
   frictionWalkInfluence: 1
@@ -13810,6 +13810,7 @@ MonoBehaviour:
   useSlopeRL: 0
   leftMostOffset: 0
   rightMostOffset: 0
+  isStair: 0
 --- !u!1 &331044352
 GameObject:
   m_ObjectHideFlags: 0
@@ -71619,9 +71620,9 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
+    x: 0.17844523
     y: 0
-    width: 1
+    width: 0.64310956
     height: 1
   near clip plane: -5000
   far clip plane: 5000
@@ -71651,7 +71652,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1718942438}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 12, y: -5.9999, z: -10}
+  m_LocalPosition: {x: 7, y: -10.9999, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -71736,7 +71737,7 @@ MonoBehaviour:
   m_RefResolutionX: 320
   m_RefResolutionY: 240
   m_CropFrame: 4
-  m_GridSnapping: 2
+  m_GridSnapping: 0
   m_UpscaleRT: 0
   m_PixelSnapping: 0
   m_CropFrameX: 0
@@ -86849,6 +86850,8 @@ MonoBehaviour:
   stopThreshold: 0.01
   enable: 1
   gridSettleSpeed: 1
+  flatTolerance: 0.5
+  bounceTolerance: 0.1
 --- !u!4 &2135137255
 Transform:
   m_ObjectHideFlags: 0
@@ -89023,7 +89026,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &8038879578283673500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -89091,7 +89094,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
   frictionCoeff: 0.9
-  bounceCoeff: 1
+  bounceCoeff: 0.9
   airFriction: 0.98
   stopAccelerateThreshold: 0
   frictionWalkInfluence: 1
@@ -89145,3 +89148,4 @@ MonoBehaviour:
   useSlopeRL: 0
   leftMostOffset: 0
   rightMostOffset: 0
+  isStair: 0
