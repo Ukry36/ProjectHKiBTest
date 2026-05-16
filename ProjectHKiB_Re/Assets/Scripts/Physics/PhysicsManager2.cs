@@ -830,12 +830,14 @@ public class PhysicsManager2 : MonoBehaviour
     {
         obj.ExForce += Vector3.forward * gravity;
 
+        Vector2 checkSize = (Vector2)obj.Size - new Vector2(0.2f, 0.2f);
+
         ZCollider2D floor   = ZPhysics2D.ZBoxGetFloor(
-            obj.transform.position, (Vector2)obj.Size - new Vector2(0.1f, 0.1f), 0, obj.floorLayer,
+            obj.transform.position, checkSize, 0, obj.floorLayer,
             obj.zCollider.ZMin - stepDownTolerance - EPSILON,
             obj.zCollider.ZMin + stepUpTolerance   + EPSILON);
         ZCollider2D ceiling = ZPhysics2D.ZBoxGetCeiling(
-            obj.transform.position, (Vector2)obj.Size - new Vector2(0.1f, 0.1f), 0, obj.floorLayer,
+            obj.transform.position, checkSize, 0, obj.floorLayer,
             obj.zCollider.ZMax + stepDownTolerance + EPSILON,
             obj.zCollider.ZMax - stepUpTolerance   - EPSILON);
 
@@ -846,7 +848,7 @@ public class PhysicsManager2 : MonoBehaviour
         bool towardsFloor = Vector3.Dot(surfaceNormal, vel) < EPSILON;
 
         obj.IsGrounded = floor
-                      && floor.ZmaxBox(obj.transform.position, (Vector2)obj.Size - new Vector2(0.1f, 0.1f), 0) > obj.zCollider.ZMin - EPSILON
+                      && floor.ZmaxBox(obj.transform.position, checkSize, 0) > obj.zCollider.ZMin - EPSILON
                       && towardsFloor;
         obj.IsOnSlope  = Vector3.Dot(surfaceNormal, Vector3.forward) < 1f - EPSILON;
 
@@ -875,7 +877,7 @@ public class PhysicsManager2 : MonoBehaviour
 
         if (calcGround)
         {
-            obj.ZPosition = floor.ZmaxCircle(obj.transform.position, 0.4f);
+            obj.ZPosition = floor.ZmaxBox(obj.transform.position, checkSize, 0);
             if (obj.IsOnSlope)
             {
                 Vector3 slopeVel = vel - Vector3.Dot(vel, surfaceNormal) * surfaceNormal;

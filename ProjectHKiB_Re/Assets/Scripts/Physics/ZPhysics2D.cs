@@ -129,16 +129,18 @@ public static class ZPhysics2D
 
     public static IEnumerable<Vector2> BoxSamplePoints(Vector2 center, Vector2 size, float angle)
     {
-        float rad = angle * Mathf.Deg2Rad;
-        float cos = Mathf.Cos(rad), sin = Mathf.Sin(rad);
-        Vector2 hx = new Vector2( cos,  sin) * (size.x * 0.5f);
-        Vector2 hy = new Vector2(-sin,  cos) * (size.y * 0.5f);
+        int xCount = Mathf.CeilToInt(size.x) * 2;
+        int yCount = Mathf.CeilToInt(size.y) * 2;
+        Quaternion rotation = Quaternion.Euler(0, 0, angle);
+        Vector2 dirX = rotation * Vector2.right;
+        Vector2 dirY = rotation * Vector2.up;
+        Vector2 hdx = dirX * (size.x / xCount);
+        Vector2 hdy = dirY * (size.y / yCount);
+        Vector2 bl = center - (0.5f * size.x * dirX) - (0.5f * size.y * dirY);
 
-        yield return center;
-        yield return center + hx + hy;
-        yield return center + hx - hy;
-        yield return center - hx + hy;
-        yield return center - hx - hy;
+        for (int i = 0; i <= xCount; i++)
+            for (int j = 0; j <= yCount; j++)
+                yield return bl + (i * hdx) + (j * hdy);
     }
 
     public static IEnumerable<Vector2> CircleSamplePoints(Vector2 center, float radius)
