@@ -1,31 +1,51 @@
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
-public class BodyComponent: MonoBehaviour
+public class BodyComponent : MonoBehaviour
 {
     private SpriteRenderer _renderer;
     private Vector3 _initialOffset;
-    private float _zHeightOffset;
-    private Vector2 _snapOffset; 
+    private float   _zHeightOffset;
+    private Vector2 _snapOffset;
     private Vector2 _renderOffset;
     public void Awake()
     {
-        _renderer = GetComponent<SpriteRenderer>();
+        _renderer      = GetComponent<SpriteRenderer>();
         _initialOffset = transform.localPosition;
-    } 
+    }
+
     public void SetZ(float z)
     {
         _zHeightOffset = z;
-        if (_renderer)_renderer.material.SetFloat("_Offset", z);
+        if (_renderer) _renderer.material.SetFloat("_Offset", z);
     }
+
     /// <summary>
-    /// 스냅 직전에 호출. 부모가 nextParentWorldPos로 순간이동해도
-    /// body가 시각적으로 현재 위치에 머물도록 스냅 오프셋에 누적.
+    /// Called before snap occours to keep the renderer's world position same after snap
     /// </summary>
     public void SetSnapOffset(Vector2 nextParentWorldPos)
     {
         _snapOffset += (Vector2)transform.parent.position - nextParentWorldPos;
         ApplyLocalPosition();
+    }
+
+    /// <summary>
+    /// Manual offset (like shaking motion or something)
+    /// </summary>
+    public void SetRenderOffset(Vector2 offset)
+    {
+        _renderOffset = offset;
+        ApplyLocalPosition();
+    }
+
+    /// <summary>
+    /// Manual instant snap
+    /// </summary>
+    public void Snap()
+    {
+        _snapOffset             = Vector2.zero;
+        _renderOffset           = Vector2.zero;
+        transform.localPosition = _initialOffset + new Vector3(0, 0 + _zHeightOffset, transform.localPosition.z);
     }
 
     public void DecayOffsets(float renderDecaySpeed, float snapDecaySpeed)
@@ -49,10 +69,7 @@ public class BodyComponent: MonoBehaviour
 
     private void ApplyLocalPosition()
     {
-        Vector2 total = _snapOffset + _renderOffset;
-        transform.localPosition = _initialOffset + new Vector3(
-            total.x,
-            total.y + _zHeightOffset,
-            transform.localPosition.z);
+        Vector2 dynamic = _snapOffset + _renderOffset;
+        transform.localPosition = _initialOffset + new Vector3(dynamic.x, dynamic.y + _zHeightOffset, transform.localPosition.z);
     }
 }

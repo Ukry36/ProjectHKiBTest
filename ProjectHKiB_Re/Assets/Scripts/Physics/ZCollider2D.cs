@@ -371,6 +371,8 @@ public abstract class ZCollider2D : MonoBehaviour
         return new Vector3(0, 0, multiplier);
     }
 
+    public Vector2 ClosestPoint(Vector2 point) => Col.ClosestPoint(point);
+
     protected virtual void Awake()     => ZPhysics2D.Register(Col, this);
     protected virtual void OnDestroy() => ZPhysics2D.Unregister(Col);
 }

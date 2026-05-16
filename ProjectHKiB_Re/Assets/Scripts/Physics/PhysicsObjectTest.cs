@@ -14,6 +14,7 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
     public MovementMode Mode;
     public GridState    Grid   = new();
     public PhysicsState Phys   = new();
+    public Vector2Int Size;
 
     public float ModeTransitionThreshold;
  
@@ -74,6 +75,8 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
         if (MovePoint) MovePoint.Initialize(this);
         ExForce = new();
         PrevEntityPos = transform.position;
+        if (Size.x < 1) Size.x = 1;
+        if (Size.y < 1) Size.y = 1;
         physManager.AddPhysicsObject(this);
     }
 
