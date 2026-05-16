@@ -36,7 +36,7 @@ namespace Assets.Scripts.Interfaces.Modules
         private void SetBodyPartZLevel(float z)
         {
             float d = z - transform.position.z;
-            for(int i = 0; i < BodyComponents.Length; i++) BodyComponents[i].SetZ(z, d);
+            for(int i = 0; i < BodyComponents.Length; i++) BodyComponents[i].SetZ(z);
             MovePoint.transform.position += Vector3.forward * d;
             transform.position += Vector3.forward * d;
         }

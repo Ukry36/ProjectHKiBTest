@@ -22,11 +22,13 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
     public float ZPosition 
     { 
         get => transform.position.z; 
-        set { SetBodyPartZLevel(value);}
+        set { SetZLevel(value);}
     }
     public float ZVelocity { get; set; }
     public bool IsGrounded { get; set; }
+    public int CanWalkFrameLeft { get; set; }
     public bool IsGroundedPrev { get; set; }
+    public bool IsOnSlope { get; set; }
 
     [field: NaughtyAttributes.ReadOnly][field: SerializeField] public Vector3 ExForce { get; set; }
     [field: SerializeField] public float Mass {get;set;}
@@ -34,8 +36,6 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
     public Vector3 LastSetDir { get; set; }
     public bool IsSprinting { get; set; }
     public bool IsWalking { get; set; }
-
-    public Vector2 RealWalkingVector { get; set; }
 
     public Vector2 WalkingDir { get; set; }
     public float SprintCoeff { get; set; }
@@ -77,15 +77,20 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
         physManager.AddPhysicsObject(this);
     }
 
-    public void SetBodyPartZLevel(float z)
+    public void SetZLevel(float z)
     {
         float d = z - transform.position.z;
-        for(int i = 0; i < BodyComponents.Length; i++) BodyComponents[i].SetZ(z, d);
+        for(int i = 0; i < BodyComponents.Length; i++) BodyComponents[i].SetZ(z);
         if (MovePoint)MovePoint.transform.position += Vector3.forward * d;
         transform.position += Vector3.forward * d;
     }
 
-    public Vector3 _prevRenderPos;
-    public Vector3 _nextRenderPos;
- 
+    public void SetBodyPartSnapOffset(Vector2 nextWorldPos)
+    {
+        for(int i = 0; i < BodyComponents.Length; i++) BodyComponents[i].SetSnapOffset(nextWorldPos);
+    }
+    public void DecayBodyPartOffset(float renderDecaySpeed, float snapDecaySpeed)
+    {
+        for(int i = 0; i < BodyComponents.Length; i++) BodyComponents[i].DecayOffsets(renderDecaySpeed, snapDecaySpeed);
+    }
 }

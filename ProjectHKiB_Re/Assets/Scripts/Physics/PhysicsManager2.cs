@@ -42,18 +42,20 @@ public class PhysicsManager2 : MonoBehaviour
     // ── Inspector Parameters ──────────────────────
     public float gravity                  = -9.8f;
     public float gridSize                 = 1f;
-    public float PhysSettleBlendThreshold = 0.5f;
-    public float PhysSettleStrength       = 8f;
     public float stopThreshold            = 0.01f;
     public bool enable;
     public float gridSettleSpeed = 3f;
     public float stepUpTolerance = 0.5f;
     public float stepDownTolerance = 0.2f;
     public float bounceTolerance = 0.1f;
+    public int keepCanWalkFrames = 4;
+    public float snapDecaySpeed = 12f;
+    public float renderDecaySpeed = 12f;
+    public bool interpolateRender = true;
 
     // ── Buffer ────────────────────────────────────
     private readonly Collider2D[] overlapBuffer = new Collider2D[32];
-    private readonly List<PhysicsObjectTest> pendingPhysicsEntities = new();
+    //private readonly List<PhysicsObjectTest> pendingPhysicsEntities = new();
 
     // ── Cell Occupancy Map ────────────────────────
     // Dynamic entity occupancy only. Static walls are still queried through ZPhysics2D.
@@ -78,7 +80,7 @@ public class PhysicsManager2 : MonoBehaviour
     private void FixedUpdate()
     {
         if (!enable) return;
-        // ── Phase 1 : Vertical Physics ─────────────
+        // Phase 1 : Vertical Physics
         foreach (var obj in AllPhysicsEntitys)
             UpdateVerticalPhysics(obj);
 
@@ -89,36 +91,39 @@ public class PhysicsManager2 : MonoBehaviour
         // Phase 3: rebuild dynamic entity occupancy.
         RebuildCellOccupancy();
 
-        // ── Phase 4a : Grid Mod Movement ───────────
+        // Phase 4a : Grid Mod Movement
         foreach (var obj in AllPhysicsEntitys)
         {
             if (obj.Mode == MovementMode.Grid)
                 UpdateGridMovement(obj);
         }
 
-        // ── Phase 4b : Physics Mode Movement ────────
+        // Phase 4b : Physics Mode Movement
         foreach (var obj in AllPhysicsEntitys)
         {
             if (obj.Mode == MovementMode.Physics)
                 UpdatePhysicsMovement(obj);
         }
+        
 
-        foreach (var obj in pendingPhysicsEntities)
-            UpdatePhysicsMovement(obj);
-        pendingPhysicsEntities.Clear();
+        //foreach (var obj in pendingPhysicsEntities)
+            //UpdatePhysicsMovement(obj);
+        //pendingPhysicsEntities.Clear();
 
-        // ── Phase 5 : PostProcess ───────────────────
+        // Phase 5 : PostProcess
         foreach (var obj in AllPhysicsEntitys)
         {
             //if (obj.Mode == MovementMode.Physics)
                 //SettleToGrid(obj);
+
+            Vector2 prevPos = obj.PrevEntityPos;
+            Vector2 nextPos = obj.transform.position;
 
             obj.ExForce        = Vector3.zero;
             obj.PrevEntityPos  = obj.transform.position;
             obj.LastSetDir     = obj.IsWalking
                                      ? (Vector3)obj.WalkingDir
                                      : (Vector3)obj.Phys.Velocity.normalized;
-            RecordRenderPosition(obj);
         }
     }
 
@@ -145,14 +150,16 @@ public class PhysicsManager2 : MonoBehaviour
     }
 
     /// <summary>If there is entity on cell, return it. Else, return null.</summary>
-    private PhysicsObjectTest GetCellOccupant(Vector2Int cell, PhysicsObjectTest ignore = null)
+    private PhysicsObjectTest GetCellOccupant(Vector2Int cell, PhysicsObjectTest obj)
     {
         if (!cellOccupancy.TryGetValue(cell, out var occupants)) return null;
 
         for (int i = 0; i < occupants.Count; i++)
         {
             PhysicsObjectTest occupant = occupants[i];
-            if (occupant != null && occupant != ignore) return occupant;
+            if (occupant != null && occupant != obj 
+            && obj.zCollider.ZMin + stepUpTolerance < occupant.zCollider.ZMax 
+            && obj.zCollider.ZMax > occupant.zCollider.ZMin) return occupant;
         }
         return null;
     }
@@ -194,8 +201,8 @@ public class PhysicsManager2 : MonoBehaviour
         float exForceMag = ((Vector2)obj.ExForce).magnitude;
         float threshold  = obj.ModeTransitionThreshold;
 
-        bool wantsPhysics = !obj.IsGrounded || exForceMag >= threshold;
-        bool wantsGrid    = obj.IsGrounded && exForceMag < threshold;
+        bool wantsGrid    = obj.IsGrounded && exForceMag < threshold && !obj.IsOnSlope;
+        bool wantsPhysics = !wantsGrid;
 
         if (obj.Mode == MovementMode.Physics && obj.Phys.KeepPhysics)
         {
@@ -221,6 +228,8 @@ public class PhysicsManager2 : MonoBehaviour
             }
 
             obj.Phys.Velocity = Vector2.zero;
+            Vector2 snapTarget = CellToWorld(obj.Grid.CurrentCell);
+            if (interpolateRender) obj.SetBodyPartSnapOffset(snapTarget);
             SnapPositionToCell(obj, obj.Grid.CurrentCell);
         }
         else if (obj.Mode == MovementMode.Grid && wantsPhysics)
@@ -230,6 +239,7 @@ public class PhysicsManager2 : MonoBehaviour
             obj.Grid.Velocity = Vector2.zero;
             obj.Phys.KeepPhysics = true;
         }
+
     }
 
     // ═════════════════════════════════════════════
@@ -238,9 +248,7 @@ public class PhysicsManager2 : MonoBehaviour
 
     private void UpdateGridMovement(PhysicsObjectTest obj)
     {
-        //Debug.Log("start:" + obj.Grid.Velocity);
-        // ─ 정착 중 처리 (기존과 동일) ─
-        if (obj.Grid.IsSettling)
+        if (obj.Grid.IsSettling) // Manage Settling
         {
             bool hasInput = obj.IsWalking && obj.WalkingDir.sqrMagnitude > EPSILON;
             if (!hasInput)
@@ -250,9 +258,8 @@ public class PhysicsManager2 : MonoBehaviour
             }
             obj.Grid.IsSettling = false;
         }
-        //Debug.Log("after settle:" + obj.Grid.Velocity);
     
-        // ─ InputDir 갱신 (기존과 동일) ─
+        // Update InputDir 
         Vector2Int inputDir = Vector2Int.zero;
         if (obj.IsWalking && obj.WalkingDir.sqrMagnitude > EPSILON)
         {
@@ -261,14 +268,13 @@ public class PhysicsManager2 : MonoBehaviour
         }
         obj.Grid.InputDir = inputDir;
     
-        float maxSpd = (obj.IsSprinting ? obj.WalkSpeed * obj.SprintCoeff : obj.WalkSpeed) * (obj.IsGrounded ? 1f : 0.1f);
+        float maxSpd = (obj.IsSprinting ? obj.WalkSpeed * obj.SprintCoeff : obj.WalkSpeed) * (obj.CanWalkFrameLeft > 0 ? 1f : 0.1f);
         float frictionAccInfluence = 1 - Mathf.Clamp01(obj.frictionCoeff * obj.frictionWalkInfluence);
         float WalkAcceleration = obj.IsSprinting ? obj.WalkAcceleration * obj.SprintCoeff : obj.WalkAcceleration;
     
         // ─ Grid Velocity 2D 연산 ───────────────────────────────────
         // Physics 모드와 동일하게 "마찰 → 보행 가속" 순서로 처리한다.
         obj.Grid.Velocity = ApplyFriction(obj, obj.Grid.Velocity);
-        //Debug.Log("after friction:" + obj.Grid.Velocity);
         if (inputDir != Vector2Int.zero)
         {
             Vector2 walkDir = ((Vector2)inputDir).normalized;
@@ -297,7 +303,7 @@ public class PhysicsManager2 : MonoBehaviour
     
         // 현재 관성(Velocity)이 향하는 지배적인 방향을 추출
         Vector2 normalizedVel = obj.Grid.Velocity.normalized;
-        Vector2Int moveDir = new Vector2Int(
+        Vector2Int moveDir = new(
             Mathf.RoundToInt(normalizedVel.x),
             Mathf.RoundToInt(normalizedVel.y)
         );
@@ -330,7 +336,6 @@ public class PhysicsManager2 : MonoBehaviour
         Vector2 worldTarget = CellToWorld(obj.Grid.TargetCell);
         Vector2 newPos      = Vector2.Lerp(worldCur, worldTarget, obj.Grid.CellProgress);
         obj.transform.position = new Vector3(newPos.x, newPos.y, obj.ZPosition);
-        //Debug.Log("moved:" + obj.Grid.Velocity);
     }
 
     // ═════════════════════════════════════════════
@@ -464,7 +469,7 @@ public class PhysicsManager2 : MonoBehaviour
         obj.Phys.KeepPhysics = true;
 
         AddCellOccupant(WorldToCell(obj.transform.position), obj);
-        pendingPhysicsEntities.Add(obj);
+        //pendingPhysicsEntities.Add(obj);
     }
 
     // ═════════════════════════════════════════════
@@ -484,8 +489,7 @@ public class PhysicsManager2 : MonoBehaviour
         // ─ Walk Acceleration ─────────────────────────────────────────────────
         if (isActivelyWalking)
         {
-            float maxSpd = (obj.IsSprinting ? obj.WalkSpeed * obj.SprintCoeff : obj.WalkSpeed)
-                           * (obj.IsGrounded ? 1f : 0.1f);
+            float maxSpd = (obj.IsSprinting ? obj.WalkSpeed * obj.SprintCoeff : obj.WalkSpeed) * (obj.CanWalkFrameLeft > 0  ? 1f : 0.1f);
             Vector2 walkDir = obj.WalkingDir.normalized;
             float frictionAccInfluence = 1 - Mathf.Clamp01(obj.frictionCoeff * obj.frictionWalkInfluence);
             float WalkAcceleration = obj.IsSprinting ? obj.WalkAcceleration * obj.SprintCoeff : obj.WalkAcceleration;
@@ -777,15 +781,12 @@ public class PhysicsManager2 : MonoBehaviour
         bool towardsFloor = Vector3.Dot(surfaceNormal, vel) < EPSILON;
         obj.IsGrounded = floor && floor.ZmaxCircle(obj.transform.position, 0.4f) > obj.zCollider.ZMin - EPSILON && towardsFloor;
 
-        bool calcFloat = true;
+        obj.IsOnSlope = Vector3.Dot(surfaceNormal, Vector3.forward) < 1f - EPSILON;
         bool calcGround = false;
         if (obj.IsGrounded)
         {
-            calcFloat = false;
             if (!obj.IsGroundedPrev) // just grounded -> bounce
             {
-                Debug.Log("bounce! before v: " + obj.ZVelocity);
-
                 if (towardsFloor)
                 {
                     // v' = v - (1+e)*dot(v,n)*n
@@ -799,16 +800,13 @@ public class PhysicsManager2 : MonoBehaviour
                 float verAcc       = Mathf.Abs(obj.ExForce.z / Mathf.Max(obj.Mass, EPSILON));
                 float minEscapeVel = verAcc * bounceTolerance;
 
-                if (obj.ZVelocity > minEscapeVel) calcFloat = true;
-                else                              obj.ZVelocity  = 0f;
-                
+                if (obj.ZVelocity < minEscapeVel) obj.ZVelocity  = 0f;
             }
             else calcGround = true; // already grounded
         }
         else if (obj.IsGroundedPrev && floor && towardsFloor) // not grounded but flat (stepUP or stepDown)
         {
             obj.IsGrounded = true;
-            calcFloat = false;
             calcGround = true;
         }
 
@@ -816,85 +814,56 @@ public class PhysicsManager2 : MonoBehaviour
         {
             obj.ZPosition = floor.ZmaxCircle(obj.transform.position, 0.4f);
 
-            float slopeDot = Vector3.Dot(surfaceNormal, Vector3.forward);
-            if (slopeDot < 1f - EPSILON || obj.ExForce.z < EPSILON)
+            if (obj.IsOnSlope)
             {
-                Vector3 downForce      = Vector3.forward * obj.ExForce.z;
-                Vector3 normalComp     = Vector3.Dot(downForce, surfaceNormal) * surfaceNormal;
-                Vector3 slideForce     = downForce - normalComp;
-                Vector2 slideVelDelta  = (Vector2)slideForce / Mathf.Max(obj.Mass, EPSILON) * Time.fixedDeltaTime;
+                Vector3 slopeVel = vel - Vector3.Dot(vel, surfaceNormal) * surfaceNormal;
 
-                if (obj.Mode == MovementMode.Grid) obj.Grid.Velocity += slideVelDelta;
-                else                               obj.Phys.Velocity += slideVelDelta;
+                if (obj.Mode == MovementMode.Grid) obj.Grid.Velocity = (Vector2)slopeVel;
+                else                               obj.Phys.Velocity = (Vector2)slopeVel;
+                obj.ZVelocity = slopeVel.z;
             }
-            obj.ZVelocity = 0f;
+            else obj.ZVelocity = 0;
             obj.ExForce = new(obj.ExForce.x, obj.ExForce.y, 0);
         }
 
-        if (calcFloat)
+        obj.ZPosition += obj.ZVelocity * Time.fixedDeltaTime;
+        if (ceiling != null && obj.ZVelocity > EPSILON) // ceiling collision
         {
-            obj.ZPosition += obj.ZVelocity * Time.fixedDeltaTime;
-            if (ceiling != null && obj.ZVelocity > EPSILON) // ceiling collision
+            float ceilBottom = ceiling.Zmin(obj.transform.position);
+            if (obj.ZPosition >= ceilBottom)
             {
-                float ceilBottom = ceiling.Zmin(obj.transform.position);
-                if (obj.ZPosition >= ceilBottom)
+                obj.ZPosition = ceilBottom; // 천장 안으로 파고들지 않게 클램프
+                Vector3 ceilNormal = ceiling.GetSurfaceNormal();
+                float vDotN = Vector3.Dot(vel, ceilNormal);
+                if (vDotN < 0f) 
                 {
-                    obj.ZPosition = ceilBottom; // 천장 안으로 파고들지 않게 클램프
-                    Vector3 ceilNormal = ceiling.GetSurfaceNormal();
-                    float vDotN = Vector3.Dot(vel, ceilNormal);
-                    if (vDotN < 0f) 
-                    {
-                        Vector3 reflected = vel - (1f + obj.bounceCoeff) * vDotN * ceilNormal;
-                        obj.ZVelocity = reflected.z;
-                        Vector2 newHorizVel = new(reflected.x, reflected.y);
-                        if (obj.Mode == MovementMode.Grid)
-                            obj.Grid.Velocity = newHorizVel;
-                        else
-                            obj.Phys.Velocity = newHorizVel;
-                    }
+                    Vector3 reflected = vel - (1f + obj.bounceCoeff) * vDotN * ceilNormal;
+                    obj.ZVelocity = reflected.z;
+                    Vector2 newHorizVel = new(reflected.x, reflected.y);
+                    if (obj.Mode == MovementMode.Grid)
+                        obj.Grid.Velocity = newHorizVel;
                     else
-                    {
-                        // 방향 계산이 애매한 엣지케이스 — ZVelocity만 반전
-                        obj.ZVelocity = -Mathf.Abs(obj.ZVelocity) * obj.bounceCoeff;
-                    }
-                    if (Mathf.Abs(obj.ZVelocity) < stopThreshold) obj.ZVelocity = 0f;
+                        obj.Phys.Velocity = newHorizVel;
                 }
+                else
+                {
+                    // 방향 계산이 애매한 엣지케이스 — ZVelocity만 반전
+                    obj.ZVelocity = -Mathf.Abs(obj.ZVelocity) * obj.bounceCoeff;
+                }
+                if (Mathf.Abs(obj.ZVelocity) < stopThreshold) obj.ZVelocity = 0f;
             }
         }
-
+        
+        if (obj.IsGrounded) obj.CanWalkFrameLeft = keepCanWalkFrames;
+        else if (obj.CanWalkFrameLeft > 0) obj.CanWalkFrameLeft--;
         obj.IsGroundedPrev     = obj.IsGrounded;
         Vector3 ep             = obj.transform.position;
         obj.transform.position = new Vector3(ep.x, ep.y, obj.ZPosition);
     }
 
     // ═════════════════════════════════════════════
-    //  Grid Snap / Settle
+    //  Grid Snap
     // ═════════════════════════════════════════════
-
-    /// <summary>Settle Physics Mode Entity To The Grid Smoothly.</summary>
-    private void SettleToGrid(PhysicsObjectTest obj)
-    {
-        if (obj.Phys.KeepPhysics) return;
-        float speed = obj.Phys.Velocity.magnitude;
-        if (speed >= PhysSettleBlendThreshold) return;
-
-        float   t         = 1f - Mathf.Clamp01(speed / PhysSettleBlendThreshold);
-        float   blend     = t * PhysSettleStrength * Time.fixedDeltaTime;
-        Vector2 entityPos = obj.transform.position;
-        Vector2 nearCell  = CellToWorld(WorldToCell(entityPos + obj.Phys.Velocity.normalized * 0.5f));
-        Vector2 delta     = nearCell - entityPos;
-
-        if (delta.magnitude < EPSILON)
-        {
-            obj.transform.position = new Vector3(nearCell.x, nearCell.y, obj.ZPosition);
-            obj.Phys.Velocity      = Vector2.zero;
-            return;
-        }
-
-        Vector2 newPos         = Vector2.Lerp(entityPos, nearCell, blend);
-        obj.transform.position = new Vector3(newPos.x, newPos.y, obj.ZPosition);
-        obj.Phys.Velocity     += delta.normalized * (delta.magnitude * t * PhysSettleStrength * Time.fixedDeltaTime);
-    }
 
     /// <summary>Snap Entity To Grid Instantly When Mode Update.</summary>
     private void SnapPositionToCell(PhysicsObjectTest obj, Vector2Int cell)
@@ -922,7 +891,7 @@ public class PhysicsManager2 : MonoBehaviour
     }
 
     // ═════════════════════════════════════════════
-    //  공간 쿼리 헬퍼
+    //  Helpers
     // ═════════════════════════════════════════════
 
     private bool OverlapCheckHorizontal(PhysicsObjectTest obj, Vector2 point, float radius)
@@ -942,11 +911,6 @@ public class PhysicsManager2 : MonoBehaviour
         return false;
     }
 
-    // ═════════════════════════════════════════════
-    //  좌표 변환 헬퍼
-    // ═════════════════════════════════════════════
-
-    /// <summary>월드 위치 → 셀 좌표 (반올림).</summary>
     public Vector2Int WorldToCell(Vector2 worldPos)
     {
         return new Vector2Int(
@@ -954,29 +918,20 @@ public class PhysicsManager2 : MonoBehaviour
             Mathf.RoundToInt(worldPos.y / gridSize));
     }
 
-    /// <summary>셀 좌표 → 월드 위치 (셀 중앙).</summary>
     public Vector2 CellToWorld(Vector2Int cell)
     {
         return new Vector2(cell.x * gridSize, cell.y * gridSize);
     }
 
     // ═════════════════════════════════════════════
-    //  렌더 보간
+    //  Interpolate Render
     // ═════════════════════════════════════════════
-
-    public void RecordRenderPosition(PhysicsObjectTest obj)
-    {
-        obj._prevRenderPos = obj._nextRenderPos;
-        obj._nextRenderPos = obj.transform.position;
-    }
 
     private void Update()
     {
-        float alpha = (Time.time - Time.fixedTime) / Time.fixedDeltaTime;
         foreach (var obj in AllPhysicsEntitys)
         {
-            Vector3 interpolated   = Vector3.Lerp(obj._prevRenderPos, obj._nextRenderPos, alpha);
-            obj.transform.position = interpolated;
+            obj.DecayBodyPartOffset(renderDecaySpeed, snapDecaySpeed);
         }
     }
 }
