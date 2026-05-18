@@ -50,18 +50,16 @@ public class BodyComponent : MonoBehaviour
 
     public void DecayOffsets(float renderDecaySpeed, float snapDecaySpeed)
     {
-        const float epsilon = 0.00001f;
-
-        if (_snapOffset.sqrMagnitude > epsilon)
+        if (_snapOffset.sqrMagnitude > PhysicsManager2.EPSILON)
         {
             _snapOffset = Vector2.Lerp(_snapOffset, Vector2.zero, snapDecaySpeed * Time.fixedDeltaTime);
-            if (_snapOffset.sqrMagnitude < epsilon) _snapOffset = Vector2.zero;
+            if (_snapOffset.sqrMagnitude < PhysicsManager2.EPSILON) _snapOffset = Vector2.zero;
         }
 
-        if (_renderOffset.sqrMagnitude > epsilon)
+        if (_renderOffset.sqrMagnitude > PhysicsManager2.EPSILON)
         {
             _renderOffset = Vector2.Lerp(_renderOffset, Vector2.zero, renderDecaySpeed * Time.fixedDeltaTime);
-            if (_renderOffset.sqrMagnitude < epsilon) _renderOffset = Vector2.zero;
+            if (_renderOffset.sqrMagnitude < PhysicsManager2.EPSILON) _renderOffset = Vector2.zero;
         }
 
         ApplyLocalPosition();

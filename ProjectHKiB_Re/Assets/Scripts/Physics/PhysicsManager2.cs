@@ -23,7 +23,7 @@ public class GridState
 public class PhysicsState
 {
     public Vector2 Velocity;
-    public bool KeepPhysics;
+    public int KeepPhysics;
 }
 
 
@@ -65,6 +65,7 @@ public class PhysicsManager2 : MonoBehaviour
     public float stepDownTolerance = 0.2f;
     public float bounceTolerance   = 0.1f;
     public int keepCanWalkFrames   = 4;
+    public int keepPhysicsFrames   = 4;
     public float snapDecaySpeed    = 12f;
     public float renderDecaySpeed  = 12f;
     public bool interpolateRender  = true;
@@ -267,9 +268,9 @@ public class PhysicsManager2 : MonoBehaviour
         bool wantsGrid    = obj.IsGrounded && exForceMag < threshold && !obj.IsOnSlope;
         bool wantsPhysics = !wantsGrid;
 
-        if (obj.Mode == MovementMode.Physics && obj.Phys.KeepPhysics)
+        if (obj.Mode == MovementMode.Physics && obj.Phys.KeepPhysics > 0)
         {
-            obj.Phys.KeepPhysics = false;
+            obj.Phys.KeepPhysics--;
             return;
         }
 
@@ -277,7 +278,6 @@ public class PhysicsManager2 : MonoBehaviour
         {
             obj.Mode = MovementMode.Grid;
 
-            // ★ 앵커 셀 기준으로 초기화
             obj.Grid.CurrentCell  = WorldCenterToAnchorCell(obj.transform.position, obj.Size);
             obj.Grid.TargetCell   = obj.Grid.CurrentCell;
             obj.Grid.CellProgress = 1f;
@@ -293,7 +293,6 @@ public class PhysicsManager2 : MonoBehaviour
 
             obj.Phys.Velocity = Vector2.zero;
 
-            // ★ 스냅 목표도 WorldCenter 기준
             Vector2 snapTarget = AnchorCellToWorldCenter(obj.Grid.CurrentCell, obj.Size);
             if (interpolateRender) obj.SetBodyPartSnapOffset(snapTarget);
             SnapPositionToCell(obj, obj.Grid.CurrentCell);
@@ -303,7 +302,7 @@ public class PhysicsManager2 : MonoBehaviour
             obj.Mode          = MovementMode.Physics;
             obj.Phys.Velocity = obj.Grid.Velocity;
             obj.Grid.Velocity = Vector2.zero;
-            obj.Phys.KeepPhysics = true;
+            obj.Phys.KeepPhysics = keepPhysicsFrames;
         }
     }
 
@@ -373,7 +372,7 @@ public class PhysicsManager2 : MonoBehaviour
 
             obj.Grid.LastMoveDir = moveDir;
             Vector2Int desiredAnchor = obj.Grid.CurrentCell + moveDir;
-            TryMoveToCell(obj, desiredAnchor, moveDir);
+            TryMoveToCellGrid(obj, desiredAnchor, moveDir);
         }
 
         if (obj.Grid.CurrentCell != obj.Grid.TargetCell)
@@ -446,10 +445,9 @@ public class PhysicsManager2 : MonoBehaviour
     }
 
     /// <summary>
-    /// ★ desiredAnchor(좌하단 앵커 셀 기준)로의 이동을 시도한다.
-    /// footprint 전체를 검사해 벽·점유자를 확인한다.
+    /// Try moving to the desiredAnchor.
     /// </summary>
-    private void TryMoveToCell(PhysicsObjectTest obj, Vector2Int desiredAnchor, Vector2Int moveDir)
+    private void TryMoveToCellGrid(PhysicsObjectTest obj, Vector2Int desiredAnchor, Vector2Int moveDir)
     {
         bool staticWall             = IsStaticWall(obj, desiredAnchor);
         PhysicsObjectTest occupant  = GetAnyOccupantInFootprint(obj, desiredAnchor);
@@ -463,7 +461,8 @@ public class PhysicsManager2 : MonoBehaviour
         }
 
         if (occupant != null)
-            TryResolveEntityCollision(obj, occupant, (Vector2)(-moveDir));
+            if (TryResolveEntityCollision(obj, occupant, -((Vector2)moveDir).normalized))
+                return;
 
         bool slid = TrySlideGrid(obj, moveDir);
         if (!slid) obj.Grid.Velocity = Vector2.zero;
@@ -472,11 +471,11 @@ public class PhysicsManager2 : MonoBehaviour
     /// <summary>
     /// ★ 슬라이드 — 단일 축 이동으로 footprint 전체를 검사한다.
     /// </summary>
-    private bool TrySlideGrid(PhysicsObjectTest obj, Vector2Int inputDir)
+    private bool TrySlideGrid(PhysicsObjectTest obj, Vector2Int moveDir)
     {
-        if (inputDir.x != 0)
+        if (moveDir.x != 0)
         {
-            var slideDir    = new Vector2Int(inputDir.x, 0);
+            var slideDir    = new Vector2Int(moveDir.x, 0);
             var slideAnchor = obj.Grid.CurrentCell + slideDir;
             if (!IsStaticWall(obj, slideAnchor) && GetAnyOccupantInFootprint(obj, slideAnchor) == null)
             {
@@ -487,9 +486,9 @@ public class PhysicsManager2 : MonoBehaviour
                 return true;
             }
         }
-        if (inputDir.y != 0)
+        if (moveDir.y != 0)
         {
-            var slideDir    = new Vector2Int(0, inputDir.y);
+            var slideDir    = new Vector2Int(0, moveDir.y);
             var slideAnchor = obj.Grid.CurrentCell + slideDir;
             if (!IsStaticWall(obj, slideAnchor) && GetAnyOccupantInFootprint(obj, slideAnchor) == null)
             {
@@ -510,16 +509,14 @@ public class PhysicsManager2 : MonoBehaviour
     {
         if (obj.Mode != MovementMode.Grid) return;
 
-        // ★ footprint 전체 점유 해제
         RemoveFootprintOccupant(obj, obj.Grid.CurrentCell);
         RemoveFootprintOccupant(obj, obj.Grid.TargetCell);
 
         obj.Mode             = MovementMode.Physics;
         obj.Phys.Velocity    = obj.Grid.Velocity;
         obj.Grid.Velocity    = Vector2.zero;
-        obj.Phys.KeepPhysics = true;
+        obj.Phys.KeepPhysics = keepPhysicsFrames;
 
-        // ★ 현재 위치의 앵커 셀 기준으로 물리 모드 점유 등록
         Vector2Int anchor = WorldCenterToAnchorCell(obj.transform.position, obj.Size);
         AddFootprintOccupant(obj, anchor);
     }
@@ -577,7 +574,6 @@ public class PhysicsManager2 : MonoBehaviour
                 collided  = true;
             }
 
-            // ★ 이전 앵커 셀 기준으로 점유 갱신
             Vector2Int previousAnchor = WorldCenterToAnchorCell(origin, obj.Size);
             obj.transform.position += (Vector3)delta;
             UpdatePhysicsCellOccupancy(obj, previousAnchor);
@@ -601,6 +597,12 @@ public class PhysicsManager2 : MonoBehaviour
         if (TryGetStaticCellCollisionNormal(obj, currentAnchor, nextAnchor, fallbackDir, out Vector2 staticNormal))
         {
             ResolveStaticCollision(obj, staticNormal);
+            if (!IsStaticWall(obj, currentAnchor))
+            {
+                //Vector2 snapTarget = AnchorCellToWorldCenter(currentAnchor, obj.Size);
+                //if (interpolateRender) obj.SetBodyPartSnapOffset(snapTarget);
+                //SnapPositionToCell(obj, currentAnchor);
+            }
             return true;
         }
 
@@ -611,10 +613,7 @@ public class PhysicsManager2 : MonoBehaviour
     /// ★ 정적 벽 충돌 법선 계산.
     /// 선두 엣지(leading edge) 검사 → 다음 footprint 전체 검사 순으로 진행.
     /// </summary>
-    private bool TryGetStaticCellCollisionNormal(
-        PhysicsObjectTest obj,
-        Vector2Int currentAnchor, Vector2Int nextAnchor,
-        Vector2 fallbackDir, out Vector2 normal)
+    private bool TryGetStaticCellCollisionNormal(PhysicsObjectTest obj, Vector2Int currentAnchor, Vector2Int nextAnchor, Vector2 fallbackDir, out Vector2 normal)
     {
         normal = Vector2.zero;
 
@@ -746,69 +745,67 @@ public class PhysicsManager2 : MonoBehaviour
 
     private bool TryResolveEntityCollision(PhysicsObjectTest objA, PhysicsObjectTest objB, Vector2 normal)
     {
-        objA.Phys.KeepPhysics = true;
-        objB.Phys.KeepPhysics = true;
-
+        objA.Phys.KeepPhysics = keepPhysicsFrames;
+        objB.Phys.KeepPhysics = keepPhysicsFrames;
         bool aIsGrid = objA.Mode == MovementMode.Grid;
         bool bIsGrid = objB.Mode == MovementMode.Grid;
-
         Vector2 vA = aIsGrid ? objA.Grid.Velocity : objA.Phys.Velocity;
         Vector2 vB = bIsGrid ? objB.Grid.Velocity : objB.Phys.Velocity;
-        float   mA = Mathf.Max(objA.Mass, EPSILON);
-        float   mB = Mathf.Max(objB.Mass, EPSILON);
+        float invMA        = 1f / Mathf.Max(objA.Mass, EPSILON);
+        float invMB        = 1f / Mathf.Max(objB.Mass, EPSILON);
+        float totalInvMass = invMA + invMB;
 
-        bool collisionHandled = false;
+        Vector2 sep     = (Vector2)objA.transform.position - (Vector2)objB.transform.position;
+        float   dist    = sep.magnitude;
+        Vector2 pushDir = dist > EPSILON ? sep / dist : normal;
 
-        float vRel = Vector2.Dot(vA - vB, normal);
-        if (vRel < 0f)
+        float allowedDist =
+            Mathf.Abs(pushDir.x) * (objA.Size.x + objB.Size.x) * 0.5f * gridSize +
+            Mathf.Abs(pushDir.y) * (objA.Size.y + objB.Size.y) * 0.5f * gridSize;
+
+        float vRelative     = Vector2.Dot(vA - vB, normal);
+        bool needImpulse    = vRelative < 0f;
+        bool needCorrection = dist < allowedDist;
+        if (!needImpulse && !needCorrection) return false;
+
+        if (aIsGrid) SwitchGridToPhysics(objA);
+        if (bIsGrid) SwitchGridToPhysics(objB);
+
+        if (needImpulse)
         {
-            float e = (objA.bounceCoeff + objB.bounceCoeff) * 0.5f;
-            float j = -(1f + e) * vRel / (1f / mA + 1f / mB);
-
+            float e         = (objA.bounceCoeff + objB.bounceCoeff) * 0.5f;
+            float j         = -(1f + e) * vRelative / totalInvMass;
             Vector2 impulse = j * normal;
 
-            if (aIsGrid) SwitchGridToPhysics(objA);
-            if (bIsGrid) SwitchGridToPhysics(objB);
-
-            objA.Phys.Velocity = vA + impulse / mA;
-            objB.Phys.Velocity = vB - impulse / mB;
-
-            collisionHandled = true;
+            objA.Phys.Velocity = vA + impulse * invMA;
+            objB.Phys.Velocity = vB - impulse * invMB;
         }
 
-        Vector2 posA = objA.transform.position;
-        Vector2 posB = objB.transform.position;
-        float dist   = Vector2.Distance(posA, posB);
-
-        // ★ 최소 허용 거리는 두 오브젝트 크기의 평균을 고려
-        float allowedDistance = //gridSize * (objA.Size.x + objB.Size.x) * 0.5f * 0.8f;
-        Vector2.Distance(objA.zCollider.ClosestPoint(objB.transform.position), objB.zCollider.ClosestPoint(objA.transform.position)) - 0.2f;
-
-        if (dist < allowedDistance)
+        if (needCorrection)
         {
-            if (aIsGrid) SwitchGridToPhysics(objA);
-            if (bIsGrid) SwitchGridToPhysics(objB);
+            const float slop    = 0.01f;
+            const float percent = 0.8f;
 
-            Vector2 pushDir    = dist > EPSILON ? (posA - posB) / dist : normal;
-            float penetration  = allowedDistance - dist;
-            float totalInvMass = (1f / mA) + (1f / mB);
-            float percent      = 0.5f;
-            Vector2 correction = pushDir * (penetration / totalInvMass * percent);
+            float correctAmount = Mathf.Max(allowedDist - dist - slop, 0f) * percent / totalInvMass;
+            Vector2 correction  = pushDir * correctAmount;
 
-            // ★ 앵커 셀 기준으로 점유 갱신
             Vector2Int prevCellA = WorldCenterToAnchorCell(objA.transform.position, objA.Size);
             Vector2Int prevCellB = WorldCenterToAnchorCell(objB.transform.position, objB.Size);
 
-            objA.transform.position += (Vector3)(correction * (1f / mA));
-            objB.transform.position -= (Vector3)(correction * (1f / mB));
+            if (interpolateRender)
+            {
+                objA.SetBodyPartSnapOffset((Vector2)objA.transform.position + correction * invMA);
+                objB.SetBodyPartSnapOffset((Vector2)objB.transform.position - correction * invMB);
+            }
+
+            objA.transform.position += (Vector3)(correction * invMA);
+            objB.transform.position -= (Vector3)(correction * invMB);
 
             UpdatePhysicsCellOccupancy(objA, prevCellA);
             UpdatePhysicsCellOccupancy(objB, prevCellB);
-
-            collisionHandled = true;
         }
 
-        return collisionHandled;
+        return true;
     }
 
     private void ResolveStaticCollision(PhysicsObjectTest obj, Vector2 normal)
@@ -927,9 +924,6 @@ public class PhysicsManager2 : MonoBehaviour
     //  Grid Snap
     // ═════════════════════════════════════════════
 
-    /// <summary>
-    /// ★ 앵커 셀의 월드 중심 좌표로 transform을 스냅.
-    /// </summary>
     private void SnapPositionToCell(PhysicsObjectTest obj, Vector2Int anchorCell)
     {
         Vector2 worldCenter    = AnchorCellToWorldCenter(anchorCell, obj.Size);
