@@ -11,7 +11,7 @@ namespace Assets.Scripts.Interfaces.Modules
         {
             get
             {
-                MaxHPBuffer ??= new(BaseMaxHP);
+                MaxHPBuffer ??= new(BaseMaxHP, 1f);
                 return MaxHPBuffer.BuffedStat;
             }
         }
@@ -41,7 +41,7 @@ namespace Assets.Scripts.Interfaces.Modules
 
         public void Initialize()
         {
-            MaxHPBuffer = new(BaseMaxHP);
+            MaxHPBuffer = new(BaseMaxHP, 1f);
             DEFBuffer = new(BaseDEF);
             ResistanceBuffer = new(0);
             InvincibleBuffer = new();

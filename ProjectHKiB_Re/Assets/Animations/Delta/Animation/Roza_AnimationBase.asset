@@ -157,6 +157,78 @@ MonoBehaviour:
     - labelKey: 7
       durationModifier: 1
       triggerEventName: 
+  - clipName: GroggyStart
+    categoryKeys:
+      _serializedList:
+      - Key: 0
+        Value: KnockbackD
+      - Key: 2
+        Value: KnockbackL
+      - Key: 1
+        Value: KnockbackR
+      - Key: 3
+        Value: KnockbackU
+    isLoop: 1
+    tickSeconds: 0.1
+    maxPlaySeconds: -1
+    resetWhenDirectionChange: 1
+    frames:
+    - labelKey: 0
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 1
+      durationModifier: 1
+      triggerEventName: 
+  - clipName: GroggyKeep
+    categoryKeys:
+      _serializedList:
+      - Key: 0
+        Value: KnockbackD
+      - Key: 2
+        Value: KnockbackL
+      - Key: 1
+        Value: KnockbackR
+      - Key: 3
+        Value: KnockbackU
+    isLoop: 1
+    tickSeconds: 0.1
+    maxPlaySeconds: -1
+    resetWhenDirectionChange: 1
+    frames:
+    - labelKey: 2
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 3
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 4
+      durationModifier: 1
+      triggerEventName: 
+  - clipName: GroggyEnd
+    categoryKeys:
+      _serializedList:
+      - Key: 0
+        Value: KnockbackD
+      - Key: 2
+        Value: KnockbackL
+      - Key: 1
+        Value: KnockbackR
+      - Key: 3
+        Value: KnockbackU
+    isLoop: 1
+    tickSeconds: 0.1
+    maxPlaySeconds: -1
+    resetWhenDirectionChange: 1
+    frames:
+    - labelKey: 5
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 6
+      durationModifier: 1
+      triggerEventName: 
+    - labelKey: 7
+      durationModifier: 1
+      triggerEventName: 
   - clipName: NormalAttack0
     categoryKeys:
       _serializedList:

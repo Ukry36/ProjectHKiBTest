@@ -5,7 +5,9 @@ using UnityEngine;
 public class StatBuffSO : ScriptableObject
 {
     public enum TimeStackTypeEnum { Ignore, Stack, Overwrite }
+    // Independant: 동일 SO라도 항상 별도 BuffInfo 생성 (중복 적용 허용)
     public enum BuffStackTypeEnum { Ignore, Stack, Overwrite, Independant }
+    // Permanent: UnBuff() 무시. ignorePermanent=true 로만 강제 제거 가능
     public enum BuffRemoveTypeEnum { Remove, Unstack, Permanent }
 
     [Serializable]
@@ -14,6 +16,7 @@ public class StatBuffSO : ScriptableObject
         [field: SerializeField] public StatBuffTypeSO BuffType { get; private set; }
         [field: SerializeField] public bool IsDebuff { get; set; }
         [field: Min(0)][field: SerializeField] public float Value { get; set; }
+        // true: 비율 버프 (BuffedStat += Value × baseStat) / false: 고정 수치 (BuffedStat += Value)
         [field: SerializeField] public bool IsValuePropositional { get; set; }
     }
 

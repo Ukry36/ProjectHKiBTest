@@ -11,13 +11,14 @@ public class IsSelfDamageTriggeredDecision : StateDecisionSO
         if (stateController.TryGetInterface(out IAttackable attackable) &&
             attackable is AttackableModule attackableModule)
         {
+        /*
     #if UNITY_EDITOR
             Debug.Log(
                 $"[SelfDamage DECISION] {stateController.name} | " +
                 $"result={attackableModule.IsSelfDamageTriggered}"
             );
     #endif
-
+        */
             return attackableModule.IsSelfDamageTriggered;
         }
 

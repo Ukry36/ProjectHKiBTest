@@ -40,13 +40,14 @@ public class SetDirRandomAccuracyAction : StateActionSO
 
         if (!animatable.CheckIfLastSetDirectionSame(finalDir))
             animatable.SetAnimationDirection(finalDir);
-
+/*
 #if UNITY_EDITOR
         Debug.Log(
             $"[AccuracyDir] {stateController.name} | chance={attackableModule.AccuracyMissChance:F2} | " +
             $"distorted={shouldDistort} | dir={finalDir}"
         );
 #endif
+*/
     }
 
     private Vector2 Rotate(Vector2 dir, float angle)

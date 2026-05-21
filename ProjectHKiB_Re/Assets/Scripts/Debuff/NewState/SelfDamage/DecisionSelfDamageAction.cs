@@ -14,7 +14,7 @@ public class DecisionSelfDamageAction : StateActionSO
             attackable is AttackableModule attackableModule)
         {
             attackableModule.RollSelfDamage(damageNumber);
-
+    /*
     #if UNITY_EDITOR
             Debug.Log(
                 $"[SelfDamage ROLL] {stateController.name} | " +
@@ -22,6 +22,7 @@ public class DecisionSelfDamageAction : StateActionSO
                 $"result={attackableModule.IsSelfDamageTriggered}"
             );
     #endif
+    */
         }
         else
         {

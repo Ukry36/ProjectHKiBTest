@@ -65,7 +65,7 @@ public class AttackableModule : InterfaceModule, IAttackable
 
     public virtual void Initialize()
     {
-        ATKBuffer = new(BaseATK);
+        ATKBuffer = new(BaseATK, 0f);
         AttackCooltimeBuffer = new CooltimeMultiplierBuffContainer(1f);
         AccuracyMissChanceBuffer = new FloatBuffContainer(0f);
         SelfDamageChanceBuffer = new FloatBuffContainer(0f);

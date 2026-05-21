@@ -54,7 +54,7 @@ namespace Assets.Scripts.Interfaces.Modules
             MovePoint.Initialize();
             ExForce = new(true);
 
-            SpeedBuffer = new FloatBuffContainer(BaseSpeed);
+            SpeedBuffer = new FloatBuffContainer(BaseSpeed, 0f);
             SpeedBuffer.OnBuffed += OnSpeedBuffed;
 
             Speed = SpeedBuffer.BuffedStat;

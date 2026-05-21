@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb85084ca5989854b9dbc2cce1298255, type: 3}
   m_Name: Delta_Lily_IdleState
   m_EditorClassIdentifier: 
-  temporaryID: 0.5699455
+  temporaryID: 0.12854625
   transitions:
   - activationInput: 10
     availableTime: 0
@@ -79,5 +79,9 @@ MonoBehaviour:
   updateActions:
   - {fileID: 11400000, guid: 4ff9702b721b89147abd80a03aeb1ff4, type: 2}
   exitActions: []
-  frameDecisions: []
+  actionSequence: []
+  loopActionSequence: 0
+  useTimer: 0
+  timerID: 0
+  time: 0
   animationName: Idle

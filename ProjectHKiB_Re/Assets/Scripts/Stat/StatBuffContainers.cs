@@ -4,18 +4,21 @@ using UnityEngine;
 
 public class FloatBuffContainer
 {
-    public FloatBuffContainer(float baseStat)
+    public FloatBuffContainer(float baseStat, float minStat = float.NegativeInfinity)
     {
         this.baseStat = baseStat;
+        _minStat = minStat;
     }
 
     public readonly float baseStat;
+    // 버프 적용 후 최솟값 제한. Speed=0f(역방향 방지), MaxHP=1f(0 이하 방지), ATK=0f / 기본값=제한 없음
+    private readonly float _minStat;
     public Action<float> OnBuffed;
 
     private readonly Dictionary<int, float> _statBuffAddList = new(10);
     private readonly Dictionary<int, float> _statBuffPropList = new(10);
 
-    public float BuffedStat => baseStat + StatBuffAdd + StatBuffProp * baseStat;
+    public float BuffedStat => Mathf.Max(_minStat, baseStat + StatBuffAdd + StatBuffProp * baseStat);
 
     public float StatBuffAdd
     {

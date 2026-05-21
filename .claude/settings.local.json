@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Get-ChildItem -Path \"D:\\\\Unity\\\\Project\\\\ProjectHKiBTest\\\\ProjectHKiB_Re\\\\Assets\\\\Scripts\\\\Debuff\\\\EmotionBuffs\" -Recurse | ForEach-Object { $_.FullName })",
+      "PowerShell(Get-ChildItem -Path \"D:\\\\Unity\\\\Project\\\\ProjectHKiBTest\\\\ProjectHKiB_Re\\\\Assets\\\\Scripts\\\\Debuff\\\\EmotionBuffs\\\\OtherBuff\" | ForEach-Object { $_.FullName })",
+      "PowerShell(cmd /c \"dir D:\\\\Unity\\\\Project\\\\ProjectHKiBTest\\\\ProjectHKiB_Re\\\\Assets\\\\Scripts\\\\Debuff /s /b\")",
+      "PowerShell(cmd /c \"dir D:\\\\Unity\\\\Project\\\\ProjectHKiBTest\\\\ProjectHKiB_Re\\\\Assets\\\\Scripts\\\\InterfaceModules /s /b\" 2>&1)"
+    ]
+  }
+}

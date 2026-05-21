@@ -27,7 +27,7 @@ public class SetDirReverseAccuracyFromInputAction : StateActionSO
 
         if (!animatable.CheckIfLastSetDirectionSame(finalDir))
             animatable.SetAnimationDirection(finalDir);
-
+/*
 #if UNITY_EDITOR
         Debug.Log(
             $"[AccuracyReverse/Input] {stateController.name} | " +
@@ -36,5 +36,6 @@ public class SetDirReverseAccuracyFromInputAction : StateActionSO
             $"baseDir={baseDir} | finalDir={finalDir}"
         );
 #endif
+*/
     }
 }
