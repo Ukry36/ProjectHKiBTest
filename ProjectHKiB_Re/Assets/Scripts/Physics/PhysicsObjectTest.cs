@@ -6,19 +6,25 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
     
     [Header("physics")]
     public float frictionCoeff   = 0.85f;
-    public float bounceCoeff     = 0.3f;  
+    public float Restitution     = 0.3f;  
     public float airFriction     = 0.98f;   
     public float stopAccelerateThreshold;
     public float frictionWalkInfluence = 1;
 
     public MovementMode Mode;
-    public GridState    Grid   = new();
-    public PhysicsState Phys   = new();
+    public GridState    Grid = new();
+    public PhysicsState Phys = new();
     public Vector2Int Size;
 
     public float ModeTransitionThreshold;
  
     public LayerMask floorLayer;
+
+    public bool isActive;
+    public Vector2 HorizonVelocity;
+    public float invM = 1;
+
+    public int ID;
  
     public float ZPosition 
     { 
@@ -73,8 +79,11 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
     {
         if (!physManager) physManager = FindObjectOfType<PhysicsManager2>();
         if (MovePoint) MovePoint.Initialize(this);
-        ExForce = new();
         PrevEntityPos = transform.position;
+        ID = GetInstanceID();
+        ExForce = new();
+        if (Mass <= 0) Mass = 1;
+        invM = 1 / Mass;
         if (Size.x < 1) Size.x = 1;
         if (Size.y < 1) Size.y = 1;
         physManager.AddPhysicsObject(this);

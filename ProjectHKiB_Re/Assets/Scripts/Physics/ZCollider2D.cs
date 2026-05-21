@@ -371,8 +371,29 @@ public abstract class ZCollider2D : MonoBehaviour
         return new Vector3(0, 0, multiplier);
     }
 
+    public int Cast(Vector2 direction, RaycastHit2D[] results, float distance)
+    {
+        int count = Col.Cast(direction, results, distance);
+        int validCount = 0;
+        for (int i = 0; i < count; i++)
+        {
+            if (!ZPhysics2D.TryGet(results[i].collider, out var other)) continue;
+            if (!OverlapsZ(other)) continue;
+            results[validCount++] = results[i];
+        }
+        return validCount;
+    }
+
+    public ColliderDistance2D Distance(Collider2D collider2D) => Col.Distance(collider2D);
+
     public Vector2 ClosestPoint(Vector2 point) => Col.ClosestPoint(point);
 
-    protected virtual void Awake()     => ZPhysics2D.Register(Col, this);
+    public int ID;
+    protected virtual void Awake() 
+    {
+        ID = GetInstanceID();
+        ZPhysics2D.Register(Col, this);
+    }
+
     protected virtual void OnDestroy() => ZPhysics2D.Unregister(Col);
 }
