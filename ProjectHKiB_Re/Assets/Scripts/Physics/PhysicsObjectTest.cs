@@ -34,7 +34,8 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
 
     [field: NaughtyAttributes.ReadOnly][field: SerializeField] public Vector3 ExForce { get; set; }
     [field: SerializeField] public float Mass { get; set; }
-    public float InvM { get; set; }
+    public float InvM { get; private set; }
+    public bool makeMassInf;
     public MovePoint MovePoint { get; set; }
     public Vector3 LastSetDir { get; set; }
     public bool IsSprinting { get; set; }
