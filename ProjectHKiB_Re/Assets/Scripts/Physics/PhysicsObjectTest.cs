@@ -26,13 +26,15 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
         set { SetZLevel(value);}
     }
     public float ZVelocity { get; set; }
+    public Vector2 Velocity { get; set; }
     public bool IsGrounded { get; set; }
     public int CanWalkFrameLeft { get; set; }
     public bool IsGroundedPrev { get; set; }
     public bool IsOnSlope { get; set; }
 
     [field: NaughtyAttributes.ReadOnly][field: SerializeField] public Vector3 ExForce { get; set; }
-    [field: SerializeField] public float Mass {get;set;}
+    [field: SerializeField] public float Mass { get; set; }
+    public float InvM { get; set; }
     public MovePoint MovePoint { get; set; }
     public Vector3 LastSetDir { get; set; }
     public bool IsSprinting { get; set; }
@@ -77,6 +79,7 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
         PrevEntityPos = transform.position;
         if (Size.x < 1) Size.x = 1;
         if (Size.y < 1) Size.y = 1;
+        InvM = 1f / Mass;
         physManager.AddPhysicsObject(this);
     }
 
