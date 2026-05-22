@@ -1763,7 +1763,9 @@ MonoBehaviour:
     KeepPhysics: 0
   Size: {x: 0, y: 0}
   GridEndureSpeed: 10
-  GridEndureForce: 75
+  GridEndureForce: 50
+  stepUpTolerance: 0.5
+  stepDownTolerance: 0.2
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -1795,6 +1797,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 0.5
   height: 1
+  frictionCoeff: 0.85
+  bounceCoeff: 0.3
   useSlopeDU: 0
   upMostOffset: 0
   downMostOffset: 0
@@ -3620,6 +3624,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 0.5
   height: 1
+  frictionCoeff: 0.85
+  bounceCoeff: 0.3
   useSlopeDU: 0
   upMostOffset: 0
   downMostOffset: 0
@@ -4538,7 +4544,9 @@ MonoBehaviour:
     KeepPhysics: 0
   Size: {x: 0, y: 0}
   GridEndureSpeed: 10
-  GridEndureForce: 75
+  GridEndureForce: 50
+  stepUpTolerance: 0.5
+  stepDownTolerance: 0.2
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -4570,6 +4578,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 0.5
   height: 1
+  frictionCoeff: 0.85
+  bounceCoeff: 0.3
   useSlopeDU: 0
   upMostOffset: 0
   downMostOffset: 0
@@ -5415,6 +5425,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 1
   height: 2
+  frictionCoeff: 0.85
+  bounceCoeff: 0.3
   useSlopeDU: 0
   upMostOffset: 0
   downMostOffset: 0
@@ -5860,7 +5872,9 @@ MonoBehaviour:
     KeepPhysics: 0
   Size: {x: 3, y: 3}
   GridEndureSpeed: 10
-  GridEndureForce: 75
+  GridEndureForce: 50
+  stepUpTolerance: 0.5
+  stepDownTolerance: 0.2
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -5892,6 +5906,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 1.5
   height: 3
+  frictionCoeff: 0.85
+  bounceCoeff: 0.3
   useSlopeDU: 0
   upMostOffset: 0
   downMostOffset: 0
@@ -11816,7 +11832,9 @@ MonoBehaviour:
     KeepPhysics: 0
   Size: {x: 0, y: 0}
   GridEndureSpeed: 10
-  GridEndureForce: 75
+  GridEndureForce: 50
+  stepUpTolerance: 0.5
+  stepDownTolerance: 0.2
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -11848,6 +11866,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 0.5
   height: 1
+  frictionCoeff: 0.85
+  bounceCoeff: 0.3
   useSlopeDU: 0
   upMostOffset: 0
   downMostOffset: 0
@@ -12762,6 +12782,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 0.5
   height: 1
+  frictionCoeff: 0.85
+  bounceCoeff: 0.3
   useSlopeDU: 0
   upMostOffset: 0
   downMostOffset: 0
@@ -12842,6 +12864,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 0.5
   height: 1
+  frictionCoeff: 0.85
+  bounceCoeff: 0.3
   useSlopeDU: 0
   upMostOffset: 0
   downMostOffset: 0
@@ -15851,7 +15875,9 @@ MonoBehaviour:
     KeepPhysics: 0
   Size: {x: 0, y: 0}
   GridEndureSpeed: 10
-  GridEndureForce: 75
+  GridEndureForce: 50
+  stepUpTolerance: 0.5
+  stepDownTolerance: 0.2
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -15885,6 +15911,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 1
   height: 2
+  frictionCoeff: 0.85
+  bounceCoeff: 0.3
   useSlopeDU: 0
   upMostOffset: 0
   downMostOffset: 0
@@ -21105,6 +21133,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 0.5
   height: 1
+  frictionCoeff: 0.85
+  bounceCoeff: 0.3
   useSlopeDU: 0
   upMostOffset: 0
   downMostOffset: 0
@@ -22001,7 +22031,9 @@ MonoBehaviour:
     KeepPhysics: 0
   Size: {x: 0, y: 0}
   GridEndureSpeed: 10
-  GridEndureForce: 75
+  GridEndureForce: 50
+  stepUpTolerance: 0.5
+  stepDownTolerance: 0.2
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -22033,6 +22065,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 0.5
   height: 1
+  frictionCoeff: 0.85
+  bounceCoeff: 0.3
   useSlopeDU: 0
   upMostOffset: 0
   downMostOffset: 0
@@ -23294,6 +23328,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 0.5
   height: 1
+  frictionCoeff: 0.85
+  bounceCoeff: 0.3
   useSlopeDU: 0
   upMostOffset: 0
   downMostOffset: 0
@@ -26491,7 +26527,9 @@ MonoBehaviour:
     KeepPhysics: 0
   Size: {x: 0, y: 0}
   GridEndureSpeed: 10
-  GridEndureForce: 75
+  GridEndureForce: 50
+  stepUpTolerance: 0.5
+  stepDownTolerance: 0.2
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -26523,6 +26561,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 0.5
   height: 1
+  frictionCoeff: 0.85
+  bounceCoeff: 0.3
   useSlopeDU: 0
   upMostOffset: 0
   downMostOffset: 0
@@ -27376,6 +27416,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 0.5
   height: 1
+  frictionCoeff: 0.85
+  bounceCoeff: 0.3
   useSlopeDU: 0
   upMostOffset: 0
   downMostOffset: 0
@@ -28668,7 +28710,9 @@ MonoBehaviour:
     KeepPhysics: 0
   Size: {x: 2, y: 2}
   GridEndureSpeed: 10
-  GridEndureForce: 75
+  GridEndureForce: 50
+  stepUpTolerance: 0.5
+  stepDownTolerance: 0.2
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -28700,6 +28744,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 1
   height: 2
+  frictionCoeff: 0.85
+  bounceCoeff: 0.3
   useSlopeDU: 0
   upMostOffset: 0
   downMostOffset: 0
@@ -29459,7 +29505,9 @@ MonoBehaviour:
     KeepPhysics: 0
   Size: {x: 0, y: 0}
   GridEndureSpeed: 10
-  GridEndureForce: 75
+  GridEndureForce: 50
+  stepUpTolerance: 0.5
+  stepDownTolerance: 0.2
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -29491,6 +29539,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 0.5
   height: 1
+  frictionCoeff: 0.85
+  bounceCoeff: 0.3
   useSlopeDU: 0
   upMostOffset: 0
   downMostOffset: 0
@@ -30781,6 +30831,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 0.5
   height: 1
+  frictionCoeff: 0.85
+  bounceCoeff: 0.3
   useSlopeDU: 0
   upMostOffset: 0
   downMostOffset: 0
@@ -34393,6 +34445,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 0.5
   height: 1
+  frictionCoeff: 0.85
+  bounceCoeff: 0.3
   useSlopeDU: 0
   upMostOffset: 0
   downMostOffset: 0
@@ -34619,7 +34673,9 @@ MonoBehaviour:
     KeepPhysics: 0
   Size: {x: 0, y: 0}
   GridEndureSpeed: 10
-  GridEndureForce: 75
+  GridEndureForce: 50
+  stepUpTolerance: 0.5
+  stepDownTolerance: 0.2
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -34651,6 +34707,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 0.5
   height: 1
+  frictionCoeff: 0.85
+  bounceCoeff: 0.3
   useSlopeDU: 0
   upMostOffset: 0
   downMostOffset: 0
@@ -35915,7 +35973,9 @@ MonoBehaviour:
     KeepPhysics: 0
   Size: {x: 0, y: 0}
   GridEndureSpeed: 10
-  GridEndureForce: 75
+  GridEndureForce: 50
+  stepUpTolerance: 0.5
+  stepDownTolerance: 0.2
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -35947,6 +36007,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 0.5
   height: 1
+  frictionCoeff: 0.85
+  bounceCoeff: 0.3
   useSlopeDU: 0
   upMostOffset: 0
   downMostOffset: 0
@@ -36688,7 +36750,9 @@ MonoBehaviour:
     KeepPhysics: 0
   Size: {x: 0, y: 0}
   GridEndureSpeed: 10
-  GridEndureForce: 75
+  GridEndureForce: 50
+  stepUpTolerance: 0.5
+  stepDownTolerance: 0.2
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -36720,6 +36784,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 0.5
   height: 1
+  frictionCoeff: 0.85
+  bounceCoeff: 0.3
   useSlopeDU: 0
   upMostOffset: 0
   downMostOffset: 0
@@ -40146,6 +40212,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 0.5
   height: 1
+  frictionCoeff: 0.85
+  bounceCoeff: 0.3
   useSlopeDU: 0
   upMostOffset: 0
   downMostOffset: 0
@@ -40231,7 +40299,9 @@ MonoBehaviour:
     KeepPhysics: 0
   Size: {x: 0, y: 0}
   GridEndureSpeed: 10
-  GridEndureForce: 75
+  GridEndureForce: 50
+  stepUpTolerance: 0.5
+  stepDownTolerance: 0.2
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -40263,6 +40333,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 0.5
   height: 1
+  frictionCoeff: 0.85
+  bounceCoeff: 0.3
   useSlopeDU: 0
   upMostOffset: 0
   downMostOffset: 0
@@ -40429,7 +40501,9 @@ MonoBehaviour:
     KeepPhysics: 0
   Size: {x: 0, y: 0}
   GridEndureSpeed: 10
-  GridEndureForce: 75
+  GridEndureForce: 50
+  stepUpTolerance: 0.5
+  stepDownTolerance: 0.2
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -40461,6 +40535,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 0.5
   height: 1
+  frictionCoeff: 0.85
+  bounceCoeff: 0.3
   useSlopeDU: 0
   upMostOffset: 0
   downMostOffset: 0
@@ -41128,6 +41204,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 0.5
   height: 1
+  frictionCoeff: 0.85
+  bounceCoeff: 0.3
   useSlopeDU: 0
   upMostOffset: 0
   downMostOffset: 0
@@ -41768,6 +41846,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 0.5
   height: 1
+  frictionCoeff: 0.85
+  bounceCoeff: 0.3
   useSlopeDU: 0
   upMostOffset: 0
   downMostOffset: 0
@@ -45043,7 +45123,9 @@ MonoBehaviour:
     KeepPhysics: 0
   Size: {x: 0, y: 0}
   GridEndureSpeed: 10
-  GridEndureForce: 75
+  GridEndureForce: 50
+  stepUpTolerance: 0.5
+  stepDownTolerance: 0.2
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -45075,6 +45157,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 0.5
   height: 1
+  frictionCoeff: 0.85
+  bounceCoeff: 0.3
   useSlopeDU: 0
   upMostOffset: 0
   downMostOffset: 0
@@ -50704,6 +50788,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 1.5
   height: 3
+  frictionCoeff: 0.85
+  bounceCoeff: 0.3
   useSlopeDU: 0
   upMostOffset: 0
   downMostOffset: 0
@@ -54817,6 +54903,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 0.5
   height: 1
+  frictionCoeff: 0.85
+  bounceCoeff: 0.3
   useSlopeDU: 0
   upMostOffset: 0
   downMostOffset: 0
@@ -55262,6 +55350,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 0.5
   height: 1
+  frictionCoeff: 0.85
+  bounceCoeff: 0.3
   useSlopeDU: 0
   upMostOffset: 0
   downMostOffset: 0
@@ -55347,7 +55437,9 @@ MonoBehaviour:
     KeepPhysics: 0
   Size: {x: 0, y: 0}
   GridEndureSpeed: 10
-  GridEndureForce: 75
+  GridEndureForce: 50
+  stepUpTolerance: 0.5
+  stepDownTolerance: 0.2
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -55379,6 +55471,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 0.5
   height: 1
+  frictionCoeff: 0.85
+  bounceCoeff: 0.3
   useSlopeDU: 0
   upMostOffset: 0
   downMostOffset: 0
@@ -56317,6 +56411,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 0.5
   height: 1
+  frictionCoeff: 0.85
+  bounceCoeff: 0.3
   useSlopeDU: 0
   upMostOffset: 0
   downMostOffset: 0
@@ -57437,6 +57533,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 0.5
   height: 1
+  frictionCoeff: 0.85
+  bounceCoeff: 0.3
   useSlopeDU: 0
   upMostOffset: 0
   downMostOffset: 0
@@ -60425,7 +60523,9 @@ MonoBehaviour:
     KeepPhysics: 0
   Size: {x: 0, y: 0}
   GridEndureSpeed: 10
-  GridEndureForce: 75
+  GridEndureForce: 50
+  stepUpTolerance: 0.5
+  stepDownTolerance: 0.2
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -60457,6 +60557,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 0.5
   height: 1
+  frictionCoeff: 0.85
+  bounceCoeff: 0.3
   useSlopeDU: 0
   upMostOffset: 0
   downMostOffset: 0
@@ -61213,6 +61315,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 0.5
   height: 1
+  frictionCoeff: 0.85
+  bounceCoeff: 0.3
   useSlopeDU: 0
   upMostOffset: 0
   downMostOffset: 0
@@ -62865,7 +62969,9 @@ MonoBehaviour:
     KeepPhysics: 0
   Size: {x: 0, y: 0}
   GridEndureSpeed: 10
-  GridEndureForce: 75
+  GridEndureForce: 50
+  stepUpTolerance: 0.5
+  stepDownTolerance: 0.2
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -62897,6 +63003,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 0.5
   height: 1
+  frictionCoeff: 0.85
+  bounceCoeff: 0.3
   useSlopeDU: 0
   upMostOffset: 0
   downMostOffset: 0
@@ -63367,7 +63475,9 @@ MonoBehaviour:
     KeepPhysics: 0
   Size: {x: 0, y: 0}
   GridEndureSpeed: 10
-  GridEndureForce: 75
+  GridEndureForce: 50
+  stepUpTolerance: 0.5
+  stepDownTolerance: 0.2
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -63399,6 +63509,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 0.5
   height: 1
+  frictionCoeff: 0.85
+  bounceCoeff: 0.3
   useSlopeDU: 0
   upMostOffset: 0
   downMostOffset: 0
@@ -66258,6 +66370,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 0.5
   height: 1
+  frictionCoeff: 0.85
+  bounceCoeff: 0.3
   useSlopeDU: 0
   upMostOffset: 0
   downMostOffset: 0
@@ -66440,7 +66554,9 @@ MonoBehaviour:
     KeepPhysics: 0
   Size: {x: 0, y: 0}
   GridEndureSpeed: 10
-  GridEndureForce: 75
+  GridEndureForce: 50
+  stepUpTolerance: 0.5
+  stepDownTolerance: 0.2
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -66472,6 +66588,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 0.5
   height: 1
+  frictionCoeff: 0.85
+  bounceCoeff: 0.3
   useSlopeDU: 0
   upMostOffset: 0
   downMostOffset: 0
@@ -71800,6 +71918,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 0.5
   height: 1
+  frictionCoeff: 0.85
+  bounceCoeff: 0.3
   useSlopeDU: 0
   upMostOffset: 0
   downMostOffset: 0
@@ -73555,6 +73675,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 0.5
   height: 1
+  frictionCoeff: 0.85
+  bounceCoeff: 0.3
   useSlopeDU: 0
   upMostOffset: 0
   downMostOffset: 0
@@ -81303,7 +81425,9 @@ MonoBehaviour:
     KeepPhysics: 0
   Size: {x: 0, y: 0}
   GridEndureSpeed: 10
-  GridEndureForce: 75
+  GridEndureForce: 50
+  stepUpTolerance: 0.5
+  stepDownTolerance: 0.2
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -81335,6 +81459,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 0.5
   height: 1
+  frictionCoeff: 0.85
+  bounceCoeff: 0.3
   useSlopeDU: 0
   upMostOffset: 0
   downMostOffset: 0
@@ -82919,7 +83045,9 @@ MonoBehaviour:
     KeepPhysics: 0
   Size: {x: 0, y: 0}
   GridEndureSpeed: 10
-  GridEndureForce: 75
+  GridEndureForce: 50
+  stepUpTolerance: 0.5
+  stepDownTolerance: 0.2
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -82951,6 +83079,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 0.5
   height: 1
+  frictionCoeff: 0.85
+  bounceCoeff: 0.3
   useSlopeDU: 0
   upMostOffset: 0
   downMostOffset: 0
@@ -89749,6 +89879,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 0.5
   height: 1
+  frictionCoeff: 0.85
+  bounceCoeff: 0.3
   useSlopeDU: 0
   upMostOffset: 0
   downMostOffset: 0
@@ -94815,7 +94947,9 @@ MonoBehaviour:
     KeepPhysics: 0
   Size: {x: 0, y: 0}
   GridEndureSpeed: 10
-  GridEndureForce: 75
+  GridEndureForce: 50
+  stepUpTolerance: 0.5
+  stepDownTolerance: 0.2
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -94847,6 +94981,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 0.5
   height: 1
+  frictionCoeff: 0.85
+  bounceCoeff: 0.3
   useSlopeDU: 0
   upMostOffset: 0
   downMostOffset: 0
@@ -96421,6 +96557,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 0.5
   height: 1
+  frictionCoeff: 0.85
+  bounceCoeff: 0.3
   useSlopeDU: 0
   upMostOffset: 0
   downMostOffset: 0
@@ -97214,16 +97352,14 @@ MonoBehaviour:
   stopThreshold: 0.1
   enable: 1
   gridSettleSpeed: 1
-  stepUpTolerance: 0.5
-  stepDownTolerance: 0.2
   bounceTolerance: 0.1
   keepCanWalkFrames: 10
   keepPhysicsFrames: 1
-  snapDecaySpeed: 12
-  renderDecaySpeed: 12
+  snapDecaySpeed: 8
+  renderDecaySpeed: 8
   interpolateRender: 1
   physicsIterations: 4
-  stabilization: 0.8
+  stabilization: 1
 --- !u!4 &2135137255
 Transform:
   m_ObjectHideFlags: 0
@@ -99579,7 +99715,9 @@ MonoBehaviour:
     KeepPhysics: 0
   Size: {x: 0, y: 0}
   GridEndureSpeed: 10
-  GridEndureForce: 75
+  GridEndureForce: 50
+  stepUpTolerance: 0.5
+  stepDownTolerance: 0.2
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -99611,6 +99749,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zCenter: 0.5
   height: 1
+  frictionCoeff: 0.85
+  bounceCoeff: 0.3
   useSlopeDU: 0
   upMostOffset: 0
   downMostOffset: 0

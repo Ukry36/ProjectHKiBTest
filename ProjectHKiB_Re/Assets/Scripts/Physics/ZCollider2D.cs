@@ -6,6 +6,10 @@ public abstract class ZCollider2D : MonoBehaviour
     public float zCenter;
     public float height = 1f;
 
+    
+    public float frictionCoeff   = 0.85f;
+    public float bounceCoeff     = 0.3f;  
+
     [NaughtyAttributes.HideIf("useSlopeRL")]
     public bool useSlopeDU;
     [NaughtyAttributes.ShowIf("useSlopeDU")]

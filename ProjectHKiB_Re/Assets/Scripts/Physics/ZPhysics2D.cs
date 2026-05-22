@@ -93,6 +93,26 @@ public static class ZPhysics2D
         return validCount;
     }
 
+    public static int CircleCastNonAlloc(Vector2 origin, float radius, Vector2 direction, RaycastHit2D[] hitResults, float distance, int layerMask, float zMin, float zMax)
+    {
+        int count = Physics2D.CircleCastNonAlloc(origin, radius, direction, hitResults, distance, layerMask);
+        int validCount = 0;
+
+        for (int i = 0; i < count; i++)
+        {
+            var hit = hitResults[i];
+            if (!_registry.TryGetValue(hit.collider, out var zCol)) continue;
+
+            if (!zCol.useSlopeDU && !zCol.useSlopeRL)
+            { if (zCol.ZMin >= zMax || zCol.ZMax <= zMin) continue; }
+            else
+            { if (zCol.Zmin(hit.point) >= zMax || zCol.Zmax(hit.point) <= zMin) continue; }
+            hitResults[validCount++] = hit;
+        }
+
+        return validCount;
+    }
+
     private static readonly Collider2D[] _pointOverlapResults = new Collider2D[16];
 
     /// <summary>

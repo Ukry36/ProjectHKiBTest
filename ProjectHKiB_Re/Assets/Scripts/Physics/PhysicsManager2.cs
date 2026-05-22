@@ -36,8 +36,6 @@ public class PhysicsManager2 : MonoBehaviour
     public float stopThreshold     = 0.05f;
     public bool enable;
     public float gridSettleSpeed   = 3f;
-    public float stepUpTolerance   = 0.5f;
-    public float stepDownTolerance = 0.2f;
     public float bounceTolerance   = 0.1f;
     public int keepCanWalkFrames   = 4;
     public int keepPhysicsFrames   = 4;
@@ -69,14 +67,14 @@ public class PhysicsManager2 : MonoBehaviour
 
         AllPhysicsEntitys = AllPhysicsEntitys.ShuffleList();
 
-        foreach (var obj in AllPhysicsEntitys)
-            UpdateVelocity(obj);
+        for (int i = 0; i < AllPhysicsEntitys.Count; i++)
+            UpdateVelocity(AllPhysicsEntitys[i]);
+        
+        for (int i = 0; i < AllPhysicsEntitys.Count; i++)
+            UpdateVerticalPhysics(AllPhysicsEntitys[i]);
 
-        foreach (var obj in AllPhysicsEntitys)
-            UpdateVerticalPhysics(obj);
-
-        foreach (var obj in AllPhysicsEntitys)
-            UpdateMode(obj);
+        for (int i = 0; i < AllPhysicsEntitys.Count; i++)
+            UpdateMode(AllPhysicsEntitys[i]);
 
         RebuildCellOccupancy();
     
@@ -92,13 +90,12 @@ public class PhysicsManager2 : MonoBehaviour
                 ResolveEntityCollision(AllPhysicsEntitys[j]);
         }
 
-        foreach (var obj in AllPhysicsEntitys)
+        for (int i = 0; i < AllPhysicsEntitys.Count; i++)
         {
+            PhysicsObjectTest obj = AllPhysicsEntitys[i];
             obj.ExForce       = Vector3.zero;
             obj.PrevEntityPos = obj.transform.position;
-            obj.LastSetDir    = obj.IsWalking
-                                    ? (Vector3)obj.WalkingDir
-                                    : (Vector3)obj.Velocity.normalized;
+            obj.LastSetDir    = obj.IsWalking ? (Vector3)obj.WalkingDir : (Vector3)obj.Velocity.normalized;
         }
     }
 
@@ -116,7 +113,7 @@ public class PhysicsManager2 : MonoBehaviour
             float maxSpd = (obj.IsSprinting ? obj.WalkSpeed * obj.SprintCoeff : obj.WalkSpeed)
                          * (obj.CanWalkFrameLeft > 0 ? 1f : 0.1f);
             Vector2 walkDir            = obj.WalkingDir.normalized;
-            float frictionAccInfluence = 1 - Mathf.Clamp01(obj.frictionCoeff * obj.frictionWalkInfluence);
+            float frictionAccInfluence = obj.Ground ? 1 - Mathf.Clamp01(obj.frictionCoeff * obj.Ground.frictionCoeff * obj.frictionWalkInfluence): 1f;
             float WalkAcceleration     = obj.IsSprinting ? obj.WalkAcceleration * obj.SprintCoeff : obj.WalkAcceleration;
             float currentAlongWalk = Vector2.Dot(obj.Velocity, walkDir);
             float deficit          = maxSpd - currentAlongWalk;
@@ -142,7 +139,7 @@ public class PhysicsManager2 : MonoBehaviour
 #region MODE SWITCH
     private void UpdateMode(PhysicsObjectTest obj)
     {
-        bool wantsGrid    = obj.IsGrounded && !obj.IsOnSlope
+        bool wantsGrid    = obj.Ground && !obj.IsOnSlope
                          && obj.Velocity.magnitude < obj.GridEndureSpeed 
                          && obj.ExForce.magnitude < obj.GridEndureForce;
         bool wantsPhysics = !wantsGrid;
@@ -228,7 +225,7 @@ public class PhysicsManager2 : MonoBehaviour
                 obj.Grid.LastMoveDir = moveDir;
                 Vector2Int desiredAnchor = obj.Grid.CurrentCell + moveDir;
                 TryMoveToCellGrid(obj, desiredAnchor, moveDir);
-                if (obj.Mode != MovementMode.Grid) return;
+                //if (obj.Mode != MovementMode.Grid) return;
             }
 
             if (obj.Grid.CurrentCell != obj.Grid.TargetCell)
@@ -316,6 +313,13 @@ public class PhysicsManager2 : MonoBehaviour
             if (!slid) obj.Velocity = Vector2.zero;
             return;
         }
+        float radius = 0.25f * (obj.Size.x + obj.Size.y) * 0.8f;
+        bool diagonal = OverlapCheckHorizontal(obj, obj.Grid.CurrentCell + ((Vector2)moveDir).normalized * radius, radius);
+        if (diagonal)
+        {
+            obj.Velocity = Vector2.zero;
+            return;
+        } 
 
         int cnt = GetAnyOccupantInFootprint(obj, desiredAnchor, objBuffer); // Entity check
         if (cnt > 0)
@@ -406,13 +410,12 @@ public class PhysicsManager2 : MonoBehaviour
         Vector2 delta = nextPosition - origin;
         float distance = delta.magnitude;
         if (distance < EPSILON) return false;
-        Vector2 dir = delta / distance;
-        Vector2 boxSize = 0.8f * gridSize * (Vector2)obj.Size; 
+        float radius = 0.25f * (obj.Size.x + obj.Size.y) * 0.8f;
 
-        int hitCount = ZPhysics2D.BoxCastNonAlloc(origin, boxSize, 0f, dir, staticCastBuffer, distance, obj.WallLayer, 
-                                                  obj.zCollider.ZMin + stepUpTolerance + EPSILON, obj.zCollider.ZMax);
+        int hitCount = ZPhysics2D.CircleCastNonAlloc(origin, radius, delta.normalized, staticCastBuffer, distance, obj.WallLayer, 
+                                                  obj.zCollider.ZMin + obj.stepUpTolerance + EPSILON, obj.zCollider.ZMax);
 
-        bool hasValidHit = false;
+        ZCollider2D validHit = null;
         Vector2 normal = Vector2.zero;
         float minHitDistance = float.MaxValue;
 
@@ -420,33 +423,30 @@ public class PhysicsManager2 : MonoBehaviour
         {
             RaycastHit2D hit = staticCastBuffer[i];
             if (hit.collider.transform == obj.transform) continue;
-
             if (hit.distance < minHitDistance)
             {
                 minHitDistance = hit.distance;
                 normal = hit.normal;
-                hasValidHit = true;
+                ZPhysics2D.TryGet(hit.collider, out validHit);
             }
         }
 
-        if (hasValidHit)
+        if (validHit)
         {
-            if (normal.sqrMagnitude < EPSILON)
-                normal = -fallbackDir;
-
-            ResolveStaticCollision(obj, normal.normalized);
+            if (normal.sqrMagnitude < EPSILON) normal = -fallbackDir;
+            ResolveStaticCollision(obj, validHit, normal.normalized);
             return true;
         }
 
         return false;
     }
 
-    private void ResolveStaticCollision(PhysicsObjectTest obj, Vector2 normal)
+    private void ResolveStaticCollision(PhysicsObjectTest obj, ZCollider2D wall, Vector2 normal)
     {
         float vDotN = Vector2.Dot(obj.Velocity, normal);
         if (vDotN >= 0f) return;
 
-        obj.Velocity -= (1f + obj.bounceCoeff) * vDotN * normal;
+        obj.Velocity -= (1f + wall.bounceCoeff * obj.bounceCoeff) * vDotN * normal;
 
         if (obj.Velocity.magnitude < stopThreshold)
             obj.Velocity = Vector2.zero;
@@ -470,7 +470,7 @@ public class PhysicsManager2 : MonoBehaviour
                 
                 if (obj.GetInstanceID() > occupant.GetInstanceID()) continue; // Prevent double collision 
     
-                if (obj.zCollider.ZMin + stepUpTolerance < occupant.zCollider.ZMax &&
+                if (obj.zCollider.ZMin + obj.stepUpTolerance < occupant.zCollider.ZMax &&
                     obj.zCollider.ZMax                   > occupant.zCollider.ZMin) // Narrowphase: AABB overlap check
                 {
                     Vector2 posA = obj.transform.position;
@@ -484,7 +484,7 @@ public class PhysicsManager2 : MonoBehaviour
     
                     if (isOverlappingX && isOverlappingY)
                     {
-                        Vector2 normal = (Vector2)obj.transform.position - (Vector2)occupant.transform.position;
+                        Vector2 normal = (Vector2)(obj.transform.position - occupant.transform.position);
                         if (normal.sqrMagnitude < EPSILON) normal = Vector2.up;
                         
                         CalculateEntityCollision(obj, occupant, normal.normalized);
@@ -498,11 +498,10 @@ public class PhysicsManager2 : MonoBehaviour
     {
         Vector2 vA = objA.Velocity;
         Vector2 vB = objB.Velocity;
-        
         float invMA = objA.InvM;
         float invMB = objB.InvM;
     
-        Vector2 sep     = (Vector2)objA.transform.position - (Vector2)objB.transform.position;
+        Vector2 sep     = (Vector2)(objA.transform.position - objB.transform.position);
         float   dist    = sep.magnitude;
         Vector2 pushDir = dist > EPSILON ? sep / dist : normal;
     
@@ -526,7 +525,7 @@ public class PhysicsManager2 : MonoBehaviour
         float vRelative   = Vector2.Dot(vA - vB, normal);
         float penetration = allowedDist - dist;
 
-        const float slop = 0.01f;         // Penetration under this doesn't solve
+        const float slop = 0.001f;         // Penetration under this doesn't solve
         const float velocitySlop = 0.05f; // Velocity under this doesn't bounce
 
         bool needImpulse    = vRelative < -velocitySlop;
@@ -542,7 +541,7 @@ public class PhysicsManager2 : MonoBehaviour
 
         if (needImpulse)
         {
-            float e         = (objA.bounceCoeff + objB.bounceCoeff) * 0.5f;
+            float e         = objA.bounceCoeff * objB.bounceCoeff;
             float j         = -(1f + e) * vRelative / totalInvMass;
             Vector2 impulse = j * normal;
 
@@ -580,29 +579,28 @@ public class PhysicsManager2 : MonoBehaviour
 
         ZCollider2D floor   = ZPhysics2D.ZBoxGetFloor(
             obj.transform.position, checkSize, 0, obj.floorLayer,
-            obj.zCollider.ZMin - stepDownTolerance - EPSILON,
-            obj.zCollider.ZMin + stepUpTolerance   + EPSILON);
+            obj.zCollider.ZMin - obj.stepDownTolerance - EPSILON,
+            obj.zCollider.ZMin + obj.stepUpTolerance   + EPSILON);
         ZCollider2D ceiling = ZPhysics2D.ZBoxGetCeiling(
             obj.transform.position, checkSize, 0, obj.floorLayer,
-            obj.zCollider.ZMax + stepDownTolerance + EPSILON,
-            obj.zCollider.ZMax - stepUpTolerance   - EPSILON);
+            obj.zCollider.ZMax + obj.stepDownTolerance + EPSILON,
+            obj.zCollider.ZMax - obj.stepUpTolerance   - EPSILON);
 
         Vector3 surfaceNormal = floor ? floor.GetSurfaceNormal() : Vector3.forward;
         Vector2 horizVel  = obj.Mode == MovementMode.Grid ? obj.Velocity : obj.Velocity;
         Vector3 vel       = new(horizVel.x, horizVel.y, obj.ZVelocity);
         bool towardsFloor = Vector3.Dot(surfaceNormal, vel) < EPSILON;
 
-        obj.IsGrounded = floor
-                      && floor.ZmaxBox(obj.transform.position, checkSize, 0) > obj.zCollider.ZMin - EPSILON
-                      && towardsFloor;
+        obj.Ground = floor && floor.ZmaxBox(obj.transform.position, checkSize, 0) > obj.zCollider.ZMin - EPSILON && towardsFloor ? 
+                     floor : null;
         obj.IsOnSlope  = Vector3.Dot(surfaceNormal, Vector3.forward) < 1f - EPSILON;
 
         bool calcGround = false;
-        if (obj.IsGrounded)
+        if (obj.Ground)
         {
             if (!obj.IsGroundedPrev && towardsFloor)
             {
-                Vector3 reflected   = vel - (1f + obj.bounceCoeff) * Vector3.Dot(vel, surfaceNormal) * surfaceNormal;
+                Vector3 reflected   = vel - (1f + obj.bounceCoeff * floor.bounceCoeff) * Vector3.Dot(vel, surfaceNormal) * surfaceNormal;
                 obj.ZVelocity       = reflected.z;
                 Vector2 newHorizVel = new(reflected.x, reflected.y);
                 if (obj.Mode == MovementMode.Grid) obj.Velocity = newHorizVel;
@@ -616,7 +614,7 @@ public class PhysicsManager2 : MonoBehaviour
         }
         else if (obj.IsGroundedPrev && floor && towardsFloor)
         {
-            obj.IsGrounded = true;
+            obj.Ground = floor;
             calcGround = true;
         }
 
@@ -646,7 +644,7 @@ public class PhysicsManager2 : MonoBehaviour
                 float vDotN = Vector3.Dot(vel, ceilNormal);
                 if (vDotN < 0f)
                 {
-                    Vector3 reflected   = vel - (1f + obj.bounceCoeff) * vDotN * ceilNormal;
+                    Vector3 reflected   = vel - (1f + obj.bounceCoeff * ceiling.bounceCoeff) * vDotN * ceilNormal;
                     obj.ZVelocity       = reflected.z;
                     Vector2 newHorizVel = new(reflected.x, reflected.y);
                     if (obj.Mode == MovementMode.Grid) obj.Velocity = newHorizVel;
@@ -654,23 +652,23 @@ public class PhysicsManager2 : MonoBehaviour
                 }
                 else
                 {
-                    obj.ZVelocity = -Mathf.Abs(obj.ZVelocity) * obj.bounceCoeff;
+                    obj.ZVelocity = -Mathf.Abs(obj.ZVelocity) * obj.bounceCoeff * ceiling.bounceCoeff;
                 }
                 if (Mathf.Abs(obj.ZVelocity) < stopThreshold) obj.ZVelocity = 0f;
             }
         }
 
-        if (obj.IsGrounded) obj.CanWalkFrameLeft = keepCanWalkFrames;
+        if (obj.Ground) obj.CanWalkFrameLeft = keepCanWalkFrames;
         else if (obj.CanWalkFrameLeft > 0) obj.CanWalkFrameLeft--;
 
-        obj.IsGroundedPrev     = obj.IsGrounded;
+        obj.IsGroundedPrev     = obj.Ground;
         Vector3 ep             = obj.transform.position;
         obj.transform.position = new Vector3(ep.x, ep.y, obj.ZPosition);
     }
 
     private Vector2 ApplyGroundFriction(PhysicsObjectTest obj, Vector2 vel)
     {
-        float friction = obj.IsGrounded ? obj.frictionCoeff : obj.airFriction;
+        float friction = obj.Ground ? obj.frictionCoeff * obj.Ground.frictionCoeff : obj.airFriction;
         vel *= friction;
 
         float iceBlend      = Mathf.Clamp01((friction - 0.5f) / 0.5f);
@@ -690,23 +688,24 @@ public class PhysicsManager2 : MonoBehaviour
     private void RebuildCellOccupancy()
     {
         cellOccupancy.Clear();
-        foreach (var obj in AllPhysicsEntitys)
+        for (int i = 0; i < AllPhysicsEntitys.Count; i++)
         {
+            PhysicsObjectTest obj = AllPhysicsEntitys[i];
             if (obj.Mode == MovementMode.Grid)
             {
-                //int cnt = GetOccupiedCells(obj.Grid.CurrentCell, obj.Size, cellBuffer);
-                //for (int i = 0; i < cnt; i++)
-                //    AddCellOccupant(cellBuffer[i], obj);
-                int cnt = GetOccupiedCells(obj.Grid.TargetCell, obj.Size, cellBuffer);
-                for (int i = 0; i < cnt; i++)
-                    AddCellOccupant(cellBuffer[i], obj);
+                int cnt = GetOccupiedCells(obj.Grid.CurrentCell, obj.Size, cellBuffer); //might be better remove
+                for (int j = 0; j < cnt; j++)
+                    AddCellOccupant(cellBuffer[j], obj);
+                cnt = GetOccupiedCells(obj.Grid.TargetCell, obj.Size, cellBuffer);
+                for (int j = 0; j < cnt; j++)
+                    AddCellOccupant(cellBuffer[j], obj);
             }
             else
             {
                 Vector2Int anchor = WorldCenterToAnchorCell(obj.transform.position, obj.Size);
                 int cnt = GetOccupiedCells(anchor, obj.Size, cellBuffer);
-                for (int i = 0; i < cnt; i++)
-                    AddCellOccupant(cellBuffer[i], obj);
+                for (int j = 0; j < cnt; j++)
+                    AddCellOccupant(cellBuffer[j], obj);
             }
         }
     }
@@ -718,8 +717,8 @@ public class PhysicsManager2 : MonoBehaviour
         {
             PhysicsObjectTest occupant = occupants[i];
             if (occupant != null && occupant != self
-            && self.zCollider.ZMin + stepUpTolerance < occupant.zCollider.ZMax
-            && self.zCollider.ZMax > occupant.zCollider.ZMin)
+            && self.zCollider.ZMin + self.stepUpTolerance + EPSILON < occupant.zCollider.ZMax
+            && self.zCollider.ZMax                                  > occupant.zCollider.ZMin)
                 return occupant;
         }
         return null;
@@ -786,7 +785,7 @@ public class PhysicsManager2 : MonoBehaviour
         int cnt = ZPhysics2D.OverlapCircleNonAlloc(
             point, radius, overlapBuffer,
             obj != null ? obj.WallLayer : ~0,
-            obj != null ? obj.zCollider.ZMin + stepUpTolerance + EPSILON : float.MinValue,
+            obj != null ? obj.zCollider.ZMin + obj.stepUpTolerance + EPSILON : float.MinValue,
             obj != null ? obj.zCollider.ZMax                             : float.MaxValue);
 
         for (int i = 0; i < cnt; i++)
@@ -829,8 +828,7 @@ public class PhysicsManager2 : MonoBehaviour
     private int GetOccupiedCells(Vector2Int anchorCell, Vector2Int size, Vector2Int[] results)
     {
         int count = 0;
-        for (int x = 0; x < size.x; x++)
-        for (int y = 0; y < size.y; y++)
+        for (int x = 0; x < size.x; x++) for (int y = 0; y < size.y; y++)
         {
             results[count++] = anchorCell + new Vector2Int(x, y);
             if (count >= results.Length) return results.Length;
@@ -838,7 +836,7 @@ public class PhysicsManager2 : MonoBehaviour
         return count;
     }
 
-    private Vector2    CellToWorld(Vector2Int cell)   => new(cell.x * gridSize, cell.y * gridSize);
+    private Vector2 CellToWorld(Vector2Int cell) => new(cell.x * gridSize, cell.y * gridSize);
 #endregion
 
     private void Update() // Interpolate rendering

@@ -6,7 +6,7 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
     
     [Header("physics")]
     public float frictionCoeff   = 0.85f;
-    public float bounceCoeff     = 0.3f;  
+    public float bounceCoeff     = 0.3f;
     public float airFriction     = 0.98f;
     public float frictionWalkInfluence = 1;
 
@@ -16,7 +16,9 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
     public Vector2Int Size;
 
     public float GridEndureSpeed = 10;
-    public float GridEndureForce = 75;
+    public float GridEndureForce = 50;
+    public float stepUpTolerance   = 0.5f;
+    public float stepDownTolerance = 0.2f;
  
     public LayerMask floorLayer;
  
@@ -27,7 +29,7 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
     }
     public float ZVelocity { get; set; }
     [field: NaughtyAttributes.ReadOnly][field: SerializeField] public Vector2 Velocity { get; set; }
-    public bool IsGrounded { get; set; }
+    public ZCollider2D Ground { get; set; }
     public int CanWalkFrameLeft { get; set; }
     public bool IsGroundedPrev { get; set; }
     public bool IsOnSlope { get; set; }
@@ -81,6 +83,8 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
         if (Size.x < 1) Size.x = 1;
         if (Size.y < 1) Size.y = 1;
         InvM = 1f / Mass;
+        zCollider.frictionCoeff = frictionCoeff;
+        zCollider.bounceCoeff   = bounceCoeff;
         GridEndureSpeed = GridEndureSpeed < 0 ? WalkSpeed * 2 : GridEndureSpeed;
         physManager.AddPhysicsObject(this);
     }
