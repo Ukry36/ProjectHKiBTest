@@ -64,13 +64,29 @@ public static class ZPhysics2D
             if (!_registry.TryGetValue(hit.collider, out var zCol)) continue;
 
             if (!zCol.useSlopeDU && !zCol.useSlopeRL)
-            {
-                if (zCol.ZMin >= zMax || zCol.ZMax <= zMin) continue;
-            }
+            { if (zCol.ZMin >= zMax || zCol.ZMax <= zMin) continue; }
             else
-            {
-                if (zCol.Zmin(hit.point) >= zMax || zCol.Zmax(hit.point) <= zMin) continue;
-            }
+            { if (zCol.Zmin(hit.point) >= zMax || zCol.Zmax(hit.point) <= zMin) continue; }
+            hitResults[validCount++] = hit;
+        }
+
+        return validCount;
+    }
+
+    public static int BoxCastNonAlloc(Vector2 origin, Vector2 boxSize, float angle, Vector2 direction, RaycastHit2D[] hitResults, float distance, int layerMask, float zMin, float zMax)
+    {
+        int count = Physics2D.BoxCastNonAlloc(origin, boxSize, angle, direction, hitResults, distance, layerMask);
+        int validCount = 0;
+
+        for (int i = 0; i < count; i++)
+        {
+            var hit = hitResults[i];
+            if (!_registry.TryGetValue(hit.collider, out var zCol)) continue;
+
+            if (!zCol.useSlopeDU && !zCol.useSlopeRL)
+            { if (zCol.ZMin >= zMax || zCol.ZMax <= zMin) continue; }
+            else
+            { if (zCol.Zmin(hit.point) >= zMax || zCol.Zmax(hit.point) <= zMin) continue; }
             hitResults[validCount++] = hit;
         }
 

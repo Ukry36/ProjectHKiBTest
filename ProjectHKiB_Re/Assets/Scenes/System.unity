@@ -1750,7 +1750,6 @@ MonoBehaviour:
   frictionCoeff: 0.99
   bounceCoeff: 0
   airFriction: 0.98
-  stopAccelerateThreshold: 0
   frictionWalkInfluence: 1
   Mode: 0
   Grid:
@@ -1763,10 +1762,12 @@ MonoBehaviour:
   Phys:
     KeepPhysics: 0
   Size: {x: 0, y: 0}
-  ModeTransitionThreshold: 1
+  GridEndureSpeed: 10
+  GridEndureForce: 75
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
+  <Velocity>k__BackingField: {x: 0, y: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
   makeMassInf: 0
@@ -4524,7 +4525,6 @@ MonoBehaviour:
   frictionCoeff: 0.99
   bounceCoeff: 0
   airFriction: 0.98
-  stopAccelerateThreshold: 0
   frictionWalkInfluence: 1
   Mode: 0
   Grid:
@@ -4537,10 +4537,12 @@ MonoBehaviour:
   Phys:
     KeepPhysics: 0
   Size: {x: 0, y: 0}
-  ModeTransitionThreshold: 1
+  GridEndureSpeed: 10
+  GridEndureForce: 75
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
+  <Velocity>k__BackingField: {x: 0, y: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
   makeMassInf: 0
@@ -5845,7 +5847,6 @@ MonoBehaviour:
   frictionCoeff: 0.9
   bounceCoeff: 0
   airFriction: 0.98
-  stopAccelerateThreshold: 0
   frictionWalkInfluence: 1
   Mode: 0
   Grid:
@@ -5858,10 +5859,12 @@ MonoBehaviour:
   Phys:
     KeepPhysics: 0
   Size: {x: 3, y: 3}
-  ModeTransitionThreshold: 1
+  GridEndureSpeed: 10
+  GridEndureForce: 75
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
+  <Velocity>k__BackingField: {x: 0, y: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
   makeMassInf: 0
@@ -11800,7 +11803,6 @@ MonoBehaviour:
   frictionCoeff: 0.99
   bounceCoeff: 0
   airFriction: 0.98
-  stopAccelerateThreshold: 0
   frictionWalkInfluence: 1
   Mode: 0
   Grid:
@@ -11813,10 +11815,12 @@ MonoBehaviour:
   Phys:
     KeepPhysics: 0
   Size: {x: 0, y: 0}
-  ModeTransitionThreshold: 1
+  GridEndureSpeed: 10
+  GridEndureForce: 75
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
+  <Velocity>k__BackingField: {x: 0, y: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
   makeMassInf: 0
@@ -15834,7 +15838,6 @@ MonoBehaviour:
   frictionCoeff: 0.9
   bounceCoeff: 0.3
   airFriction: 0.98
-  stopAccelerateThreshold: 0
   frictionWalkInfluence: 1
   Mode: 0
   Grid:
@@ -15847,10 +15850,12 @@ MonoBehaviour:
   Phys:
     KeepPhysics: 0
   Size: {x: 0, y: 0}
-  ModeTransitionThreshold: 1
+  GridEndureSpeed: 10
+  GridEndureForce: 75
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
+  <Velocity>k__BackingField: {x: 0, y: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 800}
   <Mass>k__BackingField: 0
   makeMassInf: 0
@@ -21983,7 +21988,6 @@ MonoBehaviour:
   frictionCoeff: 0.99
   bounceCoeff: 0
   airFriction: 0.98
-  stopAccelerateThreshold: 0
   frictionWalkInfluence: 1
   Mode: 0
   Grid:
@@ -21996,10 +22000,12 @@ MonoBehaviour:
   Phys:
     KeepPhysics: 0
   Size: {x: 0, y: 0}
-  ModeTransitionThreshold: 1
+  GridEndureSpeed: 10
+  GridEndureForce: 75
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
+  <Velocity>k__BackingField: {x: 0, y: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
   makeMassInf: 0
@@ -26472,7 +26478,6 @@ MonoBehaviour:
   frictionCoeff: 0.99
   bounceCoeff: 0
   airFriction: 0.98
-  stopAccelerateThreshold: 0
   frictionWalkInfluence: 1
   Mode: 0
   Grid:
@@ -26485,10 +26490,12 @@ MonoBehaviour:
   Phys:
     KeepPhysics: 0
   Size: {x: 0, y: 0}
-  ModeTransitionThreshold: 1
+  GridEndureSpeed: 10
+  GridEndureForce: 75
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
+  <Velocity>k__BackingField: {x: 0, y: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
   makeMassInf: 0
@@ -28648,7 +28655,6 @@ MonoBehaviour:
   frictionCoeff: 0.9
   bounceCoeff: 0
   airFriction: 0.98
-  stopAccelerateThreshold: 0
   frictionWalkInfluence: 1
   Mode: 0
   Grid:
@@ -28661,10 +28667,12 @@ MonoBehaviour:
   Phys:
     KeepPhysics: 0
   Size: {x: 2, y: 2}
-  ModeTransitionThreshold: 1
+  GridEndureSpeed: 10
+  GridEndureForce: 75
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
+  <Velocity>k__BackingField: {x: 0, y: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
   makeMassInf: 0
@@ -29438,7 +29446,6 @@ MonoBehaviour:
   frictionCoeff: 0.99
   bounceCoeff: 0
   airFriction: 0.98
-  stopAccelerateThreshold: 0
   frictionWalkInfluence: 1
   Mode: 0
   Grid:
@@ -29451,10 +29458,12 @@ MonoBehaviour:
   Phys:
     KeepPhysics: 0
   Size: {x: 0, y: 0}
-  ModeTransitionThreshold: 1
+  GridEndureSpeed: 10
+  GridEndureForce: 75
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
+  <Velocity>k__BackingField: {x: 0, y: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
   makeMassInf: 0
@@ -34597,7 +34606,6 @@ MonoBehaviour:
   frictionCoeff: 0.99
   bounceCoeff: 0
   airFriction: 0.98
-  stopAccelerateThreshold: 0
   frictionWalkInfluence: 1
   Mode: 0
   Grid:
@@ -34610,10 +34618,12 @@ MonoBehaviour:
   Phys:
     KeepPhysics: 0
   Size: {x: 0, y: 0}
-  ModeTransitionThreshold: 1
+  GridEndureSpeed: 10
+  GridEndureForce: 75
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
+  <Velocity>k__BackingField: {x: 0, y: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
   makeMassInf: 0
@@ -35892,7 +35902,6 @@ MonoBehaviour:
   frictionCoeff: 0.99
   bounceCoeff: 0
   airFriction: 0.98
-  stopAccelerateThreshold: 0
   frictionWalkInfluence: 1
   Mode: 0
   Grid:
@@ -35905,10 +35914,12 @@ MonoBehaviour:
   Phys:
     KeepPhysics: 0
   Size: {x: 0, y: 0}
-  ModeTransitionThreshold: 1
+  GridEndureSpeed: 10
+  GridEndureForce: 75
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
+  <Velocity>k__BackingField: {x: 0, y: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
   makeMassInf: 0
@@ -36664,7 +36675,6 @@ MonoBehaviour:
   frictionCoeff: 0.99
   bounceCoeff: 0
   airFriction: 0.98
-  stopAccelerateThreshold: 0
   frictionWalkInfluence: 1
   Mode: 0
   Grid:
@@ -36677,10 +36687,12 @@ MonoBehaviour:
   Phys:
     KeepPhysics: 0
   Size: {x: 0, y: 0}
-  ModeTransitionThreshold: 1
+  GridEndureSpeed: 10
+  GridEndureForce: 75
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
+  <Velocity>k__BackingField: {x: 0, y: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
   makeMassInf: 0
@@ -40206,7 +40218,6 @@ MonoBehaviour:
   frictionCoeff: 0.99
   bounceCoeff: 0
   airFriction: 0.98
-  stopAccelerateThreshold: 0
   frictionWalkInfluence: 1
   Mode: 0
   Grid:
@@ -40219,10 +40230,12 @@ MonoBehaviour:
   Phys:
     KeepPhysics: 0
   Size: {x: 0, y: 0}
-  ModeTransitionThreshold: 1
+  GridEndureSpeed: 10
+  GridEndureForce: 75
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
+  <Velocity>k__BackingField: {x: 0, y: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
   makeMassInf: 0
@@ -40403,7 +40416,6 @@ MonoBehaviour:
   frictionCoeff: 0.99
   bounceCoeff: 0
   airFriction: 0.98
-  stopAccelerateThreshold: 0
   frictionWalkInfluence: 1
   Mode: 0
   Grid:
@@ -40416,10 +40428,12 @@ MonoBehaviour:
   Phys:
     KeepPhysics: 0
   Size: {x: 0, y: 0}
-  ModeTransitionThreshold: 1
+  GridEndureSpeed: 10
+  GridEndureForce: 75
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
+  <Velocity>k__BackingField: {x: 0, y: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
   makeMassInf: 0
@@ -45016,7 +45030,6 @@ MonoBehaviour:
   frictionCoeff: 0.99
   bounceCoeff: 0
   airFriction: 0.98
-  stopAccelerateThreshold: 0
   frictionWalkInfluence: 1
   Mode: 0
   Grid:
@@ -45029,10 +45042,12 @@ MonoBehaviour:
   Phys:
     KeepPhysics: 0
   Size: {x: 0, y: 0}
-  ModeTransitionThreshold: 1
+  GridEndureSpeed: 10
+  GridEndureForce: 75
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
+  <Velocity>k__BackingField: {x: 0, y: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
   makeMassInf: 0
@@ -55319,7 +55334,6 @@ MonoBehaviour:
   frictionCoeff: 0.99
   bounceCoeff: 0
   airFriction: 0.98
-  stopAccelerateThreshold: 0
   frictionWalkInfluence: 1
   Mode: 0
   Grid:
@@ -55332,10 +55346,12 @@ MonoBehaviour:
   Phys:
     KeepPhysics: 0
   Size: {x: 0, y: 0}
-  ModeTransitionThreshold: 1
+  GridEndureSpeed: 10
+  GridEndureForce: 75
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
+  <Velocity>k__BackingField: {x: 0, y: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
   makeMassInf: 0
@@ -60396,7 +60412,6 @@ MonoBehaviour:
   frictionCoeff: 0.99
   bounceCoeff: 0
   airFriction: 0.98
-  stopAccelerateThreshold: 0
   frictionWalkInfluence: 1
   Mode: 0
   Grid:
@@ -60409,10 +60424,12 @@ MonoBehaviour:
   Phys:
     KeepPhysics: 0
   Size: {x: 0, y: 0}
-  ModeTransitionThreshold: 1
+  GridEndureSpeed: 10
+  GridEndureForce: 75
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
+  <Velocity>k__BackingField: {x: 0, y: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
   makeMassInf: 0
@@ -62835,7 +62852,6 @@ MonoBehaviour:
   frictionCoeff: 0.99
   bounceCoeff: 0
   airFriction: 0.98
-  stopAccelerateThreshold: 0
   frictionWalkInfluence: 1
   Mode: 0
   Grid:
@@ -62848,10 +62864,12 @@ MonoBehaviour:
   Phys:
     KeepPhysics: 0
   Size: {x: 0, y: 0}
-  ModeTransitionThreshold: 1
+  GridEndureSpeed: 10
+  GridEndureForce: 75
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
+  <Velocity>k__BackingField: {x: 0, y: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
   makeMassInf: 0
@@ -63336,7 +63354,6 @@ MonoBehaviour:
   frictionCoeff: 0.9
   bounceCoeff: 0.3
   airFriction: 0.98
-  stopAccelerateThreshold: 0
   frictionWalkInfluence: 1
   Mode: 0
   Grid:
@@ -63349,10 +63366,12 @@ MonoBehaviour:
   Phys:
     KeepPhysics: 0
   Size: {x: 0, y: 0}
-  ModeTransitionThreshold: 1
+  GridEndureSpeed: 10
+  GridEndureForce: 75
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
+  <Velocity>k__BackingField: {x: 0, y: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
   makeMassInf: 0
@@ -66408,7 +66427,6 @@ MonoBehaviour:
   frictionCoeff: 0.99
   bounceCoeff: 0
   airFriction: 0.98
-  stopAccelerateThreshold: 0
   frictionWalkInfluence: 1
   Mode: 0
   Grid:
@@ -66421,10 +66439,12 @@ MonoBehaviour:
   Phys:
     KeepPhysics: 0
   Size: {x: 0, y: 0}
-  ModeTransitionThreshold: 1
+  GridEndureSpeed: 10
+  GridEndureForce: 75
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
+  <Velocity>k__BackingField: {x: 0, y: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
   makeMassInf: 0
@@ -81270,7 +81290,6 @@ MonoBehaviour:
   frictionCoeff: 0.99
   bounceCoeff: 0
   airFriction: 0.98
-  stopAccelerateThreshold: 0
   frictionWalkInfluence: 1
   Mode: 0
   Grid:
@@ -81283,10 +81302,12 @@ MonoBehaviour:
   Phys:
     KeepPhysics: 0
   Size: {x: 0, y: 0}
-  ModeTransitionThreshold: 1
+  GridEndureSpeed: 10
+  GridEndureForce: 75
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
+  <Velocity>k__BackingField: {x: 0, y: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
   makeMassInf: 0
@@ -82885,7 +82906,6 @@ MonoBehaviour:
   frictionCoeff: 0.99
   bounceCoeff: 0
   airFriction: 0.98
-  stopAccelerateThreshold: 0
   frictionWalkInfluence: 1
   Mode: 0
   Grid:
@@ -82898,10 +82918,12 @@ MonoBehaviour:
   Phys:
     KeepPhysics: 0
   Size: {x: 0, y: 0}
-  ModeTransitionThreshold: 1
+  GridEndureSpeed: 10
+  GridEndureForce: 75
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
+  <Velocity>k__BackingField: {x: 0, y: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
   makeMassInf: 0
@@ -94780,7 +94802,6 @@ MonoBehaviour:
   frictionCoeff: 0.99
   bounceCoeff: 0
   airFriction: 0.98
-  stopAccelerateThreshold: 0
   frictionWalkInfluence: 1
   Mode: 0
   Grid:
@@ -94793,10 +94814,12 @@ MonoBehaviour:
   Phys:
     KeepPhysics: 0
   Size: {x: 0, y: 0}
-  ModeTransitionThreshold: 1
+  GridEndureSpeed: 10
+  GridEndureForce: 75
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
+  <Velocity>k__BackingField: {x: 0, y: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
   makeMassInf: 0
@@ -97188,7 +97211,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gravity: -9.8
   gridSize: 1
-  stopThreshold: 0.01
+  stopThreshold: 0.1
   enable: 1
   gridSettleSpeed: 1
   stepUpTolerance: 0.5
@@ -97196,10 +97219,11 @@ MonoBehaviour:
   bounceTolerance: 0.1
   keepCanWalkFrames: 10
   keepPhysicsFrames: 1
-  snapDecaySpeed: 8
-  renderDecaySpeed: 8
+  snapDecaySpeed: 12
+  renderDecaySpeed: 12
   interpolateRender: 1
   physicsIterations: 4
+  stabilization: 0.8
 --- !u!4 &2135137255
 Transform:
   m_ObjectHideFlags: 0
@@ -99542,7 +99566,6 @@ MonoBehaviour:
   frictionCoeff: 0.99
   bounceCoeff: 0
   airFriction: 0.98
-  stopAccelerateThreshold: 0
   frictionWalkInfluence: 1
   Mode: 0
   Grid:
@@ -99555,10 +99578,12 @@ MonoBehaviour:
   Phys:
     KeepPhysics: 0
   Size: {x: 0, y: 0}
-  ModeTransitionThreshold: 1
+  GridEndureSpeed: 10
+  GridEndureForce: 75
   floorLayer:
     serializedVersion: 2
     m_Bits: 128
+  <Velocity>k__BackingField: {x: 0, y: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
   makeMassInf: 0
