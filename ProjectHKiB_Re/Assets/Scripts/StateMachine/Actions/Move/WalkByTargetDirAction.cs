@@ -5,7 +5,7 @@ public class WalkByTargetDirAction : StateActionSO
     [SerializeField] private bool _negate;
     public override void Act(StateController stateController)
     {
-        if (stateController.TryGetComponent(out IMovable movable)
+        if (stateController.TryGetComponent(out IPhysics movable)
         && stateController.TryGetComponent(out ITargetable targetable))
         {
             if (targetable.CurrentTarget == null) return;

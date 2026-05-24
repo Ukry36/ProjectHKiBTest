@@ -4,7 +4,7 @@ public class WalkByPathFindAction : StateActionSO
 {
     public override void Act(StateController stateController)
     {
-        if (stateController.TryGetComponent(out IMovable movable)
+        if (stateController.TryGetComponent(out IPhysics movable)
         && stateController.TryGetComponent(out IPathFindable pathfindable)
         && stateController.TryGetComponent(out ITargetable targetable))
         {

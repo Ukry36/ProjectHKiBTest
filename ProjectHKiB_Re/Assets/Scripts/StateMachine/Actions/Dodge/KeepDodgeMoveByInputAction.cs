@@ -4,7 +4,7 @@ public class KeepDodgeMoveByInputAction : StateActionSO
 {
     public override void Act(StateController stateController)
     {
-        if (stateController.TryGetInterface(out IMovable movable) && stateController.TryGetInterface(out IDodgeable dodgeable))
+        if (stateController.TryGetInterface(out IPhysics movable) && stateController.TryGetInterface(out IDodgeable dodgeable))
         {
             Debug.LogError("ERROR: Not Implemented!!!");
 

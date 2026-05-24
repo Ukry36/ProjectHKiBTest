@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class MovePoint : MonoBehaviour
 {
-    public IMovable movable;
+    public IPhysics movable;
     public Transform parent;
     public float radius;
-    public void Initialize(IMovable movable)
+    public void Initialize(IPhysics movable)
     {
         this.movable = movable;
         parent = transform.parent;

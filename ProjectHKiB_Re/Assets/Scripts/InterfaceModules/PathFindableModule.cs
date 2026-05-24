@@ -1,8 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using DG.Tweening;
 using UnityEngine;
 namespace Assets.Scripts.Interfaces.Modules
 {
@@ -15,7 +12,7 @@ namespace Assets.Scripts.Interfaces.Modules
         public bool IsPathValid { get => PathList != null && PathList.Count > 0; }
         private Action<List<Vector3>> getNodesHandler;
         public List<Vector3> PathList { get; set; }
-        public MovableModule _movable;
+        public PhysicsModule _physics;
         private Cooltime cooltime = new();
         public override void Register(IInterfaceRegistable interfaceRegistable)
         {
@@ -43,7 +40,7 @@ namespace Assets.Scripts.Interfaces.Modules
             {
                 if (CurrentTarget)
                 {
-                    GameManager.instance.pathFindingManager.PathFindingFull(getNodesHandler, 12, _movable.MovePoint.transform.position, CurrentTarget.position, _movable.WallLayer);
+                    GameManager.instance.pathFindingManager.PathFindingFull(getNodesHandler, 12, _physics.MovePoint.transform.position, CurrentTarget.position, _physics.WallLayer);
                 }
                 cooltime.StartCooltime(PathFindCooltime, () => IsCooltime = false);
                 IsCooltime = true;
@@ -53,7 +50,7 @@ namespace Assets.Scripts.Interfaces.Modules
                 //for (int i = 0; i < PathList.Count; i++)
                 //  Debug.DrawLine(PathList[i] + Vector3.down * 0.25f, PathList[i] + Vector3.up * 0.25f);
 
-                if (PathList[0] == _movable.MovePoint.transform.position)
+                if (PathList[0] == _physics.MovePoint.transform.position)
                 {
                     PathList.RemoveAt(0);
                 }

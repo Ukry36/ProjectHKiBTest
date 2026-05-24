@@ -4,7 +4,7 @@ public class WalkByLastSetAnimationDirAction : StateActionSO
 {
     public override void Act(StateController stateController)
     {
-        if (stateController.TryGetInterface(out IMovable movable) && stateController.TryGetInterface(out IDirAnimatable animatable))
+        if (stateController.TryGetInterface(out IPhysics movable) && stateController.TryGetInterface(out IDirAnimatable animatable))
         {
             movable.IsWalking = true;
             movable.WalkingDir = animatable.LastSetAnimationDir8;

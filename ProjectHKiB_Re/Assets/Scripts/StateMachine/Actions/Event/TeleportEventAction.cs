@@ -9,16 +9,10 @@ public class TeleportEventAction : StateActionSO
             foreach (Collider2D col in @event.CurrentTargets)
             {
                 Transform transform = col.transform;
-                if (transform.TryGetComponent(out MovePoint movePoint)) transform = movePoint.parent;
-                if (transform.TryGetComponent(out IMovable movable))
-                {
-                    movable.MovePoint.transform.position = teleport.Destination.position;
-                    transform.transform.position = teleport.Destination.position;
-                }
-                if (transform.TryGetComponent(out IDirAnimatable dirAnimatable))
-                {
-                    dirAnimatable.SetAnimationDirection(teleport.EndDir);
-                }
+                if (transform.TryGetComponent(out IPhysics phys)) phys.RealTeleport(teleport.Destination.position);
+                
+                if (transform.TryGetComponent(out IDirAnimatable dirAnimatable)) dirAnimatable.SetAnimationDirection(teleport.EndDir);
+                
                 if (transform.gameObject.layer == LayerMask.NameToLayer("Player"))
                 {
                     GameManager.instance.cameraManager.StrictMovement

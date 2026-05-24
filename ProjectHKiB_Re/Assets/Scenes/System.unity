@@ -1747,41 +1747,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  frictionCoeff: 0.99
-  bounceCoeff: 0
-  airFriction: 0.98
-  frictionWalkInfluence: 1
-  Mode: 0
-  Grid:
-    CurrentCell: {x: 0, y: 0}
-    TargetCell: {x: 0, y: 0}
-    CellProgress: 0
-    LastMoveDir: {x: 0, y: 0}
-    IsSettling: 0
-    PhysicsReturnOffset: {x: 0, y: 0}
-  Phys:
-    KeepPhysics: 0
-  Size: {x: 0, y: 0}
-  GridEndureSpeed: 10
-  GridEndureForce: 50
-  stepUpTolerance: 0.5
-  stepDownTolerance: 0.2
-  floorLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  <Velocity>k__BackingField: {x: 0, y: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
-  makeMassInf: 0
-  <WalkSpeed>k__BackingField: 0
+  <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 0
   <BodyComponents>k__BackingField:
   - {fileID: 628827718}
   - {fileID: 2134216368}
-  WalkAcceleration: 300
-  zCollider: {fileID: 31957895}
+  <ZCol>k__BackingField: {fileID: 0}
   jump: 0
 --- !u!114 &31957895
 MonoBehaviour:
@@ -1819,7 +1794,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageManager: {fileID: 11400000, guid: 69175ed9e37d9e3408bdf3432f4a5b4c, type: 2}
-  _movable: {fileID: 0}
+  _physics: {fileID: 0}
 --- !u!114 &31957897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4528,41 +4503,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  frictionCoeff: 0.99
-  bounceCoeff: 0
-  airFriction: 0.98
-  frictionWalkInfluence: 1
-  Mode: 0
-  Grid:
-    CurrentCell: {x: 0, y: 0}
-    TargetCell: {x: 0, y: 0}
-    CellProgress: 0
-    LastMoveDir: {x: 0, y: 0}
-    IsSettling: 0
-    PhysicsReturnOffset: {x: 0, y: 0}
-  Phys:
-    KeepPhysics: 0
-  Size: {x: 0, y: 0}
-  GridEndureSpeed: 10
-  GridEndureForce: 50
-  stepUpTolerance: 0.5
-  stepDownTolerance: 0.2
-  floorLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  <Velocity>k__BackingField: {x: 0, y: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
-  makeMassInf: 0
-  <WalkSpeed>k__BackingField: 0
+  <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 0
   <BodyComponents>k__BackingField:
   - {fileID: 2131504615}
   - {fileID: 36786368}
-  WalkAcceleration: 300
-  zCollider: {fileID: 91706221}
+  <ZCol>k__BackingField: {fileID: 0}
   jump: 0
 --- !u!114 &91706221
 MonoBehaviour:
@@ -4600,7 +4550,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageManager: {fileID: 11400000, guid: 69175ed9e37d9e3408bdf3432f4a5b4c, type: 2}
-  _movable: {fileID: 0}
+  _physics: {fileID: 0}
 --- !u!114 &91706223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5856,41 +5806,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  frictionCoeff: 0.9
-  bounceCoeff: 0
-  airFriction: 0.98
-  frictionWalkInfluence: 1
-  Mode: 0
-  Grid:
-    CurrentCell: {x: 0, y: 0}
-    TargetCell: {x: 0, y: 0}
-    CellProgress: 0
-    LastMoveDir: {x: 0, y: 0}
-    IsSettling: 0
-    PhysicsReturnOffset: {x: 0, y: 0}
-  Phys:
-    KeepPhysics: 0
-  Size: {x: 3, y: 3}
-  GridEndureSpeed: 10
-  GridEndureForce: 50
-  stepUpTolerance: 0.5
-  stepDownTolerance: 0.2
-  floorLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  <Velocity>k__BackingField: {x: 0, y: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
-  makeMassInf: 0
-  <WalkSpeed>k__BackingField: 0
+  <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 0
   <BodyComponents>k__BackingField:
   - {fileID: 1642050310}
   - {fileID: 1389303087}
-  WalkAcceleration: 300
-  zCollider: {fileID: 126842186}
+  <ZCol>k__BackingField: {fileID: 0}
   jump: 0
 --- !u!114 &126842186
 MonoBehaviour:
@@ -5928,7 +5853,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageManager: {fileID: 11400000, guid: 69175ed9e37d9e3408bdf3432f4a5b4c, type: 2}
-  _movable: {fileID: 0}
+  _physics: {fileID: 0}
 --- !u!114 &126842188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11816,41 +11741,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  frictionCoeff: 0.99
-  bounceCoeff: 0
-  airFriction: 0.98
-  frictionWalkInfluence: 1
-  Mode: 0
-  Grid:
-    CurrentCell: {x: 0, y: 0}
-    TargetCell: {x: 0, y: 0}
-    CellProgress: 0
-    LastMoveDir: {x: 0, y: 0}
-    IsSettling: 0
-    PhysicsReturnOffset: {x: 0, y: 0}
-  Phys:
-    KeepPhysics: 0
-  Size: {x: 0, y: 0}
-  GridEndureSpeed: 10
-  GridEndureForce: 50
-  stepUpTolerance: 0.5
-  stepDownTolerance: 0.2
-  floorLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  <Velocity>k__BackingField: {x: 0, y: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
-  makeMassInf: 0
-  <WalkSpeed>k__BackingField: 0
+  <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 0
   <BodyComponents>k__BackingField:
   - {fileID: 1548852370}
   - {fileID: 872698500}
-  WalkAcceleration: 300
-  zCollider: {fileID: 255197805}
+  <ZCol>k__BackingField: {fileID: 0}
   jump: 0
 --- !u!114 &255197805
 MonoBehaviour:
@@ -11888,7 +11788,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageManager: {fileID: 11400000, guid: 69175ed9e37d9e3408bdf3432f4a5b4c, type: 2}
-  _movable: {fileID: 0}
+  _physics: {fileID: 0}
 --- !u!114 &255197807
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15697,7 +15597,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageManager: {fileID: 11400000, guid: 69175ed9e37d9e3408bdf3432f4a5b4c, type: 2}
-  _movable: {fileID: 0}
+  _physics: {fileID: 327803511}
 --- !u!114 &327803501
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15859,33 +15759,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  frictionCoeff: 0.9
-  bounceCoeff: 0.3
-  airFriction: 0.98
-  frictionWalkInfluence: 1
-  Mode: 0
-  Grid:
-    CurrentCell: {x: 0, y: 0}
-    TargetCell: {x: 0, y: 0}
-    CellProgress: 0
-    LastMoveDir: {x: 0, y: 0}
-    IsSettling: 0
-    PhysicsReturnOffset: {x: 0, y: 0}
-  Phys:
-    KeepPhysics: 0
-  Size: {x: 0, y: 0}
-  GridEndureSpeed: 10
-  GridEndureForce: 50
-  stepUpTolerance: 0.5
-  stepDownTolerance: 0.2
-  floorLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  <Velocity>k__BackingField: {x: 0, y: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 800}
   <Mass>k__BackingField: 0
-  makeMassInf: 0
-  <WalkSpeed>k__BackingField: 0
+  <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 0
@@ -15894,8 +15770,7 @@ MonoBehaviour:
   - {fileID: 2144363250}
   - {fileID: 1650586135}
   - {fileID: 955506758}
-  WalkAcceleration: 300
-  zCollider: {fileID: 327803512}
+  <ZCol>k__BackingField: {fileID: 0}
   jump: 2
 --- !u!114 &327803512
 MonoBehaviour:
@@ -22015,41 +21890,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  frictionCoeff: 0.99
-  bounceCoeff: 0
-  airFriction: 0.98
-  frictionWalkInfluence: 1
-  Mode: 0
-  Grid:
-    CurrentCell: {x: 0, y: 0}
-    TargetCell: {x: 0, y: 0}
-    CellProgress: 0
-    LastMoveDir: {x: 0, y: 0}
-    IsSettling: 0
-    PhysicsReturnOffset: {x: 0, y: 0}
-  Phys:
-    KeepPhysics: 0
-  Size: {x: 0, y: 0}
-  GridEndureSpeed: 10
-  GridEndureForce: 50
-  stepUpTolerance: 0.5
-  stepDownTolerance: 0.2
-  floorLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  <Velocity>k__BackingField: {x: 0, y: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
-  makeMassInf: 0
-  <WalkSpeed>k__BackingField: 0
+  <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 0
   <BodyComponents>k__BackingField:
   - {fileID: 875113763}
   - {fileID: 55607865}
-  WalkAcceleration: 300
-  zCollider: {fileID: 470177829}
+  <ZCol>k__BackingField: {fileID: 0}
   jump: 0
 --- !u!114 &470177829
 MonoBehaviour:
@@ -22087,7 +21937,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageManager: {fileID: 11400000, guid: 69175ed9e37d9e3408bdf3432f4a5b4c, type: 2}
-  _movable: {fileID: 0}
+  _physics: {fileID: 0}
 --- !u!114 &470177831
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26511,41 +26361,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  frictionCoeff: 0.99
-  bounceCoeff: 0
-  airFriction: 0.98
-  frictionWalkInfluence: 1
-  Mode: 0
-  Grid:
-    CurrentCell: {x: 0, y: 0}
-    TargetCell: {x: 0, y: 0}
-    CellProgress: 0
-    LastMoveDir: {x: 0, y: 0}
-    IsSettling: 0
-    PhysicsReturnOffset: {x: 0, y: 0}
-  Phys:
-    KeepPhysics: 0
-  Size: {x: 0, y: 0}
-  GridEndureSpeed: 10
-  GridEndureForce: 50
-  stepUpTolerance: 0.5
-  stepDownTolerance: 0.2
-  floorLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  <Velocity>k__BackingField: {x: 0, y: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
-  makeMassInf: 0
-  <WalkSpeed>k__BackingField: 0
+  <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 0
   <BodyComponents>k__BackingField:
   - {fileID: 294652000}
   - {fileID: 503291362}
-  WalkAcceleration: 300
-  zCollider: {fileID: 547994588}
+  <ZCol>k__BackingField: {fileID: 0}
   jump: 0
 --- !u!114 &547994588
 MonoBehaviour:
@@ -26583,7 +26408,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageManager: {fileID: 11400000, guid: 69175ed9e37d9e3408bdf3432f4a5b4c, type: 2}
-  _movable: {fileID: 0}
+  _physics: {fileID: 0}
 --- !u!114 &547994590
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28694,41 +28519,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  frictionCoeff: 0.9
-  bounceCoeff: 0
-  airFriction: 0.98
-  frictionWalkInfluence: 1
-  Mode: 0
-  Grid:
-    CurrentCell: {x: 0, y: 0}
-    TargetCell: {x: 0, y: 0}
-    CellProgress: 0
-    LastMoveDir: {x: 0, y: 0}
-    IsSettling: 0
-    PhysicsReturnOffset: {x: 0, y: 0}
-  Phys:
-    KeepPhysics: 0
-  Size: {x: 2, y: 2}
-  GridEndureSpeed: 10
-  GridEndureForce: 50
-  stepUpTolerance: 0.5
-  stepDownTolerance: 0.2
-  floorLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  <Velocity>k__BackingField: {x: 0, y: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
-  makeMassInf: 0
-  <WalkSpeed>k__BackingField: 0
+  <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 0
   <BodyComponents>k__BackingField:
   - {fileID: 140863314}
   - {fileID: 1316912749}
-  WalkAcceleration: 300
-  zCollider: {fileID: 601953263}
+  <ZCol>k__BackingField: {fileID: 0}
   jump: 0
 --- !u!114 &601953263
 MonoBehaviour:
@@ -28766,7 +28566,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageManager: {fileID: 11400000, guid: 69175ed9e37d9e3408bdf3432f4a5b4c, type: 2}
-  _movable: {fileID: 0}
+  _physics: {fileID: 0}
 --- !u!114 &601953265
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29489,41 +29289,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  frictionCoeff: 0.99
-  bounceCoeff: 0
-  airFriction: 0.98
-  frictionWalkInfluence: 1
-  Mode: 0
-  Grid:
-    CurrentCell: {x: 0, y: 0}
-    TargetCell: {x: 0, y: 0}
-    CellProgress: 0
-    LastMoveDir: {x: 0, y: 0}
-    IsSettling: 0
-    PhysicsReturnOffset: {x: 0, y: 0}
-  Phys:
-    KeepPhysics: 0
-  Size: {x: 0, y: 0}
-  GridEndureSpeed: 10
-  GridEndureForce: 50
-  stepUpTolerance: 0.5
-  stepDownTolerance: 0.2
-  floorLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  <Velocity>k__BackingField: {x: 0, y: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
-  makeMassInf: 0
-  <WalkSpeed>k__BackingField: 0
+  <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 0
   <BodyComponents>k__BackingField:
   - {fileID: 742957608}
   - {fileID: 1880890911}
-  WalkAcceleration: 300
-  zCollider: {fileID: 614344026}
+  <ZCol>k__BackingField: {fileID: 0}
   jump: 0
 --- !u!114 &614344026
 MonoBehaviour:
@@ -29561,7 +29336,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageManager: {fileID: 11400000, guid: 69175ed9e37d9e3408bdf3432f4a5b4c, type: 2}
-  _movable: {fileID: 0}
+  _physics: {fileID: 0}
 --- !u!114 &614344028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34657,41 +34432,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  frictionCoeff: 0.99
-  bounceCoeff: 0
-  airFriction: 0.98
-  frictionWalkInfluence: 1
-  Mode: 0
-  Grid:
-    CurrentCell: {x: 0, y: 0}
-    TargetCell: {x: 0, y: 0}
-    CellProgress: 0
-    LastMoveDir: {x: 0, y: 0}
-    IsSettling: 0
-    PhysicsReturnOffset: {x: 0, y: 0}
-  Phys:
-    KeepPhysics: 0
-  Size: {x: 0, y: 0}
-  GridEndureSpeed: 10
-  GridEndureForce: 50
-  stepUpTolerance: 0.5
-  stepDownTolerance: 0.2
-  floorLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  <Velocity>k__BackingField: {x: 0, y: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
-  makeMassInf: 0
-  <WalkSpeed>k__BackingField: 0
+  <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 0
   <BodyComponents>k__BackingField:
   - {fileID: 1582746984}
   - {fileID: 1682696279}
-  WalkAcceleration: 300
-  zCollider: {fileID: 725407581}
+  <ZCol>k__BackingField: {fileID: 0}
   jump: 0
 --- !u!114 &725407581
 MonoBehaviour:
@@ -34729,7 +34479,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageManager: {fileID: 11400000, guid: 69175ed9e37d9e3408bdf3432f4a5b4c, type: 2}
-  _movable: {fileID: 0}
+  _physics: {fileID: 0}
 --- !u!114 &725407583
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35957,41 +35707,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  frictionCoeff: 0.99
-  bounceCoeff: 0
-  airFriction: 0.98
-  frictionWalkInfluence: 1
-  Mode: 0
-  Grid:
-    CurrentCell: {x: 0, y: 0}
-    TargetCell: {x: 0, y: 0}
-    CellProgress: 0
-    LastMoveDir: {x: 0, y: 0}
-    IsSettling: 0
-    PhysicsReturnOffset: {x: 0, y: 0}
-  Phys:
-    KeepPhysics: 0
-  Size: {x: 0, y: 0}
-  GridEndureSpeed: 10
-  GridEndureForce: 50
-  stepUpTolerance: 0.5
-  stepDownTolerance: 0.2
-  floorLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  <Velocity>k__BackingField: {x: 0, y: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
-  makeMassInf: 0
-  <WalkSpeed>k__BackingField: 0
+  <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 0
   <BodyComponents>k__BackingField:
   - {fileID: 849725891}
   - {fileID: 291072856}
-  WalkAcceleration: 300
-  zCollider: {fileID: 745143722}
+  <ZCol>k__BackingField: {fileID: 0}
   jump: 0
 --- !u!114 &745143722
 MonoBehaviour:
@@ -36029,7 +35754,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageManager: {fileID: 11400000, guid: 69175ed9e37d9e3408bdf3432f4a5b4c, type: 2}
-  _movable: {fileID: 0}
+  _physics: {fileID: 0}
 --- !u!114 &745143724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36734,41 +36459,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  frictionCoeff: 0.99
-  bounceCoeff: 0
-  airFriction: 0.98
-  frictionWalkInfluence: 1
-  Mode: 0
-  Grid:
-    CurrentCell: {x: 0, y: 0}
-    TargetCell: {x: 0, y: 0}
-    CellProgress: 0
-    LastMoveDir: {x: 0, y: 0}
-    IsSettling: 0
-    PhysicsReturnOffset: {x: 0, y: 0}
-  Phys:
-    KeepPhysics: 0
-  Size: {x: 0, y: 0}
-  GridEndureSpeed: 10
-  GridEndureForce: 50
-  stepUpTolerance: 0.5
-  stepDownTolerance: 0.2
-  floorLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  <Velocity>k__BackingField: {x: 0, y: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
-  makeMassInf: 0
-  <WalkSpeed>k__BackingField: 0
+  <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 0
   <BodyComponents>k__BackingField:
   - {fileID: 142107616}
   - {fileID: 1236296840}
-  WalkAcceleration: 300
-  zCollider: {fileID: 760284369}
+  <ZCol>k__BackingField: {fileID: 0}
   jump: 0
 --- !u!114 &760284369
 MonoBehaviour:
@@ -36806,7 +36506,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageManager: {fileID: 11400000, guid: 69175ed9e37d9e3408bdf3432f4a5b4c, type: 2}
-  _movable: {fileID: 0}
+  _physics: {fileID: 0}
 --- !u!114 &760284371
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40283,41 +39983,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  frictionCoeff: 0.99
-  bounceCoeff: 0
-  airFriction: 0.98
-  frictionWalkInfluence: 1
-  Mode: 0
-  Grid:
-    CurrentCell: {x: 0, y: 0}
-    TargetCell: {x: 0, y: 0}
-    CellProgress: 0
-    LastMoveDir: {x: 0, y: 0}
-    IsSettling: 0
-    PhysicsReturnOffset: {x: 0, y: 0}
-  Phys:
-    KeepPhysics: 0
-  Size: {x: 0, y: 0}
-  GridEndureSpeed: 10
-  GridEndureForce: 50
-  stepUpTolerance: 0.5
-  stepDownTolerance: 0.2
-  floorLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  <Velocity>k__BackingField: {x: 0, y: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
-  makeMassInf: 0
-  <WalkSpeed>k__BackingField: 0
+  <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 0
   <BodyComponents>k__BackingField:
   - {fileID: 2012663786}
   - {fileID: 1795285139}
-  WalkAcceleration: 300
-  zCollider: {fileID: 827860543}
+  <ZCol>k__BackingField: {fileID: 0}
   jump: 0
 --- !u!114 &827860543
 MonoBehaviour:
@@ -40355,7 +40030,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageManager: {fileID: 11400000, guid: 69175ed9e37d9e3408bdf3432f4a5b4c, type: 2}
-  _movable: {fileID: 0}
+  _physics: {fileID: 0}
 --- !u!114 &827860545
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40485,41 +40160,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  frictionCoeff: 0.99
-  bounceCoeff: 0
-  airFriction: 0.98
-  frictionWalkInfluence: 1
-  Mode: 0
-  Grid:
-    CurrentCell: {x: 0, y: 0}
-    TargetCell: {x: 0, y: 0}
-    CellProgress: 0
-    LastMoveDir: {x: 0, y: 0}
-    IsSettling: 0
-    PhysicsReturnOffset: {x: 0, y: 0}
-  Phys:
-    KeepPhysics: 0
-  Size: {x: 0, y: 0}
-  GridEndureSpeed: 10
-  GridEndureForce: 50
-  stepUpTolerance: 0.5
-  stepDownTolerance: 0.2
-  floorLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  <Velocity>k__BackingField: {x: 0, y: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
-  makeMassInf: 0
-  <WalkSpeed>k__BackingField: 0
+  <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 0
   <BodyComponents>k__BackingField:
   - {fileID: 791662434}
   - {fileID: 1976572418}
-  WalkAcceleration: 300
-  zCollider: {fileID: 828534940}
+  <ZCol>k__BackingField: {fileID: 0}
   jump: 0
 --- !u!114 &828534940
 MonoBehaviour:
@@ -40557,7 +40207,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageManager: {fileID: 11400000, guid: 69175ed9e37d9e3408bdf3432f4a5b4c, type: 2}
-  _movable: {fileID: 0}
+  _physics: {fileID: 0}
 --- !u!114 &828534942
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41797,7 +41447,8 @@ PrefabInstance:
       propertyPath: m_CategoryHash
       value: 2.3958667e-35
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 632756701656993134, guid: 312b7ed3679345a4bbc281cb78c590df, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 312b7ed3679345a4bbc281cb78c590df, type: 3}
 --- !u!1 &852706080
 GameObject:
@@ -45107,41 +44758,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  frictionCoeff: 0.99
-  bounceCoeff: 0
-  airFriction: 0.98
-  frictionWalkInfluence: 1
-  Mode: 0
-  Grid:
-    CurrentCell: {x: 0, y: 0}
-    TargetCell: {x: 0, y: 0}
-    CellProgress: 0
-    LastMoveDir: {x: 0, y: 0}
-    IsSettling: 0
-    PhysicsReturnOffset: {x: 0, y: 0}
-  Phys:
-    KeepPhysics: 0
-  Size: {x: 0, y: 0}
-  GridEndureSpeed: 10
-  GridEndureForce: 50
-  stepUpTolerance: 0.5
-  stepDownTolerance: 0.2
-  floorLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  <Velocity>k__BackingField: {x: 0, y: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
-  makeMassInf: 0
-  <WalkSpeed>k__BackingField: 0
+  <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 0
   <BodyComponents>k__BackingField:
   - {fileID: 885902144}
   - {fileID: 2137012632}
-  WalkAcceleration: 300
-  zCollider: {fileID: 893315053}
+  <ZCol>k__BackingField: {fileID: 0}
   jump: 0
 --- !u!114 &893315053
 MonoBehaviour:
@@ -45179,7 +44805,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageManager: {fileID: 11400000, guid: 69175ed9e37d9e3408bdf3432f4a5b4c, type: 2}
-  _movable: {fileID: 0}
+  _physics: {fileID: 0}
 --- !u!114 &893315055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55421,41 +55047,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  frictionCoeff: 0.99
-  bounceCoeff: 0
-  airFriction: 0.98
-  frictionWalkInfluence: 1
-  Mode: 0
-  Grid:
-    CurrentCell: {x: 0, y: 0}
-    TargetCell: {x: 0, y: 0}
-    CellProgress: 0
-    LastMoveDir: {x: 0, y: 0}
-    IsSettling: 0
-    PhysicsReturnOffset: {x: 0, y: 0}
-  Phys:
-    KeepPhysics: 0
-  Size: {x: 0, y: 0}
-  GridEndureSpeed: 10
-  GridEndureForce: 50
-  stepUpTolerance: 0.5
-  stepDownTolerance: 0.2
-  floorLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  <Velocity>k__BackingField: {x: 0, y: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
-  makeMassInf: 0
-  <WalkSpeed>k__BackingField: 0
+  <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 0
   <BodyComponents>k__BackingField:
   - {fileID: 1445865411}
   - {fileID: 1029038659}
-  WalkAcceleration: 300
-  zCollider: {fileID: 1116164927}
+  <ZCol>k__BackingField: {fileID: 0}
   jump: 0
 --- !u!114 &1116164927
 MonoBehaviour:
@@ -55493,7 +55094,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageManager: {fileID: 11400000, guid: 69175ed9e37d9e3408bdf3432f4a5b4c, type: 2}
-  _movable: {fileID: 0}
+  _physics: {fileID: 0}
 --- !u!114 &1116164929
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59399,6 +59000,7 @@ GameObject:
   - component: {fileID: 1216747701}
   - component: {fileID: 1216747700}
   - component: {fileID: 1216747704}
+  - component: {fileID: 1216747705}
   m_Layer: 10
   m_Name: DodgeHelper
   m_TagString: Untagged
@@ -59546,7 +59148,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageManager: {fileID: 11400000, guid: 69175ed9e37d9e3408bdf3432f4a5b4c, type: 2}
-  _movable: {fileID: 0}
+  _physics: {fileID: 0}
+--- !u!114 &1216747705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1216747697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52dc97a2c4e9bfc4da98bb47b1a9f01a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  physManager: {fileID: 0}
+  <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
+  <Mass>k__BackingField: 0
+  <MaxWalkSpeed>k__BackingField: 0
+  <WallLayer>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 0
+  <BodyComponents>k__BackingField: []
+  <ZCol>k__BackingField: {fileID: 0}
+  jump: 0
 --- !u!1 &1217475174
 GameObject:
   m_ObjectHideFlags: 0
@@ -60507,41 +60131,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  frictionCoeff: 0.99
-  bounceCoeff: 0
-  airFriction: 0.98
-  frictionWalkInfluence: 1
-  Mode: 0
-  Grid:
-    CurrentCell: {x: 0, y: 0}
-    TargetCell: {x: 0, y: 0}
-    CellProgress: 0
-    LastMoveDir: {x: 0, y: 0}
-    IsSettling: 0
-    PhysicsReturnOffset: {x: 0, y: 0}
-  Phys:
-    KeepPhysics: 0
-  Size: {x: 0, y: 0}
-  GridEndureSpeed: 10
-  GridEndureForce: 50
-  stepUpTolerance: 0.5
-  stepDownTolerance: 0.2
-  floorLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  <Velocity>k__BackingField: {x: 0, y: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
-  makeMassInf: 0
-  <WalkSpeed>k__BackingField: 0
+  <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 0
   <BodyComponents>k__BackingField:
   - {fileID: 2094325285}
   - {fileID: 1533272766}
-  WalkAcceleration: 300
-  zCollider: {fileID: 1236688445}
+  <ZCol>k__BackingField: {fileID: 0}
   jump: 0
 --- !u!114 &1236688445
 MonoBehaviour:
@@ -60579,7 +60178,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageManager: {fileID: 11400000, guid: 69175ed9e37d9e3408bdf3432f4a5b4c, type: 2}
-  _movable: {fileID: 0}
+  _physics: {fileID: 0}
 --- !u!114 &1236688447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62953,41 +62552,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  frictionCoeff: 0.99
-  bounceCoeff: 0
-  airFriction: 0.98
-  frictionWalkInfluence: 1
-  Mode: 0
-  Grid:
-    CurrentCell: {x: 0, y: 0}
-    TargetCell: {x: 0, y: 0}
-    CellProgress: 0
-    LastMoveDir: {x: 0, y: 0}
-    IsSettling: 0
-    PhysicsReturnOffset: {x: 0, y: 0}
-  Phys:
-    KeepPhysics: 0
-  Size: {x: 0, y: 0}
-  GridEndureSpeed: 10
-  GridEndureForce: 50
-  stepUpTolerance: 0.5
-  stepDownTolerance: 0.2
-  floorLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  <Velocity>k__BackingField: {x: 0, y: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
-  makeMassInf: 0
-  <WalkSpeed>k__BackingField: 0
+  <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 0
   <BodyComponents>k__BackingField:
   - {fileID: 199256711}
   - {fileID: 1535496308}
-  WalkAcceleration: 300
-  zCollider: {fileID: 1292047132}
+  <ZCol>k__BackingField: {fileID: 0}
   jump: 0
 --- !u!114 &1292047132
 MonoBehaviour:
@@ -63025,7 +62599,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageManager: {fileID: 11400000, guid: 69175ed9e37d9e3408bdf3432f4a5b4c, type: 2}
-  _movable: {fileID: 0}
+  _physics: {fileID: 0}
 --- !u!114 &1292047134
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63459,41 +63033,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  frictionCoeff: 0.9
-  bounceCoeff: 0.3
-  airFriction: 0.98
-  frictionWalkInfluence: 1
-  Mode: 0
-  Grid:
-    CurrentCell: {x: 0, y: 0}
-    TargetCell: {x: 0, y: 0}
-    CellProgress: 0
-    LastMoveDir: {x: 0, y: 0}
-    IsSettling: 0
-    PhysicsReturnOffset: {x: 0, y: 0}
-  Phys:
-    KeepPhysics: 0
-  Size: {x: 0, y: 0}
-  GridEndureSpeed: 10
-  GridEndureForce: 50
-  stepUpTolerance: 0.5
-  stepDownTolerance: 0.2
-  floorLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  <Velocity>k__BackingField: {x: 0, y: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
-  makeMassInf: 0
-  <WalkSpeed>k__BackingField: 0
+  <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 0
   <BodyComponents>k__BackingField:
   - {fileID: 1892479206}
   - {fileID: 855218624}
-  WalkAcceleration: 300
-  zCollider: {fileID: 1300301299}
+  <ZCol>k__BackingField: {fileID: 0}
   jump: 0
 --- !u!114 &1300301299
 MonoBehaviour:
@@ -63531,7 +63080,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageManager: {fileID: 11400000, guid: 69175ed9e37d9e3408bdf3432f4a5b4c, type: 2}
-  _movable: {fileID: 0}
+  _physics: {fileID: 0}
 --- !u!114 &1300301301
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66538,41 +66087,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  frictionCoeff: 0.99
-  bounceCoeff: 0
-  airFriction: 0.98
-  frictionWalkInfluence: 1
-  Mode: 0
-  Grid:
-    CurrentCell: {x: 0, y: 0}
-    TargetCell: {x: 0, y: 0}
-    CellProgress: 0
-    LastMoveDir: {x: 0, y: 0}
-    IsSettling: 0
-    PhysicsReturnOffset: {x: 0, y: 0}
-  Phys:
-    KeepPhysics: 0
-  Size: {x: 0, y: 0}
-  GridEndureSpeed: 10
-  GridEndureForce: 50
-  stepUpTolerance: 0.5
-  stepDownTolerance: 0.2
-  floorLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  <Velocity>k__BackingField: {x: 0, y: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
-  makeMassInf: 0
-  <WalkSpeed>k__BackingField: 0
+  <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 0
   <BodyComponents>k__BackingField:
   - {fileID: 67533058}
   - {fileID: 1435064348}
-  WalkAcceleration: 300
-  zCollider: {fileID: 1391855065}
+  <ZCol>k__BackingField: {fileID: 0}
   jump: 0
 --- !u!114 &1391855065
 MonoBehaviour:
@@ -66610,7 +66134,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageManager: {fileID: 11400000, guid: 69175ed9e37d9e3408bdf3432f4a5b4c, type: 2}
-  _movable: {fileID: 0}
+  _physics: {fileID: 0}
 --- !u!114 &1391855067
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80578,9 +80102,9 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.17957745
+    x: 0
     y: 0
-    width: 0.64084506
+    width: 1
     height: 1
   near clip plane: -5000
   far clip plane: 5000
@@ -81409,41 +80933,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  frictionCoeff: 0.99
-  bounceCoeff: 0
-  airFriction: 0.98
-  frictionWalkInfluence: 1
-  Mode: 0
-  Grid:
-    CurrentCell: {x: 0, y: 0}
-    TargetCell: {x: 0, y: 0}
-    CellProgress: 0
-    LastMoveDir: {x: 0, y: 0}
-    IsSettling: 0
-    PhysicsReturnOffset: {x: 0, y: 0}
-  Phys:
-    KeepPhysics: 0
-  Size: {x: 0, y: 0}
-  GridEndureSpeed: 10
-  GridEndureForce: 50
-  stepUpTolerance: 0.5
-  stepDownTolerance: 0.2
-  floorLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  <Velocity>k__BackingField: {x: 0, y: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
-  makeMassInf: 0
-  <WalkSpeed>k__BackingField: 0
+  <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 0
   <BodyComponents>k__BackingField:
   - {fileID: 450016251}
   - {fileID: 309219180}
-  WalkAcceleration: 300
-  zCollider: {fileID: 1738345893}
+  <ZCol>k__BackingField: {fileID: 0}
   jump: 0
 --- !u!114 &1738345893
 MonoBehaviour:
@@ -81481,7 +80980,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageManager: {fileID: 11400000, guid: 69175ed9e37d9e3408bdf3432f4a5b4c, type: 2}
-  _movable: {fileID: 0}
+  _physics: {fileID: 0}
 --- !u!114 &1738345895
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83029,41 +82528,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  frictionCoeff: 0.99
-  bounceCoeff: 0
-  airFriction: 0.98
-  frictionWalkInfluence: 1
-  Mode: 0
-  Grid:
-    CurrentCell: {x: 0, y: 0}
-    TargetCell: {x: 0, y: 0}
-    CellProgress: 0
-    LastMoveDir: {x: 0, y: 0}
-    IsSettling: 0
-    PhysicsReturnOffset: {x: 0, y: 0}
-  Phys:
-    KeepPhysics: 0
-  Size: {x: 0, y: 0}
-  GridEndureSpeed: 10
-  GridEndureForce: 50
-  stepUpTolerance: 0.5
-  stepDownTolerance: 0.2
-  floorLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  <Velocity>k__BackingField: {x: 0, y: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
-  makeMassInf: 0
-  <WalkSpeed>k__BackingField: 0
+  <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 0
   <BodyComponents>k__BackingField:
   - {fileID: 433629713}
   - {fileID: 136022461}
-  WalkAcceleration: 300
-  zCollider: {fileID: 1776947703}
+  <ZCol>k__BackingField: {fileID: 0}
   jump: 0
 --- !u!114 &1776947703
 MonoBehaviour:
@@ -83101,7 +82575,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageManager: {fileID: 11400000, guid: 69175ed9e37d9e3408bdf3432f4a5b4c, type: 2}
-  _movable: {fileID: 0}
+  _physics: {fileID: 0}
 --- !u!114 &1776947705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -94931,41 +94405,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  frictionCoeff: 0.99
-  bounceCoeff: 0
-  airFriction: 0.98
-  frictionWalkInfluence: 1
-  Mode: 0
-  Grid:
-    CurrentCell: {x: 0, y: 0}
-    TargetCell: {x: 0, y: 0}
-    CellProgress: 0
-    LastMoveDir: {x: 0, y: 0}
-    IsSettling: 0
-    PhysicsReturnOffset: {x: 0, y: 0}
-  Phys:
-    KeepPhysics: 0
-  Size: {x: 0, y: 0}
-  GridEndureSpeed: 10
-  GridEndureForce: 50
-  stepUpTolerance: 0.5
-  stepDownTolerance: 0.2
-  floorLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  <Velocity>k__BackingField: {x: 0, y: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
-  makeMassInf: 0
-  <WalkSpeed>k__BackingField: 0
+  <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 0
   <BodyComponents>k__BackingField:
   - {fileID: 1433437663}
   - {fileID: 692438974}
-  WalkAcceleration: 300
-  zCollider: {fileID: 2060873408}
+  <ZCol>k__BackingField: {fileID: 0}
   jump: 0
 --- !u!114 &2060873408
 MonoBehaviour:
@@ -95003,7 +94452,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageManager: {fileID: 11400000, guid: 69175ed9e37d9e3408bdf3432f4a5b4c, type: 2}
-  _movable: {fileID: 0}
+  _physics: {fileID: 0}
 --- !u!114 &2060873410
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -99388,7 +98837,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageManager: {fileID: 11400000, guid: 69175ed9e37d9e3408bdf3432f4a5b4c, type: 2}
-  _movable: {fileID: 0}
+  _physics: {fileID: 8038879578283673504}
 --- !u!4 &8038879576539161218
 Transform:
   m_ObjectHideFlags: 0
@@ -99699,41 +99148,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  frictionCoeff: 0.99
-  bounceCoeff: 0
-  airFriction: 0.98
-  frictionWalkInfluence: 1
-  Mode: 0
-  Grid:
-    CurrentCell: {x: 0, y: 0}
-    TargetCell: {x: 0, y: 0}
-    CellProgress: 0
-    LastMoveDir: {x: 0, y: 0}
-    IsSettling: 0
-    PhysicsReturnOffset: {x: 0, y: 0}
-  Phys:
-    KeepPhysics: 0
-  Size: {x: 0, y: 0}
-  GridEndureSpeed: 10
-  GridEndureForce: 50
-  stepUpTolerance: 0.5
-  stepDownTolerance: 0.2
-  floorLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  <Velocity>k__BackingField: {x: 0, y: 0}
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
-  makeMassInf: 0
-  <WalkSpeed>k__BackingField: 0
+  <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 0
   <BodyComponents>k__BackingField:
   - {fileID: 8038879576539161230}
   - {fileID: 8038879576624473952}
-  WalkAcceleration: 300
-  zCollider: {fileID: 8038879578283673505}
+  <ZCol>k__BackingField: {fileID: 8038879578283673505}
   jump: 0
 --- !u!114 &8038879578283673505
 MonoBehaviour:

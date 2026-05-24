@@ -1,34 +1,30 @@
 using UnityEngine;
 
-public class PhysicsObjectTest : InterfaceModule, IMovable
+public class PhysicsModule : InterfaceModule, IPhysics
 {
-    public PhysicsManager2 physManager;
+    public PhysicsManager physManager;
     
-    [Header("physics")]
-    public float frictionCoeff   = 0.85f;
-    public float bounceCoeff     = 0.3f;
-    public float airFriction     = 0.98f;
-    public float frictionWalkInfluence = 1;
+    public float FrictionCoeff { get; set; }         = 0.85f;
+    public float BounceCoeff { get; set; }           = 0.3f;
+    public float AirFriction { get; set; }           = 0.98f;
+    public float FrictionWalkInfluence { get; set; } = 1;
 
-    public MovementMode Mode;
-    public GridState    Grid   = new();
-    public PhysicsState Phys   = new();
-    public Vector2Int Size;
+    public MovementMode Mode { get; set; }
+    public GridState    Grid { get; set; }
+    public PhysicsState Phys { get; set; }
+    public Vector2Int Size { get; set; }
 
-    public float GridEndureSpeed = 10;
-    public float GridEndureForce = 50;
-    public float stepUpTolerance   = 0.5f;
-    public float stepDownTolerance = 0.2f;
+    public float GridEndureSpeed { get; set; }   = 10;
+    public float GridEndureForce { get; set; }   = 50;
+    public float StepUpTolerance { get; set; }   = 0.5f;
+    public float StepDownTolerance { get; set; } = 0.2f;
  
-    public LayerMask floorLayer;
+    public LayerMask FloorLayer { get; set; }
  
-    public float ZPosition 
-    { 
-        get => transform.position.z; 
-        set { SetZLevel(value);}
-    }
+    public float ZPosition { get => transform.position.z; set => SetZLevel(value); }
+    public Vector2 HPosition { get => transform.position; set => transform.position = new Vector3(value.x, value.y, transform.position.z) ; }
     public float ZVelocity { get; set; }
-    [field: NaughtyAttributes.ReadOnly][field: SerializeField] public Vector2 Velocity { get; set; }
+    public Vector2 HVelocity { get; set; }
     public ZCollider2D Ground { get; set; }
     public int CanWalkFrameLeft { get; set; }
     public bool IsGroundedPrev { get; set; }
@@ -36,8 +32,7 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
 
     [field: NaughtyAttributes.ReadOnly][field: SerializeField] public Vector3 ExForce { get; set; }
     [field: SerializeField] public float Mass { get; set; }
-    public float InvM { get; private set; }
-    public bool makeMassInf;
+    public float InvM { get; set; }
     public MovePoint MovePoint { get; set; }
     public Vector3 LastSetDir { get; set; }
     public bool IsSprinting { get; set; }
@@ -45,18 +40,19 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
 
     public Vector2 WalkingDir { get; set; }
     public float SprintCoeff { get; set; }
-    [field: SerializeField]public float WalkSpeed { get; set; }
+    [field: SerializeField]public float MaxWalkSpeed { get; set; }
     [field: SerializeField]public LayerMask WallLayer { get; set; }
     public LayerMask CanPushLayer { get; set; }
     public AudioDataSO FootStepAudio { get; set; }
     public bool IsKnockbackMove { get; set; }
     [field: SerializeField] public BodyComponent[] BodyComponents { get; set; }
-    public float WalkAcceleration = 30f;
+    public float WalkAcceleration { get; set; } = 300f;
 
  
     public Vector3 PrevEntityPos { get; set; }
 
-    public ZCollider2D zCollider;
+    [field: SerializeField] public ZCollider2D ZCol { get; set; }
+    public int ID { get; set; }
 
     [NaughtyAttributes.Button]
     public void Jump()
@@ -71,21 +67,33 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
 
     public override void Register(IInterfaceRegistable interfaceRegistable)
     {
-        interfaceRegistable.RegisterInterface<IMovable>(this);
+        interfaceRegistable.RegisterInterface<IPhysics>(this);
     }
 
     public void Initialize()
     {
-        if (!physManager) physManager = FindObjectOfType<PhysicsManager2>();
+        if (!ZCol && TryGetComponent(out ZCollider2D z))
+        {
+            ZCol = z;
+        }
+        else
+        {
+            return;
+        }
+        if (!physManager) physManager = FindObjectOfType<PhysicsManager>();
         if (MovePoint) MovePoint.Initialize(this);
         ExForce = new();
+        Grid = new();
+        Phys = new();
         PrevEntityPos = transform.position;
-        if (Size.x < 1) Size.x = 1;
-        if (Size.y < 1) Size.y = 1;
+        if (Size.x <= 0 || Size.y <= 0) Size = Vector2Int.one;
         InvM = 1f / Mass;
-        zCollider.frictionCoeff = frictionCoeff;
-        zCollider.bounceCoeff   = bounceCoeff;
-        GridEndureSpeed = GridEndureSpeed < 0 ? WalkSpeed * 2 : GridEndureSpeed;
+        ZCol.frictionCoeff = FrictionCoeff;
+        ZCol.bounceCoeff   = BounceCoeff;
+        ID = GetInstanceID();
+        GridEndureSpeed = GridEndureSpeed < 0 ? MaxWalkSpeed * 2 : GridEndureSpeed;
+
+
         physManager.AddPhysicsObject(this);
     }
 
@@ -105,4 +113,11 @@ public class PhysicsObjectTest : InterfaceModule, IMovable
     {
         for(int i = 0; i < BodyComponents.Length; i++) BodyComponents[i].DecayOffsets(renderDecaySpeed, snapDecaySpeed);
     }
+    public void SnapBodyPart()
+    {
+        for(int i = 0; i < BodyComponents.Length; i++) BodyComponents[i].Snap();
+    }
+
+    public void LogicalTeleport(Vector3 position) => physManager.LogicalTeleport(this, position);
+    public void RealTeleport(Vector3 position) => physManager.RealTeleport(this, position);
 }

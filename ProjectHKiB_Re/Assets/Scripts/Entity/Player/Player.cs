@@ -51,7 +51,7 @@ public class Player : Entity
             Debug.Log("BaseData is Null");
             return;
         }
-        databaseManager.SetIMovable(this, BaseData);
+        databaseManager.SetIPhysics(this, BaseData);
         databaseManager.SetIAttackable(this, BaseData);
         databaseManager.SetIDamagable(this, BaseData);
         databaseManager.SetIDodgeable(this, BaseData);

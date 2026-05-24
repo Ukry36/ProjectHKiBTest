@@ -15,14 +15,14 @@ public class Friendly : Entity, IPoolable
     public override void Initialize()
     {
         base.Initialize();
-        databaseManager.SetIMovable(this, BaseData);
+        databaseManager.SetIPhysics(this, BaseData);
         databaseManager.SetIAttackable(this, BaseData);
         databaseManager.SetIDamagable(this, BaseData);
         databaseManager.SetIFootstep(this, BaseData);
         databaseManager.SetIPathFindable(this, BaseData);
         databaseManager.SetIAnimatable(this, BaseData);
         Initialize(BaseData.StateMachine);
-        GetInterface<IMovable>().Initialize();
+        GetInterface<IPhysics>().Initialize();
         GetInterface<IAttackable>()?.Initialize();
         GetInterface<IDamagable>()?.Initialize();
         GetInterface<IFootstep>()?.Initialize();

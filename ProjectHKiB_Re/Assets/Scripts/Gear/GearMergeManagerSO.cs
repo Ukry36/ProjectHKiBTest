@@ -103,7 +103,7 @@ public class GearMergeManagerSO : ScriptableObject
     public void SetDatas(MergedPlayerBaseData mergedGearData, PlayerBaseDataSO playerBaseData)
     {
         databaseManager.SetIAnimatable(mergedGearData, playerBaseData);
-        databaseManager.SetIMovable(mergedGearData, playerBaseData);
+        databaseManager.SetIPhysics(mergedGearData, playerBaseData);
         databaseManager.SetIAttackable(mergedGearData, playerBaseData);
         databaseManager.SetIDodgeable(mergedGearData, playerBaseData);
         databaseManager.SetIDamagable(mergedGearData, playerBaseData);

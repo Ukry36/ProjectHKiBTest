@@ -4,7 +4,7 @@ public class StartDodgeMoveByInputAction : StateActionSO
 {
     public override void Act(StateController stateController)
     {
-        if (stateController.TryGetInterface(out IMovable movable) && stateController.TryGetInterface(out IDodgeable dodgeable))
+        if (stateController.TryGetInterface(out IPhysics movable) && stateController.TryGetInterface(out IDodgeable dodgeable))
         {
             Vector3 dir = GameManager.instance.inputManager.MoveInput;
             if (dir != Vector3.zero)

@@ -4,16 +4,9 @@ public class InstantMove1Dir4Action : StateActionSO
 {
     public override void Act(StateController stateController)
     {
-        if (stateController.TryGetInterface(out IMovable movable))
+        if (stateController.TryGetInterface(out IPhysics phys))
         {
-            /*
-            movementManager.InstantMove
-            (
-                stateController.transform,
-                movable,
-                movable.LastSetDir
-            );*/
-            Debug.LogError("ERROR: Not Implemented!!!");
+            phys.LogicalTeleport(phys.Position + phys.LastSetDir);
         }
         else
             Debug.LogError("ERROR: Interface Not Found!!!");

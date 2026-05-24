@@ -23,13 +23,13 @@ public class ForceFieldEvent : GameEvent
 
         for (int i = 0; i < TargetCount; i++)
         {
-            if (CurrentTargets[i].TryGetComponent(out IMovable movable))
+            if (CurrentTargets[i].TryGetComponent(out IPhysics physics))
             {
                 Vector3 force = isCenter
-                    ? (transform.position - movable.MovePoint.transform.position).normalized * strength
+                    ? (transform.position - physics.Position).normalized * strength
                     : (Vector3)(dir.normalized * strength);
 
-                movable.ExForce += force;
+                physics.ExForce += force;
             }
         } 
     }

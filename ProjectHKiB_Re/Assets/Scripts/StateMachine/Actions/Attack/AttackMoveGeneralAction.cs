@@ -6,7 +6,7 @@ public class AttackMoveGeneralAction : StateActionSO
     public override void Act(StateController stateController)
     {
         if (stateController.TryGetInterface(out IAttackable attackable)
-        && stateController.TryGetInterface(out IMovable movable)
+        && stateController.TryGetInterface(out IPhysics movable)
         && stateController.TryGetInterface(out IDirAnimatable animatable)
         && stateController.TryGetInterface(out ITargetable targetable))
         {

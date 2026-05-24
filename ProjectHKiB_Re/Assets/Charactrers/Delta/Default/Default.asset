@@ -12,15 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a4552f76dec9764db1bc225722a55f1, type: 3}
   m_Name: Default
   m_EditorClassIdentifier: 
-  <WalkSpeed>k__BackingField: 5
+  <Size>k__BackingField: {x: 1, y: 1}
+  <Mass>k__BackingField: 1
+  <WalkAcceleration>k__BackingField: 300
+  <MaxWalkSpeed>k__BackingField: 5
   <SprintCoeff>k__BackingField: 2
+  <FrictionWalkInfluence>k__BackingField: 1
+  <DefaultFootstepAudio>k__BackingField: {fileID: 11400000, guid: d78d695b40ad7c64b8cb95741be6bae5, type: 2}
+  <FrictionCoeff>k__BackingField: 0.6
+  <AirFriction>k__BackingField: 0.98
+  <BounceCoeff>k__BackingField: 0.3
+  <GridEndureSpeed>k__BackingField: 10
+  <GridEndureForce>k__BackingField: 50
+  <StepUpTolerance>k__BackingField: 0.5
+  <StepDownTolerance>k__BackingField: 0.2
   <WallLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 8
+  <FloorLayer>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 128
   <CanPushLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 0
-  <DefaultFootstepAudio>k__BackingField: {fileID: 11400000, guid: d78d695b40ad7c64b8cb95741be6bae5, type: 2}
   <BaseATK>k__BackingField: 0
   <CriticalChanceRate>k__BackingField: 0
   <CriticalDamageRate>k__BackingField: 0
@@ -45,7 +59,6 @@ MonoBehaviour:
     Buffs: []
   <BaseMaxHP>k__BackingField: 1000
   <BaseDEF>k__BackingField: 0
-  <Mass>k__BackingField: 1
   <HitSound>k__BackingField: {fileID: 0}
   <HitParticle>k__BackingField: {fileID: 0}
   <GraffitiAttackState>k__BackingField: {fileID: 0}

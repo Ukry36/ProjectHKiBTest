@@ -16,14 +16,26 @@ MonoBehaviour:
   <BaseDEF>k__BackingField: 0
   <HitSound>k__BackingField: {fileID: 0}
   <HitParticle>k__BackingField: {fileID: 0}
+  <Size>k__BackingField: {x: 1, y: 1}
   <Mass>k__BackingField: 1
-  <WalkSpeed>k__BackingField: 0
+  <WalkAcceleration>k__BackingField: 300
+  <MaxWalkSpeed>k__BackingField: 5
   <SprintCoeff>k__BackingField: 0
+  <FrictionWalkInfluence>k__BackingField: 1
+  <DefaultFootstepAudio>k__BackingField: {fileID: 0}
+  <FrictionCoeff>k__BackingField: 0.6
+  <AirFriction>k__BackingField: 0.98
+  <BounceCoeff>k__BackingField: 0.3
+  <GridEndureSpeed>k__BackingField: 10
+  <GridEndureForce>k__BackingField: 50
+  <StepUpTolerance>k__BackingField: 0.5
+  <StepDownTolerance>k__BackingField: 0.2
   <WallLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 8
-  <FootStepAudio>k__BackingField: {fileID: 0}
-  <DieWhenKnockBack>k__BackingField: 0
+  <FloorLayer>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 128
   <CanPushLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 0

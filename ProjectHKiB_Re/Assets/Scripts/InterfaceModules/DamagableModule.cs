@@ -3,6 +3,7 @@ using NaughtyAttributes;
 using UnityEngine;
 namespace Assets.Scripts.Interfaces.Modules
 {
+    [RequireComponent(typeof(PhysicsModule))]
     public class DamagableModule : InterfaceModule, IDamagable
     {
         public float BaseMaxHP { get; set; }
@@ -28,7 +29,7 @@ namespace Assets.Scripts.Interfaces.Modules
         public ParticlePlayer HitParticle { get; set; }
 
         [SerializeField] protected DamageManagerSO damageManager;
-        [SerializeField] protected MovableModule _movable;
+        [SerializeField] protected PhysicsModule _physics;
 
         public Action OnDie { get; set; }
         public Action OnDamaged { get; set; }
@@ -50,6 +51,7 @@ namespace Assets.Scripts.Interfaces.Modules
             OnHPChanged?.Invoke(HP);
             _prevMaxHP = MaxHP;
             MaxHPBuffer.OnBuffed += OnMaxHpChanged;
+            if (!_physics) _physics = GetComponent<PhysicsModule>();
         }
 
         private void OnMaxHpChanged(float buffedStat)
@@ -71,9 +73,9 @@ namespace Assets.Scripts.Interfaces.Modules
         {
             OnDamaged?.Invoke();
             bool IsKnockback = false;
-            if (damageData.knockBack > _movable.Mass && !SuperArmourBuffer.BuffedStat)
+            if (damageData.knockBack > _physics.Mass && !SuperArmourBuffer.BuffedStat)
             {
-                _movable.KnockBack(transform.position - origin, damageData.knockBack);
+                _physics.KnockBack(transform.position - origin, damageData.knockBack);
                 IsKnockback = true;
             }
             damageManager.Damage(damageData, hitter, this, transform.position, IsKnockback);
@@ -84,7 +86,7 @@ namespace Assets.Scripts.Interfaces.Modules
 
         public virtual void Die()
         {
-            _movable.MovePoint.Die();
+            _physics.MovePoint.Die();
             gameObject.SetActive(false);
             OnDie?.Invoke();
         }

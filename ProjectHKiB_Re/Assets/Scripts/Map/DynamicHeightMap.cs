@@ -9,7 +9,7 @@ public class DynamicHeightMap: MonoBehaviour
     private TilemapRenderer tilemapRenderer;
     public float z;
 
-    public void Initialize(float baseZLevel, IMovable player, int sortingOrder)
+    public void Initialize(float baseZLevel, IPhysics player, int sortingOrder)
     {
         tilemapRenderer = GetComponent<TilemapRenderer>();
         tilemapRenderer.sortingOrder = sortingOrder;

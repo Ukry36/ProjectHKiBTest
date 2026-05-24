@@ -88,8 +88,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed8b1ae4e4e52b34ea557c1c11e076fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_CategoryHash: 0
-  m_labelHash: 0
+  m_CategoryHash: 2.3958667e-35
+  m_labelHash: 0.00000040954276
   m_SpriteKey: 6.171734e-15
 --- !u!212 &1736088561271069528
 SpriteRenderer:
@@ -190,8 +190,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damageData: {fileID: 0}
-  _effectAnimationPlayer: {fileID: 8781271101576173940}
-  _effectSpritelibrary: {fileID: 7947917573567980173}
+  _effectAnimationPlayer:
+  - {fileID: 0}
+  _effectSpritelibrary:
+  - {fileID: 0}
 --- !u!1 &6324719739505011581
 GameObject:
   m_ObjectHideFlags: 0
@@ -320,7 +322,6 @@ GameObject:
   - component: {fileID: 6324719739634341051}
   - component: {fileID: 1710609699395622963}
   - component: {fileID: 134181251543641144}
-  - component: {fileID: 632756701656993134}
   - component: {fileID: 3400042886295887947}
   - component: {fileID: 4976197304720217056}
   - component: {fileID: 4388334069689700793}
@@ -330,6 +331,7 @@ GameObject:
   - component: {fileID: 450080695492416609}
   - component: {fileID: 2683952245801778218}
   - component: {fileID: 2929440407337085589}
+  - component: {fileID: 8349516549920640465}
   m_Layer: 11
   m_Name: Rusher
   m_TagString: Untagged
@@ -426,20 +428,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damager: {fileID: 6324719739073800747}
---- !u!114 &632756701656993134
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6324719739634341053}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab6af0b098eea8f48973baff03ad8962, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <MovePoint>k__BackingField: {fileID: 3621825053621893356}
-  movementManager: {fileID: 11400000, guid: 642ea6baceb016d4c8e15940b757d7cf, type: 2}
 --- !u!114 &3400042886295887947
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -453,7 +441,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <CurrentTarget>k__BackingField: {fileID: 0}
-  _movable: {fileID: 632756701656993134}
+  _physics: {fileID: 0}
 --- !u!114 &4976197304720217056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -467,7 +455,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageManager: {fileID: 11400000, guid: 69175ed9e37d9e3408bdf3432f4a5b4c, type: 2}
-  _movable: {fileID: 632756701656993134}
+  _physics: {fileID: 0}
 --- !u!114 &4388334069689700793
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -549,6 +537,7 @@ MonoBehaviour:
   _currentState: {fileID: 0}
   _stateMachine: {fileID: 0}
   TransitionConditions: 
+  Timers: []
   <PoolSize>k__BackingField: 100
   BaseData: {fileID: 11400000, guid: a574bd1562b7754489379a3566a8ac17, type: 2}
   databaseManager: {fileID: 11400000, guid: 6bc54106ea95a9242946feafc44a5dfe, type: 2}
@@ -592,6 +581,28 @@ MonoBehaviour:
   _spriteResolver: {fileID: 9067100866608486009}
   _spriteRenderer: {fileID: 6324719739505011583}
   <CurrentAnimDir>k__BackingField: 0
+--- !u!114 &8349516549920640465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6324719739634341053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52dc97a2c4e9bfc4da98bb47b1a9f01a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  physManager: {fileID: 0}
+  <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
+  <Mass>k__BackingField: 0
+  <MaxWalkSpeed>k__BackingField: 0
+  <WallLayer>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 0
+  <BodyComponents>k__BackingField: []
+  <ZCol>k__BackingField: {fileID: 0}
+  jump: 0
 --- !u!1 &7581432612308200138
 GameObject:
   m_ObjectHideFlags: 0
@@ -823,17 +834,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2893ff20aac0f7045a4794806307541f, type: 3}
---- !u!114 &3621825053621893356 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7315716775037562917, guid: 2893ff20aac0f7045a4794806307541f, type: 3}
-  m_PrefabInstance: {fileID: 6324719739667269833}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11e8f7055fe4d474da331c8abfc15847, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &3621825053621893358 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7315716775037562919, guid: 2893ff20aac0f7045a4794806307541f, type: 3}
