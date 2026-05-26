@@ -29,6 +29,7 @@ public interface IPhysics : IPhysicsBase, IInitializable
     public Vector3 LastSetDir { get; set; }
     public bool IsWalking { get; set; }
     public Vector2 WalkingDir { get; set; }
+    public Vector2 WalkingVel { get; set; }
     public bool IsSprinting { get; set; }
     public Vector3 ExForce { get; set; }
     public BodyComponent[] BodyComponents { get; set; }
@@ -48,6 +49,7 @@ public interface IPhysics : IPhysicsBase, IInitializable
     public Vector3 PrevEntityPos { get; set; }
     public ZCollider2D ZCol { get; set; }
     public int ID {get; set;}
+    public Vector3 CurrentWallNormal { get; set; }
     public void KnockBack(Vector3 dir, float strength);
     public void EndKnockbackEarly();
     public void KnockBackEndCallback();

@@ -38,7 +38,7 @@ public class PhysicsManager : MonoBehaviour
     public float gridSettleSpeed  = 1f;
     public float bounceTolerance  = 0.1f;
     public int keepCanWalkFrames  = 10;
-    public int keepPhysicsFrames  = 1;
+    public int keepPhysicsFrames  = 4;
     public float snapDecaySpeed   = 8f;
     public float renderDecaySpeed = 8f;
     public bool interpolateRender = true;
@@ -58,7 +58,7 @@ public class PhysicsManager : MonoBehaviour
         obj.Grid.TargetCell   = obj.Grid.CurrentCell;
         obj.Grid.CellProgress = 1f;
     }
-    public void RemovePhysicsIbject(IPhysics obj) => AllPhysicsEntitys.Remove(obj);
+    public void RemovePhysicsObject(IPhysics obj) => AllPhysicsEntitys.Remove(obj);
     public void ResetPhysicsObjectList() => AllPhysicsEntitys.Clear();
     
     public void LogicalTeleport(IPhysics obj, Vector3 position) 
@@ -125,27 +125,24 @@ public class PhysicsManager : MonoBehaviour
 
     private void UpdateVelocity(IPhysics obj)
     {
-        obj.ExForce += Vector3.forward * gravity;
+        obj.ExForce   += gravity * obj.Mass * Vector3.forward;
         obj.ZVelocity += obj.ExForce.z * obj.InvM * Time.fixedDeltaTime;
-        obj.HVelocity += obj.InvM * Time.fixedDeltaTime * (Vector2)obj.ExForce;
-
+        
+        obj.ZVelocity = ApplyAirFriction(obj, obj.ZVelocity);
         obj.HVelocity = ApplyGroundFriction(obj, obj.HVelocity);
 
-        bool isActivelyWalking = obj.IsWalking && obj.WalkingDir.sqrMagnitude > EPSILON;
-        if (isActivelyWalking)
+        if (obj.IsWalking && obj.WalkingDir.sqrMagnitude > EPSILON)
         {
-            float maxSpd = (obj.IsSprinting ? obj.MaxWalkSpeed * obj.SprintCoeff : obj.MaxWalkSpeed)
-                         * (obj.CanWalkFrameLeft > 0 ? 1f : 0.1f);
-            Vector2 walkDir            = obj.WalkingDir.normalized;
-            float frictionAccInfluence = obj.Ground ? 1 - Mathf.Clamp01(obj.FrictionCoeff * obj.Ground.frictionCoeff * obj.FrictionWalkInfluence): 1f;
-            float WalkAcceleration     = obj.IsSprinting ? obj.WalkAcceleration * obj.SprintCoeff : obj.WalkAcceleration;
-            float currentAlongWalk = Vector2.Dot(obj.HVelocity, walkDir);
+            float maxSpd = (obj.IsSprinting ? obj.MaxWalkSpeed * obj.SprintCoeff : obj.MaxWalkSpeed) * (obj.CanWalkFrameLeft > 0 ? 1f : 0.1f);
+            float frictionAccInfluence = obj.Ground ? 1 - Mathf.Clamp01(Mathf.Max(obj.FrictionCoeff, obj.Ground.frictionCoeff) * obj.FrictionWalkInfluence): 1f;
+            float WalkAcceleration     = (obj.IsSprinting ? obj.WalkAcceleration * obj.SprintCoeff : obj.WalkAcceleration) * (obj.CanWalkFrameLeft > 0 ? 1f : 0.1f);
+            float currentAlongWalk = Vector2.Dot(obj.HVelocity, obj.WalkingDir.normalized);
             float deficit          = maxSpd - currentAlongWalk;
 
             if (deficit > 0f)
             {
                 float accel = WalkAcceleration * frictionAccInfluence * Time.fixedDeltaTime;
-                obj.HVelocity += walkDir * Mathf.Min(accel, deficit);
+                obj.HVelocity += obj.WalkingDir.normalized * Mathf.Min(accel, deficit);
             }
         }
         else if (obj.Mode == MovementMode.Grid)
@@ -157,6 +154,8 @@ public class PhysicsManager : MonoBehaviour
                 return;
             }
         }
+
+        obj.HVelocity += obj.InvM * Time.fixedDeltaTime * (Vector2)obj.ExForce;
     }
 #endregion
 
@@ -164,7 +163,7 @@ public class PhysicsManager : MonoBehaviour
     private void UpdateMode(IPhysics obj)
     {
         bool wantsGrid    = obj.Ground && !obj.IsOnSlope
-                         && obj.HVelocity.magnitude < obj.GridEndureSpeed 
+                         && obj.HVelocity.magnitude < obj.GridEndureSpeed * obj.MaxWalkSpeed
                          && obj.ExForce.magnitude < obj.GridEndureForce;
         bool wantsPhysics = !wantsGrid;
 
@@ -191,7 +190,7 @@ public class PhysicsManager : MonoBehaviour
             }
 
             Vector2 gridCenter = AnchorCellToWorldCenter(obj.Grid.CurrentCell, obj.Size);
-            obj.Grid.PhysicsReturnOffset = (Vector2)obj.HPosition - gridCenter;
+            obj.Grid.PhysicsReturnOffset = obj.HPosition - gridCenter;
         }
         else if (obj.Mode == MovementMode.Grid && wantsPhysics)
         {
@@ -265,6 +264,7 @@ public class PhysicsManager : MonoBehaviour
         Vector2 worldTarget = AnchorCellToWorldCenter(obj.Grid.TargetCell,  obj.Size);
         Vector2 newPos      = Vector2.Lerp(worldCur, worldTarget, obj.Grid.CellProgress);
 
+        //if (obj.Grid.CannotSettleFrameLeft < 1)
         newPos += obj.Grid.PhysicsReturnOffset; // Add the physics offset!
 
         obj.HPosition = new Vector3(newPos.x, newPos.y, obj.ZPosition);
@@ -423,6 +423,7 @@ public class PhysicsManager : MonoBehaviour
 #region STATIC COLLISION
     private bool TryResolveStaticCellCollision(IPhysics obj, Vector2 nextPosition, Vector2 fallbackDir)
     {
+        obj.CurrentWallNormal = Vector2.zero;
         Vector2 origin = obj.HPosition;
         Vector2 delta = nextPosition - origin;
         float distance = delta.magnitude;
@@ -450,8 +451,9 @@ public class PhysicsManager : MonoBehaviour
 
         if (validHit)
         {
-            if (normal.sqrMagnitude < EPSILON) normal = -fallbackDir;
-            ResolveStaticCollision(obj, validHit, normal.normalized);
+            if (normal.sqrMagnitude < EPSILON) normal = -fallbackDir.normalized;
+            ResolveStaticCollision(obj, validHit, normal);
+            obj.CurrentWallNormal = normal;
             return true;
         }
 
@@ -517,35 +519,33 @@ public class PhysicsManager : MonoBehaviour
         Vector2 vB = objB.HVelocity;
         float invMA = objA.InvM;
         float invMB = objB.InvM;
-    
-        Vector2 sep     = objA.HPosition - objB.HPosition;
-        float   dist    = sep.magnitude;
+
+        Vector2 sep = objA.HPosition - objB.HPosition;
+        float dist = sep.magnitude;
         Vector2 pushDir = dist > EPSILON ? sep / dist : normal;
-    
-        ////////// If there is Static wall behind, act as wall //////////
-        Vector2Int anchorA = WorldCenterToAnchorCell(objA.HPosition, objA.Size);
-        Vector2Int anchorB = WorldCenterToAnchorCell(objB.HPosition, objB.Size);
-    
-        Vector2Int stepA = DirectionToCellStep(pushDir);   // A offset
-        Vector2Int stepB = DirectionToCellStep(-pushDir);  // B offset
-    
-        if (invMA > 0f && IsStaticWall(objA, anchorA + stepA)) invMA = 0f;
-        if (invMB > 0f && IsStaticWall(objB, anchorB + stepB)) invMB = 0f;
-        /////////////////////////////////////////////////////////////////
-    
+
+        Vector2 ConstrainToWall(Vector2 vector, Vector2 wallNormal)
+        {
+            if (wallNormal == Vector2.zero) return vector;
+
+            float dot = Vector2.Dot(vector, wallNormal);
+            if (dot < 0f) return vector - wallNormal * dot;
+            else          return vector;
+        }
+
         float totalInvMass = invMA + invMB;
         if (totalInvMass < EPSILON) return;
-    
+
         float allowedDist = Mathf.Abs(pushDir.x) * (objA.Size.x + objB.Size.x) * 0.5f * gridSize +
                             Mathf.Abs(pushDir.y) * (objA.Size.y + objB.Size.y) * 0.5f * gridSize;
 
-        float vRelative   = Vector2.Dot(vA - vB, normal);
+        float vRelative = Vector2.Dot(vA - vB, normal);
         float penetration = allowedDist - dist;
 
-        const float slop = 0.001f;         // Penetration under this doesn't solve
-        const float velocitySlop = 0.05f; // Velocity under this doesn't bounce
+        const float slop = 0.001f;
+        const float velocitySlop = 0.05f;
 
-        bool needImpulse    = vRelative < -velocitySlop;
+        bool needImpulse = vRelative < -velocitySlop;
         bool needCorrection = penetration > slop; 
 
         if (objA.HVelocity.magnitude < stopThreshold && objB.HVelocity.magnitude < stopThreshold) return;
@@ -558,30 +558,36 @@ public class PhysicsManager : MonoBehaviour
 
         if (needImpulse)
         {
-            float e         = objA.BounceCoeff * objB.BounceCoeff;
-            float j         = -(1f + e) * vRelative / totalInvMass;
+            float e = objA.BounceCoeff * objB.BounceCoeff;
+            float j = -(1f + e) * vRelative / totalInvMass;
             Vector2 impulse = j * normal;
 
-            objA.HVelocity = vA + impulse * invMA;
-            objB.HVelocity = vB - impulse * invMB;
+            Vector2 nextVelA = vA + impulse * invMA;
+            Vector2 nextVelB = vB - impulse * invMB;
+
+            objA.HVelocity = ConstrainToWall(nextVelA, objA.CurrentWallNormal);
+            objB.HVelocity = ConstrainToWall(nextVelB, objB.CurrentWallNormal);
         }
 
         if (needCorrection)
         {
             float correctAmount = (penetration - slop) * stabilization / totalInvMass;
-            Vector2 correction  = pushDir * correctAmount;
+            Vector2 correction = pushDir * correctAmount;
+
+            Vector2 constrainedMoveA = ConstrainToWall(correction * invMA, objA.CurrentWallNormal);
+            Vector2 constrainedMoveB = ConstrainToWall(-correction * invMB, objB.CurrentWallNormal);
 
             Vector2Int prevCellA = WorldCenterToAnchorCell(objA.HPosition, objA.Size);
             Vector2Int prevCellB = WorldCenterToAnchorCell(objB.HPosition, objB.Size);
 
             if (interpolateRender)
             {
-                objA.SetBodyPartSnapOffset(objA.HPosition + correction * invMA);
-                objB.SetBodyPartSnapOffset(objB.HPosition - correction * invMB);
+                objA.SetBodyPartSnapOffset(objA.HPosition + constrainedMoveA);
+                objB.SetBodyPartSnapOffset(objB.HPosition + constrainedMoveB);
             }
 
-            objA.HPosition += correction * invMA;
-            objB.HPosition -= correction * invMB;
+            objA.HPosition += constrainedMoveA;
+            objB.HPosition += constrainedMoveB;
 
             UpdatePhysicsCellOccupancy(objA, prevCellA);
             UpdatePhysicsCellOccupancy(objB, prevCellB);
@@ -685,7 +691,7 @@ public class PhysicsManager : MonoBehaviour
 
     private Vector2 ApplyGroundFriction(IPhysics obj, Vector2 vel)
     {
-        float friction = obj.Ground ? obj.FrictionCoeff * obj.Ground.frictionCoeff : obj.AirFriction;
+        float friction = obj.Ground ? Mathf.Max(obj.FrictionCoeff, obj.Ground.frictionCoeff) : obj.AirFriction;
         vel *= friction;
 
         float iceBlend      = Mathf.Clamp01((friction - 0.5f) / 0.5f);
@@ -694,6 +700,9 @@ public class PhysicsManager : MonoBehaviour
         if (vel.magnitude < effectiveStop) vel = Vector2.zero;
         return vel;
     }
+
+    private float ApplyAirFriction(IPhysics obj, float vel) => vel / (1f + obj.AirFriction * Time.fixedDeltaTime);
+    
 #endregion
 
 #region CELL HELPERS

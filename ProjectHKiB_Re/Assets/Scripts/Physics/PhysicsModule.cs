@@ -9,7 +9,7 @@ public class PhysicsModule : InterfaceModule, IPhysics
     [field: SerializeField] public float AirFriction { get; set; }
     [field: SerializeField] public float FrictionWalkInfluence { get; set; }
 
-    public MovementMode Mode { get; set; }
+    [field: SerializeField] public MovementMode Mode { get; set; }
     public GridState    Grid { get; set; }
     public PhysicsState Phys { get; set; }
     [field: SerializeField] public Vector2Int Size { get; set; }
@@ -32,15 +32,16 @@ public class PhysicsModule : InterfaceModule, IPhysics
 
     [field: NaughtyAttributes.ReadOnly][field: SerializeField] public Vector3 ExForce { get; set; }
     [field: SerializeField] public float Mass { get; set; }
-    public float InvM { get; set; }
+    [field: SerializeField] public float InvM { get; set; }
     public Vector3 LastSetDir { get; set; }
     public bool IsSprinting { get; set; }
     public bool IsWalking { get; set; }
 
     public Vector2 WalkingDir { get; set; }
+    public Vector2 WalkingVel { get; set; }
     public float SprintCoeff { get; set; }
-    [field: SerializeField]public float MaxWalkSpeed { get; set; }
-    [field: SerializeField]public LayerMask WallLayer { get; set; }
+    [field: SerializeField] public float MaxWalkSpeed { get; set; }
+    [field: SerializeField] public LayerMask WallLayer { get; set; }
     public LayerMask CanPushLayer { get; set; }
     public AudioDataSO FootStepAudio { get; set; }
     [field: SerializeField] public BodyComponent[] BodyComponents { get; set; }
@@ -51,6 +52,7 @@ public class PhysicsModule : InterfaceModule, IPhysics
 
     [field: SerializeField] public ZCollider2D ZCol { get; set; }
     public int ID { get; set; }
+    public Vector3 CurrentWallNormal { get; set; }
 
     [NaughtyAttributes.Button]
     public void Jump()
@@ -68,16 +70,10 @@ public class PhysicsModule : InterfaceModule, IPhysics
         interfaceRegistable.RegisterInterface<IPhysics>(this);
     }
 
+    [NaughtyAttributes.Button]
     public void Initialize()
     {
-        if (!ZCol && TryGetComponent(out ZCollider2D z))
-        {
-            ZCol = z;
-        }
-        else
-        {
-            return;
-        }
+        if (!ZCol && TryGetComponent(out ZBoxCollider2D z)) ZCol = z;
         if (!physManager) physManager = FindObjectOfType<PhysicsManager>();
         ExForce = new();
         Grid = new();
@@ -89,8 +85,7 @@ public class PhysicsModule : InterfaceModule, IPhysics
         ZCol.bounceCoeff   = BounceCoeff;
         ID = GetInstanceID();
         GridEndureSpeed = GridEndureSpeed < 0 ? MaxWalkSpeed * 2 : GridEndureSpeed;
-
-
+        physManager.RemovePhysicsObject(this);
         physManager.AddPhysicsObject(this);
     }
 

@@ -1747,8 +1747,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
+  <FrictionCoeff>k__BackingField: 0
+  <BounceCoeff>k__BackingField: 0
+  <AirFriction>k__BackingField: 0
+  <FrictionWalkInfluence>k__BackingField: 0
+  <Mode>k__BackingField: 0
+  <Size>k__BackingField: {x: 0, y: 0}
+  <GridEndureSpeed>k__BackingField: 0
+  <GridEndureForce>k__BackingField: 0
+  <StepUpTolerance>k__BackingField: 0
+  <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
+  <InvM>k__BackingField: 0
   <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
@@ -1756,6 +1767,7 @@ MonoBehaviour:
   <BodyComponents>k__BackingField:
   - {fileID: 628827718}
   - {fileID: 2134216368}
+  <WalkAcceleration>k__BackingField: 0
   <ZCol>k__BackingField: {fileID: 0}
   jump: 0
 --- !u!114 &31957895
@@ -4503,8 +4515,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
+  <FrictionCoeff>k__BackingField: 0
+  <BounceCoeff>k__BackingField: 0
+  <AirFriction>k__BackingField: 0
+  <FrictionWalkInfluence>k__BackingField: 0
+  <Mode>k__BackingField: 0
+  <Size>k__BackingField: {x: 0, y: 0}
+  <GridEndureSpeed>k__BackingField: 0
+  <GridEndureForce>k__BackingField: 0
+  <StepUpTolerance>k__BackingField: 0
+  <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
+  <InvM>k__BackingField: 0
   <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
@@ -4512,6 +4535,7 @@ MonoBehaviour:
   <BodyComponents>k__BackingField:
   - {fileID: 2131504615}
   - {fileID: 36786368}
+  <WalkAcceleration>k__BackingField: 0
   <ZCol>k__BackingField: {fileID: 0}
   jump: 0
 --- !u!114 &91706221
@@ -5806,8 +5830,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
+  <FrictionCoeff>k__BackingField: 0
+  <BounceCoeff>k__BackingField: 0
+  <AirFriction>k__BackingField: 0
+  <FrictionWalkInfluence>k__BackingField: 0
+  <Mode>k__BackingField: 0
+  <Size>k__BackingField: {x: 0, y: 0}
+  <GridEndureSpeed>k__BackingField: 0
+  <GridEndureForce>k__BackingField: 0
+  <StepUpTolerance>k__BackingField: 0
+  <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
+  <InvM>k__BackingField: 0
   <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
@@ -5815,6 +5850,7 @@ MonoBehaviour:
   <BodyComponents>k__BackingField:
   - {fileID: 1642050310}
   - {fileID: 1389303087}
+  <WalkAcceleration>k__BackingField: 0
   <ZCol>k__BackingField: {fileID: 0}
   jump: 0
 --- !u!114 &126842186
@@ -11741,8 +11777,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
+  <FrictionCoeff>k__BackingField: 0
+  <BounceCoeff>k__BackingField: 0
+  <AirFriction>k__BackingField: 0
+  <FrictionWalkInfluence>k__BackingField: 0
+  <Mode>k__BackingField: 0
+  <Size>k__BackingField: {x: 0, y: 0}
+  <GridEndureSpeed>k__BackingField: 0
+  <GridEndureForce>k__BackingField: 0
+  <StepUpTolerance>k__BackingField: 0
+  <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
+  <InvM>k__BackingField: 0
   <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
@@ -11750,6 +11797,7 @@ MonoBehaviour:
   <BodyComponents>k__BackingField:
   - {fileID: 1548852370}
   - {fileID: 872698500}
+  <WalkAcceleration>k__BackingField: 0
   <ZCol>k__BackingField: {fileID: 0}
   jump: 0
 --- !u!114 &255197805
@@ -15759,8 +15807,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
+  <FrictionCoeff>k__BackingField: 0
+  <BounceCoeff>k__BackingField: 0
+  <AirFriction>k__BackingField: 0
+  <FrictionWalkInfluence>k__BackingField: 0
+  <Mode>k__BackingField: 0
+  <Size>k__BackingField: {x: 0, y: 0}
+  <GridEndureSpeed>k__BackingField: 0
+  <GridEndureForce>k__BackingField: 0
+  <StepUpTolerance>k__BackingField: 0
+  <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 800}
   <Mass>k__BackingField: 0
+  <InvM>k__BackingField: 0
   <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
@@ -15770,6 +15829,7 @@ MonoBehaviour:
   - {fileID: 2144363250}
   - {fileID: 1650586135}
   - {fileID: 955506758}
+  <WalkAcceleration>k__BackingField: 0
   <ZCol>k__BackingField: {fileID: 0}
   jump: 2
 --- !u!114 &327803512
@@ -21890,8 +21950,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
+  <FrictionCoeff>k__BackingField: 0
+  <BounceCoeff>k__BackingField: 0
+  <AirFriction>k__BackingField: 0
+  <FrictionWalkInfluence>k__BackingField: 0
+  <Mode>k__BackingField: 0
+  <Size>k__BackingField: {x: 0, y: 0}
+  <GridEndureSpeed>k__BackingField: 0
+  <GridEndureForce>k__BackingField: 0
+  <StepUpTolerance>k__BackingField: 0
+  <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
+  <InvM>k__BackingField: 0
   <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
@@ -21899,6 +21970,7 @@ MonoBehaviour:
   <BodyComponents>k__BackingField:
   - {fileID: 875113763}
   - {fileID: 55607865}
+  <WalkAcceleration>k__BackingField: 0
   <ZCol>k__BackingField: {fileID: 0}
   jump: 0
 --- !u!114 &470177829
@@ -26361,8 +26433,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
+  <FrictionCoeff>k__BackingField: 0
+  <BounceCoeff>k__BackingField: 0
+  <AirFriction>k__BackingField: 0
+  <FrictionWalkInfluence>k__BackingField: 0
+  <Mode>k__BackingField: 0
+  <Size>k__BackingField: {x: 0, y: 0}
+  <GridEndureSpeed>k__BackingField: 0
+  <GridEndureForce>k__BackingField: 0
+  <StepUpTolerance>k__BackingField: 0
+  <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
+  <InvM>k__BackingField: 0
   <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
@@ -26370,6 +26453,7 @@ MonoBehaviour:
   <BodyComponents>k__BackingField:
   - {fileID: 294652000}
   - {fileID: 503291362}
+  <WalkAcceleration>k__BackingField: 0
   <ZCol>k__BackingField: {fileID: 0}
   jump: 0
 --- !u!114 &547994588
@@ -28519,8 +28603,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
+  <FrictionCoeff>k__BackingField: 0
+  <BounceCoeff>k__BackingField: 0
+  <AirFriction>k__BackingField: 0
+  <FrictionWalkInfluence>k__BackingField: 0
+  <Mode>k__BackingField: 0
+  <Size>k__BackingField: {x: 0, y: 0}
+  <GridEndureSpeed>k__BackingField: 0
+  <GridEndureForce>k__BackingField: 0
+  <StepUpTolerance>k__BackingField: 0
+  <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
+  <InvM>k__BackingField: 0
   <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
@@ -28528,6 +28623,7 @@ MonoBehaviour:
   <BodyComponents>k__BackingField:
   - {fileID: 140863314}
   - {fileID: 1316912749}
+  <WalkAcceleration>k__BackingField: 0
   <ZCol>k__BackingField: {fileID: 0}
   jump: 0
 --- !u!114 &601953263
@@ -29289,8 +29385,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
+  <FrictionCoeff>k__BackingField: 0
+  <BounceCoeff>k__BackingField: 0
+  <AirFriction>k__BackingField: 0
+  <FrictionWalkInfluence>k__BackingField: 0
+  <Mode>k__BackingField: 0
+  <Size>k__BackingField: {x: 0, y: 0}
+  <GridEndureSpeed>k__BackingField: 0
+  <GridEndureForce>k__BackingField: 0
+  <StepUpTolerance>k__BackingField: 0
+  <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
+  <InvM>k__BackingField: 0
   <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
@@ -29298,6 +29405,7 @@ MonoBehaviour:
   <BodyComponents>k__BackingField:
   - {fileID: 742957608}
   - {fileID: 1880890911}
+  <WalkAcceleration>k__BackingField: 0
   <ZCol>k__BackingField: {fileID: 0}
   jump: 0
 --- !u!114 &614344026
@@ -34432,8 +34540,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
+  <FrictionCoeff>k__BackingField: 0
+  <BounceCoeff>k__BackingField: 0
+  <AirFriction>k__BackingField: 0
+  <FrictionWalkInfluence>k__BackingField: 0
+  <Mode>k__BackingField: 0
+  <Size>k__BackingField: {x: 0, y: 0}
+  <GridEndureSpeed>k__BackingField: 0
+  <GridEndureForce>k__BackingField: 0
+  <StepUpTolerance>k__BackingField: 0
+  <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
+  <InvM>k__BackingField: 0
   <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
@@ -34441,6 +34560,7 @@ MonoBehaviour:
   <BodyComponents>k__BackingField:
   - {fileID: 1582746984}
   - {fileID: 1682696279}
+  <WalkAcceleration>k__BackingField: 0
   <ZCol>k__BackingField: {fileID: 0}
   jump: 0
 --- !u!114 &725407581
@@ -35707,8 +35827,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
+  <FrictionCoeff>k__BackingField: 0
+  <BounceCoeff>k__BackingField: 0
+  <AirFriction>k__BackingField: 0
+  <FrictionWalkInfluence>k__BackingField: 0
+  <Mode>k__BackingField: 0
+  <Size>k__BackingField: {x: 0, y: 0}
+  <GridEndureSpeed>k__BackingField: 0
+  <GridEndureForce>k__BackingField: 0
+  <StepUpTolerance>k__BackingField: 0
+  <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
+  <InvM>k__BackingField: 0
   <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
@@ -35716,6 +35847,7 @@ MonoBehaviour:
   <BodyComponents>k__BackingField:
   - {fileID: 849725891}
   - {fileID: 291072856}
+  <WalkAcceleration>k__BackingField: 0
   <ZCol>k__BackingField: {fileID: 0}
   jump: 0
 --- !u!114 &745143722
@@ -36459,8 +36591,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
+  <FrictionCoeff>k__BackingField: 0
+  <BounceCoeff>k__BackingField: 0
+  <AirFriction>k__BackingField: 0
+  <FrictionWalkInfluence>k__BackingField: 0
+  <Mode>k__BackingField: 0
+  <Size>k__BackingField: {x: 0, y: 0}
+  <GridEndureSpeed>k__BackingField: 0
+  <GridEndureForce>k__BackingField: 0
+  <StepUpTolerance>k__BackingField: 0
+  <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
+  <InvM>k__BackingField: 0
   <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
@@ -36468,6 +36611,7 @@ MonoBehaviour:
   <BodyComponents>k__BackingField:
   - {fileID: 142107616}
   - {fileID: 1236296840}
+  <WalkAcceleration>k__BackingField: 0
   <ZCol>k__BackingField: {fileID: 0}
   jump: 0
 --- !u!114 &760284369
@@ -39983,8 +40127,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
+  <FrictionCoeff>k__BackingField: 0
+  <BounceCoeff>k__BackingField: 0
+  <AirFriction>k__BackingField: 0
+  <FrictionWalkInfluence>k__BackingField: 0
+  <Mode>k__BackingField: 0
+  <Size>k__BackingField: {x: 0, y: 0}
+  <GridEndureSpeed>k__BackingField: 0
+  <GridEndureForce>k__BackingField: 0
+  <StepUpTolerance>k__BackingField: 0
+  <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
+  <InvM>k__BackingField: 0
   <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
@@ -39992,6 +40147,7 @@ MonoBehaviour:
   <BodyComponents>k__BackingField:
   - {fileID: 2012663786}
   - {fileID: 1795285139}
+  <WalkAcceleration>k__BackingField: 0
   <ZCol>k__BackingField: {fileID: 0}
   jump: 0
 --- !u!114 &827860543
@@ -40160,8 +40316,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
+  <FrictionCoeff>k__BackingField: 0
+  <BounceCoeff>k__BackingField: 0
+  <AirFriction>k__BackingField: 0
+  <FrictionWalkInfluence>k__BackingField: 0
+  <Mode>k__BackingField: 0
+  <Size>k__BackingField: {x: 0, y: 0}
+  <GridEndureSpeed>k__BackingField: 0
+  <GridEndureForce>k__BackingField: 0
+  <StepUpTolerance>k__BackingField: 0
+  <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
+  <InvM>k__BackingField: 0
   <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
@@ -40169,6 +40336,7 @@ MonoBehaviour:
   <BodyComponents>k__BackingField:
   - {fileID: 791662434}
   - {fileID: 1976572418}
+  <WalkAcceleration>k__BackingField: 0
   <ZCol>k__BackingField: {fileID: 0}
   jump: 0
 --- !u!114 &828534940
@@ -44758,8 +44926,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
+  <FrictionCoeff>k__BackingField: 0
+  <BounceCoeff>k__BackingField: 0
+  <AirFriction>k__BackingField: 0
+  <FrictionWalkInfluence>k__BackingField: 0
+  <Mode>k__BackingField: 0
+  <Size>k__BackingField: {x: 0, y: 0}
+  <GridEndureSpeed>k__BackingField: 0
+  <GridEndureForce>k__BackingField: 0
+  <StepUpTolerance>k__BackingField: 0
+  <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
+  <InvM>k__BackingField: 0
   <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
@@ -44767,6 +44946,7 @@ MonoBehaviour:
   <BodyComponents>k__BackingField:
   - {fileID: 885902144}
   - {fileID: 2137012632}
+  <WalkAcceleration>k__BackingField: 0
   <ZCol>k__BackingField: {fileID: 0}
   jump: 0
 --- !u!114 &893315053
@@ -55047,8 +55227,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
+  <FrictionCoeff>k__BackingField: 0
+  <BounceCoeff>k__BackingField: 0
+  <AirFriction>k__BackingField: 0
+  <FrictionWalkInfluence>k__BackingField: 0
+  <Mode>k__BackingField: 0
+  <Size>k__BackingField: {x: 0, y: 0}
+  <GridEndureSpeed>k__BackingField: 0
+  <GridEndureForce>k__BackingField: 0
+  <StepUpTolerance>k__BackingField: 0
+  <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
+  <InvM>k__BackingField: 0
   <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
@@ -55056,6 +55247,7 @@ MonoBehaviour:
   <BodyComponents>k__BackingField:
   - {fileID: 1445865411}
   - {fileID: 1029038659}
+  <WalkAcceleration>k__BackingField: 0
   <ZCol>k__BackingField: {fileID: 0}
   jump: 0
 --- !u!114 &1116164927
@@ -59162,13 +59354,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 0}
+  <FrictionCoeff>k__BackingField: 0
+  <BounceCoeff>k__BackingField: 0
+  <AirFriction>k__BackingField: 0
+  <FrictionWalkInfluence>k__BackingField: 0
+  <Mode>k__BackingField: 0
+  <Size>k__BackingField: {x: 0, y: 0}
+  <GridEndureSpeed>k__BackingField: 0
+  <GridEndureForce>k__BackingField: 0
+  <StepUpTolerance>k__BackingField: 0
+  <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
+  <InvM>k__BackingField: 0
   <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 0
   <BodyComponents>k__BackingField: []
+  <WalkAcceleration>k__BackingField: 0
   <ZCol>k__BackingField: {fileID: 0}
   jump: 0
 --- !u!1 &1217475174
@@ -60131,8 +60335,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
+  <FrictionCoeff>k__BackingField: 0
+  <BounceCoeff>k__BackingField: 0
+  <AirFriction>k__BackingField: 0
+  <FrictionWalkInfluence>k__BackingField: 0
+  <Mode>k__BackingField: 0
+  <Size>k__BackingField: {x: 0, y: 0}
+  <GridEndureSpeed>k__BackingField: 0
+  <GridEndureForce>k__BackingField: 0
+  <StepUpTolerance>k__BackingField: 0
+  <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
+  <InvM>k__BackingField: 0
   <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
@@ -60140,6 +60355,7 @@ MonoBehaviour:
   <BodyComponents>k__BackingField:
   - {fileID: 2094325285}
   - {fileID: 1533272766}
+  <WalkAcceleration>k__BackingField: 0
   <ZCol>k__BackingField: {fileID: 0}
   jump: 0
 --- !u!114 &1236688445
@@ -62552,8 +62768,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
+  <FrictionCoeff>k__BackingField: 0
+  <BounceCoeff>k__BackingField: 0
+  <AirFriction>k__BackingField: 0
+  <FrictionWalkInfluence>k__BackingField: 0
+  <Mode>k__BackingField: 0
+  <Size>k__BackingField: {x: 0, y: 0}
+  <GridEndureSpeed>k__BackingField: 0
+  <GridEndureForce>k__BackingField: 0
+  <StepUpTolerance>k__BackingField: 0
+  <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
+  <InvM>k__BackingField: 0
   <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
@@ -62561,6 +62788,7 @@ MonoBehaviour:
   <BodyComponents>k__BackingField:
   - {fileID: 199256711}
   - {fileID: 1535496308}
+  <WalkAcceleration>k__BackingField: 0
   <ZCol>k__BackingField: {fileID: 0}
   jump: 0
 --- !u!114 &1292047132
@@ -63033,8 +63261,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
+  <FrictionCoeff>k__BackingField: 0
+  <BounceCoeff>k__BackingField: 0
+  <AirFriction>k__BackingField: 0
+  <FrictionWalkInfluence>k__BackingField: 0
+  <Mode>k__BackingField: 0
+  <Size>k__BackingField: {x: 0, y: 0}
+  <GridEndureSpeed>k__BackingField: 0
+  <GridEndureForce>k__BackingField: 0
+  <StepUpTolerance>k__BackingField: 0
+  <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
+  <InvM>k__BackingField: 0
   <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
@@ -63042,6 +63281,7 @@ MonoBehaviour:
   <BodyComponents>k__BackingField:
   - {fileID: 1892479206}
   - {fileID: 855218624}
+  <WalkAcceleration>k__BackingField: 0
   <ZCol>k__BackingField: {fileID: 0}
   jump: 0
 --- !u!114 &1300301299
@@ -66087,8 +66327,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
+  <FrictionCoeff>k__BackingField: 0
+  <BounceCoeff>k__BackingField: 0
+  <AirFriction>k__BackingField: 0
+  <FrictionWalkInfluence>k__BackingField: 0
+  <Mode>k__BackingField: 0
+  <Size>k__BackingField: {x: 0, y: 0}
+  <GridEndureSpeed>k__BackingField: 0
+  <GridEndureForce>k__BackingField: 0
+  <StepUpTolerance>k__BackingField: 0
+  <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
+  <InvM>k__BackingField: 0
   <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
@@ -66096,6 +66347,7 @@ MonoBehaviour:
   <BodyComponents>k__BackingField:
   - {fileID: 67533058}
   - {fileID: 1435064348}
+  <WalkAcceleration>k__BackingField: 0
   <ZCol>k__BackingField: {fileID: 0}
   jump: 0
 --- !u!114 &1391855065
@@ -80933,8 +81185,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
+  <FrictionCoeff>k__BackingField: 0
+  <BounceCoeff>k__BackingField: 0
+  <AirFriction>k__BackingField: 0
+  <FrictionWalkInfluence>k__BackingField: 0
+  <Mode>k__BackingField: 0
+  <Size>k__BackingField: {x: 0, y: 0}
+  <GridEndureSpeed>k__BackingField: 0
+  <GridEndureForce>k__BackingField: 0
+  <StepUpTolerance>k__BackingField: 0
+  <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
+  <InvM>k__BackingField: 0
   <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
@@ -80942,6 +81205,7 @@ MonoBehaviour:
   <BodyComponents>k__BackingField:
   - {fileID: 450016251}
   - {fileID: 309219180}
+  <WalkAcceleration>k__BackingField: 0
   <ZCol>k__BackingField: {fileID: 0}
   jump: 0
 --- !u!114 &1738345893
@@ -82528,8 +82792,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
+  <FrictionCoeff>k__BackingField: 0
+  <BounceCoeff>k__BackingField: 0
+  <AirFriction>k__BackingField: 0
+  <FrictionWalkInfluence>k__BackingField: 0
+  <Mode>k__BackingField: 0
+  <Size>k__BackingField: {x: 0, y: 0}
+  <GridEndureSpeed>k__BackingField: 0
+  <GridEndureForce>k__BackingField: 0
+  <StepUpTolerance>k__BackingField: 0
+  <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
+  <InvM>k__BackingField: 0
   <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
@@ -82537,6 +82812,7 @@ MonoBehaviour:
   <BodyComponents>k__BackingField:
   - {fileID: 433629713}
   - {fileID: 136022461}
+  <WalkAcceleration>k__BackingField: 0
   <ZCol>k__BackingField: {fileID: 0}
   jump: 0
 --- !u!114 &1776947703
@@ -94405,8 +94681,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
+  <FrictionCoeff>k__BackingField: 0
+  <BounceCoeff>k__BackingField: 0
+  <AirFriction>k__BackingField: 0
+  <FrictionWalkInfluence>k__BackingField: 0
+  <Mode>k__BackingField: 0
+  <Size>k__BackingField: {x: 0, y: 0}
+  <GridEndureSpeed>k__BackingField: 0
+  <GridEndureForce>k__BackingField: 0
+  <StepUpTolerance>k__BackingField: 0
+  <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
+  <InvM>k__BackingField: 0
   <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
@@ -94414,6 +94701,7 @@ MonoBehaviour:
   <BodyComponents>k__BackingField:
   - {fileID: 1433437663}
   - {fileID: 692438974}
+  <WalkAcceleration>k__BackingField: 0
   <ZCol>k__BackingField: {fileID: 0}
   jump: 0
 --- !u!114 &2060873408
@@ -96796,14 +97084,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b26dff89631698409396b0046725268, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gravity: -9.8
+  gravity: -30
   gridSize: 1
-  stopThreshold: 0.1
+  stopThreshold: 0.01
   enable: 1
   gridSettleSpeed: 1
   bounceTolerance: 0.1
   keepCanWalkFrames: 10
-  keepPhysicsFrames: 1
+  keepPhysicsFrames: 4
   snapDecaySpeed: 8
   renderDecaySpeed: 8
   interpolateRender: 1
@@ -99148,8 +99436,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
+  <FrictionCoeff>k__BackingField: 0
+  <BounceCoeff>k__BackingField: 0
+  <AirFriction>k__BackingField: 0
+  <FrictionWalkInfluence>k__BackingField: 0
+  <Mode>k__BackingField: 0
+  <Size>k__BackingField: {x: 0, y: 0}
+  <GridEndureSpeed>k__BackingField: 0
+  <GridEndureForce>k__BackingField: 0
+  <StepUpTolerance>k__BackingField: 0
+  <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
   <Mass>k__BackingField: 0
+  <InvM>k__BackingField: 0
   <MaxWalkSpeed>k__BackingField: 0
   <WallLayer>k__BackingField:
     serializedVersion: 2
@@ -99157,7 +99456,8 @@ MonoBehaviour:
   <BodyComponents>k__BackingField:
   - {fileID: 8038879576539161230}
   - {fileID: 8038879576624473952}
-  <ZCol>k__BackingField: {fileID: 8038879578283673505}
+  <WalkAcceleration>k__BackingField: 0
+  <ZCol>k__BackingField: {fileID: 0}
   jump: 0
 --- !u!114 &8038879578283673505
 MonoBehaviour:

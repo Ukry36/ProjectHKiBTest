@@ -52,13 +52,13 @@ public class BodyComponent : MonoBehaviour
     {
         if (_snapOffset.sqrMagnitude > PhysicsManager.EPSILON)
         {
-            _snapOffset = Vector2.Lerp(_snapOffset, Vector2.zero, snapDecaySpeed * Time.fixedDeltaTime);
+            _snapOffset = Vector2.Lerp(_snapOffset, Vector2.zero, snapDecaySpeed * Time.deltaTime);
             if (_snapOffset.sqrMagnitude < PhysicsManager.EPSILON) _snapOffset = Vector2.zero;
         }
 
         if (_renderOffset.sqrMagnitude > PhysicsManager.EPSILON)
         {
-            _renderOffset = Vector2.Lerp(_renderOffset, Vector2.zero, renderDecaySpeed * Time.fixedDeltaTime);
+            _renderOffset = Vector2.Lerp(_renderOffset, Vector2.zero, renderDecaySpeed * Time.deltaTime);
             if (_renderOffset.sqrMagnitude < PhysicsManager.EPSILON) _renderOffset = Vector2.zero;
         }
 
