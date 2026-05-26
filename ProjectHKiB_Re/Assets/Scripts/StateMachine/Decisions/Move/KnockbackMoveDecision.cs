@@ -4,8 +4,9 @@ public class KnockbackMoveDecision : StateDecisionSO
 {
     public override bool Decide(StateController stateController)
     {
+        Debug.LogError("NOT IMPLEMENTED!!!!!!!!!!!!!!");
         if (stateController.TryGetInterface(out IPhysics movable))
-            return movable.IsKnockbackMove;
+            return false;
         Debug.LogError("ERROR: Interface Not Found!!!");
         return false;
     }

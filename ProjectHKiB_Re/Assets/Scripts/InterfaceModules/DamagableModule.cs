@@ -86,7 +86,6 @@ namespace Assets.Scripts.Interfaces.Modules
 
         public virtual void Die()
         {
-            _physics.MovePoint.Die();
             gameObject.SetActive(false);
             OnDie?.Invoke();
         }

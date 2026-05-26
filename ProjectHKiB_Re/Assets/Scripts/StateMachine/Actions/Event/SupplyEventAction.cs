@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 [CreateAssetMenu(fileName = "SupplyEvent", menuName = "State Machine/Action/Event/SupplyEvent")]
 public class SupplyEventAction : StateActionSO
@@ -11,7 +9,6 @@ public class SupplyEventAction : StateActionSO
             foreach (Collider2D col in @event.CurrentTargets)
             {
                 Transform transform = col.transform;
-                if (transform.TryGetComponent(out MovePoint movePoint)) transform = movePoint.parent;
                 supply.Supply(transform, supply.Amount);
             }
             

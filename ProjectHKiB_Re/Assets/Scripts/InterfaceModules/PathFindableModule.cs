@@ -40,7 +40,7 @@ namespace Assets.Scripts.Interfaces.Modules
             {
                 if (CurrentTarget)
                 {
-                    GameManager.instance.pathFindingManager.PathFindingFull(getNodesHandler, 12, _physics.MovePoint.transform.position, CurrentTarget.position, _physics.WallLayer);
+                    GameManager.instance.pathFindingManager.PathFindingFull(getNodesHandler, 12, new Vector3(_physics.Grid.CurrentCell.x, _physics.Grid.CurrentCell.y), CurrentTarget.position, _physics.WallLayer);
                 }
                 cooltime.StartCooltime(PathFindCooltime, () => IsCooltime = false);
                 IsCooltime = true;
@@ -50,7 +50,7 @@ namespace Assets.Scripts.Interfaces.Modules
                 //for (int i = 0; i < PathList.Count; i++)
                 //  Debug.DrawLine(PathList[i] + Vector3.down * 0.25f, PathList[i] + Vector3.up * 0.25f);
 
-                if (PathList[0] == _physics.MovePoint.transform.position)
+                if (PathList[0] == new Vector3(_physics.Grid.CurrentCell.x, _physics.Grid.CurrentCell.y))
                 {
                     PathList.RemoveAt(0);
                 }

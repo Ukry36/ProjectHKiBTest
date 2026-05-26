@@ -4,20 +4,20 @@ public class PhysicsModule : InterfaceModule, IPhysics
 {
     public PhysicsManager physManager;
     
-    public float FrictionCoeff { get; set; }         = 0.85f;
-    public float BounceCoeff { get; set; }           = 0.3f;
-    public float AirFriction { get; set; }           = 0.98f;
-    public float FrictionWalkInfluence { get; set; } = 1;
+    [field: SerializeField] public float FrictionCoeff { get; set; }
+    [field: SerializeField] public float BounceCoeff { get; set; }
+    [field: SerializeField] public float AirFriction { get; set; }
+    [field: SerializeField] public float FrictionWalkInfluence { get; set; }
 
     public MovementMode Mode { get; set; }
     public GridState    Grid { get; set; }
     public PhysicsState Phys { get; set; }
-    public Vector2Int Size { get; set; }
+    [field: SerializeField] public Vector2Int Size { get; set; }
 
-    public float GridEndureSpeed { get; set; }   = 10;
-    public float GridEndureForce { get; set; }   = 50;
-    public float StepUpTolerance { get; set; }   = 0.5f;
-    public float StepDownTolerance { get; set; } = 0.2f;
+    [field: SerializeField] public float GridEndureSpeed { get; set; }
+    [field: SerializeField] public float GridEndureForce { get; set; }
+    [field: SerializeField] public float StepUpTolerance { get; set; }
+    [field: SerializeField] public float StepDownTolerance { get; set; }
  
     public LayerMask FloorLayer { get; set; }
  
@@ -33,7 +33,6 @@ public class PhysicsModule : InterfaceModule, IPhysics
     [field: NaughtyAttributes.ReadOnly][field: SerializeField] public Vector3 ExForce { get; set; }
     [field: SerializeField] public float Mass { get; set; }
     public float InvM { get; set; }
-    public MovePoint MovePoint { get; set; }
     public Vector3 LastSetDir { get; set; }
     public bool IsSprinting { get; set; }
     public bool IsWalking { get; set; }
@@ -44,9 +43,8 @@ public class PhysicsModule : InterfaceModule, IPhysics
     [field: SerializeField]public LayerMask WallLayer { get; set; }
     public LayerMask CanPushLayer { get; set; }
     public AudioDataSO FootStepAudio { get; set; }
-    public bool IsKnockbackMove { get; set; }
     [field: SerializeField] public BodyComponent[] BodyComponents { get; set; }
-    public float WalkAcceleration { get; set; } = 300f;
+    [field: SerializeField] public float WalkAcceleration { get; set; }
 
  
     public Vector3 PrevEntityPos { get; set; }
@@ -81,7 +79,6 @@ public class PhysicsModule : InterfaceModule, IPhysics
             return;
         }
         if (!physManager) physManager = FindObjectOfType<PhysicsManager>();
-        if (MovePoint) MovePoint.Initialize(this);
         ExForce = new();
         Grid = new();
         Phys = new();
@@ -101,7 +98,6 @@ public class PhysicsModule : InterfaceModule, IPhysics
     {
         float d = z - transform.position.z;
         for(int i = 0; i < BodyComponents.Length; i++) BodyComponents[i].SetZ(z);
-        if (MovePoint)MovePoint.transform.position += Vector3.forward * d;
         transform.position += Vector3.forward * d;
     }
 

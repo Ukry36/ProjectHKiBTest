@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 [CreateAssetMenu(fileName = "GetBuffEvent", menuName = "State Machine/Action/Event/GetBuffEvent")]
 public class GetBuffEventAction : StateActionSO
@@ -11,7 +9,6 @@ public class GetBuffEventAction : StateActionSO
             foreach (Collider2D col in @event.CurrentTargets)
             {
                 Transform transform = col.transform;
-                if (transform.TryGetComponent(out MovePoint movePoint)) transform = movePoint.parent;
                 getBuff.GetBuff(transform, getBuff.Buff);
             }
         }

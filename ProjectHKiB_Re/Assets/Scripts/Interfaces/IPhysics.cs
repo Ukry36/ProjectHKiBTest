@@ -27,7 +27,6 @@ public interface IPhysicsBase
 public interface IPhysics : IPhysicsBase, IInitializable
 {
     public Vector3 LastSetDir { get; set; }
-    public bool IsKnockbackMove { get; set; }
     public bool IsWalking { get; set; }
     public Vector2 WalkingDir { get; set; }
     public bool IsSprinting { get; set; }
