@@ -9,7 +9,7 @@ public interface IPhysicsBase
     public float SprintCoeff { get; set; }
     public float FrictionWalkInfluence { get; set; }
 
-    public float FrictionCoeff { get; set; }
+    public float GroundFriction { get; set; }
     public float AirFriction { get; set; }
     public float BounceCoeff { get; set; }
     

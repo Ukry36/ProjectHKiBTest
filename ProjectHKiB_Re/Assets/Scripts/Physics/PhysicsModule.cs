@@ -4,7 +4,7 @@ public class PhysicsModule : InterfaceModule, IPhysics
 {
     public PhysicsManager physManager;
     
-    [field: SerializeField] public float FrictionCoeff { get; set; }
+    [field: SerializeField] public float GroundFriction { get; set; }
     [field: SerializeField] public float BounceCoeff { get; set; }
     [field: SerializeField] public float AirFriction { get; set; }
     [field: SerializeField] public float FrictionWalkInfluence { get; set; }
@@ -82,7 +82,7 @@ public class PhysicsModule : InterfaceModule, IPhysics
         PrevEntityPos = transform.position;
         if (Size.x <= 0 || Size.y <= 0) Size = Vector2Int.one;
         InvM = 1f / Mass;
-        ZCol.frictionCoeff = FrictionCoeff;
+        ZCol.frictionCoeff = GroundFriction;
         ZCol.bounceCoeff   = BounceCoeff;
         ID = GetInstanceID();
         GridEndureSpeed = GridEndureSpeed < 0 ? MaxWalkSpeed * 2 : GridEndureSpeed;

@@ -134,7 +134,7 @@ public class PhysicsManager : MonoBehaviour
         if (obj.IsWalking && obj.WalkingDir.sqrMagnitude > EPSILON)
         {
             float maxSpd = (obj.IsSprinting ? obj.MaxWalkSpeed * obj.SprintCoeff : obj.MaxWalkSpeed) * (obj.CanWalkFrameLeft > 0 ? 1f : 0.1f);
-            float frictionAccInfluence = obj.Ground ? 1 - Mathf.Clamp01(Mathf.Max(obj.FrictionCoeff, obj.Ground.frictionCoeff) * obj.FrictionWalkInfluence): 1f;
+            float frictionAccInfluence = obj.Ground ? 1 - Mathf.Clamp01(Mathf.Max(obj.GroundFriction, obj.Ground.frictionCoeff) * obj.FrictionWalkInfluence): 1f;
             float WalkAcceleration     = (obj.IsSprinting ? obj.WalkAcceleration * obj.SprintCoeff : obj.WalkAcceleration) * (obj.CanWalkFrameLeft > 0 ? 1f : 0.1f);
             float currentAlongWalk = Vector2.Dot(obj.HVelocity, obj.WalkingDir.normalized);
             float deficit          = maxSpd - currentAlongWalk;
@@ -467,7 +467,7 @@ public class PhysicsManager : MonoBehaviour
         float vDotN = Vector2.Dot(obj.HVelocity, normal);
         if (vDotN >= 0f) return;
 
-        obj.HVelocity -= (1f + wall.bounceCoeff * obj.BounceCoeff) * vDotN * normal;
+        obj.HVelocity -= (1f + Mathf.Min(wall.bounceCoeff, obj.BounceCoeff)) * vDotN * normal;
 
         if (obj.HVelocity.magnitude < stopThreshold)
             obj.HVelocity = Vector2.zero;
@@ -562,7 +562,7 @@ public class PhysicsManager : MonoBehaviour
 
         if (needImpulse)
         {
-            float e = objA.BounceCoeff * objB.BounceCoeff;
+            float e = Mathf.Min(objA.BounceCoeff, objB.BounceCoeff);
             float j = -(1f + e) * vRelative / totalInvMass;
             Vector2 impulse = j * normal;
 
@@ -613,30 +613,36 @@ public class PhysicsManager : MonoBehaviour
             obj.ZCol.ZMax - obj.StepUpTolerance - EPSILON,
             obj.ZCol.ZMax + Mathf.Abs(obj.ZVelocity) * Time.fixedDeltaTime * 2);
 
-        float maxZ = possibleFloor.ZmaxBox(obj.HPosition, checkSize, 0);
-        float minZ = possibleCeiling.ZminBox(obj.HPosition, checkSize, 0);
-
-        ZCollider2D floor   = maxZ > obj.ZCol.ZMin - obj.StepDownTolerance - EPSILON ? possibleFloor : null;
-        ZCollider2D ceiling = minZ < obj.ZCol.ZMax + obj.StepDownTolerance + EPSILON ? possibleFloor : null;
-
-        Vector3 surfaceNormal = floor ? floor.GetSurfaceNormal() : Vector3.forward;
+        float posMinZ = possibleFloor   ? possibleFloor.ZmaxBox(obj.HPosition, checkSize, 0)   : float.MinValue;
+        float posMaxZ = possibleCeiling ? possibleCeiling.ZminBox(obj.HPosition, checkSize, 0) : float.MaxValue;
+        float displacement = obj.ZVelocity * Time.fixedDeltaTime;
+    
+        Vector3 surfaceNormal = possibleFloor ? possibleFloor.GetSurfaceNormal() : Vector3.forward;
         Vector3 vel           = new(obj.HVelocity.x, obj.HVelocity.y, obj.ZVelocity);
         bool towardsFloor     = Vector3.Dot(surfaceNormal, vel) < EPSILON;
-        
-        obj.Ground = floor && floor.ZmaxBox(obj.HPosition, checkSize, 0) > obj.ZCol.ZMin - EPSILON && towardsFloor ? 
-                     floor : null;
+
+        bool willPenetFloor   = obj.ZCol.ZMin + displacement < posMinZ;
+        bool willPenetCeiling = obj.ZCol.ZMax + displacement > posMaxZ;
+
+        if (willPenetFloor && willPenetCeiling) obj.ZPosition = (posMinZ + posMaxZ) * 0.5f - obj.ZCol.zCenter;
+        else if (willPenetFloor)                obj.ZPosition = posMinZ - obj.ZCol.zCenter + obj.ZCol.height * 0.5f;
+        else if (willPenetCeiling)              obj.ZPosition = posMaxZ - obj.ZCol.zCenter - obj.ZCol.height * 0.5f;
+
+        ZCollider2D floor   = posMinZ > obj.ZCol.ZMin - obj.StepDownTolerance - EPSILON ? possibleFloor   : null;
+        ZCollider2D ceiling = posMaxZ < obj.ZCol.ZMax + obj.StepDownTolerance + EPSILON ? possibleCeiling : null;
+
+        obj.Ground = willPenetFloor && towardsFloor ? floor : null;
+
         obj.IsOnSlope  = Vector3.Dot(surfaceNormal, Vector3.forward) < 1f - EPSILON;
 
         bool calcGround = false;
         if (obj.Ground)
         {
-            if (!obj.IsGroundedPrev && towardsFloor)
+            if (!obj.IsGroundedPrev && towardsFloor) // floor bounce
             {
-                Vector3 reflected   = vel - (1f + obj.BounceCoeff * floor.bounceCoeff) * Vector3.Dot(vel, surfaceNormal) * surfaceNormal;
-                obj.ZVelocity       = reflected.z;
-                Vector2 newHorizVel = new(reflected.x, reflected.y);
-                if (obj.Mode == MovementMode.Grid) obj.HVelocity = newHorizVel;
-                else                               obj.HVelocity = newHorizVel;
+                Vector3 reflected = vel - (1f + Mathf.Min(obj.BounceCoeff, floor.bounceCoeff)) * Vector3.Dot(vel, surfaceNormal) * surfaceNormal;
+                obj.ZVelocity     = reflected.z;
+                obj.HVelocity     = new(reflected.x, reflected.y);
 
                 float verAcc       = Mathf.Abs(obj.ExForce.z * obj.InvM);
                 float minEscapeVel = verAcc * bounceTolerance;
@@ -652,31 +658,26 @@ public class PhysicsManager : MonoBehaviour
 
         if (calcGround)
         {
-            obj.ZPosition = floor.ZmaxBox(obj.HPosition, checkSize, 0);
+            obj.ZPosition = posMinZ - obj.ZCol.zCenter + obj.ZCol.height * 0.5f;
             if (obj.IsOnSlope)
             {
                 Vector3 slopeVel = vel - Vector3.Dot(vel, surfaceNormal) * surfaceNormal;
-                if (obj.Mode == MovementMode.Grid) obj.HVelocity = (Vector2)slopeVel;
-                else                               obj.HVelocity = (Vector2)slopeVel;
+                obj.HVelocity = (Vector2)slopeVel;
                 obj.ZVelocity = slopeVel.z;
             }
             else obj.ZVelocity = 0;
             obj.ExForce = new(obj.ExForce.x, obj.ExForce.y, 0);
         }
 
-        obj.ZPosition += obj.ZVelocity * Time.fixedDeltaTime;
-
         if (ceiling != null && obj.ZVelocity > EPSILON)
         {
-            float ceilBottom = ceiling.Zmin(obj.HPosition);
-            if (obj.ZPosition >= ceilBottom)
+            if (willPenetCeiling) // ceiling bounce
             {
-                obj.ZPosition = ceilBottom;
                 Vector3 ceilNormal = ceiling.GetSurfaceNormal();
                 float vDotN = Vector3.Dot(vel, ceilNormal);
                 if (vDotN < 0f)
                 {
-                    Vector3 reflected   = vel - (1f + obj.BounceCoeff * ceiling.bounceCoeff) * vDotN * ceilNormal;
+                    Vector3 reflected   = vel - (1f + Mathf.Min(obj.BounceCoeff, ceiling.bounceCoeff)) * vDotN * ceilNormal;
                     obj.ZVelocity       = reflected.z;
                     Vector2 newHorizVel = new(reflected.x, reflected.y);
                     if (obj.Mode == MovementMode.Grid) obj.HVelocity = newHorizVel;
@@ -684,11 +685,13 @@ public class PhysicsManager : MonoBehaviour
                 }
                 else
                 {
-                    obj.ZVelocity = -Mathf.Abs(obj.ZVelocity) * obj.BounceCoeff * ceiling.bounceCoeff;
+                    obj.ZVelocity = -Mathf.Abs(obj.ZVelocity) * Mathf.Min(obj.BounceCoeff, ceiling.bounceCoeff);
                 }
                 if (Mathf.Abs(obj.ZVelocity) < stopThreshold) obj.ZVelocity = 0f;
             }
         }
+
+        obj.ZPosition += obj.ZVelocity * Time.fixedDeltaTime;
 
         if (obj.Ground) obj.CanWalkFrameLeft = keepCanWalkFrames;
         else if (obj.CanWalkFrameLeft > 0) obj.CanWalkFrameLeft--;
@@ -700,7 +703,7 @@ public class PhysicsManager : MonoBehaviour
 
     private Vector2 ApplyGroundFriction(IPhysics obj, Vector2 vel)
     {
-        float friction = obj.Ground ? Mathf.Max(obj.FrictionCoeff, obj.Ground.frictionCoeff) : obj.AirFriction;
+        float friction = obj.Ground ? Mathf.Max(obj.GroundFriction, obj.Ground.frictionCoeff) : obj.AirFriction;
         vel *= friction;
 
         float iceBlend      = Mathf.Clamp01((friction - 0.5f) / 0.5f);
@@ -710,7 +713,7 @@ public class PhysicsManager : MonoBehaviour
         return vel;
     }
 
-    private float ApplyAirFriction(IPhysics obj, float vel) => vel / (1f + obj.AirFriction * Time.fixedDeltaTime);
+    private float ApplyAirFriction(IPhysics obj, float vel) => vel * obj.AirFriction;
     
 #endregion
 

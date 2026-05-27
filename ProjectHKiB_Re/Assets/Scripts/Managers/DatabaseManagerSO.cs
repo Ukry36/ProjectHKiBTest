@@ -72,7 +72,7 @@ public class DatabaseManagerSO : ScriptableObject
         phys.SprintCoeff = data.SprintCoeff;
         phys.FrictionWalkInfluence = data.FrictionWalkInfluence;
 
-        phys.FrictionCoeff = data.FrictionCoeff;
+        phys.GroundFriction = data.GroundFriction;
         phys.AirFriction = data.AirFriction;
         phys.BounceCoeff = data.BounceCoeff;
 

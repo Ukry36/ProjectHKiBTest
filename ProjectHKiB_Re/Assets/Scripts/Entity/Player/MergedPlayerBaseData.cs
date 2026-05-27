@@ -13,7 +13,7 @@ IDamagableBase, ISkinableBase, IAnimatableBase, IFootstepBase, IGraffitiableBase
     public float FrictionWalkInfluence { get; set; }
     public AudioDataSO DefaultFootstepAudio { get; set; }
 
-    public float FrictionCoeff { get; set; }
+    public float GroundFriction { get; set; }
     public float AirFriction { get; set; }
     public float BounceCoeff { get; set; }
     

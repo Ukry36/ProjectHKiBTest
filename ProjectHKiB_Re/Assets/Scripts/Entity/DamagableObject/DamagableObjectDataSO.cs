@@ -21,7 +21,7 @@ public class DamagableObjectDataSO : ScriptableObject, IDamagableBase, IPhysicsB
     [field: SerializeField] public float FrictionWalkInfluence { get; set; } = 1f;
     [field: SerializeField] public AudioDataSO DefaultFootstepAudio { get; set; }
 
-    [field: SerializeField] public float FrictionCoeff { get; set; } = 0.6f;
+    [field: SerializeField] public float GroundFriction { get; set; } = 0.6f;
     [field: SerializeField] public float AirFriction { get; set; } = 0.98f;
     [field: SerializeField] public float BounceCoeff { get; set; } = 0.3f;
 

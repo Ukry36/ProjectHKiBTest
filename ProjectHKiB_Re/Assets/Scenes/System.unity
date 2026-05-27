@@ -1733,7 +1733,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &31957894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1747,7 +1747,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  <FrictionCoeff>k__BackingField: 0
+  <GroundFriction>k__BackingField: 0
   <BounceCoeff>k__BackingField: 0
   <AirFriction>k__BackingField: 0
   <FrictionWalkInfluence>k__BackingField: 0
@@ -1755,6 +1755,7 @@ MonoBehaviour:
   <Size>k__BackingField: {x: 0, y: 0}
   <GridEndureSpeed>k__BackingField: 0
   <GridEndureForce>k__BackingField: 0
+  <StaticEndureForce>k__BackingField: 0
   <StepUpTolerance>k__BackingField: 0
   <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
@@ -4501,7 +4502,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &91706220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4515,7 +4516,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  <FrictionCoeff>k__BackingField: 0
+  <GroundFriction>k__BackingField: 0
   <BounceCoeff>k__BackingField: 0
   <AirFriction>k__BackingField: 0
   <FrictionWalkInfluence>k__BackingField: 0
@@ -4523,6 +4524,7 @@ MonoBehaviour:
   <Size>k__BackingField: {x: 0, y: 0}
   <GridEndureSpeed>k__BackingField: 0
   <GridEndureForce>k__BackingField: 0
+  <StaticEndureForce>k__BackingField: 0
   <StepUpTolerance>k__BackingField: 0
   <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
@@ -5816,7 +5818,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &126842185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5830,7 +5832,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  <FrictionCoeff>k__BackingField: 0
+  <GroundFriction>k__BackingField: 0
   <BounceCoeff>k__BackingField: 0
   <AirFriction>k__BackingField: 0
   <FrictionWalkInfluence>k__BackingField: 0
@@ -5838,6 +5840,7 @@ MonoBehaviour:
   <Size>k__BackingField: {x: 0, y: 0}
   <GridEndureSpeed>k__BackingField: 0
   <GridEndureForce>k__BackingField: 0
+  <StaticEndureForce>k__BackingField: 0
   <StepUpTolerance>k__BackingField: 0
   <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
@@ -11763,7 +11766,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &255197804
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11777,7 +11780,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  <FrictionCoeff>k__BackingField: 0
+  <GroundFriction>k__BackingField: 0
   <BounceCoeff>k__BackingField: 0
   <AirFriction>k__BackingField: 0
   <FrictionWalkInfluence>k__BackingField: 0
@@ -11785,6 +11788,7 @@ MonoBehaviour:
   <Size>k__BackingField: {x: 0, y: 0}
   <GridEndureSpeed>k__BackingField: 0
   <GridEndureForce>k__BackingField: 0
+  <StaticEndureForce>k__BackingField: 0
   <StepUpTolerance>k__BackingField: 0
   <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
@@ -15807,7 +15811,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  <FrictionCoeff>k__BackingField: 0
+  <GroundFriction>k__BackingField: 0
   <BounceCoeff>k__BackingField: 0
   <AirFriction>k__BackingField: 0
   <FrictionWalkInfluence>k__BackingField: 0
@@ -15815,6 +15819,7 @@ MonoBehaviour:
   <Size>k__BackingField: {x: 0, y: 0}
   <GridEndureSpeed>k__BackingField: 0
   <GridEndureForce>k__BackingField: 0
+  <StaticEndureForce>k__BackingField: 0
   <StepUpTolerance>k__BackingField: 0
   <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 800}
@@ -15831,7 +15836,7 @@ MonoBehaviour:
   - {fileID: 955506758}
   <WalkAcceleration>k__BackingField: 0
   <ZCol>k__BackingField: {fileID: 0}
-  jump: 2
+  jump: 10
 --- !u!114 &327803512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21936,7 +21941,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &470177828
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21950,7 +21955,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  <FrictionCoeff>k__BackingField: 0
+  <GroundFriction>k__BackingField: 0
   <BounceCoeff>k__BackingField: 0
   <AirFriction>k__BackingField: 0
   <FrictionWalkInfluence>k__BackingField: 0
@@ -21958,6 +21963,7 @@ MonoBehaviour:
   <Size>k__BackingField: {x: 0, y: 0}
   <GridEndureSpeed>k__BackingField: 0
   <GridEndureForce>k__BackingField: 0
+  <StaticEndureForce>k__BackingField: 0
   <StepUpTolerance>k__BackingField: 0
   <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
@@ -26419,7 +26425,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &547994587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26433,7 +26439,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  <FrictionCoeff>k__BackingField: 0
+  <GroundFriction>k__BackingField: 0
   <BounceCoeff>k__BackingField: 0
   <AirFriction>k__BackingField: 0
   <FrictionWalkInfluence>k__BackingField: 0
@@ -26441,6 +26447,7 @@ MonoBehaviour:
   <Size>k__BackingField: {x: 0, y: 0}
   <GridEndureSpeed>k__BackingField: 0
   <GridEndureForce>k__BackingField: 0
+  <StaticEndureForce>k__BackingField: 0
   <StepUpTolerance>k__BackingField: 0
   <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
@@ -28589,7 +28596,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &601953262
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28603,7 +28610,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  <FrictionCoeff>k__BackingField: 0
+  <GroundFriction>k__BackingField: 0
   <BounceCoeff>k__BackingField: 0
   <AirFriction>k__BackingField: 0
   <FrictionWalkInfluence>k__BackingField: 0
@@ -28611,6 +28618,7 @@ MonoBehaviour:
   <Size>k__BackingField: {x: 0, y: 0}
   <GridEndureSpeed>k__BackingField: 0
   <GridEndureForce>k__BackingField: 0
+  <StaticEndureForce>k__BackingField: 0
   <StepUpTolerance>k__BackingField: 0
   <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
@@ -29371,7 +29379,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &614344025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29385,7 +29393,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  <FrictionCoeff>k__BackingField: 0
+  <GroundFriction>k__BackingField: 0
   <BounceCoeff>k__BackingField: 0
   <AirFriction>k__BackingField: 0
   <FrictionWalkInfluence>k__BackingField: 0
@@ -29393,6 +29401,7 @@ MonoBehaviour:
   <Size>k__BackingField: {x: 0, y: 0}
   <GridEndureSpeed>k__BackingField: 0
   <GridEndureForce>k__BackingField: 0
+  <StaticEndureForce>k__BackingField: 0
   <StepUpTolerance>k__BackingField: 0
   <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
@@ -34526,7 +34535,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &725407580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34540,7 +34549,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  <FrictionCoeff>k__BackingField: 0
+  <GroundFriction>k__BackingField: 0
   <BounceCoeff>k__BackingField: 0
   <AirFriction>k__BackingField: 0
   <FrictionWalkInfluence>k__BackingField: 0
@@ -34548,6 +34557,7 @@ MonoBehaviour:
   <Size>k__BackingField: {x: 0, y: 0}
   <GridEndureSpeed>k__BackingField: 0
   <GridEndureForce>k__BackingField: 0
+  <StaticEndureForce>k__BackingField: 0
   <StepUpTolerance>k__BackingField: 0
   <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
@@ -35813,7 +35823,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &745143721
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35827,7 +35837,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  <FrictionCoeff>k__BackingField: 0
+  <GroundFriction>k__BackingField: 0
   <BounceCoeff>k__BackingField: 0
   <AirFriction>k__BackingField: 0
   <FrictionWalkInfluence>k__BackingField: 0
@@ -35835,6 +35845,7 @@ MonoBehaviour:
   <Size>k__BackingField: {x: 0, y: 0}
   <GridEndureSpeed>k__BackingField: 0
   <GridEndureForce>k__BackingField: 0
+  <StaticEndureForce>k__BackingField: 0
   <StepUpTolerance>k__BackingField: 0
   <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
@@ -36577,7 +36588,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &760284368
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36591,7 +36602,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  <FrictionCoeff>k__BackingField: 0
+  <GroundFriction>k__BackingField: 0
   <BounceCoeff>k__BackingField: 0
   <AirFriction>k__BackingField: 0
   <FrictionWalkInfluence>k__BackingField: 0
@@ -36599,6 +36610,7 @@ MonoBehaviour:
   <Size>k__BackingField: {x: 0, y: 0}
   <GridEndureSpeed>k__BackingField: 0
   <GridEndureForce>k__BackingField: 0
+  <StaticEndureForce>k__BackingField: 0
   <StepUpTolerance>k__BackingField: 0
   <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
@@ -40113,7 +40125,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &827860542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40127,7 +40139,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  <FrictionCoeff>k__BackingField: 0
+  <GroundFriction>k__BackingField: 0
   <BounceCoeff>k__BackingField: 0
   <AirFriction>k__BackingField: 0
   <FrictionWalkInfluence>k__BackingField: 0
@@ -40135,6 +40147,7 @@ MonoBehaviour:
   <Size>k__BackingField: {x: 0, y: 0}
   <GridEndureSpeed>k__BackingField: 0
   <GridEndureForce>k__BackingField: 0
+  <StaticEndureForce>k__BackingField: 0
   <StepUpTolerance>k__BackingField: 0
   <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
@@ -40302,7 +40315,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &828534939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40316,7 +40329,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  <FrictionCoeff>k__BackingField: 0
+  <GroundFriction>k__BackingField: 0
   <BounceCoeff>k__BackingField: 0
   <AirFriction>k__BackingField: 0
   <FrictionWalkInfluence>k__BackingField: 0
@@ -40324,6 +40337,7 @@ MonoBehaviour:
   <Size>k__BackingField: {x: 0, y: 0}
   <GridEndureSpeed>k__BackingField: 0
   <GridEndureForce>k__BackingField: 0
+  <StaticEndureForce>k__BackingField: 0
   <StepUpTolerance>k__BackingField: 0
   <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
@@ -44912,7 +44926,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &893315052
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44926,7 +44940,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  <FrictionCoeff>k__BackingField: 0
+  <GroundFriction>k__BackingField: 0
   <BounceCoeff>k__BackingField: 0
   <AirFriction>k__BackingField: 0
   <FrictionWalkInfluence>k__BackingField: 0
@@ -44934,6 +44948,7 @@ MonoBehaviour:
   <Size>k__BackingField: {x: 0, y: 0}
   <GridEndureSpeed>k__BackingField: 0
   <GridEndureForce>k__BackingField: 0
+  <StaticEndureForce>k__BackingField: 0
   <StepUpTolerance>k__BackingField: 0
   <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
@@ -55213,7 +55228,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1116164926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55227,7 +55242,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  <FrictionCoeff>k__BackingField: 0
+  <GroundFriction>k__BackingField: 0
   <BounceCoeff>k__BackingField: 0
   <AirFriction>k__BackingField: 0
   <FrictionWalkInfluence>k__BackingField: 0
@@ -55235,6 +55250,7 @@ MonoBehaviour:
   <Size>k__BackingField: {x: 0, y: 0}
   <GridEndureSpeed>k__BackingField: 0
   <GridEndureForce>k__BackingField: 0
+  <StaticEndureForce>k__BackingField: 0
   <StepUpTolerance>k__BackingField: 0
   <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
@@ -59354,7 +59370,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 0}
-  <FrictionCoeff>k__BackingField: 0
+  <GroundFriction>k__BackingField: 0
   <BounceCoeff>k__BackingField: 0
   <AirFriction>k__BackingField: 0
   <FrictionWalkInfluence>k__BackingField: 0
@@ -59362,6 +59378,7 @@ MonoBehaviour:
   <Size>k__BackingField: {x: 0, y: 0}
   <GridEndureSpeed>k__BackingField: 0
   <GridEndureForce>k__BackingField: 0
+  <StaticEndureForce>k__BackingField: 0
   <StepUpTolerance>k__BackingField: 0
   <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
@@ -60321,7 +60338,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1236688444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60335,7 +60352,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  <FrictionCoeff>k__BackingField: 0
+  <GroundFriction>k__BackingField: 0
   <BounceCoeff>k__BackingField: 0
   <AirFriction>k__BackingField: 0
   <FrictionWalkInfluence>k__BackingField: 0
@@ -60343,6 +60360,7 @@ MonoBehaviour:
   <Size>k__BackingField: {x: 0, y: 0}
   <GridEndureSpeed>k__BackingField: 0
   <GridEndureForce>k__BackingField: 0
+  <StaticEndureForce>k__BackingField: 0
   <StepUpTolerance>k__BackingField: 0
   <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
@@ -62754,7 +62772,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1292047131
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62768,7 +62786,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  <FrictionCoeff>k__BackingField: 0
+  <GroundFriction>k__BackingField: 0
   <BounceCoeff>k__BackingField: 0
   <AirFriction>k__BackingField: 0
   <FrictionWalkInfluence>k__BackingField: 0
@@ -62776,6 +62794,7 @@ MonoBehaviour:
   <Size>k__BackingField: {x: 0, y: 0}
   <GridEndureSpeed>k__BackingField: 0
   <GridEndureForce>k__BackingField: 0
+  <StaticEndureForce>k__BackingField: 0
   <StepUpTolerance>k__BackingField: 0
   <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
@@ -63247,7 +63266,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1300301298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63261,7 +63280,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  <FrictionCoeff>k__BackingField: 0
+  <GroundFriction>k__BackingField: 0
   <BounceCoeff>k__BackingField: 0
   <AirFriction>k__BackingField: 0
   <FrictionWalkInfluence>k__BackingField: 0
@@ -63269,6 +63288,7 @@ MonoBehaviour:
   <Size>k__BackingField: {x: 0, y: 0}
   <GridEndureSpeed>k__BackingField: 0
   <GridEndureForce>k__BackingField: 0
+  <StaticEndureForce>k__BackingField: 0
   <StepUpTolerance>k__BackingField: 0
   <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
@@ -66313,7 +66333,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1391855064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66327,7 +66347,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  <FrictionCoeff>k__BackingField: 0
+  <GroundFriction>k__BackingField: 0
   <BounceCoeff>k__BackingField: 0
   <AirFriction>k__BackingField: 0
   <FrictionWalkInfluence>k__BackingField: 0
@@ -66335,6 +66355,7 @@ MonoBehaviour:
   <Size>k__BackingField: {x: 0, y: 0}
   <GridEndureSpeed>k__BackingField: 0
   <GridEndureForce>k__BackingField: 0
+  <StaticEndureForce>k__BackingField: 0
   <StepUpTolerance>k__BackingField: 0
   <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
@@ -81171,7 +81192,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1738345892
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81185,7 +81206,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  <FrictionCoeff>k__BackingField: 0
+  <GroundFriction>k__BackingField: 0
   <BounceCoeff>k__BackingField: 0
   <AirFriction>k__BackingField: 0
   <FrictionWalkInfluence>k__BackingField: 0
@@ -81193,6 +81214,7 @@ MonoBehaviour:
   <Size>k__BackingField: {x: 0, y: 0}
   <GridEndureSpeed>k__BackingField: 0
   <GridEndureForce>k__BackingField: 0
+  <StaticEndureForce>k__BackingField: 0
   <StepUpTolerance>k__BackingField: 0
   <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
@@ -82778,7 +82800,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1776947702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82792,7 +82814,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  <FrictionCoeff>k__BackingField: 0
+  <GroundFriction>k__BackingField: 0
   <BounceCoeff>k__BackingField: 0
   <AirFriction>k__BackingField: 0
   <FrictionWalkInfluence>k__BackingField: 0
@@ -82800,6 +82822,7 @@ MonoBehaviour:
   <Size>k__BackingField: {x: 0, y: 0}
   <GridEndureSpeed>k__BackingField: 0
   <GridEndureForce>k__BackingField: 0
+  <StaticEndureForce>k__BackingField: 0
   <StepUpTolerance>k__BackingField: 0
   <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
@@ -94667,7 +94690,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2060873407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -94681,7 +94704,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  <FrictionCoeff>k__BackingField: 0
+  <GroundFriction>k__BackingField: 0
   <BounceCoeff>k__BackingField: 0
   <AirFriction>k__BackingField: 0
   <FrictionWalkInfluence>k__BackingField: 0
@@ -94689,6 +94712,7 @@ MonoBehaviour:
   <Size>k__BackingField: {x: 0, y: 0}
   <GridEndureSpeed>k__BackingField: 0
   <GridEndureForce>k__BackingField: 0
+  <StaticEndureForce>k__BackingField: 0
   <StepUpTolerance>k__BackingField: 0
   <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
@@ -99368,7 +99392,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &8038879578283673500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -99436,7 +99460,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physManager: {fileID: 2135137254}
-  <FrictionCoeff>k__BackingField: 0
+  <GroundFriction>k__BackingField: 0
   <BounceCoeff>k__BackingField: 0
   <AirFriction>k__BackingField: 0
   <FrictionWalkInfluence>k__BackingField: 0
@@ -99444,6 +99468,7 @@ MonoBehaviour:
   <Size>k__BackingField: {x: 0, y: 0}
   <GridEndureSpeed>k__BackingField: 0
   <GridEndureForce>k__BackingField: 0
+  <StaticEndureForce>k__BackingField: 0
   <StepUpTolerance>k__BackingField: 0
   <StepDownTolerance>k__BackingField: 0
   <ExForce>k__BackingField: {x: 0, y: 0, z: 0}
