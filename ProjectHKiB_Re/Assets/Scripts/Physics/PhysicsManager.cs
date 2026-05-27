@@ -5,7 +5,7 @@ using UnityEngine;
 //  Data Structure
 // ──────────────────────────────────────────────
 
-public enum MovementMode { Grid, Physics }
+public enum MovementMode { Grid, Physics, Static }
 
 [System.Serializable]
 public class GridState
@@ -197,11 +197,13 @@ public class PhysicsManager : MonoBehaviour
             obj.Mode             = MovementMode.Physics;
             obj.Phys.KeepPhysics = keepPhysicsFrames;
         }
+        else if (obj.Mode == MovementMode.Static) return;
     }
 
-    private void SwitchGridToPhysics(IPhysics obj)
+    private void SwitchToPhysics(IPhysics obj)
     {
-        if (obj.Mode != MovementMode.Grid) return;
+        if (obj.Mode == MovementMode.Physics) return;
+        if (obj.Mode == MovementMode.Static && obj.ExForce.magnitude < obj.StaticEndureForce)
 
         RemoveFootprintOccupant(obj, obj.Grid.CurrentCell);
         RemoveFootprintOccupant(obj, obj.Grid.TargetCell);
@@ -341,10 +343,10 @@ public class PhysicsManager : MonoBehaviour
         int cnt = GetAnyOccupantInFootprint(obj, desiredAnchor, objBuffer); // Entity check
         if (cnt > 0)
         {
-            SwitchGridToPhysics(obj);
+            SwitchToPhysics(obj);
             for (int i = 0; i < cnt; i++)
                 if (objBuffer[i].Mode == MovementMode.Grid)
-                    SwitchGridToPhysics(objBuffer[i]);
+                    SwitchToPhysics(objBuffer[i]);
             return;
         }
 
@@ -517,8 +519,10 @@ public class PhysicsManager : MonoBehaviour
     {
         Vector2 vA = objA.HVelocity;
         Vector2 vB = objB.HVelocity;
-        float invMA = objA.InvM;
-        float invMB = objB.InvM;
+        bool infA = objA.Mode == MovementMode.Static && vB.magnitude * objB.Mass / Time.fixedDeltaTime < objA.StaticEndureForce;
+        bool infB = objB.Mode == MovementMode.Static && vA.magnitude * objA.Mass / Time.fixedDeltaTime < objB.StaticEndureForce;
+        float invMA = infA ? 0f : objA.InvM;
+        float invMB = infB ? 0f : objB.InvM;
 
         Vector2 sep = objA.HPosition - objB.HPosition;
         float dist = sep.magnitude;
@@ -553,8 +557,8 @@ public class PhysicsManager : MonoBehaviour
 
         objA.Phys.KeepPhysics = keepPhysicsFrames;
         objB.Phys.KeepPhysics = keepPhysicsFrames;
-        if (objA.Mode == MovementMode.Grid) SwitchGridToPhysics(objA);
-        if (objB.Mode == MovementMode.Grid) SwitchGridToPhysics(objB);
+        if (objA.Mode == MovementMode.Grid) SwitchToPhysics(objA);
+        if (objB.Mode == MovementMode.Grid) SwitchToPhysics(objB);
 
         if (needImpulse)
         {
@@ -600,20 +604,25 @@ public class PhysicsManager : MonoBehaviour
     {
         Vector2 checkSize = (Vector2)obj.Size - new Vector2(0.2f, 0.2f);
 
-        ZCollider2D floor   = ZPhysics2D.ZBoxGetFloor(
+        ZCollider2D possibleFloor = ZPhysics2D.ZBoxGetFloor(
             obj.HPosition, checkSize, 0, obj.FloorLayer,
-            obj.ZCol.ZMin - obj.StepDownTolerance - EPSILON,
-            obj.ZCol.ZMin + obj.StepUpTolerance   + EPSILON);
-        ZCollider2D ceiling = ZPhysics2D.ZBoxGetCeiling(
+            obj.ZCol.ZMin - Mathf.Abs(obj.ZVelocity) * Time.fixedDeltaTime * 2,
+            obj.ZCol.ZMin + obj.StepUpTolerance + EPSILON);
+        ZCollider2D possibleCeiling = ZPhysics2D.ZBoxGetCeiling(
             obj.HPosition, checkSize, 0, obj.FloorLayer,
-            obj.ZCol.ZMax + obj.StepDownTolerance + EPSILON,
-            obj.ZCol.ZMax - obj.StepUpTolerance   - EPSILON);
+            obj.ZCol.ZMax - obj.StepUpTolerance - EPSILON,
+            obj.ZCol.ZMax + Mathf.Abs(obj.ZVelocity) * Time.fixedDeltaTime * 2);
+
+        float maxZ = possibleFloor.ZmaxBox(obj.HPosition, checkSize, 0);
+        float minZ = possibleCeiling.ZminBox(obj.HPosition, checkSize, 0);
+
+        ZCollider2D floor   = maxZ > obj.ZCol.ZMin - obj.StepDownTolerance - EPSILON ? possibleFloor : null;
+        ZCollider2D ceiling = minZ < obj.ZCol.ZMax + obj.StepDownTolerance + EPSILON ? possibleFloor : null;
 
         Vector3 surfaceNormal = floor ? floor.GetSurfaceNormal() : Vector3.forward;
-        Vector2 horizVel  = obj.Mode == MovementMode.Grid ? obj.HVelocity : obj.HVelocity;
-        Vector3 vel       = new(horizVel.x, horizVel.y, obj.ZVelocity);
-        bool towardsFloor = Vector3.Dot(surfaceNormal, vel) < EPSILON;
-
+        Vector3 vel           = new(obj.HVelocity.x, obj.HVelocity.y, obj.ZVelocity);
+        bool towardsFloor     = Vector3.Dot(surfaceNormal, vel) < EPSILON;
+        
         obj.Ground = floor && floor.ZmaxBox(obj.HPosition, checkSize, 0) > obj.ZCol.ZMin - EPSILON && towardsFloor ? 
                      floor : null;
         obj.IsOnSlope  = Vector3.Dot(surfaceNormal, Vector3.forward) < 1f - EPSILON;

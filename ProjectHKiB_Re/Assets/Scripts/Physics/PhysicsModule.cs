@@ -16,6 +16,7 @@ public class PhysicsModule : InterfaceModule, IPhysics
 
     [field: SerializeField] public float GridEndureSpeed { get; set; }
     [field: SerializeField] public float GridEndureForce { get; set; }
+    [field: SerializeField] public float StaticEndureForce { get; set; }
     [field: SerializeField] public float StepUpTolerance { get; set; }
     [field: SerializeField] public float StepDownTolerance { get; set; }
  

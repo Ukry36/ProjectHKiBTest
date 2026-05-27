@@ -15,6 +15,7 @@ public interface IPhysicsBase
     
     public float GridEndureSpeed { get; set; }
     public float GridEndureForce { get; set; }
+    public float StaticEndureForce { get; set; }
 
     public float StepUpTolerance { get; set; }
     public float StepDownTolerance { get; set; }

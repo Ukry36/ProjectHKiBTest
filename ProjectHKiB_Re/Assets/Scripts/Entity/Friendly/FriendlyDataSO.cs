@@ -25,6 +25,7 @@ IAnimatableBase, ITargetableBase, IPathFindableBase, IFootstepBase
 
     [field: SerializeField] public float GridEndureSpeed { get; set; } = 10f;
     [field: SerializeField] public float GridEndureForce { get; set; } = 50f;
+    [field: SerializeField] public float StaticEndureForce { get; set; } = 100f;
 
     [field: SerializeField] public float StepUpTolerance { get; set; } = 0.5f;
     [field: SerializeField] public float StepDownTolerance { get; set; } = 0.2f;
