@@ -5,9 +5,10 @@ public class ApplySprintAction : StateActionSO
     public bool apply;
     public override void Act(StateController stateController)
     {
-        var movable = stateController.GetInterface<IMovable>();
+        var movable = stateController.GetInterface<IPhysics>();
         if (movable != null)
         {
+            movable.IsWalking = apply;
             movable.IsSprinting = apply;
         }
         else

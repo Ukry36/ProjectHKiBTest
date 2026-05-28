@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 public class EventInputTrigger : GameEventTrigger
@@ -10,7 +11,7 @@ public class EventInputTrigger : GameEventTrigger
         {
             if (_canTrigger && GameManager.instance.inputManager.GetInputByEnum(_inputType))
             {
-                Event.RegisterTarget(colliders[0].transform);
+                Event.RegisterTarget(colliders, length);
                 Event.TriggerEvent();
                 CoolTime();
             }

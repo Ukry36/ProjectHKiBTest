@@ -6,7 +6,7 @@ public class EndEventAction : StateActionSO
     {
         if (stateController.TryGetInterface(out IEvent @event))
         {
-            @event.EndEvent();
+            foreach (Collider2D col in @event.CurrentTargets) @event.EndEvent(col);
         }
         else
             Debug.LogError("ERROR: Interface Not Found!!!");

@@ -2,12 +2,11 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "AttackMoveGeneralAction", menuName = "State Machine/Action/Attack/AttackMoveGeneral")]
 public class AttackMoveGeneralAction : StateActionSO
 {
-    [SerializeField] private MovementManagerSO movementManager;
     [SerializeField] private TargetingManagerSO targetingManager;
     public override void Act(StateController stateController)
     {
         if (stateController.TryGetInterface(out IAttackable attackable)
-        && stateController.TryGetInterface(out IMovable movable)
+        && stateController.TryGetInterface(out IPhysics movable)
         && stateController.TryGetInterface(out IDirAnimatable animatable)
         && stateController.TryGetInterface(out ITargetable targetable))
         {
@@ -32,7 +31,8 @@ public class AttackMoveGeneralAction : StateActionSO
             }
             Debug.DrawLine(thisTransform.position, targetable.CurrentTarget.position, Color.blue, 0.4f);
             animatable.SetAnimationDirection(targetable.CurrentTarget.position - thisTransform.position);
-            movementManager.AttackMove(thisTransform, movable, targetable.CurrentTarget.position, moveRadius);
+            Debug.LogError("ERROR: Not Implemented!!!");
+            //movementManager.AttackMove(thisTransform, movable, targetable.CurrentTarget.position, moveRadius);
         }
         else
             Debug.LogError("ERROR: Interface Not Found!!!");

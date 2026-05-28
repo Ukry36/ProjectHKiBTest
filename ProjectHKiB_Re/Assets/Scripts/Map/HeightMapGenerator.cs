@@ -16,7 +16,7 @@ public class HeightMapGenerator: MonoBehaviour
         TilemapRenderer renderer = GetComponent<TilemapRenderer>();
         Dictionary<float, DynamicHeightMap> childs = new();
         BoundsInt bounds = heightTilemap.cellBounds;
-        IMovable player = GameManager.instance.player.GetInterface<IMovable>();
+        IPhysics player = GameManager.instance.player.GetInterface<IPhysics>();
 
         for (int x = bounds.min.x; x < bounds.max.x; x++)
         {

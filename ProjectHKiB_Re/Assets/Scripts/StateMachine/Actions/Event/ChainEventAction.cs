@@ -6,8 +6,8 @@ public class ChainEventAction : StateActionSO
     {
         if (stateController.TryGetInterface(out IChainEventable chain) && stateController.TryGetInterface(out IEvent @event))
         {
-            if (@event.CurrentTarget)
-                chain.ChainEvent.RegisterTarget(@event.CurrentTarget);
+            if (@event.TargetCount > 0)
+                chain.ChainEvent.RegisterTarget(@event.CurrentTargets, @event.TargetCount);
             chain.ChainEvent.TriggerEvent();
         }
         else Debug.LogError("ERROR: Interface Not Found!!!");

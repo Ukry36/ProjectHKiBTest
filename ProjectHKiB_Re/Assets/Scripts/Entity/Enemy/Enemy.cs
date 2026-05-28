@@ -1,15 +1,6 @@
 using Assets.Scripts.Interfaces.Modules;
 using UnityEngine;
 using UnityEngine.Events;
-[RequireComponent(typeof(AttackableModule))]
-[RequireComponent(typeof(MovableModule))]
-[RequireComponent(typeof(TargetableModule))]
-[RequireComponent(typeof(PathFindableModule))]
-[RequireComponent(typeof(DamagableModule))]
-[RequireComponent(typeof(SkinableModule))]
-[RequireComponent(typeof(DirAnimatableModule))]
-[RequireComponent(typeof(FootStepModule))]
-[RequireComponent(typeof(BuffableModule))]
 public class Enemy : Entity, IPoolable
 {
     [field: SerializeField] public int PoolSize { get; set; }
@@ -41,7 +32,7 @@ public class Enemy : Entity, IPoolable
             Debug.Log("BaseData is Null");
             return;
         }
-        databaseManager.SetIMovable(this, BaseData);
+        databaseManager.SetIPhysics(this, BaseData);
         databaseManager.SetIAttackable(this, BaseData);
         databaseManager.SetIDamagable(this, BaseData);
         databaseManager.SetIFootstep(this, BaseData);

@@ -9,7 +9,7 @@ public class GameSimpleEvent : GameEvent
     {
         if (_trigger)
             _trigger.Initialize(this);
-        EndEvent();
+        EndEvent(null);
     }
 
     // start event by enabling controller update
@@ -19,9 +19,8 @@ public class GameSimpleEvent : GameEvent
     }
 
     // end event by disabling controller update
-    // also reset target
-    public override void EndEvent()
+    public override void EndEvent(Collider2D target)
     {
-        CurrentTarget = null;
+        if (target) CurrentTargets = new Collider2D[100];
     }
 }

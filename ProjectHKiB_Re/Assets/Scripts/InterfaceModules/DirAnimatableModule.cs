@@ -135,6 +135,7 @@ public class DirAnimatableModule : AnimatableModule, IDirAnimatable
 
     public void SetAnimationDirection(Vector2 vectorDir)
     {
+        vectorDir = vectorDir.normalized;
         if (vectorDir == Vector2.zero) return;
         vectorDir = mathManager.SetDirection8One(vectorDir);
         if (vectorDir == LastSetAnimationDir8) return;

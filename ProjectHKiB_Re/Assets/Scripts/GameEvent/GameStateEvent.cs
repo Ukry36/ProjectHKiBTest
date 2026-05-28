@@ -11,7 +11,7 @@ public class GameStateEvent : GameEvent
             _trigger.Initialize(this);
         _stateController.RegisterModules(this.transform);
         _stateController.RegisterInterface<IEvent>(this);
-        EndEvent();
+        EndEvent(null);
     }
 
     // start event by enabling controller update
@@ -23,9 +23,9 @@ public class GameStateEvent : GameEvent
 
     // end event by disabling controller update
     // also reset target
-    public override void EndEvent()
+    public override void EndEvent(Collider2D target)
     {
-        CurrentTarget = null;
+        if (target) CurrentTargets = new Collider2D[100];
         _stateController.EliminateStateMachine();
         _stateController.enabled = false;
     }

@@ -1,16 +1,32 @@
-using System;
-using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.U2D.Animation;
-public class MergedPlayerBaseData : IMovableBase, IAttackableBase, ITargetableBase, IDodgeableBase,
+public class MergedPlayerBaseData : IPhysicsBase, IAttackableBase, ITargetableBase, IDodgeableBase,
 IDamagableBase, ISkinableBase, IAnimatableBase, IFootstepBase, IGraffitiableBase
 {
-    public MovePoint MovePoint { get; set; }
-    public float WalkSpeed { get; set; }
+    // IMovableBase
+    public Vector2Int Size { get; set; }
+    public float Mass { get; set; }
+
+    public float WalkAcceleration { get; set; }
+    public float MaxWalkSpeed { get; set; }
     public float SprintCoeff { get; set; }
+    public float FrictionWalkInfluence { get; set; }
+    public AudioDataSO DefaultFootstepAudio { get; set; }
+
+    public float GroundFriction { get; set; }
+    public float AirFriction { get; set; }
+    public float BounceCoeff { get; set; }
+    
+    public float GridEndureSpeed { get; set; }
+    public float GridEndureForce { get; set; }
+    public float StaticEndureForce { get; set; }
+
+    public float StepUpTolerance { get; set; }
+    public float StepDownTolerance { get; set; }
+
     public LayerMask WallLayer { get; set; }
+    public LayerMask FloorLayer { get; set; }
     public LayerMask CanPushLayer { get; set; }
-    public AudioDataSO FootStepAudio { get; set; }
 
     public int BaseATK { get; set; }
     public float CriticalChanceRate { get; set; }
@@ -30,7 +46,6 @@ IDamagableBase, ISkinableBase, IAnimatableBase, IFootstepBase, IGraffitiableBase
 
     public float BaseMaxHP { get; set; }
     public float BaseDEF { get; set; }
-    public float Mass { get; set; }
     public AudioDataSO HitSound { get; set; }
     public ParticlePlayer HitParticle { get; set; }
 
@@ -43,7 +58,6 @@ IDamagableBase, ISkinableBase, IAnimatableBase, IFootstepBase, IGraffitiableBase
     public StateMachineSO StateMachine { get; set; }
     public SimpleAnimationDataSO AnimationData { get; set; }
     public StatBuffCompilation JustDodgeBuff { get; set; }
-    public AudioDataSO DefaultFootstepAudio { get; set; }
 
     public EntityTypeSO entityType;
     public GearTypeSO gearType;

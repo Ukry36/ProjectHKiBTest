@@ -60,15 +60,31 @@ public class DatabaseManagerSO : ScriptableObject
         dodgeable.JustDodgeBuff = data.JustDodgeBuff;
     }
 
-    public void SetIMovable(IInterfaceRegistable entity, IMovableBase data)
-    => SetIMovable(entity.GetInterface<IMovable>(), data);
-    public void SetIMovable(IMovableBase movable, IMovableBase data)
+    public void SetIPhysics(IInterfaceRegistable entity, IPhysicsBase data)
+    => SetIPhysics(entity.GetInterface<IPhysics>(), data);
+    public void SetIPhysics(IPhysicsBase phys, IPhysicsBase data)
     {
-        movable.WalkSpeed = data.WalkSpeed;
-        movable.SprintCoeff = data.SprintCoeff;
-        movable.WallLayer = data.WallLayer;
-        movable.CanPushLayer = data.CanPushLayer;
-        movable.Mass = data.Mass;
+        phys.Size = data.Size;
+        phys.Mass = data.Mass;
+
+        phys.WalkAcceleration = data.WalkAcceleration;
+        phys.MaxWalkSpeed = data.MaxWalkSpeed;
+        phys.SprintCoeff = data.SprintCoeff;
+        phys.FrictionWalkInfluence = data.FrictionWalkInfluence;
+
+        phys.GroundFriction = data.GroundFriction;
+        phys.AirFriction = data.AirFriction;
+        phys.BounceCoeff = data.BounceCoeff;
+
+        phys.GridEndureSpeed = data.GridEndureSpeed;
+        phys.GridEndureForce = data.GridEndureForce;
+
+        phys.StepUpTolerance = data.StepUpTolerance;
+        phys.StepDownTolerance = data.StepDownTolerance;
+
+        phys.WallLayer = data.WallLayer;
+        phys.FloorLayer = data.FloorLayer;
+        phys.CanPushLayer = data.CanPushLayer;
     }
 
     public void SetISkinable(IInterfaceRegistable entity, ISkinableBase data)

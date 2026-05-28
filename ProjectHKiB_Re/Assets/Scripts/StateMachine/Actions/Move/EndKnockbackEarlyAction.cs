@@ -4,7 +4,7 @@ public class EndKnockbackEarlyAction : StateActionSO
 {
     public override void Act(StateController stateController)
     {
-        if (stateController.TryGetInterface(out IMovable movable))
+        if (stateController.TryGetInterface(out IPhysics movable))
         {
             movable.EndKnockbackEarly();
         }

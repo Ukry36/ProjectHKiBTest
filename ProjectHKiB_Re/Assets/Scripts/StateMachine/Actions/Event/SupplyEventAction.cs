@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 [CreateAssetMenu(fileName = "SupplyEvent", menuName = "State Machine/Action/Event/SupplyEvent")]
 public class SupplyEventAction : StateActionSO
@@ -8,7 +6,12 @@ public class SupplyEventAction : StateActionSO
     {
         if (stateController.TryGetInterface(out ISupply supply) && stateController.TryGetInterface(out IEvent @event))
         {
-            supply.Supply(@event.CurrentTarget, supply.Amount);
+            foreach (Collider2D col in @event.CurrentTargets)
+            {
+                Transform transform = col.transform;
+                supply.Supply(transform, supply.Amount);
+            }
+            
         }
         else Debug.LogError("ERROR: Interface Not Found!!!");
     }

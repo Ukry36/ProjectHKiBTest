@@ -2,10 +2,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "WalkByPathFind", menuName = "State Machine/Action/Move/WalkByPathFindAction")]
 public class WalkByPathFindAction : StateActionSO
 {
-    [SerializeField] private MovementManagerSO movementManager;
     public override void Act(StateController stateController)
     {
-        if (stateController.TryGetComponent(out IMovable movable)
+        if (stateController.TryGetComponent(out IPhysics movable)
         && stateController.TryGetComponent(out IPathFindable pathfindable)
         && stateController.TryGetComponent(out ITargetable targetable))
         {
@@ -13,12 +12,14 @@ public class WalkByPathFindAction : StateActionSO
             {
                 Vector3 targetPos = pathfindable.NextPath;
                 //Debug.DrawLine(targetPos - Vector3.one * 0.5f, targetPos + Vector3.one * 0.5f);
-                movementManager.WalkMove(stateController.transform, movable, movable.WalkSpeed, targetPos - stateController.transform.position, movable.WallLayer);
+                movable.IsWalking = true;
+                movable.WalkingDir = targetPos - stateController.transform.position;
             }
             else
             {
                 if (targetable.CurrentTarget == null) return;
-                movementManager.WalkMove(stateController.transform, movable, movable.WalkSpeed, targetable.CurrentTarget.position - stateController.transform.position, movable.WallLayer);
+                movable.IsWalking = true;
+                movable.WalkingDir = targetable.CurrentTarget.position - stateController.transform.position;
             }
         }
         else

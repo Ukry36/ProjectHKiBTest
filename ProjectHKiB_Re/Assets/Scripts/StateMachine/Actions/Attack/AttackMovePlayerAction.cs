@@ -2,12 +2,11 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "AttackMovePlayerAction", menuName = "State Machine/Action/Attack/AttackMovePlayer")]
 public class AttackMovePlayerAction : StateActionSO
 {
-    public MovementManagerSO movementManager;
     public TargetingManagerSO targetingManager;
     public override void Act(StateController stateController)
     {
         if (stateController.TryGetInterface(out IAttackable attackable)
-        && stateController.TryGetInterface(out IMovable movable)
+        && stateController.TryGetInterface(out IPhysics movable)
         && stateController.TryGetInterface(out IDirAnimatable animatable)
         && stateController.TryGetInterface(out ITargetable targetable)
         && stateController.TryGetInterface(out IFootstep footstep))
@@ -37,13 +36,15 @@ public class AttackMovePlayerAction : StateActionSO
                     if (target)
                     {
                         targetable.CurrentTarget = target;
-                        movementManager.AttackMove(thisTransform, movable, target.position, moveRadius);
+                        Debug.LogError("ERROR: Not Implemented!!!");
+                        //movementManager.AttackMove(thisTransform, movable, target.position, moveRadius);
                         return;
                     }
                     targetable.CurrentTarget = null;
                 }
 
-                movementManager.AttackMove(thisTransform, movable, thisTransform.position + (Vector3)animatable.GetAnimationRestrictedDirection(GameManager.instance.inputManager.MoveInput) * moveRadius, moveRadius);
+                Debug.LogError("ERROR: Not Implemented!!!");
+                //movementManager.AttackMove(thisTransform, movable, thisTransform.position + (Vector3)animatable.GetAnimationRestrictedDirection(GameManager.instance.inputManager.MoveInput) * moveRadius, moveRadius);
             }
             else
             {
@@ -53,7 +54,8 @@ public class AttackMovePlayerAction : StateActionSO
                 {
                     Debug.DrawLine(thisTransform.position, targetable.CurrentTarget.position, Color.blue, 0.4f);
                     animatable.SetAnimationDirection(targetable.CurrentTarget.position - thisTransform.position);
-                    movementManager.AttackMove(thisTransform, movable, targetable.CurrentTarget.position, moveRadius);
+                    Debug.LogError("ERROR: Not Implemented!!!");
+                    //movementManager.AttackMove(thisTransform, movable, targetable.CurrentTarget.position, moveRadius);
                     return;
                 }
 
@@ -61,13 +63,15 @@ public class AttackMovePlayerAction : StateActionSO
                 if (target)
                 {
                     animatable.SetAnimationDirection(target.position - thisTransform.position);
-                    movementManager.AttackMove(thisTransform, movable, target.position, moveRadius);
+                    Debug.LogError("ERROR: Not Implemented!!!");
+                    //movementManager.AttackMove(thisTransform, movable, target.position, moveRadius);
                     targetable.CurrentTarget = target;
                     return;
                 }
                 targetable.CurrentTarget = null;
                 moveRadius = attackData.attackMoveMinRange;
-                movementManager.AttackMove(thisTransform, movable, thisTransform.position + (Vector3)animatable.LastSetAnimationDir4 * moveRadius, moveRadius);
+                Debug.LogError("ERROR: Not Implemented!!!");
+                //movementManager.AttackMove(thisTransform, movable, thisTransform.position + (Vector3)animatable.LastSetAnimationDir4 * moveRadius, moveRadius);
             }
             footstep.PlayFootstepAudio(default);
         }

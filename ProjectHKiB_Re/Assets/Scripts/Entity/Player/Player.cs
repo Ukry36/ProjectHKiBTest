@@ -1,16 +1,6 @@
 using UnityEngine;
 using Assets.Scripts.Interfaces.Modules;
 
-[RequireComponent(typeof(AttackableModule))]
-[RequireComponent(typeof(MovableModule))]
-[RequireComponent(typeof(TargetableModule))]
-[RequireComponent(typeof(DodgeableModule))]
-[RequireComponent(typeof(DamagableModule))]
-[RequireComponent(typeof(SkinableModule))]
-[RequireComponent(typeof(DirAnimatableModule))]
-[RequireComponent(typeof(FootStepModule))]
-[RequireComponent(typeof(BuffableModule))]
-[RequireComponent(typeof(GraffitiableModule))]
 public class Player : Entity
 {
     #region field
@@ -61,7 +51,7 @@ public class Player : Entity
             Debug.Log("BaseData is Null");
             return;
         }
-        databaseManager.SetIMovable(this, BaseData);
+        databaseManager.SetIPhysics(this, BaseData);
         databaseManager.SetIAttackable(this, BaseData);
         databaseManager.SetIDamagable(this, BaseData);
         databaseManager.SetIDodgeable(this, BaseData);
