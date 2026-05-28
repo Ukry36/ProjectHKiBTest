@@ -33,7 +33,7 @@ public class AttackableModule : InterfaceModule, IAttackable
     public FloatBuffContainer AccuracyMissChanceBuffer { get; private set; }
 
     public float AccuracyMissChance =>
-        AccuracyMissChanceBuffer != null ? Mathf.Clamp01(AccuracyMissChanceBuffer.BuffedStat) : 0f;
+        AccuracyMissChanceBuffer != null ? Mathf.Clamp01(AccuracyMissChanceBuffer.GetBuffedStat(0)) : 0f;
 
     public bool HasRolledAccuracyDebuffThisAttack { get; private set; }
     public bool IsAccuracyDirDistortedThisAttack { get; private set; }
@@ -42,7 +42,7 @@ public class AttackableModule : InterfaceModule, IAttackable
     public FloatBuffContainer SelfDamageChanceBuffer { get; private set; }
 
     public float SelfDamageChance =>
-        SelfDamageChanceBuffer != null ? Mathf.Clamp01(SelfDamageChanceBuffer.BuffedStat) : 0f;
+        SelfDamageChanceBuffer != null ? Mathf.Clamp01(SelfDamageChanceBuffer.GetBuffedStat(0)) : 0f;
 
     public bool IsSelfDamageTriggered { get; private set; }
     public int PendingSelfDamageDamageNumber { get; private set; }
@@ -52,12 +52,13 @@ public class AttackableModule : InterfaceModule, IAttackable
     public BoolBuffContainer RunawayBuffer { get; private set; }
 
     public bool IsGroggy =>
-        GroggyBuffer != null && GroggyBuffer.BuffedStat;
+        GroggyBuffer != null && GroggyBuffer.GetBuffedStat(0, isNegative: true);
 
     public bool IsRunaway =>
-        RunawayBuffer != null && RunawayBuffer.BuffedStat;
+        RunawayBuffer != null && RunawayBuffer.GetBuffedStat(0, isNegative: true);
 
-
+    public System.Action<float> OnATKChanged { get; set; }
+    
     public override void Register(IInterfaceRegistable interfaceRegistable)
     {
         interfaceRegistable.RegisterInterface<IAttackable>(this);
@@ -65,15 +66,14 @@ public class AttackableModule : InterfaceModule, IAttackable
 
     public virtual void Initialize()
     {
-        ATKBuffer = new(BaseATK, 0f);
-        AttackCooltimeBuffer = new CooltimeMultiplierBuffContainer(1f);
-        AccuracyMissChanceBuffer = new FloatBuffContainer(0f);
-        SelfDamageChanceBuffer = new FloatBuffContainer(0f);
+        ATKBuffer = new();
+        AttackCooltimeBuffer = new(1f);
+        AccuracyMissChanceBuffer = new();
+        SelfDamageChanceBuffer = new();
         AttackCooltimeBuffer.OnBuffed += OnAttackCooltimeBuffChanged;
 
-        GroggyBuffer = new BoolBuffContainer();
-        RunawayBuffer = new BoolBuffContainer();
-
+        GroggyBuffer = new();
+        RunawayBuffer = new();
 
         SetAttacker();
         attackCooltime = new();

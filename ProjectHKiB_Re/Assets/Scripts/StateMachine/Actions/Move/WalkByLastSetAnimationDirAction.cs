@@ -6,11 +6,10 @@ using UnityEngine;
 public class WalkByLastSetAnimationDirAction : StateActionSO
 {
     [SerializeField] private bool _negate;
-    [SerializeField] private MovementManagerSO movementManager;
 
     public override void Act(StateController stateController)
     {
-        if (stateController.TryGetInterface(out IMovable movable) &&
+        if (stateController.TryGetInterface(out IPhysics phys) &&
             stateController.TryGetInterface(out IDirAnimatable animatable))
         {
             Vector2 dir = animatable.LastSetAnimationDir8;
@@ -18,13 +17,8 @@ public class WalkByLastSetAnimationDirAction : StateActionSO
             if (_negate)
                 dir *= -1f;
 
-            movementManager.WalkMove(
-                stateController.transform,
-                movable,
-                movable.Speed,
-                dir,
-                movable.WallLayer
-            );
+            phys.WalkingDir = dir;
+            phys.IsWalking = true;
         }
         else
         {

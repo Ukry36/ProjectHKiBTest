@@ -16,8 +16,8 @@ public interface IAttackableBase
 public interface IAttackable : IAttackableBase, IInitializable
 {
     public FloatBuffContainer ATKBuffer { get; set; }
-    public int ATK { get => (int)ATKBuffer.BuffedStat; }
-    public Action<float> OnATKChanged { get => ATKBuffer.OnBuffed; }
+    public int ATK { get => (int)ATKBuffer.GetBuffedStat(BaseATK, 0); }
+    public Action<float> OnATKChanged { get; set; }
     public bool IsAttackCooltime { get; set; }
     public float DamageIndicatorRandomPosInfo { get; set; }
     public int AttackNumber { get; set; }

@@ -13,25 +13,25 @@ public interface IDamagableBase
 public interface IDamagable : IDamagableBase, IInitializable
 {
     public FloatBuffContainer MaxHPBuffer { get; set; }
-    public float MaxHP { get => MaxHPBuffer.BuffedStat; }
+    public float MaxHP { get => MaxHPBuffer.GetBuffedStat(BaseMaxHP, 0); }
     public float HP { get; set; }
     public Action<float> OnHPChanged { get; set; }
 
     public FloatBuffContainer DEFBuffer { get; set; }
-    public float DEF { get => DEFBuffer.BuffedStat; }
-    public Action<float> OnDEFChanged { get => DEFBuffer.OnBuffed; }
+    public float DEF { get => DEFBuffer.GetBuffedStat(BaseDEF, 0); }
+    public Action<float> OnDEFChanged { get; set; }
 
     public FloatBuffContainer ResistanceBuffer { get; set; }
-    public float Resistance { get => ResistanceBuffer.BuffedStat; }
-    public Action<float> OnResistanceChanged { get => ResistanceBuffer.OnBuffed; }
+    public float Resistance { get => ResistanceBuffer.GetBuffedStat(0); }
+    public Action<float> OnResistanceChanged { get; set; }
 
     public BoolBuffContainer InvincibleBuffer { get; set; }
-    public bool Invincible { get => InvincibleBuffer.BuffedStat; }
-    public Action<bool> OnInvincibleChanged { get => InvincibleBuffer.OnBuffed; }
+    public bool Invincible { get => InvincibleBuffer.GetBuffedStat(0, isNegative: false); }
+    public Action<bool> OnInvincibleChanged { get; set; }
 
     public BoolBuffContainer SuperArmourBuffer { get; set; }
-    public bool SuperArmour { get => SuperArmourBuffer.BuffedStat; }
-    public Action<bool> OnSuperArmourChanged { get => SuperArmourBuffer.OnBuffed; }
+    public bool SuperArmour { get => SuperArmourBuffer.GetBuffedStat(0, isNegative: false); }
+    public Action<bool> OnSuperArmourChanged { get; set; }
 
     public Action OnDamaged { get; set; }
     public Action OnDie { get; set; }

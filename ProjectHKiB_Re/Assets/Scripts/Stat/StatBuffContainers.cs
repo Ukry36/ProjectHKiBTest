@@ -4,21 +4,12 @@ using UnityEngine;
 
 public class FloatBuffContainer
 {
-    public FloatBuffContainer(float baseStat, float minStat = float.NegativeInfinity)
-    {
-        this.baseStat = baseStat;
-        _minStat = minStat;
-    }
-
-    public readonly float baseStat;
-    // 버프 적용 후 최솟값 제한. Speed=0f(역방향 방지), MaxHP=1f(0 이하 방지), ATK=0f / 기본값=제한 없음
-    private readonly float _minStat;
-    public Action<float> OnBuffed;
+    public Action OnBuffed;
 
     private readonly Dictionary<int, float> _statBuffAddList = new(10);
     private readonly Dictionary<int, float> _statBuffPropList = new(10);
 
-    public float BuffedStat => Mathf.Max(_minStat, baseStat + StatBuffAdd + StatBuffProp * baseStat);
+    public float GetBuffedStat(float baseStat, float minStat = float.NegativeInfinity) => Mathf.Max(minStat, baseStat + StatBuffAdd + StatBuffProp * baseStat);
 
     public float StatBuffAdd
     {
@@ -67,7 +58,7 @@ public class FloatBuffContainer
                 _statBuffAddList[effectID] = effect.Value * multiplyer;
         }
 
-        OnBuffed?.Invoke(BuffedStat);
+        OnBuffed?.Invoke();
     }
 
     public void RemoveBuff(StatBuffSO buff, int effectIndex, int multiplyer, bool remove)
@@ -112,26 +103,22 @@ public class FloatBuffContainer
             }
         }
 
-        OnBuffed?.Invoke(BuffedStat);
+        OnBuffed?.Invoke();
     }
 }
 
 public class BoolBuffContainer
 {
-    public Action<bool> OnBuffed;
+    public Action OnBuffed;
     private readonly Dictionary<int, int> _statBuffList = new(10);
 
-    public bool StatBuff
+    public bool GetBuffedStat(int baseStat, bool isNegative)
     {
-        get
-        {
-            int val = 0;
-            foreach (var item in _statBuffList) val += item.Value;
-            return val > 0;
-        }
+        int val = baseStat;
+        if (isNegative) foreach (var item in _statBuffList) val -= item.Value;
+        else            foreach (var item in _statBuffList) val += item.Value;
+        return val > 0;
     }
-
-    public bool BuffedStat => StatBuff;
 
     public void AddBuff(StatBuffSO buff, int effectIndex, int multiplyer, bool stack)
         => AddBuff(buff, effectIndex, null, multiplyer, stack);
@@ -148,7 +135,7 @@ public class BoolBuffContainer
         else
             _statBuffList[effectID] = effect.IsDebuff ? -multiplyer : multiplyer;
 
-        OnBuffed?.Invoke(BuffedStat);
+        OnBuffed?.Invoke();
     }
 
     public void RemoveBuff(StatBuffSO buff, int effectIndex, int multiplyer, bool remove)
@@ -177,7 +164,7 @@ public class BoolBuffContainer
             }
         }
 
-        OnBuffed?.Invoke(BuffedStat);
+        OnBuffed?.Invoke();
     }
 }
 

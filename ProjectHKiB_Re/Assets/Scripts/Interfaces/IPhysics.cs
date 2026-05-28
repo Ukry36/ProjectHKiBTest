@@ -27,6 +27,9 @@ public interface IPhysicsBase
 
 public interface IPhysics : IPhysicsBase, IInitializable
 {
+    public FloatBuffContainer SpeedBuffer { get; set; }
+    public float BuffedWalkAcceleration { get => SpeedBuffer.GetBuffedStat(WalkAcceleration, 0); }
+    public float BuffedMaxWalkSpeed { get => SpeedBuffer.GetBuffedStat(MaxWalkSpeed, 0); }
     public Vector3 LastSetDir { get; set; }
     public bool IsWalking { get; set; }
     public Vector2 WalkingDir { get; set; }

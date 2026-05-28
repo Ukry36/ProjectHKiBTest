@@ -8,19 +8,11 @@ namespace Assets.Scripts.Interfaces.Modules
     {
         public float BaseMaxHP { get; set; }
         public FloatBuffContainer MaxHPBuffer { get; set; }
-        public float MaxHP
-        {
-            get
-            {
-                MaxHPBuffer ??= new(BaseMaxHP, 1f);
-                return MaxHPBuffer.BuffedStat;
-            }
-        }
+        public float MaxHP { get => MaxHPBuffer.GetBuffedStat(BaseMaxHP, 0); }
         private float _prevMaxHP;
         public float HP { get; set; }
-        public Action<float> OnHPChanged { get; set; }
         public float BaseDEF { get; set; }
-        public float DEF { get => DEFBuffer.BuffedStat; }
+         public float DEF { get => DEFBuffer.GetBuffedStat(BaseDEF, 0); }
         public FloatBuffContainer DEFBuffer { get; set; }
         public FloatBuffContainer ResistanceBuffer { get; set; }
         public BoolBuffContainer InvincibleBuffer { get; set; }
@@ -34,6 +26,11 @@ namespace Assets.Scripts.Interfaces.Modules
         public Action OnDie { get; set; }
         public Action OnDamaged { get; set; }
         public Action OnHealed { get; set; }
+        public Action<float> OnHPChanged { get; set; }
+        public Action<float> OnDEFChanged { get; set; }
+        public Action<float> OnResistanceChanged { get; set; }
+        public Action<bool> OnInvincibleChanged { get; set; }
+        public Action<bool> OnSuperArmourChanged { get; set; }
 
         public override void Register(IInterfaceRegistable interfaceRegistable)
         {
@@ -42,9 +39,9 @@ namespace Assets.Scripts.Interfaces.Modules
 
         public void Initialize()
         {
-            MaxHPBuffer = new(BaseMaxHP, 1f);
-            DEFBuffer = new(BaseDEF);
-            ResistanceBuffer = new(0);
+            MaxHPBuffer = new();
+            DEFBuffer = new();
+            ResistanceBuffer = new();
             InvincibleBuffer = new();
             SuperArmourBuffer = new();
             HP = MaxHP;
@@ -54,10 +51,10 @@ namespace Assets.Scripts.Interfaces.Modules
             if (!_physics) _physics = GetComponent<PhysicsModule>();
         }
 
-        private void OnMaxHpChanged(float buffedStat)
+        private void OnMaxHpChanged()
         {
-            HP *= buffedStat / _prevMaxHP;
-            _prevMaxHP = buffedStat;
+            HP *= MaxHP / _prevMaxHP;
+            _prevMaxHP = MaxHP;
             OnHPChanged?.Invoke(HP);
         }
         [Button]
@@ -73,7 +70,7 @@ namespace Assets.Scripts.Interfaces.Modules
         {
             OnDamaged?.Invoke();
             bool IsKnockback = false;
-            if (damageData.knockBack > _physics.Mass && !SuperArmourBuffer.BuffedStat)
+            if (damageData.knockBack > _physics.Mass && !SuperArmourBuffer.GetBuffedStat(0, isNegative: false))
             {
                 _physics.KnockBack(transform.position - origin, damageData.knockBack);
                 IsKnockback = true;

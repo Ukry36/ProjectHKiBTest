@@ -32,7 +32,7 @@ public class DamagableViewModel : ViewModel<IDamagable>
         _model.OnHPChanged += (a) => UpdateViewModelState();
         _model.OnDamaged += () => UpdateViewModelState();
         _model.OnHealed += () => UpdateViewModelState();
-        _model.MaxHPBuffer.OnBuffed += (a) => UpdateViewModelState();
+        _model.MaxHPBuffer.OnBuffed += () => UpdateViewModelState();
     }
 
     protected override void UpdateViewModelState()

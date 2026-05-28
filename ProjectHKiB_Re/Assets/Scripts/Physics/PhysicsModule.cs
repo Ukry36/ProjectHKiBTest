@@ -3,6 +3,7 @@ using UnityEngine;
 public class PhysicsModule : InterfaceModule, IPhysics
 {
     public PhysicsManager physManager;
+    public FloatBuffContainer SpeedBuffer { get; set; }
     
     [field: SerializeField] public float GroundFriction { get; set; }
     [field: SerializeField] public float BounceCoeff { get; set; }
