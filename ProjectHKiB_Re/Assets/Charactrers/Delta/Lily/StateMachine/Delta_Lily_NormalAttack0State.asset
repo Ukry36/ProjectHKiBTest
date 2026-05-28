@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb85084ca5989854b9dbc2cce1298255, type: 3}
   m_Name: Delta_Lily_NormalAttack0State
   m_EditorClassIdentifier: 
-  temporaryID: 0.16659941
+  temporaryID: 0.8758054
   transitions:
   - activationInput: 10
     availableTime: 0
@@ -70,8 +70,26 @@ MonoBehaviour:
     trueState: {fileID: 11400000, guid: bbb5b3ec0403b954d908ae30160cfa1a, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
+  - activationInput: 10
+    availableTime: 0
+    disableTime: 0
+    decisions:
+    - decision: {fileID: 11400000, guid: 69473423be5d34647b0a1e7e15d1103a, type: 2}
+      negate: 0
+    trueState: {fileID: 11400000, guid: 0aa65a36517c2ee408ea65a0d246a3ad, type: 2}
+    falseState: {fileID: 0}
+    action: {fileID: 0}
+  - activationInput: 10
+    availableTime: 0
+    disableTime: 0
+    decisions:
+    - decision: {fileID: 11400000, guid: 32f2c5ff068557b43becca29f5d19726, type: 2}
+      negate: 0
+    trueState: {fileID: 11400000, guid: 43f3ae2bc0b69c44685c788683c4a5c8, type: 2}
+    falseState: {fileID: 0}
+    action: {fileID: 0}
   enterActions:
-  - {fileID: 11400000, guid: 9d29c5b17685af144aaabb51ca64e9ad, type: 2}
+  - {fileID: 11400000, guid: 89eb5a29b6673714bb4de9694caa387a, type: 2}
   - {fileID: 11400000, guid: 9803c0b8775edce4ab1c7847408e6785, type: 2}
   updateActions:
   - {fileID: 11400000, guid: 4ff9702b721b89147abd80a03aeb1ff4, type: 2}

@@ -1,27 +1,94 @@
+using System;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "StatBuff", menuName = "Scriptable Objects/StatBuff")]
 public class StatBuffSO : ScriptableObject
 {
-    public enum TimeStackTypeEnum { Ignore, Stack, Overwrite, }
-    public enum BuffStackTypeEnum { Ignore, Stack, Overwrite, Independant, }
+    public enum TimeStackTypeEnum { Ignore, Stack, Overwrite }
+    // Independant: 동일 SO라도 항상 별도 BuffInfo 생성 (중복 적용 허용)
+    public enum BuffStackTypeEnum { Ignore, Stack, Overwrite, Independant }
+    // Permanent: UnBuff() 무시. ignorePermanent=true 로만 강제 제거 가능
     public enum BuffRemoveTypeEnum { Remove, Unstack, Permanent }
 
-    public int ID { get => this.GetInstanceID(); }
-    [field: NaughtyAttributes.ResizableTextArea()][field: SerializeField] public string Description { get; set; }
+    [Serializable]
+    public class BuffEffect
+    {
+        [field: SerializeField] public StatBuffTypeSO BuffType { get; private set; }
+        [field: SerializeField] public bool IsDebuff { get; set; }
+        [field: Min(0)][field: SerializeField] public float Value { get; set; }
+        // true: 비율 버프 (BuffedStat += Value × baseStat) / false: 고정 수치 (BuffedStat += Value)
+        [field: SerializeField] public bool IsValuePropositional { get; set; }
+    }
+
+    public int ID => this.GetInstanceID();
+
+    [field: NaughtyAttributes.ResizableTextArea]
+    [field: SerializeField] public string Description { get; set; }
+
     [field: SerializeField] public bool IsBuffTimeInfinite { get; set; }
     [field: SerializeField] public float BuffTime { get; set; }
-    [field: SerializeField] public bool IsDebuff { get; set; }
-    [field: NaughtyAttributes.MinValue(0)][field: SerializeField] public float Value { get; set; }
-    [field: SerializeField] public bool IsValuePropositional { get; set; }
-    [field: SerializeField] public StatBuffTypeSO BuffType { get; private set; }
+
+    [Header("Emotion Buff")]
+    [SerializeField] private bool isEmotionBuff;
+    [SerializeField] private EmotionColor emotionColor;
+    [SerializeField] private int maxStack = 200;
+
+    public bool IsEmotionBuff => isEmotionBuff;
+    public EmotionColor EmotionColor => emotionColor;
+    public int MaxStack => maxStack;
+
+
     [field: SerializeField] public TimeStackTypeEnum TimeStackType { get; set; }
     [field: SerializeField] public BuffStackTypeEnum BuffStackType { get; set; }
     [field: SerializeField] public BuffRemoveTypeEnum BuffRemoveType { get; set; }
+
+    [field: SerializeField] public BuffEffect[] Effects { get; private set; }
+
+    public int GetEffectID(int effectIndex)
+    {
+        return HashCode.Combine(ID, effectIndex);
+    }
+
+    public int GetEffectID(int effectIndex, Gear sourceGear)
+    {
+        return HashCode.Combine(ID, effectIndex, sourceGear);
+    }
+
+    public BuffEffect GetEffect(int effectIndex)
+    {
+        if (Effects == null || effectIndex < 0 || effectIndex >= Effects.Length) return null;
+        return Effects[effectIndex];
+    }
+
     public void AddBuff(InterfaceRegister interfaceReg, int multiplyer = 1, bool stack = true)
-    => BuffType.AddBuff(interfaceReg, this, multiplyer, stack);
+        => AddBuff(interfaceReg, null, multiplyer, stack);
+
+    public void AddBuff(InterfaceRegister interfaceReg, Gear sourceGear, int multiplyer = 1, bool stack = true)
+    {
+        if (Effects == null) return;
+
+        for (int i = 0; i < Effects.Length; i++)
+        {
+            BuffEffect effect = Effects[i];
+            if (effect == null || effect.BuffType == null) continue;
+
+            effect.BuffType.AddBuff(interfaceReg, this, i, sourceGear, multiplyer, stack);
+        }
+    }
 
     public void RemoveBuff(InterfaceRegister interfaceReg, int multiplyer = 1, bool remove = true)
-    => BuffType.RemoveBuff(interfaceReg, this, multiplyer, remove);
+        => RemoveBuff(interfaceReg, null, multiplyer, remove);
 
+    public void RemoveBuff(InterfaceRegister interfaceReg, Gear sourceGear, int multiplyer = 1, bool remove = true)
+    {
+        if (Effects == null) return;
+
+        for (int i = 0; i < Effects.Length; i++)
+        {
+            BuffEffect effect = Effects[i];
+            if (effect == null || effect.BuffType == null) continue;
+
+            effect.BuffType.RemoveBuff(interfaceReg, this, i, sourceGear, multiplyer, remove);
+        }
+    }
 }

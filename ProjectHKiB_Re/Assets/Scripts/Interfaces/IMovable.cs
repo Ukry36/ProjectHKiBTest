@@ -1,6 +1,6 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
+
 public interface IMovableBase
 {
     public float WalkSpeed { get; set; }
