@@ -81,6 +81,58 @@ public class PhysicsManager : MonoBehaviour
         obj.HVelocity = Vector2.zero;
         obj.ZVelocity = 0;
     }
+
+    public void InstantMove(IPhysics obj, Vector2 displacement, bool interpolate)
+    {
+        SwitchToGrid(obj);
+        Vector2 realDisp = obj.HVelocity * Time.fixedDeltaTime + displacement;
+        Vector2 destination = obj.HPosition;
+        float budget = realDisp.magnitude;
+        Vector2 dir = realDisp.normalized;
+        while (budget > 0)
+        {
+            budget -= gridSize;
+            destination += dir * gridSize;
+            Vector2Int destAnchor = WorldCenterToAnchorCell(destination, obj.Size);
+            bool staticWall       = IsStaticWall(obj, destAnchor);
+            int entityCnt         = GetOccupantsInFootprint(obj, destAnchor, objBuffer);
+            if (staticWall || entityCnt > 0)
+            {
+                destination -= dir * gridSize;
+                destAnchor = WorldCenterToAnchorCell(destination, obj.Size);
+                destination = AnchorCellToWorldCenter(destAnchor, obj.Size);
+                break;
+            }
+        }
+        if (interpolate) LogicalTeleport(obj, destination);
+        else             RealTeleport(obj, destination);
+    }
+
+    public void InstantMoveReversed(IPhysics obj, Vector2 displacement, bool interpolate)
+    {
+        SwitchToGrid(obj);
+        Vector2 realDisp = obj.HVelocity * Time.fixedDeltaTime + displacement;
+        Vector2 destination = obj.HPosition + realDisp;
+        float budget = realDisp.magnitude;
+        Vector2 dir = realDisp.normalized;
+        while (budget > 0)
+        {
+            budget -= gridSize;
+            destination -= dir * gridSize;
+            Vector2Int destAnchor = WorldCenterToAnchorCell(destination, obj.Size);
+            bool staticWall       = IsStaticWall(obj, destAnchor);
+            int entityCnt         = GetOccupantsInFootprint(obj, destAnchor, objBuffer);
+            if (staticWall || entityCnt > 0)
+            {
+                destination += dir * gridSize;
+                destAnchor = WorldCenterToAnchorCell(destination, obj.Size);
+                destination = AnchorCellToWorldCenter(destAnchor, obj.Size);
+                break;
+            }
+        }
+        if (interpolate) LogicalTeleport(obj, destination);
+        else             RealTeleport(obj, destination);
+    }
     
 #endregion
 
@@ -104,7 +156,8 @@ public class PhysicsManager : MonoBehaviour
     
         for (int i = 0; i < AllPhysicsEntitys.Count; i++)
         {
-            if      (AllPhysicsEntitys[i].Mode == MovementMode.Grid)    UpdateGridMovement(AllPhysicsEntitys[i]);
+            if      (AllPhysicsEntitys[i].Mode == MovementMode.Grid
+                  || AllPhysicsEntitys[i].Mode == MovementMode.Static)  UpdateGridMovement(AllPhysicsEntitys[i]);
             else if (AllPhysicsEntitys[i].Mode == MovementMode.Physics) UpdatePhysicsMovementOnlyWall(AllPhysicsEntitys[i]); 
         }
 
@@ -173,37 +226,15 @@ public class PhysicsManager : MonoBehaviour
             return;
         }
 
-        if (obj.Mode == MovementMode.Physics && wantsGrid)
-        {
-            obj.Mode = MovementMode.Grid;
-
-            obj.Grid.CurrentCell  = WorldCenterToAnchorCell(obj.HPosition, obj.Size);
-            obj.Grid.TargetCell   = obj.Grid.CurrentCell;
-            obj.Grid.CellProgress = 1f;
-            obj.Grid.IsSettling   = false;
-
-            if (obj.HVelocity.sqrMagnitude > EPSILON)
-            {
-                Vector2 d = obj.HVelocity.normalized;
-                obj.Grid.LastMoveDir = new Vector2Int(
-                    Mathf.RoundToInt(d.x), Mathf.RoundToInt(d.y));
-            }
-
-            Vector2 gridCenter = AnchorCellToWorldCenter(obj.Grid.CurrentCell, obj.Size);
-            obj.Grid.PhysicsReturnOffset = obj.HPosition - gridCenter;
-        }
-        else if (obj.Mode == MovementMode.Grid && wantsPhysics)
-        {
-            obj.Mode             = MovementMode.Physics;
-            obj.Phys.KeepPhysics = keepPhysicsFrames;
-        }
+        if      (wantsGrid)    SwitchToGrid(obj);
+        else if (wantsPhysics) SwitchToPhysics(obj);
         else if (obj.Mode == MovementMode.Static) return;
     }
 
-    private void SwitchToPhysics(IPhysics obj)
+    public void SwitchToPhysics(IPhysics obj)
     {
         if (obj.Mode == MovementMode.Physics) return;
-        if (obj.Mode == MovementMode.Static && obj.ExForce.magnitude < obj.StaticEndureForce)
+        if (obj.Mode == MovementMode.Static && obj.ExForce.magnitude < obj.StaticEndureForce) return;
 
         RemoveFootprintOccupant(obj, obj.Grid.CurrentCell);
         RemoveFootprintOccupant(obj, obj.Grid.TargetCell);
@@ -213,6 +244,37 @@ public class PhysicsManager : MonoBehaviour
 
         Vector2Int anchor = WorldCenterToAnchorCell(obj.HPosition, obj.Size);
         AddFootprintOccupant(obj, anchor);
+    }
+
+    public void SwitchToGrid(IPhysics obj)
+    {
+        if (obj.Mode == MovementMode.Grid) return;
+        if (obj.Mode == MovementMode.Static) return;
+        obj.Mode = MovementMode.Grid;
+
+        obj.Grid.CurrentCell  = WorldCenterToAnchorCell(obj.HPosition, obj.Size);
+        obj.Grid.TargetCell   = obj.Grid.CurrentCell;
+        obj.Grid.CellProgress = 1f;
+        obj.Grid.IsSettling   = false;
+
+        if (obj.HVelocity.sqrMagnitude > EPSILON)
+        {
+            Vector2 d = obj.HVelocity.normalized;
+            obj.Grid.LastMoveDir = new Vector2Int(
+                Mathf.RoundToInt(d.x), Mathf.RoundToInt(d.y));
+        }
+
+        Vector2 gridCenter = AnchorCellToWorldCenter(obj.Grid.CurrentCell, obj.Size);
+        obj.Grid.PhysicsReturnOffset = obj.HPosition - gridCenter;
+    }
+
+    public void SwitchToStatic(IPhysics obj)
+    {
+        if (obj.Mode == MovementMode.Static || obj.ExForce.magnitude >= obj.StaticEndureForce) return;
+        if (obj.Mode == MovementMode.Physics) SwitchToGrid(obj);
+        
+        obj.Mode = MovementMode.Static;
+        obj.HVelocity = Vector2.zero;
     }
 #endregion
 
@@ -235,7 +297,7 @@ public class PhysicsManager : MonoBehaviour
         }
 
         float currentSpeed = obj.HVelocity.magnitude;
-        if (currentSpeed > stopThreshold)
+        if (currentSpeed > stopThreshold && obj.Mode != MovementMode.Static)
         {
             Vector2    normalizedVel = obj.HVelocity.normalized;
             Vector2Int moveDir       = new(Mathf.RoundToInt(normalizedVel.x),
@@ -340,7 +402,7 @@ public class PhysicsManager : MonoBehaviour
             return;
         }
 
-        int cnt = GetAnyOccupantInFootprint(obj, desiredAnchor, objBuffer); // Entity check
+        int cnt = GetOccupantsInFootprint(obj, desiredAnchor, objBuffer); // Entity check
         if (cnt > 0)
         {
             SwitchToPhysics(obj);
@@ -361,7 +423,7 @@ public class PhysicsManager : MonoBehaviour
         {
             var slideDir    = new Vector2Int(moveDir.x, 0);
             var slideAnchor = obj.Grid.CurrentCell + slideDir;
-            if (!IsStaticWall(obj, slideAnchor) && GetAnyOccupantInFootprint(obj, slideAnchor, objBuffer) < 1)
+            if (!IsStaticWall(obj, slideAnchor) && GetOccupantsInFootprint(obj, slideAnchor, objBuffer) < 1)
             {
                 obj.Grid.TargetCell   = slideAnchor;
                 obj.Grid.CellProgress = 0f;
@@ -374,7 +436,7 @@ public class PhysicsManager : MonoBehaviour
         {
             var slideDir    = new Vector2Int(0, moveDir.y);
             var slideAnchor = obj.Grid.CurrentCell + slideDir;
-            if (!IsStaticWall(obj, slideAnchor) && GetAnyOccupantInFootprint(obj, slideAnchor, objBuffer) < 1)
+            if (!IsStaticWall(obj, slideAnchor) && GetOccupantsInFootprint(obj, slideAnchor, objBuffer) < 1)
             {
                 obj.Grid.TargetCell   = slideAnchor;
                 obj.Grid.CellProgress = 0f;
@@ -762,7 +824,7 @@ public class PhysicsManager : MonoBehaviour
         return null;
     }
 
-    private int GetAnyOccupantInFootprint(IPhysics obj, Vector2Int anchorCell, IPhysics[] results)
+    private int GetOccupantsInFootprint(IPhysics obj, Vector2Int anchorCell, IPhysics[] results)
     {
         HashSet<IPhysics> check = new(32);
         int validCnt = 0;
