@@ -20,6 +20,14 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 2a28a19618e93db4c87a4bf45741d1f6, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _PrevFrameTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -33,6 +41,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
-    m_Floats: []
-    m_Colors: []
+    m_Floats:
+    - _FrameParity: 1
+    - _Threshold: 0
+    m_Colors:
+    - _Direction: {r: 1, g: 0, b: 0, a: 0}
+    - _ScreenBounds: {r: 0.710884, g: 0.04930553, b: 1.8777953, a: 1.0840278}
+    - _TexelSize: {r: 0.003125, g: 0.004166667, b: 320, a: 240}
   m_BuildTextureStacks: []

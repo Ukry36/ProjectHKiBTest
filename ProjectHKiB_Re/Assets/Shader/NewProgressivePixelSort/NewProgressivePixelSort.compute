@@ -1,0 +1,213 @@
+// Progressive pixel sort driven by compute shader.
+// KPrepare builds the first sortable state. KStep performs one adjacent
+// odd-even compare/swap pass and is intended to be dispatched repeatedly.
+
+#pragma kernel KPrepare
+#pragma kernel KStep
+
+Texture2D<float4> _SourceTex;
+Texture2D<float4> _MaskTex;
+Texture2D<float4> _SortKeyTex;
+
+Texture2D<float4> _StateRead;
+Texture2D<float> _KeyRead;
+
+RWTexture2D<float4> _StateWrite;
+RWTexture2D<float> _KeyWrite;
+RWTexture2D<float> _SlotTex;
+
+int2 _TextureSize;
+int2 _SourceSize;
+int2 _MaskSize;
+int2 _SortKeySize;
+
+float4 _SourceUvRect;
+float4 _MaskUvRect;
+float4 _SortKeyUvRect;
+
+float _MaskThreshold;
+float _LumaThreshold;
+float _WeightMultiplier;
+float _MaskKeyWeight;
+
+int _MaskChannel;
+int _SortKeyChannel;
+int _SortMode; // 0: luma, 1: hue, 2: saturation, 3: external key texture
+int _UseSortKeyTex;
+
+int2 _Step; // One texel along the chosen sorting axis. Only cardinal axes are supported.
+int _Parity;
+int _Ascending;
+
+bool InBounds(int2 p)
+{
+    return all(p >= int2(0, 0)) && all(p < _TextureSize);
+}
+
+float SelectChannel(float4 value, int channel)
+{
+    if (channel == 1) return value.g;
+    if (channel == 2) return value.b;
+    if (channel == 3) return value.a;
+    return value.r;
+}
+
+float2 RemapUv(float2 uv, float4 rect)
+{
+    return lerp(rect.xy, rect.zw, uv);
+}
+
+int2 UvToCoord(float2 uv, int2 size)
+{
+    int2 safeSize = max(size, int2(1, 1));
+    int2 coord = (int2)floor(saturate(uv) * (float2)safeSize);
+    return min(max(coord, int2(0, 0)), safeSize - 1);
+}
+
+float4 LoadSource(float2 uv)
+{
+    int2 coord = UvToCoord(RemapUv(uv, _SourceUvRect), _SourceSize);
+    return _SourceTex.Load(int3(coord, 0));
+}
+
+float4 LoadMask(float2 uv)
+{
+    int2 coord = UvToCoord(RemapUv(uv, _MaskUvRect), _MaskSize);
+    return _MaskTex.Load(int3(coord, 0));
+}
+
+float4 LoadSortKey(float2 uv)
+{
+    int2 coord = UvToCoord(RemapUv(uv, _SortKeyUvRect), _SortKeySize);
+    return _SortKeyTex.Load(int3(coord, 0));
+}
+
+float Luma(float3 rgb)
+{
+    return dot(rgb, float3(0.299, 0.587, 0.114));
+}
+
+float2 HueSaturation(float3 rgb)
+{
+    float4 k = float4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
+    float4 p = lerp(float4(rgb.bg, k.wz), float4(rgb.gb, k.xy), step(rgb.b, rgb.g));
+    float4 q = lerp(float4(p.xyw, rgb.r), float4(rgb.r, p.yzx), step(p.x, rgb.r));
+    float d = q.x - min(q.w, q.y);
+    float e = 1.0e-10;
+
+    float hue = abs(q.z + (q.w - q.y) / (6.0 * d + e));
+    float saturation = d / (q.x + e);
+    return float2(hue, saturation);
+}
+
+float SortKeyFromColor(float3 rgb)
+{
+    if (_SortMode == 1)
+    {
+        return HueSaturation(rgb).x;
+    }
+
+    if (_SortMode == 2)
+    {
+        return HueSaturation(rgb).y;
+    }
+
+    return Luma(rgb);
+}
+
+void CopySelf(int2 p)
+{
+    _StateWrite[p] = _StateRead.Load(int3(p, 0));
+    _KeyWrite[p] = _KeyRead.Load(int3(p, 0));
+}
+
+[numthreads(8, 8, 1)]
+void KPrepare(uint3 id : SV_DispatchThreadID)
+{
+    if (id.x >= (uint)_TextureSize.x || id.y >= (uint)_TextureSize.y)
+    {
+        return;
+    }
+
+    int2 p = int2(id.xy);
+    float2 uv = ((float2)p + 0.5) / (float2)_TextureSize;
+
+    float4 source = LoadSource(uv);
+    float mask = saturate(SelectChannel(LoadMask(uv), _MaskChannel));
+    float luma = Luma(source.rgb);
+
+    float key = SortKeyFromColor(source.rgb);
+    if (_SortMode == 3 && _UseSortKeyTex != 0)
+    {
+        key = SelectChannel(LoadSortKey(uv), _SortKeyChannel);
+    }
+
+    key *= lerp(1.0, mask, saturate(_MaskKeyWeight)) * _WeightMultiplier;
+
+    bool insideMask = mask > _MaskThreshold;
+    bool sortableSlot = insideMask && luma >= _LumaThreshold;
+
+    float4 state = source;
+    state.a *= insideMask ? mask : 0.0;
+
+    _StateWrite[p] = state;
+    _KeyWrite[p] = key;
+    _SlotTex[p] = sortableSlot ? 1.0 : 0.0;
+}
+
+[numthreads(8, 8, 1)]
+void KStep(uint3 id : SV_DispatchThreadID)
+{
+    if (id.x >= (uint)_TextureSize.x || id.y >= (uint)_TextureSize.y)
+    {
+        return;
+    }
+
+    int2 p = int2(id.xy);
+
+    if (_Step.x == 0 && _Step.y == 0)
+    {
+        CopySelf(p);
+        return;
+    }
+
+    int axisCoord = (_Step.x != 0) ? p.x : p.y;
+    bool isPairStart = ((axisCoord & 1) == _Parity);
+
+    int2 a = isPairStart ? p : p - _Step;
+    int2 b = isPairStart ? p + _Step : p;
+
+    if (!InBounds(a) || !InBounds(b))
+    {
+        CopySelf(p);
+        return;
+    }
+
+    float slotA = _SlotTex[a];
+    float slotB = _SlotTex[b];
+
+    if (slotA < 0.5 || slotB < 0.5)
+    {
+        CopySelf(p);
+        return;
+    }
+
+    float4 colorA = _StateRead.Load(int3(a, 0));
+    float4 colorB = _StateRead.Load(int3(b, 0));
+    float keyA = _KeyRead.Load(int3(a, 0));
+    float keyB = _KeyRead.Load(int3(b, 0));
+
+    bool shouldSwap = (_Ascending != 0) ? (keyA > keyB) : (keyA < keyB);
+    bool currentIsA = all(p == a);
+
+    if (currentIsA)
+    {
+        _StateWrite[p] = shouldSwap ? colorB : colorA;
+        _KeyWrite[p] = shouldSwap ? keyB : keyA;
+    }
+    else
+    {
+        _StateWrite[p] = shouldSwap ? colorA : colorB;
+        _KeyWrite[p] = shouldSwap ? keyA : keyB;
+    }
+}
