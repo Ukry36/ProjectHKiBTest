@@ -139,6 +139,26 @@ MonoBehaviour:
       restoreCamera: 1
       offset: {x: 0, y: 0, z: 0, w: 0}
       cameraFieldOfView: 60
+--- !u!114 &2334439140266901977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1446631df7d45044fbf9ca3176df05ff, type: 3}
+  m_Name: LowResCalculationFeature
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  settings:
+    renderPassEvent: 500
+    downsampleFactor: 1
+    objectLayerMask:
+      m_Bits: 131072
+    maskOverrideMaterial: {fileID: 2100000, guid: d4d1d98761a2d734ba984d67e13f935c, type: 2}
+    heavyCalculationMaterial: {fileID: 2100000, guid: d3da302c15de4e147a37c646523473b5, type: 2}
 --- !u!114 &6322908208619972104
 MonoBehaviour:
   m_ObjectHideFlags: 0

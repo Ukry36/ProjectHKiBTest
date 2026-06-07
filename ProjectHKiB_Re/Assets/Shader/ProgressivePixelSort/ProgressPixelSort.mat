@@ -7,10 +7,9 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: PixelSort
-  m_Shader: {fileID: -6465566751694194690, guid: e274c0c47d16d384ab50a4377d1ef67c, type: 3}
-  m_ValidKeywords:
-  - _MODE_LUMA
+  m_Name: ProgressPixelSort
+  m_Shader: {fileID: -6465566751694194690, guid: 52b544857738f1446962ef36172fa9d7, type: 3}
+  m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -21,10 +20,6 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: bdcdddd2cd840dd46b19bc7bf143de0e, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -38,21 +33,6 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
-    m_Floats:
-    - _Accuracy: 0.1
-    - _MODE: 0
-    - _MaxSortValue: 0.66
-    - _NoiseOffset: 0
-    - _NoiseScale: 1
-    - _NoiseShiftSpeed: 0.01
-    - _NoiseStrength: 1
-    - _StepShiftSpeed: 0
-    - _StepSize: 0.42
-    - _Strength: 50
-    - _Threshold: 0.1
-    - _WeightMultiplier: 1
-    m_Colors:
-    - _Direction: {r: 0, g: -1, b: 0, a: 0}
-    - _NoiseShiftDirection: {r: 0, g: -1, b: 0, a: 0}
-    - _Resolution: {r: 320, g: 240, b: 0, a: 0}
+    m_Floats: []
+    m_Colors: []
   m_BuildTextureStacks: []
