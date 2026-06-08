@@ -10,7 +10,7 @@ Material:
   m_Name: ApproxPixelSort
   m_Shader: {fileID: -6465566751694194690, guid: e274c0c47d16d384ab50a4377d1ef67c, type: 3}
   m_ValidKeywords:
-  - _MODE_SATURATION
+  - _MODE_LUMA
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -40,20 +40,27 @@ Material:
     m_Ints: []
     m_Floats:
     - _Accuracy: 0.1
-    - _MODE: 2
+    - _MODE: 0
     - _MaxSortValue: 0.66
     - _NoiseOffset: 0
     - _NoiseScale: 1
     - _NoiseShiftSpeed: 0.01
     - _NoiseStrength: 1
+    - _PPUACAmount: 12
+    - _PPUACIgnore: 0.2
+    - _PPUACOffset: 0.5
+    - _PPUACStrength: 12
+    - _PPUACThreshold: 0.2
     - _PixelSize: 1
     - _StepShiftSpeed: 0
-    - _StepSize: 1
-    - _Strength: 50
-    - _Threshold: 5.7
+    - _StepSize: 1.86
+    - _Strength: 54
+    - _StrengthACAmount: 0
+    - _Threshold: 1
     - _WeightMultiplier: 1
     m_Colors:
-    - _Direction: {r: 0, g: -1, b: 0, a: 0}
+    - _Direction: {r: -1, g: 0, b: 0, a: 0}
     - _NoiseShiftDirection: {r: 0, g: -1, b: 0, a: 0}
-    - _Resolution: {r: 640, g: 24.6, b: 0, a: 0}
+    - _PPU: {r: 16, g: 16, b: 0, a: 0}
+    - _Resolution: {r: 320, g: 60, b: 0, a: 0}
   m_BuildTextureStacks: []

@@ -3,50 +3,70 @@
 void ApproximatedPixelSort_float(
     float2 ScreenUV,
     float2 ObjectUV,
+    float3 WorldPos,
+    float2 WorldPPU,
     UnityTexture2D ScreenTex, UnitySamplerState ScreenSampler,
     UnityTexture2D MaskTex, UnitySamplerState MaskSampler,
     float2 Direction,
     float Strength,
-    float StepSize, // (기존 StepSize 대신 가상 해상도 격자 시스템 사용)
     float WeightMultiplier,
     float LumaThreshold,
     int SortMode,
-    float2 ScreenResolution, // [추가] 가상 해상도 (예: 원본X, 축소된Y)
-    float PixelSize,         // [추가] 아트 픽셀 크기
     out float4 OutColor)
 {
-    // [시스템 정의] 설정한 해상도 기반의 가상 격자 생성
-    float2 grid = ScreenResolution / PixelSize;
-    float2 deltaScreen = Direction * (1.0 / grid);
+    // 1. 월드 포지션 기준으로 격자화 (Snapping) 진행
+    float2 snappedWorldPos = floor(WorldPos.xy * WorldPPU) / WorldPPU + 0.5 / WorldPPU;
+    float2 worldStep = Direction * (1.0 / WorldPPU);
 
-    // 1. ★ [핵심 수정] 편미분 연산은 반드시 '격자화되지 않은 원본 UV'를 사용 ★
+    // 2. 월드 격자 중심점을 현재 카메라 기준의 Screen UV 공간으로 정밀 역투영
+    float4 clipSnapped = TransformWorldToHClip(float3(snappedWorldPos, WorldPos.z));
+    float4 screenSnapped = ComputeScreenPos(clipSnapped);
+    float2 snappedScreenUV = screenSnapped.xy / screenSnapped.w;
+
+    // 3. 월드 기준 1 가상 픽셀만큼 이동했을 때의 스크린 UV 델타값 역산
+    float4 clipOrig = TransformWorldToHClip(WorldPos);
+    float2 uvOrig = ComputeScreenPos(clipOrig).xy / clipOrig.w;
+    
+    float4 clipNext = TransformWorldToHClip(float3(WorldPos.xy + worldStep, WorldPos.z));
+    float2 uvNext = ComputeScreenPos(clipNext).xy / clipNext.w;
+    
+    float2 deltaScreen = uvNext - uvOrig;
+
+    // 4. 편미분 함수를 통한 ObjectUV 추적 및 동기화 스내핑
     float2 ddx_s = ddx(ScreenUV);
     float2 ddy_s = ddy(ScreenUV);
     float det = ddx_s.x * ddy_s.y - ddx_s.y * ddx_s.x;
-    float2 dp = float2(0.0, 0.0);
+    
+    float2 stepObjectUV = float2(0.0, 0.0);
+    float2 snappedObjectUV = ObjectUV;
     
     if (abs(det) > 1e-6)
     {
+        float2 ddx_o = ddx(ObjectUV);
+        float2 ddy_o = ddy(ObjectUV);
+        
+        // 탐색을 위한 오브젝트 UV 증분 계산
+        float2 dp;
         dp.x = (ddy_s.y * deltaScreen.x - ddy_s.x * deltaScreen.y) / det;
         dp.y = (-ddx_s.y * deltaScreen.x + ddx_s.x * deltaScreen.y) / det;
+        stepObjectUV = dp.x * ddx_o + dp.y * ddy_o;
+        
+        // [중요] ScreenUV 스내핑 오차만큼 ObjectUV의 시작점도 보정하여 매칭 안정화
+        float2 uvDiff = snappedScreenUV - ScreenUV;
+        float2 dpDiff;
+        dpDiff.x = (ddy_s.y * uvDiff.x - ddy_s.x * uvDiff.y) / det;
+        dpDiff.y = (-ddx_s.y * uvDiff.x + ddx_s.x * uvDiff.y) / det;
+        snappedObjectUV = ObjectUV + (dpDiff.x * ddx_o + dpDiff.y * ddy_o);
     }
     
-    float2 ddx_o = ddx(ObjectUV);
-    float2 ddy_o = ddy(ObjectUV);
-    // 정교한 원본 미분값 덕분에 stepObjectUV의 X축 drift(밀림 현상)가 완벽히 차단됩니다.
-    float2 stepObjectUV = dp.x * ddx_o + dp.y * ddy_o;
-    
-    // 2. 실제 화면 렌더링 픽셀 포지션만 격자화(Snapping) 진행
-    float2 snappedScreenUV = (floor(ScreenUV * grid) + 0.5) / grid;
-
-    // 3. 현재 픽셀 기본 데이터 추출 (격자화된 UV 적용)
+    // 5. 기준점 샘플링 데이터 추출 (완벽히 고정된 월드 기반 UV 사용)
     float4 baseColor = ScreenTex.SampleLevel(ScreenSampler, snappedScreenUV, 0);
     float baseLuma = dot(baseColor.rgb, float3(0.299, 0.587, 0.114));
-    float4 baseMask = MaskTex.SampleLevel(MaskSampler, ObjectUV, 0);
+    float4 baseMask = MaskTex.SampleLevel(MaskSampler, snappedObjectUV, 0);
     
     if (baseMask.b <= 0.01 || baseLuma < LumaThreshold)
     {
-        OutColor = baseColor;
+        OutColor = float4(baseColor.rgb, 0.0);
         return;
     }
     
@@ -58,7 +78,7 @@ void ApproximatedPixelSort_float(
     }
     else
     {
-        // 고속 Branchless RGB to HSV 추출 알고리즘
+        // Highspeed Branchless RGB to HSV
         float4 K = float4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
         float4 p = lerp(float4(baseColor.bg, K.wz), float4(baseColor.gb, K.xy), step(baseColor.b, baseColor.g));
         float4 q = lerp(float4(p.xyw, baseColor.r), float4(baseColor.r, p.yzx), step(p.x, baseColor.r));
@@ -75,14 +95,13 @@ void ApproximatedPixelSort_float(
     int startOffset = 0;
     int endOffset = 0;
 
-    // 명칭 변경: lumaCache -> sortKeyCache
     float sortKeyCache[201];
     float4 colorCache[201];
     
     sortKeyCache[100] = baseSortKey * baseMask.b * WeightMultiplier;
     colorCache[100] = baseColor;
 
-    // 3. 역방향 탐색
+    // 6. 역방향 탐색
     [loop]
     for (int i = 1; i <= maxSearch; i++)
     {
@@ -123,7 +142,7 @@ void ApproximatedPixelSort_float(
         sortKeyCache[idx] = sortKey * maskB * WeightMultiplier;
     }
 
-    // 4. 정방향 탐색
+    // 7. 정방향 탐색
     [loop]
     for (int j = 1; j <= maxSearch; j++)
     {
@@ -164,14 +183,14 @@ void ApproximatedPixelSort_float(
         sortKeyCache[idx] = sortKey * maskB * WeightMultiplier;
     }
 
-    // 5. 랭크 소팅 수행
+    // 8. Rank Sorting
     int startIdx = 100 - startOffset;
     int endIdx = 100 + endOffset;
     int N = startOffset + endOffset + 1;
 
     if (N <= 1) 
     {
-        OutColor = baseColor;
+        OutColor = float4(baseColor.rgb, 0.0);
         return;
     }
 
