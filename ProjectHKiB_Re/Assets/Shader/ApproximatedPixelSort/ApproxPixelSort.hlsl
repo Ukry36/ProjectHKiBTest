@@ -7,17 +7,22 @@ void ApproximatedPixelSort_float(
     UnityTexture2D MaskTex, UnitySamplerState MaskSampler,
     float2 Direction,
     float Strength,
-    float StepSize,
+    float StepSize, // (기존 StepSize 대신 가상 해상도 격자 시스템 사용)
     float WeightMultiplier,
     float LumaThreshold,
-    int SortMode, // [추가] 0: Luma(명도), 1: Hue(색상), 2: Saturation(채도)
+    int SortMode,
+    float2 ScreenResolution, // [추가] 가상 해상도 (예: 원본X, 축소된Y)
+    float PixelSize,         // [추가] 아트 픽셀 크기
     out float4 OutColor)
 {
-    // 1. ScreenUV Step을 ObjectUV Step으로 수학적 변환
-    float2 deltaScreen = Direction * StepSize;
+    // [시스템 정의] 설정한 해상도 기반의 가상 격자 생성
+    float2 grid = ScreenResolution / PixelSize;
+    float2 deltaScreen = Direction * (1.0 / grid);
+
+    // 1. ★ [핵심 수정] 편미분 연산은 반드시 '격자화되지 않은 원본 UV'를 사용 ★
     float2 ddx_s = ddx(ScreenUV);
     float2 ddy_s = ddy(ScreenUV);
-    float det = ddx_s.x * ddy_s.y - ddx_s.y * ddy_s.x;
+    float det = ddx_s.x * ddy_s.y - ddx_s.y * ddx_s.x;
     float2 dp = float2(0.0, 0.0);
     
     if (abs(det) > 1e-6)
@@ -28,19 +33,23 @@ void ApproximatedPixelSort_float(
     
     float2 ddx_o = ddx(ObjectUV);
     float2 ddy_o = ddy(ObjectUV);
+    // 정교한 원본 미분값 덕분에 stepObjectUV의 X축 drift(밀림 현상)가 완벽히 차단됩니다.
     float2 stepObjectUV = dp.x * ddx_o + dp.y * ddy_o;
+    
+    // 2. 실제 화면 렌더링 픽셀 포지션만 격자화(Snapping) 진행
+    float2 snappedScreenUV = (floor(ScreenUV * grid) + 0.5) / grid;
 
-    // 2. 현재 픽셀 기본 데이터 추출
-    float4 baseColor = ScreenTex.SampleLevel(ScreenSampler, ScreenUV, 0);
+    // 3. 현재 픽셀 기본 데이터 추출 (격자화된 UV 적용)
+    float4 baseColor = ScreenTex.SampleLevel(ScreenSampler, snappedScreenUV, 0);
     float baseLuma = dot(baseColor.rgb, float3(0.299, 0.587, 0.114));
     float4 baseMask = MaskTex.SampleLevel(MaskSampler, ObjectUV, 0);
-
+    
     if (baseMask.b <= 0.01 || baseLuma < LumaThreshold)
     {
         OutColor = baseColor;
         return;
     }
-
+    
     // [핵심] 현재 픽셀의 정렬 기준 값(Key) 계산
     float baseSortKey = 0.0;
     if (SortMode == 0)
@@ -77,7 +86,7 @@ void ApproximatedPixelSort_float(
     [loop]
     for (int i = 1; i <= maxSearch; i++)
     {
-        float2 suv = ScreenUV - deltaScreen * i;
+        float2 suv = snappedScreenUV - deltaScreen * i;
         float2 ouv = ObjectUV - stepObjectUV * i;
         
         if (suv.x < 0.0 || suv.x > 1.0 || suv.y < 0.0 || suv.y > 1.0 ||
@@ -118,7 +127,7 @@ void ApproximatedPixelSort_float(
     [loop]
     for (int j = 1; j <= maxSearch; j++)
     {
-        float2 suv = ScreenUV + deltaScreen * j;
+        float2 suv = snappedScreenUV + deltaScreen * j;
         float2 ouv = ObjectUV + stepObjectUV * j;
         
         if (suv.x < 0.0 || suv.x > 1.0 || suv.y < 0.0 || suv.y > 1.0 ||
