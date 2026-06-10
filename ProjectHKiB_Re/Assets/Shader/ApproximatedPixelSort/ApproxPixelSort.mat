@@ -43,23 +43,29 @@ Material:
     - _MODE: 0
     - _MaxSortValue: 0.66
     - _NoiseOffset: 0
-    - _NoiseScale: 1
+    - _NoisePPU: 16
+    - _NoiseScale: 0.12
     - _NoiseShiftSpeed: 0.01
-    - _NoiseStrength: 1
+    - _NoiseStrength: 3.9
+    - _NoiseThreshold: 0.1
     - _PPUACAmount: 12
     - _PPUACIgnore: 0.2
     - _PPUACOffset: 0.5
     - _PPUACStrength: 12
     - _PPUACThreshold: 0.2
+    - _PPUCorrectionScale: 0.25
+    - _PPUCorrectionThreshold: 0.2
     - _PixelSize: 1
+    - _Shuffle: 5.56
+    - _ShuffleSize: 1000
     - _StepShiftSpeed: 0
     - _StepSize: 1.86
     - _Strength: 54
-    - _StrengthACAmount: 0
-    - _Threshold: 1
+    - _StrengthACAmount: 36
+    - _Threshold: 0.03
     - _WeightMultiplier: 1
     m_Colors:
-    - _Direction: {r: -1, g: 0, b: 0, a: 0}
+    - _Direction: {r: 0, g: -1, b: 0, a: 0}
     - _NoiseShiftDirection: {r: 0, g: -1, b: 0, a: 0}
     - _PPU: {r: 16, g: 16, b: 0, a: 0}
     - _Resolution: {r: 320, g: 60, b: 0, a: 0}
