@@ -12,16 +12,15 @@ public class CustomIntDecision : StateDecisionSO
     {
         int origin = stateController.GetIntParameter(intName);
         int compare = compareWithCostomParameter ? stateController.GetIntParameter(parameterName) : value;
-        switch(compareType)
+        return compareType switch
         {
-            case EnumManager.CompareType.SameAs: return origin == compare;
-            case EnumManager.CompareType.BiggerThan: return origin > compare;
-            case EnumManager.CompareType.BiggerOrSameAs: return origin >= compare;
-            case EnumManager.CompareType.SmallerThan: return origin < compare;
-            case EnumManager.CompareType.SmallerOrSameAs: return origin <= compare;
-            case EnumManager.CompareType.NotSame: return origin != compare;
-            default: return false;
-        }
-
+            EnumManager.CompareType.SameAs => origin == compare,
+            EnumManager.CompareType.BiggerThan => origin > compare,
+            EnumManager.CompareType.BiggerOrSameAs => origin >= compare,
+            EnumManager.CompareType.SmallerThan => origin < compare,
+            EnumManager.CompareType.SmallerOrSameAs => origin <= compare,
+            EnumManager.CompareType.NotSame => origin != compare,
+            _ => false,
+        };
     }
 }

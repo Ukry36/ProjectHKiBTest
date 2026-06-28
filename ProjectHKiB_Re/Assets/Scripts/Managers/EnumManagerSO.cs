@@ -44,4 +44,22 @@ public class EnumManager
         SmallerOrSameAs,
         NotSame
     }
+
+    public enum BoolCompareType
+    {
+        And,
+        Or,
+        Xor,
+        Nand,
+        Nor,
+        Xnor,
+    }
+
+    public enum VariableType
+    {
+        Bool,
+        Int,
+        Float,
+        
+    }
 }

@@ -40,6 +40,8 @@ Material:
     m_Ints: []
     m_Floats:
     - _Accuracy: 0.1
+    - _JitterStrength: 0.07
+    - _JitterThreshold: 0.1
     - _MODE: 0
     - _MaxSortValue: 0.66
     - _NoiseOffset: 0
@@ -62,7 +64,7 @@ Material:
     - _StepSize: 1.86
     - _Strength: 54
     - _StrengthACAmount: 36
-    - _Threshold: 0.03
+    - _Threshold: 1
     - _WeightMultiplier: 1
     m_Colors:
     - _Direction: {r: 0, g: -1, b: 0, a: 0}
