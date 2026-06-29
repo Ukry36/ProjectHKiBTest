@@ -11,7 +11,7 @@ public class StateController : InterfaceRegister
     public StateSO CurrentState
     {
         get => _currentState;
-        private set
+        protected set
         {
             if (value != _currentState)
                 _currentState = value;

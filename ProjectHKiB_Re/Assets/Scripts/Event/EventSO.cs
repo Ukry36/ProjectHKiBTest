@@ -1,10 +1,11 @@
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class EventBlock
 {
     public StateSO state;
     public EventTransition[] nextEvents;
+    public float delay;
 }
 
 public class EventTransition

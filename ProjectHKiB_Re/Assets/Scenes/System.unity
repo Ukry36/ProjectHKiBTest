@@ -80374,9 +80374,9 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.16637324
+    x: 0
     y: 0
-    width: 0.66784036
+    width: 1
     height: 1
   near clip plane: -5000
   far clip plane: 5000
@@ -86416,6 +86416,7 @@ MonoBehaviour:
   inventoryManager: {fileID: 1855532042}
   UIManager: {fileID: 1568758192}
   graffitiManager: {fileID: 781276478}
+  eventManager: {fileID: 0}
   player: {fileID: 327803505}
 --- !u!4 &1845891765
 Transform:
