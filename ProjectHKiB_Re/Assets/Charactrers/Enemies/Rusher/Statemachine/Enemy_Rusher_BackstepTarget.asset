@@ -19,30 +19,44 @@ MonoBehaviour:
     disableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: d9bb766fdef88b344bd4aee61326967e, type: 2}
+      Decision:
+        rid: 3614226257729815260
       negate: 1
     trueState: {fileID: 11400000, guid: fb76677276d637f40a069bb3eafdf772, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
+    Action:
+      rid: -2
   - activationInput: 10
     availableTime: 0
     disableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: 4fe4385fed04d034b98b136a0475151e, type: 2}
+      Decision:
+        rid: 3614226257729815261
       negate: 0
     - decision: {fileID: 11400000, guid: 1d678012ca752be4ea062f8e1450d08b, type: 2}
+      Decision:
+        rid: 3614226257729815262
       negate: 0
     trueState: {fileID: 11400000, guid: a6d43f0e81a2e3a40b8f2d2d79df8258, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
+    Action:
+      rid: -2
   - activationInput: 10
     availableTime: 0
     disableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: af28755f24b9a564da14f64bdd3a7f40, type: 2}
+      Decision:
+        rid: 3614226257729815263
       negate: 0
     trueState: {fileID: 11400000, guid: b452f8afb98d05c4c81413b3c75d8ad3, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
+    Action:
+      rid: -2
   - activationInput: 10
     availableTime: 2
     disableTime: 0
@@ -50,32 +64,82 @@ MonoBehaviour:
     trueState: {fileID: 11400000, guid: fb9438d0e5aca69429ba3ee16bf687f7, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
+    Action:
+      rid: -2
   - activationInput: 10
     availableTime: 2
     disableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: 32f2c5ff068557b43becca29f5d19726, type: 2}
+      Decision:
+        rid: 3614226257729815264
       negate: 0
     trueState: {fileID: 11400000, guid: b452f8afb98d05c4c81413b3c75d8ad3, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
+    Action:
+      rid: -2
   - activationInput: 10
     availableTime: 2
     disableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: 69473423be5d34647b0a1e7e15d1103a, type: 2}
+      Decision:
+        rid: 3614226257729815265
       negate: 0
     trueState: {fileID: 11400000, guid: b452f8afb98d05c4c81413b3c75d8ad3, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
+    Action:
+      rid: -2
   enterActions: []
+  EnterActions: []
   updateActions:
   - {fileID: 11400000, guid: 31e6efb07a53028468c9bd8f4b3044ce, type: 2}
   - {fileID: 11400000, guid: e117661a24a928347a1754f7b5fb987a, type: 2}
+  UpdateActions:
+  - rid: 3614226257729815266
+  - rid: 3614226257729815267
   exitActions: []
+  ExitActions: []
   actionSequence: []
   loopActionSequence: 0
   useTimer: 0
   timerID: 0
   time: 0
   animationName: Walk
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 3614226257729815260
+      type: {class: DetectAndTargetDecision, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        radius: 20
+        targetManager: {fileID: 11400000, guid: b3f38c5a6e0762d4ba6cc8d3042b3e9d, type: 2}
+    - rid: 3614226257729815261
+      type: {class: CanAttackCooltimeDecision, ns: StateMachine, asm: Assembly-CSharp}
+      data: 
+    - rid: 3614226257729815262
+      type: {class: DetectDecision, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        radius: 5
+        targetManager: {fileID: 11400000, guid: b3f38c5a6e0762d4ba6cc8d3042b3e9d, type: 2}
+    - rid: 3614226257729815263
+      type: {class: KnockbackMoveDecision, ns: StateMachine, asm: Assembly-CSharp}
+      data: 
+    - rid: 3614226257729815264
+      type: {class: IsRunawayDecision, ns: StateMachine, asm: Assembly-CSharp}
+      data: 
+    - rid: 3614226257729815265
+      type: {class: IsGroggyDecision, ns: StateMachine, asm: Assembly-CSharp}
+      data: 
+    - rid: 3614226257729815266
+      type: {class: WalkByTargetDirAction, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        _negate: 1
+    - rid: 3614226257729815267
+      type: {class: SetDirFromTargetPosAction, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        negative: 0

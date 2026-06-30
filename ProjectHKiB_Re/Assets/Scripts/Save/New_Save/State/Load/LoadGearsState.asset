@@ -12,13 +12,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50bda600b761c2a409b518ff8ce3be6c, type: 3}
   m_Name: LoadGearsState
   m_EditorClassIdentifier: 
+  temporaryID: 0
   transitions:
-  - availableTime: 0
+  - activationInput: 10
+    availableTime: 0
+    disableTime: 0
     decisions: []
     trueState: {fileID: 11400000, guid: 5c6fd3be75660f6439cf42e888deaa9e, type: 2}
     falseState: {fileID: 0}
+    action: {fileID: 0}
+    Action:
+      rid: -2
   enterActions: []
+  EnterActions: []
   updateActions: []
+  UpdateActions: []
   exitActions: []
-  subDecisions: []
-  frameDecisions: []
+  ExitActions: []
+  actionSequence: []
+  loopActionSequence: 0
+  useTimer: 0
+  timerID: 0
+  time: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }

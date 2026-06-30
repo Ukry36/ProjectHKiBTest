@@ -12,13 +12,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f760e6b32c603d4e95ced1643f47eee, type: 3}
   m_Name: SaveInitState
   m_EditorClassIdentifier: 
+  temporaryID: 0
   transitions:
-  - availableTime: 0
+  - activationInput: 10
+    availableTime: 0
+    disableTime: 0
     decisions: []
     trueState: {fileID: 11400000, guid: 0b2d04e6366d3c34180eb67ef10b5ff3, type: 2}
     falseState: {fileID: 0}
+    action: {fileID: 0}
+    Action:
+      rid: -2
   enterActions: []
+  EnterActions: []
   updateActions: []
+  UpdateActions: []
   exitActions: []
-  subDecisions: []
-  frameDecisions: []
+  ExitActions: []
+  actionSequence: []
+  loopActionSequence: 0
+  useTimer: 0
+  timerID: 0
+  time: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }

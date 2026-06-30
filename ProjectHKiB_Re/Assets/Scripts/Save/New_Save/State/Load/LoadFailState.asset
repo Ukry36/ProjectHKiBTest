@@ -12,10 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 186f5e1ed2cd07e44bd998b2911c29d6, type: 3}
   m_Name: LoadFailState
   m_EditorClassIdentifier: 
+  temporaryID: 0
   transitions: []
   enterActions: []
+  EnterActions: []
   updateActions: []
+  UpdateActions: []
   exitActions: []
-  subDecisions: []
-  frameDecisions: []
+  ExitActions: []
+  actionSequence: []
+  loopActionSequence: 0
+  useTimer: 0
+  timerID: 0
+  time: 0
   message: 'Load failed: save file not found or invalid.'
+  references:
+    version: 2
+    RefIds: []

@@ -37,9 +37,9 @@ public class StateSO : ScriptableObject
             if (stateSO == null) continue;
 
             // 실행 전 기존 데이터 리스트 초기화 (중복 방지)
-            stateSO.EnterActions = new StateAction[10];
-            stateSO.UpdateActions = new StateAction[10];
-            stateSO.ExitActions = new StateAction[10];
+            stateSO.EnterActions = new StateAction[stateSO.enterActions.Length];
+            stateSO.UpdateActions = new StateAction[stateSO.updateActions.Length];
+            stateSO.ExitActions = new StateAction[stateSO.exitActions.Length];
 
             // 2. Enter / Update / Exit 액션 배열 마이그레이션
             MigrateActionArray(stateSO.enterActions, stateSO.EnterActions);
@@ -51,14 +51,17 @@ public class StateSO : ScriptableObject
             {
                 foreach (var transition in stateSO.transitions)
                 {
-                    if (transition.action != null)
+                    if (transition.action != null) transition.Action = CreateAndCopyAction(transition.action);
+                    if (transition.decisions != null)
                     {
-                        transition.Action = CreateAndCopyAction(transition.action);
+                        for (int i = 0; i < transition.decisions.Length; i++)
+                        {
+                            if (transition.decisions[i].decision != null) transition.decisions[i].Decision = CreateAndCopyDecision(transition.decisions[i].decision);
+                        }
                     }
                 }
             }
 
-            // 4. 변경 사항 저장 및 Dirty 마크
             EditorUtility.SetDirty(stateSO);
             migratedCount++;
         }
@@ -67,11 +70,9 @@ public class StateSO : ScriptableObject
         Debug.Log($"마이그레이션 완료! 총 {migratedCount}개의 StateSO 변환됨.");
     }
 
-    // SO 배열을 순회하며 일반 클래스 List로 변환하는 함수
     private static void MigrateActionArray(StateActionSO[] oldArray, StateAction[] newList)
     {
         if (oldArray == null) return;
-
         for (int i = 0; i < oldArray.Length; i++)
         {
             newList[i] = CreateAndCopyAction(oldArray[i]);
@@ -82,6 +83,7 @@ public class StateSO : ScriptableObject
     private static string targetAssembly = "Assembly-CSharp"; // 혹시 Assembly Definition(asmdef)을 쓰신다면 해당 이름으로 변경
     private static StateAction CreateAndCopyAction(StateActionSO oldAction)
     {
+        if (!oldAction) return null;
         string className = oldAction.GetType().Name;
 
         // 2. 새로운 네임스페이스("StateMachine") 환경에서의 타입 정보를 찾음
@@ -112,6 +114,39 @@ public class StateSO : ScriptableObject
             {
                 // 데이터 값 그대로 복사 (대사 텍스트, 수치 등 값 타입/스트링 등 호환 가능)
                 object value = oldField.GetValue(oldAction);
+                newField.SetValue(newInstance, value);
+            }
+        }
+
+        return newInstance;
+    }
+
+    private static StateDecision CreateAndCopyDecision(StateDecisionSO oldDecision)
+    {
+        if (!oldDecision) return null;
+        string className = oldDecision.GetType().Name;
+        string fullTypeName = $"StateMachine.{className}, {targetAssembly}";
+        Type newType = Type.GetType(fullTypeName);
+
+        if (newType == null)
+        {
+            Debug.LogError($"[마이그레이션 실패] {fullTypeName} 타입을 찾을 수 없습니다. 클래스 명을 확인해주세요.");
+            return null;
+        }
+
+        StateDecision newInstance = (StateDecision)Activator.CreateInstance(newType);
+
+        System.Reflection.FieldInfo[] oldFields = oldDecision.GetType().GetFields(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+
+        foreach (System.Reflection.FieldInfo oldField in oldFields)
+        {
+            if (oldField.Name.StartsWith("m_")) continue;
+
+            System.Reflection.FieldInfo newField = newType.GetField(oldField.Name, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+
+            if (newField != null && newField.FieldType == oldField.FieldType)
+            {
+                object value = oldField.GetValue(oldDecision);
                 newField.SetValue(newInstance, value);
             }
         }

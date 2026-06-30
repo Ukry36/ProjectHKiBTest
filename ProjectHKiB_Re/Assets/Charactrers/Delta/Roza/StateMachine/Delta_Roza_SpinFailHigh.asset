@@ -21,13 +21,20 @@ MonoBehaviour:
     trueState: {fileID: 11400000, guid: 510a0daef79d5994fb9c5b2feb696a46, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
+    Action:
+      rid: -2
   enterActions:
   - {fileID: 11400000, guid: 04454d4853f31824184fdd1c5f2810e4, type: 2}
+  EnterActions:
+  - rid: 3614226257729815174
   updateActions:
   - {fileID: 11400000, guid: 7263eacb51896564e8bf3466a98c6b58, type: 2}
-  - {fileID: 11400000, guid: 4ff9702b721b89147abd80a03aeb1ff4, type: 2}
+  - {fileID: 0}
+  UpdateActions:
+  - rid: 3614226257729815175
+  - rid: -2
   exitActions: []
-  frameDecisions: []
+  ExitActions: []
   actionSequence:
   - time: 0.075
     action: {fileID: 11400000, guid: b858f92dbe65dc24aad92d5e2442ce86, type: 2}
@@ -42,3 +49,15 @@ MonoBehaviour:
   timerID: 0
   time: 0
   animationName: SpinFail
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 3614226257729815174
+      type: {class: SetAttackDataAction, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        attackNumber: 6
+    - rid: 3614226257729815175
+      type: {class: WalkByInputAction, ns: StateMachine, asm: Assembly-CSharp}
+      data: 

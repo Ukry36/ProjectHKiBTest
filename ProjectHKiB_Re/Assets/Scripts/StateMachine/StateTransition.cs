@@ -8,7 +8,7 @@ public class StateTransition
     public struct DecisionSet
     {
         public StateDecisionSO decision;
-        [SerializeReference, SubclassSelector] public StateDecision decisio;
+        [SerializeReference, SubclassSelector] public StateDecision Decision;
         public bool negate;
     }
 
@@ -19,7 +19,7 @@ public class StateTransition
     public StateSO trueState;
     public StateSO falseState;
     public StateActionSO action;
-    public StateAction Action;
+    [SerializeReference, SubclassSelector] public StateAction Action;
 
     public bool CheckDecisions(StateController stateController)
     {

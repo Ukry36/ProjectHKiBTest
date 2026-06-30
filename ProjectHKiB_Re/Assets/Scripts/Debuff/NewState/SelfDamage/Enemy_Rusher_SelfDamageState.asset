@@ -21,12 +21,26 @@ MonoBehaviour:
     trueState: {fileID: 11400000, guid: fb9438d0e5aca69429ba3ee16bf687f7, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
+    Action:
+      rid: -2
   enterActions:
   - {fileID: 11400000, guid: 3c33e962bb03ab44c99f79dfac106eac, type: 2}
+  EnterActions:
+  - rid: 3614226257729815249
   updateActions: []
+  UpdateActions: []
   exitActions: []
+  ExitActions: []
   actionSequence: []
   loopActionSequence: 0
   useTimer: 0
   timerID: 0
   time: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 3614226257729815249
+      type: {class: SelfDamageAction, ns: StateMachine, asm: Assembly-CSharp}
+      data: 

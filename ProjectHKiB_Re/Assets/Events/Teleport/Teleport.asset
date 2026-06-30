@@ -12,17 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23ffa63ce1c9f844b99882f818407756, type: 3}
   m_Name: Teleport
   m_EditorClassIdentifier: 
+  temporaryID: 0
   transitions: []
   enterActions: []
+  EnterActions: []
   updateActions: []
+  UpdateActions: []
   exitActions: []
-  subDecisions: []
-  frameDecisions:
-  - time: 0
-    action: {fileID: 11400000, guid: d0a7d3108e2aabc429b91a94d89f5aac, type: 2}
-  - time: 0
-    action: {fileID: 11400000, guid: 79c45bd4af8a4ba4b91d64eb62af8368, type: 2}
-  - time: 0
-    action: {fileID: 11400000, guid: d0a7d3108e2aabc429b91a94d89f5aac, type: 2}
-  - time: 0
-    action: {fileID: 11400000, guid: 25150e6590cfd2a4a956b81706e49f16, type: 2}
+  ExitActions: []
+  actionSequence: []
+  loopActionSequence: 0
+  useTimer: 0
+  timerID: 0
+  time: 0
+  references:
+    version: 2
+    RefIds: []

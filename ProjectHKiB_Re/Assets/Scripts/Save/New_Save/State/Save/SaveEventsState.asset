@@ -12,13 +12,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d641e5db65364043ae139e0b18caad5, type: 3}
   m_Name: SaveEventsState
   m_EditorClassIdentifier: 
+  temporaryID: 0
   transitions:
-  - availableTime: 0
+  - activationInput: 10
+    availableTime: 0
+    disableTime: 0
     decisions: []
     trueState: {fileID: 11400000, guid: f5c0c2429fa8329459085a3807a0fce6, type: 2}
     falseState: {fileID: 0}
+    action: {fileID: 0}
+    Action:
+      rid: -2
   enterActions: []
+  EnterActions: []
   updateActions: []
+  UpdateActions: []
   exitActions: []
-  subDecisions: []
-  frameDecisions: []
+  ExitActions: []
+  actionSequence: []
+  loopActionSequence: 0
+  useTimer: 0
+  timerID: 0
+  time: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }

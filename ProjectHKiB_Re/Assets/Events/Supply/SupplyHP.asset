@@ -12,12 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23ffa63ce1c9f844b99882f818407756, type: 3}
   m_Name: SupplyHP
   m_EditorClassIdentifier: 
+  temporaryID: 0
   transitions: []
   enterActions:
   - {fileID: 11400000, guid: f381d2b76ed2ff44781e06d6323ed8d2, type: 2}
+  EnterActions:
+  - rid: 3614226257729815546
   updateActions: []
+  UpdateActions: []
   exitActions: []
-  subDecisions: []
-  frameDecisions:
-  - time: 0.01
-    action: {fileID: 11400000, guid: 25150e6590cfd2a4a956b81706e49f16, type: 2}
+  ExitActions: []
+  actionSequence: []
+  loopActionSequence: 0
+  useTimer: 0
+  timerID: 0
+  time: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 3614226257729815546
+      type: {class: SupplyEventAction, ns: StateMachine, asm: Assembly-CSharp}
+      data: 

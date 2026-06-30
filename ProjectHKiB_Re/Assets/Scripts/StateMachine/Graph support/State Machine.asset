@@ -15,12 +15,11 @@ MonoBehaviour:
   temporaryID: 0
   transitions: []
   enterActions: []
-  enterAction:
-  - rid: 3614226253555695624
+  EnterActions: []
   updateActions: []
-  updateAction: []
+  UpdateActions: []
   exitActions: []
-  exitAction: []
+  ExitActions: []
   actionSequence: []
   loopActionSequence: 0
   useTimer: 0
@@ -28,11 +27,7 @@ MonoBehaviour:
   time: 0
   references:
     version: 2
-    RefIds:
-    - rid: 3614226253555695624
-      type: {class: ApplySprintAction, ns: StateMachine, asm: Assembly-CSharp}
-      data:
-        apply: 0
+    RefIds: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76,12 +71,14 @@ MonoBehaviour:
     trueState: {fileID: 0}
     falseState: {fileID: 0}
     action: {fileID: 0}
+    Action:
+      rid: -2
   enterActions: []
-  enterAction: []
+  EnterActions: []
   updateActions: []
-  updateAction: []
+  UpdateActions: []
   exitActions: []
-  exitAction: []
+  ExitActions: []
   actionSequence: []
   loopActionSequence: 0
   useTimer: 0
@@ -89,4 +86,6 @@ MonoBehaviour:
   time: 0
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }

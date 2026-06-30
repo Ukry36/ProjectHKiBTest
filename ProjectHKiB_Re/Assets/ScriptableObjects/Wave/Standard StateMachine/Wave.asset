@@ -12,17 +12,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23ffa63ce1c9f844b99882f818407756, type: 3}
   m_Name: Wave
   m_EditorClassIdentifier: 
+  temporaryID: 0
   transitions:
-  - availableTime: 0
+  - activationInput: 10
+    availableTime: 0
+    disableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: cc28e9907f58e8547a7ec7395f63f3b5, type: 2}
+      Decision:
+        rid: 3614226257729815102
       negate: 0
     trueState: {fileID: 11400000, guid: 9819ef67adf5a834680e9f69e786a525, type: 2}
     falseState: {fileID: 0}
+    action: {fileID: 0}
+    Action:
+      rid: -2
   enterActions: []
+  EnterActions: []
   updateActions:
   - {fileID: 11400000, guid: 5cc29abca7bae1a48976dc92ed2a9c1a, type: 2}
+  UpdateActions:
+  - rid: 3614226257729815103
   exitActions:
   - {fileID: 11400000, guid: 9c6f9f80da4643b43a1d3b17411429ce, type: 2}
-  subDecisions: []
-  frameDecisions: []
+  ExitActions:
+  - rid: 3614226257729815104
+  actionSequence: []
+  loopActionSequence: 0
+  useTimer: 0
+  timerID: 0
+  time: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 3614226257729815102
+      type: {class: WaveEndedDecision, ns: StateMachine, asm: Assembly-CSharp}
+      data: 
+    - rid: 3614226257729815103
+      type: {class: WaveUpdateAction, ns: StateMachine, asm: Assembly-CSharp}
+      data: 
+    - rid: 3614226257729815104
+      type: {class: WaveClearAction, ns: StateMachine, asm: Assembly-CSharp}
+      data: 

@@ -21,11 +21,22 @@ MonoBehaviour:
     trueState: {fileID: 11400000, guid: 3e9e252439afd3f4688d00ad06d06ef5, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
+    Action:
+      rid: -2
   enterActions: []
+  EnterActions: []
   updateActions: []
+  UpdateActions: []
   exitActions: []
-  frameDecisions: []
+  ExitActions: []
+  actionSequence: []
+  loopActionSequence: 0
   useTimer: 0
   timerID: 0
   time: 0
   animationName: Transforming
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }

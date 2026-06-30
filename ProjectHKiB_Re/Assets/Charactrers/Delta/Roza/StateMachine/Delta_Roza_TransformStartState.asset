@@ -19,10 +19,14 @@ MonoBehaviour:
     disableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: e0cf4cc32ccc02a468f21e9caa6b837d, type: 2}
+      Decision:
+        rid: 3614226257729815170
       negate: 0
     trueState: {fileID: 11400000, guid: d9ae1ebd689d5514a81b47adf81f7560, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
+    Action:
+      rid: -2
   - activationInput: 20
     availableTime: 0
     disableTime: 0
@@ -30,16 +34,22 @@ MonoBehaviour:
     trueState: {fileID: 11400000, guid: 3e9e252439afd3f4688d00ad06d06ef5, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
+    Action:
+      rid: -2
   enterActions:
   - {fileID: 11400000, guid: 2ba8bf12327fa2b4e931e52dea5b663e, type: 2}
+  EnterActions:
+  - rid: 3614226257729815171
   updateActions:
   - {fileID: 11400000, guid: 7263eacb51896564e8bf3466a98c6b58, type: 2}
-  - {fileID: 11400000, guid: 4ff9702b721b89147abd80a03aeb1ff4, type: 2}
+  - {fileID: 0}
+  UpdateActions:
+  - rid: 3614226257729815172
+  - rid: -2
   exitActions:
   - {fileID: 11400000, guid: eeb57eb8267872f41ad7104a78faf7cd, type: 2}
-  frameDecisions:
-  - time: 0.5
-    action: {fileID: 11400000, guid: 8f37dbc52929a7144a022e28ce38157d, type: 2}
+  ExitActions:
+  - rid: 3614226257729815173
   actionSequence:
   - time: 0.5
     action: {fileID: 11400000, guid: 8f37dbc52929a7144a022e28ce38157d, type: 2}
@@ -48,3 +58,22 @@ MonoBehaviour:
   timerID: 0
   time: 0
   animationName: Transform
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 3614226257729815170
+      type: {class: AnimationEndedDecision, ns: StateMachine, asm: Assembly-CSharp}
+      data: 
+    - rid: 3614226257729815171
+      type: {class: StartGraffitiAction, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        apply: 0
+    - rid: 3614226257729815172
+      type: {class: WalkByInputAction, ns: StateMachine, asm: Assembly-CSharp}
+      data: 
+    - rid: 3614226257729815173
+      type: {class: StopAttackEffectAction, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        EffectPlayerNumber: 0

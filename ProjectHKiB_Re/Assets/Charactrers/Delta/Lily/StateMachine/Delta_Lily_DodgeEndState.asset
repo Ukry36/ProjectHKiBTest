@@ -19,44 +19,104 @@ MonoBehaviour:
     disableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: 0b58246cfba562f40bb61edc58b554f3, type: 2}
+      Decision:
+        rid: 3614226257729815252
       negate: 0
     trueState: {fileID: 11400000, guid: b8d19e493c5bf4744a4296a5379c4fc2, type: 2}
     falseState: {fileID: 11400000, guid: 9b2a86a847957324398e6941c2ff5dca, type: 2}
     action: {fileID: 0}
+    Action:
+      rid: -2
   - activationInput: 3
     availableTime: 0.1
     disableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: 5080e5686af385f43ba3c3c0a486210c, type: 2}
+      Decision:
+        rid: 3614226257729815253
       negate: 0
     trueState: {fileID: 11400000, guid: 8d26b5cd1f931844d9d9c38df7061ba3, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
+    Action:
+      rid: -2
   - activationInput: 2
     availableTime: 0.1
     disableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: 2de41d8b2308a394484a671f6076ea8b, type: 2}
+      Decision:
+        rid: 3614226257729815254
       negate: 0
     trueState: {fileID: 11400000, guid: 9956e913dbb76fa488b31e01463a7ffb, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
+    Action:
+      rid: -2
   - activationInput: 13
     availableTime: 0
     disableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: 53320624076daab44995584c81b2539a, type: 2}
+      Decision:
+        rid: 3614226257729815255
       negate: 0
     trueState: {fileID: 11400000, guid: bbb5b3ec0403b954d908ae30160cfa1a, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
+    Action:
+      rid: -2
   enterActions:
   - {fileID: 11400000, guid: 9d29c5b17685af144aaabb51ca64e9ad, type: 2}
   - {fileID: 11400000, guid: 03b7f8f4a0aaa324a8deaf65ae572e43, type: 2}
-  - {fileID: 11400000, guid: 0209c173fb36db0459d04d0b01948ced, type: 2}
+  - {fileID: 0}
+  EnterActions:
+  - rid: 3614226257729815256
+  - rid: 3614226257729815257
+  - rid: -2
   updateActions:
   - {fileID: 11400000, guid: 7263eacb51896564e8bf3466a98c6b58, type: 2}
+  UpdateActions:
+  - rid: 3614226257729815258
   exitActions:
   - {fileID: 11400000, guid: 797efcf4b4a2d0449b5517e4e60eed74, type: 2}
-  frameDecisions: []
+  ExitActions:
+  - rid: 3614226257729815259
+  actionSequence: []
+  loopActionSequence: 0
+  useTimer: 0
+  timerID: 0
+  time: 0
   animationName: DodgeEnd
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 3614226257729815252
+      type: {class: GridAllignedDecision, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        mathManager: {fileID: 11400000, guid: d70d30fe513b9cc4bb4206690e1ecbf7, type: 2}
+    - rid: 3614226257729815253
+      type: {class: CanDodgeCooltimeDecision, ns: StateMachine, asm: Assembly-CSharp}
+      data: 
+    - rid: 3614226257729815254
+      type: {class: CanCounterAttackDecision, ns: StateMachine, asm: Assembly-CSharp}
+      data: 
+    - rid: 3614226257729815255
+      type: {class: CanGraffitiDecision, ns: StateMachine, asm: Assembly-CSharp}
+      data: 
+    - rid: 3614226257729815256
+      type: {class: SetDirFromPlayerInputAction, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        negative: 0
+    - rid: 3614226257729815257
+      type: {class: EndDodgeAction, ns: StateMachine, asm: Assembly-CSharp}
+      data: 
+    - rid: 3614226257729815258
+      type: {class: WalkByInputAction, ns: StateMachine, asm: Assembly-CSharp}
+      data: 
+    - rid: 3614226257729815259
+      type: {class: ApplySprintAction, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        apply: 0

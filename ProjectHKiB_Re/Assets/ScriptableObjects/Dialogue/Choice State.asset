@@ -12,15 +12,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a3d459e8b1144c4c888064b82351a16, type: 3}
   m_Name: Choice State
   m_EditorClassIdentifier: 
+  temporaryID: 0
   transitions:
-  - availableTime: 0
+  - activationInput: 10
+    availableTime: 0
+    disableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: 06e6c354eec580e44a0fcc593beba7de, type: 2}
+      Decision:
+        rid: 3614226257729815511
       negate: 0
     trueState: {fileID: 11400000, guid: 8b0e1c3d31ef2f7419d911b0483031a7, type: 2}
     falseState: {fileID: 0}
+    action: {fileID: 0}
+    Action:
+      rid: -2
   enterActions: []
+  EnterActions: []
   updateActions: []
+  UpdateActions: []
   exitActions: []
-  subDecisions: []
-  frameDecisions: []
+  ExitActions: []
+  actionSequence: []
+  loopActionSequence: 0
+  useTimer: 0
+  timerID: 0
+  time: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 3614226257729815511
+      type: {class: DialogueLineEndDecision, ns: StateMachine, asm: Assembly-CSharp}
+      data: 

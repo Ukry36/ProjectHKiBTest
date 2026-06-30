@@ -12,29 +12,73 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb85084ca5989854b9dbc2cce1298255, type: 3}
   m_Name: Enemy_Rusher_RandomMoveStop
   m_EditorClassIdentifier: 
-  animationName: Idle
-  directionDependent: 1
+  temporaryID: 0
   transitions:
-  - availableTime: 1
+  - activationInput: 10
+    availableTime: 1
+    disableTime: 0
     decisions: []
     trueState: {fileID: 11400000, guid: 3dcc41fa216e51f4a8b525d36a604ee3, type: 2}
     falseState: {fileID: 0}
-  - availableTime: 0
+    action: {fileID: 0}
+    Action:
+      rid: -2
+  - activationInput: 10
+    availableTime: 0
+    disableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: a7a67e994b8c40b4c8a4c1338fc271f6, type: 2}
+      Decision:
+        rid: 3614226257729815189
       negate: 0
     trueState: {fileID: 11400000, guid: fb9438d0e5aca69429ba3ee16bf687f7, type: 2}
     falseState: {fileID: 0}
-  - availableTime: 0
+    action: {fileID: 0}
+    Action:
+      rid: -2
+  - activationInput: 10
+    availableTime: 0
+    disableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: af28755f24b9a564da14f64bdd3a7f40, type: 2}
+      Decision:
+        rid: 3614226257729815190
       negate: 0
     trueState: {fileID: 11400000, guid: b452f8afb98d05c4c81413b3c75d8ad3, type: 2}
     falseState: {fileID: 0}
+    action: {fileID: 0}
+    Action:
+      rid: -2
   enterActions:
   - {fileID: 11400000, guid: e3e70bc8e24da38408a0d1e19394c8a4, type: 2}
+  EnterActions:
+  - rid: 3614226257729815191
   updateActions:
-  - {fileID: 11400000, guid: 4ff9702b721b89147abd80a03aeb1ff4, type: 2}
+  - {fileID: 0}
+  UpdateActions:
+  - rid: -2
   exitActions: []
-  subDecisions: []
-  frameDecisions: []
+  ExitActions: []
+  actionSequence: []
+  loopActionSequence: 0
+  useTimer: 0
+  timerID: 0
+  time: 0
+  animationName: Idle
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 3614226257729815189
+      type: {class: DetectAndTargetDecision, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        radius: 12
+        targetManager: {fileID: 11400000, guid: b3f38c5a6e0762d4ba6cc8d3042b3e9d, type: 2}
+    - rid: 3614226257729815190
+      type: {class: KnockbackMoveDecision, ns: StateMachine, asm: Assembly-CSharp}
+      data: 
+    - rid: 3614226257729815191
+      type: {class: SetDirRandomAction, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        negative: 0

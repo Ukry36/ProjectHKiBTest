@@ -12,31 +12,85 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb85084ca5989854b9dbc2cce1298255, type: 3}
   m_Name: Enemy_Rusher_RandomMoveWalk 1
   m_EditorClassIdentifier: 
-  animationName: Walk
-  directionDependent: 1
+  temporaryID: 0
   transitions:
-  - availableTime: 1
+  - activationInput: 10
+    availableTime: 1
+    disableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: 0b58246cfba562f40bb61edc58b554f3, type: 2}
+      Decision:
+        rid: 3614226257729815058
       negate: 0
     trueState: {fileID: 11400000, guid: fb76677276d637f40a069bb3eafdf772, type: 2}
     falseState: {fileID: 0}
-  - availableTime: 0
+    action: {fileID: 0}
+    Action:
+      rid: -2
+  - activationInput: 10
+    availableTime: 0
+    disableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: a7a67e994b8c40b4c8a4c1338fc271f6, type: 2}
+      Decision:
+        rid: 3614226257729815059
       negate: 0
     trueState: {fileID: 11400000, guid: fb9438d0e5aca69429ba3ee16bf687f7, type: 2}
     falseState: {fileID: 0}
-  - availableTime: 0
+    action: {fileID: 0}
+    Action:
+      rid: -2
+  - activationInput: 10
+    availableTime: 0
+    disableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: af28755f24b9a564da14f64bdd3a7f40, type: 2}
+      Decision:
+        rid: 3614226257729815060
       negate: 0
     trueState: {fileID: 11400000, guid: b452f8afb98d05c4c81413b3c75d8ad3, type: 2}
     falseState: {fileID: 0}
+    action: {fileID: 0}
+    Action:
+      rid: -2
   enterActions:
   - {fileID: 11400000, guid: e3e70bc8e24da38408a0d1e19394c8a4, type: 2}
+  EnterActions:
+  - rid: 3614226257729815061
   updateActions:
   - {fileID: 11400000, guid: f10877bf3b1c269488cac7aa38b3bde7, type: 2}
+  UpdateActions:
+  - rid: 3614226257729815062
   exitActions: []
-  subDecisions: []
-  frameDecisions: []
+  ExitActions: []
+  actionSequence: []
+  loopActionSequence: 0
+  useTimer: 0
+  timerID: 0
+  time: 0
+  animationName: Walk
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 3614226257729815058
+      type: {class: GridAllignedDecision, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        mathManager: {fileID: 11400000, guid: d70d30fe513b9cc4bb4206690e1ecbf7, type: 2}
+    - rid: 3614226257729815059
+      type: {class: DetectAndTargetDecision, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        radius: 12
+        targetManager: {fileID: 11400000, guid: b3f38c5a6e0762d4ba6cc8d3042b3e9d, type: 2}
+    - rid: 3614226257729815060
+      type: {class: KnockbackMoveDecision, ns: StateMachine, asm: Assembly-CSharp}
+      data: 
+    - rid: 3614226257729815061
+      type: {class: SetDirRandomAction, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        negative: 0
+    - rid: 3614226257729815062
+      type: {class: WalkByLastSetAnimationDirAction, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        _negate: 0

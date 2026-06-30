@@ -19,51 +19,76 @@ MonoBehaviour:
     disableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: 051ddedcb5368054dbdce9cfc73c190a, type: 2}
+      Decision:
+        rid: 3614226257729815034
       negate: 0
     trueState: {fileID: 11400000, guid: 2e73ba7f8a4240545baaed234d84ed83, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
+    Action:
+      rid: -2
   - activationInput: 10
     availableTime: 0
     disableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: 051ddedcb5368054dbdce9cfc73c190a, type: 2}
+      Decision:
+        rid: 3614226257729815035
       negate: 1
     trueState: {fileID: 11400000, guid: 19fdbaace7ee3c446aae7ac4fffdec98, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
+    Action:
+      rid: -2
   - activationInput: 10
     availableTime: 0
     disableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: af28755f24b9a564da14f64bdd3a7f40, type: 2}
+      Decision:
+        rid: 3614226257729815036
       negate: 0
     trueState: {fileID: 11400000, guid: cc4bdcdcb162f684aa4182056b09d1ac, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
+    Action:
+      rid: -2
   - activationInput: 3
     availableTime: 0
     disableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: 5080e5686af385f43ba3c3c0a486210c, type: 2}
+      Decision:
+        rid: 3614226257729815037
       negate: 0
     trueState: {fileID: 11400000, guid: 3e9e252439afd3f4688d00ad06d06ef5, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
+    Action:
+      rid: -2
   - activationInput: 10
     availableTime: 0
     disableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: 33049a803fe8a244caa9e2347793f149, type: 2}
+      Decision:
+        rid: 3614226257729815038
       negate: 0
     trueState: {fileID: 11400000, guid: 510a0daef79d5994fb9c5b2feb696a46, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
+    Action:
+      rid: -2
   enterActions:
   - {fileID: 11400000, guid: 8d26951b737f0a1439b578176fb7d1bf, type: 2}
+  EnterActions:
+  - rid: 3614226257729815039
   updateActions:
   - {fileID: 11400000, guid: 7263eacb51896564e8bf3466a98c6b58, type: 2}
+  UpdateActions:
+  - rid: 3614226257729815040
   exitActions: []
+  ExitActions: []
   actionSequence:
   - time: 0.075
     action: {fileID: 11400000, guid: b858f92dbe65dc24aad92d5e2442ce86, type: 2}
@@ -78,3 +103,33 @@ MonoBehaviour:
   timerID: 0
   time: 0
   animationName: Spin1
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 3614226257729815034
+      type: {class: PlayerInputDecision, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        _inputType: 23
+    - rid: 3614226257729815035
+      type: {class: PlayerInputDecision, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        _inputType: 23
+    - rid: 3614226257729815036
+      type: {class: KnockbackMoveDecision, ns: StateMachine, asm: Assembly-CSharp}
+      data: 
+    - rid: 3614226257729815037
+      type: {class: CanDodgeCooltimeDecision, ns: StateMachine, asm: Assembly-CSharp}
+      data: 
+    - rid: 3614226257729815038
+      type: {class: TimerDecision, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        timerID: 0
+    - rid: 3614226257729815039
+      type: {class: SetAttackDataAction, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        attackNumber: 7
+    - rid: 3614226257729815040
+      type: {class: WalkByInputAction, ns: StateMachine, asm: Assembly-CSharp}
+      data: 

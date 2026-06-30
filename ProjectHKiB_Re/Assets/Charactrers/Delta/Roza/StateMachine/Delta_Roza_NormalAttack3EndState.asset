@@ -19,41 +19,61 @@ MonoBehaviour:
     disableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: 12744be93fd2f334891269c161c19fc3, type: 2}
+      Decision:
+        rid: 3614226257729815023
       negate: 0
     - decision: {fileID: 11400000, guid: e0cf4cc32ccc02a468f21e9caa6b837d, type: 2}
+      Decision:
+        rid: 3614226257729815024
       negate: 0
     trueState: {fileID: 11400000, guid: 895db63db3096e947a02a127d170274e, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
+    Action:
+      rid: -2
   - activationInput: 10
     availableTime: 0
     disableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: 12744be93fd2f334891269c161c19fc3, type: 2}
+      Decision:
+        rid: 3614226257729815025
       negate: 1
     - decision: {fileID: 11400000, guid: e0cf4cc32ccc02a468f21e9caa6b837d, type: 2}
+      Decision:
+        rid: 3614226257729815026
       negate: 0
     trueState: {fileID: 11400000, guid: aaecd269a081e2a4e8930f4993757b90, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
+    Action:
+      rid: -2
   - activationInput: 10
     availableTime: 0
     disableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: af28755f24b9a564da14f64bdd3a7f40, type: 2}
+      Decision:
+        rid: 3614226257729815027
       negate: 0
     trueState: {fileID: 11400000, guid: cc4bdcdcb162f684aa4182056b09d1ac, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
+    Action:
+      rid: -2
   - activationInput: 3
     availableTime: 0
     disableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: 5080e5686af385f43ba3c3c0a486210c, type: 2}
+      Decision:
+        rid: 3614226257729815028
       negate: 0
     trueState: {fileID: 11400000, guid: 3e9e252439afd3f4688d00ad06d06ef5, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
+    Action:
+      rid: -2
   - activationInput: 2
     availableTime: 0
     disableTime: 0
@@ -61,22 +81,35 @@ MonoBehaviour:
     trueState: {fileID: 0}
     falseState: {fileID: 0}
     action: {fileID: 11400000, guid: 5b80fe0ce3d6747408d78514aac16602, type: 2}
+    Action:
+      rid: 3614226257729815029
   - activationInput: 13
     availableTime: 0
     disableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: 53320624076daab44995584c81b2539a, type: 2}
+      Decision:
+        rid: 3614226257729815030
       negate: 0
     trueState: {fileID: 11400000, guid: 0ef79efe3c752334593e6fe0a7e5e44f, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
+    Action:
+      rid: -2
   enterActions:
   - {fileID: 11400000, guid: 9d29c5b17685af144aaabb51ca64e9ad, type: 2}
   - {fileID: 11400000, guid: 6d3c20fde1dee8e4bbe97457a1861b0d, type: 2}
+  EnterActions:
+  - rid: 3614226257729815031
+  - rid: 3614226257729815032
   updateActions:
-  - {fileID: 11400000, guid: 4ff9702b721b89147abd80a03aeb1ff4, type: 2}
+  - {fileID: 0}
+  UpdateActions:
+  - rid: -2
   exitActions:
   - {fileID: 11400000, guid: 2d2ede8c60ae88540b1236d23e2593bb, type: 2}
+  ExitActions:
+  - rid: 3614226257729815033
   actionSequence:
   - time: 0
     action: {fileID: 11400000, guid: b858f92dbe65dc24aad92d5e2442ce86, type: 2}
@@ -89,3 +122,49 @@ MonoBehaviour:
   timerID: 0
   time: 0
   animationName: NormalAttack3End
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 3614226257729815023
+      type: {class: CustomBoolDecision, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        boolName: attackReserved
+    - rid: 3614226257729815024
+      type: {class: AnimationEndedDecision, ns: StateMachine, asm: Assembly-CSharp}
+      data: 
+    - rid: 3614226257729815025
+      type: {class: CustomBoolDecision, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        boolName: attackReserved
+    - rid: 3614226257729815026
+      type: {class: AnimationEndedDecision, ns: StateMachine, asm: Assembly-CSharp}
+      data: 
+    - rid: 3614226257729815027
+      type: {class: KnockbackMoveDecision, ns: StateMachine, asm: Assembly-CSharp}
+      data: 
+    - rid: 3614226257729815028
+      type: {class: CanDodgeCooltimeDecision, ns: StateMachine, asm: Assembly-CSharp}
+      data: 
+    - rid: 3614226257729815029
+      type: {class: SetCustomBoolAction, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        boolName: attackReserved
+        value: 1
+    - rid: 3614226257729815030
+      type: {class: CanGraffitiDecision, ns: StateMachine, asm: Assembly-CSharp}
+      data: 
+    - rid: 3614226257729815031
+      type: {class: SetDirFromPlayerInputAction, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        negative: 0
+    - rid: 3614226257729815032
+      type: {class: SetAttackDataAction, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        attackNumber: 4
+    - rid: 3614226257729815033
+      type: {class: SetCustomBoolAction, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        boolName: attackReserved
+        value: 0

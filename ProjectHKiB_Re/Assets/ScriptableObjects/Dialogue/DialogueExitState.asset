@@ -12,10 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23ffa63ce1c9f844b99882f818407756, type: 3}
   m_Name: DialogueExitState
   m_EditorClassIdentifier: 
+  temporaryID: 0
   transitions: []
   enterActions:
   - {fileID: 11400000, guid: d13c7c22aad037c478c461964e79210c, type: 2}
+  EnterActions:
+  - rid: 3614226257729815279
   updateActions: []
+  UpdateActions: []
   exitActions: []
-  subDecisions: []
-  frameDecisions: []
+  ExitActions: []
+  actionSequence: []
+  loopActionSequence: 0
+  useTimer: 0
+  timerID: 0
+  time: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 3614226257729815279
+      type: {class: DialogueExitAction, ns: StateMachine, asm: Assembly-CSharp}
+      data: 

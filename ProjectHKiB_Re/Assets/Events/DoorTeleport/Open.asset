@@ -12,14 +12,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b84f488bffaa1a4995cec14212963b4, type: 3}
   m_Name: Open
   m_EditorClassIdentifier: 
+  temporaryID: 0
   transitions:
-  - availableTime: 0.6
+  - activationInput: 10
+    availableTime: 0.6
+    disableTime: 0
     decisions: []
     trueState: {fileID: 11400000, guid: 947f1fa47cf22a44c9a543d84f174c6c, type: 2}
     falseState: {fileID: 0}
+    action: {fileID: 0}
+    Action:
+      rid: -2
   enterActions: []
+  EnterActions: []
   updateActions: []
+  UpdateActions: []
   exitActions: []
-  subDecisions: []
-  frameDecisions: []
+  ExitActions: []
+  actionSequence: []
+  loopActionSequence: 0
+  useTimer: 0
+  timerID: 0
+  time: 0
   animationName: Opening
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }

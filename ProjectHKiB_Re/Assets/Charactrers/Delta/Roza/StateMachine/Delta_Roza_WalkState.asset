@@ -19,21 +19,31 @@ MonoBehaviour:
     disableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: 35a37da16a3d9df4189d1ba8142bdbc6, type: 2}
+      Decision:
+        rid: 3614226257729815313
       negate: 1
     - decision: {fileID: 11400000, guid: 0b58246cfba562f40bb61edc58b554f3, type: 2}
+      Decision:
+        rid: 3614226257729815314
       negate: 0
     trueState: {fileID: 11400000, guid: aaecd269a081e2a4e8930f4993757b90, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
+    Action:
+      rid: -2
   - activationInput: 10
     availableTime: 0
     disableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: 25fc0810a2a69f84e991d13a162ddaae, type: 2}
+      Decision:
+        rid: 3614226257729815315
       negate: 0
     trueState: {fileID: 11400000, guid: 343c8aa1b5e54e241a0bf7d75e56e217, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
+    Action:
+      rid: -2
   - activationInput: 2
     availableTime: 0
     disableTime: 0
@@ -41,56 +51,83 @@ MonoBehaviour:
     trueState: {fileID: 11400000, guid: 70ce19e7fc1c9c04fa078dc65a2ed083, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
+    Action:
+      rid: -2
   - activationInput: 10
     availableTime: 0
     disableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: af28755f24b9a564da14f64bdd3a7f40, type: 2}
+      Decision:
+        rid: 3614226257729815316
       negate: 0
     trueState: {fileID: 11400000, guid: cc4bdcdcb162f684aa4182056b09d1ac, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
+    Action:
+      rid: -2
   - activationInput: 3
     availableTime: 0
     disableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: 5080e5686af385f43ba3c3c0a486210c, type: 2}
+      Decision:
+        rid: 3614226257729815317
       negate: 0
     trueState: {fileID: 11400000, guid: 3e9e252439afd3f4688d00ad06d06ef5, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
+    Action:
+      rid: -2
   - activationInput: 13
     availableTime: 0
     disableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: 53320624076daab44995584c81b2539a, type: 2}
+      Decision:
+        rid: 3614226257729815318
       negate: 0
     trueState: {fileID: 11400000, guid: 0ef79efe3c752334593e6fe0a7e5e44f, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
+    Action:
+      rid: -2
   - activationInput: 10
     availableTime: 0
     disableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: 69473423be5d34647b0a1e7e15d1103a, type: 2}
+      Decision:
+        rid: 3614226257729815319
       negate: 0
     trueState: {fileID: 11400000, guid: ce56eaf29f5e69244ad234074092f952, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
+    Action:
+      rid: -2
   - activationInput: 10
     availableTime: 0
     disableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: 32f2c5ff068557b43becca29f5d19726, type: 2}
+      Decision:
+        rid: 3614226257729815320
       negate: 0
     trueState: {fileID: 11400000, guid: 4eb7cf3636944c54e8d52f90223cb351, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
+    Action:
+      rid: -2
   enterActions: []
+  EnterActions: []
   updateActions:
   - {fileID: 11400000, guid: 7263eacb51896564e8bf3466a98c6b58, type: 2}
   - {fileID: 11400000, guid: c63fa6e559283a9479d938d317595868, type: 2}
+  UpdateActions:
+  - rid: 3614226257729815321
+  - rid: 3614226257729815322
   exitActions: []
+  ExitActions: []
   actionSequence:
   - time: 0.2
     action: {fileID: 11400000, guid: dc2ca73e8a612af42974f1a56f5895c5, type: 2}
@@ -103,3 +140,42 @@ MonoBehaviour:
   timerID: 0
   time: 0
   animationName: Walk
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 3614226257729815313
+      type: {class: PlayerInputDecision, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        _inputType: 0
+    - rid: 3614226257729815314
+      type: {class: GridAllignedDecision, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        mathManager: {fileID: 11400000, guid: d70d30fe513b9cc4bb4206690e1ecbf7, type: 2}
+    - rid: 3614226257729815315
+      type: {class: PlayerInputDecision, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        _inputType: 1
+    - rid: 3614226257729815316
+      type: {class: KnockbackMoveDecision, ns: StateMachine, asm: Assembly-CSharp}
+      data: 
+    - rid: 3614226257729815317
+      type: {class: CanDodgeCooltimeDecision, ns: StateMachine, asm: Assembly-CSharp}
+      data: 
+    - rid: 3614226257729815318
+      type: {class: CanGraffitiDecision, ns: StateMachine, asm: Assembly-CSharp}
+      data: 
+    - rid: 3614226257729815319
+      type: {class: IsGroggyDecision, ns: StateMachine, asm: Assembly-CSharp}
+      data: 
+    - rid: 3614226257729815320
+      type: {class: IsRunawayDecision, ns: StateMachine, asm: Assembly-CSharp}
+      data: 
+    - rid: 3614226257729815321
+      type: {class: WalkByInputAction, ns: StateMachine, asm: Assembly-CSharp}
+      data: 
+    - rid: 3614226257729815322
+      type: {class: SetDirFromLastSetDirAction, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        negative: 0

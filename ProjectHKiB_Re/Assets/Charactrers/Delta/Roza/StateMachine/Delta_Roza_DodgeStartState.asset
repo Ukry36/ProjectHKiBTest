@@ -21,11 +21,38 @@ MonoBehaviour:
     trueState: {fileID: 11400000, guid: 2b9bdc2d4bc52e441943094105a7bcb0, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
+    Action:
+      rid: -2
   enterActions:
   - {fileID: 11400000, guid: 9d29c5b17685af144aaabb51ca64e9ad, type: 2}
   - {fileID: 11400000, guid: b67b655ec5759574ea747ce9c1f9f7d4, type: 2}
+  EnterActions:
+  - rid: 3614226257729815298
+  - rid: 3614226257729815299
   updateActions: []
+  UpdateActions: []
   exitActions:
   - {fileID: 11400000, guid: 72a96972d3abff8438153dedd39e51ce, type: 2}
-  frameDecisions: []
+  ExitActions:
+  - rid: 3614226257729815300
+  actionSequence: []
+  loopActionSequence: 0
+  useTimer: 0
+  timerID: 0
+  time: 0
   animationName: DodgeStart
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 3614226257729815298
+      type: {class: SetDirFromPlayerInputAction, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        negative: 0
+    - rid: 3614226257729815299
+      type: {class: StartDodgeAction, ns: StateMachine, asm: Assembly-CSharp}
+      data: 
+    - rid: 3614226257729815300
+      type: {class: StartDodgeMoveByInputAction, ns: StateMachine, asm: Assembly-CSharp}
+      data: 

@@ -16,23 +16,56 @@ MonoBehaviour:
   transitions:
   - activationInput: 10
     availableTime: 0.9
+    disableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: af28755f24b9a564da14f64bdd3a7f40, type: 2}
+      Decision:
+        rid: 3614226257729815547
       negate: 1
     trueState: {fileID: 11400000, guid: aaecd269a081e2a4e8930f4993757b90, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
+    Action:
+      rid: -2
   - activationInput: 3
     availableTime: 0.5
+    disableTime: 0
     decisions: []
     trueState: {fileID: 11400000, guid: 3e9e252439afd3f4688d00ad06d06ef5, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
+    Action:
+      rid: -2
   enterActions: []
+  EnterActions: []
   updateActions:
-  - {fileID: 11400000, guid: 4ff9702b721b89147abd80a03aeb1ff4, type: 2}
+  - {fileID: 0}
   - {fileID: 11400000, guid: f9ec5cad21eb1e34180a208621fc76de, type: 2}
+  UpdateActions:
+  - rid: -2
+  - rid: 3614226257729815548
   exitActions:
   - {fileID: 11400000, guid: f3797200be3d3f141a9ff7dc9b1bbe6c, type: 2}
-  frameDecisions: []
+  ExitActions:
+  - rid: 3614226257729815549
+  actionSequence: []
+  loopActionSequence: 0
+  useTimer: 0
+  timerID: 0
+  time: 0
   animationName: Knockback
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 3614226257729815547
+      type: {class: KnockbackMoveDecision, ns: StateMachine, asm: Assembly-CSharp}
+      data: 
+    - rid: 3614226257729815548
+      type: {class: SetDirFromVelocityAction, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        negative: 1
+    - rid: 3614226257729815549
+      type: {class: EndKnockbackEarlyAction, ns: StateMachine, asm: Assembly-CSharp}
+      data: 
