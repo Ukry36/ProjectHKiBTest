@@ -1,0 +1,16 @@
+using UnityEngine;
+namespace StateMachine
+{
+    [System.Serializable]
+    public class StartDodgeAction : StateAction
+    {
+        public override void Act(StateController stateController)
+        {
+            if (stateController.TryGetInterface(out IDodgeable dodgeable))
+            {
+                dodgeable.StartDodge();
+            }
+            else Debug.LogError("ERROR: Interface Not Found!!!");
+        }
+    }
+}

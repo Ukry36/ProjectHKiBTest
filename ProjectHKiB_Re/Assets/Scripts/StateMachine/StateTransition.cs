@@ -1,3 +1,6 @@
+using StateMachine;
+using UnityEngine;
+
 [System.Serializable]
 public class StateTransition
 {
@@ -5,8 +8,10 @@ public class StateTransition
     public struct DecisionSet
     {
         public StateDecisionSO decision;
+        [SerializeReference, SubclassSelector] public StateDecision decisio;
         public bool negate;
     }
+
     public EnumManager.InputType activationInput = EnumManager.InputType.None;
     public float availableTime;
     public float disableTime;
@@ -14,6 +19,7 @@ public class StateTransition
     public StateSO trueState;
     public StateSO falseState;
     public StateActionSO action;
+    public StateAction Action;
 
     public bool CheckDecisions(StateController stateController)
     {
