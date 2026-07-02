@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 using DG.Tweening;
 
 public class StateController : InterfaceRegister
@@ -43,7 +42,7 @@ public class StateController : InterfaceRegister
     public void ActionSequenceCallback()
     {
         if (_currentActionSequence[_sequenceInt].action != null)
-        _currentActionSequence[_sequenceInt].action.Act(this);
+            _currentActionSequence[_sequenceInt].action.Act(this);
         _sequenceInt++;
     }
     public void StopActionSequence()
@@ -118,7 +117,7 @@ public class StateController : InterfaceRegister
     {
         if (_stateMachine) _stateMachine.UnbindCommands();
         _stateMachine = null;
-        if(CurrentState) CurrentState.ExitState(this);
+        if (CurrentState) CurrentState.ExitState(this);
         CurrentState = null;
         StopAllCoroutines();
     }

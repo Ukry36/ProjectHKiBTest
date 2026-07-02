@@ -1,38 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7134422190905310422
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23ffa63ce1c9f844b99882f818407756, type: 3}
-  m_Name: test
-  m_EditorClassIdentifier: 
-  isPacked: 1
-  isTemplate: 0
-  exposedVariables: []
-  temporaryID: 0
-  transitions: []
-  additionalTransitions: []
-  enterActions: []
-  EnterActions: []
-  updateActions: []
-  UpdateActions: []
-  exitActions: []
-  ExitActions: []
-  actionSequence: []
-  loopActionSequence: 0
-  useTimer: 0
-  timerID: 0
-  time: 0
-  references:
-    version: 2
-    RefIds: []
---- !u!114 &-3813328291089341852
+--- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -45,7 +13,7 @@ MonoBehaviour:
   m_Name: AttackState
   m_EditorClassIdentifier: 
   isPacked: 1
-  isTemplate: 0
+  isTemplate: 1
   exposedVariables:
   - propertyPath: EnterActions.Array.data[0]._buff
     displayName: Buff
@@ -94,25 +62,3 @@ MonoBehaviour:
     - rid: 8642958590306156564
       type: {class: CanAttackCooltimeDecision, ns: StateMachine, asm: Assembly-CSharp}
       data: 
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97cc48d9291f2784caac4164ff25b2ab, type: 3}
-  m_Name: State Machine
-  m_EditorClassIdentifier: 
-  customVariables:
-    boolVariables:
-      _serializedList: []
-    intVariables:
-      _serializedList: []
-    floatVariables:
-      _serializedList: []
-  initialState: {fileID: 0}
-  allStates: []
-  _commandPairs: []

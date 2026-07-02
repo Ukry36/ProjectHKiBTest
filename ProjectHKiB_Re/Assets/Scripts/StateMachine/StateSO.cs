@@ -9,11 +9,22 @@ public struct ActionSequence
 {
     public float time;
     public StateActionSO action;
+    [SerializeReference, SubclassSelector] public StateAction Action;
+}
+
+[Serializable]
+public struct ExposedVariable
+{
+    [HideInInspector] public string propertyPath;
+    public string displayName;
 }
 
 [CreateAssetMenu(fileName = "State", menuName = "State Machine/State")]
 public class StateSO : ScriptableObject
 {
+    [HideInInspector] public bool isPacked = false;   // 패킹 여부
+    [HideInInspector] public bool isTemplate = false; // 생성 메뉴에 띄울 템플릿 여부
+    public System.Collections.Generic.List<ExposedVariable> exposedVariables = new(); // 노출할 변수 목록
 
     [NaughtyAttributes.Button]
     public void Save()
@@ -36,17 +47,22 @@ public class StateSO : ScriptableObject
 
             if (stateSO == null) continue;
 
-            // 실행 전 기존 데이터 리스트 초기화 (중복 방지)
             stateSO.EnterActions = new StateAction[stateSO.enterActions.Length];
             stateSO.UpdateActions = new StateAction[stateSO.updateActions.Length];
             stateSO.ExitActions = new StateAction[stateSO.exitActions.Length];
 
-            // 2. Enter / Update / Exit 액션 배열 마이그레이션
             MigrateActionArray(stateSO.enterActions, stateSO.EnterActions);
             MigrateActionArray(stateSO.updateActions, stateSO.UpdateActions);
             MigrateActionArray(stateSO.exitActions, stateSO.ExitActions);
 
-            // 3. Transitions 내부의 액션 마이그레이션
+            if (stateSO.actionSequence != null)
+            {
+                for (int i = 0; i < stateSO.actionSequence.Length; i++)
+                {
+                    if (stateSO.actionSequence[i].action != null) stateSO.actionSequence[i].Action = CreateAndCopyAction(stateSO.actionSequence[i].action);
+                }
+            }
+
             if (stateSO.transitions != null)
             {
                 foreach (var transition in stateSO.transitions)
@@ -79,8 +95,7 @@ public class StateSO : ScriptableObject
         }
     }
 
-    // 핵심: 리플렉션을 통해 구 네임스페이스 SO -> 신 네임스페이스 일반 클래스로 변환 및 데이터 복사
-    private static string targetAssembly = "Assembly-CSharp"; // 혹시 Assembly Definition(asmdef)을 쓰신다면 해당 이름으로 변경
+    private static string targetAssembly = "Assembly-CSharp";
     private static StateAction CreateAndCopyAction(StateActionSO oldAction)
     {
         if (!oldAction) return null;
@@ -155,6 +170,7 @@ public class StateSO : ScriptableObject
     }
 
     public StateTransition[] transitions;
+    public StateTransition[] additionalTransitions;
     public StateActionSO[] enterActions;
     [SerializeReference, SubclassSelector] public StateAction[] EnterActions;
     public StateActionSO[] updateActions;

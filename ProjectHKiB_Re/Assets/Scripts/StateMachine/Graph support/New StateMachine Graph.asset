@@ -14,19 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedNodes: []
   nodes:
-  - rid: 3614226231649370335
   - rid: 3614226231649370336
   - rid: 3614226231649370338
   - rid: 3614226231649370339
+  - rid: 8642958590306156565
   edges:
-  - GUID: a21ff9bd-27ab-4a67-bf1b-ab5e96682831
-    owner: {fileID: 11400000}
-    inputNodeGUID: db45b69a-7fc7-41ea-ae6d-1733f599bc48
-    outputNodeGUID: dec99d7b-0e17-4e5d-87f0-e4b54fe32d38
-    inputFieldName: input
-    outputFieldName: outputTransitions
-    inputPortIdentifier: 0
-    outputPortIdentifier: T_0_False
   - GUID: 76e23ca2-227c-46c1-970f-6716287f9ca0
     owner: {fileID: 11400000}
     inputNodeGUID: afcda8b2-43c6-4a85-b89d-22495b9dc3e9
@@ -60,42 +52,24 @@ MonoBehaviour:
   serializedParameterList: []
   stickyNotes: []
   nodeInspectorReference: {fileID: 0}
-  position: {x: 661, y: -141, z: 0}
-  scale: {x: 0.8695652, y: 0.8695652, z: 1}
+  position: {x: 314, y: -189, z: 0}
+  scale: {x: 1.15, y: 1.15, z: 1}
   targetStateMachine: {fileID: 11400000, guid: 8a728cf63377d3140ada3bbdca196128, type: 2}
   references:
     version: 2
     RefIds:
-    - rid: 3614226231649370335
-      type: {class: StateNode, ns: , asm: Assembly-CSharp}
-      data:
-        nodeCustomName: TestState 2
-        GUID: dec99d7b-0e17-4e5d-87f0-e4b54fe32d38
-        computeOrder: 0
-        position:
-          serializedVersion: 2
-          x: 40
-          y: 174
-          width: 400
-          height: 362
-        expanded: 0
-        debug: 0
-        nodeLock: 0
-        stateSO: {fileID: 6025173189274972639, guid: 8a728cf63377d3140ada3bbdca196128, type: 2}
-        inputState: {fileID: 0}
-        outputTransitions: {fileID: 0}
     - rid: 3614226231649370336
       type: {class: StateNode, ns: , asm: Assembly-CSharp}
       data:
-        nodeCustomName: TestState 1
+        nodeCustomName: AttackState
         GUID: d13ff9f5-e6b2-4d78-88bd-b4a8f0e440c6
-        computeOrder: 3
+        computeOrder: 2
         position:
           serializedVersion: 2
-          x: -485.00003
-          y: 411.2286
+          x: -438.9999
+          y: 271.3425
           width: 400
-          height: 409
+          height: 174
         expanded: 1
         debug: 0
         nodeLock: 0
@@ -107,11 +81,11 @@ MonoBehaviour:
       data:
         nodeCustomName: 
         GUID: db45b69a-7fc7-41ea-ae6d-1733f599bc48
-        computeOrder: 1
+        computeOrder: 0
         position:
           serializedVersion: 2
-          x: 495.39362
-          y: 155.00002
+          x: -899.0737
+          y: 278
           width: 200
           height: 200
         expanded: 0
@@ -125,11 +99,11 @@ MonoBehaviour:
       data:
         nodeCustomName: 
         GUID: afcda8b2-43c6-4a85-b89d-22495b9dc3e9
-        computeOrder: 2
+        computeOrder: 1
         position:
           serializedVersion: 2
-          x: -484.97818
-          y: 155.00002
+          x: -612
+          y: 465.72003
           width: 200
           height: 200
         expanded: 0
@@ -138,3 +112,21 @@ MonoBehaviour:
         unpackOutput: 0
         packInput: 0
         inputEdgeCount: 0
+    - rid: 8642958590306156565
+      type: {class: StateNode, ns: , asm: Assembly-CSharp}
+      data:
+        nodeCustomName: test
+        GUID: ef8481fa-2597-4ba6-8b6f-2e1267d2a190
+        computeOrder: 3
+        position:
+          serializedVersion: 2
+          x: 73.04349
+          y: 271
+          width: 400
+          height: 519
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        stateSO: {fileID: -7134422190905310422, guid: 8a728cf63377d3140ada3bbdca196128, type: 2}
+        inputState: {fileID: 0}
+        outputTransitions: {fileID: 0}

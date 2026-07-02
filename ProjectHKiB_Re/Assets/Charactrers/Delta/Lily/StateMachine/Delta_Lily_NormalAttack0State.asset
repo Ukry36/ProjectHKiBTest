@@ -12,9 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb85084ca5989854b9dbc2cce1298255, type: 3}
   m_Name: Delta_Lily_NormalAttack0State
   m_EditorClassIdentifier: 
+  isPacked: 0
+  isTemplate: 0
+  exposedVariables: []
   temporaryID: 0.8758054
   transitions:
-  - activationInput: 10
+  - name: 
+    activationInput: 10
     availableTime: 0
     disableTime: 0
     decisions:
@@ -31,7 +35,10 @@ MonoBehaviour:
     action: {fileID: 0}
     Action:
       rid: -2
-  - activationInput: 10
+    showTrueStatePort: 1
+    showFalseStatePort: 1
+  - name: 
+    activationInput: 10
     availableTime: 0
     disableTime: 0
     decisions:
@@ -48,7 +55,10 @@ MonoBehaviour:
     action: {fileID: 0}
     Action:
       rid: -2
-  - activationInput: 10
+    showTrueStatePort: 1
+    showFalseStatePort: 1
+  - name: 
+    activationInput: 10
     availableTime: 0
     disableTime: 0
     decisions:
@@ -61,7 +71,10 @@ MonoBehaviour:
     action: {fileID: 0}
     Action:
       rid: -2
-  - activationInput: 3
+    showTrueStatePort: 1
+    showFalseStatePort: 1
+  - name: 
+    activationInput: 3
     availableTime: 0
     disableTime: 0
     decisions:
@@ -74,7 +87,10 @@ MonoBehaviour:
     action: {fileID: 0}
     Action:
       rid: -2
-  - activationInput: 2
+    showTrueStatePort: 1
+    showFalseStatePort: 1
+  - name: 
+    activationInput: 2
     availableTime: 0
     disableTime: 0
     decisions: []
@@ -83,7 +99,10 @@ MonoBehaviour:
     action: {fileID: 11400000, guid: 5b80fe0ce3d6747408d78514aac16602, type: 2}
     Action:
       rid: 3614226257729815524
-  - activationInput: 13
+    showTrueStatePort: 1
+    showFalseStatePort: 1
+  - name: 
+    activationInput: 13
     availableTime: 0
     disableTime: 0
     decisions:
@@ -96,7 +115,10 @@ MonoBehaviour:
     action: {fileID: 0}
     Action:
       rid: -2
-  - activationInput: 10
+    showTrueStatePort: 1
+    showFalseStatePort: 1
+  - name: 
+    activationInput: 10
     availableTime: 0
     disableTime: 0
     decisions:
@@ -109,7 +131,10 @@ MonoBehaviour:
     action: {fileID: 0}
     Action:
       rid: -2
-  - activationInput: 10
+    showTrueStatePort: 1
+    showFalseStatePort: 1
+  - name: 
+    activationInput: 10
     availableTime: 0
     disableTime: 0
     decisions:
@@ -122,6 +147,9 @@ MonoBehaviour:
     action: {fileID: 0}
     Action:
       rid: -2
+    showTrueStatePort: 1
+    showFalseStatePort: 1
+  additionalTransitions: []
   enterActions:
   - {fileID: 11400000, guid: 89eb5a29b6673714bb4de9694caa387a, type: 2}
   - {fileID: 11400000, guid: 9803c0b8775edce4ab1c7847408e6785, type: 2}
@@ -139,8 +167,12 @@ MonoBehaviour:
   actionSequence:
   - time: 0.2
     action: {fileID: 11400000, guid: 6f31d4110f1af4641baeb5989f3e88f0, type: 2}
+    Action:
+      rid: -2
   - time: 0
     action: {fileID: 11400000, guid: b858f92dbe65dc24aad92d5e2442ce86, type: 2}
+    Action:
+      rid: -2
   loopActionSequence: 0
   useTimer: 0
   timerID: 0

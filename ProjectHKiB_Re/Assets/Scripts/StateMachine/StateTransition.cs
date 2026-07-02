@@ -4,6 +4,7 @@ using UnityEngine;
 [System.Serializable]
 public class StateTransition
 {
+    public string name;
     [System.Serializable]
     public struct DecisionSet
     {
@@ -20,6 +21,9 @@ public class StateTransition
     public StateSO falseState;
     public StateActionSO action;
     [SerializeReference, SubclassSelector] public StateAction Action;
+
+    public bool showTrueStatePort = true;
+    public bool showFalseStatePort = true;
 
     public bool CheckDecisions(StateController stateController)
     {
