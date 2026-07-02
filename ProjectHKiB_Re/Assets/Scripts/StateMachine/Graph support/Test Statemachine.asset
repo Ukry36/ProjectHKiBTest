@@ -1,0 +1,190 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-5674412074066384254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23ffa63ce1c9f844b99882f818407756, type: 3}
+  m_Name: Template state
+  m_EditorClassIdentifier: 
+  isPacked: 1
+  isTemplate: 0
+  exposedVariables:
+  - propertyPath: EnterActions.Array.data[0].attackNumber
+    displayName: Attack Number
+  - propertyPath: UpdateActions.Array.data[0]._buff
+    displayName: Buff
+  temporaryID: 0
+  transitions:
+  - name: to next state
+    activationInput: 10
+    availableTime: 0
+    disableTime: 0
+    decisions:
+    - decision: {fileID: 0}
+      Decision:
+        rid: 8642958590306156577
+      negate: 0
+    trueState: {fileID: 0}
+    falseState: {fileID: 0}
+    action: {fileID: 0}
+    Action:
+      rid: -2
+    showTrueStatePort: 1
+    showFalseStatePort: 0
+  additionalTransitions: []
+  enterActions: []
+  EnterActions:
+  - rid: 8642958590306156574
+  updateActions: []
+  UpdateActions:
+  - rid: 8642958590306156576
+  exitActions: []
+  ExitActions: []
+  actionSequence: []
+  loopActionSequence: 0
+  useTimer: 0
+  timerID: 0
+  time: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 8642958590306156574
+      type: {class: SetAttackDataAction, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        attackNumber: 0
+    - rid: 8642958590306156576
+      type: {class: InternalBuffAction, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        _negate: 0
+        _buff: {fileID: 0}
+    - rid: 8642958590306156577
+      type: {class: AnimationEndedDecision, ns: StateMachine, asm: Assembly-CSharp}
+      data: 
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97cc48d9291f2784caac4164ff25b2ab, type: 3}
+  m_Name: Test Statemachine
+  m_EditorClassIdentifier: 
+  customVariables:
+    boolVariables:
+      _serializedList: []
+    intVariables:
+      _serializedList: []
+    floatVariables:
+      _serializedList: []
+  initialState: {fileID: 0}
+  allStates: []
+  _commandPairs: []
+--- !u!114 &5162614287009148086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d5bce95d28994049b5bb57841a729ee, type: 3}
+  m_Name: Test StatemachineEditor
+  m_EditorClassIdentifier: 
+  serializedNodes: []
+  nodes:
+  - rid: 8642958590306156572
+  - rid: 8642958590306156573
+  edges: []
+  groups: []
+  stackNodes: []
+  pinnedElements: []
+  exposedParameters: []
+  serializedParameterList: []
+  stickyNotes: []
+  nodeInspectorReference: {fileID: 0}
+  position: {x: -429, y: 407, z: 0}
+  scale: {x: 1.15, y: 1.15, z: 1}
+  targetStateMachine: {fileID: 11400000}
+  references:
+    version: 2
+    RefIds:
+    - rid: 8642958590306156572
+      type: {class: StateNode, ns: , asm: Assembly-CSharp}
+      data:
+        nodeCustomName: Test State 1
+        GUID: 23739ab5-b991-496a-b6f5-3e602dc287de
+        computeOrder: 0
+        position:
+          serializedVersion: 2
+          x: 68
+          y: -186.39993
+          width: 400
+          height: 522
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        stateSO: {fileID: 7934711332651139718}
+        inputState: {fileID: 0}
+        outputTransitions: {fileID: 0}
+    - rid: 8642958590306156573
+      type: {class: StateNode, ns: , asm: Assembly-CSharp}
+      data:
+        nodeCustomName: Template state
+        GUID: 6679b6e5-739a-438d-8d86-ecae3fcc1ca8
+        computeOrder: 1
+        position:
+          serializedVersion: 2
+          x: 596
+          y: -225.68
+          width: 400
+          height: 522
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        stateSO: {fileID: -5674412074066384254}
+        inputState: {fileID: 0}
+        outputTransitions: {fileID: 0}
+--- !u!114 &7934711332651139718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23ffa63ce1c9f844b99882f818407756, type: 3}
+  m_Name: Test State 1
+  m_EditorClassIdentifier: 
+  isPacked: 0
+  isTemplate: 0
+  exposedVariables: []
+  temporaryID: 0
+  transitions: []
+  additionalTransitions: []
+  enterActions: []
+  EnterActions: []
+  updateActions: []
+  UpdateActions: []
+  exitActions: []
+  ExitActions: []
+  actionSequence: []
+  loopActionSequence: 0
+  useTimer: 0
+  timerID: 0
+  time: 0
+  references:
+    version: 2
+    RefIds: []

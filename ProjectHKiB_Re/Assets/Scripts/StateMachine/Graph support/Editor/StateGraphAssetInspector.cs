@@ -14,7 +14,7 @@ public class StateGraphAssetInspector : GraphInspector
 
 		if (tsmProperty != null)
 		{
-			ObjectField machineObjectField = new ObjectField("Target State Machine")
+			ObjectField machineObjectField = new("Target State Machine")
 			{
 				objectType = typeof(StateMachineSO),
 				allowSceneObjects = false
@@ -27,21 +27,9 @@ public class StateGraphAssetInspector : GraphInspector
 			machineObjectField.style.marginTop = 6;
 		}
 
-		root.Add(new Button(() => EditorWindow.GetWindow<DefaultGraphWindow>().InitializeGraph(target as BaseGraph))
+		root.Add(new Button(() => EditorWindow.GetWindow<StateMachineGraphWindow>().InitializeGraph(target as BaseGraph))
 		{
-			text = "Open base graph window"
-		});
-		root.Add(new Button(() => EditorWindow.GetWindow<CustomContextMenuGraphWindow>().InitializeGraph(target as BaseGraph))
-		{
-			text = "Open custom context menu graph window"
-		});
-		root.Add(new Button(() => EditorWindow.GetWindow<CustomToolbarGraphWindow>().InitializeGraph(target as BaseGraph))
-		{
-			text = "Open custom toolbar graph window"
-		});
-		root.Add(new Button(() => EditorWindow.GetWindow<ExposedPropertiesGraphWindow>().InitializeGraph(target as BaseGraph))
-		{
-			text = "Open exposed properties graph window"
+			text = "Open graph window"
 		});
 	}
 }

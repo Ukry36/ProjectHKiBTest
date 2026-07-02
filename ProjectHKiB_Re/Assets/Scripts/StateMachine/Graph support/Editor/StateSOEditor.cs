@@ -77,12 +77,34 @@ public class StateSOEditor : Editor
 
     private void MakeTemplate(StateSO stateSO)
     {
-        StateSO instance = Instantiate(stateSO);
-        instance.isPacked = true;
-        instance.isTemplate = true;
-        Undo.RecordObject(instance, "Create State Template");
-        AssetDatabase.CreateAsset(instance, $"Assets/ScriptableObjects/StateMachine/StateTemplates/{stateSO.name}.asset");
-        EditorUtility.SetDirty(instance);
+        string targetPath = $"Assets/ScriptableObjects/StateMachine/StateTemplates/{stateSO.name}.asset";
+        bool proceedCreation = true;
+
+        StateSO existingTemplate = AssetDatabase.LoadAssetAtPath<StateSO>(targetPath);
+
+        if (existingTemplate != null)
+        {
+            proceedCreation = EditorUtility.DisplayDialog(
+                "Template Overwrite Warning",
+                $"A template named '{stateSO.name}' already exists.\nDo you really want to overwrite it?",
+                "Overwrite",
+                "Cancel"
+            );
+        }
+
+        if (proceedCreation)
+        {
+            StateSO instance = Instantiate(stateSO);
+            instance.isPacked = true;
+            instance.isTemplate = true;
+
+            AssetDatabase.CreateAsset(instance, targetPath);
+
+            EditorUtility.SetDirty(instance);
+            AssetDatabase.SaveAssets();
+
+            Debug.Log($"Template of {stateSO.name} is generated.");
+        }
     }
 
     private void ShowTemplateSelectorMenu(StateSO stateSO)

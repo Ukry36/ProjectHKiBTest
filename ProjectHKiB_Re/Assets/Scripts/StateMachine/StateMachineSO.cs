@@ -6,6 +6,7 @@ public class StateMachineSO : ScriptableObject
 {
     public CustomVariableSets customVariables;
     public StateSO initialState;
+    private StateMachineGraph graph;
 
     [NaughtyAttributes.Expandable] public StateSO[] allStates;
 
@@ -17,13 +18,31 @@ public class StateMachineSO : ScriptableObject
         foreach (StateSO state in allStates)
         {
             state.temporaryID = Random.value;
-            foreach(StateTransition transition in state.transitions)
+            foreach (StateTransition transition in state.transitions)
             {
-                if (transition.activationInput != EnumManager.InputType.None) 
+                if (transition.activationInput != EnumManager.InputType.None)
                     _commandPairs.Add(new(state, transition.activationInput));
             }
         }
     }
+
+#if UNITY_EDITOR
+    [NaughtyAttributes.Button]
+    public void OpenGraphView()
+    {
+        if (graph == null)
+        {
+            graph = (StateMachineGraph)CreateInstance(typeof(StateMachineGraph));
+            graph.name = this.name + "Editor";
+            graph.targetStateMachine = this;
+
+            UnityEditor.AssetDatabase.AddObjectToAsset(graph, UnityEditor.AssetDatabase.GetAssetPath(this));
+            UnityEditor.Undo.RegisterCreatedObjectUndo(graph, "Added Graph Editor");
+            UnityEditor.EditorUtility.SetDirty(this);
+        }
+        UnityEditor.EditorWindow.GetWindow<StateMachineGraphWindow>().InitializeGraph(graph);
+    }
+#endif
 
     public void BindCommands(StateController stateController)
     {
