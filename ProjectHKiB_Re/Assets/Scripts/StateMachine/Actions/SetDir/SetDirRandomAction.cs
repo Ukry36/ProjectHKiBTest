@@ -1,16 +1,19 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "SetDirRandomAction", menuName = "State Machine/Action/SetDir/SetDirRandomAction")]
-public class SetDirRandomAction : StateActionSO
+namespace StateMachine
 {
-    [SerializeField] private bool negative;
-    public override void Act(StateController stateController)
+    [System.Serializable]
+    public class SetDirRandomAction : StateAction
     {
-        if (stateController.TryGetInterface(out IDirAnimatable animatable))
+        [SerializeField] private bool negative;
+        public override void Act(StateController stateController)
         {
-            Vector2 dir = Vector2.up * Random.Range(-1, 2) + Vector2.right * Random.Range(-1, 2);
-            if (!animatable.CheckIfLastSetDirectionSame(dir))
-                animatable.SetAnimationDirection(negative ? dir * -1 : dir);
-        }
+            if (stateController.TryGetInterface(out IDirAnimatable animatable))
+            {
+                Vector2 dir = Vector2.up * Random.Range(-1, 2) + Vector2.right * Random.Range(-1, 2);
+                if (!animatable.CheckIfLastSetDirectionSame(dir))
+                    animatable.SetAnimationDirection(negative ? dir * -1 : dir);
+            }
 
+        }
     }
 }

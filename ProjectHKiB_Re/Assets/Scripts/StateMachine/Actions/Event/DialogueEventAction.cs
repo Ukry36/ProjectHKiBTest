@@ -1,13 +1,16 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "DialogueEventAction", menuName = "State Machine/Action/Event/DialogueEventAction")]
-public class DialogueEventAction : StateActionSO
+namespace StateMachine
 {
-    public override void Act(StateController stateController)
+    [System.Serializable]
+    public class DialogueEventAction : StateAction
     {
-        if (stateController.TryGetInterface(out IDialogueable dialogue))
+        public override void Act(StateController stateController)
         {
-            dialogue.StartLine();
+            if (stateController.TryGetInterface(out IDialogueable dialogue))
+            {
+                dialogue.StartLine();
+            }
+            else Debug.LogError("ERROR: Interface Not Found!!!");
         }
-        else Debug.LogError("ERROR: Interface Not Found!!!");
     }
 }

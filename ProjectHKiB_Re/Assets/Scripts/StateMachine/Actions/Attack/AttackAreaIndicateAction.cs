@@ -1,14 +1,17 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "AttackAreaIndicateAction", menuName = "State Machine/Action/Attack/AttackAreaIndicate")]
-public class AttackAreaIndicateAction : StateActionSO
+namespace StateMachine
 {
-    public override void Act(StateController stateController)
+    [System.Serializable]
+    public class AttackAreaIndicateAction : StateAction
     {
-        if (stateController.TryGetInterface(out IAttackable attackable) && stateController.TryGetInterface(out IAttackIndicatable areaIndicatable) && stateController.TryGetInterface(out IDirAnimatable animatable))
+        public override void Act(StateController stateController)
         {
-            areaIndicatable.StartIndicating(attackable.AttackDatas[attackable.AttackNumber].attackAreaIndicatorData, stateController.transform, animatable.LastSetAnimationQuaternion4);
+            if (stateController.TryGetInterface(out IAttackable attackable) && stateController.TryGetInterface(out IAttackIndicatable areaIndicatable) && stateController.TryGetInterface(out IDirAnimatable animatable))
+            {
+                areaIndicatable.StartIndicating(attackable.AttackDatas[attackable.AttackNumber].attackAreaIndicatorData, stateController.transform, animatable.LastSetAnimationQuaternion4);
+            }
+            else
+                Debug.LogError("ERROR: Interface Not Found!!!");
         }
-        else
-            Debug.LogError("ERROR: Interface Not Found!!!");
     }
 }

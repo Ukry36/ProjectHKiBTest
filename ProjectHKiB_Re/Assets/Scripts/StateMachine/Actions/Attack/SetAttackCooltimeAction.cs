@@ -1,14 +1,17 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "SetAttackCooltimeAction", menuName = "State Machine/Action/Attack/SetAttackCooltime")]
-public class SetAttackCooltimeAction : StateActionSO
+namespace StateMachine
 {
-    public override void Act(StateController stateController)
+    [System.Serializable]
+    public class SetAttackCooltimeAction : StateAction
     {
-        if (stateController.TryGetInterface(out IAttackable attackable))
+        public override void Act(StateController stateController)
         {
-            attackable.StartAttackCooltime();
+            if (stateController.TryGetInterface(out IAttackable attackable))
+            {
+                attackable.StartAttackCooltime();
+            }
+            else
+                Debug.LogError("ERROR: Interface Not Found!!!");
         }
-        else
-            Debug.LogError("ERROR: Interface Not Found!!!");
     }
 }

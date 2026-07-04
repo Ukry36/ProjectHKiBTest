@@ -1,13 +1,16 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "SetDir", menuName = "State Machine/Action/SetDir/SetDir")]
-public class SetDirAction : StateActionSO
+namespace StateMachine
 {
-    [SerializeField] private EnumManager.AnimDir animDir;
-    public override void Act(StateController stateController)
+    [System.Serializable]
+    public class SetDirAction : StateAction
     {
-        if (stateController.TryGetInterface(out IDirAnimatable animatable))
+        [SerializeField] private EnumManager.AnimDir animDir;
+        public override void Act(StateController stateController)
         {
-            animatable.SetAnimationDirection(animDir);
+            if (stateController.TryGetInterface(out IDirAnimatable animatable))
+            {
+                animatable.SetAnimationDirection(animDir);
+            }
         }
     }
 }

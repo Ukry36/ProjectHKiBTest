@@ -1,17 +1,20 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "GetBuffEvent", menuName = "State Machine/Action/Event/GetBuffEvent")]
-public class GetBuffEventAction : StateActionSO
+namespace StateMachine
 {
-    public override void Act(StateController stateController)
-    {   
-        if (stateController.TryGetInterface(out IGetBuff getBuff) && stateController.TryGetInterface(out IEvent @event))
+    [System.Serializable]
+    public class GetBuffEventAction : StateAction
+    {
+        public override void Act(StateController stateController)
         {
-            foreach (Collider2D col in @event.CurrentTargets)
+            if (stateController.TryGetInterface(out IGetBuff getBuff) && stateController.TryGetInterface(out IEvent @event))
             {
-                Transform transform = col.transform;
-                getBuff.GetBuff(transform, getBuff.Buff);
+                foreach (Collider2D col in @event.CurrentTargets)
+                {
+                    Transform transform = col.transform;
+                    getBuff.GetBuff(transform, getBuff.Buff);
+                }
             }
+            else Debug.LogError("ERROR: Interface Not Found!!!");
         }
-        else Debug.LogError("ERROR: Interface Not Found!!!");
     }
 }

@@ -1,13 +1,16 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "DialogueExitAction", menuName = "State Machine/Action/Dialogue/DialogueExitAction")]
-public class DialogueExitAction : StateActionSO
+namespace StateMachine
 {
-    public override void Act(StateController stateController)
+    [System.Serializable]
+    public class DialogueExitAction : StateAction
     {
-        if (stateController.TryGetInterface(out IDialogueable dialogue))
+        public override void Act(StateController stateController)
         {
-            dialogue.ExitDialogue();
+            if (stateController.TryGetInterface(out IDialogueable dialogue))
+            {
+                dialogue.ExitDialogue();
+            }
+            else Debug.LogError("ERROR: Interface Not Found!!!");
         }
-        else Debug.LogError("ERROR: Interface Not Found!!!");
     }
 }

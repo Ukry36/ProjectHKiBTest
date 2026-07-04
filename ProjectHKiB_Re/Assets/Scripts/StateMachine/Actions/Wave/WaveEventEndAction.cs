@@ -1,13 +1,16 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "WaveEventEndAction", menuName = "State Machine/Action/WaveInternal/WaveEventEnd")]
-public class WaveEventEndAction : StateActionSO
+namespace StateMachine
 {
-    public override void Act(StateController stateController)
+    [System.Serializable]
+    public class WaveEventEndAction : StateAction
     {
-        if (stateController.TryGetInterface(out IWaveEventable wave))
+        public override void Act(StateController stateController)
         {
-            wave.WaveEventEnded();
+            if (stateController.TryGetInterface(out IWaveEventable wave))
+            {
+                wave.WaveEventEnded();
+            }
+            else Debug.Log("Wave is Null");
         }
-        else Debug.Log("Wave is Null");
     }
 }

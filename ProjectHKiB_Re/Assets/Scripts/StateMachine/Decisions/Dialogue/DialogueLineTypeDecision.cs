@@ -1,14 +1,17 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "DialogueLineTypeDecision", menuName = "State Machine/Decision/Dialogue/DialogueLineTypeDecision")]
-public class DialogueLineTypeDecision : StateDecisionSO
+namespace StateMachine
 {
-    public StateSO type;
-    public override bool Decide(StateController stateController)
+    [System.Serializable]
+    public class DialogueLineTypeDecision : StateDecision
     {
-        if (stateController.TryGetInterface(out IDialogueable dialogue))
+        public StateSO type;
+        public override bool Decide(StateController stateController)
         {
-            return dialogue.CheckLineType(type);
+            if (stateController.TryGetInterface(out IDialogueable dialogue))
+            {
+                return dialogue.CheckLineType(type);
+            }
+            return false;
         }
-        return false;
     }
 }

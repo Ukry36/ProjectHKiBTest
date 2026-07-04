@@ -1,14 +1,17 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "WaveStartAction", menuName = "State Machine/Action/WaveInternal/WaveStart")]
-public class WaveStartAction : StateActionSO
+namespace StateMachine
 {
-    public override void Act(StateController stateController)
+    [System.Serializable]
+    public class WaveStartAction : StateAction
     {
-        if (stateController.TryGetInterface(out IWaveEventable wave) && wave.CurrentWaveData)
+        public override void Act(StateController stateController)
         {
-            wave.WaveStarted();
-            wave.CurrentWaveData.StartAction(stateController);
+            if (stateController.TryGetInterface(out IWaveEventable wave) && wave.CurrentWaveData)
+            {
+                wave.WaveStarted();
+                wave.CurrentWaveData.StartAction(stateController);
+            }
+            else Debug.Log("Wave is Null");
         }
-        else Debug.Log("Wave is Null");
     }
 }

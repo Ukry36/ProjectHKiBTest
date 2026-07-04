@@ -1,13 +1,16 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "EndKnockbackEarlyAction", menuName = "State Machine/Action/Move/EndKnockbackEarly")]
-public class EndKnockbackEarlyAction : StateActionSO
+namespace StateMachine
 {
-    public override void Act(StateController stateController)
+    [System.Serializable]
+    public class EndKnockbackEarlyAction : StateAction
     {
-        if (stateController.TryGetInterface(out IPhysics movable))
+        public override void Act(StateController stateController)
         {
-            movable.EndKnockbackEarly();
+            if (stateController.TryGetInterface(out IPhysics movable))
+            {
+                movable.EndKnockbackEarly();
+            }
+            else Debug.LogError("ERROR: Interface Not Found!!!");
         }
-        else Debug.LogError("ERROR: Interface Not Found!!!");
     }
 }

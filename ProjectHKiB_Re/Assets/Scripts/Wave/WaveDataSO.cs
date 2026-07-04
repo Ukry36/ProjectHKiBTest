@@ -1,4 +1,5 @@
 using System;
+using StateMachine;
 using UnityEngine;
 
 [Serializable]
@@ -12,7 +13,7 @@ public class ObjectSpawnData
 [Serializable]
 public class AndDecision
 {
-    [field: SerializeField] public StateDecisionSO[] StateDecisionsAnd { get; set; }
+    [field: SerializeField] public StateDecision[] StateDecisionsAnd { get; set; }
     public bool Decide(StateController stateController)
     {
         bool decide = true;
@@ -31,8 +32,8 @@ public class AndDecision
 [CreateAssetMenu(fileName = "WaveData", menuName = "Scriptable Objects/Wave/WaveData")]
 public class WaveDataSO : ScriptableObject
 {
-    [SerializeField] private StateActionSO[] _startActions;
-    [SerializeField] private StateActionSO[] _updateActions;
+    [SerializeField] private StateAction[] _startActions;
+    [SerializeField] private StateAction[] _updateActions;
     [SerializeField] private AndDecision[] _waveEndDecisionsOr;
     public int ObjectCount
     {

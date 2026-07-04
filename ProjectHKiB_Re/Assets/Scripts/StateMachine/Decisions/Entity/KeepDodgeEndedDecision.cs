@@ -1,14 +1,17 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "KeepDodgeEnded", menuName = "State Machine/Decision/KeepDodgeEnded")]
-public class KeepDodgeEndedDecision : StateDecisionSO
+namespace StateMachine
 {
-    public override bool Decide(StateController stateController)
+    [System.Serializable]
+    public class KeepDodgeEndedDecision : StateDecision
     {
-        if (stateController.TryGetInterface(out IDodgeable dodgeable))
+        public override bool Decide(StateController stateController)
         {
-            return dodgeable.CheckKeepDodgeEnded();
+            if (stateController.TryGetInterface(out IDodgeable dodgeable))
+            {
+                return dodgeable.CheckKeepDodgeEnded();
+            }
+            Debug.LogError("ERROR: Interface Not Found!!!");
+            return false;
         }
-        Debug.LogError("ERROR: Interface Not Found!!!");
-        return false;
     }
 }

@@ -1,13 +1,16 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "StartGraffitiAction", menuName = "State Machine/Action/Graffiti/StartGraffiti")]
-public class StartGraffitiAction : StateActionSO
+namespace StateMachine
 {
-    public bool apply;
-    public override void Act(StateController stateController)
+    [System.Serializable]
+    public class StartGraffitiAction : StateAction
     {
-        if(stateController.TryGetInterface(out IGraffitiable graffitiable))
+        public bool apply;
+        public override void Act(StateController stateController)
         {
-            GameManager.instance.graffitiManager.StartGraffiti(graffitiable.GraffitiTinkerOffset + (Vector2)stateController.transform.position);
+            if (stateController.TryGetInterface(out IGraffitiable graffitiable))
+            {
+                GameManager.instance.graffitiManager.StartGraffiti(graffitiable.GraffitiTinkerOffset + (Vector2)stateController.transform.position);
+            }
         }
     }
 }

@@ -1,15 +1,18 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "DamageAction", menuName = "State Machine/Action/Attack/Damage")]
-public class DamageAction : StateActionSO
+namespace StateMachine
 {
-    public int damageNumber;
-    public override void Act(StateController stateController)
+    [System.Serializable]
+    public class DamageAction : StateAction
     {
-        if (stateController.TryGetInterface(out IAttackable attackable))
+        public int damageNumber;
+        public override void Act(StateController stateController)
         {
-            attackable.Attack(damageNumber);
+            if (stateController.TryGetInterface(out IAttackable attackable))
+            {
+                attackable.Attack(damageNumber);
+            }
+            else
+                Debug.LogError("ERROR: Interface Not Found!!!");
         }
-        else
-            Debug.LogError("ERROR: Interface Not Found!!!");
     }
 }

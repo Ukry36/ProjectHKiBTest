@@ -1,13 +1,16 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "DialogueLineEndDecision", menuName = "State Machine/Decision/Dialogue/DialogueLineEndDecision")]
-public class DialogueLineEndDecision : StateDecisionSO
+namespace StateMachine
 {
-    public override bool Decide(StateController stateController)
+    [System.Serializable]
+    public class DialogueLineEndDecision : StateDecision
     {
-        if (stateController.TryGetInterface(out IDialogueable dialogue))
+        public override bool Decide(StateController stateController)
         {
-            return dialogue.CheckLineEnd();
+            if (stateController.TryGetInterface(out IDialogueable dialogue))
+            {
+                return dialogue.CheckLineEnd();
+            }
+            return false;
         }
-        return false;
     }
 }

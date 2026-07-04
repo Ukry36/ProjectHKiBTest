@@ -1,14 +1,17 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "CanDodgeCooltime", menuName = "State Machine/Decision/CanDodgeCooltime")]
-public class CanDodgeCooltimeDecision : StateDecisionSO
+namespace StateMachine
 {
-    public override bool Decide(StateController stateController)
+    [System.Serializable]
+    public class CanDodgeCooltimeDecision : StateDecision
     {
-        if (stateController.TryGetInterface(out IDodgeable dodgeable))
+        public override bool Decide(StateController stateController)
         {
-            return dodgeable.CanDodge;
+            if (stateController.TryGetInterface(out IDodgeable dodgeable))
+            {
+                return dodgeable.CanDodge;
+            }
+            Debug.LogError("ERROR: Interface Not Found!!!");
+            return false;
         }
-        Debug.LogError("ERROR: Interface Not Found!!!");
-        return false;
     }
 }

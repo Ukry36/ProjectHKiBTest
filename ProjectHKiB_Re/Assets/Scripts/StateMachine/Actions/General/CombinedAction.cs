@@ -1,15 +1,17 @@
-using System;
 using UnityEngine;
-[CreateAssetMenu(fileName = "CombinedAction", menuName = "State Machine/Action/General/CombinedAction")]
-public class CombinedAction : StateActionSO
+namespace StateMachine
 {
-    [SerializeField] private StateActionSO[] actions;
-
-    public override void Act(StateController stateController)
+    [System.Serializable]
+    public class CombinedAction : StateAction
     {
-        for (int i = 0; i < actions.Length; i++)
+        [SerializeField] private StateAction[] actions;
+
+        public override void Act(StateController stateController)
         {
-            if (actions[i] != null) actions[i].Act(stateController);
+            for (int i = 0; i < actions.Length; i++)
+            {
+                if (actions[i] != null) actions[i].Act(stateController);
+            }
         }
     }
 }

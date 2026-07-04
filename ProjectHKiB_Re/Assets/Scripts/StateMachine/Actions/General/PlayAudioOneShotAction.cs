@@ -1,12 +1,15 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "PlayAudioOneShotAction", menuName = "State Machine/Action/General/PlayAudioOneShot")]
-public class PlayAudioOneShotAction : StateActionSO
+namespace StateMachine
 {
-    [SerializeField] private AudioDataSO audioData;
-    [Range(0, 1)][SerializeField] private float volume;
-    public override void Act(StateController stateController)
+    [System.Serializable]
+    public class PlayAudioOneShotAction : StateAction
     {
-        if (audioData)
-            GameManager.instance.audioManager.PlayAudioOneShot(audioData, volume, stateController.transform.position);
+        [SerializeField] private AudioDataSO audioData;
+        [Range(0, 1)][SerializeField] private float volume;
+        public override void Act(StateController stateController)
+        {
+            if (audioData)
+                GameManager.instance.audioManager.PlayAudioOneShot(audioData, volume, stateController.transform.position);
+        }
     }
 }

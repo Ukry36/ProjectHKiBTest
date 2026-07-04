@@ -1,11 +1,13 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
-[CreateAssetMenu(fileName = "CustomBoolDecision", menuName = "State Machine/Decision/General/CustomBoolDecision")]
-public class CustomBoolDecision : StateDecisionSO
+namespace StateMachine
 {
-    [SerializeField] private string boolName;
-    public override bool Decide(StateController stateController)
+    [System.Serializable]
+    public class CustomBoolDecision : StateDecision
     {
-        return stateController.GetBoolParameter(boolName);
+        [SerializeField] private string boolName;
+        public override bool Decide(StateController stateController)
+        {
+            return stateController.GetBoolParameter(boolName);
+        }
     }
 }

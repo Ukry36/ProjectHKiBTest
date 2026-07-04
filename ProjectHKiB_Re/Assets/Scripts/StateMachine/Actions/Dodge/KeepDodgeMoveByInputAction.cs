@@ -1,15 +1,18 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "KeepDodgeMoveByInput", menuName = "State Machine/Action/Dodge/KeepDodgeMoveByInput")]
-public class KeepDodgeMoveByInputAction : StateActionSO
+namespace StateMachine
 {
-    public override void Act(StateController stateController)
+    [System.Serializable]
+    public class KeepDodgeMoveByInputAction : StateAction
     {
-        if (stateController.TryGetInterface(out IPhysics movable) && stateController.TryGetInterface(out IDodgeable dodgeable))
+        public override void Act(StateController stateController)
         {
-            Debug.LogError("ERROR: Not Implemented!!!");
+            if (stateController.TryGetInterface(out IPhysics movable) && stateController.TryGetInterface(out IDodgeable dodgeable))
+            {
+                Debug.LogError("ERROR: Not Implemented!!!");
 
-            //movementManager.WalkMove(stateController.transform, movable, dodgeable.BaseDodgeSpeed, GameManager.instance.inputManager.MoveInput, dodgeable.KeepDodgeWallLayer);
+                //movementManager.WalkMove(stateController.transform, movable, dodgeable.BaseDodgeSpeed, GameManager.instance.inputManager.MoveInput, dodgeable.KeepDodgeWallLayer);
+            }
+            else Debug.LogError("ERROR: Interface Not Found!!!");
         }
-        else Debug.LogError("ERROR: Interface Not Found!!!");
     }
 }

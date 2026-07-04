@@ -1,9 +1,12 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "ResetStateTimerAction", menuName = "State Machine/Action/General/ResetStateTimer")]
-public class ResetStateTimerAction : StateActionSO
+namespace StateMachine
 {
-    public override void Act(StateController stateController)
+    [System.Serializable]
+    public class ResetStateTimerAction : StateAction
     {
-        stateController.CurrentState.ResetStateTimer(stateController);
+        public override void Act(StateController stateController)
+        {
+            stateController.CurrentState.ResetStateTimer(stateController);
+        }
     }
 }

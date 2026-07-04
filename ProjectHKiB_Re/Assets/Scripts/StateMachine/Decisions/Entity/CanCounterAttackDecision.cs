@@ -1,14 +1,17 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "CanCounterAttack", menuName = "State Machine/Decision/CanCounterAttack")]
-public class CanCounterAttackDecision : StateDecisionSO
+namespace StateMachine
 {
-    public override bool Decide(StateController stateController)
+    [System.Serializable]
+    public class CanCounterAttackDecision : StateDecision
     {
-        if (stateController.TryGetInterface(out IDodgeable dodgeable))
+        public override bool Decide(StateController stateController)
         {
-            return dodgeable.CanCounterAttack;
+            if (stateController.TryGetInterface(out IDodgeable dodgeable))
+            {
+                return dodgeable.CanCounterAttack;
+            }
+            Debug.LogError("ERROR: Interface Not Found!!!");
+            return false;
         }
-        Debug.LogError("ERROR: Interface Not Found!!!");
-        return false;
     }
 }

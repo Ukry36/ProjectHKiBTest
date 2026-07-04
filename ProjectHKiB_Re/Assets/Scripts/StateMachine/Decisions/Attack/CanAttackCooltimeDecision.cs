@@ -1,13 +1,16 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "CanAttackCooltimeDecision", menuName = "State Machine/Decision/Attack/CanAttackCooltime", order = 4)]
-public class CanAttackCooltimeDecision : StateDecisionSO
+namespace StateMachine
 {
-    public override bool Decide(StateController stateController)
+    [System.Serializable]
+    public class CanAttackCooltimeDecision : StateDecision
     {
-        if (stateController.TryGetInterface(out IAttackable attackable))
+        public override bool Decide(StateController stateController)
         {
-            return !attackable.IsAttackCooltime;
+            if (stateController.TryGetInterface(out IAttackable attackable))
+            {
+                return !attackable.IsAttackCooltime;
+            }
+            return false;
         }
-        return false;
     }
 }

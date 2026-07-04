@@ -1,16 +1,19 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "WalkByInput", menuName = "State Machine/Action/Move/WalkByInputAction")]
-public class WalkByInputAction : StateActionSO
+namespace StateMachine
 {
-    public override void Act(StateController stateController)
+    [System.Serializable]
+    public class WalkByInputAction : StateAction
     {
-        if (stateController.TryGetInterface(out IPhysics phys))
+        public override void Act(StateController stateController)
         {
-            phys.IsWalking = true;
-            phys.WalkingDir = GameManager.instance.inputManager.MoveInput;
-        }
-        else
-            Debug.LogError("ERROR: Interface Not Found!!!");
+            if (stateController.TryGetInterface(out IPhysics phys))
+            {
+                phys.IsWalking = true;
+                phys.WalkingDir = GameManager.instance.inputManager.MoveInput;
+            }
+            else
+                Debug.LogError("ERROR: Interface Not Found!!!");
 
+        }
     }
 }

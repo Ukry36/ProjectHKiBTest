@@ -1,15 +1,18 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "StopAttackEffect", menuName = "State Machine/Action/Attack/StopAttackEffect")]
-public class StopAttackEffectAction : StateActionSO
+namespace StateMachine
 {
-    public int EffectPlayerNumber;
-    public override void Act(StateController stateController)
+    [System.Serializable]
+    public class StopAttackEffectAction : StateAction
     {
-        if (stateController.TryGetInterface(out IAttackable attackable))
+        public int EffectPlayerNumber;
+        public override void Act(StateController stateController)
         {
-            attackable.StopEffect(EffectPlayerNumber);
+            if (stateController.TryGetInterface(out IAttackable attackable))
+            {
+                attackable.StopEffect(EffectPlayerNumber);
+            }
+            else
+                Debug.LogError("ERROR: Interface Not Found!!!");
         }
-        else
-            Debug.LogError("ERROR: Interface Not Found!!!");
     }
 }

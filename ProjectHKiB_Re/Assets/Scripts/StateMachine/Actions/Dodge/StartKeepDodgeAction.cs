@@ -1,13 +1,16 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "StartKeepDodge", menuName = "State Machine/Action/Dodge/StartKeepDodge")]
-public class StartKeepDodgeAction : StateActionSO
+namespace StateMachine
 {
-    public override void Act(StateController stateController)
+    [System.Serializable]
+    public class StartKeepDodgeAction : StateAction
     {
-        if (stateController.TryGetInterface(out IDodgeable dodgeable))
+        public override void Act(StateController stateController)
         {
-            dodgeable.StartKeepDodge();
+            if (stateController.TryGetInterface(out IDodgeable dodgeable))
+            {
+                dodgeable.StartKeepDodge();
+            }
+            else Debug.LogError("ERROR: Interface Not Found!!!");
         }
-        else Debug.LogError("ERROR: Interface Not Found!!!");
     }
 }

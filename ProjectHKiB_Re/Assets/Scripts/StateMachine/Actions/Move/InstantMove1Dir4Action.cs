@@ -1,15 +1,18 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "InstantMove1AnimDir4Action", menuName = "State Machine/Action/Move/InstantMove1AnimDir4")]
-public class InstantMove1Dir4Action : StateActionSO
+namespace StateMachine
 {
-    public override void Act(StateController stateController)
+    [System.Serializable]
+    public class InstantMove1Dir4Action : StateAction
     {
-        if (stateController.TryGetInterface(out IPhysics phys))
+        public override void Act(StateController stateController)
         {
-            phys.LogicalTeleport(phys.Position + phys.LastSetDir);
-        }
-        else
-            Debug.LogError("ERROR: Interface Not Found!!!");
+            if (stateController.TryGetInterface(out IPhysics phys))
+            {
+                phys.LogicalTeleport(phys.Position + phys.LastSetDir);
+            }
+            else
+                Debug.LogError("ERROR: Interface Not Found!!!");
 
+        }
     }
 }

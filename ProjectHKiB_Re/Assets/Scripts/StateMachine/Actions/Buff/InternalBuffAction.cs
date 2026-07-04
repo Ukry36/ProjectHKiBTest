@@ -1,17 +1,20 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "InternalBuff", menuName = "State Machine/Action/Buff/InternalBuff")]
-public class InternalBuffAction : StateActionSO
+namespace StateMachine
 {
-    [SerializeField] private bool _negate;
-    [SerializeField] private StatBuffSO _buff;
-    public override void Act(StateController stateController)
+    [System.Serializable]
+    public class InternalBuffAction : StateAction
     {
-        if (stateController.TryGetInterface(out IBuffable buffable))
+        [SerializeField] private bool _negate;
+        [SerializeField] private StatBuffSO _buff;
+        public override void Act(StateController stateController)
         {
-            if (_negate)
-                buffable.UnBuff(_buff);
-            else
-                buffable.Buff(_buff);
+            if (stateController.TryGetInterface(out IBuffable buffable))
+            {
+                if (_negate)
+                    buffable.UnBuff(_buff);
+                else
+                    buffable.Buff(_buff);
+            }
         }
     }
 }

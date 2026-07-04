@@ -1,12 +1,15 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "RemoveAttackAreaIndicatorAction", menuName = "State Machine/Action/Attack/RemoveAttackAreaIndicator")]
-public class RemoveAttackAreaIndicatorAction : StateActionSO
+namespace StateMachine
 {
-    public override void Act(StateController stateController)
+    [System.Serializable]
+    public class RemoveAttackAreaIndicatorAction : StateAction
     {
-        if (stateController.TryGetInterface(out IAttackIndicatable areaIndicatable))
+        public override void Act(StateController stateController)
         {
-            areaIndicatable.EndIndicating();
+            if (stateController.TryGetInterface(out IAttackIndicatable areaIndicatable))
+            {
+                areaIndicatable.EndIndicating();
+            }
         }
     }
 }

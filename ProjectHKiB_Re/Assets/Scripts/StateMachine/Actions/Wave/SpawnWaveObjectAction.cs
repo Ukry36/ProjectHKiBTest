@@ -1,13 +1,16 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "SpawnWaveObjectAction", menuName = "State Machine/Action/Wave/SpawnWaveObject")]
-public class SpawnWaveObjectAction : StateActionSO
+namespace StateMachine
 {
-    public override void Act(StateController stateController)
+    [System.Serializable]
+    public class SpawnWaveObjectAction : StateAction
     {
-        if (stateController.TryGetInterface(out IWaveEventable wave) && wave.CurrentWaveData)
+        public override void Act(StateController stateController)
         {
-            wave.SpawnCurrentWaveEnemies();
+            if (stateController.TryGetInterface(out IWaveEventable wave) && wave.CurrentWaveData)
+            {
+                wave.SpawnCurrentWaveEnemies();
+            }
+            else Debug.Log("Wave is Null");
         }
-        else Debug.Log("Wave is Null");
     }
 }

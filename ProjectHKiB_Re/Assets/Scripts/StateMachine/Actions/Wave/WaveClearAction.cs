@@ -1,13 +1,16 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "WaveClearAction", menuName = "State Machine/Action/WaveInternal/WaveClear")]
-public class WaveClearAction : StateActionSO
+namespace StateMachine
 {
-    public override void Act(StateController stateController)
+    [System.Serializable]
+    public class WaveClearAction : StateAction
     {
-        if (stateController.TryGetInterface(out IWaveEventable wave) && wave.CurrentWaveData)
+        public override void Act(StateController stateController)
         {
-            wave.WaveCleared();
+            if (stateController.TryGetInterface(out IWaveEventable wave) && wave.CurrentWaveData)
+            {
+                wave.WaveCleared();
+            }
+            else Debug.Log("Wave is Null");
         }
-        else Debug.Log("Wave is Null");
     }
 }

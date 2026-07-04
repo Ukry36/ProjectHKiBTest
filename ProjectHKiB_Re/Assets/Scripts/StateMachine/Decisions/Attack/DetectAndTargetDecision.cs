@@ -1,17 +1,20 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "DetectAndTarget", menuName = "State Machine/Decision/Attack/DetectAndTargetDecision")]
-public class DetectAndTargetDecision : StateDecisionSO
+namespace StateMachine
 {
-    [SerializeField] private float radius;
-    [SerializeField] private TargetingManagerSO targetManager;
-    public override bool Decide(StateController stateController)
+    [System.Serializable]
+    public class DetectAndTargetDecision : StateDecision
     {
-        if (stateController.TryGetInterface(out ITargetable targetable))
+        [SerializeField] private float radius;
+        [SerializeField] private TargetingManagerSO targetManager;
+        public override bool Decide(StateController stateController)
         {
-            Transform t = targetManager.PositianalTarget(stateController.transform.position, radius, targetable.TargetLayers);
-            targetable.CurrentTarget = t;
-            return t;
+            if (stateController.TryGetInterface(out ITargetable targetable))
+            {
+                Transform t = targetManager.PositianalTarget(stateController.transform.position, radius, targetable.TargetLayers);
+                targetable.CurrentTarget = t;
+                return t;
+            }
+            return false;
         }
-        return false;
     }
 }

@@ -1,16 +1,19 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "SetDirFromVelocityAction", menuName = "State Machine/Action/SetDir/SetDirFromVelocity")]
-public class SetDirFromVelocityAction : StateActionSO
+namespace StateMachine
 {
-    [SerializeField] private bool negative;
-    public override void Act(StateController stateController)
+    [System.Serializable]
+    public class SetDirFromVelocityAction : StateAction
     {
-        if (stateController.TryGetInterface(out IPhysics movable))
+        [SerializeField] private bool negative;
+        public override void Act(StateController stateController)
         {
-            Vector2 dir = movable.ExForce * (negative ? -1 : 1);
-            if (stateController.TryGetInterface(out IDirAnimatable animatable))
-                animatable.SetAnimationDirection(dir);
-        }
+            if (stateController.TryGetInterface(out IPhysics movable))
+            {
+                Vector2 dir = movable.ExForce * (negative ? -1 : 1);
+                if (stateController.TryGetInterface(out IDirAnimatable animatable))
+                    animatable.SetAnimationDirection(dir);
+            }
 
+        }
     }
 }

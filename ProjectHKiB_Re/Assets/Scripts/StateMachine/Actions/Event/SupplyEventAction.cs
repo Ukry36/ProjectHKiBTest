@@ -1,19 +1,22 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "SupplyEvent", menuName = "State Machine/Action/Event/SupplyEvent")]
-public class SupplyEventAction : StateActionSO
+namespace StateMachine
 {
-    public override void Act(StateController stateController)
+    [System.Serializable]
+    public class SupplyEventAction : StateAction
     {
-        if (stateController.TryGetInterface(out ISupply supply) && stateController.TryGetInterface(out IEvent @event))
+        public override void Act(StateController stateController)
         {
-            foreach (Collider2D col in @event.CurrentTargets)
+            if (stateController.TryGetInterface(out ISupply supply) && stateController.TryGetInterface(out IEvent @event))
             {
-                Transform transform = col.transform;
-                supply.Supply(transform, supply.Amount);
-            }
-            
-        }
-        else Debug.LogError("ERROR: Interface Not Found!!!");
-    }
+                foreach (Collider2D col in @event.CurrentTargets)
+                {
+                    Transform transform = col.transform;
+                    supply.Supply(transform, supply.Amount);
+                }
 
+            }
+            else Debug.LogError("ERROR: Interface Not Found!!!");
+        }
+
+    }
 }

@@ -1,14 +1,17 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "EndEventAction", menuName = "State Machine/Action/Event/EndEvent")]
-public class EndEventAction : StateActionSO
+namespace StateMachine
 {
-    public override void Act(StateController stateController)
+    [System.Serializable]
+    public class EndEventAction : StateAction
     {
-        if (stateController.TryGetInterface(out IEvent @event))
+        public override void Act(StateController stateController)
         {
-            foreach (Collider2D col in @event.CurrentTargets) @event.EndEvent(col);
+            if (stateController.TryGetInterface(out IEvent @event))
+            {
+                foreach (Collider2D col in @event.CurrentTargets) @event.EndEvent(col);
+            }
+            else
+                Debug.LogError("ERROR: Interface Not Found!!!");
         }
-        else
-            Debug.LogError("ERROR: Interface Not Found!!!");
     }
 }

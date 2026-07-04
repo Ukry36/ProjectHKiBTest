@@ -1,14 +1,17 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "PlayFootstepAction", menuName = "State Machine/Action/Move/PlayFootstep")]
-public class PlayFootstepAction : StateActionSO
+namespace StateMachine
 {
-    public override void Act(StateController stateController)
+    [System.Serializable]
+    public class PlayFootstepAction : StateAction
     {
-        if (stateController.TryGetInterface(out IFootstep footstep))
+        public override void Act(StateController stateController)
         {
-            footstep.PlayFootstepAudio(default);
+            if (stateController.TryGetInterface(out IFootstep footstep))
+            {
+                footstep.PlayFootstepAudio(default);
+            }
+            else
+                Debug.LogError("ERROR: Interface Not Found!!!");
         }
-        else
-            Debug.LogError("ERROR: Interface Not Found!!!");
     }
 }

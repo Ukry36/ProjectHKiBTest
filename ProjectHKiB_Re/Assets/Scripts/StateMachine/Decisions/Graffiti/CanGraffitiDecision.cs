@@ -1,10 +1,11 @@
-using UnityEngine;
-using UnityEngine.InputSystem;
-[CreateAssetMenu(fileName = "CanGraffitiDecision", menuName = "State Machine/Decision/Graffiti/CanGraffitiDecision")]
-public class CanGraffitiDecision : StateDecisionSO
+namespace StateMachine
 {
-    public override bool Decide(StateController stateController)
+    [System.Serializable]
+    public class CanGraffitiDecision : StateDecision
     {
-        return GameManager.instance.graffitiManager.CanGraffiti;
+        public override bool Decide(StateController stateController)
+        {
+            return GameManager.instance.graffitiManager.CanGraffiti;
+        }
     }
 }

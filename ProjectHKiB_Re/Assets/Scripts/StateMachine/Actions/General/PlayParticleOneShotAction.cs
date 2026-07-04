@@ -1,11 +1,14 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "PlayParticleOneShotAction", menuName = "State Machine/Action/General/PlayParticleOneShot")]
-public class PlayParticleOneShotAction : StateActionSO
+namespace StateMachine
 {
-    [SerializeField] private ParticlePlayer particlePrefab;
-    public override void Act(StateController stateController)
+    [System.Serializable]
+    public class PlayParticleOneShotAction : StateAction
     {
-        if (particlePrefab)
-            GameManager.instance.particleManager.PlayParticleOneShot(particlePrefab.GetInstanceID(), stateController.transform.position);
+        [SerializeField] private ParticlePlayer particlePrefab;
+        public override void Act(StateController stateController)
+        {
+            if (particlePrefab)
+                GameManager.instance.particleManager.PlayParticleOneShot(particlePrefab.GetInstanceID(), stateController.transform.position);
+        }
     }
 }

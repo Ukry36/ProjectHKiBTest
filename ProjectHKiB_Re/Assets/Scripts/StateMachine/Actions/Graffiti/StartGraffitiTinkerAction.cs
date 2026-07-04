@@ -1,10 +1,13 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "StartGraffitiTinkerAction", menuName = "State Machine/Action/Graffiti/StartGraffitiTinker")]
-public class StartGraffitiTinkerAction : StateActionSO
+namespace StateMachine
 {
-    public bool apply;
-    public override void Act(StateController stateController)
+    [System.Serializable]
+    public class StartGraffitiTinkerAction : StateAction
     {
-        GameManager.instance.graffitiManager.StartTinker();
+        public bool apply;
+        public override void Act(StateController stateController)
+        {
+            GameManager.instance.graffitiManager.StartTinker();
+        }
     }
 }

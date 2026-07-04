@@ -1,17 +1,20 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "Apply Walk Action", menuName = "State Machine/Action/Move/Apply Walk")]
-public class ApplyWalkAction : StateActionSO
+namespace StateMachine
 {
-    public bool apply;
-    public override void Act(StateController stateController)
+    [System.Serializable]
+    public class ApplyWalkAction : StateAction
     {
-        var movable = stateController.GetInterface<IPhysics>();
-        if (movable != null)
+        public bool apply;
+        public override void Act(StateController stateController)
         {
-            movable.IsWalking = apply;
-        }
-        else
-            Debug.LogError("ERROR: Interface Not Found!!!");
+            var movable = stateController.GetInterface<IPhysics>();
+            if (movable != null)
+            {
+                movable.IsWalking = apply;
+            }
+            else
+                Debug.LogError("ERROR: Interface Not Found!!!");
 
+        }
     }
 }

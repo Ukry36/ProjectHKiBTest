@@ -1,18 +1,21 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "SetDirFromLastSetDirAction", menuName = "State Machine/Action/SetDir/SetDirFromLastSetDir")]
-public class SetDirFromLastSetDirAction : StateActionSO
+namespace StateMachine
 {
-    [SerializeField] private bool negative;
-    public override void Act(StateController stateController)
+    [System.Serializable]
+    public class SetDirFromLastSetDirAction : StateAction
     {
-        if (stateController.TryGetInterface(out IPhysics movable))
+        [SerializeField] private bool negative;
+        public override void Act(StateController stateController)
         {
-            if (stateController.TryGetInterface(out IDirAnimatable animatable))
+            if (stateController.TryGetInterface(out IPhysics movable))
             {
-                animatable.SetAnimationDirection(movable.LastSetDir);
+                if (stateController.TryGetInterface(out IDirAnimatable animatable))
+                {
+                    animatable.SetAnimationDirection(movable.LastSetDir);
+                }
+
             }
 
         }
-
     }
 }

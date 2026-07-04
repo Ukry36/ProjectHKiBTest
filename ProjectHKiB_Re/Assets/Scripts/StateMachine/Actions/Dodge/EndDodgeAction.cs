@@ -1,13 +1,16 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "EndDodge", menuName = "State Machine/Action/Dodge/EndDodge")]
-public class EndDodgeAction : StateActionSO
+namespace StateMachine
 {
-    public override void Act(StateController stateController)
+    [System.Serializable]
+    public class EndDodgeAction : StateAction
     {
-        if (stateController.TryGetInterface(out IDodgeable dodgeable))
+        public override void Act(StateController stateController)
         {
-            dodgeable.EndDodge();
+            if (stateController.TryGetInterface(out IDodgeable dodgeable))
+            {
+                dodgeable.EndDodge();
+            }
+            else Debug.LogError("ERROR: Interface Not Found!!!");
         }
-        else Debug.LogError("ERROR: Interface Not Found!!!");
     }
 }
