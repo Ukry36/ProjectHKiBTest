@@ -12,8 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 169744ece1aaca54691b15c566a23b5c, type: 3}
   m_Name: LoadEventsState
   m_EditorClassIdentifier: 
+  isPacked: 0
+  isTemplate: 0
+  exposedVariables: []
   temporaryID: 0
   transitions: []
+  additionalTransitions: []
   enterActions: []
   EnterActions: []
   updateActions: []

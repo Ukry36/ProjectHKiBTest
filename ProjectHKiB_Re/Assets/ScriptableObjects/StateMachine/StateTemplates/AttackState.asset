@@ -39,7 +39,7 @@ MonoBehaviour:
   enterActions:
   - {fileID: 0}
   EnterActions:
-  - rid: 8642958590306156562
+  - rid: -2
   updateActions: []
   UpdateActions: []
   exitActions: []
@@ -54,11 +54,6 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 8642958590306156562
-      type: {class: InternalBuffAction, ns: StateMachine, asm: Assembly-CSharp}
-      data:
-        _negate: 0
-        _buff: {fileID: 0}
     - rid: 8642958590306156564
       type: {class: CanAttackCooltimeDecision, ns: StateMachine, asm: Assembly-CSharp}
       data: 

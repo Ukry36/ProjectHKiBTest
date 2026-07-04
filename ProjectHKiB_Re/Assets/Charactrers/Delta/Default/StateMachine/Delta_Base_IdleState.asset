@@ -12,22 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb85084ca5989854b9dbc2cce1298255, type: 3}
   m_Name: Delta_Base_IdleState
   m_EditorClassIdentifier: 
+  isPacked: 0
+  isTemplate: 0
+  exposedVariables: []
   temporaryID: 0
   transitions:
-  - activationInput: 10
+  - name: 
+    activationInput: 10
     availableTime: 0
     disableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: 35a37da16a3d9df4189d1ba8142bdbc6, type: 2}
       Decision:
-        rid: 3614226257729815280
+        rid: 8642958643451396429
       negate: 0
     trueState: {fileID: 11400000, guid: c4988881f5b496d4f8a6acc87ca839d1, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
     Action:
       rid: -2
-  - activationInput: 13
+    showTrueStatePort: 1
+    showFalseStatePort: 1
+  - name: 
+    activationInput: 13
     availableTime: 0
     disableTime: 0
     decisions: []
@@ -36,6 +43,9 @@ MonoBehaviour:
     action: {fileID: 0}
     Action:
       rid: -2
+    showTrueStatePort: 1
+    showFalseStatePort: 1
+  additionalTransitions: []
   enterActions: []
   EnterActions: []
   updateActions: []
@@ -53,7 +63,7 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 3614226257729815280
+    - rid: 8642958643451396429
       type: {class: PlayerInputDecision, ns: StateMachine, asm: Assembly-CSharp}
       data:
         _inputType: 0

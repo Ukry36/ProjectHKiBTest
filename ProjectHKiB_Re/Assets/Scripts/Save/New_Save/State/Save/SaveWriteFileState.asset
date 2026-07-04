@@ -12,8 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 635facd2978666048a11544533e296f6, type: 3}
   m_Name: SaveWriteFileState
   m_EditorClassIdentifier: 
+  isPacked: 0
+  isTemplate: 0
+  exposedVariables: []
   temporaryID: 0
   transitions: []
+  additionalTransitions: []
   enterActions: []
   EnterActions: []
   updateActions: []

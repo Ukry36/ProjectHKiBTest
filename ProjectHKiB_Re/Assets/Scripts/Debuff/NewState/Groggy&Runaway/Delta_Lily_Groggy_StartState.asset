@@ -12,9 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb85084ca5989854b9dbc2cce1298255, type: 3}
   m_Name: Delta_Lily_Groggy_StartState
   m_EditorClassIdentifier: 
+  isPacked: 0
+  isTemplate: 0
+  exposedVariables: []
   temporaryID: 0.29490903
   transitions:
-  - activationInput: 10
+  - name: 
+    activationInput: 10
     availableTime: 0.2
     disableTime: 0
     decisions: []
@@ -23,6 +27,9 @@ MonoBehaviour:
     action: {fileID: 0}
     Action:
       rid: -2
+    showTrueStatePort: 1
+    showFalseStatePort: 1
+  additionalTransitions: []
   enterActions: []
   EnterActions: []
   updateActions: []

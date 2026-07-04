@@ -12,9 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc2a29a8e77d1be4fb961a375e57667c, type: 3}
   m_Name: SaveCardsState
   m_EditorClassIdentifier: 
+  isPacked: 0
+  isTemplate: 0
+  exposedVariables: []
   temporaryID: 0
   transitions:
-  - activationInput: 10
+  - name: 
+    activationInput: 10
     availableTime: 0
     disableTime: 0
     decisions: []
@@ -23,6 +27,9 @@ MonoBehaviour:
     action: {fileID: 0}
     Action:
       rid: -2
+    showTrueStatePort: 1
+    showFalseStatePort: 1
+  additionalTransitions: []
   enterActions: []
   EnterActions: []
   updateActions: []

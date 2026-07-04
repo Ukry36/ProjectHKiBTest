@@ -12,9 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb85084ca5989854b9dbc2cce1298255, type: 3}
   m_Name: Delta_Lily_DodgeStartState
   m_EditorClassIdentifier: 
+  isPacked: 0
+  isTemplate: 0
+  exposedVariables: []
   temporaryID: 0
   transitions:
-  - activationInput: 10
+  - name: 
+    activationInput: 10
     availableTime: 0.15
     disableTime: 0
     decisions: []
@@ -23,18 +27,21 @@ MonoBehaviour:
     action: {fileID: 0}
     Action:
       rid: -2
+    showTrueStatePort: 1
+    showFalseStatePort: 1
+  additionalTransitions: []
   enterActions:
   - {fileID: 11400000, guid: 9d29c5b17685af144aaabb51ca64e9ad, type: 2}
   - {fileID: 11400000, guid: b67b655ec5759574ea747ce9c1f9f7d4, type: 2}
   EnterActions:
-  - rid: 3614226257729815152
-  - rid: 3614226257729815153
+  - rid: 8642958643451396258
+  - rid: 8642958643451396259
   updateActions: []
   UpdateActions: []
   exitActions:
   - {fileID: 11400000, guid: 72a96972d3abff8438153dedd39e51ce, type: 2}
   ExitActions:
-  - rid: 3614226257729815154
+  - rid: 8642958643451396260
   actionSequence: []
   loopActionSequence: 0
   useTimer: 0
@@ -46,13 +53,13 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 3614226257729815152
+    - rid: 8642958643451396258
       type: {class: SetDirFromPlayerInputAction, ns: StateMachine, asm: Assembly-CSharp}
       data:
         negative: 0
-    - rid: 3614226257729815153
+    - rid: 8642958643451396259
       type: {class: StartDodgeAction, ns: StateMachine, asm: Assembly-CSharp}
       data: 
-    - rid: 3614226257729815154
+    - rid: 8642958643451396260
       type: {class: StartDodgeMoveByInputAction, ns: StateMachine, asm: Assembly-CSharp}
       data: 

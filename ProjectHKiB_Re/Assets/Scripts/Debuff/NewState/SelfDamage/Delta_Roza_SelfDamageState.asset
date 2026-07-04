@@ -12,9 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23ffa63ce1c9f844b99882f818407756, type: 3}
   m_Name: Delta_Roza_SelfDamageState
   m_EditorClassIdentifier: 
+  isPacked: 0
+  isTemplate: 0
+  exposedVariables: []
   temporaryID: 0
   transitions:
-  - activationInput: 10
+  - name: 
+    activationInput: 10
     availableTime: 0.05
     disableTime: 0
     decisions: []
@@ -23,10 +27,13 @@ MonoBehaviour:
     action: {fileID: 0}
     Action:
       rid: -2
+    showTrueStatePort: 1
+    showFalseStatePort: 1
+  additionalTransitions: []
   enterActions:
   - {fileID: 11400000, guid: 3c33e962bb03ab44c99f79dfac106eac, type: 2}
   EnterActions:
-  - rid: 3614226257729815041
+  - rid: 8642958643451396124
   updateActions: []
   UpdateActions: []
   exitActions: []
@@ -41,6 +48,6 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 3614226257729815041
+    - rid: 8642958643451396124
       type: {class: SelfDamageAction, ns: StateMachine, asm: Assembly-CSharp}
       data: 

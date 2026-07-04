@@ -39,11 +39,9 @@ MonoBehaviour:
     showFalseStatePort: 0
   additionalTransitions: []
   enterActions: []
-  EnterActions:
-  - rid: 8642958590306156574
+  EnterActions: []
   updateActions: []
-  UpdateActions:
-  - rid: 8642958590306156576
+  UpdateActions: []
   exitActions: []
   ExitActions: []
   actionSequence: []
@@ -56,15 +54,6 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 8642958590306156574
-      type: {class: SetAttackDataAction, ns: StateMachine, asm: Assembly-CSharp}
-      data:
-        attackNumber: 0
-    - rid: 8642958590306156576
-      type: {class: InternalBuffAction, ns: StateMachine, asm: Assembly-CSharp}
-      data:
-        _negate: 0
-        _buff: {fileID: 0}
     - rid: 8642958590306156577
       type: {class: AnimationEndedDecision, ns: StateMachine, asm: Assembly-CSharp}
       data: 

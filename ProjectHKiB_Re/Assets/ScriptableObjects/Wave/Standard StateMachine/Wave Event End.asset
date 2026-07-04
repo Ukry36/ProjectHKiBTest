@@ -12,14 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23ffa63ce1c9f844b99882f818407756, type: 3}
   m_Name: Wave Event End
   m_EditorClassIdentifier: 
+  isPacked: 0
+  isTemplate: 0
+  exposedVariables: []
   temporaryID: 0
   transitions: []
+  additionalTransitions: []
   enterActions:
   - {fileID: 11400000, guid: 09e4923fa2d0cda44817da958d5a462a, type: 2}
   - {fileID: 11400000, guid: 25150e6590cfd2a4a956b81706e49f16, type: 2}
   EnterActions:
-  - rid: 3614226257729815136
-  - rid: 3614226257729815137
+  - rid: 8642958643451396239
+  - rid: 8642958643451396240
   updateActions: []
   UpdateActions: []
   exitActions: []
@@ -32,9 +36,9 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 3614226257729815136
+    - rid: 8642958643451396239
       type: {class: WaveEventEndAction, ns: StateMachine, asm: Assembly-CSharp}
       data: 
-    - rid: 3614226257729815137
+    - rid: 8642958643451396240
       type: {class: EndEventAction, ns: StateMachine, asm: Assembly-CSharp}
       data: 

@@ -12,8 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae1e7a7e5c1ccf446bc428f5d277a7ce, type: 3}
   m_Name: Dialogue State
   m_EditorClassIdentifier: 
+  isPacked: 0
+  isTemplate: 0
+  exposedVariables: []
   temporaryID: 0
   transitions: []
+  additionalTransitions: []
   enterActions: []
   EnterActions: []
   updateActions: []

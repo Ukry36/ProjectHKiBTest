@@ -12,9 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb85084ca5989854b9dbc2cce1298255, type: 3}
   m_Name: Enemy_Rusher_Skill02FrontState
   m_EditorClassIdentifier: 
+  isPacked: 0
+  isTemplate: 0
+  exposedVariables: []
   temporaryID: 0
   transitions:
-  - activationInput: 10
+  - name: 
+    activationInput: 10
     availableTime: 0.7
     disableTime: 0
     decisions: []
@@ -23,64 +27,79 @@ MonoBehaviour:
     action: {fileID: 0}
     Action:
       rid: -2
-  - activationInput: 10
+    showTrueStatePort: 1
+    showFalseStatePort: 1
+  - name: 
+    activationInput: 10
     availableTime: 0
     disableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: af28755f24b9a564da14f64bdd3a7f40, type: 2}
       Decision:
-        rid: 3614226257729815433
+        rid: 8642958643451396599
       negate: 0
     trueState: {fileID: 11400000, guid: b452f8afb98d05c4c81413b3c75d8ad3, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
     Action:
       rid: -2
-  - activationInput: 10
+    showTrueStatePort: 1
+    showFalseStatePort: 1
+  - name: 
+    activationInput: 10
     availableTime: 0
     disableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: 32f2c5ff068557b43becca29f5d19726, type: 2}
       Decision:
-        rid: 3614226257729815434
+        rid: 8642958643451396600
       negate: 0
     trueState: {fileID: 11400000, guid: b452f8afb98d05c4c81413b3c75d8ad3, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
     Action:
       rid: -2
-  - activationInput: 10
+    showTrueStatePort: 1
+    showFalseStatePort: 1
+  - name: 
+    activationInput: 10
     availableTime: 0
     disableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: 69473423be5d34647b0a1e7e15d1103a, type: 2}
       Decision:
-        rid: 3614226257729815435
+        rid: 8642958643451396601
       negate: 0
     trueState: {fileID: 11400000, guid: b452f8afb98d05c4c81413b3c75d8ad3, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
     Action:
       rid: -2
-  - activationInput: 10
+    showTrueStatePort: 1
+    showFalseStatePort: 1
+  - name: 
+    activationInput: 10
     availableTime: 0
     disableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: f01e11b88f159a84b88990e279377269, type: 2}
       Decision:
-        rid: 3614226257729815436
+        rid: 8642958643451396602
       negate: 0
     trueState: {fileID: 11400000, guid: 4fabbcbfb1804744c9a24b30efc12ac4, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
     Action:
       rid: -2
+    showTrueStatePort: 1
+    showFalseStatePort: 1
+  additionalTransitions: []
   enterActions:
   - {fileID: 11400000, guid: 1351f32d55bac064c817154fa4dd7f0b, type: 2}
   - {fileID: 11400000, guid: 5187559d1c8485f46aa1facc70c04c66, type: 2}
   EnterActions:
-  - rid: 3614226257729815437
-  - rid: 3614226257729815438
+  - rid: 8642958643451396603
+  - rid: 8642958643451396604
   updateActions: []
   UpdateActions: []
   exitActions: []
@@ -88,10 +107,16 @@ MonoBehaviour:
   actionSequence:
   - time: 0
     action: {fileID: 11400000, guid: 71982149ac30a7a4791b6ac3c0ba0594, type: 2}
+    Action:
+      rid: 8642958643451396605
   - time: 0
     action: {fileID: 11400000, guid: a4e5a8c76179c6f4792a0febb01bf265, type: 2}
+    Action:
+      rid: 8642958643451396606
   - time: 0.2
     action: {fileID: 11400000, guid: 3f2db075cb2df38479816567c741e5de, type: 2}
+    Action:
+      rid: 8642958643451396607
   loopActionSequence: 0
   useTimer: 0
   timerID: 0
@@ -102,23 +127,33 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 3614226257729815433
+    - rid: 8642958643451396599
       type: {class: KnockbackMoveDecision, ns: StateMachine, asm: Assembly-CSharp}
       data: 
-    - rid: 3614226257729815434
+    - rid: 8642958643451396600
       type: {class: IsRunawayDecision, ns: StateMachine, asm: Assembly-CSharp}
       data: 
-    - rid: 3614226257729815435
+    - rid: 8642958643451396601
       type: {class: IsGroggyDecision, ns: StateMachine, asm: Assembly-CSharp}
       data: 
-    - rid: 3614226257729815436
+    - rid: 8642958643451396602
       type: {class: IsSelfDamageTriggeredDecision, ns: StateMachine, asm: Assembly-CSharp}
       data: 
-    - rid: 3614226257729815437
+    - rid: 8642958643451396603
       type: {class: SetAttackDataAction, ns: StateMachine, asm: Assembly-CSharp}
       data:
         attackNumber: 1
-    - rid: 3614226257729815438
+    - rid: 8642958643451396604
       type: {class: DecisionSelfDamageAction, ns: StateMachine, asm: Assembly-CSharp}
       data:
         damageNumber: 0
+    - rid: 8642958643451396605
+      type: {class: AttackMoveGeneralAction, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        targetingManager: {fileID: 11400000, guid: b3f38c5a6e0762d4ba6cc8d3042b3e9d, type: 2}
+    - rid: 8642958643451396606
+      type: {class: AttackAreaIndicateAction, ns: StateMachine, asm: Assembly-CSharp}
+      data: 
+    - rid: 8642958643451396607
+      type: {class: CombinedAction, ns: StateMachine, asm: Assembly-CSharp}
+      data: 

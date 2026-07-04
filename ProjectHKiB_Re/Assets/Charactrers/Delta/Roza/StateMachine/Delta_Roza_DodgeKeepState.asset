@@ -12,57 +12,70 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb85084ca5989854b9dbc2cce1298255, type: 3}
   m_Name: Delta_Roza_DodgeKeepState
   m_EditorClassIdentifier: 
+  isPacked: 0
+  isTemplate: 0
+  exposedVariables: []
   temporaryID: 0.7849399
   transitions:
-  - activationInput: 10
+  - name: 
+    activationInput: 10
     availableTime: 0.1
     disableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: a544cc1d86e2d5b43b59fe4bf0b1808f, type: 2}
       Decision:
-        rid: 3614226257729815216
+        rid: 8642958643451396340
       negate: 0
     trueState: {fileID: 11400000, guid: d8a697e426d3541408e400975310c7ee, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
     Action:
       rid: -2
-  - activationInput: 10
+    showTrueStatePort: 1
+    showFalseStatePort: 1
+  - name: 
+    activationInput: 10
     availableTime: 0.1
     disableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: 612b9fe66ed1ef34793ed729a392fd87, type: 2}
       Decision:
-        rid: 3614226257729815217
+        rid: 8642958643451396341
       negate: 1
     trueState: {fileID: 11400000, guid: d8a697e426d3541408e400975310c7ee, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
     Action:
       rid: -2
-  - activationInput: 2
+    showTrueStatePort: 1
+    showFalseStatePort: 1
+  - name: 
+    activationInput: 2
     availableTime: 0.1
     disableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: 2de41d8b2308a394484a671f6076ea8b, type: 2}
       Decision:
-        rid: 3614226257729815218
+        rid: 8642958643451396342
       negate: 0
     trueState: {fileID: 11400000, guid: f46601a8232c1504c9495f450a30d73d, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
     Action:
       rid: -2
+    showTrueStatePort: 1
+    showFalseStatePort: 1
+  additionalTransitions: []
   enterActions:
   - {fileID: 11400000, guid: 71fdb69f2ecfc5d42a9967f28a3c8d7d, type: 2}
   EnterActions:
-  - rid: 3614226257729815219
+  - rid: 8642958643451396343
   updateActions:
   - {fileID: 11400000, guid: 4fafb3ceb66aff442a96eff3c9b699cd, type: 2}
   - {fileID: 11400000, guid: c63fa6e559283a9479d938d317595868, type: 2}
   UpdateActions:
-  - rid: 3614226257729815220
-  - rid: 3614226257729815221
+  - rid: 8642958643451396344
+  - rid: 8642958643451396345
   exitActions: []
   ExitActions: []
   actionSequence: []
@@ -76,23 +89,23 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 3614226257729815216
+    - rid: 8642958643451396340
       type: {class: KeepDodgeEndedDecision, ns: StateMachine, asm: Assembly-CSharp}
       data: 
-    - rid: 3614226257729815217
+    - rid: 8642958643451396341
       type: {class: PlayerInputDecision, ns: StateMachine, asm: Assembly-CSharp}
       data:
         _inputType: 4
-    - rid: 3614226257729815218
+    - rid: 8642958643451396342
       type: {class: CanCounterAttackDecision, ns: StateMachine, asm: Assembly-CSharp}
       data: 
-    - rid: 3614226257729815219
+    - rid: 8642958643451396343
       type: {class: StartKeepDodgeAction, ns: StateMachine, asm: Assembly-CSharp}
       data: 
-    - rid: 3614226257729815220
+    - rid: 8642958643451396344
       type: {class: KeepDodgeMoveByInputAction, ns: StateMachine, asm: Assembly-CSharp}
       data: 
-    - rid: 3614226257729815221
+    - rid: 8642958643451396345
       type: {class: SetDirFromLastSetDirAction, ns: StateMachine, asm: Assembly-CSharp}
       data:
         negative: 0

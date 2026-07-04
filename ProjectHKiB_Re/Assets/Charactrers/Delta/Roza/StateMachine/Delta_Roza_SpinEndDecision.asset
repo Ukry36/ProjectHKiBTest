@@ -12,9 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb85084ca5989854b9dbc2cce1298255, type: 3}
   m_Name: Delta_Roza_SpinEndDecision
   m_EditorClassIdentifier: 
+  isPacked: 0
+  isTemplate: 0
+  exposedVariables: []
   temporaryID: 0.31012753
   transitions:
-  - activationInput: 2
+  - name: 
+    activationInput: 2
     availableTime: 0
     disableTime: 0
     decisions: []
@@ -23,7 +27,10 @@ MonoBehaviour:
     action: {fileID: 0}
     Action:
       rid: -2
-  - activationInput: 10
+    showTrueStatePort: 1
+    showFalseStatePort: 1
+  - name: 
+    activationInput: 10
     availableTime: 0.2
     disableTime: 0
     decisions: []
@@ -32,48 +39,57 @@ MonoBehaviour:
     action: {fileID: 0}
     Action:
       rid: -2
-  - activationInput: 10
+    showTrueStatePort: 1
+    showFalseStatePort: 1
+  - name: 
+    activationInput: 10
     availableTime: 0
     disableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: af28755f24b9a564da14f64bdd3a7f40, type: 2}
       Decision:
-        rid: 3614226257729815504
+        rid: 8642958643451396693
       negate: 0
     trueState: {fileID: 11400000, guid: cc4bdcdcb162f684aa4182056b09d1ac, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
     Action:
       rid: -2
-  - activationInput: 3
+    showTrueStatePort: 1
+    showFalseStatePort: 1
+  - name: 
+    activationInput: 3
     availableTime: 0
     disableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: 5080e5686af385f43ba3c3c0a486210c, type: 2}
       Decision:
-        rid: 3614226257729815505
+        rid: 8642958643451396694
       negate: 0
     trueState: {fileID: 11400000, guid: 3e9e252439afd3f4688d00ad06d06ef5, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
     Action:
       rid: -2
+    showTrueStatePort: 1
+    showFalseStatePort: 1
+  additionalTransitions: []
   enterActions:
   - {fileID: 11400000, guid: 04454d4853f31824184fdd1c5f2810e4, type: 2}
   - {fileID: 11400000, guid: eae65f2d6a38b2f4cb44dd59ca5a19ff, type: 2}
   EnterActions:
-  - rid: 3614226257729815506
-  - rid: 3614226257729815507
+  - rid: 8642958643451396695
+  - rid: 8642958643451396696
   updateActions:
   - {fileID: 11400000, guid: 7263eacb51896564e8bf3466a98c6b58, type: 2}
   UpdateActions:
-  - rid: 3614226257729815508
+  - rid: 8642958643451396697
   exitActions:
   - {fileID: 11400000, guid: f6965e0eaa3b13e4196f346eff01ca0f, type: 2}
   - {fileID: 11400000, guid: eeb57eb8267872f41ad7104a78faf7cd, type: 2}
   ExitActions:
-  - rid: 3614226257729815509
-  - rid: 3614226257729815510
+  - rid: 8642958643451396698
+  - rid: 8642958643451396699
   actionSequence: []
   loopActionSequence: 0
   useTimer: 0
@@ -85,30 +101,30 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 3614226257729815504
+    - rid: 8642958643451396693
       type: {class: KnockbackMoveDecision, ns: StateMachine, asm: Assembly-CSharp}
       data: 
-    - rid: 3614226257729815505
+    - rid: 8642958643451396694
       type: {class: CanDodgeCooltimeDecision, ns: StateMachine, asm: Assembly-CSharp}
       data: 
-    - rid: 3614226257729815506
+    - rid: 8642958643451396695
       type: {class: SetAttackDataAction, ns: StateMachine, asm: Assembly-CSharp}
       data:
         attackNumber: 6
-    - rid: 3614226257729815507
+    - rid: 8642958643451396696
       type: {class: InternalBuffAction, ns: StateMachine, asm: Assembly-CSharp}
       data:
         _negate: 0
         _buff: {fileID: 11400000, guid: 0d61e4db3d7fc7e45959bfbc2529c302, type: 2}
-    - rid: 3614226257729815508
+    - rid: 8642958643451396697
       type: {class: WalkByInputAction, ns: StateMachine, asm: Assembly-CSharp}
       data: 
-    - rid: 3614226257729815509
+    - rid: 8642958643451396698
       type: {class: InternalBuffAction, ns: StateMachine, asm: Assembly-CSharp}
       data:
         _negate: 1
         _buff: {fileID: 11400000, guid: 0d61e4db3d7fc7e45959bfbc2529c302, type: 2}
-    - rid: 3614226257729815510
+    - rid: 8642958643451396699
       type: {class: StopAttackEffectAction, ns: StateMachine, asm: Assembly-CSharp}
       data:
         EffectPlayerNumber: 0

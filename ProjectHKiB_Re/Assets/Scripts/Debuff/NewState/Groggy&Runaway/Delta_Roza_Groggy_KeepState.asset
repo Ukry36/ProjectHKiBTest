@@ -12,21 +12,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb85084ca5989854b9dbc2cce1298255, type: 3}
   m_Name: Delta_Roza_Groggy_KeepState
   m_EditorClassIdentifier: 
+  isPacked: 0
+  isTemplate: 0
+  exposedVariables: []
   temporaryID: 0.29490903
   transitions:
-  - activationInput: 10
+  - name: 
+    activationInput: 10
     availableTime: 0
     disableTime: 0
     decisions:
     - decision: {fileID: 11400000, guid: 69473423be5d34647b0a1e7e15d1103a, type: 2}
       Decision:
-        rid: 3614226257729815489
+        rid: 8642958643451396672
       negate: 1
     trueState: {fileID: 11400000, guid: be1c97fc8bdba3045ae5b1755282cd1c, type: 2}
     falseState: {fileID: 0}
     action: {fileID: 0}
     Action:
       rid: -2
+    showTrueStatePort: 1
+    showFalseStatePort: 1
+  additionalTransitions: []
   enterActions: []
   EnterActions: []
   updateActions: []
@@ -44,6 +51,6 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 3614226257729815489
+    - rid: 8642958643451396672
       type: {class: IsGroggyDecision, ns: StateMachine, asm: Assembly-CSharp}
       data: 
