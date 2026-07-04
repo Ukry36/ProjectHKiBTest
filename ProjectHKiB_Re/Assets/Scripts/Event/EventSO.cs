@@ -1,21 +1,14 @@
-using System;
 using UnityEngine;
 
-public class EventBlock
+public class EventTarget
 {
-    public StateSO state;
-    public EventTransition[] nextEvents;
-    public float delay;
-}
-
-public class EventTransition
-{
-    public EventFlagSO[] flags;
-    public EventBlock nextEvent;
+    public string ID;
+    public EventManager.TargetSearchType targetSearchType;
 }
 
 [CreateAssetMenu(fileName = "Event", menuName = "Event/Event")]
-public class EventSO : ScriptableObject
+public class EventSO : StateMachineSO
 {
-    public EventBlock rootEventBlock;
+    public EventTarget[] targets;
+    public MapPresetSO mapPreset;
 }

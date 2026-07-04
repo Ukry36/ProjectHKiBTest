@@ -2,8 +2,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class StateController : InterfaceRegister
+public class StateController : InterfaceRegister, IEventControllable
 {
+    public StateController Entity => this;
+    public IAnimatable Animatable => GetInterface<IAnimatable>();
+    public IDirAnimatable DirAnimatable => GetInterface<IDirAnimatable>();
+
     [HideInInspector] public CustomVariableSets customVariables = new();
     [NaughtyAttributes.ReadOnly][SerializeField] protected StateSO _currentState;
     [NaughtyAttributes.ReadOnly][SerializeField] protected StateMachineSO _stateMachine;
