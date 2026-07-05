@@ -10,5 +10,5 @@ public class EventTarget
 public class EventSO : StateMachineSO
 {
     public EventTarget[] targets;
-    public MapPresetSO mapPreset;
+    public MapDataSO mapPreset;
 }
