@@ -11,6 +11,8 @@ public class StateMachineSO : ScriptableObject
     [NaughtyAttributes.Expandable] public StateSO[] allStates;
 
     public List<CommandPair> _commandPairs;
+
+#if UNITY_EDITOR
     [NaughtyAttributes.Button]
     public void UpdateStateMachine()
     {
@@ -26,7 +28,6 @@ public class StateMachineSO : ScriptableObject
         }
     }
 
-#if UNITY_EDITOR
     [NaughtyAttributes.Button]
     public void OpenGraphView()
     {

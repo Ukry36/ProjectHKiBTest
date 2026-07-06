@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     public UIManager UIManager;
     public GraffitiManager graffitiManager;
     public EventManager eventManager;
+    public MapManager mapManager;
 
     public Player player;
 

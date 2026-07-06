@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EventTarget
+public class EventTargetSearchInfo
 {
     public string ID;
     public EventManager.TargetSearchType targetSearchType;
@@ -9,6 +9,6 @@ public class EventTarget
 [CreateAssetMenu(fileName = "Event", menuName = "Event/Event")]
 public class EventSO : StateMachineSO
 {
-    public EventTarget[] targets;
-    public MapDataSO mapPreset;
+    public EventTargetSearchInfo[] involvedEventTargets;
+    public MapDataSO mapData;
 }

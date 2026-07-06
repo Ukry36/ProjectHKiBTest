@@ -17,15 +17,15 @@ public class SimpleAnimationPlayer : MonoBehaviour
     public string overrideClipName;
     public bool disableWhenStop = false;
     public bool syncDirection = false;
-    [NaughtyAttributes.ShowIf("syncDirection")] 
+    [NaughtyAttributes.ShowIf("syncDirection")]
     public SimpleAnimationPlayer[] playersToSyncDirection;
     public bool syncAnimation = false;
-    [NaughtyAttributes.ShowIf("syncAnimation")] 
+    [NaughtyAttributes.ShowIf("syncAnimation")]
     public SimpleAnimationPlayer[] playersToSyncAnimation;
 
     [Header("Event Handlers")]
     public Dictionary<string, Action> animationEvents = new();
-    
+
     [System.Serializable]
     public class StringEvent : UnityEvent<string> { }
     public StringEvent onCustomEventTriggered;
@@ -36,7 +36,7 @@ public class SimpleAnimationPlayer : MonoBehaviour
     protected List<string> _reservedClips;
     private SimpleAnimationClip _currentClip;
     protected int _loop = 0;
-    [field:SerializeField] [field: NaughtyAttributes.ReadOnly] public EnumManager.AnimDir CurrentAnimDir {get; private set;} = EnumManager.AnimDir.D;
+    [field: SerializeField][field: NaughtyAttributes.ReadOnly] public EnumManager.AnimDir CurrentAnimDir { get; private set; } = EnumManager.AnimDir.D;
     public bool IsFirstLoopEnded => _loop > 0;
 
     protected void Start()
@@ -49,9 +49,9 @@ public class SimpleAnimationPlayer : MonoBehaviour
         _reservedClips = new(10);
         if (playOnAwake)
         {
-            if(!string.IsNullOrEmpty(overrideClipName))
+            if (!string.IsNullOrEmpty(overrideClipName))
                 PlayInternal(overrideClipName);
-            else if(animationData && !string.IsNullOrEmpty(animationData.defaultClipName))
+            else if (animationData && !string.IsNullOrEmpty(animationData.defaultClipName))
                 PlayInternal(animationData.defaultClipName);
         }
     }
@@ -61,13 +61,13 @@ public class SimpleAnimationPlayer : MonoBehaviour
         ClearReservation();
         PlayInternal(clipName);
     }
-    
+
     private void PlayInternal(string clipName)
     {
         if (animationData == null) return;
-        
+
         if (clipName == "Stop") { Stop(); return; }
-        
+
         SimpleAnimationClip clip = animationData.GetClip(clipName);
 
         for (int i = 0; i < playersToSyncAnimation.Length; i++)
@@ -93,7 +93,7 @@ public class SimpleAnimationPlayer : MonoBehaviour
 
     public void Reserve(string clipName)
     {
-        if (!_currentClip.isLoop && IsFirstLoopEnded && _reservedClips.Count < 1) {PlayInternal(clipName); return;}
+        if (!_currentClip.isLoop && IsFirstLoopEnded && _reservedClips.Count < 1) { PlayInternal(clipName); return; }
         if (_reservedClips.Count < _reservedClips.Capacity)
             _reservedClips.Add(clipName);
     }
@@ -107,7 +107,7 @@ public class SimpleAnimationPlayer : MonoBehaviour
     {
         if (_currentSequence != null && _currentSequence.IsActive())
             _currentSequence.Kill();
-        
+
         if (clip.frames.Count == 0) return;
 
         _currentSequence = DOTween.Sequence();
@@ -168,7 +168,7 @@ public class SimpleAnimationPlayer : MonoBehaviour
             _currentSequence.Play();
     }
 
-    public void SetDirection(EnumManager.AnimDir animDir) 
+    public void SetDirection(EnumManager.AnimDir animDir)
     {
         CurrentAnimDir = animDir;
 
@@ -188,13 +188,13 @@ public class SimpleAnimationPlayer : MonoBehaviour
         var frame = clip.frames[frameIndex];
 
         string categoryKey;
-        if (clip.categoryKeys.Count < 1) 
+        if (clip.categoryKeys.Count < 1)
             categoryKey = clip.clipName;
-        else if (!clip.categoryKeys.ContainsKey(CurrentAnimDir)) 
+        else if (!clip.categoryKeys.ContainsKey(CurrentAnimDir))
             categoryKey = clip.categoryKeys.Values.ToList()[0];
-        else 
+        else
             categoryKey = clip.categoryKeys[CurrentAnimDir];
-        
+
         _spriteResolver.SetCategoryAndLabel(categoryKey, frame.labelKey);
         if (_spriteRenderer) _spriteRenderer.enabled = true;
 

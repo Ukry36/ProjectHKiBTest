@@ -1,43 +1,58 @@
+using System;
 using AYellowpaper.SerializedCollections;
+
+[Serializable]
+public class EventTargets
+{
+    public SerializedDictionary<string, EventControllableEntity> targetEntities;
+    public SerializedDictionary<string, EventControllableAnimation> targetAnimations;
+}
 
 public class EventManager : StateController
 {
-    public enum TargetSearchType { Player, PublicID, MapPreset, Manual }
-    public SerializedDictionary<EventVariableSO, bool> boolEventVariables;
-    public SerializedDictionary<EventVariableSO, int> intEventVariables;
-    public SerializedDictionary<EventVariableSO, float> floatEventVariables;
+    public enum TargetSearchType { Player, FromMap, Manual }
+    public SerializedDictionary<EventFlagSO, int> eventFlags;
 
-    public SerializedDictionary<string, IEventControllable> currentTargets;
+    public EventTargets currentTargets;
 
-    public void StartEvent(EventSO eventSO, IEventControllable[] manualTargets)
+    public void SetEventFlag(EventFlagSO flag, int value)
     {
-        Initialize(eventSO);
-        InitFindTargets(eventSO, manualTargets);
+        eventFlags ??= new();
+        eventFlags[flag] = value;
     }
 
-    public void InitFindTargets(EventSO eventSO, IEventControllable[] manualTargets)
+    public void StartEvent(EventSO eventSO, EventTargets manualTargets = null)
+    {
+        InitFindTargets(eventSO, manualTargets);
+        Initialize(eventSO);
+    }
+
+    public void InitFindTargets(EventSO eventSO, EventTargets manualTargets)
     {
         currentTargets = new();
-        int manualCount = 0;
-        for (int i = 0; i < eventSO.targets.Length; i++)
+        for (int i = 0; i < eventSO.involvedEventTargets.Length; i++)
         {
-            EventTarget target = eventSO.targets[i];
+            EventTargetSearchInfo target = eventSO.involvedEventTargets[i];
             if (target.targetSearchType == TargetSearchType.Player)
             {
-                currentTargets[target.ID] = GameManager.instance.player;
+                currentTargets.targetEntities[target.ID] = GameManager.instance.player.GetComponent<EventControllableEntity>();
             }
-            else if (target.targetSearchType == TargetSearchType.PublicID)
+            else if (target.targetSearchType == TargetSearchType.FromMap)
             {
-                // search from public entity pool
+                MapLocalManager localManager = GameManager.instance.mapManager.localManager;
+                if (localManager && localManager.allEventTargets.targetEntities.ContainsKey(target.ID))
+                {
+                    currentTargets.targetEntities[target.ID] = localManager.allEventTargets.targetEntities[target.ID];
+                }
+                else if (localManager && localManager.allEventTargets.targetAnimations.ContainsKey(target.ID))
+                {
+                    currentTargets.targetAnimations[target.ID] = localManager.allEventTargets.targetAnimations[target.ID];
+                }
             }
-            else if (target.targetSearchType == TargetSearchType.MapPreset)
+            else if (target.targetSearchType == TargetSearchType.Manual && manualTargets != null)
             {
-                if (eventSO.mapPreset && eventSO.mapPreset.EventTargets.ContainsKey(target.ID))
-                    currentTargets[target.ID] = eventSO.mapPreset.EventTargets[target.ID];
-            }
-            else if (target.targetSearchType == TargetSearchType.Manual)
-            {
-                currentTargets[target.ID] = manualTargets[manualCount++];
+                currentTargets.targetEntities[target.ID] = manualTargets.targetEntities[target.ID];
+                currentTargets.targetAnimations[target.ID] = manualTargets.targetAnimations[target.ID];
             }
         }
     }

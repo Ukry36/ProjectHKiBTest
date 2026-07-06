@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: PrototypeMaps
+  m_EditorClassIdentifier: 
+  m_GroupName: PrototypeMaps
+  m_Data:
+    m_SerializedData: []
+  m_GUID: ec261c7596ac2114d9ff95f659354183
+  m_SerializeEntries:
+  - m_GUID: aebe1265615695c4aaebe03fbac3bf4b
+    m_Address: Assets/Scenes/TestMap/TestMap2.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c7b84e74def3f8940a3e01b87171a65c
+    m_Address: Assets/Scenes/TestMap/TestMap1.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: a7ef9517c5b9c6340b6d379aeb2be43f, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 80d84444b837af2409dddf3ba4ede58a, type: 2}
+    - {fileID: 11400000, guid: a6b5a8f3c7c15f04bbb3880525c422f2, type: 2}

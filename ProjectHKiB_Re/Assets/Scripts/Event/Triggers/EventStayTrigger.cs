@@ -1,5 +1,3 @@
-using System.Linq;
-using UnityEngine;
 public class EventStayTrigger : GameEventTrigger
 {
     public override void UpdateTrigger()
