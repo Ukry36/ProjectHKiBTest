@@ -27,7 +27,7 @@ public class CardSaveInfo
 public class EventFlagSaveInfo
 {
     public string id;
-    public bool value;
+    public int value;
 }
 
 [Serializable]
@@ -43,7 +43,7 @@ public class SaveSlotData
     public string savedAt;
 
     public float hp;
-    
+
     public List<ItemSaveInfo> items = new();
     public List<GearSaveInfo> ownedGears = new();
     public List<CardSaveInfo> cards = new();

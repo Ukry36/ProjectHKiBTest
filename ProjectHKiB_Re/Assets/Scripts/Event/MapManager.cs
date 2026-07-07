@@ -21,11 +21,11 @@ public class MapManager : MonoBehaviour
             {
                 clearCurrentScene = false;
                 currentLoadedScene = new SceneInstance();
-                Debug.Log("unloaded: " + CurrentMapData.name + " (" + CurrentMapData.mapID + ")");
+                Debug.Log("unloaded: " + CurrentMapData.name + " (" + CurrentMapData.mapAddressableID + ")");
             };
         }
 
-        Addressables.LoadSceneAsync(mapData.mapID, LoadSceneMode.Additive).Completed += (asyncHandle) =>
+        Addressables.LoadSceneAsync(mapData.mapAddressableID, LoadSceneMode.Additive).Completed += (asyncHandle) =>
         {
             clearCurrentScene = true;
             currentLoadedScene = asyncHandle.Result;
@@ -42,7 +42,7 @@ public class MapManager : MonoBehaviour
                 }
             }
 
-            Debug.Log("loaded: " + mapData.name + " (" + mapData.mapID + ")");
+            Debug.Log("loaded: " + mapData.name + " (" + mapData.mapAddressableID + ")");
         };
     }
 

@@ -77,7 +77,7 @@ public class StateSOEditor : Editor
 
     private void MakeTemplate(StateSO stateSO)
     {
-        string targetPath = $"Assets/ScriptableObjects/StateMachine/StateTemplates/{stateSO.name}.asset";
+        string targetPath = $"Assets/ScriptableObjects/StateTemplates/{stateSO.name}.asset";
         bool proceedCreation = true;
 
         StateSO existingTemplate = AssetDatabase.LoadAssetAtPath<StateSO>(targetPath);
@@ -110,7 +110,7 @@ public class StateSOEditor : Editor
     private void ShowTemplateSelectorMenu(StateSO stateSO)
     {
         GenericMenu menu = new();
-        string[] searchFolders = new string[] { "Assets/ScriptableObjects/StateMachine/StateTemplates" };
+        string[] searchFolders = new string[] { "Assets/ScriptableObjects/StateTemplates" };
         string[] guids = AssetDatabase.FindAssets("t:StateSO", searchFolders);
 
         foreach (string guid in guids)

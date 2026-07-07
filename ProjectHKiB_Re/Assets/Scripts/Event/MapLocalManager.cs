@@ -9,16 +9,19 @@ public class MapLocalManager : MonoBehaviour
     [NaughtyAttributes.Button]
     public void AutoFindEventTargets()
     {
+        allEventTargets = new();
         EventControllableEntity[] entityEvControllers = FindObjectsOfType<EventControllableEntity>();
         for (int i = 0; i < entityEvControllers.Length; i++)
         {
-            allEventTargets.targetEntities[entityEvControllers[i].ID] = entityEvControllers[i];
+            if (entityEvControllers[i].gameObject.scene == gameObject.scene)
+                allEventTargets.targetEntities[entityEvControllers[i].ID] = entityEvControllers[i];
         }
 
         EventControllableAnimation[] animEvControllers = FindObjectsOfType<EventControllableAnimation>();
         for (int i = 0; i < animEvControllers.Length; i++)
         {
-            allEventTargets.targetAnimations[animEvControllers[i].ID] = animEvControllers[i];
+            if (animEvControllers[i].gameObject.scene == gameObject.scene)
+                allEventTargets.targetAnimations[animEvControllers[i].ID] = animEvControllers[i];
         }
     }
 

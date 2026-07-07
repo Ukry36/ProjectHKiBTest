@@ -2,13 +2,13 @@ using UnityEngine;
 namespace StateMachine
 {
     [System.Serializable]
-    public class DialogueEventAction : StateAction
+    public class DialogueStartAction : StateAction
     {
         public override void Act(StateController stateController)
         {
             if (stateController.TryGetInterface(out IDialogueable dialogue))
             {
-                dialogue.StartLine();
+                dialogue.StartDialogue();
             }
             else Debug.LogError("ERROR: Interface Not Found!!!");
         }

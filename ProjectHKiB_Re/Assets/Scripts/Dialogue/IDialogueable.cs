@@ -2,10 +2,8 @@
 public interface IDialogueable : IInitializable
 {
     // Used When Dialogue Start From Outside
-    void StartDialogue(DialogueDataSO dialogueData);
-    public bool CheckLineType(StateSO type);
-    public bool CheckLineEnd();
-    public void StartLine();
+    void StartDialogue();
+    public void StartLine(Line line);
     public void ExitDialogue();
 
     public void BindUpdateLine();
@@ -13,9 +11,7 @@ public interface IDialogueable : IInitializable
     public void BindUpdateChoice();
     public void UnBindUpdateChoice();
 
-    public void SetLine(int lineNum);
-    public void NextLine();
-
-    // When Call CLICK Button
-    void OnChoiceSelected(int nextLineIndex);
+    public void NextSubLine();
+    public bool IsLineEnded { get; }
+    public int ChoicedNum { get; }
 }

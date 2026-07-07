@@ -4,6 +4,11 @@ using AYellowpaper.SerializedCollections;
 [Serializable]
 public class EventTargets
 {
+    public EventTargets()
+    {
+        targetEntities = new();
+        targetAnimations = new();
+    }
     public SerializedDictionary<string, EventControllableEntity> targetEntities;
     public SerializedDictionary<string, EventControllableAnimation> targetAnimations;
 }

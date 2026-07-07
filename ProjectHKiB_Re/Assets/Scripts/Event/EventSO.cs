@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 
+[Serializable]
 public class EventTargetSearchInfo
 {
     public string ID;
@@ -10,5 +12,5 @@ public class EventTargetSearchInfo
 public class EventSO : StateMachineSO
 {
     public EventTargetSearchInfo[] involvedEventTargets;
-    public MapDataSO mapData;
+    //public MapDataSO mapData;
 }

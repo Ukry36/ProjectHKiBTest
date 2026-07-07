@@ -134,11 +134,11 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void StartDialogue(DialogueDataSO dialogueData)
+    public void StartDialogue()
     {
         OpenWindow("Dialogue");
         canExit = false;
-        dialogueModule.StartDialogue(dialogueData);
+        dialogueModule.StartDialogue();
     }
 
     public void ExitDialogue() => dialogueModule.ExitDialogue();

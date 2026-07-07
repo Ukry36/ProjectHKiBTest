@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 public class MapChangeManager : MonoBehaviour
 {
     [NaughtyAttributes.Scene] public string currentMap;
-    [NaughtyAttributes.Scene] public string togo;
+    [NaughtyAttributes.Scene] public string mapToGo;
 
     public bool trig;
     private float time;
@@ -59,7 +59,7 @@ public class MapChangeManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (trig) ChangeMap(togo);
+        if (trig) ChangeMap(mapToGo);
         trig = false;
     }
 }
