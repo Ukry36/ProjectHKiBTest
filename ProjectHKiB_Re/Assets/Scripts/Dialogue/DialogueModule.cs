@@ -39,7 +39,7 @@ public class DialogueModule : InterfaceModule, IDialogueable
     private Tween nextArrowMoveTween;
     private Vector2 nextArrowBasePos;
 
-    public System.Action onExitDialogue;
+    public System.Action onExitDialogue { get; set; }
 
     public override void Register(IInterfaceRegistable interfaceRegistable)
     {
@@ -65,6 +65,7 @@ public class DialogueModule : InterfaceModule, IDialogueable
         GameManager.instance.inputManager.MENUMode();
         _subLineIndex = 0;
         choicePanel.SetActive(false);
+        GameManager.instance.UIManager.OpenWindow("Dialogue");
     }
 
     public void ExitDialogue()
@@ -139,6 +140,7 @@ public class DialogueModule : InterfaceModule, IDialogueable
     private int _choiceNumInternal;
     private IEnumerator Choice()
     {
+        Debug.Log("Choice called");
         yield return _waitForSeconds0_025;
         choicePanel.SetActive(true);
         _choiceNumInternal = -1;

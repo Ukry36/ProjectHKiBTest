@@ -8,7 +8,7 @@ public class StateNode : BaseNode
 {
     [NaughtyAttributes.Label("")] public StateSO stateSO;
 
-    [Input(name = "In")]
+    [Input(name = "In", allowMultiple = true)]
     public StateSO inputState;
 
     [Output(name = "Transitions")]

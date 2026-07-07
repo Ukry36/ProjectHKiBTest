@@ -14,4 +14,5 @@ public interface IDialogueable : IInitializable
     public void NextSubLine();
     public bool IsLineEnded { get; }
     public int ChoicedNum { get; }
+    public System.Action onExitDialogue { get; set; }
 }

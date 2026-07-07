@@ -73740,8 +73740,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1568758191}
   - component: {fileID: 1568758192}
-  - component: {fileID: 1568758194}
-  - component: {fileID: 1568758193}
   m_Layer: 5
   m_Name: UIManager
   m_TagString: Untagged
@@ -73815,56 +73813,7 @@ MonoBehaviour:
   openedWindows: []
   defaultPauseWindowIndex: 0
   canExit: 1
-  dialogueModule: {fileID: 1568758193}
---- !u!114 &1568758193
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1568758190}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e67261eec9e336409c34ca4fb01b05c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lineText: {fileID: 1499125517143014484}
-  characterName: {fileID: 1499125517226559209}
-  choicePanel: {fileID: 1499125518289599535}
-  nextArrowRect: {fileID: 1499125518159232150}
-  choiceButtons:
-  - {fileID: 1836997833}
-  - {fileID: 1499125518046864108}
-  - {fileID: 500344439}
-  initialVariables:
-  - key: Player
-    value: TESTNAME
-  _subLineIndex: 0
-  _isLineEnded: 0
-  _choicedNum: 0
---- !u!114 &1568758194
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1568758190}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9cc3d93f403efb2478fbe9396c854b9b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  customVariables:
-    boolVariables:
-      _serializedList: []
-    intVariables:
-      _serializedList: []
-    floatVariables:
-      _serializedList: []
-  _currentState: {fileID: 0}
-  _stateMachine: {fileID: 0}
-  TransitionConditions: 
-  Timers: []
+  dialogueModule: {fileID: 1346231659}
 --- !u!1 &1575398554
 GameObject:
   m_ObjectHideFlags: 0
@@ -80520,9 +80469,9 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
+    x: 0.14172535
     y: 0
-    width: 1
+    width: 0.71596247
     height: 1
   near clip plane: -5000
   far clip plane: 5000
@@ -80636,7 +80585,7 @@ MonoBehaviour:
   m_RefResolutionX: 320
   m_RefResolutionY: 240
   m_CropFrame: 4
-  m_GridSnapping: 2
+  m_GridSnapping: 0
   m_UpscaleRT: 0
   m_PixelSnapping: 0
   m_CropFrameX: 0
@@ -86562,8 +86511,8 @@ MonoBehaviour:
   inventoryManager: {fileID: 1855532042}
   UIManager: {fileID: 1568758192}
   graffitiManager: {fileID: 781276478}
-  eventManager: {fileID: 0}
-  mapManager: {fileID: 0}
+  eventManager: {fileID: 1346231658}
+  mapManager: {fileID: 75784913}
   player: {fileID: 327803505}
 --- !u!4 &1845891765
 Transform:
