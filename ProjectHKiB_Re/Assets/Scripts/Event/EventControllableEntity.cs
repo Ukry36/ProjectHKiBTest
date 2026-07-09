@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
@@ -14,12 +15,12 @@ public class EntityInitializeInfo
 
 public class EventControllableEntity : EventControllableBase<StateController>
 {
-    public EntityInitializeInfo[] InitInfos { get; set; }
+    public List<EntityInitializeInfo> InitInfos { get; set; }
 
     public override void Initialize()
     {
         EventManager eventManager = GameManager.instance.eventManager;
-        for (int i = 0; i < InitInfos.Length; i++)
+        for (int i = 0; i < InitInfos.Count; i++)
         {
             if (eventManager.eventFlags.ContainsKey(InitInfos[i].eventFlag)
              && eventManager.eventFlags[InitInfos[i].eventFlag] == InitInfos[i].eventFlagCondition)

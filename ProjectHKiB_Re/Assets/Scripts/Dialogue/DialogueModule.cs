@@ -94,8 +94,9 @@ public class DialogueModule : InterfaceModule, IDialogueable
     public void ExitLine()
     {
         _isLineEnded = true;
-        if (_currentLine.isChoice) UnBindUpdateChoice();
-        else BindUpdateLine();
+        choicePanel.SetActive(false);
+        if (_currentLine.isChoice) { UnBindUpdateChoice(); Debug.Log("choice exit: " + _choicedNum); }
+        else UnBindUpdateLine();
     }
 
     public void BindUpdateLine() => GameManager.instance.inputManager.onSubmit += UpdateLineBinder;
@@ -137,17 +138,14 @@ public class DialogueModule : InterfaceModule, IDialogueable
             PrintCurrentSubLine();
     }
 
-    private int _choiceNumInternal;
     private IEnumerator Choice()
     {
-        Debug.Log("Choice called");
         yield return _waitForSeconds0_025;
         choicePanel.SetActive(true);
-        _choiceNumInternal = -1;
         // Settin Button
         for (int i = 0; i < choiceButtons.Length; i++)
         {
-            _choiceNumInternal = i;
+            int choice = i;
             ButtonEnhanced button = choiceButtons[i];
 
             if (_currentLine.choices != null && i < _currentLine.choices.Length)
@@ -155,7 +153,7 @@ public class DialogueModule : InterfaceModule, IDialogueable
                 button.gameObject.SetActive(true);
                 button.onClick.RemoveAllListeners();
 
-                button.onClick.AddListener(ChoiceCallback);
+                button.onClick.AddListener(() => ChoiceCallback(choice));
                 if (choiceButtons[i].text) choiceButtons[i].text.text = _currentLine.choices[i];
                 if (choiceButtons[i].number) choiceButtons[i].number.text = $"{i}";
             }
@@ -166,9 +164,9 @@ public class DialogueModule : InterfaceModule, IDialogueable
         if (choiceButtons.Length > 0) choiceButtons[0].Select();
     }
 
-    private void ChoiceCallback()
+    private void ChoiceCallback(int choice)
     {
-        _choicedNum = _choiceNumInternal;
+        _choicedNum = choice;
         ExitLine();
     }
 

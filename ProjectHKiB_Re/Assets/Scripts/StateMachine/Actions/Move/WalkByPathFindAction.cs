@@ -6,9 +6,9 @@ namespace StateMachine
     {
         public override void Act(StateController stateController)
         {
-            if (stateController.TryGetComponent(out IPhysics movable)
-            && stateController.TryGetComponent(out IPathFindable pathfindable)
-            && stateController.TryGetComponent(out ITargetable targetable))
+            if (stateController.TryGetInterface(out IPhysics movable)
+            && stateController.TryGetInterface(out IPathFindable pathfindable)
+            && stateController.TryGetInterface(out ITargetable targetable))
             {
                 if (pathfindable.IsPathValid)
                 {

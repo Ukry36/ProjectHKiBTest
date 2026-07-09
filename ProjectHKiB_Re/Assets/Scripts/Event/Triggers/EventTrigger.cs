@@ -3,7 +3,7 @@ using UnityEngine;
 
 public abstract class GameEventTrigger : MonoBehaviour
 {
-    public IEvent Event { get; set; }
+    public GameEvent Event { get; set; }
     [SerializeField] private float _cooltime;
     protected bool _canTrigger = true;
     [SerializeField] protected LayerMask _layerMask;
@@ -27,7 +27,7 @@ public abstract class GameEventTrigger : MonoBehaviour
         _contactFilter.layerMask = _layerMask;
     }
 
-    public void Initialize(IEvent @event)
+    public void Initialize(GameEvent @event)
         => this.Event = @event;
     public void CoolTime()
     {

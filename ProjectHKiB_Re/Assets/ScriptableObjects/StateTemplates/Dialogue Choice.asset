@@ -15,8 +15,6 @@ MonoBehaviour:
   isPacked: 1
   isTemplate: 1
   exposedVariables:
-  - propertyPath: transitions
-    displayName: Transitions
   - propertyPath: EnterActions.Array.data[0].line.name
     displayName: Name
   - propertyPath: EnterActions.Array.data[0].line.characterName
@@ -27,7 +25,7 @@ MonoBehaviour:
     displayName: BG
   - propertyPath: EnterActions.Array.data[0].line.choices
     displayName: Choices
-  temporaryID: 0
+  temporaryID: 0.7979319
   transitions:
   - name: 0
     activationInput: 10
@@ -37,7 +35,7 @@ MonoBehaviour:
     - Decision:
         rid: 8642958709715894370
       negate: 0
-    trueState: {fileID: 0}
+    trueState: {fileID: -4593752305363603860, guid: 16633d441fa98794d9e692a601408da4, type: 2}
     falseState: {fileID: 0}
     Action:
       rid: -2
@@ -49,9 +47,9 @@ MonoBehaviour:
     disableTime: 0
     decisions:
     - Decision:
-        rid: 8642958709715894370
+        rid: 8642958756529569792
       negate: 0
-    trueState: {fileID: 0}
+    trueState: {fileID: -3087853503153099969, guid: 16633d441fa98794d9e692a601408da4, type: 2}
     falseState: {fileID: 0}
     Action:
       rid: -2
@@ -63,9 +61,9 @@ MonoBehaviour:
     disableTime: 0
     decisions:
     - Decision:
-        rid: 8642958709715894370
+        rid: 8642958756529569793
       negate: 0
-    trueState: {fileID: 0}
+    trueState: {fileID: -6428425245702133382, guid: 16633d441fa98794d9e692a601408da4, type: 2}
     falseState: {fileID: 0}
     Action:
       rid: -2
@@ -104,3 +102,11 @@ MonoBehaviour:
       type: {class: DialogueChoosedDecision, ns: StateMachine, asm: Assembly-CSharp}
       data:
         choice: 0
+    - rid: 8642958756529569792
+      type: {class: DialogueChoosedDecision, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        choice: 1
+    - rid: 8642958756529569793
+      type: {class: DialogueChoosedDecision, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        choice: 2

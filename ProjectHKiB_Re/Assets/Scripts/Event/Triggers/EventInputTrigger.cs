@@ -10,7 +10,6 @@ public class EventInputTrigger : GameEventTrigger
         {
             if (_canTrigger && GameManager.instance.inputManager.GetInputByEnum(_inputType))
             {
-                Event.RegisterTarget(colliders, length);
                 Event.TriggerEvent();
                 CoolTime();
             }

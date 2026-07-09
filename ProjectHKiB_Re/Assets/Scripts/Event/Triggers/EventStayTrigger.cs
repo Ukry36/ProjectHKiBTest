@@ -7,7 +7,6 @@ public class EventStayTrigger : GameEventTrigger
         {
             if (_canTrigger)
             {
-                Event.RegisterTarget(colliders, length);
                 Event.TriggerEvent();
                 CoolTime();
             }

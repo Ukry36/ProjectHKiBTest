@@ -14,7 +14,6 @@ public class EventConfirmDirTrigger : GameEventTrigger
                 && mathManager.IsVector2HasComponent(GameManager.instance.inputManager.LastSetMoveInput, requiredDir))
             {
                 GameManager.instance.inputManager.LastSetMoveInput = Vector2.zero;
-                Event.RegisterTarget(colliders, length);
                 Event.TriggerEvent();
                 CoolTime();
             }

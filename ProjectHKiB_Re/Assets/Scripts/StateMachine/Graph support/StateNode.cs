@@ -8,11 +8,11 @@ public class StateNode : BaseNode
 {
     [NaughtyAttributes.Label("")] public StateSO stateSO;
 
-    [Input(name = "In", allowMultiple = true)]
-    public StateSO inputState;
+    [Input(name = "In", allowMultiple = true)] public StateSO inputState;
+    [Vertical][Input(name = "In (Vertical)", allowMultiple = true)] public StateSO inputStateV;
 
-    [Output(name = "Transitions")]
-    public StateSO outputTransitions;
+    [Output(name = "Transitions")] public StateSO outputTransitions;
+    [Vertical][Output(name = "Transitions (Vertical)")] public StateSO outputTransitionsV;
 
     public override string name => stateSO != null ? stateSO.name : "Empty State";
     public override bool isRenamable => true;
@@ -77,6 +77,57 @@ public class StateNode : BaseNode
                     displayName = $"{stateSO.additionalTransitions[i].name} (False)",
                     displayType = typeof(StateSO),
                     identifier = $"T_{i}_False"
+                };
+        }
+    }
+
+    [CustomPortBehavior(nameof(outputTransitionsV))]
+    IEnumerable<PortData> GetPortsForTransitionsV(List<SerializableEdge> edges)
+    {
+        if (stateSO == null || stateSO.transitions == null) yield break;
+
+        for (int i = 0; i < stateSO.transitions.Length; i++)
+        {
+            if (stateSO.transitions[i].showTrueStatePort) // True Port
+                yield return new PortData
+                {
+                    displayName = $"{stateSO.transitions[i].name} (True)",
+                    displayType = typeof(StateSO),
+                    identifier = $"T_{i}_True",
+                    vertical = true,
+                    tooltip = $"{stateSO.transitions[i].name} (True)"
+                };
+
+            if (stateSO.transitions[i].showFalseStatePort) // False Port
+                yield return new PortData
+                {
+                    displayName = $"{stateSO.transitions[i].name} (False)",
+                    displayType = typeof(StateSO),
+                    identifier = $"T_{i}_False",
+                    vertical = true,
+                    tooltip = $"{stateSO.transitions[i].name} (False)"
+                };
+        }
+        for (int i = 0; i < stateSO.additionalTransitions.Length; i++)
+        {
+            if (stateSO.additionalTransitions[i].showTrueStatePort) // True Port
+                yield return new PortData
+                {
+                    displayName = $"{stateSO.additionalTransitions[i].name} (True)",
+                    displayType = typeof(StateSO),
+                    identifier = $"T_{i}_True",
+                    vertical = true,
+                    tooltip = $"{stateSO.additionalTransitions[i].name} (True)"
+                };
+
+            if (stateSO.additionalTransitions[i].showFalseStatePort) // False Port
+                yield return new PortData
+                {
+                    displayName = $"{stateSO.additionalTransitions[i].name} (False)",
+                    displayType = typeof(StateSO),
+                    identifier = $"T_{i}_False",
+                    vertical = true,
+                    tooltip = $"{stateSO.additionalTransitions[i].name} (False)"
                 };
         }
     }

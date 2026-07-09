@@ -30,6 +30,7 @@ public class EventManager : StateController
     {
         InitFindTargets(eventSO, manualTargets);
         Initialize(eventSO);
+        if (TryGetInterface(out IEvent @event)) @event.CurrentTargets = currentTargets;
     }
 
     public void InitFindTargets(EventSO eventSO, EventTargets manualTargets)

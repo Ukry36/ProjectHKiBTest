@@ -30,14 +30,6 @@ public class StateSOEditor : Editor
             stateSO.isPacked = false;
             EditorUtility.SetDirty(stateSO);
         }
-        if (GUILayout.Button("Make Template"))
-        {
-            MakeTemplate(stateSO);
-        }
-        if (GUILayout.Button("Load Template"))
-        {
-            ShowTemplateSelectorMenu(stateSO);
-        }
         if (stateSO.isTemplate) EditorGUILayout.HelpBox("This is template state", MessageType.Info);
     }
 
