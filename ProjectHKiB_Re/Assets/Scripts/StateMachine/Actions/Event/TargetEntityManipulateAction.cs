@@ -2,7 +2,7 @@ using UnityEngine;
 namespace StateMachine
 {
     [System.Serializable]
-    public class ManipulateTargetAction : StateAction
+    public class TargetEntityManipulateAction : StateAction
     {
         public string targetID;
         [SerializeReference, SubclassSelector] public StateAction targetAction;

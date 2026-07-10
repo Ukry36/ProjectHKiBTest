@@ -35,6 +35,7 @@ public class SimpleAnimationPlayer : MonoBehaviour
     protected Sequence _currentSequence;
     protected List<string> _reservedClips;
     private SimpleAnimationClip _currentClip;
+    public string CurrentAnimationName => _currentClip.clipName;
     protected int _loop = 0;
     [field: SerializeField][field: NaughtyAttributes.ReadOnly] public EnumManager.AnimDir CurrentAnimDir { get; private set; } = EnumManager.AnimDir.D;
     public bool IsFirstLoopEnded => _loop > 0;

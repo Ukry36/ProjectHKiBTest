@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class MapLocalManager : MonoBehaviour
 {
+    public MapDataSO mapData;
     public EventTargets allEventTargets;
 
     [NaughtyAttributes.Button]
@@ -26,16 +27,62 @@ public class MapLocalManager : MonoBehaviour
 
     public void Initialize()
     {
-        EventControllableEntity[] entities = allEventTargets.targetEntities.Values.ToArray();
+        string[] entities = allEventTargets.targetEntities.Keys.ToArray();
         for (int i = 0; i < entities.Length; i++)
         {
-            entities[i].Initialize();
+            if (mapData.allEntityInitInfos.ContainsKey(entities[i]))
+                allEventTargets.targetEntities[entities[i]].Initialize(mapData.allEntityInitInfos[entities[i]]);
         }
 
-        EventControllableAnimation[] animations = allEventTargets.targetAnimations.Values.ToArray();
+        string[] animations = allEventTargets.targetAnimations.Keys.ToArray();
         for (int i = 0; i < animations.Length; i++)
         {
-            animations[i].Initialize();
+            if (mapData.allAnimInitInfos.ContainsKey(animations[i]))
+                allEventTargets.targetAnimations[animations[i]].Initialize(mapData.allAnimInitInfos[animations[i]]);
         }
     }
+
+
+#if UNITY_EDITOR
+    public void Awake()
+    {
+        string[] entities = allEventTargets.targetEntities.Keys.ToArray();
+        for (int i = 0; i < entities.Length; i++)
+        {
+            allEventTargets.targetEntities[entities[i]].saveToMapDataSO += SaveCurrentEntityStateToInitInfo;
+        }
+
+        string[] animations = allEventTargets.targetAnimations.Keys.ToArray();
+        for (int i = 0; i < animations.Length; i++)
+        {
+            allEventTargets.targetAnimations[animations[i]].saveToMapDataSO += SaveCurrentAnimationStateToInitInfo;
+        }
+    }
+
+    public void SaveCurrentEntityStateToInitInfo(string targetID, EntityInitializeInfo info)
+    {
+        if (!mapData.allEntityInitInfos.ContainsKey(targetID)) mapData.allEntityInitInfos[targetID] = new();
+
+        int existing = mapData.allEntityInitInfos[targetID].FindIndex(a => a.eventFlag == info.eventFlag && a.eventFlagCondition == info.eventFlagCondition);
+        if (existing > -1)
+        {
+            mapData.allEntityInitInfos[targetID][existing] = info;
+            Debug.Log("Already Existing! " + targetID + ": " + info.eventFlag + " = " + info.eventFlagCondition);
+        }
+        else mapData.allEntityInitInfos[targetID].Add(info);
+    }
+
+    public void SaveCurrentAnimationStateToInitInfo(string targetID, AnimationInitializeInfo info)
+    {
+        if (!mapData.allAnimInitInfos.ContainsKey(targetID)) mapData.allAnimInitInfos[targetID] = new();
+
+        int existing = mapData.allAnimInitInfos[targetID].FindIndex(a => a.eventFlag == info.eventFlag && a.eventFlagCondition == info.eventFlagCondition);
+        if (existing > -1)
+        {
+            mapData.allAnimInitInfos[targetID][existing] = info;
+            Debug.Log("Already Existing! " + targetID + ": " + info.eventFlag + " = " + info.eventFlagCondition);
+        }
+        else mapData.allAnimInitInfos[targetID].Add(info);
+    }
+#endif
 }

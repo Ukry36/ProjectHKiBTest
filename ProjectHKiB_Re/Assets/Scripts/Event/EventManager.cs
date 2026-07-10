@@ -28,12 +28,12 @@ public class EventManager : StateController
 
     public void StartEvent(EventSO eventSO, EventTargets manualTargets = null)
     {
-        InitFindTargets(eventSO, manualTargets);
+        FindTargets(eventSO, manualTargets);
         Initialize(eventSO);
         if (TryGetInterface(out IEvent @event)) @event.CurrentTargets = currentTargets;
     }
 
-    public void InitFindTargets(EventSO eventSO, EventTargets manualTargets)
+    public void FindTargets(EventSO eventSO, EventTargets manualTargets)
     {
         currentTargets = new();
         for (int i = 0; i < eventSO.involvedEventTargets.Length; i++)
@@ -46,14 +46,11 @@ public class EventManager : StateController
             else if (target.targetSearchType == TargetSearchType.FromMap)
             {
                 MapLocalManager localManager = GameManager.instance.mapManager.localManager;
-                if (localManager && localManager.allEventTargets.targetEntities.ContainsKey(target.ID))
-                {
-                    currentTargets.targetEntities[target.ID] = localManager.allEventTargets.targetEntities[target.ID];
-                }
-                else if (localManager && localManager.allEventTargets.targetAnimations.ContainsKey(target.ID))
-                {
-                    currentTargets.targetAnimations[target.ID] = localManager.allEventTargets.targetAnimations[target.ID];
-                }
+                if (!localManager) continue;
+                EventTargets targets = localManager.allEventTargets;
+                if (targets.targetEntities.ContainsKey(target.ID)) currentTargets.targetEntities[target.ID] = targets.targetEntities[target.ID];
+                else if (targets.targetAnimations.ContainsKey(target.ID)) currentTargets.targetAnimations[target.ID] = targets.targetAnimations[target.ID];
+
             }
             else if (target.targetSearchType == TargetSearchType.Manual && manualTargets != null)
             {

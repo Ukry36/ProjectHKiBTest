@@ -216,7 +216,7 @@ MonoBehaviour:
     - Decision:
         rid: 8642958709715894371
       negate: 0
-    trueState: {fileID: -8780596015671406557}
+    trueState: {fileID: 1777295629553348489}
     falseState: {fileID: 0}
     Action:
       rid: -2
@@ -285,7 +285,7 @@ MonoBehaviour:
     - Decision:
         rid: 8642958709715894371
       negate: 0
-    trueState: {fileID: -8780596015671406557}
+    trueState: {fileID: 3715108074688683073}
     falseState: {fileID: 0}
     Action:
       rid: -2
@@ -591,6 +591,134 @@ MonoBehaviour:
       type: {class: DialogueChoosedDecision, ns: StateMachine, asm: Assembly-CSharp}
       data:
         choice: 2
+--- !u!114 &1777295629553348489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23ffa63ce1c9f844b99882f818407756, type: 3}
+  m_Name: New State
+  m_EditorClassIdentifier: 
+  isPacked: 1
+  isTemplate: 0
+  exposedVariables:
+  - propertyPath: EnterActions
+    displayName: Enter Actions
+  temporaryID: 0
+  transitions:
+  - name: 
+    activationInput: 10
+    availableTime: 0
+    disableTime: 0
+    decisions: []
+    trueState: {fileID: -8780596015671406557}
+    falseState: {fileID: 0}
+    Action:
+      rid: -2
+    showTrueStatePort: 1
+    showFalseStatePort: 0
+  additionalTransitions: []
+  EnterActions:
+  - rid: 8642958773444411396
+  - rid: 8642958773444411397
+  - rid: 8642958773444411403
+  UpdateActions: []
+  ExitActions: []
+  actionSequence: []
+  loopActionSequence: 0
+  useTimer: 0
+  timerID: 0
+  time: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 8642958773444411396
+      type: {class: TargetAnimationPlayAction, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        targetID: TestEventEntity
+        animationName: Skill02Rear
+    - rid: 8642958773444411397
+      type: {class: SaveInitInfoAction, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        targetIDs:
+        - TestEventEntity
+        flag: {fileID: 11400000, guid: 015d48b9281ebbb4ab3a097627104cff, type: 2}
+        flagValue: 1
+    - rid: 8642958773444411403
+      type: {class: SetEventFlagAction, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        flag: {fileID: 11400000, guid: 015d48b9281ebbb4ab3a097627104cff, type: 2}
+        flagValue: 1
+--- !u!114 &3715108074688683073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23ffa63ce1c9f844b99882f818407756, type: 3}
+  m_Name: New State
+  m_EditorClassIdentifier: 
+  isPacked: 1
+  isTemplate: 0
+  exposedVariables:
+  - propertyPath: EnterActions
+    displayName: Enter Actions
+  temporaryID: 0
+  transitions:
+  - name: 
+    activationInput: 10
+    availableTime: 0
+    disableTime: 0
+    decisions: []
+    trueState: {fileID: -8780596015671406557}
+    falseState: {fileID: 0}
+    Action:
+      rid: -2
+    showTrueStatePort: 1
+    showFalseStatePort: 0
+  additionalTransitions: []
+  EnterActions:
+  - rid: 8642958773444411400
+  - rid: 8642958773444411401
+  - rid: 8642958773444411404
+  UpdateActions: []
+  ExitActions: []
+  actionSequence: []
+  loopActionSequence: 0
+  useTimer: 0
+  timerID: 0
+  time: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 8642958773444411400
+      type: {class: TargetAnimationPlayAction, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        targetID: TestEventEntity
+        animationName: Skill01Front
+    - rid: 8642958773444411401
+      type: {class: SaveInitInfoAction, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        targetIDs:
+        - TestEventEntity
+        flag: {fileID: 11400000, guid: 015d48b9281ebbb4ab3a097627104cff, type: 2}
+        flagValue: 2
+    - rid: 8642958773444411404
+      type: {class: SetEventFlagAction, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        flag: {fileID: 11400000, guid: 015d48b9281ebbb4ab3a097627104cff, type: 2}
+        flagValue: 2
 --- !u!114 &3925760063546396350
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -614,6 +742,8 @@ MonoBehaviour:
   - rid: 8642958709715894373
   - rid: 8642958709715894375
   - rid: 8642958709715894376
+  - rid: 8642958773444411392
+  - rid: 8642958773444411399
   edges:
   - GUID: 473d5d9e-24d7-4883-9a06-81158c588609
     owner: {fileID: 3925760063546396350}
@@ -635,22 +765,6 @@ MonoBehaviour:
     owner: {fileID: 3925760063546396350}
     inputNodeGUID: 5e00c436-5908-421d-af78-910a148e4f84
     outputNodeGUID: 9ee44312-e872-4c18-a6f5-754bc7e47de1
-    inputFieldName: inputStateV
-    outputFieldName: outputTransitionsV
-    inputPortIdentifier: 
-    outputPortIdentifier: T_0_True
-  - GUID: 0aa04f47-0389-49df-a924-326c10ad3df0
-    owner: {fileID: 3925760063546396350}
-    inputNodeGUID: f4ab4ad3-382e-46ca-95b6-94076f495c68
-    outputNodeGUID: 6da8aca1-fe7a-4898-8f31-7320ffa0bec3
-    inputFieldName: inputStateV
-    outputFieldName: outputTransitionsV
-    inputPortIdentifier: 
-    outputPortIdentifier: T_0_True
-  - GUID: b68d5af6-cce1-4d68-a2ab-7b61c594a347
-    owner: {fileID: 3925760063546396350}
-    inputNodeGUID: f4ab4ad3-382e-46ca-95b6-94076f495c68
-    outputNodeGUID: 5e00c436-5908-421d-af78-910a148e4f84
     inputFieldName: inputStateV
     outputFieldName: outputTransitionsV
     inputPortIdentifier: 
@@ -695,6 +809,38 @@ MonoBehaviour:
     outputFieldName: outputTransitionsV
     inputPortIdentifier: 
     outputPortIdentifier: T_0_True
+  - GUID: 8d503e1b-3138-410d-a091-55e2810357e9
+    owner: {fileID: 3925760063546396350}
+    inputNodeGUID: 187357a2-01ea-412b-9d04-148b33e194c7
+    outputNodeGUID: 6da8aca1-fe7a-4898-8f31-7320ffa0bec3
+    inputFieldName: inputStateV
+    outputFieldName: outputTransitionsV
+    inputPortIdentifier: 
+    outputPortIdentifier: T_0_True
+  - GUID: bd9b8490-9262-4781-a8f6-ea7c1d75883f
+    owner: {fileID: 3925760063546396350}
+    inputNodeGUID: f4ab4ad3-382e-46ca-95b6-94076f495c68
+    outputNodeGUID: e4161f9d-e18a-4e45-833c-78f4c922f79f
+    inputFieldName: inputStateV
+    outputFieldName: outputTransitionsV
+    inputPortIdentifier: 
+    outputPortIdentifier: T_0_True
+  - GUID: 330329c7-6b48-42cc-b260-7777fa51e250
+    owner: {fileID: 3925760063546396350}
+    inputNodeGUID: f4ab4ad3-382e-46ca-95b6-94076f495c68
+    outputNodeGUID: 187357a2-01ea-412b-9d04-148b33e194c7
+    inputFieldName: inputStateV
+    outputFieldName: outputTransitionsV
+    inputPortIdentifier: 
+    outputPortIdentifier: T_0_True
+  - GUID: 66d0bbea-866c-4990-ac93-ce063b8a5101
+    owner: {fileID: 3925760063546396350}
+    inputNodeGUID: e4161f9d-e18a-4e45-833c-78f4c922f79f
+    outputNodeGUID: 5e00c436-5908-421d-af78-910a148e4f84
+    inputFieldName: inputStateV
+    outputFieldName: outputTransitionsV
+    inputPortIdentifier: 
+    outputPortIdentifier: T_0_True
   groups: []
   stackNodes: []
   pinnedElements: []
@@ -702,8 +848,8 @@ MonoBehaviour:
   serializedParameterList: []
   stickyNotes: []
   nodeInspectorReference: {fileID: 0}
-  position: {x: 398, y: 60, z: 0}
-  scale: {x: 0.2842624, y: 0.2842624, z: 1}
+  position: {x: 345, y: -1275, z: 0}
+  scale: {x: 1.15, y: 1.15, z: 1}
   targetStateMachine: {fileID: 11400000}
   references:
     version: 2
@@ -716,8 +862,8 @@ MonoBehaviour:
         computeOrder: 0
         position:
           serializedVersion: 2
-          x: 27.999971
-          y: -150.39185
+          x: 28.00005
+          y: -107.14765
           width: 106
           height: 75
         expanded: 1
@@ -732,10 +878,10 @@ MonoBehaviour:
         computeOrder: 2
         position:
           serializedVersion: 2
-          x: 133.99997
-          y: 39.608162
+          x: 134.00003
+          y: 30.99998
           width: 400
-          height: 358
+          height: 319
         expanded: 0
         debug: 0
         nodeLock: 0
@@ -752,10 +898,10 @@ MonoBehaviour:
         computeOrder: 1
         position:
           serializedVersion: 2
-          x: 133.99997
-          y: -150.39185
+          x: 134.00003
+          y: -113.99997
           width: 400
-          height: 184
+          height: 145
         expanded: 0
         debug: 0
         nodeLock: 0
@@ -772,10 +918,10 @@ MonoBehaviour:
         computeOrder: -2
         position:
           serializedVersion: 2
-          x: -66.000046
-          y: 1589.9
+          x: -66.00005
+          y: 1793.1125
           width: 400
-          height: 187
+          height: 144
         expanded: 0
         debug: 0
         nodeLock: 0
@@ -792,10 +938,10 @@ MonoBehaviour:
         computeOrder: -2
         position:
           serializedVersion: 2
-          x: 134
-          y: 470
+          x: 133.99995
+          y: 350.00003
           width: 400
-          height: 527
+          height: 429
         expanded: 0
         debug: 0
         nodeLock: 0
@@ -812,10 +958,10 @@ MonoBehaviour:
         computeOrder: -2
         position:
           serializedVersion: 2
-          x: -266.00006
-          y: 1076.9
+          x: -265.9999
+          y: 887.1588
           width: 400
-          height: 425
+          height: 383
         expanded: 0
         debug: 0
         nodeLock: 0
@@ -832,10 +978,10 @@ MonoBehaviour:
         computeOrder: -2
         position:
           serializedVersion: 2
-          x: 133.99998
-          y: 1076.9
+          x: 134.00003
+          y: 887.1588
           width: 400
-          height: 425
+          height: 383
         expanded: 0
         debug: 0
         nodeLock: 0
@@ -853,9 +999,9 @@ MonoBehaviour:
         position:
           serializedVersion: 2
           x: 534
-          y: 1076.9
+          y: 887.1588
           width: 400
-          height: 361
+          height: 319
         expanded: 0
         debug: 0
         nodeLock: 0
@@ -873,13 +1019,53 @@ MonoBehaviour:
         position:
           serializedVersion: 2
           x: 534
-          y: 1438
+          y: 1206.1587
           width: 400
-          height: 425
+          height: 383
         expanded: 0
         debug: 0
         nodeLock: 0
         stateSO: {fileID: -7091550812145208786}
+        inputState: {fileID: 0}
+        inputStateV: {fileID: 0}
+        outputTransitions: {fileID: 0}
+        outputTransitionsV: {fileID: 0}
+    - rid: 8642958773444411392
+      type: {class: StateNode, ns: , asm: Assembly-CSharp}
+      data:
+        nodeCustomName: 
+        GUID: e4161f9d-e18a-4e45-833c-78f4c922f79f
+        computeOrder: -2
+        position:
+          serializedVersion: 2
+          x: -265.99994
+          y: 1270
+          width: 400
+          height: 754
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        stateSO: {fileID: 1777295629553348489}
+        inputState: {fileID: 0}
+        inputStateV: {fileID: 0}
+        outputTransitions: {fileID: 0}
+        outputTransitionsV: {fileID: 0}
+    - rid: 8642958773444411399
+      type: {class: StateNode, ns: , asm: Assembly-CSharp}
+      data:
+        nodeCustomName: 
+        GUID: 187357a2-01ea-412b-9d04-148b33e194c7
+        computeOrder: -2
+        position:
+          serializedVersion: 2
+          x: 134
+          y: 1270
+          width: 400
+          height: 754
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        stateSO: {fileID: 3715108074688683073}
         inputState: {fileID: 0}
         inputStateV: {fileID: 0}
         outputTransitions: {fileID: 0}

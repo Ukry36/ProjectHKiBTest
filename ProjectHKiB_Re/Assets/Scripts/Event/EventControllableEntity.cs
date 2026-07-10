@@ -15,23 +15,41 @@ public class EntityInitializeInfo
 
 public class EventControllableEntity : EventControllableBase<StateController>
 {
-    public List<EntityInitializeInfo> InitInfos { get; set; }
-
-    public override void Initialize()
+    public void Initialize(List<EntityInitializeInfo> initinfos)
     {
         EventManager eventManager = GameManager.instance.eventManager;
-        for (int i = 0; i < InitInfos.Count; i++)
+        for (int i = 0; i < initinfos.Count; i++)
         {
-            if (eventManager.eventFlags.ContainsKey(InitInfos[i].eventFlag)
-             && eventManager.eventFlags[InitInfos[i].eventFlag] == InitInfos[i].eventFlagCondition)
+            if (eventManager.eventFlags.ContainsKey(initinfos[i].eventFlag)
+             && eventManager.eventFlags[initinfos[i].eventFlag] == initinfos[i].eventFlagCondition)
             {
                 Target.Initialize();
-                Target.Initialize(InitInfos[i].stateMachine);
-                Target.ChangeState(InitInfos[i].state);
-                if (Target.TryGetInterface(out IPhysics phys)) phys.RealTeleport(InitInfos[i].position);
-                else Target.transform.position = InitInfos[i].position;
-                if (Target.TryGetInterface(out IDirAnimatable dirAnimatable)) dirAnimatable.SetAnimationDirection(InitInfos[i].dir);
+                Target.Initialize(initinfos[i].stateMachine);
+                Target.ChangeState(initinfos[i].state);
+                if (Target.TryGetInterface(out IPhysics phys)) phys.RealTeleport(initinfos[i].position);
+                else Target.transform.position = initinfos[i].position;
+                if (Target.TryGetInterface(out IDirAnimatable dirAnimatable)) dirAnimatable.SetAnimationDirection(initinfos[i].dir);
             }
         }
     }
+
+#if UNITY_EDITOR
+    public Action<string, EntityInitializeInfo> saveToMapDataSO;
+    public void SaveCurrentStateToInitInfo(EventFlagSO flag, int flagValue)
+    {
+        EnumManager.AnimDir dir = EnumManager.AnimDir.D;
+        if (Target.TryGetInterface(out IDirAnimatable animatable)) dir = animatable.AnimationDirection;
+
+        EntityInitializeInfo info = new()
+        {
+            eventFlag = flag,
+            eventFlagCondition = flagValue,
+            position = Target.transform.position,
+            dir = dir,
+            stateMachine = Target.StateMachine,
+            state = Target.CurrentState
+        };
+        saveToMapDataSO.Invoke(ID, info);
+    }
+#endif
 }

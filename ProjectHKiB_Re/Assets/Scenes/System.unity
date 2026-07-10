@@ -3692,7 +3692,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   localManager: {fileID: 0}
-  temp: {fileID: 11400000, guid: 0e206c1f89d359f46a996f13d7a8dd1c, type: 2}
+  initialMap: {fileID: 11400000, guid: 0e206c1f89d359f46a996f13d7a8dd1c, type: 2}
 --- !u!1 &79349639
 GameObject:
   m_ObjectHideFlags: 0
@@ -15814,6 +15814,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: player
   Target: {fileID: 327803505}
+  InitInfos: []
 --- !u!1 &331044352
 GameObject:
   m_ObjectHideFlags: 0
@@ -65091,6 +65092,7 @@ GameObject:
   - component: {fileID: 1346231657}
   - component: {fileID: 1346231658}
   - component: {fileID: 1346231659}
+  - component: {fileID: 1346231660}
   m_Layer: 0
   m_Name: EventManager
   m_TagString: Untagged
@@ -65137,7 +65139,9 @@ MonoBehaviour:
   TransitionConditions: 
   Timers: []
   eventFlags:
-    _serializedList: []
+    _serializedList:
+    - Key: {fileID: 11400000, guid: 015d48b9281ebbb4ab3a097627104cff, type: 2}
+      Value: 0
   currentTargets:
     targetEntities:
       _serializedList: []
@@ -65167,6 +65171,18 @@ MonoBehaviour:
   _subLineIndex: 0
   _isLineEnded: 0
   _choicedNum: 0
+--- !u!114 &1346231660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1346231656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e86eb1f004a83d499a0016508b00915, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1346628692
 GameObject:
   m_ObjectHideFlags: 0

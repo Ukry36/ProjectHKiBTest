@@ -10,8 +10,13 @@ public class MapManager : MonoBehaviour
     public MapDataSO CurrentMapData { get; private set; }
     public MapLocalManager localManager;
 
-    public MapDataSO temp;
-    [NaughtyAttributes.Button] public void LoadMap() => LoadMap(temp);
+    public MapDataSO initialMap;
+    [NaughtyAttributes.Button] public void LoadMap() => LoadMap(initialMap);
+
+    public void Start()
+    {
+        LoadMap();
+    }
 
     public void LoadMap(MapDataSO mapData)
     {

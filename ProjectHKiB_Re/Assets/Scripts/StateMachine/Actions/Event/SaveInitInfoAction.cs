@@ -5,31 +5,30 @@ namespace StateMachine
     [System.Serializable]
     public class SaveInitInfoAction : StateAction
     {
+        public string[] targetIDs;
         public EventFlagSO flag;
         public int flagValue;
         public override void Act(StateController stateController)
         {
+#if UNITY_EDITOR
             if (stateController.TryGetInterface(out IEvent @event))
             {
-                EventControllableEntity[] targets = @event.CurrentTargets.targetEntities.Values.ToArray();
-                for (int i = 0; i < targets.Length; i++)
+                for (int i = 0; i < targetIDs.Length; i++)
                 {
-                    EnumManager.AnimDir dir = EnumManager.AnimDir.D;
-                    if (targets[i].Target.TryGetInterface(out IDirAnimatable animatable)) dir = animatable.AnimationDirection;
+                    if (!@event.CurrentTargets.targetEntities.ContainsKey(targetIDs[i])) continue;
+                    EventControllableEntity target = @event.CurrentTargets.targetEntities[targetIDs[i]];
+                    target.SaveCurrentStateToInitInfo(flag, flagValue);
+                }
 
-                    EntityInitializeInfo info = new()
-                    {
-                        eventFlag = flag,
-                        eventFlagCondition = flagValue,
-                        position = targets[i].Target.transform.position,
-                        dir = dir,
-                        stateMachine = targets[i].Target.StateMachine,
-                        state = targets[i].Target.CurrentState
-                    };
-                    targets[i].InitInfos.Add(info);
+                for (int i = 0; i < targetIDs.Length; i++)
+                {
+                    if (!@event.CurrentTargets.targetAnimations.ContainsKey(targetIDs[i])) continue;
+                    EventControllableAnimation target = @event.CurrentTargets.targetAnimations[targetIDs[i]];
+                    target.SaveCurrentStateToInitInfo(flag, flagValue);
                 }
             }
             else Debug.LogError("ERROR: Interface Not Found!!!");
+#endif
         }
     }
 }

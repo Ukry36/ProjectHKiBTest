@@ -95,7 +95,7 @@ public class DialogueModule : InterfaceModule, IDialogueable
     {
         _isLineEnded = true;
         choicePanel.SetActive(false);
-        if (_currentLine.isChoice) { UnBindUpdateChoice(); Debug.Log("choice exit: " + _choicedNum); }
+        if (_currentLine.isChoice) UnBindUpdateChoice();
         else UnBindUpdateLine();
     }
 
