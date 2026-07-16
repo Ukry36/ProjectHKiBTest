@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AYellowpaper.SerializedCollections;
 using UnityEngine;
 public class InventoryManager : MonoBehaviour
 {
-    public Dictionary<int, Item> playerInventory = new();
-    public Dictionary<int, Gear> playerGearInventory = new();
+    public SerializedDictionary<int, Item> playerInventory = new();
+    public SerializedDictionary<int, Gear> playerGearInventory = new();
 
     public Action OnInventoryChanged;
     public Action OnGearInventoryChanged;

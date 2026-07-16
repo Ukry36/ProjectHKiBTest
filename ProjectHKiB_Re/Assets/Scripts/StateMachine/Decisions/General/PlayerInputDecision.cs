@@ -1,13 +1,27 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 namespace StateMachine
 {
     [System.Serializable]
     public class PlayerInputDecision : StateDecision
     {
+        [SerializeField] private InputActionReference _trigger;
+        [SerializeField] private EnumManager.InputProcessType _type;
         [SerializeField] private EnumManager.InputType _inputType;
         public override bool Decide(StateController stateController)
         {
-            return GameManager.instance.inputManager.GetInputByEnum(_inputType);
+            if (_trigger == null) return false;
+            return _type switch
+            {
+                EnumManager.InputProcessType.InProgress => _trigger.action.inProgress,// these will not be scanned and return immediatly
+                EnumManager.InputProcessType.Triggered => _trigger.action.triggered,
+                EnumManager.InputProcessType.Enabled => _trigger.action.enabled,
+                EnumManager.InputProcessType.WasPerformedThisFrame => _trigger.action.WasPerformedThisFrame(),
+                EnumManager.InputProcessType.WasPressedThisFrame => _trigger.action.WasPressedThisFrame(),
+                EnumManager.InputProcessType.WasReleasedThisFrame => _trigger.action.WasReleasedThisFrame(),
+                _ => false,
+            };
+            //return GameManager.instance.inputManager.GetInputByEnum(_inputType);
         }
     }
 }

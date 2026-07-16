@@ -4,13 +4,17 @@ using UnityEngine.InputSystem;
 [Serializable]
 public class CommandPair
 {
-    public CommandPair (StateSO conditionState, EnumManager.InputType triggerInput)
+    public CommandPair(StateSO conditionState, EnumManager.InputType triggerInput, InputActionReference trigger, EnumManager.InputActionType type)
     {
         this.conditionState = conditionState;
         this.triggerInput = triggerInput;
+        this.trigger = trigger;
+        this.type = type;
     }
     public StateSO conditionState;
     public EnumManager.InputType triggerInput;
+    public InputActionReference trigger;
+    public EnumManager.InputActionType type;
 
     private Action<InputAction.CallbackContext> _cachedBindFunction;
 
@@ -24,12 +28,24 @@ public class CommandPair
                 stateController.CurrentState.CheckInputDecision(stateController, triggerInput);
         };
 
-        GameManager.instance.inputManager.Bind(triggerInput, _cachedBindFunction);
+        InputManager inputManager = GameManager.instance.inputManager;
+
+        switch (type)
+        {
+            case EnumManager.InputActionType.Performed: trigger.action.performed += _cachedBindFunction; break;
+            case EnumManager.InputActionType.Started: trigger.action.started += _cachedBindFunction; break;
+            case EnumManager.InputActionType.Canceled: trigger.action.canceled += _cachedBindFunction; break;
+        }
     }
 
     public void Unbind()
     {
-        GameManager.instance.inputManager.UnBind(triggerInput, _cachedBindFunction);
+        switch (type)
+        {
+            case EnumManager.InputActionType.Performed: trigger.action.performed -= _cachedBindFunction; break;
+            case EnumManager.InputActionType.Started: trigger.action.started -= _cachedBindFunction; break;
+            case EnumManager.InputActionType.Canceled: trigger.action.canceled -= _cachedBindFunction; break;
+        }
         _cachedBindFunction = null;
     }
 

@@ -1,5 +1,6 @@
 using StateMachine;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [System.Serializable]
 public class StateTransition
@@ -13,6 +14,8 @@ public class StateTransition
     }
 
     public EnumManager.InputType activationInput = EnumManager.InputType.None;
+    public InputActionReference trigger;
+    public EnumManager.InputActionType type;
     public float availableTime;
     public float disableTime;
     public DecisionSet[] decisions;

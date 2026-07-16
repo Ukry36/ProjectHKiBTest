@@ -35,52 +35,6 @@ public class InputManager : MonoBehaviour, @PlayerAction.IPLAYActions, PlayerAct
         };
     }
 
-    public void Bind(EnumManager.InputType inputType, Action<InputAction.CallbackContext> action)
-    {
-        switch (inputType)
-        {
-            case EnumManager.InputType.OnAttack: inputs.PLAY.Attack.performed += action; break;
-            case EnumManager.InputType.OnDodge: inputs.PLAY.Dodge.performed += action; break;
-            case EnumManager.InputType.OnConfirm: inputs.PLAY.Confirm.performed += action; break;
-            case EnumManager.InputType.OnSkill: inputs.PLAY.Skill.performed += action; break;
-            case EnumManager.InputType.OnGraffiti: inputs.PLAY.GraffitiSystem.performed += action; break;
-            case EnumManager.InputType.OnGraffitiMoveDown: inputs.GRAFFITI.MovePressedD.performed += action; break;
-            case EnumManager.InputType.OnGraffitiMoveLeft: inputs.GRAFFITI.MovePressedL.performed += action; break;
-            case EnumManager.InputType.OnGraffitiMoveRight: inputs.GRAFFITI.MovePressedR.performed += action; break;
-            case EnumManager.InputType.OnGraffitiMoveUp: inputs.GRAFFITI.MovePressedU.performed += action; break;
-            case EnumManager.InputType.OnGraffitiAttack: inputs.GRAFFITI.Attack.performed += action; break;
-            case EnumManager.InputType.OnGraffitiSkill: inputs.GRAFFITI.Skill.performed += action; break;
-            case EnumManager.InputType.OnGraffitiReset: inputs.GRAFFITI.GraffitiSystem.performed += action; break;
-            case EnumManager.InputType.OnGraffitiCancel: inputs.GRAFFITI.Cancel.performed += action; break;
-            case EnumManager.InputType.OnSubmit: inputs.MENU.Submit.performed += action; break;
-            default: break;
-        }
-        ;
-    }
-
-    public void UnBind(EnumManager.InputType inputType, Action<InputAction.CallbackContext> action)
-    {
-        switch (inputType)
-        {
-            case EnumManager.InputType.OnAttack: inputs.PLAY.Attack.performed -= action; break;
-            case EnumManager.InputType.OnDodge: inputs.PLAY.Dodge.performed -= action; break;
-            case EnumManager.InputType.OnConfirm: inputs.PLAY.Confirm.performed -= action; break;
-            case EnumManager.InputType.OnSkill: inputs.PLAY.Skill.performed -= action; break;
-            case EnumManager.InputType.OnGraffiti: inputs.PLAY.GraffitiSystem.performed -= action; break;
-            case EnumManager.InputType.OnGraffitiMoveDown: inputs.GRAFFITI.MovePressedD.performed -= action; break;
-            case EnumManager.InputType.OnGraffitiMoveLeft: inputs.GRAFFITI.MovePressedL.performed -= action; break;
-            case EnumManager.InputType.OnGraffitiMoveRight: inputs.GRAFFITI.MovePressedR.performed -= action; break;
-            case EnumManager.InputType.OnGraffitiMoveUp: inputs.GRAFFITI.MovePressedU.performed -= action; break;
-            case EnumManager.InputType.OnGraffitiAttack: inputs.GRAFFITI.Attack.performed -= action; break;
-            case EnumManager.InputType.OnGraffitiSkill: inputs.GRAFFITI.Skill.performed -= action; break;
-            case EnumManager.InputType.OnGraffitiReset: inputs.GRAFFITI.GraffitiSystem.performed -= action; break;
-            case EnumManager.InputType.OnGraffitiCancel: inputs.GRAFFITI.Cancel.performed -= action; break;
-            case EnumManager.InputType.OnSubmit: inputs.MENU.Submit.performed -= action; break;
-            default: break;
-        }
-        ;
-    }
-
     public void PLAYMode()
     {
         inputs.PLAY.Enable();
@@ -170,4 +124,14 @@ public class InputManager : MonoBehaviour, @PlayerAction.IPLAYActions, PlayerAct
     public void OnTrackedDevicePosition(InputAction.CallbackContext context) { }
 
     public void OnTrackedDeviceOrientation(InputAction.CallbackContext context) { }
+
+    public void OnGraffiti1(InputAction.CallbackContext context) { }
+
+    public void OnGraffiti2(InputAction.CallbackContext context) { }
+
+    public void OnGraffiti3(InputAction.CallbackContext context) { }
+
+    public void OnGraffiti4(InputAction.CallbackContext context) { }
+
+    public void OnGraffiti5(InputAction.CallbackContext context) { }
 }

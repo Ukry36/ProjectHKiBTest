@@ -5,14 +5,14 @@ using UnityEngine;
 
 public static class Extensions
 {
-    public static TValue GetSafe<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key, TValue defaultValue = default) 
+    public static TValue GetSafe<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key, TValue defaultValue = default)
     {
         if (key == null || dict == null) return defaultValue;
         if (!dict.ContainsKey(key)) return defaultValue;
         return dict[key];
     }
 
-    public static void AddSafe<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key, TValue value) 
+    public static void AddSafe<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key, TValue value)
     {
         if (dict == null || key == null) return;
         dict.Add(key, value);
@@ -25,26 +25,26 @@ public static class Extensions
         return list[index];
     }
 
-    public static string GetPath(this Component component) 
+    public static string GetPath(this Component component)
     {
-        try 
+        try
         {
             if (component == null || component.gameObject == null) return "";
             return component.transform.GetPath() + "/" + component.GetType().ToString();
-        } 
-        catch (Exception e) 
+        }
+        catch (Exception e)
         {
             return "[path undetermined, error " + e + "]";
         }
     }
 
-    public static string GetPath(this Transform current) 
+    public static string GetPath(this Transform current)
     {
-        if (current == null) 
+        if (current == null)
         {
             return "NULL";
         }
-        if (current.parent == null) 
+        if (current.parent == null)
         {
             return "/" + current.name;
         }
@@ -77,7 +77,7 @@ public static class Extensions
 
     public static List<T> ShuffleList<T>(this List<T> list)
     {
-        int random1,  random2;
+        int random1, random2;
         T temp;
 
         for (int i = 0; i < list.Count; ++i)
@@ -91,5 +91,13 @@ public static class Extensions
         }
 
         return list;
+    }
+
+    public static T CloneObject<T>(T source)
+    {
+        if (ReferenceEquals(source, null)) return default;
+
+        string json = JsonUtility.ToJson(source);
+        return JsonUtility.FromJson<T>(json);
     }
 }

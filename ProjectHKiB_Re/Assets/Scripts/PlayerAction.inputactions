@@ -112,6 +112,51 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Graffiti1",
+                    "type": "Value",
+                    "id": "4bf05f2d-c114-4d9b-87f3-23499db6b170",
+                    "expectedControlType": "Integer",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Graffiti2",
+                    "type": "Button",
+                    "id": "dd21d9d8-77e4-4a4f-b109-79dc39e580f8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Graffiti3",
+                    "type": "Button",
+                    "id": "8bb4bc52-f30c-407f-af63-e0958ffb0e50",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Graffiti4",
+                    "type": "Button",
+                    "id": "918ff8cb-bfb4-4b2e-8753-fe0eb5d626f6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Graffiti5",
+                    "type": "Button",
+                    "id": "c135f583-110f-4643-b758-977a5cdd278c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -321,6 +366,61 @@
                     "processors": "",
                     "groups": "",
                     "action": "MovePressedL",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "172e8014-cad4-400e-b154-705ccbff0709",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Graffiti1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6837c169-ca4e-4d9f-8fed-d5d8ac83a7b3",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Graffiti2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "75263458-895e-4074-a599-a8e67466b2dc",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Graffiti3",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "212fdb9f-296c-4ad7-884a-b405a8ec35a0",
+                    "path": "<Keyboard>/4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Graffiti4",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6f635be5-5b0d-448a-8ddb-552fc090b6d9",
+                    "path": "<Keyboard>/5",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Graffiti5",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -950,6 +1050,51 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Graffiti1",
+                    "type": "Value",
+                    "id": "1e58b2fe-933e-4ffc-864c-63b78c89e6a3",
+                    "expectedControlType": "Integer",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Graffiti2",
+                    "type": "Button",
+                    "id": "e1e10630-e778-4325-9875-8915e9b08735",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Graffiti3",
+                    "type": "Button",
+                    "id": "bb475f7d-aebb-48c6-a12c-52a106369b65",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Graffiti4",
+                    "type": "Button",
+                    "id": "611d9c06-6171-4a6a-8998-b99cbb2fd70e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Graffiti5",
+                    "type": "Button",
+                    "id": "df7c7183-8134-4dc4-b961-f31e09c7757c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1038,6 +1183,61 @@
                     "processors": "",
                     "groups": "",
                     "action": "Cancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "751bd189-59fb-414e-bf62-ee18d7656bc8",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Graffiti1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "be8f2101-47bb-476e-b14d-caa239493936",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Graffiti2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b1b5eb78-06a1-456e-a83b-8ac24161d853",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Graffiti3",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fc41594b-c8c7-499f-abd0-a3c7b757b007",
+                    "path": "<Keyboard>/4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Graffiti4",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "760decb7-5f58-4aa5-8bd5-7b81327c8823",
+                    "path": "<Keyboard>/5",
+                    "interactions": "Hold",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Graffiti5",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

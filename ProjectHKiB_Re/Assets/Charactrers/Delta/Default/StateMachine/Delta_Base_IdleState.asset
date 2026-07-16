@@ -19,38 +19,88 @@ MonoBehaviour:
   transitions:
   - name: 
     activationInput: 10
+    _trigger: {fileID: 0}
+    _type: 0
     availableTime: 0
     disableTime: 0
     decisions:
-    - decision: {fileID: 11400000, guid: 35a37da16a3d9df4189d1ba8142bdbc6, type: 2}
-      Decision:
+    - Decision:
         rid: 8642958643451396429
       negate: 0
     trueState: {fileID: 11400000, guid: c4988881f5b496d4f8a6acc87ca839d1, type: 2}
     falseState: {fileID: 0}
-    action: {fileID: 0}
     Action:
       rid: -2
     showTrueStatePort: 1
     showFalseStatePort: 1
   - name: 
     activationInput: 13
+    _trigger: {fileID: -3516219743474145824, guid: c50fdcfdee068de4e88e8ba3f400141b, type: 3}
+    _type: 1
     availableTime: 0
     disableTime: 0
     decisions: []
     trueState: {fileID: 11400000, guid: 0187dcaaf05e07247a1a34f10afb1d5b, type: 2}
     falseState: {fileID: 0}
-    action: {fileID: 0}
+    Action:
+      rid: -2
+    showTrueStatePort: 1
+    showFalseStatePort: 1
+  - name: 
+    activationInput: 13
+    _trigger: {fileID: -835859375761437590, guid: c50fdcfdee068de4e88e8ba3f400141b, type: 3}
+    _type: 1
+    availableTime: 0
+    disableTime: 0
+    decisions: []
+    trueState: {fileID: 11400000, guid: 0187dcaaf05e07247a1a34f10afb1d5b, type: 2}
+    falseState: {fileID: 0}
+    Action:
+      rid: -2
+    showTrueStatePort: 1
+    showFalseStatePort: 1
+  - name: 
+    activationInput: 13
+    _trigger: {fileID: 3886288031618007989, guid: c50fdcfdee068de4e88e8ba3f400141b, type: 3}
+    _type: 1
+    availableTime: 0
+    disableTime: 0
+    decisions: []
+    trueState: {fileID: 11400000, guid: 0187dcaaf05e07247a1a34f10afb1d5b, type: 2}
+    falseState: {fileID: 0}
+    Action:
+      rid: -2
+    showTrueStatePort: 1
+    showFalseStatePort: 1
+  - name: 
+    activationInput: 13
+    _trigger: {fileID: 4095408534432108295, guid: c50fdcfdee068de4e88e8ba3f400141b, type: 3}
+    _type: 1
+    availableTime: 0
+    disableTime: 0
+    decisions: []
+    trueState: {fileID: 11400000, guid: 0187dcaaf05e07247a1a34f10afb1d5b, type: 2}
+    falseState: {fileID: 0}
+    Action:
+      rid: -2
+    showTrueStatePort: 1
+    showFalseStatePort: 1
+  - name: 
+    activationInput: 13
+    _trigger: {fileID: 7265750507833155019, guid: c50fdcfdee068de4e88e8ba3f400141b, type: 3}
+    _type: 1
+    availableTime: 0
+    disableTime: 0
+    decisions: []
+    trueState: {fileID: 11400000, guid: 0187dcaaf05e07247a1a34f10afb1d5b, type: 2}
+    falseState: {fileID: 0}
     Action:
       rid: -2
     showTrueStatePort: 1
     showFalseStatePort: 1
   additionalTransitions: []
-  enterActions: []
   EnterActions: []
-  updateActions: []
   UpdateActions: []
-  exitActions: []
   ExitActions: []
   actionSequence: []
   loopActionSequence: 0
@@ -66,4 +116,6 @@ MonoBehaviour:
     - rid: 8642958643451396429
       type: {class: PlayerInputDecision, ns: StateMachine, asm: Assembly-CSharp}
       data:
+        _trigger: {fileID: 6923667502783770647, guid: c50fdcfdee068de4e88e8ba3f400141b, type: 3}
+        _type: 0
         _inputType: 0

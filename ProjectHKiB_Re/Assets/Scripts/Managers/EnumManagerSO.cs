@@ -45,21 +45,20 @@ public class EnumManager
         NotSame
     }
 
-    public enum BoolCompareType
+    public enum InputActionType
     {
-        And,
-        Or,
-        Xor,
-        Nand,
-        Nor,
-        Xnor,
+        Performed,
+        Started,
+        Canceled,
     }
 
-    public enum VariableType
+    public enum InputProcessType
     {
-        Bool,
-        Int,
-        Float,
-        
+        InProgress,
+        Triggered,
+        Enabled,
+        WasPerformedThisFrame,
+        WasPressedThisFrame,
+        WasReleasedThisFrame
     }
 }

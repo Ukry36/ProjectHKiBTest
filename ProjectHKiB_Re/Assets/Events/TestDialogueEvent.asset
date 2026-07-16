@@ -19,6 +19,8 @@ MonoBehaviour:
   transitions:
   - name: Out
     activationInput: 10
+    _trigger: {fileID: 0}
+    _type: 0
     availableTime: 0
     disableTime: 0
     decisions: []
@@ -73,6 +75,8 @@ MonoBehaviour:
   transitions:
   - name: Ended
     activationInput: 11
+    _trigger: {fileID: 0}
+    _type: 0
     availableTime: 0
     disableTime: 0
     decisions:
@@ -142,6 +146,8 @@ MonoBehaviour:
   transitions:
   - name: Ended
     activationInput: 11
+    _trigger: {fileID: 0}
+    _type: 0
     availableTime: 0
     disableTime: 0
     decisions:
@@ -210,6 +216,8 @@ MonoBehaviour:
   transitions:
   - name: Ended
     activationInput: 11
+    _trigger: {fileID: 0}
+    _type: 0
     availableTime: 0
     disableTime: 0
     decisions:
@@ -279,6 +287,8 @@ MonoBehaviour:
   transitions:
   - name: Ended
     activationInput: 11
+    _trigger: {fileID: 0}
+    _type: 0
     availableTime: 0
     disableTime: 0
     decisions:
@@ -340,6 +350,8 @@ MonoBehaviour:
   transitions:
   - name: Out
     activationInput: 10
+    _trigger: {fileID: 0}
+    _type: 0
     availableTime: 0
     disableTime: 0
     decisions: []
@@ -400,14 +412,19 @@ MonoBehaviour:
   _commandPairs:
   - conditionState: {fileID: -7091550812145208786}
     triggerInput: 11
+    trigger: {fileID: 0}
   - conditionState: {fileID: -6428425245702133382}
     triggerInput: 11
+    trigger: {fileID: 0}
   - conditionState: {fileID: -3087853503153099969}
     triggerInput: 11
+    trigger: {fileID: 0}
   - conditionState: {fileID: -4593752305363603860}
     triggerInput: 11
+    trigger: {fileID: 0}
   - conditionState: {fileID: 372308315564986551}
     triggerInput: 11
+    trigger: {fileID: 0}
   involvedEventTargets:
   - ID: player
     targetSearchType: 0
@@ -440,6 +457,8 @@ MonoBehaviour:
   transitions:
   - name: Ended
     activationInput: 11
+    _trigger: {fileID: 0}
+    _type: 0
     availableTime: 0
     disableTime: 0
     decisions:
@@ -510,6 +529,8 @@ MonoBehaviour:
   transitions:
   - name: 0
     activationInput: 10
+    _trigger: {fileID: 0}
+    _type: 0
     availableTime: 0
     disableTime: 0
     decisions:
@@ -524,6 +545,8 @@ MonoBehaviour:
     showFalseStatePort: 0
   - name: 1
     activationInput: 10
+    _trigger: {fileID: 0}
+    _type: 0
     availableTime: 0
     disableTime: 0
     decisions:
@@ -538,6 +561,8 @@ MonoBehaviour:
     showFalseStatePort: 0
   - name: 2
     activationInput: 10
+    _trigger: {fileID: 0}
+    _type: 0
     availableTime: 0
     disableTime: 0
     decisions:
@@ -612,6 +637,8 @@ MonoBehaviour:
   transitions:
   - name: 
     activationInput: 10
+    _trigger: {fileID: 0}
+    _type: 0
     availableTime: 0
     disableTime: 0
     decisions: []
@@ -676,6 +703,8 @@ MonoBehaviour:
   transitions:
   - name: 
     activationInput: 10
+    _trigger: {fileID: 0}
+    _type: 0
     availableTime: 0
     disableTime: 0
     decisions: []
@@ -848,8 +877,8 @@ MonoBehaviour:
   serializedParameterList: []
   stickyNotes: []
   nodeInspectorReference: {fileID: 0}
-  position: {x: 345, y: -1275, z: 0}
-  scale: {x: 1.15, y: 1.15, z: 1}
+  position: {x: 272, y: -107, z: 0}
+  scale: {x: 0.375937, y: 0.375937, z: 1}
   targetStateMachine: {fileID: 11400000}
   references:
     version: 2

@@ -22,8 +22,8 @@ public class StateMachineSO : ScriptableObject
             state.temporaryID = Random.value;
             foreach (StateTransition transition in state.transitions)
             {
-                if (transition.activationInput != EnumManager.InputType.None)
-                    _commandPairs.Add(new(state, transition.activationInput));
+                if (transition.activationInput != EnumManager.InputType.None || transition.trigger)
+                    _commandPairs.Add(new(state, transition.activationInput, transition.trigger, transition.type));
             }
         }
     }
