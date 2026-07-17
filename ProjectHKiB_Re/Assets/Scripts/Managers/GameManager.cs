@@ -12,7 +12,6 @@ public class GameManager : MonoBehaviour
     public ChunkManager chunkManager;
     public CameraManager cameraManager;
     public CooltimeManager cooltimeManager;
-    public EnemyManager enemyManager;
     public ObjectSpawnManager objectSpawnManager;
     public ObjectDeathCountManager objectDeathCountManager;
     public DatabaseManager databaseManager;

@@ -19,8 +19,8 @@ MonoBehaviour:
   transitions:
   - name: Out
     activationInput: 10
-    _trigger: {fileID: 0}
-    _type: 0
+    trigger: {fileID: 0}
+    type: 0
     availableTime: 0
     disableTime: 0
     decisions: []
@@ -75,8 +75,8 @@ MonoBehaviour:
   transitions:
   - name: Ended
     activationInput: 11
-    _trigger: {fileID: 0}
-    _type: 0
+    trigger: {fileID: 0}
+    type: 0
     availableTime: 0
     disableTime: 0
     decisions:
@@ -146,8 +146,8 @@ MonoBehaviour:
   transitions:
   - name: Ended
     activationInput: 11
-    _trigger: {fileID: 0}
-    _type: 0
+    trigger: {fileID: 0}
+    type: 0
     availableTime: 0
     disableTime: 0
     decisions:
@@ -216,8 +216,8 @@ MonoBehaviour:
   transitions:
   - name: Ended
     activationInput: 11
-    _trigger: {fileID: 0}
-    _type: 0
+    trigger: {fileID: 0}
+    type: 0
     availableTime: 0
     disableTime: 0
     decisions:
@@ -287,8 +287,8 @@ MonoBehaviour:
   transitions:
   - name: Ended
     activationInput: 11
-    _trigger: {fileID: 0}
-    _type: 0
+    trigger: {fileID: 0}
+    type: 0
     availableTime: 0
     disableTime: 0
     decisions:
@@ -350,8 +350,8 @@ MonoBehaviour:
   transitions:
   - name: Out
     activationInput: 10
-    _trigger: {fileID: 0}
-    _type: 0
+    trigger: {fileID: 0}
+    type: 0
     availableTime: 0
     disableTime: 0
     decisions: []
@@ -413,18 +413,23 @@ MonoBehaviour:
   - conditionState: {fileID: -7091550812145208786}
     triggerInput: 11
     trigger: {fileID: 0}
+    type: 0
   - conditionState: {fileID: -6428425245702133382}
     triggerInput: 11
     trigger: {fileID: 0}
+    type: 0
   - conditionState: {fileID: -3087853503153099969}
     triggerInput: 11
     trigger: {fileID: 0}
+    type: 0
   - conditionState: {fileID: -4593752305363603860}
     triggerInput: 11
     trigger: {fileID: 0}
+    type: 0
   - conditionState: {fileID: 372308315564986551}
     triggerInput: 11
     trigger: {fileID: 0}
+    type: 0
   involvedEventTargets:
   - ID: player
     targetSearchType: 0
@@ -457,8 +462,8 @@ MonoBehaviour:
   transitions:
   - name: Ended
     activationInput: 11
-    _trigger: {fileID: 0}
-    _type: 0
+    trigger: {fileID: 0}
+    type: 0
     availableTime: 0
     disableTime: 0
     decisions:
@@ -529,8 +534,8 @@ MonoBehaviour:
   transitions:
   - name: 0
     activationInput: 10
-    _trigger: {fileID: 0}
-    _type: 0
+    trigger: {fileID: 0}
+    type: 0
     availableTime: 0
     disableTime: 0
     decisions:
@@ -545,8 +550,8 @@ MonoBehaviour:
     showFalseStatePort: 0
   - name: 1
     activationInput: 10
-    _trigger: {fileID: 0}
-    _type: 0
+    trigger: {fileID: 0}
+    type: 0
     availableTime: 0
     disableTime: 0
     decisions:
@@ -561,8 +566,8 @@ MonoBehaviour:
     showFalseStatePort: 0
   - name: 2
     activationInput: 10
-    _trigger: {fileID: 0}
-    _type: 0
+    trigger: {fileID: 0}
+    type: 0
     availableTime: 0
     disableTime: 0
     decisions:
@@ -637,8 +642,8 @@ MonoBehaviour:
   transitions:
   - name: 
     activationInput: 10
-    _trigger: {fileID: 0}
-    _type: 0
+    trigger: {fileID: 0}
+    type: 0
     availableTime: 0
     disableTime: 0
     decisions: []
@@ -703,8 +708,8 @@ MonoBehaviour:
   transitions:
   - name: 
     activationInput: 10
-    _trigger: {fileID: 0}
-    _type: 0
+    trigger: {fileID: 0}
+    type: 0
     availableTime: 0
     disableTime: 0
     decisions: []
@@ -773,6 +778,7 @@ MonoBehaviour:
   - rid: 8642958709715894376
   - rid: 8642958773444411392
   - rid: 8642958773444411399
+  - rid: 8642958910833033235
   edges:
   - GUID: 473d5d9e-24d7-4883-9a06-81158c588609
     owner: {fileID: 3925760063546396350}
@@ -877,8 +883,8 @@ MonoBehaviour:
   serializedParameterList: []
   stickyNotes: []
   nodeInspectorReference: {fileID: 0}
-  position: {x: 272, y: -107, z: 0}
-  scale: {x: 0.375937, y: 0.375937, z: 1}
+  position: {x: -407, y: -1199, z: 0}
+  scale: {x: 0.8695652, y: 0.8695652, z: 1}
   targetStateMachine: {fileID: 11400000}
   references:
     version: 2
@@ -1095,6 +1101,26 @@ MonoBehaviour:
         debug: 0
         nodeLock: 0
         stateSO: {fileID: 3715108074688683073}
+        inputState: {fileID: 0}
+        inputStateV: {fileID: 0}
+        outputTransitions: {fileID: 0}
+        outputTransitionsV: {fileID: 0}
+    - rid: 8642958910833033235
+      type: {class: StateNode, ns: , asm: Assembly-CSharp}
+      data:
+        nodeCustomName: 
+        GUID: 90972e4a-7a40-4d5d-8446-58d4c3a67e98
+        computeOrder: 3
+        position:
+          serializedVersion: 2
+          x: 1001.6501
+          y: 1560.5502
+          width: 100
+          height: 100
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        stateSO: {fileID: 0}
         inputState: {fileID: 0}
         inputStateV: {fileID: 0}
         outputTransitions: {fileID: 0}
