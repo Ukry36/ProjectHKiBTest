@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using R3;
 
-public class CardListView: MonoBehaviour
+public class CardListView : MonoBehaviour
 {
     public GearManagerViewModel viewModel;
 
@@ -24,7 +24,7 @@ public class CardListView: MonoBehaviour
         //viewModel.CurrentCard.Subscribe(num => SelectCard(num)).AddTo(this);
     }
 
-    public void UpdateList(List<CardData> cards)
+    public void UpdateList(List<Card> cards)
     {
         for (int i = 0; i < transform.childCount; i++)
         {
@@ -41,10 +41,10 @@ public class CardListView: MonoBehaviour
 
     public void SelectCard(int num)
     {
-        if(viewModel == null) return;
-        
+        if (viewModel == null) return;
+
         viewModel.SetCurrentEdittingCard(num);
-        if(cardSlotPreview)
+        if (cardSlotPreview)
         {
             cardSlotPreview.transform.position = transform.GetChild(num).position;
             cardSlotPreview.UpdateCard(num);

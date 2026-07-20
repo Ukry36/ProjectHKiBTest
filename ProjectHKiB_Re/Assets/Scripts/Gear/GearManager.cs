@@ -9,7 +9,7 @@ public class GearManager : MonoBehaviour
     public GearDataSO DefaultGearData { get => gearMergeManager.defaultGearData; }
 
     /*[HideInInspector]*/
-    public List<CardData> playerCardEquipData;
+    public List<Card> playerCardEquipData;
     [field: SerializeField] public int PhysicalMaxGearSlotCount { get; private set; }
 
     [SerializeField] private int _maxGearSlotCount;
@@ -57,7 +57,7 @@ public class GearManager : MonoBehaviour
 
         for (int i = 0; i < PhysicalMaxCardCount; i++)
         {
-            CardData data = new();
+            Card data = new();
             playerCardEquipData.Add(data);
             data.Initialize();
         }
@@ -108,9 +108,9 @@ public class GearManager : MonoBehaviour
         MaxGearSlotCount = max;
     }
 
-    public CardData GetCardData() => GetCardData(_currentEdittingCardNum);
+    public Card GetCardData() => GetCardData(_currentEdittingCardNum);
 
-    public CardData GetCardData(int index)
+    public Card GetCardData(int index)
     {
         if (index >= playerCardEquipData.Count || index < 0)
             return null;
@@ -118,9 +118,9 @@ public class GearManager : MonoBehaviour
         return playerCardEquipData[index];
     }
 
-    public void SetCardData(CardData data) => SetCardData(_currentEdittingCardNum, data);
+    public void SetCardData(Card data) => SetCardData(_currentEdittingCardNum, data);
 
-    public void SetCardData(int cardIndex, CardData data)
+    public void SetCardData(int cardIndex, Card data)
     {
         if (cardIndex >= playerCardEquipData.Count || cardIndex < 0)
             return;
@@ -129,7 +129,7 @@ public class GearManager : MonoBehaviour
         OnSetCardData?.Invoke();
     }
 
-    public void SetEquippedCardData(CardData data)
+    public void SetEquippedCardData(Card data)
     {
         SetCardData(equippedCardIndex, data);
     }
@@ -168,7 +168,7 @@ public class GearManager : MonoBehaviour
         OnSetCardData?.Invoke();
     }
 
-    public void EquipCard(CardData data)
+    public void EquipCard(Card data)
     {
         if (data == null) return;
         gearMergeManager.EquipMergedCard(data, MaxGearSlotCount);
@@ -180,7 +180,7 @@ public class GearManager : MonoBehaviour
         EquipCard(playerCardEquipData[index]);
     }
 
-    public void MergeGear(CardData data)
+    public void MergeGear(Card data)
     {
         if (data == null) return;
         gearMergeManager.MergeCard(data, MaxGearSlotCount);
@@ -189,7 +189,7 @@ public class GearManager : MonoBehaviour
     //버프 시스템용
     public Gear GetEquippedGear(int slotIndex)
     {
-        CardData currentCard = GetCardData(equippedCardIndex);
+        Card currentCard = GetCardData(equippedCardIndex);
         if (currentCard == null) return null;
         if (currentCard.GearList == null) return null;
         if (slotIndex < 0 || slotIndex >= currentCard.GearList.Length) return null;

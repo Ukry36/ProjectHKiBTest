@@ -62,9 +62,6 @@ public class Player : Entity
         databaseManager.SetIGraffitiable(this, BaseData);
         Initialize(BaseData.StateMachine);
         InitializeModules();
-
-        //graffiti
-        GetInterface<ISkinable>()?.ApplySkin(BaseData.AnimationData);
     }
 
     public void SetGear(MergedPlayerBaseData mergedGear)

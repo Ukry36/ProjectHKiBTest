@@ -39,9 +39,9 @@ public class Enemy : Entity, IPoolable
         databaseManager.SetIPathFindable(this, BaseData);
         databaseManager.SetIDirAnimatable(this, BaseData);
         databaseManager.SetITargetable(this, BaseData);
+        //databaseManager.SetISkinable(this, BaseData);
         Initialize(BaseData.StateMachine);
         InitializeModules();
-        GetInterface<ISkinable>()?.ApplySkin(BaseData.AnimationData);
     }
 
     public void InitializeFromPool(EnemyDataSO enemyData)

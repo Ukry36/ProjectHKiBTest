@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -22,14 +20,7 @@ public class Friendly : Entity, IPoolable
         databaseManager.SetIPathFindable(this, BaseData);
         databaseManager.SetIAnimatable(this, BaseData);
         Initialize(BaseData.StateMachine);
-        GetInterface<IPhysics>().Initialize();
-        GetInterface<IAttackable>()?.Initialize();
-        GetInterface<IDamagable>()?.Initialize();
-        GetInterface<IFootstep>()?.Initialize();
-        GetInterface<IFootstep>()?.Initialize();
-        GetInterface<ISkinable>()?.ApplySkin(BaseData.AnimationData);
-        GetInterface<ITargetable>()?.Initialize();
-        GetInterface<IAnimatable>()?.Initialize();
+        InitializeModules();
     }
 
     public void InitializeFromPool(FriendlyDataSO friendlyData)

@@ -16,7 +16,7 @@ IDamagableBase, ISkinableBase, IAnimatableBase, IFootstepBase, IGraffitiableBase
     public float GroundFriction { get; set; }
     public float AirFriction { get; set; }
     public float BounceCoeff { get; set; }
-    
+
     public float GridEndureSpeed { get; set; }
     public float GridEndureForce { get; set; }
     public float StaticEndureForce { get; set; }
@@ -56,13 +56,14 @@ IDamagableBase, ISkinableBase, IAnimatableBase, IFootstepBase, IGraffitiableBase
     public SkinDataSO SkinData { get; set; }
 
     public StateMachineSO StateMachine { get; set; }
-    public SimpleAnimationDataSO AnimationData { get; set; }
+    public SimpleAnimationDataSO MainAnimationData { get; set; }
+    public SpriteLibraryAsset MainSpriteLibrary { get; set; }
     public StatBuffCompilation JustDodgeBuff { get; set; }
 
     public EntityTypeSO entityType;
     public GearTypeSO gearType;
 
-    
+
     public SimpleAnimationDataSO EffectAnimationData { get; set; }
     public SpriteLibraryAsset EffectSpriteLibrary { get; set; }
 }

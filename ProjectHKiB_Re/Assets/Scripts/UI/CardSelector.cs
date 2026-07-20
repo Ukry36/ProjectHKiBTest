@@ -7,7 +7,7 @@ public class CardSelector : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
 {
     public int index;
     public bool highlighted;
-    public CardData cardData;
+    public Card cardData;
     public Image[] gearIcons;
     public Image[] disabledSlots;
 
@@ -23,7 +23,7 @@ public class CardSelector : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
         }
     }
 
-    public void SetCardData(CardData cardData, int index)
+    public void SetCardData(Card cardData, int index)
     {
         this.index = index;
         this.cardData = cardData;

@@ -30,7 +30,7 @@ IPathFindableBase, IDamagableBase, IPoolable, IAnimatableBase, IFootstepBase
     [field: SerializeField] public LayerMask WallLayer { get; set; }
     [field: SerializeField] public LayerMask FloorLayer { get; set; }
     [field: SerializeField] public LayerMask CanPushLayer { get; set; }
-    
+
 
     [field: Header("Attack")]
     [field: SerializeField] public int BaseATK { get; set; } = 100;
@@ -53,12 +53,12 @@ IPathFindableBase, IDamagableBase, IPoolable, IAnimatableBase, IFootstepBase
     [field: SerializeField] public StateMachineSO StateMachine { get; set; }
     [field: Header("Visual")]
     [field: SerializeField] public SkinDataSO SkinData { get; set; }
-    [field: SerializeField] public SimpleAnimationDataSO AnimationData { get; set; }
+    [field: SerializeField] public SimpleAnimationDataSO MainAnimationData { get; set; }
+    [field: SerializeField] public SpriteLibraryAsset MainSpriteLibrary { get; set; }
     [field: SerializeField] public SimpleAnimationDataSO EffectAnimationData { get; set; }
     [field: SerializeField] public SpriteLibraryAsset EffectSpriteLibrary { get; set; }
 
     public UnityEvent<int, int> OnGameObjectDisabled { get; set; }
     public float PathFindCooltime { get; set; }
-    public void OnDisable()
-    { }
+    public void OnDisable() { }
 }

@@ -172,7 +172,7 @@ public class GraffitiManager : MonoBehaviour
 
     private bool ValidateProgress(int targetSlot)
     {
-        CardData card = gearManager.GetCardData(targetSlot);
+        Card card = gearManager.GetCardData(targetSlot);
         if (card != null) return false;
         GearDataSO gear = card.mergedGearList.GetSafe(targetSlot);
         if (!gear || gear == gearManager.DefaultGearData) return false;
@@ -188,7 +188,7 @@ public class GraffitiManager : MonoBehaviour
 
     private int CheckCompleted(int targetSlot) // -1 = error, 0 = normal/failed, 1 = skill/completed
     {
-        CardData card = gearManager.GetCardData(targetSlot);
+        Card card = gearManager.GetCardData(targetSlot);
         if (card == null) return -1;
         GearDataSO gear = card.mergedGearList.GetSafe(0);
         if (!gear || gear == gearManager.DefaultGearData) return -1;

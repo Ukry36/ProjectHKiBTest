@@ -2,11 +2,12 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class CardData
+public class Card
 {
     public string cardName;
     public GearDataSO[] mergedGearList;
-    [field: SerializeField] public Gear[] GearList {get; private set;}
+    [field: SerializeField] public Gear[] GearList { get; private set; }
+    [field: SerializeField] public bool[] ActiveGearList { get; private set; }
     public void SetGear(int cardIndex, int slotIndex, Gear gear)
     {
         if (slotIndex >= 0 && slotIndex < GameManager.instance.gearManager.MaxGearSlotCount)

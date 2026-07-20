@@ -115,7 +115,7 @@ public class AttackableModule : InterfaceModule, IAttackable
         ResetSelfDamageState();
 
         if (damager != null)
-            damager.Initialize(EffectAnimationData, EffectSpriteLibrary);
+            damager.SetAnimationData(EffectAnimationData, EffectSpriteLibrary);
     }
 
     public void ResetAccuracyDebuffAttackState()

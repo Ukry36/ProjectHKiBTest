@@ -14,7 +14,7 @@ public class Damager : MonoBehaviour
             _effectAnimationPlayer[i].gameObject.SetActive(false);
     }
 
-    public void Initialize(SimpleAnimationDataSO effectAnimationData, SpriteLibraryAsset effectSpriteLibrary)
+    public void SetAnimationData(SimpleAnimationDataSO effectAnimationData, SpriteLibraryAsset effectSpriteLibrary)
     {
         for (int i = 0; i < _effectAnimationPlayer.Length; i++)
         {
@@ -73,7 +73,7 @@ public class Damager : MonoBehaviour
 
         _effectAnimationPlayer[_damageData.animPlayerNumber].gameObject.SetActive(true);
         if (_damageData.effectAnimationClipName != "") _effectAnimationPlayer[_damageData.animPlayerNumber].Play(_damageData.effectAnimationClipName);
-        
+
         EnumManager.AnimDir animDir = _effectAnimationPlayer[_damageData.animPlayerNumber].CurrentAnimDir;
 
         if (_damageData.DLRUDamageEffects.ContainsKey(animDir) && _damageData.DLRUDamageEffects[animDir])

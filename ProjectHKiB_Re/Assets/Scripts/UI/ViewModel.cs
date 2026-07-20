@@ -50,11 +50,11 @@ public class DamagableViewModel : ViewModel<IDamagable>
 
 public class GearManagerViewModel : ViewModel<GearManager>
 {
-    public ReadOnlyReactiveProperty<List<CardData>> CardList => _cardList;
+    public ReadOnlyReactiveProperty<List<Card>> CardList => _cardList;
     public ReadOnlyReactiveProperty<int> CurrentCard => _currentCard;
     public ReadOnlyReactiveProperty<int> CurrentSlot => _currentSlot;
 
-    private readonly ReactiveProperty<List<CardData>> _cardList;
+    private readonly ReactiveProperty<List<Card>> _cardList;
     private readonly ReactiveProperty<int> _currentCard;
     private readonly ReactiveProperty<int> _currentSlot;
 
@@ -62,10 +62,10 @@ public class GearManagerViewModel : ViewModel<GearManager>
     {
         _model = model;
 
-        _cardList = new ReactiveProperty<List<CardData>>(_model.playerCardEquipData);
+        _cardList = new ReactiveProperty<List<Card>>(_model.playerCardEquipData);
         _currentCard = new ReactiveProperty<int>(_model.CurrentEdittingCard);
         _currentSlot = new ReactiveProperty<int>(_model.CurrentEdittingSlot);
-        
+
         _model.OnMaxCardChanged += () => UpdateViewModelState();
         _model.OnMaxSlotChanged += () => UpdateViewModelState();
         _model.OnSetCardData += () => UpdateViewModelState();
@@ -75,13 +75,13 @@ public class GearManagerViewModel : ViewModel<GearManager>
         _cardList.Value = _model.playerCardEquipData;
         _cardList.ForceNotify();
     }
-    
+
     public void SetGearData(Gear gear)
     {
         _model.SetGearData(_model.CurrentEdittingCard, _model.CurrentEdittingSlot, gear);
     }
 
-    public CardData GetCardData(int index)
+    public Card GetCardData(int index)
     {
         return _cardList.Value.GetSafe(index);
     }
@@ -134,7 +134,7 @@ public class InventoryViewModel : ViewModel<InventoryManager>
     }
 
     public Gear GetGear(int index) => _gearList.Value.GetSafe(index);
-    
+
 
     public override void Dispose()
     {

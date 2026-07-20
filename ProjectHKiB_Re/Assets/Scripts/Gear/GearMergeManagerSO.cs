@@ -22,7 +22,7 @@ public class GearMergeManagerSO : ScriptableObject
             Debug.LogError("ERROR : default gear data not attached!!!");
     }
 
-    public void MergeCard(CardData card, int max)
+    public void MergeCard(Card card, int max)
     {
         int i, j, k;
         int physMax = card.GearList.Length;
@@ -63,7 +63,7 @@ public class GearMergeManagerSO : ScriptableObject
         }
     }
 
-    public void EquipMergedCard(CardData card, int max)
+    public void EquipMergedCard(Card card, int max)
     {
         // final merged gear data
         MergedPlayerBaseData mergedGearData = new();
@@ -86,14 +86,13 @@ public class GearMergeManagerSO : ScriptableObject
                 mergedGearData.StateMachine = card.mergedGearList[i].playerBaseData.StateMachine;
                 mergedGearData.gearType = card.mergedGearList[i].gearType;
                 mergedGearData.AttackDatas = card.mergedGearList[i].playerBaseData.AttackDatas;
-                mergedGearData.AnimationData = card.mergedGearList[i].playerBaseData.AnimationData;
+                mergedGearData.MainAnimationData = card.mergedGearList[i].playerBaseData.MainAnimationData;
                 mergedGearData.EffectAnimationData = card.mergedGearList[i].playerBaseData.EffectAnimationData;
                 mergedGearData.EffectSpriteLibrary = card.mergedGearList[i].playerBaseData.EffectSpriteLibrary;
                 mergedGearData.GraffitiAttackState = card.mergedGearList[i].playerBaseData.GraffitiAttackState;
                 mergedGearData.GraffitiSkillState = card.mergedGearList[i].playerBaseData.GraffitiSkillState;
                 mergedGearData.GraffitiTinkerOffset = card.mergedGearList[i].playerBaseData.GraffitiTinkerOffset;
             }
-            card.mergedGearList[i].ApplySubGearEffect(mergedGearData);
         }
         // This triggers player to reset data
         // also triggers other effects or something
