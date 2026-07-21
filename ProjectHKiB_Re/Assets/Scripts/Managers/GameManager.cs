@@ -14,7 +14,6 @@ public class GameManager : MonoBehaviour
     public CooltimeManager cooltimeManager;
     public ObjectSpawnManager objectSpawnManager;
     public ObjectDeathCountManager objectDeathCountManager;
-    public DatabaseManager databaseManager;
     public GearManager gearManager;
     public InventoryManager inventoryManager;
     public UIManager UIManager;
