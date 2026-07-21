@@ -34,7 +34,7 @@ public class CardSelector : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
         }
         for (int i = 0; i < gearIcons.Length; i++)
         {
-            gearIcons[i].sprite = cardData.GetMergedIcon(i);
+            gearIcons[i].sprite = cardData.GetIcon(i);
         }
     }
 

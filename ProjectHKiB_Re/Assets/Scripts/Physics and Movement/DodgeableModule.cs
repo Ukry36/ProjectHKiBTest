@@ -40,12 +40,12 @@ namespace Assets.Scripts.Interfaces.Modules
         public int DodgeCount { get; set; }
         public bool CanDodge { get; set; }
         public bool CanCounterAttack { get; set; } = false;
-        private Cooltime _dodgeCooltime;
-        private Cooltime _dodgeCountReset;
-        private Cooltime _keepDodgeMaxTime;
-        private Cooltime _dodgeInvincibleTime;
-        private Cooltime _canJustDodgeTime;
-        private Cooltime _canCounterAttackTime;
+        private Timer _dodgeCooltime;
+        private Timer _dodgeCountReset;
+        private Timer _keepDodgeMaxTime;
+        private Timer _dodgeInvincibleTime;
+        private Timer _canJustDodgeTime;
+        private Timer _canCounterAttackTime;
         public ParticlePlayer dtemp;
         private ParticlePlayer _currentKeepDodgeParticle;
         [SerializeField] private StatBuffSO _invincibleBuff;
@@ -92,8 +92,8 @@ namespace Assets.Scripts.Interfaces.Modules
             _dodgeHelper.gameObject.SetActive(true);
             _buffableModule.Buff(_invincibleBuff);
             _buffableModule.Buff(_superArmourBuff);
-            _dodgeInvincibleTime.StartCooltime(_invincibleBuff.BuffTime, DisableDodgeInvincible);
-            _canJustDodgeTime.StartCooltime(0.2f); // temp!!!
+            _dodgeInvincibleTime.StartTimer(_invincibleBuff.BuffTime, DisableDodgeInvincible);
+            _canJustDodgeTime.StartTimer(0.2f); // temp!!!
             DodgeCount++;
         }
 
@@ -104,7 +104,7 @@ namespace Assets.Scripts.Interfaces.Modules
 
         public void StartKeepDodge()
         {
-            _keepDodgeMaxTime.StartCooltime(BaseKeepDodgeMaxTime);
+            _keepDodgeMaxTime.StartTimer(BaseKeepDodgeMaxTime);
             _currentKeepDodgeParticle = GameManager.instance.particleManager.
             PlayParticle(KeepDodgeParticle.GetInstanceID(), this.transform, true);
         }
@@ -118,14 +118,14 @@ namespace Assets.Scripts.Interfaces.Modules
             if (DodgeCount >= BaseContinuousDodgeLimit)
             {
                 CanDodge = false;
-                _dodgeCooltime.StartCooltime(BaseDodgeCooltime, () => CanDodge = true);
+                _dodgeCooltime.StartTimer(BaseDodgeCooltime, () => CanDodge = true);
             }
             else
             {
-                _dodgeCountReset.StartCooltime(BaseDodgeCooltime, ResetDodgeCount);
+                _dodgeCountReset.StartTimer(BaseDodgeCooltime, ResetDodgeCount);
             }
-            _dodgeInvincibleTime.CancelCooltime();
-            _keepDodgeMaxTime.CancelCooltime();
+            _dodgeInvincibleTime.CancelTimer();
+            _keepDodgeMaxTime.CancelTimer();
             _buffableModule.UnBuff(_superArmourBuff);
             _buffableModule.UnBuff(_invincibleBuff);
         }
@@ -135,9 +135,9 @@ namespace Assets.Scripts.Interfaces.Modules
             if (!_canJustDodgeTime.IsCooltimeEnded)
             {
                 GameManager.instance.particleManager.PlayParticleOneShot(dtemp.GetInstanceID(), transform.position);
-                _canJustDodgeTime.CancelCooltime();
-                _canCounterAttackTime.CancelCooltime();
-                _canCounterAttackTime.StartCooltime(1, () => CanCounterAttack = false);
+                _canJustDodgeTime.CancelTimer();
+                _canCounterAttackTime.CancelTimer();
+                _canCounterAttackTime.StartTimer(1, () => CanCounterAttack = false);
                 JustDodgeBuff.EnableAllBuffs(_buffableModule);
                 CanCounterAttack = true;
             }

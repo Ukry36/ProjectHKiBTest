@@ -12,7 +12,7 @@ public interface IWaveEventable : IInitializable
     public bool IsQuantumWave { get => Waves.CheckQuantumWave(CurrentWaveIndex); }
     public bool IsRearWave { get => Waves.CheckRearWave(CurrentWaveIndex); }
     public WaveEventDataSO Waves { get; set; }
-    public Cooltime WaveCooltime { get; set; }
+    public Timer WaveCooltime { get; set; }
     public List<ObjectDeathCounter> ObjectDeathCounterList { get; set; }
     public bool PrevWaveEnemyDead
     {
@@ -49,7 +49,7 @@ namespace Assets.Scripts.Interfaces.Modules
         [SerializeField] private WaveTileManager _waveTileManager;
         [SerializeField] private GameObject _frontObjects;
         [SerializeField] private GameObject _rearObjects;
-        public Cooltime WaveCooltime { get; set; }
+        public Timer WaveCooltime { get; set; }
         [field: SerializeField] public List<ObjectDeathCounter> ObjectDeathCounterList { get; set; } = new();
         public List<Vector3> validPosList;
         public LayerMask wallLayer;
@@ -104,7 +104,7 @@ namespace Assets.Scripts.Interfaces.Modules
         public void StartWaveCooltime(float time)
         {
             WaveCooltime = new(time);
-            WaveCooltime.StartCooltime(time);
+            WaveCooltime.StartTimer(time);
         }
 
         public void SpawnCurrentWaveEnemies()

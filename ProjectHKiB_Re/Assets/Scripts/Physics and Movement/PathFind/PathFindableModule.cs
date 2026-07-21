@@ -26,7 +26,7 @@ namespace Assets.Scripts.Interfaces.Modules
         private Action<List<Vector3>> getNodesHandler;
         public List<Vector3> PathList { get; set; }
         public PhysicsModule _physics;
-        private Cooltime cooltime = new();
+        private Timer cooltime = new();
         public override void Register(IInterfaceRegistable interfaceRegistable)
         {
             base.Register(interfaceRegistable);
@@ -55,7 +55,7 @@ namespace Assets.Scripts.Interfaces.Modules
                 {
                     GameManager.instance.pathFindingManager.PathFindingFull(getNodesHandler, 12, new Vector3(_physics.Grid.CurrentCell.x, _physics.Grid.CurrentCell.y), CurrentTarget.position, _physics.WallLayer);
                 }
-                cooltime.StartCooltime(PathFindCooltime, () => IsCooltime = false);
+                cooltime.StartTimer(PathFindCooltime, () => IsCooltime = false);
                 IsCooltime = true;
             }
             if (PathList != null && PathList.Count > 0)

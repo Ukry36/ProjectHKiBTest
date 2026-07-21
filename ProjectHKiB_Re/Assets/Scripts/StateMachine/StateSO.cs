@@ -51,7 +51,7 @@ public class StateSO : ScriptableObject
         }
         //ReserveFrameDecisions(stateController);
         ReserveTransitions(stateController);
-        if (useTimer) stateController.Timers[timerID].StartCooltime(time);
+        if (useTimer) stateController.Timers[timerID].StartTimer(time);
         if (actionSequence.Length > 0) stateController.StartActionSequence(actionSequence, loopActionSequence);
     }
 

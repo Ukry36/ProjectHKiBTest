@@ -9,6 +9,7 @@ public class GearDataSO : ItemDataSO
     public GearTypeSO gearType;
     public PlayerBaseDataSO playerBaseData;
     public GameObject tutorialPrefab;
+    public float transformTime;
 
     [Header("Base Stat Buff")]
     public StatBuffSO buff;

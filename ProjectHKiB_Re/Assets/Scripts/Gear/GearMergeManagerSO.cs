@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-
+/*
 [CreateAssetMenu(fileName = "Gear Merge Manager", menuName = "Scriptable Objects/Manager/Gear Merge Manager", order = 2)]
 public class GearMergeManagerSO : ScriptableObject
 {
@@ -114,3 +114,4 @@ public class GearMergeManagerSO : ScriptableObject
         databaseManager.SetIGraffitiable(mergedGearData, playerBaseData);
     }
 }
+*/

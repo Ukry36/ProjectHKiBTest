@@ -20,7 +20,7 @@ public class StateController : InterfaceRegister
     public StateMachineSO StateMachine => _stateMachine;
     [HideInInspector] public List<Coroutine> TransitionSequences = new(10);
     [HideInInspector] public List<bool> TransitionConditions = new(10);
-    [HideInInspector] public List<Cooltime> Timers = new(10);
+    [HideInInspector] public List<Timer> Timers = new(10);
     private Sequence _actionSequence;
     private ActionSequence[] _currentActionSequence;
     private int _sequenceInt;

@@ -22,7 +22,7 @@ public class BuffInfo
     [field: SerializeField] public StatBuffSO Buff { get; set; }
     [field: SerializeField] public Gear SourceGear { get; set; }
     [field: SerializeField] public int BuffStack { get; set; }
-    public Cooltime Cooltime { get; set; }
+    public Timer Cooltime { get; set; }
 
     public BuffInfo(StatBuffSO buff, Gear sourceGear)
     {
@@ -116,7 +116,7 @@ public class BuffableModule : InterfaceModule, IBuffable
             buffInfo.AddBuff(entityToBuff, buffStack, false);
 
             if (!buffInfo.Buff.IsBuffTimeInfinite)
-                buffInfo.Cooltime.StartCooltime(cooltime, () => UnBuff(buff, sourceGear));
+                buffInfo.Cooltime.StartTimer(cooltime, () => UnBuff(buff, sourceGear));
 
             CurrentBuffs.Add(buffInfo);
         }
@@ -132,14 +132,14 @@ public class BuffableModule : InterfaceModule, IBuffable
                 if (buff.TimeStackType == StatBuffSO.TimeStackTypeEnum.Stack)
                 {
                     float remain = buffInfo.Cooltime.RemainTime;
-                    buffInfo.Cooltime.CancelCooltime();
-                    buffInfo.Cooltime.StartCooltime(cooltime + remain, () => UnBuff(buff, sourceGear));
+                    buffInfo.Cooltime.CancelTimer();
+                    buffInfo.Cooltime.StartTimer(cooltime + remain, () => UnBuff(buff, sourceGear));
                 }
 
                 if (buff.TimeStackType == StatBuffSO.TimeStackTypeEnum.Overwrite)
                 {
-                    buffInfo.Cooltime.CancelCooltime();
-                    buffInfo.Cooltime.StartCooltime(cooltime, () => UnBuff(buff, sourceGear));
+                    buffInfo.Cooltime.CancelTimer();
+                    buffInfo.Cooltime.StartTimer(cooltime, () => UnBuff(buff, sourceGear));
                 }
             }
         }
@@ -162,9 +162,9 @@ public class BuffableModule : InterfaceModule, IBuffable
         if (reduceTime > 0 && !buffInfo.Cooltime.IsCooltimeEnded)
         {
             float remain = buffInfo.Cooltime.RemainTime - reduceTime;
-            buffInfo.Cooltime.CancelCooltime();
+            buffInfo.Cooltime.CancelTimer();
             if (remain > 0)
-                buffInfo.Cooltime.StartCooltime(remain, () => UnBuff(buff, sourceGear));
+                buffInfo.Cooltime.StartTimer(remain, () => UnBuff(buff, sourceGear));
         }
 
         bool isForceRemove = ignorePermanent && buff.BuffRemoveType == StatBuffSO.BuffRemoveTypeEnum.Permanent;

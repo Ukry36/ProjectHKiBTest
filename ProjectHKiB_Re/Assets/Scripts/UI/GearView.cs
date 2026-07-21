@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class GearView : MonoBehaviour 
+public class GearView : MonoBehaviour
 {
     public GraffitiPatternView[] patternView;
     public Image gearImage;
@@ -26,20 +26,20 @@ public class GearView : MonoBehaviour
             if (!keepEmptyPattern && i > 0)
                 patternView[i].gameObject.SetActive(false);
         }
-            
-        
+
+
         if (gearImage) gearImage.enabled = false;
         if (gearName) gearName.text = null;
     }
 
     public void UpdateGearFromInventory(Button button) => UpdateGearFromInventory(button.transform.GetSiblingIndex());
     public void UpdateGearFromInventory(int gearIndex) => UpdateGear(GameManager.instance.inventoryManager.playerGearInventory.Values.ToList().GetSafe(gearIndex).data);
-    public void UpdateGearFromCard(int slotNum) => UpdateGearFromCard(GameManager.instance.gearManager.CurrentEdittingCard, slotNum);
+    public void UpdateGearFromCard(int slotNum) => UpdateGearFromCard(GameManager.instance.gearManager.currentEdittingCardNum, slotNum);
     public void UpdateGearFromCard(int cardIndex, int slotNum) => UpdateGear(GameManager.instance.gearManager.GetCardData(cardIndex).GearList.GetSafe(slotNum).data);
 
     public void UpdateGear(GearDataSO gear)
     {
-        if (gear ==  null) 
+        if (gear == null)
         {
             Initialize();
             return;
@@ -63,10 +63,10 @@ public class GearView : MonoBehaviour
             gearImage.enabled = true;
             if (gear.itemIcon != null)
                 gearImage.sprite = gear.itemIcon;
-            else 
+            else
                 gearImage.enabled = false;
         }
-        
+
         if (gearName) gearName.text = gear.name;
         if (description) description.text = gear.description;
     }

@@ -51,7 +51,7 @@ public class AttackableModule : InterfaceModule, IAttackable
     public SimpleAnimationDataSO EffectAnimationData { get; set; }
     public SpriteLibraryAsset EffectSpriteLibrary { get; set; }
 
-    public Cooltime attackCooltime;
+    public Timer attackCooltime;
 
     public CooltimeMultiplierBuffContainer AttackCooltimeBuffer { get; private set; }
 
@@ -147,7 +147,7 @@ public class AttackableModule : InterfaceModule, IAttackable
         _currentBaseAttackCooltime = AttackDatas[AttackNumber].coolTime;
         float finalCooltime = _currentBaseAttackCooltime * AttackCooltimeMultiplier;
 
-        attackCooltime.StartCooltime(finalCooltime, () => IsAttackCooltime = false);
+        attackCooltime.StartTimer(finalCooltime, () => IsAttackCooltime = false);
     }
 
     private void OnAttackCooltimeBuffChanged(float multiplier)
@@ -156,7 +156,7 @@ public class AttackableModule : InterfaceModule, IAttackable
         if (_currentBaseAttackCooltime <= 0f) return;
 
         float newTotalCooltime = _currentBaseAttackCooltime * multiplier;
-        attackCooltime.RecalculateTotalCooltime(newTotalCooltime);
+        attackCooltime.RecalculateTotalTime(newTotalCooltime);
     }
 
     public void ResetSelfDamageState()

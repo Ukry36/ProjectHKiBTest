@@ -36,4 +36,14 @@ public class Gear
             equippedCards.Remove(cardIndex);
         slot = -1;
     }
+
+    public void Activate(StateController player)
+    {
+
+    }
+
+    public void Deactivate(StateController player)
+    {
+
+    }
 }

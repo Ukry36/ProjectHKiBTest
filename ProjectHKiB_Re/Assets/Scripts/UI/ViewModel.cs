@@ -63,8 +63,8 @@ public class GearManagerViewModel : ViewModel<GearManager>
         _model = model;
 
         _cardList = new ReactiveProperty<List<Card>>(_model.playerCardEquipData);
-        _currentCard = new ReactiveProperty<int>(_model.CurrentEdittingCard);
-        _currentSlot = new ReactiveProperty<int>(_model.CurrentEdittingSlot);
+        _currentCard = new ReactiveProperty<int>(_model.currentEdittingCardNum);
+        _currentSlot = new ReactiveProperty<int>(_model.currentEdittingSlotNum);
 
         _model.OnMaxCardChanged += () => UpdateViewModelState();
         _model.OnMaxSlotChanged += () => UpdateViewModelState();
@@ -78,7 +78,7 @@ public class GearManagerViewModel : ViewModel<GearManager>
 
     public void SetGearData(Gear gear)
     {
-        _model.SetGearData(_model.CurrentEdittingCard, _model.CurrentEdittingSlot, gear);
+        _model.SetGearData(_model.currentEdittingCardNum, _model.currentEdittingSlotNum, gear);
     }
 
     public Card GetCardData(int index)
@@ -88,14 +88,14 @@ public class GearManagerViewModel : ViewModel<GearManager>
 
     public void SetCurrentEdittingCard(int index)
     {
-        _model.CurrentEdittingCard = index;
+        _model.currentEdittingCardNum = index;
         _currentCard.Value = index;
         _currentCard.ForceNotify();
     }
 
     public void SetCurrentEdittingSlot(int index)
     {
-        _model.CurrentEdittingSlot = index;
+        _model.currentEdittingSlotNum = index;
         _currentSlot.Value = index;
         _currentSlot.ForceNotify();
     }

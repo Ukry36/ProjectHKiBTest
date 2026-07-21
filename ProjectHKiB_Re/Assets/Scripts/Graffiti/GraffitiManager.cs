@@ -17,11 +17,11 @@ public class GraffitiManager : MonoBehaviour
     private bool biggerTinkerPresent;
     public GearManager gearManager;
     public InputManager inputManager;
-    private Cooltime _graffitiTimer = new();
+    private Timer _graffitiTimer = new();
     public float graffitiMaxTime = 6;
     public SimpleAnimationPlayer[] tinkers;
 
-    private Cooltime _GPRecoverTimer = new();
+    private Timer _GPRecoverTimer = new();
     public float GPRecovertime = 10;
 
     public int MaxGP = 5;
@@ -33,7 +33,7 @@ public class GraffitiManager : MonoBehaviour
         set
         {
             _GP = value;
-            if (_GP >= MaxGP && !_GPRecoverTimer.IsCooltimeEnded) _GPRecoverTimer.CancelCooltime();
+            if (_GP >= MaxGP && !_GPRecoverTimer.IsCooltimeEnded) _GPRecoverTimer.CancelTimer();
             if (_GP > MaxGP) _GP = MaxGP;
             else
             {
@@ -49,7 +49,7 @@ public class GraffitiManager : MonoBehaviour
     {
         Initialize();
     }
-    public void Oestroy()
+    public void OnDestroy()
     {
         UnBindInputs();
     }
@@ -64,8 +64,8 @@ public class GraffitiManager : MonoBehaviour
     public void StartGPRecoverTimer()
     {
         if (_GP == MaxGP || !_GPRecoverTimer.IsCooltimeEnded) return;
-        _GPRecoverTimer.CancelCooltime();
-        _GPRecoverTimer.StartCooltime(GPRecovertime, RecoverGP);
+        _GPRecoverTimer.CancelTimer();
+        _GPRecoverTimer.StartTimer(GPRecovertime, RecoverGP);
     }
 
     public void StartGraffiti(int targetSlot, Vector2 startPos)
@@ -77,7 +77,7 @@ public class GraffitiManager : MonoBehaviour
         inputManager.GRAFFITIMode();
         _graffitiWorldStartPos = startPos;
         graffitiProgress.Clear();
-        _graffitiTimer.StartCooltime(graffitiMaxTime, TimeOutGraffiti);
+        _graffitiTimer.StartTimer(graffitiMaxTime, TimeOutGraffiti);
         GP--;
         graffitiMoveCount = 0;
         canGraffitiTinker = false;
@@ -128,7 +128,7 @@ public class GraffitiManager : MonoBehaviour
     public void ExitGraffiti(int targetSlot)
     {
         StartTinker();
-        _graffitiTimer.CancelCooltime();
+        _graffitiTimer.CancelTimer();
 
         if (sequence != null && sequence.active) sequence.Complete();
 
@@ -146,7 +146,7 @@ public class GraffitiManager : MonoBehaviour
             tinkers[i].Reserve("Stop");
         }
 
-        if (comp) gearManager.EquipCard(targetSlot);
+        if (comp) gearManager.ActivateGear(targetSlot);
         else player.ChangeState(player.BaseData.StateMachine.initialState);
 
         graffitiProgress.Clear();
@@ -172,9 +172,7 @@ public class GraffitiManager : MonoBehaviour
 
     private bool ValidateProgress(int targetSlot)
     {
-        Card card = gearManager.GetCardData(targetSlot);
-        if (card != null) return false;
-        GearDataSO gear = card.mergedGearList.GetSafe(targetSlot);
+        GearDataSO gear = gearManager.GetGearData(targetSlot);
         if (!gear || gear == gearManager.DefaultGearData) return false;
         for (int i = 0; i < gear.graffitiAllCases.Count; i++)
         {
@@ -188,9 +186,7 @@ public class GraffitiManager : MonoBehaviour
 
     private int CheckCompleted(int targetSlot) // -1 = error, 0 = normal/failed, 1 = skill/completed
     {
-        Card card = gearManager.GetCardData(targetSlot);
-        if (card == null) return -1;
-        GearDataSO gear = card.mergedGearList.GetSafe(0);
+        GearDataSO gear = gearManager.GetGearData(targetSlot);
         if (!gear || gear == gearManager.DefaultGearData) return -1;
         for (int i = 0; i < gear.graffitiAllCases.Count; i++)
         {
