@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using System;
 
 public class StateController : InterfaceRegister
 {
@@ -76,6 +77,12 @@ public class StateController : InterfaceRegister
         CurrentState.ExitState(this);
         CurrentState = state;
         CurrentState.EnterState(this);
+    }
+
+    public virtual void ChangeState(string stateName)
+    {
+        StateSO targetState = Array.Find(StateMachine.allStates, a => a.name == stateName);
+        if (targetState) ChangeState(targetState);
     }
 
     public virtual void UpdateState()

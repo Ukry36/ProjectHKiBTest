@@ -9,6 +9,7 @@ public class GearManager : MonoBehaviour
     public Timer transformTimer;
     //[SerializeField] private GearMergeManagerSO gearMergeManager;
     public GearDataSO DefaultGearData;
+    [SerializeField] private GearDataSO[] allMergedGearDatas;
 
     /*[HideInInspector]*/
     public List<Card> playerCardEquipData;
@@ -163,21 +164,66 @@ public class GearManager : MonoBehaviour
     public void ActivateGear(int slotIndex)
     {
         Card card = playerCardEquipData[currentActiveCardNum];
-        if (!activeGear.Exists(a => a == card.GearList[slotIndex]))
+        Gear mergedGear = GetMergedGear(card.GearList[slotIndex]);
+
+        transformTimer.ExtendTimer(mergedGear.data.transformTime, DeactivateAllGears);
+        GearDataSO recentGear = activeGear.Count > 0 ? activeGear[^1].data : mergedGear.data;
+
+        if (mergedGear.data.gearType != GearDataSO.GearType.Damage) // damageType doesn't go in activeGear list
         {
-            activeGear.Add(card.GearList[slotIndex]);
-            card.GearList[slotIndex].Activate(GameManager.instance.player);
-            transformTimer.ExtendTimer(card.GearList[slotIndex].data.transformTime, DeactivateGear);
+            if (activeGear.Exists(a => a.data == mergedGear.data)) DeactivateGear(mergedGear);
+            activeGear.Add(mergedGear);
+        }
+        mergedGear.Activate(GameManager.instance.player, recentGear);
+    }
+
+    public void DeactivateGear(Gear gear)
+    {
+        if (activeGear.Exists(a => a == gear))
+        {
+            gear.Deactivate(GameManager.instance.player);
+            activeGear.Remove(gear);
         }
     }
 
-    public void DeactivateGear()
+    public void DeactivateGear(int activeIndex)
+    {
+        Gear g = activeGear[activeIndex];
+        g.Deactivate(GameManager.instance.player);
+        activeGear.Remove(g);
+    }
+
+    public void DeactivateAllGears()
     {
         for (int i = 0; i < activeGear.Count; i++)
         {
             activeGear[i].Deactivate(GameManager.instance.player);
         }
         activeGear.Clear();
+        StateController player = GameManager.instance.player;
+        if (player.TryGetInterface(out ISkinable skinable)) skinable.SetSkinData(DefaultGearData.skinData);
+    }
+
+    // this also deactivates another merge component gear
+    public Gear GetMergedGear(Gear newGear)
+    {
+        GearDataSO[] mergeOptions;
+        mergeOptions = Array.FindAll(allMergedGearDatas, a => Array.Exists(a.mergeSet, b => b == newGear.data));
+
+        for (int i = activeGear.Count - 1; i > -1; i--)
+        {
+            for (int j = 0; j < mergeOptions.Length; j++)
+            {
+                GearDataSO mergedGear = Array.Find(mergeOptions[j].mergeSet, a => a == activeGear[i].data);
+                if (mergedGear)
+                {
+                    Gear mergedNewGear = new(mergedGear);
+                    DeactivateGear(i);
+                    return mergedNewGear;
+                }
+            }
+        }
+        return newGear;
     }
 
     //버프 시스템용

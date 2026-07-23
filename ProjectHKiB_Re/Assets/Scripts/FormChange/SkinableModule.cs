@@ -7,6 +7,7 @@ public interface ISkinableBase
 public interface ISkinable : ISkinableBase, IInitializable
 {
     public void ApplySkin();
+    public void SetSkinData(SkinDataSO skinData);
 }
 
 public class SkinableModule : InterfaceModule, ISkinable

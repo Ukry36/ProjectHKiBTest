@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-
+using UnityEngine;
 [Serializable]
 public class Gear
 {
@@ -37,13 +37,7 @@ public class Gear
         slot = -1;
     }
 
-    public void Activate(StateController player)
-    {
+    public void Activate(StateController player, GearDataSO recentGear) => data.Activate(player, recentGear);
 
-    }
-
-    public void Deactivate(StateController player)
-    {
-
-    }
+    public void Deactivate(StateController player) => data.Deactivate(player);
 }

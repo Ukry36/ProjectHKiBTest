@@ -5,14 +5,19 @@ using UnityEngine.U2D.Animation;
 [CreateAssetMenu(fileName = "Gear Data", menuName = "Scriptable Objects/Data/Gear Data", order = 2)]
 public class GearDataSO : ItemDataSO
 {
-    [Header("Data")]
-    public GearTypeSO gearType;
-    public PlayerBaseDataSO playerBaseData;
-    public GameObject tutorialPrefab;
+    public enum GearType { Damage, Transform, Util }
+    [Header("Base Data")]
+    //public GearTypeSO gearType;
+    //public PlayerBaseDataSO playerBaseData;
+    //public GameObject tutorialPrefab;
+    public GearType gearType;
+    public StateMachineSO stateMachine;
+    public string startStateName;
     public float transformTime;
 
     [Header("Base Stat Buff")]
-    public StatBuffSO buff;
+    public StatBuffSO baseBuff;
+    public StatBuffSO stackableBuff;
 
     [Header("Base Animation")]
     public SimpleAnimationDataSO mainAnimationData;
@@ -58,5 +63,30 @@ public class GearDataSO : ItemDataSO
     {
         for (int i = 0; i < mainGearEffects.Length; i++)
             mainGearEffects[i].ApplyEffect(realGear);
+    }
+
+    public void Activate(StateController player, GearDataSO recentGear)
+    {
+        if (gearType != GearType.Damage)
+        {
+            if (stateMachine) player.Initialize(stateMachine);
+            SkinDataSO skin = SkinMixList.ContainsKey(recentGear) ? SkinMixList[recentGear] : skinData;
+            if (player.TryGetInterface(out ISkinable skinable)) skinable.SetSkinData(skin);
+        }
+
+        player.ChangeState(startStateName);
+
+        if (player.TryGetInterface(out IBuffable buffable))
+        {
+            buffable.Buff(baseBuff);
+        }
+    }
+
+    public void Deactivate(StateController player)
+    {
+        if (player.TryGetInterface(out IBuffable buffable))
+        {
+            buffable.UnBuff(baseBuff);
+        }
     }
 }
