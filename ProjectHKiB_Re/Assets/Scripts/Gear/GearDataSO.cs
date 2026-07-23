@@ -31,6 +31,7 @@ public class GearDataSO : ItemDataSO
 
     [Header("Merge Setting")]
     public GearDataSO[] mergeSet;
+    [Tooltip("smaller the value is, priority is higher")]
     public int mergePriority;
     public SerializedDictionary<GearDataSO, SkinDataSO> SkinMixList;
 
@@ -70,6 +71,17 @@ public class GearDataSO : ItemDataSO
         if (gearType != GearType.Damage)
         {
             if (stateMachine) player.Initialize(stateMachine);
+            if (player.TryGetInterface(out IAnimatable animatable))
+            {
+                animatable.MainAnimationData = mainAnimationData;
+                animatable.MainSpriteLibrary = mainSpriteLibrary;
+            }
+            if (player.TryGetInterface(out IAttackable attackable))
+            {
+                attackable.EffectAnimationData = effectAnimationData;
+                attackable.EffectSpriteLibrary = effectSpriteLibrary;
+            }
+
             SkinDataSO skin = SkinMixList.ContainsKey(recentGear) ? SkinMixList[recentGear] : skinData;
             if (player.TryGetInterface(out ISkinable skinable)) skinable.SetSkinData(skin);
         }
@@ -79,6 +91,7 @@ public class GearDataSO : ItemDataSO
         if (player.TryGetInterface(out IBuffable buffable))
         {
             buffable.Buff(baseBuff);
+            buffable.Buff(stackableBuff);
         }
     }
 

@@ -209,6 +209,7 @@ public class GearManager : MonoBehaviour
     {
         GearDataSO[] mergeOptions;
         mergeOptions = Array.FindAll(allMergedGearDatas, a => Array.Exists(a.mergeSet, b => b == newGear.data));
+        Array.Sort(mergeOptions, (a, b) => a.mergePriority.CompareTo(b.mergePriority));
 
         for (int i = activeGear.Count - 1; i > -1; i--)
         {
