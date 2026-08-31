@@ -39,7 +39,7 @@ public class EventControllableEntity : EventControllableBase<StateController>
 
                 Target.gameObject.SetActive(true);
                 Target.Initialize();
-                Target.Initialize(initinfos[i].stateMachine);
+                Target.InitializeStateMachine(initinfos[i].stateMachine);
                 Target.ChangeState(initinfos[i].state);
                 if (Target.TryGetInterface(out IPhysics phys)) phys.RealTeleport(initinfos[i].position);
                 else Target.transform.position = initinfos[i].position;

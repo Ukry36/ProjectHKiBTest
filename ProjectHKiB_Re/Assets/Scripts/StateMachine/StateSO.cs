@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using StateMachine;
 using UnityEngine;
 
@@ -64,16 +63,9 @@ public class StateSO : ScriptableObject
 
     public void ReserveTransitions(StateController stateController)
     {
-        // 아래 루프와 CheckDecision/ResetTimers가 전이 인덱스로 리스트를 건드린다.
-        // 이 State에 진입하는 지금이 그만큼 자리를 확보해 둘 자리다.
-        stateController.EnsureTransitionCapacity(transitions.Length);
-
-        for (int i = 0; i < transitions.Length; i++)
-        {
-            stateController.TransitionConditions[i] = false;
-            stateController.TransitionSequences[i] = stateController.StartCoroutine(TransitionWaitAvailableCoroutine(i, stateController));
-            stateController.TransitionSequences[i] = stateController.StartCoroutine(TransitionWaitDisableCoroutine(i, stateController));
-        }
+        // StateController가 전이 인덱스별 런타임 시간을 소유하고 Update에서 진행한다.
+        // ScriptableObject에는 기존 설정값만 남겨 여러 컨트롤러가 상태를 공유해도 안전하다.
+        stateController.StartTransitionTimers(transitions);
     }
 
     public virtual void UpdateState(StateController stateController)
@@ -82,40 +74,16 @@ public class StateSO : ScriptableObject
             UpdateActions[i]?.Act(stateController);
     }
 
-    public IEnumerator TransitionWaitAvailableCoroutine(int i, StateController stateController)
-    {
-        if (transitions[i].availableTime > 0)
-            yield return new WaitForSeconds(transitions[i].availableTime);
-        stateController.TransitionConditions[i] = true;
-    }
-
-    public IEnumerator TransitionWaitDisableCoroutine(int i, StateController stateController)
-    {
-        if (transitions[i].disableTime > 0)
-        {
-            yield return new WaitForSeconds(transitions[i].disableTime);
-            stateController.TransitionConditions[i] = false;
-        }
-    }
-
     public virtual void ExitState(StateController stateController)
     {
         if (actionSequence.Length > 0) stateController.StopActionSequence();
         for (int i = 0; i < ExitActions.Length; i++)
-        {
             ExitActions[i]?.Act(stateController);
-        }
         ResetTimers(stateController);
     }
 
-    private void ResetTimers(StateController stateController)
-    {
-        for (int i = 0; i < transitions.Length; i++)
-            if (stateController.TransitionConditions[i])
-                stateController.TransitionConditions[i] = false;
+    private void ResetTimers(StateController stateController) => stateController.StopTransitionTimers(transitions.Length);
 
-        stateController.StopAllCoroutines();
-    }
 
     public void ResetStateTimer(StateController stateController)
     {

@@ -23,10 +23,9 @@ namespace StateMachine
                 return;
             }
 
-            // 꺼져 있는 대상에는 걸 수 없다. StateSO.EnterState가 ReserveTransitions에서 코루틴을
-            // 돌리는데, 비활성 GameObject에서 StartCoroutine을 부르면 Unity가 예외를 던져 그 뒤
-            // 액션들까지 통째로 죽는다. 이벤트에서 퇴장시킨(SetEntityActiveAction) NPC를 나중 단계가
-            // 다시 건드릴 때 실제로 걸리는 경로라, 조용히 죽는 대신 이유를 남기고 건너뛴다.
+            // 꺼져 있는 대상에는 걸지 않는다. Update 기반 전이 타이머와 ActionSequence는
+            // 비활성 GameObject에서 진행되지 않으므로 초기 State의 시간 흐름이 시작되지 않는다.
+            // 이벤트에서 퇴장시킨 NPC를 나중 단계가 다시 건드릴 때 이유를 남기고 건너뛴다.
             if (!stateController.gameObject.activeInHierarchy)
             {
                 Debug.LogWarning($"[ChangeStateMachineAction] '{stateController.name}'이(가) 비활성이라 " +
@@ -35,7 +34,7 @@ namespace StateMachine
                 return;
             }
 
-            stateController.Initialize(stateMachine);
+            stateController.InitializeStateMachine(stateMachine);
             if (startState) stateController.ChangeState(startState);
 
             if (followUpActions == null) return;

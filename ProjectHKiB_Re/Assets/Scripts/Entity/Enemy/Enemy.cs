@@ -33,7 +33,7 @@ public class Enemy : Entity
         databaseManager.SetIDirAnimatable(this, BaseData);
         databaseManager.SetITargetable(this, BaseData);
         //databaseManager.SetISkinable(this, BaseData);
-        Initialize(BaseData.StateMachine);
+        InitializeStateMachine(BaseData.StateMachine);
         InitializeModules();
     }
 

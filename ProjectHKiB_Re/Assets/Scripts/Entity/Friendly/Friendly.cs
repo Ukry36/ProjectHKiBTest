@@ -19,7 +19,7 @@ public class Friendly : Entity, IPoolable
         databaseManager.SetIFootstep(this, BaseData);
         databaseManager.SetIPathFindable(this, BaseData);
         databaseManager.SetIAnimatable(this, BaseData);
-        Initialize(BaseData.StateMachine);
+        InitializeStateMachine(BaseData.StateMachine);
         InitializeModules();
     }
 
@@ -28,8 +28,13 @@ public class Friendly : Entity, IPoolable
         BaseData = friendlyData;
     }
 
-    public void OnDisable()
+    /// <summary>
+    /// StateController의 예약 작업을 먼저 정리하고 풀 관리자에 비활성화를 알린다.
+    /// 재사용될 때 이전 State의 시간 작업이 남지 않도록 한다.
+    /// </summary>
+    public override void OnDisable()
     {
+        base.OnDisable();
         OnGameObjectDisabled?.Invoke(BaseData.GetInstanceID(), this.gameObject.GetHashCode());
     }
 }

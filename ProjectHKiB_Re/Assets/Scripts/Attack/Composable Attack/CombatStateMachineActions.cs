@@ -14,6 +14,10 @@ namespace StateMachine
         [SerializeField] private PositionReference destination;
         [SerializeField] private CombatAttackDirectionSource directionSource;
 
+        public CombatAttackDefinitionSO Definition => definition;
+        public string Slot => slot;
+        public bool CancelExistingInSlot => cancelExistingInSlot;
+
         public override void Act(StateController stateController)
         {
             if (!stateController.TryGetInterface(out ICombatAttackModule attacks))

@@ -264,7 +264,7 @@ public class GearManager : MonoBehaviour
         Debug.LogWarning($"[GearManager] DefaultGearData의 상태 기계('{DefaultGearData.stateMachine?.name}')가 " +
                          $"플레이어 기본 기계('{baseStateMachine.name}')와 달라 후자로 되돌립니다. " +
                          "DefaultGearData.stateMachine을 맞춰 주세요.");
-        player.Initialize(baseStateMachine);
+        player.InitializeStateMachine(baseStateMachine);
     }
 
     // this also deactivates another merge component gear

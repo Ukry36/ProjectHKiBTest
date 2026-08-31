@@ -8,8 +8,8 @@ using UnityEngine;
  * 게임 내 시간의 흐름을 한 곳에서 관리한다. 자체 시간 축을 새로 만들지 않고
  * Unity의 Time.timeScale을 단일 진실 공급원으로 쓴다 — 이 프로젝트 코드는 이미
  * 전부 Time.deltaTime / Time.fixedDeltaTime / Time.time(= 스케일된 시간)을 쓰고,
- * 버프 쿨타임(TimerManager)도 DOTween 기본 UpdateType.Normal(스케일 시간) 위에
- * 얹혀 있으므로 timeScale = 0 하나로 게임플레이 전체가 멈춘다.
+ * 버프 쿨타임(TimerManager)도 Update에서 Time.deltaTime(스케일 시간)을
+ * 누적하므로 timeScale = 0 하나로 게임플레이 전체가 멈춘다.
  *
  * [1] 일시정지
  *   Pause(TimeManager.ReasonMenu)    // 사유를 걸어 정지
