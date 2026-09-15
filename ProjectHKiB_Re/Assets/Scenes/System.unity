@@ -3732,7 +3732,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   localManager: {fileID: 0}
   navigationManager: {fileID: 490475675}
-  initialMap: {fileID: 11400000, guid: 0e206c1f89d359f46a996f13d7a8dd1c, type: 2}
+  _physicsManager: {fileID: 0}
+  initialMap: {fileID: 11400000, guid: 7b91c2576d1296847acb2e395e3cf5aa, type: 2}
 --- !u!114 &75784914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83663,9 +83664,9 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.1919369
+    x: 0.09640666
     y: 0
-    width: 0.61583406
+    width: 0.80631024
     height: 1
   near clip plane: -5000
   far clip plane: 5000

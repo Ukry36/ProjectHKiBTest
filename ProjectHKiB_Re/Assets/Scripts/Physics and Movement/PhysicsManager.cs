@@ -21,6 +21,9 @@ public class GridState
 [System.Serializable]
 public class PhysicsState
 {
+    [System.NonSerialized, Tooltip("엔티티별 상대 경로 재생 상태. 완료 또는 취소하면 제거한다.")]
+    public Movement.MovementPathPlayback PathPlayback;
+
     public int KeepPhysics;
     public bool HasMoveToPositionRequest;
     public Vector2 MoveToPositionTarget;
@@ -93,6 +96,7 @@ public class PhysicsManager : MonoBehaviour
     /// </summary>
     public void RequestMoveToPosition(IPhysics obj, Vector3 targetPosition, float arrivalTime)
     {
+        obj.Phys.PathPlayback?.Cancel();
         obj.Phys.HasMoveToPositionRequest = true;
         obj.Phys.MoveToPositionTarget = targetPosition;
         obj.Phys.MoveToPositionArrivalTime = arrivalTime;
@@ -102,12 +106,47 @@ public class PhysicsManager : MonoBehaviour
 
     public void CancelMoveToPosition(IPhysics obj)
     {
+        obj.Phys.PathPlayback?.Cancel();
         if (!obj.Phys.HasMoveToPositionRequest) return;
 
         obj.Phys.HasMoveToPositionRequest = false;
         obj.Phys.CompleteMoveToPositionAfterStep = false;
         obj.HVelocity = Vector2.zero;
     }
+
+    /// <summary>
+    /// 경로의 한 구간을 고정 갱신 안에서 적용한다. 물리 구간은 기존 벽 충돌을 사용한다.
+    /// 비물리 구간은 논리 좌표만 갱신하고 기존 Body 보간으로 표시한다.
+    /// </summary>
+    internal void MovePathStep(IPhysics obj, Vector2 target, float deltaTime, bool usePhysics)
+    {
+        if (!usePhysics)
+        {
+            RemoveFootprintOccupant(obj, WorldCenterToAnchorCell(obj.HPosition, obj.Size));
+            LogicalTeleport(obj, new Vector3(target.x, target.y, obj.ZPosition));
+            AddFootprintOccupant(obj, WorldCenterToAnchorCell(obj.HPosition, obj.Size));
+            return;
+        }
+
+        if (deltaTime <= 0f) return;
+        SwitchToPhysics(obj, true);
+        obj.Phys.KeepPhysics = keepPhysicsFrames;
+        obj.HVelocity = (target - obj.HPosition) / deltaTime;
+        UpdatePhysicsMovementOnlyWall(obj, deltaTime);
+    }
+
+    /// <summary>순간이동 시 Body와 점유 셀을 함께 옮겨 이전 구간의 점유 정보가 남지 않게 한다.</summary>
+    internal void TeleportPathStep(IPhysics obj, Vector2 target)
+    {
+        RemoveFootprintOccupant(obj, WorldCenterToAnchorCell(obj.HPosition, obj.Size));
+        RealTeleport(obj, new Vector3(target.x, target.y, obj.ZPosition));
+        AddFootprintOccupant(obj, WorldCenterToAnchorCell(obj.HPosition, obj.Size));
+        obj.HVelocity = Vector2.zero;
+    }
+
+    /// <summary>비물리 경로 재생 중에는 중력, 외력, 모드 전환과 엔티티 충돌을 생략한다.</summary>
+    private static bool IsPathPhysicsDisabled(IPhysics obj)
+        => obj.Phys.PathPlayback != null && !obj.Phys.PathPlayback.UsePhysics;
 
     /// <summary>자동 모드 판정 조건과 관계없이 요청한 모드로 전환한다.</summary>
     public void SetMovementMode(IPhysics obj, MovementMode mode)
@@ -189,24 +228,29 @@ public class PhysicsManager : MonoBehaviour
         AllPhysicsEntitys = AllPhysicsEntitys.ShuffleList();
 
         for (int i = 0; i < AllPhysicsEntitys.Count; i++)
-            UpdateVelocity(AllPhysicsEntitys[i]);
+            if (!IsPathPhysicsDisabled(AllPhysicsEntitys[i]))
+                UpdateVelocity(AllPhysicsEntitys[i]);
 
         for (int i = 0; i < AllPhysicsEntitys.Count; i++)
             PrepareMoveToPosition(AllPhysicsEntitys[i]);
         
         for (int i = 0; i < AllPhysicsEntitys.Count; i++)
-            UpdateVerticalPhysics(AllPhysicsEntitys[i]);
+            if (!IsPathPhysicsDisabled(AllPhysicsEntitys[i]))
+                UpdateVerticalPhysics(AllPhysicsEntitys[i]);
 
         for (int i = 0; i < AllPhysicsEntitys.Count; i++)
-            UpdateMode(AllPhysicsEntitys[i]);
+            if (!IsPathPhysicsDisabled(AllPhysicsEntitys[i]))
+                UpdateMode(AllPhysicsEntitys[i]);
 
         RebuildCellOccupancy();
     
         for (int i = 0; i < AllPhysicsEntitys.Count; i++)
         {
-            if      (AllPhysicsEntitys[i].Mode == MovementMode.Grid
+            if (AllPhysicsEntitys[i].Phys.PathPlayback != null)
+                AllPhysicsEntitys[i].Phys.PathPlayback.Advance(this, Time.fixedDeltaTime);
+            else if (AllPhysicsEntitys[i].Mode == MovementMode.Grid
                   || AllPhysicsEntitys[i].Mode == MovementMode.Static)  UpdateGridMovement(AllPhysicsEntitys[i]);
-            else if (AllPhysicsEntitys[i].Mode == MovementMode.Physics) UpdatePhysicsMovementOnlyWall(AllPhysicsEntitys[i]); 
+            else if (AllPhysicsEntitys[i].Mode == MovementMode.Physics) UpdatePhysicsMovementOnlyWall(AllPhysicsEntitys[i], Time.fixedDeltaTime);
         }
 
         for (int i = 0; i < physicsIterations; i++)
@@ -219,6 +263,17 @@ public class PhysicsManager : MonoBehaviour
         {
             IPhysics obj = AllPhysicsEntitys[i];
             FinalizeMoveToPosition(obj);
+            if (obj.Phys.PathPlayback != null)
+            {
+                // 비물리 이동에서 생략한 속도가 완료 뒤 되살아나지 않게 한다.
+                if (!obj.Phys.PathPlayback.UsePhysics)
+                {
+                    obj.HVelocity = Vector2.zero;
+                    obj.ZVelocity = 0f;
+                }
+                if (obj.Phys.PathPlayback.IsFinished)
+                    obj.Phys.PathPlayback.Cancel();
+            }
             obj.ExForce       = Vector3.zero;
             obj.PrevEntityPos = obj.HPosition;
             obj.LastSetDir    = obj.IsWalking ? (Vector3)obj.WalkingDir : (Vector3)obj.HVelocity.normalized;
@@ -577,16 +632,16 @@ public class PhysicsManager : MonoBehaviour
         return false;
     }
 
-    private void UpdatePhysicsMovementOnlyWall(IPhysics obj)
+    private void UpdatePhysicsMovementOnlyWall(IPhysics obj, float deltaTime)
     {
-        if (!obj.Phys.HasMoveToPositionRequest && obj.HVelocity.magnitude < stopThreshold)
+        if (obj.Phys.PathPlayback == null && !obj.Phys.HasMoveToPositionRequest && obj.HVelocity.magnitude < stopThreshold)
         {
             obj.HVelocity = Vector2.zero;
             return;
         }
-        float totalDist = obj.HVelocity.magnitude * Time.fixedDeltaTime;
+        float totalDist = obj.HVelocity.magnitude * deltaTime;
         int   steps = Mathf.Max(1, Mathf.CeilToInt(totalDist / gridSize));
-        float dt    = Time.fixedDeltaTime / steps;
+        float dt    = deltaTime / steps;
 
         bool collided = false;
         for (int s = 0; s < steps; s++)
@@ -598,9 +653,9 @@ public class PhysicsManager : MonoBehaviour
 
             if (TryResolveStaticCellCollision(obj, nextPosition, delta.normalized)) // Check static wall collision before entity collision!
             {
-                totalDist = obj.HVelocity.magnitude * Time.fixedDeltaTime;
+                totalDist = obj.HVelocity.magnitude * deltaTime;
                 steps     = Mathf.Max(1, Mathf.CeilToInt(totalDist / gridSize));
-                dt        = Time.fixedDeltaTime / steps;
+                dt        = deltaTime / steps;
                 delta     = obj.HVelocity * dt;
                 collided  = true;
             }
@@ -982,6 +1037,8 @@ public class PhysicsManager : MonoBehaviour
     {
         if (objA == null || objB == null || objA.ZCol == null || objB.ZCol == null)
             return false;
+
+        if (IsPathPhysicsDisabled(objA) || IsPathPhysicsDisabled(objB)) return false;
 
         return ContainsLayer(objA.WallLayer, objB.ZCol.gameObject.layer) &&
                ContainsLayer(objB.WallLayer, objA.ZCol.gameObject.layer);

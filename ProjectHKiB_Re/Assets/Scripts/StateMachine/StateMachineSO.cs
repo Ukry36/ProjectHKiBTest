@@ -33,18 +33,11 @@ public class StateMachineSO : ScriptableObject
     [NaughtyAttributes.Button]
     public void OpenGraphView()
     {
-        if (graph == null)
-        {
-            graph = (StateMachineGraph)CreateInstance(typeof(StateMachineGraph));
-            graph.name = this.name + "Editor";
-            graph.targetStateMachine = this;
+        StateMachineGraph synchronizedGraph = StateMachineGraphSynchronizer.Synchronize(this);
+        if (synchronizedGraph == null) return;
 
-            UnityEditor.AssetDatabase.AddObjectToAsset(graph, UnityEditor.AssetDatabase.GetAssetPath(this));
-            UnityEditor.Undo.RegisterCreatedObjectUndo(graph, "Added Graph Editor");
-            UnityEditor.EditorUtility.SetDirty(this);
-        }
-        //UnityEditor.EditorWindow.GetWindow<StateMachineGraphWindow>().InitializeGraph(graph);
-        Debug.LogError("임시로 비활성화됨!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        UnityEditor.EditorWindow.GetWindow<GraphProcessor.BaseGraphWindow>().InitializeGraph(synchronizedGraph); // StateMachineGraphWindow -> BaseGraphWindow
+        //Debug.LogError("임시로 비활성화됨!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     }
 #endif
 

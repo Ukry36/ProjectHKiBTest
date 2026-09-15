@@ -286,99 +286,57 @@ namespace StateMachine
     }
 
     /// <summary>
-    /// 여러 위치 이동 구간을 하나의 DOTween Sequence로 만들어 순서대로 실행한다.
-    /// EnterActions나 ActionSequence에서 한 번만 호출하면 전체 키프레임 경로가 진행된다.
+    /// 인라인 상대 경로를 PhysicsManager의 고정 갱신으로 실행한다.
+    /// EnterActions나 ActionSequence에서 한 번 호출하며, 기존 키프레임 데이터는 유지한다.
     /// </summary>
     [AddTypeMenu("Movement/Move Along Position Keyframes")]
     [Serializable]
     public sealed class MoveAlongPositionKeyframesAction : StateAction
     {
-        [Tooltip("순서대로 실행할 위치 이동 구간.")]
-        [SerializeField] private PositionMovementKeyframe[] keyframes =
-            Array.Empty<PositionMovementKeyframe>();
+        [NaughtyAttributes.AllowNesting]
+        [Tooltip("SO 없이 이 Action 안에 저장하는 시간 기반 상대 경로.")]
+        [SerializeField] private MovementPath _path = new();
 
-        [SerializeField] private bool loop;
-
+        /// <summary>
+        /// 정의를 검증한 뒤 기존 예약을 취소하고 대상만의 경로 재생기를 등록한다.
+        /// 잘못된 경로 입력은 기존 실행을 덮어쓰지 않는다.
+        /// </summary>
         public override void Act(StateController stateController)
         {
-            if (keyframes == null || keyframes.Length == 0) return;
-
-            Sequence sequence = DOTween.Sequence();
-            bool hasKeyframe = false;
-
-            for (int i = 0; i < keyframes.Length; i++)
+            if (stateController == null) return;
+            if (_path == null || !_path.HasSteps) return;
+            if (!stateController.TryGetInterface(out IPhysics physics))
             {
-                PositionMovementKeyframe keyframe = keyframes[i];
-                if (keyframe == null) continue;
-
-                switch (keyframe.Mode)
-                {
-                    case PositionMovementMode.InstantTeleport:
-                        sequence.AppendCallback(() => PositionMovementExecutor.Teleport(
-                            stateController,
-                            keyframe.Destination,
-                            keyframe.StopHorizontalMovementBeforeTeleport));
-                        hasKeyframe = true;
-                        break;
-
-                    case PositionMovementMode.Navigation:
-                        if (!PositionMovementExecutor.TryCreateNavigationTween(
-                                stateController,
-                                keyframe.Destination,
-                                keyframe.Duration,
-                                keyframe.ForceRepath,
-                                out Tween navigationTween))
-                        {
-                            sequence.Kill(false);
-                            Debug.LogError(
-                                $"ERROR: MoveAlongPositionKeyframesAction - Keyframe {i}의 " +
-                                "INavigationAgent 또는 목적지를 찾을 수 없습니다.",
-                                stateController);
-                            return;
-                        }
-
-                        sequence.Append(navigationTween);
-                        hasKeyframe = true;
-                        break;
-
-                    default:
-                        if (!PositionMovementExecutor.TryCreateInterpolatedTween(
-                                stateController,
-                                keyframe.Destination,
-                                keyframe.Duration,
-                                out Tween movementTween))
-                        {
-                            sequence.Kill(false);
-                            Debug.LogError(
-                                $"ERROR: MoveAlongPositionKeyframesAction - Keyframe {i}의 " +
-                                "IPhysics 또는 목적지를 찾을 수 없습니다.",
-                                stateController);
-                            return;
-                        }
-
-                        sequence.Append(movementTween);
-                        hasKeyframe = true;
-                        break;
-                }
+                Debug.LogError("[MoveAlongPositionKeyframesAction] IPhysics를 찾을 수 없습니다.", stateController);
+                return;
             }
-
-            if (!hasKeyframe)
+            if (!_path.TryCreatePlayback(stateController, physics, out MovementPathPlayback playback))
             {
-                sequence.Kill(false);
+                Debug.LogError("[MoveAlongPositionKeyframesAction] 양수인 실행 시간과 거리가 있는 Move 구간이 필요합니다. 변위와 속도 비율도 확인하세요.", stateController);
                 return;
             }
 
-            if (loop)
-            {
-                if (sequence.Duration(false) > 0f)
-                    sequence.SetLoops(-1, LoopType.Restart);
-                else
-                    Debug.LogWarning(
-                        "[MoveAlongPositionKeyframesAction] 순간이동만 있는 0초 경로는 반복할 수 없습니다.",
-                        stateController);
-            }
+            PositionMovementTweenRegistry.Cancel(stateController);
+            physics.StopMove();
+            physics.Phys.PathPlayback = playback;
+            if (!playback.UsePhysics) physics.ZVelocity = 0f;
+        }
+    }
 
-            PositionMovementTweenRegistry.Play(stateController, sequence);
+    /// <summary>
+    /// 상대 경로와 위치 Tween의 남은 이동·순간이동·반복 예약을 취소한다.
+    /// 충돌 이벤트나 상태 전이에서 호출하며 충돌 종류의 판단은 이 Action 밖에서 수행한다.
+    /// </summary>
+    [AddTypeMenu("Movement/Cancel Position Movement")]
+    [Serializable]
+    public sealed class CancelPositionMovementAction : StateAction
+    {
+        /// <summary>현재 위치에서 예약을 제거하고 수평 보행까지 멈춰 재가속을 방지한다.</summary>
+        public override void Act(StateController stateController)
+        {
+            PositionMovementTweenRegistry.Cancel(stateController);
+            if (stateController != null && stateController.TryGetInterface(out IPhysics physics))
+                physics.StopMove();
         }
     }
 }

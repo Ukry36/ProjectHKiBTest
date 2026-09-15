@@ -1,3 +1,4 @@
+using Gameplay;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -50,6 +51,10 @@ public class InteractionEventTrigger : SpatialEventTriggerBase
     [SerializeField]
     [NaughtyAttributes.ShowIf(nameof(UsesDirection))]
     private bool _consumeDirection = true;
+
+    [Tooltip("SpecialAction에서 특정 상호작용만 구분할 선택 ID. 비우면 GameEvent 이름을 사용합니다.")]
+    [SerializeField]
+    private string _gameplayEventId;
 
     [Tooltip("기존 EventInputTrigger의 직렬화 값을 InputActionReference로 옮길 때만 사용합니다.")]
     [SerializeField, HideInInspector, FormerlySerializedAs("_inputType")]
@@ -205,6 +210,32 @@ public class InteractionEventTrigger : SpatialEventTriggerBase
         }
 
         return false;
+    }
+
+    /// <summary>
+    /// 성공한 입력 상호작용을 공통 Interaction 사건으로 함께 발행한다.
+    /// 입력 주체를 Source, 이 트리거가 속한 StateController를 Target으로 기록한다.
+    /// </summary>
+    protected override void OnTriggered(EventTriggerContext context)
+    {
+        base.OnTriggered(context);
+
+        StateController source = context?.Target != null
+            ? context.Target.GetComponentInParent<StateController>()
+            : null;
+        StateController target = GetComponentInParent<StateController>();
+        string eventId = string.IsNullOrWhiteSpace(_gameplayEventId)
+            ? (GameEvent != null ? GameEvent.name : name)
+            : _gameplayEventId.Trim();
+
+        GameplayEventDispatcher.Publish(
+            GameplayEventType.Interaction,
+            source,
+            target,
+            eventId,
+            GameEvent,
+            context?.Target,
+            gameObject);
     }
 
 #if UNITY_EDITOR

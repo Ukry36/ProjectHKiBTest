@@ -1,0 +1,453 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9179929404820712638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23ffa63ce1c9f844b99882f818407756, type: 3}
+  m_Name: Pattern1_State
+  m_EditorClassIdentifier: 
+  isPacked: 0
+  isTemplate: 0
+  exposedVariables: []
+  temporaryID: 0.098888054
+  transitions:
+  - name: Pattern Completed
+    activationInput: 10
+    trigger: {fileID: 0}
+    type: 0
+    availableTime: 0
+    disableTime: 0
+    decisions:
+    - Decision:
+        rid: 2579733608612495368
+      negate: 0
+    - Decision:
+        rid: 2579733677997293579
+      negate: 0
+    trueState: {fileID: 9082295872173199894}
+    falseState: {fileID: 0}
+    Action:
+      rid: -2
+    showTrueStatePort: 1
+    showFalseStatePort: 0
+  additionalTransitions: []
+  EnterActions:
+  - rid: 2579733608612495369
+  UpdateActions: []
+  ExitActions: []
+  actionSequence: []
+  loopActionSequence: 0
+  useTimer: 0
+  timerID: 0
+  time: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 2579733608612495368
+      type: {class: IsBossPatternCompletedDecision, ns: , asm: Assembly-CSharp}
+      data:
+        _pattern: {fileID: 11400000, guid: 13dfe78e88fdd534b835d7644001863c, type: 2}
+    - rid: 2579733608612495369
+      type: {class: PlayBossPatternAction, ns: , asm: Assembly-CSharp}
+      data:
+        _pattern: {fileID: 11400000, guid: 13dfe78e88fdd534b835d7644001863c, type: 2}
+    - rid: 2579733677997293579
+      type: {class: BossPatternEntryAvailableDecision, ns: , asm: Assembly-CSharp}
+      data:
+        _phase: {fileID: 11400000}
+        _pattern: {fileID: 11400000, guid: 0af89b42887b4714f9b8c7b590e2d0ae, type: 2}
+        _requireAvailability: 0
+--- !u!114 &-7074601133724353936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d5bce95d28994049b5bb57841a729ee, type: 3}
+  m_Name: Phase1Editor
+  m_EditorClassIdentifier: 
+  serializedNodes: []
+  nodes:
+  - rid: 2579733608612495362
+  - rid: 2579733608612495363
+  - rid: 2579733608612495364
+  - rid: 2579733608612495370
+  - rid: 2579733677997293580
+  edges:
+  - GUID: cb9e091b-78f2-4e38-8b17-794bda625605
+    owner: {fileID: -7074601133724353936}
+    inputNodeGUID: 13442eb8-7faa-4e0c-b796-10190e126150
+    outputNodeGUID: 55493513-ce44-4659-9a37-c2f0cbc2ae0d
+    inputFieldName: inputState
+    outputFieldName: outputTransitions
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: 32ff3039-5137-413b-9462-c9a84e2e9ee9
+    owner: {fileID: -7074601133724353936}
+    inputNodeGUID: 13442eb8-7faa-4e0c-b796-10190e126150
+    outputNodeGUID: 55493513-ce44-4659-9a37-c2f0cbc2ae0d
+    inputFieldName: inputState
+    outputFieldName: outputTransitions
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: 08054075-e512-4ef8-9a66-0385f290facd
+    owner: {fileID: -7074601133724353936}
+    inputNodeGUID: 961b7de8-dcd3-4dbd-b7dd-410644002896
+    outputNodeGUID: 13442eb8-7faa-4e0c-b796-10190e126150
+    inputFieldName: inputState
+    outputFieldName: outputTransitions
+    inputPortIdentifier: 
+    outputPortIdentifier: T_0_True
+  - GUID: 6552f64c-b9c9-4092-a91e-d3e8ed17e141
+    owner: {fileID: -7074601133724353936}
+    inputNodeGUID: 13442eb8-7faa-4e0c-b796-10190e126150
+    outputNodeGUID: 55493513-ce44-4659-9a37-c2f0cbc2ae0d
+    inputFieldName: inputState
+    outputFieldName: outputTransitions
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: ea297b41-c51d-4f47-84c7-e52cf42353f0
+    owner: {fileID: -7074601133724353936}
+    inputNodeGUID: 961b7de8-dcd3-4dbd-b7dd-410644002896
+    outputNodeGUID: 13442eb8-7faa-4e0c-b796-10190e126150
+    inputFieldName: inputState
+    outputFieldName: outputTransitions
+    inputPortIdentifier: 
+    outputPortIdentifier: T_1_True
+  - GUID: 0976ef86-e4d1-4e46-8e2e-7188c15c6b0f
+    owner: {fileID: -7074601133724353936}
+    inputNodeGUID: a875b47f-8220-4740-8940-8c0295e115f9
+    outputNodeGUID: 961b7de8-dcd3-4dbd-b7dd-410644002896
+    inputFieldName: inputState
+    outputFieldName: outputTransitions
+    inputPortIdentifier: 
+    outputPortIdentifier: T_0_True
+  - GUID: 28b9c127-3991-4bf7-94c8-a8d2fc2ce155
+    owner: {fileID: -7074601133724353936}
+    inputNodeGUID: 13442eb8-7faa-4e0c-b796-10190e126150
+    outputNodeGUID: a875b47f-8220-4740-8940-8c0295e115f9
+    inputFieldName: inputState
+    outputFieldName: outputTransitions
+    inputPortIdentifier: 
+    outputPortIdentifier: T_0_True
+  - GUID: 60496601-3b1a-4003-8009-a5ef77caca65
+    owner: {fileID: -7074601133724353936}
+    inputNodeGUID: 13442eb8-7faa-4e0c-b796-10190e126150
+    outputNodeGUID: 55493513-ce44-4659-9a37-c2f0cbc2ae0d
+    inputFieldName: inputState
+    outputFieldName: outputTransitions
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  groups: []
+  stackNodes: []
+  pinnedElements: []
+  exposedParameters: []
+  serializedParameterList: []
+  stickyNotes: []
+  nodeInspectorReference: {fileID: 0}
+  position: {x: 200, y: 61, z: 0}
+  scale: {x: 0.32690176, y: 0.32690176, z: 1}
+  targetStateMachine: {fileID: 11400000}
+  references:
+    version: 2
+    RefIds:
+    - rid: 2579733608612495362
+      type: {class: InitialStateNode, ns: , asm: Assembly-CSharp}
+      data:
+        nodeCustomName: 
+        GUID: 55493513-ce44-4659-9a37-c2f0cbc2ae0d
+        computeOrder: 0
+        position:
+          serializedVersion: 2
+          x: -560
+          y: 0
+          width: 100
+          height: 100
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        outputTransitions: {fileID: 0}
+    - rid: 2579733608612495363
+      type: {class: StateNode, ns: , asm: Assembly-CSharp}
+      data:
+        nodeCustomName: Phase1_PatternSelector
+        GUID: 13442eb8-7faa-4e0c-b796-10190e126150
+        computeOrder: -2
+        position:
+          serializedVersion: 2
+          x: -82.07474
+          y: -26.999992
+          width: 400
+          height: 1206
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        stateSO: {fileID: 6780877496725392286}
+        inputState: {fileID: 0}
+        inputStateV: {fileID: 0}
+        outputTransitions: {fileID: 0}
+        outputTransitionsV: {fileID: 0}
+    - rid: 2579733608612495364
+      type: {class: StateNode, ns: , asm: Assembly-CSharp}
+      data:
+        nodeCustomName: Phase1_Finish
+        GUID: bdf7e6b9-f8a8-4f12-9805-7417123577fc
+        computeOrder: 1
+        position:
+          serializedVersion: 2
+          x: -81.99994
+          y: 1299.6354
+          width: 400
+          height: 571
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        stateSO: {fileID: 7990259343882982339}
+        inputState: {fileID: 0}
+        inputStateV: {fileID: 0}
+        outputTransitions: {fileID: 0}
+        outputTransitionsV: {fileID: 0}
+    - rid: 2579733608612495370
+      type: {class: StateNode, ns: , asm: Assembly-CSharp}
+      data:
+        nodeCustomName: Pattern1_State
+        GUID: 961b7de8-dcd3-4dbd-b7dd-410644002896
+        computeOrder: -2
+        position:
+          serializedVersion: 2
+          x: 566.99994
+          y: -27.336622
+          width: 400
+          height: 831
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        stateSO: {fileID: -9179929404820712638}
+        inputState: {fileID: 0}
+        inputStateV: {fileID: 0}
+        outputTransitions: {fileID: 0}
+        outputTransitionsV: {fileID: 0}
+    - rid: 2579733677997293580
+      type: {class: StateNode, ns: , asm: Assembly-CSharp}
+      data:
+        nodeCustomName: Pattern2_State
+        GUID: a875b47f-8220-4740-8940-8c0295e115f9
+        computeOrder: -2
+        position:
+          serializedVersion: 2
+          x: 1176.4589
+          y: 136.6034
+          width: 400
+          height: 831
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        stateSO: {fileID: 9082295872173199894}
+        inputState: {fileID: 0}
+        inputStateV: {fileID: 0}
+        outputTransitions: {fileID: 0}
+        outputTransitionsV: {fileID: 0}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97cc48d9291f2784caac4164ff25b2ab, type: 3}
+  m_Name: Phase1
+  m_EditorClassIdentifier: 
+  customVariables:
+    boolVariables:
+      _serializedList: []
+    intVariables:
+      _serializedList: []
+    floatVariables:
+      _serializedList: []
+  initialState: {fileID: 6780877496725392286}
+  graph: {fileID: -7074601133724353936}
+  allStates:
+  - {fileID: 6780877496725392286}
+  - {fileID: 7990259343882982339}
+  - {fileID: -9179929404820712638}
+  - {fileID: 9082295872173199894}
+  _commandPairs: []
+--- !u!114 &6780877496725392286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23ffa63ce1c9f844b99882f818407756, type: 3}
+  m_Name: Phase1_PatternSelector
+  m_EditorClassIdentifier: 
+  isPacked: 0
+  isTemplate: 0
+  exposedVariables: []
+  temporaryID: 0.56508094
+  transitions:
+  - name: Start Pattern1_State
+    activationInput: 10
+    trigger: {fileID: 0}
+    type: 0
+    availableTime: 0
+    disableTime: 0
+    decisions:
+    - Decision:
+        rid: 2579733677997293587
+      negate: 0
+    trueState: {fileID: -9179929404820712638}
+    falseState: {fileID: 0}
+    Action:
+      rid: -2
+    showTrueStatePort: 1
+    showFalseStatePort: 0
+  - name: Boss Phase Restart Fallback
+    activationInput: 10
+    trigger: {fileID: 0}
+    type: 0
+    availableTime: 0
+    disableTime: 0
+    decisions:
+    - Decision:
+        rid: 2579733677997293588
+      negate: 0
+    trueState: {fileID: -9179929404820712638}
+    falseState: {fileID: 0}
+    Action:
+      rid: 2579733677997293589
+    showTrueStatePort: 1
+    showFalseStatePort: 0
+  additionalTransitions: []
+  EnterActions: []
+  UpdateActions: []
+  ExitActions: []
+  actionSequence: []
+  loopActionSequence: 0
+  useTimer: 0
+  timerID: 0
+  time: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 2579733677997293587
+      type: {class: BossPatternEntryAvailableDecision, ns: , asm: Assembly-CSharp}
+      data:
+        _phase: {fileID: 11400000}
+        _pattern: {fileID: 11400000, guid: 13dfe78e88fdd534b835d7644001863c, type: 2}
+        _requireAvailability: 1
+    - rid: 2579733677997293588
+      type: {class: IsBossPatternCompletedDecision, ns: , asm: Assembly-CSharp}
+      data:
+        _pattern: {fileID: 0}
+    - rid: 2579733677997293589
+      type: {class: BeginBossPhaseAction, ns: , asm: Assembly-CSharp}
+      data:
+        _phase: {fileID: 11400000}
+--- !u!114 &7990259343882982339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23ffa63ce1c9f844b99882f818407756, type: 3}
+  m_Name: Phase1_Finish
+  m_EditorClassIdentifier: 
+  isPacked: 0
+  isTemplate: 0
+  exposedVariables: []
+  temporaryID: 0.3632188
+  transitions: []
+  additionalTransitions: []
+  EnterActions:
+  - rid: 2579733608612495360
+  UpdateActions: []
+  ExitActions: []
+  actionSequence: []
+  loopActionSequence: 0
+  useTimer: 0
+  timerID: 0
+  time: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 2579733608612495360
+      type: {class: CompleteSubStateMachineAction, ns: StateMachine, asm: Assembly-CSharp}
+      data: 
+--- !u!114 &9082295872173199894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23ffa63ce1c9f844b99882f818407756, type: 3}
+  m_Name: Pattern2_State
+  m_EditorClassIdentifier: 
+  isPacked: 0
+  isTemplate: 0
+  exposedVariables: []
+  temporaryID: 0.7201639
+  transitions:
+  - name: Pattern Completed
+    activationInput: 10
+    trigger: {fileID: 0}
+    type: 0
+    availableTime: 0
+    disableTime: 0
+    decisions:
+    - Decision:
+        rid: 2579733677997293583
+      negate: 0
+    trueState: {fileID: 6780877496725392286}
+    falseState: {fileID: 0}
+    Action:
+      rid: -2
+    showTrueStatePort: 1
+    showFalseStatePort: 0
+  additionalTransitions: []
+  EnterActions:
+  - rid: 2579733677997293578
+  UpdateActions: []
+  ExitActions: []
+  actionSequence: []
+  loopActionSequence: 0
+  useTimer: 0
+  timerID: 0
+  time: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 2579733677997293578
+      type: {class: PlayBossPatternAction, ns: , asm: Assembly-CSharp}
+      data:
+        _pattern: {fileID: 11400000, guid: 0af89b42887b4714f9b8c7b590e2d0ae, type: 2}
+    - rid: 2579733677997293583
+      type: {class: IsBossPatternCompletedDecision, ns: , asm: Assembly-CSharp}
+      data:
+        _pattern: {fileID: 11400000, guid: 0af89b42887b4714f9b8c7b590e2d0ae, type: 2}
