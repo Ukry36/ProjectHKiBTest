@@ -20,6 +20,9 @@ public class UiRowPool
     private readonly List<GameObject> _pool = new();
     private int _usedThisPass;
 
+    // 폭 변경 뒤 가변 높이 행을 다시 측정하는 뷰에서 활성 행을 찾는 용도다.
+    public IReadOnlyList<GameObject> Items => _pool;
+
     public UiRowPool(GameObject templatePrefab, Func<GameObject> fallbackFactory)
     {
         _template = templatePrefab != null ? templatePrefab : fallbackFactory();

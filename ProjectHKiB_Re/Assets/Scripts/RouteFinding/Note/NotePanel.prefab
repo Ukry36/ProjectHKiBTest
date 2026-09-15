@@ -97,6 +97,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d927e62aa5f545a40b866b058c33961d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _boxBgColor: {r: 0.08, g: 0.09, b: 0.13, a: 0.98}
+  _boxBgSprite: {fileID: 0}
 --- !u!114 &7455217935476105857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109,6 +111,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bafee17d7975c774ebb6ab3f2c0b4afe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _boxBgColor: {r: 0.08, g: 0.09, b: 0.13, a: 0.98}
+  _boxBgSprite: {fileID: 0}
 --- !u!114 &6738299792582470759
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,6 +125,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc6ce96c6a640fd4a8087c6e2afa11b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _boxBgColor: {r: 0.08, g: 0.09, b: 0.13, a: 0.98}
+  _boxBgSprite: {fileID: 0}
 --- !u!1 &219061813002057611
 GameObject:
   m_ObjectHideFlags: 0
@@ -6451,6 +6457,7 @@ MonoBehaviour:
   _edgeTemplate: {fileID: 0}
   _cardTemplate: {fileID: 0}
   _commentTemplate: {fileID: 0}
+  _attachmentTemplate: {fileID: 0}
   _colNode: {r: 0.82, g: 0.58, b: 0.22, a: 1}
   _colCard: {r: 0.3, g: 0.45, b: 0.62, a: 1}
   _colClueNode: {r: 0.36, g: 0.28, b: 0.58, a: 1}
@@ -6463,6 +6470,7 @@ MonoBehaviour:
   _nodeBoxWidth: 60
   _nodeBoxHeight: 16
   _nodeStartX: 80
+  _routeOriginOffsetX: 100
   _nodeSpacingY: 26
   _edgeThickness: 2
   _arrowSize: 5
@@ -6481,6 +6489,16 @@ MonoBehaviour:
   _commentGapX: 6
   _commentGapY: 6
   _commentSpacing: 2
+  _colAttachmentNode: {r: 0.2, g: 0.28, b: 0.34, a: 1}
+  _attachmentFontSize: 6
+  _attachmentAreaWidth: 70
+  _attachmentGapX: 6
+  _attachmentGapY: 6
+  _attachmentSpacing: 2
+  _attachmentPreviewHeight: 40
+  _colSelection: {r: 1, g: 0.85, b: 0.25, a: 1}
+  _colMarquee: {r: 0.35, g: 0.65, b: 1, a: 0.22}
+  _selectionOutlineWidth: 2
 --- !u!1 &6763306068698695579
 GameObject:
   m_ObjectHideFlags: 0
@@ -7026,9 +7044,9 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_Spacing: 2
   m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 0
+  m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 1
-  m_ChildControlHeight: 0
+  m_ChildControlHeight: 1
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0

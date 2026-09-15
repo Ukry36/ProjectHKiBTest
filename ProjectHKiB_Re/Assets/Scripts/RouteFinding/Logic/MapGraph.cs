@@ -6,7 +6,7 @@ using UnityEngine;
 //
 // Resources의 JSON 두 개를 로드해 정적 데이터를 보관하고 조회를 제공한다:
 //   Resources/RouteFinding/map_database.json → 맵 노드 + 연결
-//   Resources/RouteFinding/clues.json        → 단서 정의
+//   Scripts/RouteFinding/Resources/clues.json → 단서 정의 (Resources 키: clues)
 //
 // 이 클래스는 데이터를 변경하지 않는다.
 // "어디를 방문했고 어떤 단서를 얻었는지" 같은 플레이어 진행 상태는
@@ -39,7 +39,7 @@ public class MapGraph : MonoBehaviour
     public static MapGraph Instance { get; private set; }
 
     [SerializeField] private string _mapDatabasePath = "RouteFinding/map_database";
-    [SerializeField] private string _clueDatabasePath = "RouteFinding/clues";
+    [SerializeField] private string _clueDatabasePath = "clues";
 
     private MapNodeData[] _allNodes = Array.Empty<MapNodeData>();
     private MapConnectionData[] _allConnections = Array.Empty<MapConnectionData>();
@@ -107,8 +107,14 @@ public class MapGraph : MonoBehaviour
             return;
         }
 
-        var db = JsonUtility.FromJson<ClueDatabase>(asset.text);
-        _allClues = db.clues ?? Array.Empty<ClueData>();
+        if (!ClueDatabaseCodec.TryRead(asset.text, out var db, out var error))
+        {
+            Debug.LogError("[MapGraph] " + error);
+            return;
+        }
+        _allClues = db.clues;
+        if (db.schemaVersion == 0)
+            Debug.LogWarning("[MapGraph] 구 단서 JSON을 미분류로 읽었습니다. ID와 지도 공개/획득 조건은 유지됩니다.");
     }
 
     // GUID 조회 테이블과 인접 연결 캐시 구축

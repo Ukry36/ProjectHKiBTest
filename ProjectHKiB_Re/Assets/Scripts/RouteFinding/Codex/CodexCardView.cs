@@ -35,6 +35,7 @@ namespace RouteFinding.Codex
         public event Action<string> OnMapRefClicked;  // 첨부물(맵 참조)의 "지도" 버튼 — 인자는 맵 GUID
 
         private TextMeshProUGUI _titleTmp;
+        private Image _cardIconImg;      // 대표 아이콘(ClueData.iconAddress) — 제목 왼쪽
         private GameObject _typeBadgeGO;
         private TextMeshProUGUI _typeBadgeTmp;
         private TextMeshProUGUI _timestampTmp;
@@ -54,6 +55,10 @@ namespace RouteFinding.Codex
         private GameObject _attachmentsSectionGO;
         private RectTransform _attachmentsRT;
 
+        // 본문 매체 블록(C01) — 첨부 영역과 같은 구조지만 "본문 자체"라 위치가 다르다(본문 문자열 바로 아래).
+        private GameObject _mediaSectionGO;
+        private RectTransform _mediaRT;
+
         private GameObject _commentsSectionGO;
         private RectTransform _commentsRT;
         private readonly List<Coroutine> _typewriterCoroutines = new();
@@ -61,15 +66,26 @@ namespace RouteFinding.Codex
         // 첨부 소리 재생용 — 노트 그래프와 같은 헬퍼를 쓴다(ClueAttachmentAudioPlayer 참고).
         private ClueAttachmentAudioPlayer _audio;
 
+        // 본문 영상 재생용 — 렌더 타깃까지 들고 있어 카드 전환/패널 종료 때 반드시 Stop해야 한다.
+        private ClueMediaVideoPlayer _video;
+
         private TMP_FontAsset _font;
         private CodexEntry _currentEntry;
+        private Outline _newOutline;
+        private bool _showingNew;
 
         private const float TypewriterSecondsPerChar = 0.02f;
+
+        [Header("신규 단서 표시")]
+        [SerializeField] private Color _newGlowColor = new(1f, 0.82f, 0.30f, 0.62f);
+        [SerializeField] private Vector2 _newGlowDistance = new(1.5f, -1.5f);
+        [SerializeField] private float _newGlowPulseSpeed = 2.2f;
 
         [Header("행 템플릿 (선택 — 비워두면 아래 스타일 값으로 기본 템플릿 생성)")]
         [SerializeField] private GameObject _suggestionRowTemplate;
         [SerializeField] private GameObject _commentRowTemplate;
         [SerializeField] private GameObject _attachmentRowTemplate;
+        [SerializeField] private GameObject _mediaRowTemplate;
 
         // 추천/코멘트 행은 ShowSuggestions()/RefreshComments()마다 UiRowPool에서 재사용된다 —
         // 커스텀 템플릿을 안 쓸 때의 기본 템플릿 스타일로 쓰인다.
@@ -84,15 +100,23 @@ namespace RouteFinding.Codex
         [SerializeField] private float _attachmentRowHeight = 14f;
         [Tooltip("사진 첨부의 미리보기 높이(가로는 원본 비율 유지)")]
         [SerializeField] private float _imagePreviewHeight = 60f;
+        [SerializeField] private float _videoPreviewHeight = 90f;
+
+        // 본문 글 블록의 높이는 실제 문장 길이에 따라 달라진다 — 카드 폭을 아직 알 수 없는 첫 표시에는
+        // 이 폭으로 계산하고, 다음 갱신부터는 실제 폭을 쓴다(폭을 0으로 두면 TMP가 한 줄로 계산한다).
+        [SerializeField] private float _mediaTextFallbackWidth = 150f;
 
         private UiRowPool _suggestionPool;
         private UiRowPool _commentPool;
         private UiRowPool _attachmentPool;
+        private UiRowPool _mediaPool;
+        private float _lastMediaLayoutWidth = -1f;
 
         public void Init(RectTransform parent, TMP_FontAsset font)
         {
             _font = font;
             var content = BuildScrollContent(parent);
+            EnsureNewOutline(parent);
 
             var headerRow = NewRect(content, "HeaderRow");
             var headerLe = headerRow.gameObject.AddComponent<LayoutElement>();
@@ -105,6 +129,8 @@ namespace RouteFinding.Codex
             hlg.childForceExpandWidth = false;
             hlg.childForceExpandHeight = true;
             hlg.childAlignment = TextAnchor.MiddleLeft;
+
+            _cardIconImg = BuildCardIcon(headerRow);
 
             _titleTmp = MakeTMP(headerRow, font, "", 8f, FontStyles.Bold, TextAlignmentOptions.MidlineLeft, id: "TitleLabel");
             _titleTmp.GetComponent<LayoutElement>().flexibleWidth = 1f;
@@ -131,6 +157,9 @@ namespace RouteFinding.Codex
 
             _contentTmp = MakeTMP(content, font, "", 7f, FontStyles.Normal, TextAlignmentOptions.TopLeft, height: 50f, id: "ContentLabel");
             _contentTmp.enableWordWrapping = true;
+
+            // 본문 매체는 문자열 본문 바로 아래 = "본문의 일부"로 읽히는 자리에 둔다(첨부 영역은 카드 끝).
+            BuildMediaSection(content, font);
 
             MakeSep(content);
 
@@ -161,7 +190,18 @@ namespace RouteFinding.Codex
         // 참조를 복원하고 버튼 클릭 콜백을 다시 연결한다.
         public void Bind(RectTransform existingRoot)
         {
+            EnsureNewOutline(existingRoot);
             _titleTmp = FindDeepChild<TextMeshProUGUI>(existingRoot, "TitleLabel");
+
+            // 대표 아이콘(2026-09-08 신설)도 첨부 영역과 같은 이유로, 없는 프리팹에만 제자리에서 끼워 넣는다 —
+            // 제목과 같은 행이므로 부모는 HeaderRow이고 순서는 항상 맨 앞이다.
+            var iconTF = FindDeepTransform(existingRoot, "CardIcon");
+            if (iconTF != null) _cardIconImg = iconTF.GetComponent<Image>();
+            else if (_titleTmp != null && _titleTmp.transform.parent is RectTransform headerRT)
+            {
+                _cardIconImg = BuildCardIcon(headerRT);
+                _cardIconImg.transform.SetAsFirstSibling();
+            }
 
             var badgeTF = FindDeepTransform(existingRoot, "TypeBadge");
             _typeBadgeGO = badgeTF?.gameObject;
@@ -194,6 +234,26 @@ namespace RouteFinding.Codex
             // 첨부 영역(2026-08-11 신설)은 그 이전에 저장된 프리팹/씬 패널에는 아예 없다. 패널 전체를
             // 파괴하고 다시 만들면 작업자가 프리팹에서 손본 디자인이 통째로 날아가므로, 없는 영역만
             // 제자리에서 만들어 끼워 넣는다(편집 행 바로 앞 = Init()이 만드는 순서와 같은 위치).
+            // 본문 매체 영역(2026-09-08 신설) — 첨부 영역과 같은 규칙으로, 없는 프리팹에만 만들어 끼운다.
+            // 자리는 본문 라벨 바로 뒤(Init()이 만드는 순서와 동일).
+            var mediaTF = FindDeepTransform(existingRoot, "MediaSection");
+            if (mediaTF != null)
+            {
+                _mediaSectionGO = mediaTF.gameObject;
+                _mediaRT = mediaTF as RectTransform;
+            }
+            else
+            {
+                var contentTF = FindDeepTransform(existingRoot, "Content") as RectTransform;
+                if (contentTF != null)
+                {
+                    BuildMediaSection(contentTF, _font);
+                    if (_contentTmp != null && _contentTmp.transform.parent == contentTF)
+                        _mediaSectionGO.transform.SetSiblingIndex(_contentTmp.transform.GetSiblingIndex() + 1);
+                }
+                else Debug.LogWarning("[CodexCardView] Bind: Content를 찾지 못해 본문 매체 영역을 만들지 못했습니다.");
+            }
+
             var attachmentsTF = FindDeepTransform(existingRoot, "AttachmentsSection");
             if (attachmentsTF == null)
             {
@@ -235,6 +295,7 @@ namespace RouteFinding.Codex
             _suggestionPool ??= new UiRowPool(_suggestionRowTemplate, BuildSuggestionRowTemplate);
             _commentPool ??= new UiRowPool(_commentRowTemplate, BuildCommentRowTemplate);
             _attachmentPool ??= new UiRowPool(_attachmentRowTemplate, BuildAttachmentRowTemplate);
+            _mediaPool ??= new UiRowPool(_mediaRowTemplate, BuildMediaRowTemplate);
         }
 
         // 카드 내용이 영역보다 길어질 수 있어(코멘트 등) 드래그/휠 스크롤이 되도록 감싼다.
@@ -421,6 +482,348 @@ namespace RouteFinding.Codex
 
         // 첨부 영역 자체(구분선 + "첨부" 헤더)는 정적으로 한 번만 만든다 — 실제 첨부 행만
         // UiRowPool로 재사용된다(코멘트 영역과 동일한 구조).
+        // ─── 대표 아이콘 / 본문 매체 블록 (C01) ────────────────────
+
+        // 제목 왼쪽의 작은 아이콘. 주소가 없거나 못 찾으면 통째로 숨기므로 기본값은 비활성이다.
+        private static Image BuildCardIcon(RectTransform headerRow)
+        {
+            var rt = NewRect(headerRow, "CardIcon");
+            var le = rt.gameObject.AddComponent<LayoutElement>();
+            le.preferredWidth = 10f;
+            le.flexibleWidth = 0f;
+            var img = rt.gameObject.AddComponent<Image>();
+            img.preserveAspect = true;
+            rt.gameObject.SetActive(false);
+            return img;
+        }
+
+        // ClueData.iconAddress → 제목 옆 아이콘. 주소가 비어 있거나 에셋을 못 찾으면 자리를 비운다 —
+        // 아이콘 하나 때문에 카드가 안 열리거나 제목이 밀려서는 안 된다(C01: 매체 실패 격리).
+        private void RefreshCardIcon(string address)
+        {
+            if (_cardIconImg == null) return;
+
+            Sprite icon = string.IsNullOrWhiteSpace(address) ? null : ClueAttachmentService.LoadSprite(address);
+            _cardIconImg.gameObject.SetActive(icon != null);
+            if (icon == null) return;
+            _cardIconImg.sprite = icon;
+            _cardIconImg.color = Color.white;
+        }
+
+        // 첨부 영역과 같은 구조(구분선 + 헤더 + 풀 행). 헤더 문구와 놓이는 자리만 다르다.
+        private void BuildMediaSection(RectTransform parent, TMP_FontAsset font)
+        {
+            var section = NewRect(parent, "MediaSection");
+            _mediaSectionGO = section.gameObject;
+            _mediaRT = section;
+            var le = section.gameObject.AddComponent<LayoutElement>();
+            le.preferredHeight = 25f;
+            le.flexibleWidth = 1f;
+
+            var vlg = section.gameObject.AddComponent<VerticalLayoutGroup>();
+            vlg.spacing = 2f;
+            vlg.childControlWidth = true;
+            vlg.childControlHeight = false;
+            vlg.childForceExpandWidth = true;
+            vlg.childForceExpandHeight = false;
+
+            MakeSep(section);
+            var header = MakeTMP(section, font, "본문", 7f, FontStyles.Bold, TextAlignmentOptions.MidlineLeft, height: 12f, id: "MediaHeader");
+            header.color = _colMuted;
+
+            section.gameObject.SetActive(false);
+        }
+
+        // 카드를 바꿀 때마다 호출. 첨부 영역과 같은 방식으로 각 행이 실제로 쓴 높이를 합산한다.
+        private void RefreshMedia(ClueMediaBlock[] blocks)
+        {
+            StopMedia(); // 이전 카드의 영상/소리가 계속 돌지 않게 먼저 끊는다
+
+            bool hasAny = blocks != null && blocks.Length > 0;
+            _mediaSectionGO?.SetActive(hasAny);
+            if (!hasAny || _mediaRT == null) { _mediaPool?.EndPass(); return; }
+
+            float total = 17f; // 구분선(1) + 헤더(12) + spacing*2(4)
+            foreach (var block in blocks)
+            {
+                if (block == null) continue;
+                total += PopulateMediaRow(_mediaPool.Get(_mediaRT), block) + 2f;
+            }
+            _mediaPool.EndPass();
+
+            _mediaSectionGO.GetComponent<LayoutElement>().preferredHeight = total;
+            _lastMediaLayoutWidth = -1f;
+        }
+
+        // 한 행을 매체 블록 하나로 채우고 그 행이 차지한 높이를 돌려준다.
+        //
+        // 실패 처리 규칙(C01): 에셋을 못 찾거나 지원하지 않는 종류여도 예외를 던지지 않고 그 블록만
+        // "(파일 없음)"/"(지원하지 않는 매체)" 문구로 대체한다 — 한 매체가 실패해도 나머지 본문과
+        // 카드 전체는 그대로 열린다. 어떤 주소가 문제인지 함께 적어 콘텐츠 작업자가 바로 찾을 수 있게 한다.
+        private float PopulateMediaRow(GameObject row, ClueMediaBlock block)
+        {
+            var head = row.transform.Find("Head");
+            var headTmp = head != null ? head.Find("Text")?.GetComponent<TextMeshProUGUI>() : null;
+            var btnTF = head != null ? head.Find("BtnAction") : null;
+            var btn = btnTF != null ? btnTF.GetComponent<Button>() : null;
+            var btnLabel = btnTF != null ? btnTF.Find("Text")?.GetComponent<TextMeshProUGUI>() : null;
+            var bodyTF = row.transform.Find("Body");
+            var bodyTmp = bodyTF != null ? bodyTF.GetComponent<TextMeshProUGUI>() : null;
+            var previewTF = row.transform.Find("Preview");
+            var previewImg = previewTF != null ? previewTF.GetComponent<Image>() : null;
+            var screenTF = row.transform.Find("Screen");
+            var screenImg = screenTF != null ? screenTF.GetComponent<RawImage>() : null;
+
+            btn?.onClick.RemoveAllListeners();
+
+            bool showHead = false, showBtn = false, showBody = false, showPreview = false, showScreen = false;
+            float mediaHeight = 0f;
+            string diagnostic = null;
+            bool known = Enum.IsDefined(typeof(ClueMediaKind), block.kind);
+
+            if (!known)
+            {
+                // 콘텐츠가 이 빌드보다 새로운 매체를 쓰는 경우 — 조용히 건너뛰면 본문이 이유 없이 비어 보인다.
+                diagnostic = $"<color=#C86A6A>(지원하지 않는 매체: {(int)block.kind})</color>";
+            }
+            else switch (block.kind)
+            {
+                case ClueMediaKind.Text:
+                {
+                    showBody = bodyTmp != null && !string.IsNullOrEmpty(block.text);
+                    if (showBody) bodyTmp.text = block.text;
+                    else diagnostic = "<color=#C86A6A>(본문 없음)</color>";
+                    break;
+                }
+                case ClueMediaKind.Image:
+                {
+                    var sprite = ClueAttachmentService.LoadSprite(block.address);
+                    if (sprite != null && previewImg != null)
+                    {
+                        previewImg.sprite = sprite;
+                        previewImg.color = Color.white;
+                        showPreview = true;
+                        mediaHeight = _imagePreviewHeight;
+                    }
+                    else diagnostic = MissingText(block);
+                    break;
+                }
+                case ClueMediaKind.Video:
+                {
+                    var clip = ClueAttachmentService.LoadVideo(block.address);
+                    if (clip != null && screenImg != null)
+                    {
+                        screenImg.texture = null; // 재생 전에는 빈 화면 — 재생 시 렌더 타깃이 붙는다
+                        screenImg.color = new Color(0f, 0f, 0f, 0.55f);
+                        showScreen = true;
+                        showHead = showBtn = true;
+                        mediaHeight = _videoPreviewHeight;
+                        if (btnLabel != null) btnLabel.text = PlayLabel;
+                        btn?.onClick.AddListener(() => ToggleVideo(clip, screenImg, btnLabel,
+                            error => ShowVideoRuntimeError(row, block, headTmp, btnTF, screenTF, error)));
+                    }
+                    else diagnostic = MissingText(block);
+                    break;
+                }
+                case ClueMediaKind.Audio:
+                {
+                    var clip = ClueAttachmentService.LoadAudio(block.address);
+                    if (clip != null)
+                    {
+                        showHead = showBtn = true;
+                        if (btnLabel != null) btnLabel.text = PlayLabel;
+                        btn?.onClick.AddListener(() => ToggleAudioClip(clip, btnLabel));
+                    }
+                    else diagnostic = MissingText(block);
+                    break;
+                }
+            }
+
+            // 머리줄은 재생 버튼이 있거나, 캡션이 있거나, 알릴 문제가 있을 때만 띄운다 —
+            // 글 블록만 있는 본문에 "[글]" 딱지가 줄줄이 붙지 않게 한다.
+            bool hasCaption = !string.IsNullOrWhiteSpace(block.caption);
+            if (diagnostic != null || hasCaption) showHead = true;
+            if (showHead && headTmp != null)
+            {
+                string kindTag = known ? ClueMediaConfig.GetDisplayName(block.kind) : "?";
+                string caption = hasCaption ? "  " + block.caption : "";
+                headTmp.text = diagnostic == null
+                    ? $"[{kindTag}]{caption}"
+                    : $"[{kindTag}]{caption}  {diagnostic}";
+            }
+
+            head?.gameObject.SetActive(showHead);
+            btnTF?.gameObject.SetActive(showBtn);
+            bodyTF?.gameObject.SetActive(showBody);
+            previewTF?.gameObject.SetActive(showPreview);
+            screenTF?.gameObject.SetActive(showScreen);
+
+            float bodyHeight = 0f;
+            if (showBody)
+            {
+                bodyHeight = MeasureBodyHeight(bodyTmp, block.text);
+                var bodyLe = bodyTF.GetComponent<LayoutElement>();
+                if (bodyLe != null) bodyLe.preferredHeight = bodyHeight;
+            }
+
+            float height = (showHead ? _attachmentRowHeight : 0f)
+                         + (showBody ? bodyHeight + 2f : 0f)
+                         + (mediaHeight > 0f ? mediaHeight + 2f : 0f);
+            if (height <= 0f) height = _attachmentRowHeight; // 표시할 게 하나도 없어도 행이 사라지지는 않게
+
+            var le = row.GetComponent<LayoutElement>();
+            if (le != null) le.preferredHeight = height;
+            var rowRT = row.GetComponent<RectTransform>();
+            if (rowRT != null) rowRT.sizeDelta = new Vector2(rowRT.sizeDelta.x, height);
+            return height;
+        }
+
+        private static string MissingText(ClueMediaBlock block) =>
+            string.IsNullOrWhiteSpace(block.address)
+                ? "<color=#C86A6A>(주소 없음)</color>"
+                : $"<color=#C86A6A>(파일 없음: {block.address})</color>";
+
+        // 글 블록은 문장 길이에 따라 높이가 달라진다. 실제 카드 폭을 알 수 있으면 그걸로, 아직
+        // 레이아웃 전이라 0이면 대체 폭으로 계산한다(다음 갱신에서 실제 폭 기준으로 다시 잡힌다).
+        private float MeasureBodyHeight(TextMeshProUGUI tmp, string text)
+        {
+            float width = _mediaRT != null ? _mediaRT.rect.width : 0f;
+            if (width <= 1f) width = _mediaTextFallbackWidth;
+            return Mathf.Max(_attachmentRowHeight, tmp.GetPreferredValues(text, width, 0f).y);
+        }
+
+        // 첫 Bind/ShowEntry 시점에는 레이아웃 폭이 0일 수 있다. 실제 폭이 정해지거나 창 크기가
+        // 바뀌면 글 행만 다시 재서 스크롤 콘텐츠 높이를 맞춘다. 재생 중인 미디어는 건드리지 않는다.
+        private void LateUpdate()
+        {
+            if (_mediaRT == null || _mediaSectionGO == null || !_mediaSectionGO.activeInHierarchy) return;
+            float width = _mediaRT.rect.width;
+            if (width <= 1f || Mathf.Approximately(width, _lastMediaLayoutWidth)) return;
+            _lastMediaLayoutWidth = width;
+            RefreshMediaTextLayout();
+        }
+
+        private void RefreshMediaTextLayout()
+        {
+            if (_mediaPool == null || _mediaSectionGO == null) return;
+            float total = 17f;
+            foreach (var row in _mediaPool.Items)
+            {
+                if (row == null || !row.activeInHierarchy) continue;
+                var body = row.transform.Find("Body")?.GetComponent<TextMeshProUGUI>();
+                if (body != null && body.gameObject.activeSelf)
+                {
+                    var bodyLe = body.GetComponent<LayoutElement>();
+                    if (bodyLe != null) bodyLe.preferredHeight = MeasureBodyHeight(body, body.text);
+                }
+                var rowLe = row.GetComponent<LayoutElement>();
+                if (rowLe != null) total += rowLe.preferredHeight + 2f;
+            }
+            _mediaSectionGO.GetComponent<LayoutElement>().preferredHeight = total;
+            LayoutRebuilder.ForceRebuildLayoutImmediate(_mediaRT);
+        }
+
+        private void ShowVideoRuntimeError(GameObject row, ClueMediaBlock block, TextMeshProUGUI headTmp,
+            Transform button, Transform screen, string error)
+        {
+            if (headTmp != null)
+            {
+                string caption = string.IsNullOrWhiteSpace(block.caption) ? "" : "  " + block.caption;
+                headTmp.text = $"[영상]{caption}  <color=#C86A6A>(재생 실패: {error})</color>";
+            }
+            button?.gameObject.SetActive(false);
+            screen?.gameObject.SetActive(false);
+            var rowLe = row.GetComponent<LayoutElement>();
+            if (rowLe != null) rowLe.preferredHeight = _attachmentRowHeight;
+            RefreshMediaTextLayout();
+        }
+
+        private GameObject BuildMediaRowTemplate()
+        {
+            var rowRT = NewRect(null, "MediaRow");
+            var le = rowRT.gameObject.AddComponent<LayoutElement>();
+            le.preferredHeight = _attachmentRowHeight;
+            le.flexibleWidth = 1f;
+
+            // 첨부 행과 같은 이유로 행 안쪽만 childControlHeight를 켠다 — 종류마다 켜지는 자식이 다르고
+            // 글 블록은 높이가 가변이라, 자식 높이를 LayoutElement로 제어할 수 있어야 한다.
+            var vlg = rowRT.gameObject.AddComponent<VerticalLayoutGroup>();
+            vlg.spacing = 2f;
+            vlg.childControlWidth = true;
+            vlg.childControlHeight = true;
+            vlg.childForceExpandWidth = true;
+            vlg.childForceExpandHeight = false;
+
+            var head = NewRect(rowRT, "Head");
+            var headLe = head.gameObject.AddComponent<LayoutElement>();
+            headLe.preferredHeight = _attachmentRowHeight;
+            headLe.flexibleWidth = 1f;
+            var hlg = head.gameObject.AddComponent<HorizontalLayoutGroup>();
+            hlg.spacing = 3f;
+            hlg.childControlWidth = true;
+            hlg.childControlHeight = true;
+            hlg.childForceExpandWidth = false;
+            hlg.childForceExpandHeight = true;
+            hlg.childAlignment = TextAnchor.MiddleLeft;
+
+            var textRT = NewRect(head, "Text");
+            var textLe = textRT.gameObject.AddComponent<LayoutElement>();
+            textLe.flexibleWidth = 1f;
+            var tmp = textRT.gameObject.AddComponent<TextMeshProUGUI>();
+            if (_font != null) tmp.font = _font;
+            tmp.fontSize = _dynamicRowFontSize;
+            tmp.color = Color.white;
+            tmp.alignment = TextAlignmentOptions.MidlineLeft;
+            tmp.overflowMode = TextOverflowModes.Ellipsis;
+
+            var btnRT = NewRect(head, "BtnAction");
+            var btnLe = btnRT.gameObject.AddComponent<LayoutElement>();
+            btnLe.preferredWidth = 34f;
+            btnLe.flexibleWidth = 0f;
+            var btnImg = AddImg(btnRT, _colBadge);
+            var btn = btnRT.gameObject.AddComponent<Button>();
+            btn.targetGraphic = btnImg;
+            btn.transition = Selectable.Transition.None;
+
+            var btnTxtRT = NewRect(btnRT, "Text");
+            StretchFull(btnTxtRT);
+            var btnTmp = btnTxtRT.gameObject.AddComponent<TextMeshProUGUI>();
+            if (_font != null) btnTmp.font = _font;
+            btnTmp.fontSize = _dynamicRowFontSize;
+            btnTmp.alignment = TextAlignmentOptions.Center;
+            btnTmp.verticalAlignment = VerticalAlignmentOptions.Middle;
+            btnTmp.color = Color.white;
+
+            var bodyRT = NewRect(rowRT, "Body");
+            var bodyLe = bodyRT.gameObject.AddComponent<LayoutElement>();
+            bodyLe.preferredHeight = _attachmentRowHeight;
+            bodyLe.flexibleWidth = 1f;
+            var bodyTmp = bodyRT.gameObject.AddComponent<TextMeshProUGUI>();
+            if (_font != null) bodyTmp.font = _font;
+            bodyTmp.fontSize = 7f;
+            bodyTmp.color = Color.white;
+            bodyTmp.alignment = TextAlignmentOptions.TopLeft;
+            bodyTmp.enableWordWrapping = true;
+
+            var previewRT = NewRect(rowRT, "Preview");
+            var previewLe = previewRT.gameObject.AddComponent<LayoutElement>();
+            previewLe.preferredHeight = _imagePreviewHeight;
+            previewLe.flexibleWidth = 1f;
+            var previewImg = previewRT.gameObject.AddComponent<Image>();
+            previewImg.preserveAspect = true;
+
+            // 영상 표면은 RenderTexture를 받아야 해서 Image가 아니라 RawImage다
+            // (ClueMediaVideoPlayer가 재생할 때 texture를 끼우고, 정지하면 다시 떼어낸다).
+            var screenRT = NewRect(rowRT, "Screen");
+            var screenLe = screenRT.gameObject.AddComponent<LayoutElement>();
+            screenLe.preferredHeight = _videoPreviewHeight;
+            screenLe.flexibleWidth = 1f;
+            screenRT.gameObject.AddComponent<RawImage>();
+
+            rowRT.gameObject.SetActive(false);
+            return rowRT.gameObject;
+        }
+
         private void BuildAttachmentsSection(RectTransform parent, TMP_FontAsset font)
         {
             var section = NewRect(parent, "AttachmentsSection");
@@ -640,6 +1043,13 @@ namespace RouteFinding.Codex
         private void ToggleAudio(ClueAttachment a, TextMeshProUGUI btnLabel)
         {
             var clip = ClueAttachmentService.LoadAudio(a.address);
+            ToggleAudioClip(clip, btnLabel);
+        }
+
+        // 첨부 소리와 본문 소리 블록이 같은 AudioSource 하나를 공유한다 — 어느 쪽을 누르든 이전 재생이
+        // 멈추므로 한 카드 안에서 두 소리가 겹치지 않는다.
+        private void ToggleAudioClip(AudioClip clip, TextMeshProUGUI btnLabel)
+        {
             if (clip == null) return;
 
             if (_audio == null) _audio = ClueAttachmentAudioPlayer.AttachTo(gameObject);
@@ -649,8 +1059,35 @@ namespace RouteFinding.Codex
             });
         }
 
+        // 본문 영상 블록의 재생/정지. 소리와 달리 렌더 타깃을 잡으므로 정지 경로가 반드시 돌아야 한다
+        // (ClueMediaVideoPlayer 상단 주석의 세 시점 참고).
+        private void ToggleVideo(UnityEngine.Video.VideoClip clip, RawImage surface, TextMeshProUGUI btnLabel,
+            Action<string> onError)
+        {
+            if (clip == null || surface == null) return;
+
+            if (_video == null) _video = ClueMediaVideoPlayer.AttachTo(gameObject);
+            _video.Toggle(clip, surface, playing =>
+            {
+                if (btnLabel != null) btnLabel.text = playing ? StopLabel : PlayLabel;
+            }, onError);
+        }
+
         // 카드를 바꿀 때·도감을 닫을 때(CodexPanel.CloseWindowContent) 호출.
-        public void StopAudio() => _audio?.Stop();
+        // 이름은 기존 호출부 호환을 위해 그대로 두되, 본문 영상까지 함께 멈춘다 — 소리만 끊고 영상이
+        // 계속 돌면 닫힌 패널 뒤에서 렌더 타깃이 살아 있게 된다.
+        public void StopAudio() => StopMedia();
+
+        // 재생 중인 매체를 전부 멈추고 영상 렌더 타깃까지 놓는다.
+        private void StopMedia()
+        {
+            _audio?.Stop();
+            _video?.Stop();
+        }
+
+        // 카드 오브젝트가 비활성화되는 모든 경로(패널 닫힘, 씬 전환)에서 마지막 안전망 —
+        // CodexPanel이 StopAudio를 부르지 못한 채 꺼지더라도 재생과 렌더 타깃이 남지 않게 한다.
+        private void OnDisable() => StopMedia();
 
         // ─── 4단계: NPC/시스템 코멘트 (타이프라이터 연출) ─────────
 
@@ -742,6 +1179,7 @@ namespace RouteFinding.Codex
         public void ShowEmpty()
         {
             _currentEntry = null;
+            SetNewVisual(false);
             _titleTmp.text = "← 좌측에서 단서를 선택하세요";
             _typeBadgeTmp.text = "";
             _typeBadgeGO.SetActive(false);
@@ -753,6 +1191,8 @@ namespace RouteFinding.Codex
             _editRowGO.SetActive(false);
             _pinRowGO?.SetActive(false);
             _suggestionsGO?.SetActive(false);
+            RefreshCardIcon(null);
+            RefreshMedia(null);
             RefreshAttachments(null);
             RefreshComments(null);
         }
@@ -760,7 +1200,9 @@ namespace RouteFinding.Codex
         public void ShowEntry(CodexEntry e)
         {
             _currentEntry = e;
+            SetNewVisual(e != null && e.isNew);
             _titleTmp.text = e.title;
+            RefreshCardIcon(e.iconAddress);
 
             bool hasType = !string.IsNullOrEmpty(e.typeLabel);
             _typeBadgeGO.SetActive(hasType);
@@ -770,7 +1212,7 @@ namespace RouteFinding.Codex
             _timestampTmp.gameObject.SetActive(hasTime);
             if (hasTime) _timestampTmp.text = e.timestamp;
 
-            _contentTmp.text = e.content;
+            RefreshContentText();
             _sourceTmp.text = string.IsNullOrEmpty(e.source) ? "-" : e.source;
             _mapTmp.text = string.IsNullOrEmpty(e.mapCategory) ? "기타" : e.mapCategory;
             _keywordsTmp.text = BuildKeywordsText(e.keywords);
@@ -790,8 +1232,70 @@ namespace RouteFinding.Codex
             // 카드를 다른 항목으로 바꾸면 이전 항목의 추천 목록은 의미가 없으므로 접는다.
             _suggestionsGO?.SetActive(false);
 
+            RefreshMedia(e.mediaBlocks);
             RefreshAttachments(e.attachments);
             RefreshComments(e.comments);
+        }
+
+        /// <summary>최초 확인 때 전체 카드와 스크롤을 다시 만들지 않고 NEW 표현만 갱신한다.</summary>
+        public void SetNewVisual(bool isNew)
+        {
+            _showingNew = isNew && _currentEntry != null && !string.IsNullOrEmpty(_currentEntry.clueId);
+            if (_newOutline != null)
+            {
+                _newOutline.enabled = _showingNew;
+                _newOutline.effectColor = _newGlowColor;
+                _newOutline.effectDistance = _newGlowDistance;
+            }
+            RefreshContentText();
+        }
+
+        private void RefreshContentText()
+        {
+            if (_contentTmp == null) return;
+            if (_currentEntry == null)
+            {
+                _contentTmp.text = "";
+                return;
+            }
+
+            string content = _currentEntry.content ?? "";
+            _contentTmp.text = _showingNew
+                ? $"<color=#{ColorUtility.ToHtmlStringRGB(_newGlowColor)}><b>(NEW!)</b></color>\n{content}"
+                : content;
+        }
+
+        private void EnsureNewOutline(RectTransform root)
+        {
+            if (root == null) return;
+            Transform border = FindDeepTransform(root, "NewGlowBorder");
+            RectTransform borderRT;
+            if (border == null)
+            {
+                borderRT = NewRect(root, "NewGlowBorder");
+                StretchFull(borderRT);
+                Image image = borderRT.gameObject.AddComponent<Image>();
+                image.color = Color.clear;
+                image.raycastTarget = false;
+                borderRT.SetAsLastSibling();
+            }
+            else borderRT = border as RectTransform;
+
+            if (borderRT == null) return;
+            borderRT.SetAsLastSibling();
+            _newOutline = borderRT.GetComponent<Outline>() ?? borderRT.gameObject.AddComponent<Outline>();
+            _newOutline.useGraphicAlpha = false;
+            _newOutline.effectDistance = _newGlowDistance;
+            _newOutline.enabled = false;
+        }
+
+        private void Update()
+        {
+            if (!_showingNew || _newOutline == null) return;
+            Color pulse = _newGlowColor;
+            float wave = 0.5f + 0.5f * Mathf.Sin(Time.unscaledTime * _newGlowPulseSpeed);
+            pulse.a = Mathf.Lerp(_newGlowColor.a * 0.45f, _newGlowColor.a, wave);
+            _newOutline.effectColor = pulse;
         }
 
         // [버그 수정, 2026-07-21] 이 카드가 어떤 단서를 보여준 채로 남아있는 동안, 노트 쪽에서 그 단서의

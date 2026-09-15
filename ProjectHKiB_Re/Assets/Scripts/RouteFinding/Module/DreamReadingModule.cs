@@ -21,6 +21,10 @@ using UnityEngine;
 //
 // ▸ 세이브: ExportResolved()/ImportResolved(). 해금된 플래그 자체는 EventManager가 이미 저장하므로
 //   여기서는 "어떤 레시피를 풀었는지"만 남긴다 — 같은 해몽이 두 번 발행되지 않게 하는 용도다.
+//
+// ▸ [C06] 고정 단서 보드 경로: FindReading(id) / TryResolveById(id). 보드의 관계 연결 결과가 해몽 ID로 이 모듈을
+//   가리키며, 성립 처리(플래그 해금·OnReadingResolved·resolved 기록)는 노트 경로와 같은 Resolve를 탄다.
+//   이미 성립한 해몽은 거절하므로 노트/다른 보드에서 먼저 풀린 해몽에 보상이 중복되지 않는다.
 // ════════════════════════════════════════════════════════════════
 public class DreamReadingModule : MonoBehaviour
 {
@@ -132,6 +136,33 @@ public class DreamReadingModule : MonoBehaviour
 
         Debug.Log($"[DreamReadingModule] 해몽 성립: {reading.id} ({reading.title})");
         OnReadingResolved?.Invoke(reading);
+    }
+
+    // ─── [C06] 보드 경로 ─────────────────────────────────────────
+
+    /// <summary>카탈로그에서 해몽 레시피를 찾는다. 없거나 카탈로그가 없으면 null.</summary>
+    public DreamReading FindReading(string id)
+    {
+        if (string.IsNullOrEmpty(id) || _catalog == null) return null;
+        var readings = _catalog.Readings;
+        for (int i = 0; i < readings.Count; i++)
+        {
+            DreamReading reading = readings[i];
+            if (reading != null && string.Equals(reading.id, id, StringComparison.Ordinal)) return reading;
+        }
+        return null;
+    }
+
+    /// <summary>
+    /// 보드의 관계 결과가 해몽을 성립시킨다. 노트 판정(requiredClueIds/연결 덩어리)은 거치지 않는다 — 보드 관계가
+    /// 성립 조건 그 자체다. 이미 성립한 해몽이면 아무것도 하지 않고 false(보상 중복 방지). 없는 ID도 false.
+    /// </summary>
+    public bool TryResolveById(string id)
+    {
+        DreamReading reading = FindReading(id);
+        if (reading == null || _resolvedIds.Contains(reading.id)) return false;
+        Resolve(reading);
+        return true;
     }
 
     // ─── 판정 ────────────────────────────────────────────────────

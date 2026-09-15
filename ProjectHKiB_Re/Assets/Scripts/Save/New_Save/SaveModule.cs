@@ -226,6 +226,18 @@ public class SaveModule : InterfaceModule, IInitializable
             ? new List<CodexUserEntry>(CodexModule.Instance.UserEntries)
             : new List<CodexUserEntry>();
 
+        // 해몽 성립 목록은 같은 결과의 로드 후 재발행을 막는다. 이번 저장에 해몽이 하나라도 포함되면
+        // 파일 쓰기 성공 시점부터 NEW 판정 기준점이 성립한다(WriteSaveFile의 커밋 호출 참고).
+        _currentSaveData.resolvedDreamReadingIds = DreamReadingModule.Instance != null
+            ? DreamReadingModule.Instance.ExportResolved()
+            : new List<string>();
+        _currentSaveData.hasSavedDreamReadingCheckpoint =
+            (CodexModule.Instance != null && CodexModule.Instance.HasSavedDreamReadingCheckpoint) ||
+            _currentSaveData.resolvedDreamReadingIds.Count > 0;
+        _currentSaveData.newClueIds = CodexModule.Instance != null
+            ? CodexModule.Instance.ExportNewClueIds()
+            : new List<string>();
+
         // 노트 "저장한 루트" 보드 목록 — 위 noteEntries(현재 화면 상태)와 별개인 이름 붙은 다중 스냅샷.
         _currentSaveData.noteSavedBoards = NoteModule.Instance != null
             ? NoteModule.Instance.ExportSavedBoards()
@@ -247,6 +259,14 @@ public class SaveModule : InterfaceModule, IInitializable
         _currentSaveData.noteExpandedClueIds = NoteRouteGraphView.Instance != null
             ? NoteRouteGraphView.Instance.GetExpandedClueIds().ToList()
             : new List<string>();
+
+        // [C04] 고정 단서 보드 진행(플레이어가 이은 관계 ID, 보드별). 정적 세션 저장소(ClueBoardProgress)라
+        // 보드 패널이 열려 있지 않아도 저장된다. 검색어/하이라이트/드래그 중 상태는 포함되지 않는다.
+        _currentSaveData.clueBoardProgress = ClueBoardProgress.Export();
+
+        // [C06] 관계 결과 발행/확인 기록. 위 진행과 짝이지만 별개 필드다(SaveData.cs 참고). 해몽 성립 자체는
+        // resolvedDreamReadingIds가 이미 담는다.
+        _currentSaveData.clueBoardOutcomes = ClueBoardOutcomes.Export();
 
         // 지도/노트에서 마지막으로 커밋한 단일 경로(노트 좌측 그래프가 표시) — PathResult 자체가 아니라
         // 노드 GUID 순서만 저장한다(SaveData.cs 참고).
@@ -273,6 +293,8 @@ public class SaveModule : InterfaceModule, IInitializable
         if (_currentSaveData == null) return;
 
         File.WriteAllText(GetPath(Slot), JsonUtility.ToJson(_currentSaveData, true));
+        CodexModule.Instance?.CommitSavedDreamReadingCheckpoint(
+            _currentSaveData.hasSavedDreamReadingCheckpoint);
         Debug.Log($"[SAVE] Slot {Slot} saved");
     }
 
@@ -494,11 +516,28 @@ public class SaveModule : InterfaceModule, IInitializable
         NoteRouteGraphView.Instance?.ApplyExpandedClueIds(_loadedData.noteExpandedClueIds);
         NoteRouteGraphView.Instance?.ApplySavedPositions(_loadedData.notePositions);
 
+        // NoteModule.ImportFrom은 OnNoteChanged를 발행해 해몽 판정을 다시 돌릴 수 있으므로,
+        // 해결된 해몽 목록을 반드시 그보다 먼저 복원한다. NEW 상태도 획득 목록 복원 이후에 주입하며
+        // 로드 이벤트를 재발행하지 않는다.
+        DreamReadingModule.Instance?.ImportResolved(_loadedData.resolvedDreamReadingIds);
+        CodexModule.Instance?.ImportClueNewState(
+            _loadedData.hasSavedDreamReadingCheckpoint,
+            _loadedData.newClueIds);
+
         // 노트/도감 구조화 데이터 복원 — eventProvider 유무와 무관.
         NoteModule.Instance?.ImportFrom(_loadedData.noteEntries);
         CodexModule.Instance?.ImportUserEntries(_loadedData.codexUserEntries);
         NoteModule.Instance?.ImportSavedBoards(_loadedData.noteSavedBoards);
         NoteModule.Instance?.ImportClueLinks(_loadedData.noteClueLinks);
+
+        // [C04] 고정 단서 보드 진행 복원 — SaveEvents의 Export와 대칭. 정의와의 대조는 보드를 열 때 하므로
+        // 여기서 보드 정의가 아직 없어도 진행이 사라지지 않는다. 열려 있는 보드 화면은 OnReplaced로 다시
+        // 그려지며, 그 경로는 판정을 거치지 않아 연결 보상·코멘트 이벤트를 재발행하지 않는다.
+        ClueBoardProgress.Import(_loadedData.clueBoardProgress);
+
+        // [C06] 관계 결과 발행 기록 복원 — 진행 다음에 복원한다. Import는 판정을 거치지 않으므로 결과 화면·보상·
+        // 코멘트를 재발행하지 않고, 열린 보드 패널은 표시 큐만 비운다.
+        ClueBoardOutcomes.Import(_loadedData.clueBoardOutcomes);
     }
 
     // ================= BUFF (감정 스택 포함) =================

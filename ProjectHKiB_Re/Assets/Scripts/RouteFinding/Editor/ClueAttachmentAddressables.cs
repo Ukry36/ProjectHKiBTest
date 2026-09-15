@@ -163,7 +163,9 @@ namespace RouteFinding.Editor
             }
 
             // t:Texture는 Sprite 임포트 여부와 무관하게 잡힌다 — 임포트 설정은 등록 뒤에 맞춘다.
-            string filter = isAudio ? $"\"{address}\" t:AudioClip" : $"\"{address}\" t:Texture";
+            // 본문 영상 블록(ClueMediaKind.Video)도 이 경로로 등록할 수 있어야 해서 t:VideoClip을 함께 본다.
+            // 아래 EnsureSpriteImport는 TextureImporter가 아니면 그냥 넘어가므로 영상에 영향이 없다.
+            string filter = isAudio ? $"\"{address}\" t:AudioClip" : $"\"{address}\" t:Texture t:VideoClip";
             var matches = new List<string>();
             foreach (string guid in AssetDatabase.FindAssets(filter))
             {

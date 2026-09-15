@@ -138,6 +138,9 @@ public class RouteModule : MonoBehaviour, IEventSaveProvider
                 }
                 _progress = new RouteProgressState(MapGraph.Instance);
                 _progress.OnClueAcquired += HandleClueAcquired;
+                // 이벤트 StateAction이 UI보다 먼저 실행되어도 CodexModule이 획득을 놓치지 않도록,
+                // Progress를 외부에 반환하기 전에 NEW 상태 구독을 먼저 완성한다.
+                CodexModule.Instance?.BindProgress(_progress);
             }
             return _progress;
         }

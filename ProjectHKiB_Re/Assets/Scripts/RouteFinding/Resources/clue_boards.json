@@ -1,0 +1,785 @@
+{
+    "schemaVersion": 1,
+    "boards": [
+        {
+            "boardId": "global-investigation",
+            "kind": 0,
+            "slots": [
+                {
+                    "nodeId": "g1",
+                    "clueId": "clue-forest-entrance",
+                    "anchoredPosition": {
+                        "x": 148.0,
+                        "y": -28.0
+                    },
+                    "overrideAppearance": false,
+                    "sizePercent": 0.0,
+                    "fontSize": 0.0,
+                    "fontAddress": "",
+                    "hideLabel": false
+                },
+                {
+                    "nodeId": "g2",
+                    "clueId": "clue-forest-cabin",
+                    "anchoredPosition": {
+                        "x": 235.0,
+                        "y": -58.0
+                    },
+                    "overrideAppearance": false,
+                    "sizePercent": 0.0,
+                    "fontSize": 0.0,
+                    "fontAddress": "",
+                    "hideLabel": false
+                },
+                {
+                    "nodeId": "g3",
+                    "clueId": "clue-lakeside",
+                    "anchoredPosition": {
+                        "x": 235.0,
+                        "y": -145.0
+                    },
+                    "overrideAppearance": false,
+                    "sizePercent": 0.0,
+                    "fontSize": 0.0,
+                    "fontAddress": "",
+                    "hideLabel": false
+                },
+                {
+                    "nodeId": "g4",
+                    "clueId": "clue-fog-valley",
+                    "anchoredPosition": {
+                        "x": 180.0,
+                        "y": -190.0
+                    },
+                    "overrideAppearance": false,
+                    "sizePercent": 0.0,
+                    "fontSize": 0.0,
+                    "fontAddress": "",
+                    "hideLabel": false
+                },
+                {
+                    "nodeId": "g5",
+                    "clueId": "clue-plateau",
+                    "anchoredPosition": {
+                        "x": 85.0,
+                        "y": -190.0
+                    },
+                    "overrideAppearance": false,
+                    "sizePercent": 0.0,
+                    "fontSize": 0.0,
+                    "fontAddress": "",
+                    "hideLabel": false
+                },
+                {
+                    "nodeId": "g6",
+                    "clueId": "clue-greenhouse",
+                    "anchoredPosition": {
+                        "x": 45.0,
+                        "y": -145.0
+                    },
+                    "overrideAppearance": false,
+                    "sizePercent": 0.0,
+                    "fontSize": 0.0,
+                    "fontAddress": "",
+                    "hideLabel": false
+                },
+                {
+                    "nodeId": "g7",
+                    "clueId": "clue-abandoned-station",
+                    "anchoredPosition": {
+                        "x": 45.0,
+                        "y": -58.0
+                    },
+                    "overrideAppearance": false,
+                    "sizePercent": 0.0,
+                    "fontSize": 0.0,
+                    "fontAddress": "",
+                    "hideLabel": false
+                },
+                {
+                    "nodeId": "g8",
+                    "clueId": "clue-underground-passage",
+                    "anchoredPosition": {
+                        "x": 148.0,
+                        "y": -112.0
+                    },
+                    "overrideAppearance": false,
+                    "sizePercent": 0.0,
+                    "fontSize": 0.0,
+                    "fontAddress": "",
+                    "hideLabel": false
+                },
+                {
+                    "nodeId": "g9",
+                    "clueId": "clue-destination-1",
+                    "anchoredPosition": {
+                        "x": 268.0,
+                        "y": -38.0
+                    },
+                    "overrideAppearance": false,
+                    "sizePercent": 0.0,
+                    "fontSize": 0.0,
+                    "fontAddress": "",
+                    "hideLabel": false
+                },
+                {
+                    "nodeId": "g10",
+                    "clueId": "clue-destination-2",
+                    "anchoredPosition": {
+                        "x": 268.0,
+                        "y": -112.0
+                    },
+                    "overrideAppearance": false,
+                    "sizePercent": 0.0,
+                    "fontSize": 0.0,
+                    "fontAddress": "",
+                    "hideLabel": false
+                },
+                {
+                    "nodeId": "g11",
+                    "clueId": "clue-destination-3",
+                    "anchoredPosition": {
+                        "x": 268.0,
+                        "y": -188.0
+                    },
+                    "overrideAppearance": false,
+                    "sizePercent": 0.0,
+                    "fontSize": 0.0,
+                    "fontAddress": "",
+                    "hideLabel": false
+                },
+                {
+                    "nodeId": "g12",
+                    "clueId": "clue-web-wasteland",
+                    "anchoredPosition": {
+                        "x": 28.0,
+                        "y": -38.0
+                    },
+                    "overrideAppearance": false,
+                    "sizePercent": 0.0,
+                    "fontSize": 0.0,
+                    "fontAddress": "",
+                    "hideLabel": false
+                },
+                {
+                    "nodeId": "g13",
+                    "clueId": "clue-web-graffiti-photo",
+                    "anchoredPosition": {
+                        "x": 28.0,
+                        "y": -112.0
+                    },
+                    "overrideAppearance": false,
+                    "sizePercent": 0.0,
+                    "fontSize": 0.0,
+                    "fontAddress": "",
+                    "hideLabel": false
+                },
+                {
+                    "nodeId": "g14",
+                    "clueId": "clue-web-night-sound",
+                    "anchoredPosition": {
+                        "x": 28.0,
+                        "y": -188.0
+                    },
+                    "overrideAppearance": false,
+                    "sizePercent": 0.0,
+                    "fontSize": 0.0,
+                    "fontAddress": "",
+                    "hideLabel": false
+                },
+                {
+                    "nodeId": "g15",
+                    "clueId": "dummy-clue-wing",
+                    "anchoredPosition": {
+                        "x": 245.0,
+                        "y": -18.0
+                    },
+                    "overrideAppearance": false,
+                    "sizePercent": 0.0,
+                    "fontSize": 0.0,
+                    "fontAddress": "",
+                    "hideLabel": false
+                },
+                {
+                    "nodeId": "g16",
+                    "clueId": "dummy-clue-eye",
+                    "anchoredPosition": {
+                        "x": 245.0,
+                        "y": -205.0
+                    },
+                    "overrideAppearance": false,
+                    "sizePercent": 0.0,
+                    "fontSize": 0.0,
+                    "fontAddress": "",
+                    "hideLabel": false
+                }
+            ],
+            "relations": [
+                {
+                    "relationId": "global-forest-cabin",
+                    "firstNodeId": "g1",
+                    "secondNodeId": "g2",
+                    "kind": 0,
+                    "permanent": false,
+                    "readingId": ""
+                },
+                {
+                    "relationId": "global-forest-lake",
+                    "firstNodeId": "g1",
+                    "secondNodeId": "g3",
+                    "kind": 0,
+                    "permanent": false,
+                    "readingId": ""
+                },
+                {
+                    "relationId": "global-lake-fog",
+                    "firstNodeId": "g3",
+                    "secondNodeId": "g4",
+                    "kind": 1,
+                    "permanent": false,
+                    "readingId": ""
+                },
+                {
+                    "relationId": "global-cabin-plateau",
+                    "firstNodeId": "g2",
+                    "secondNodeId": "g5",
+                    "kind": 1,
+                    "permanent": false,
+                    "readingId": ""
+                },
+                {
+                    "relationId": "global-plateau-greenhouse",
+                    "firstNodeId": "g5",
+                    "secondNodeId": "g6",
+                    "kind": 0,
+                    "permanent": false,
+                    "readingId": ""
+                },
+                {
+                    "relationId": "global-station-passage",
+                    "firstNodeId": "g7",
+                    "secondNodeId": "g8",
+                    "kind": 0,
+                    "permanent": false,
+                    "readingId": ""
+                },
+                {
+                    "relationId": "global-fog-destination",
+                    "firstNodeId": "g4",
+                    "secondNodeId": "g10",
+                    "kind": 1,
+                    "permanent": false,
+                    "readingId": ""
+                },
+                {
+                    "relationId": "global-greenhouse-final",
+                    "firstNodeId": "g6",
+                    "secondNodeId": "g11",
+                    "kind": 1,
+                    "permanent": false,
+                    "readingId": ""
+                },
+                {
+                    "relationId": "global-wing-eye",
+                    "firstNodeId": "g15",
+                    "secondNodeId": "g16",
+                    "kind": 0,
+                    "permanent": false,
+                    "readingId": "reading_dummy_test"
+                }
+            ],
+            "silhouetteNeighbors": [],
+            "initialRelationIds": [],
+            "chains": []
+        },
+        {
+            "boardId": "local-home",
+            "kind": 1,
+            "slots": [
+                {
+                    "nodeId": "h1",
+                    "clueId": "clue-destination-1",
+                    "anchoredPosition": {
+                        "x": 105.0,
+                        "y": -95.0
+                    },
+                    "overrideAppearance": false,
+                    "sizePercent": 0.0,
+                    "fontSize": 0.0,
+                    "fontAddress": "",
+                    "hideLabel": false
+                },
+                {
+                    "nodeId": "h2",
+                    "clueId": "clue-destination-2",
+                    "anchoredPosition": {
+                        "x": 200.0,
+                        "y": -95.0
+                    },
+                    "overrideAppearance": false,
+                    "sizePercent": 0.0,
+                    "fontSize": 0.0,
+                    "fontAddress": "",
+                    "hideLabel": false
+                }
+            ],
+            "relations": [
+                {
+                    "relationId": "home-destination-route",
+                    "firstNodeId": "h1",
+                    "secondNodeId": "h2",
+                    "kind": 1,
+                    "permanent": false,
+                    "readingId": ""
+                }
+            ],
+            "silhouetteNeighbors": [],
+            "initialRelationIds": [],
+            "chains": []
+        },
+        {
+            "boardId": "local-forest-lakeside",
+            "kind": 1,
+            "slots": [
+                {
+                    "nodeId": "f1",
+                    "clueId": "clue-forest-entrance",
+                    "anchoredPosition": {
+                        "x": 145.0,
+                        "y": -105.0
+                    },
+                    "overrideAppearance": false,
+                    "sizePercent": 0.0,
+                    "fontSize": 0.0,
+                    "fontAddress": "",
+                    "hideLabel": false
+                },
+                {
+                    "nodeId": "f2",
+                    "clueId": "clue-forest-cabin",
+                    "anchoredPosition": {
+                        "x": 235.0,
+                        "y": -60.0
+                    },
+                    "overrideAppearance": false,
+                    "sizePercent": 0.0,
+                    "fontSize": 0.0,
+                    "fontAddress": "",
+                    "hideLabel": false
+                },
+                {
+                    "nodeId": "f3",
+                    "clueId": "clue-lakeside",
+                    "anchoredPosition": {
+                        "x": 235.0,
+                        "y": -150.0
+                    },
+                    "overrideAppearance": false,
+                    "sizePercent": 0.0,
+                    "fontSize": 0.0,
+                    "fontAddress": "",
+                    "hideLabel": false
+                },
+                {
+                    "nodeId": "f4",
+                    "clueId": "clue-fog-valley",
+                    "anchoredPosition": {
+                        "x": 145.0,
+                        "y": -190.0
+                    },
+                    "overrideAppearance": false,
+                    "sizePercent": 0.0,
+                    "fontSize": 0.0,
+                    "fontAddress": "",
+                    "hideLabel": false
+                },
+                {
+                    "nodeId": "f5",
+                    "clueId": "clue-plateau",
+                    "anchoredPosition": {
+                        "x": 55.0,
+                        "y": -150.0
+                    },
+                    "overrideAppearance": false,
+                    "sizePercent": 0.0,
+                    "fontSize": 0.0,
+                    "fontAddress": "",
+                    "hideLabel": false
+                },
+                {
+                    "nodeId": "f6",
+                    "clueId": "clue-web-graffiti-photo",
+                    "anchoredPosition": {
+                        "x": 55.0,
+                        "y": -60.0
+                    },
+                    "overrideAppearance": false,
+                    "sizePercent": 0.0,
+                    "fontSize": 0.0,
+                    "fontAddress": "",
+                    "hideLabel": false
+                },
+                {
+                    "nodeId": "f7",
+                    "clueId": "clue-web-night-sound",
+                    "anchoredPosition": {
+                        "x": 145.0,
+                        "y": -28.0
+                    },
+                    "overrideAppearance": false,
+                    "sizePercent": 0.0,
+                    "fontSize": 0.0,
+                    "fontAddress": "",
+                    "hideLabel": false
+                }
+            ],
+            "relations": [
+                {
+                    "relationId": "forest-entrance-cabin",
+                    "firstNodeId": "f1",
+                    "secondNodeId": "f2",
+                    "kind": 0,
+                    "permanent": false,
+                    "readingId": ""
+                },
+                {
+                    "relationId": "forest-entrance-lake",
+                    "firstNodeId": "f1",
+                    "secondNodeId": "f3",
+                    "kind": 0,
+                    "permanent": false,
+                    "readingId": ""
+                },
+                {
+                    "relationId": "forest-lake-fog",
+                    "firstNodeId": "f3",
+                    "secondNodeId": "f4",
+                    "kind": 1,
+                    "permanent": false,
+                    "readingId": ""
+                },
+                {
+                    "relationId": "forest-cabin-plateau",
+                    "firstNodeId": "f2",
+                    "secondNodeId": "f5",
+                    "kind": 1,
+                    "permanent": false,
+                    "readingId": ""
+                },
+                {
+                    "relationId": "forest-entrance-photo",
+                    "firstNodeId": "f1",
+                    "secondNodeId": "f6",
+                    "kind": 1,
+                    "permanent": false,
+                    "readingId": ""
+                },
+                {
+                    "relationId": "forest-entrance-sound",
+                    "firstNodeId": "f1",
+                    "secondNodeId": "f7",
+                    "kind": 1,
+                    "permanent": false,
+                    "readingId": ""
+                }
+            ],
+            "silhouetteNeighbors": [
+                {
+                    "revealedByNodeId": "f1",
+                    "silhouetteNodeId": "f5"
+                }
+            ],
+            "initialRelationIds": [],
+            "chains": [
+                {
+                    "chainId": "chain-1",
+                    "relationIds": [
+                        "forest-entrance-cabin"
+                    ],
+                    "readingId": ""
+                }
+            ]
+        },
+        {
+            "boardId": "local-wasteland-route",
+            "kind": 1,
+            "slots": [
+                {
+                    "nodeId": "w1",
+                    "clueId": "clue-destination-1",
+                    "anchoredPosition": {
+                        "x": 90.0,
+                        "y": -105.0
+                    },
+                    "overrideAppearance": false,
+                    "sizePercent": 0.0,
+                    "fontSize": 0.0,
+                    "fontAddress": "",
+                    "hideLabel": false
+                },
+                {
+                    "nodeId": "w2",
+                    "clueId": "clue-web-wasteland",
+                    "anchoredPosition": {
+                        "x": 200.0,
+                        "y": -65.0
+                    },
+                    "overrideAppearance": false,
+                    "sizePercent": 0.0,
+                    "fontSize": 0.0,
+                    "fontAddress": "",
+                    "hideLabel": false
+                },
+                {
+                    "nodeId": "w3",
+                    "clueId": "clue-fog-valley",
+                    "anchoredPosition": {
+                        "x": 200.0,
+                        "y": -150.0
+                    },
+                    "overrideAppearance": false,
+                    "sizePercent": 0.0,
+                    "fontSize": 0.0,
+                    "fontAddress": "",
+                    "hideLabel": false
+                }
+            ],
+            "relations": [
+                {
+                    "relationId": "wasteland-report-destination",
+                    "firstNodeId": "w2",
+                    "secondNodeId": "w1",
+                    "kind": 1,
+                    "permanent": false,
+                    "readingId": ""
+                },
+                {
+                    "relationId": "wasteland-fog-route",
+                    "firstNodeId": "w3",
+                    "secondNodeId": "w1",
+                    "kind": 1,
+                    "permanent": false,
+                    "readingId": ""
+                }
+            ],
+            "silhouetteNeighbors": [],
+            "initialRelationIds": [],
+            "chains": []
+        },
+        {
+            "boardId": "local-station-underground",
+            "kind": 1,
+            "slots": [
+                {
+                    "nodeId": "s1",
+                    "clueId": "clue-abandoned-station",
+                    "anchoredPosition": {
+                        "x": 70.0,
+                        "y": -70.0
+                    },
+                    "overrideAppearance": false,
+                    "sizePercent": 0.0,
+                    "fontSize": 0.0,
+                    "fontAddress": "",
+                    "hideLabel": false
+                },
+                {
+                    "nodeId": "s2",
+                    "clueId": "clue-underground-passage",
+                    "anchoredPosition": {
+                        "x": 150.0,
+                        "y": -115.0
+                    },
+                    "overrideAppearance": false,
+                    "sizePercent": 0.0,
+                    "fontSize": 0.0,
+                    "fontAddress": "",
+                    "hideLabel": false
+                },
+                {
+                    "nodeId": "s3",
+                    "clueId": "clue-web-night-sound",
+                    "anchoredPosition": {
+                        "x": 230.0,
+                        "y": -70.0
+                    },
+                    "overrideAppearance": false,
+                    "sizePercent": 0.0,
+                    "fontSize": 0.0,
+                    "fontAddress": "",
+                    "hideLabel": false
+                },
+                {
+                    "nodeId": "s4",
+                    "clueId": "clue-fog-valley",
+                    "anchoredPosition": {
+                        "x": 70.0,
+                        "y": -160.0
+                    },
+                    "overrideAppearance": false,
+                    "sizePercent": 0.0,
+                    "fontSize": 0.0,
+                    "fontAddress": "",
+                    "hideLabel": false
+                },
+                {
+                    "nodeId": "s5",
+                    "clueId": "clue-destination-2",
+                    "anchoredPosition": {
+                        "x": 230.0,
+                        "y": -160.0
+                    },
+                    "overrideAppearance": false,
+                    "sizePercent": 0.0,
+                    "fontSize": 0.0,
+                    "fontAddress": "",
+                    "hideLabel": false
+                }
+            ],
+            "relations": [
+                {
+                    "relationId": "station-passage",
+                    "firstNodeId": "s1",
+                    "secondNodeId": "s2",
+                    "kind": 0,
+                    "permanent": false,
+                    "readingId": ""
+                },
+                {
+                    "relationId": "station-night-sound",
+                    "firstNodeId": "s1",
+                    "secondNodeId": "s3",
+                    "kind": 1,
+                    "permanent": false,
+                    "readingId": ""
+                },
+                {
+                    "relationId": "station-passage-destination",
+                    "firstNodeId": "s2",
+                    "secondNodeId": "s5",
+                    "kind": 1,
+                    "permanent": false,
+                    "readingId": ""
+                },
+                {
+                    "relationId": "station-fog-destination",
+                    "firstNodeId": "s4",
+                    "secondNodeId": "s5",
+                    "kind": 1,
+                    "permanent": false,
+                    "readingId": ""
+                }
+            ],
+            "silhouetteNeighbors": [],
+            "initialRelationIds": [],
+            "chains": []
+        },
+        {
+            "boardId": "local-plateau-greenhouse",
+            "kind": 1,
+            "slots": [
+                {
+                    "nodeId": "p1",
+                    "clueId": "clue-plateau",
+                    "anchoredPosition": {
+                        "x": 72.0,
+                        "y": -110.0
+                    },
+                    "overrideAppearance": false,
+                    "sizePercent": 0.0,
+                    "fontSize": 0.0,
+                    "fontAddress": "",
+                    "hideLabel": false
+                },
+                {
+                    "nodeId": "p2",
+                    "clueId": "clue-greenhouse",
+                    "anchoredPosition": {
+                        "x": 155.0,
+                        "y": -60.0
+                    },
+                    "overrideAppearance": false,
+                    "sizePercent": 0.0,
+                    "fontSize": 0.0,
+                    "fontAddress": "",
+                    "hideLabel": false
+                },
+                {
+                    "nodeId": "p3",
+                    "clueId": "clue-destination-3",
+                    "anchoredPosition": {
+                        "x": 238.0,
+                        "y": -110.0
+                    },
+                    "overrideAppearance": false,
+                    "sizePercent": 0.0,
+                    "fontSize": 0.0,
+                    "fontAddress": "",
+                    "hideLabel": false
+                },
+                {
+                    "nodeId": "p4",
+                    "clueId": "dummy-clue-eye",
+                    "anchoredPosition": {
+                        "x": 155.0,
+                        "y": -172.0
+                    },
+                    "overrideAppearance": false,
+                    "sizePercent": 0.0,
+                    "fontSize": 0.0,
+                    "fontAddress": "",
+                    "hideLabel": false
+                }
+            ],
+            "relations": [
+                {
+                    "relationId": "plateau-greenhouse",
+                    "firstNodeId": "p1",
+                    "secondNodeId": "p2",
+                    "kind": 0,
+                    "permanent": false,
+                    "readingId": ""
+                },
+                {
+                    "relationId": "greenhouse-final",
+                    "firstNodeId": "p2",
+                    "secondNodeId": "p3",
+                    "kind": 1,
+                    "permanent": false,
+                    "readingId": ""
+                },
+                {
+                    "relationId": "plateau-eye",
+                    "firstNodeId": "p1",
+                    "secondNodeId": "p4",
+                    "kind": 1,
+                    "permanent": false,
+                    "readingId": ""
+                }
+            ],
+            "silhouetteNeighbors": [],
+            "initialRelationIds": [],
+            "chains": []
+        },
+        {
+            "boardId": "dev-local-forest", "kind": 1,
+            "slots": [
+                {"nodeId":"n1","clueId":"clue-forest-entrance","anchoredPosition":{"x":148,"y":-112}}, {"nodeId":"n2","clueId":"clue-lakeside","anchoredPosition":{"x":148,"y":-38}}, {"nodeId":"n3","clueId":"clue-forest-cabin","anchoredPosition":{"x":245,"y":-75}}, {"nodeId":"n4","clueId":"clue-fog-valley","anchoredPosition":{"x":245,"y":-155}}, {"nodeId":"n5","clueId":"clue-plateau","anchoredPosition":{"x":51,"y":-155}}, {"nodeId":"n6","clueId":"clue-web-graffiti-photo","anchoredPosition":{"x":51,"y":-75}}, {"nodeId":"n7","clueId":"clue-web-night-sound","anchoredPosition":{"x":148,"y":-190}}, {"nodeId":"n8","clueId":"dummy-clue-wing","anchoredPosition":{"x":268,"y":-112}}, {"nodeId":"n9","clueId":"dummy-clue-eye","anchoredPosition":{"x":28,"y":-112}}
+            ],
+            "relations": [
+                {"relationId":"dev-rel-required","firstNodeId":"n1","secondNodeId":"n2","kind":0}, {"relationId":"dev-rel-initial","firstNodeId":"n2","secondNodeId":"n3","kind":1}, {"relationId":"dev-rel-cabin","firstNodeId":"n1","secondNodeId":"n3","kind":0}, {"relationId":"dev-rel-photo","firstNodeId":"n1","secondNodeId":"n6","kind":0}, {"relationId":"dev-rel-audio","firstNodeId":"n1","secondNodeId":"n7","kind":1}, {"relationId":"dev-rel-event-wing-bridge","firstNodeId":"n1","secondNodeId":"n8","kind":1}, {"relationId":"dev-rel-event-eye-bridge","firstNodeId":"n1","secondNodeId":"n9","kind":1}, {"relationId":"dev-rel-event-symbols","firstNodeId":"n8","secondNodeId":"n9","kind":0,"readingId":"reading_dummy_test"}
+            ],
+            "silhouetteNeighbors": [{"revealedByNodeId":"n1","silhouetteNodeId":"n5"}], "initialRelationIds": ["dev-rel-initial"], "chains": []
+        },
+        {
+            "boardId": "dev-global", "kind": 0,
+            "slots": [
+                {"nodeId":"d1","clueId":"clue-forest-entrance","anchoredPosition":{"x":148,"y":-112}}, {"nodeId":"d2","clueId":"clue-lakeside","anchoredPosition":{"x":148,"y":-38}}, {"nodeId":"d3","clueId":"clue-destination-1","anchoredPosition":{"x":245,"y":-112}}, {"nodeId":"d4","clueId":"clue-web-night-sound","anchoredPosition":{"x":148,"y":-190}}, {"nodeId":"d5","clueId":"clue-web-graffiti-photo","anchoredPosition":{"x":51,"y":-112}}, {"nodeId":"d6","clueId":"dummy-clue-wing","anchoredPosition":{"x":245,"y":-48}}, {"nodeId":"d7","clueId":"dummy-clue-eye","anchoredPosition":{"x":245,"y":-176}}
+            ],
+            "relations": [
+                {"relationId":"dev-global-rel","firstNodeId":"d1","secondNodeId":"d2","kind":0}, {"relationId":"dev-global-photo","firstNodeId":"d1","secondNodeId":"d5","kind":1}, {"relationId":"dev-global-audio","firstNodeId":"d1","secondNodeId":"d4","kind":1}, {"relationId":"dev-global-event-wing-bridge","firstNodeId":"d1","secondNodeId":"d6","kind":1}, {"relationId":"dev-global-event-eye-bridge","firstNodeId":"d1","secondNodeId":"d7","kind":1}, {"relationId":"dev-global-event-symbols","firstNodeId":"d6","secondNodeId":"d7","kind":0,"readingId":"reading_dummy_test"}
+            ],
+            "silhouetteNeighbors": [], "initialRelationIds": [], "chains": []
+        }
+    ]
+}

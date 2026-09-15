@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -68,7 +69,10 @@ namespace RouteFinding.Codex
             BuildUI();
 
             // UI_TOGGLE 액션맵은 모드 전환과 무관하게 항상 켜져 있다(MapViewer.Awake와 동일).
-            if (_inputManager != null) _inputManager.onOpenCodex += HandleOpenCodexInput;
+            // Clue Board가 씬에 있으면 기존 Clue 키와 UIManager "Clue" 슬롯의 소유권을 넘긴다.
+            // 구 도감 창은 폴백으로만 남기며 같은 입력을 동시에 토글하지 않는다.
+            if (_inputManager != null && FindObjectOfType<RouteFinding.UI.ClueBoardPanel>() == null)
+                _inputManager.onOpenCodex += HandleOpenCodexInput;
         }
 
         // "닫기 [N]" 같은 UI 라벨용 — MapViewer.ToggleKeyLabel과 동일한 이유로 필드 대신 실시간 조회.
@@ -282,7 +286,7 @@ namespace RouteFinding.Codex
             return new CodexEntry
             {
                 title       = clue.name,
-                typeLabel   = ClueTypeConfig.GetDisplayName(clue.type),
+                typeLabel   = ClueTypeConfig.GetDisplayName(clue.classification),
                 timestamp   = clue.timestamp,
                 content     = string.IsNullOrEmpty(clue.content) ? clue.description : clue.content,
                 source      = clue.source,
@@ -292,6 +296,8 @@ namespace RouteFinding.Codex
                 clueId      = clue.id,
                 comments    = clue.comments ?? Array.Empty<CodexComment>(),
                 attachments = clue.attachments ?? Array.Empty<ClueAttachment>(),
+                mediaBlocks = clue.mediaBlocks ?? Array.Empty<ClueMediaBlock>(),
+                iconAddress = clue.iconAddress ?? "",
                 isNew       = CodexModule.Instance.IsClueNew(clue.id),
             };
         }
@@ -602,11 +608,22 @@ namespace RouteFinding.Codex
 
         private void OnEntrySelected(CodexEntry entry)
         {
-            // 6-3단계 — 카드로 연 시점에 "NEW" 후보에서 제거한다. MarkClueViewed는 리프레시 이벤트를
-            // 일부러 쏘지 않으므로(이유는 CodexModule 쪽 주석 참고) 트리의 NEW 배지는 다음 자연스러운
-            // 갱신 때 사라진다 — 지금 클릭한 이 카드는 그대로 정상 표시된다.
-            CodexModule.Instance.MarkClueViewed(entry.clueId);
+            // 첫 선택 자체가 최초 확인이다. 저장되는 NEW 상태와 현재 항목 표현을 같은 프레임에 함께
+            // 해제하고, 클릭 콜백이 끝난 다음 프레임에 트리를 갱신해 기존 선택 이벤트를 무효화하지 않는다.
+            bool wasNew = entry != null && entry.isNew;
+            if (wasNew)
+            {
+                CodexModule.Instance.MarkClueViewed(entry.clueId);
+                entry.isNew = false;
+            }
             _cardView.ShowEntry(entry);
+            if (wasNew) StartCoroutine(RefreshTreeAfterSelection());
+        }
+
+        private IEnumerator RefreshTreeAfterSelection()
+        {
+            yield return null;
+            RefreshTree();
         }
 
         // ─── 유저 메모 CRUD 연동 ─────────────────────────────────

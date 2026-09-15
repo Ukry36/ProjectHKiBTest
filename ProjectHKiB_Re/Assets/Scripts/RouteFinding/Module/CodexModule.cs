@@ -64,22 +64,31 @@ public class CodexModule : MonoBehaviour
     private readonly List<ClueData> _acquiredClues = new();
     public IReadOnlyList<ClueData> AcquiredClues => _acquiredClues;
 
-    // 6-3단계(Clue_System.md) — "새로 획득했지만 아직 카드로 한 번도 열어보지 않은 단서" 후보 집합.
-    // HandleClueAcquired(실시간 획득)에서만 채워진다 — RebuildFromProgress(세이브 로드 등 일괄 재계산)는
-    // 예전에 이미 갖고 있던 단서까지 전부 "NEW"로 만들어버리므로 여기 채우지 않는다. 카드로 한 번
-    // 열어보면(MarkClueViewed) 제거된다. 세이브 미연동(런타임 전용) — 재시작하면 사라진다, 6-3 문서에
-    // 적힌 대로 "별도 시스템 없이 도감 내부에서 닫힌 상태로" 구현하는 선에서 의도적으로 단순화했다.
-    private readonly HashSet<string> _unviewedNewClueIds = new();
-    public bool IsClueNew(string clueId) => !string.IsNullOrEmpty(clueId) && _unviewedNewClueIds.Contains(clueId);
+    // 실제 플레이 중 처음 획득한 단서는 첫 해몽 저장 전이라도 NEW가 된다.
+    // 획득 목록과 분리해 저장하며, 로드/중복 지급은 TryMarkAcquired를 호출하지 않는다.
+    private readonly ClueNewState _newState = new();
+    public bool IsClueNew(string clueId) =>
+        !string.IsNullOrEmpty(clueId) && _newState.NewClueIds.Contains(clueId);
+    public bool HasSavedDreamReadingCheckpoint => _newState.HasSavedDreamReadingCheckpoint;
+    public IReadOnlyCollection<string> NewClueIds => _newState.NewClueIds;
+
+    // 대표 아이콘 알림과 열린 보드 슬롯 채움 연출은 일반 획득이 아닌 이 이벤트를 구독한다.
+    // 실제 신규 획득에만 발행하고 로드·중복 지급에는 발행하지 않는다.
+    public event Action<ClueData> OnNewClueAcquired;
     // OnCodexChanged를 일부러 발행하지 않는다 — 이 메서드는 트리 행 클릭 콜백(CodexDrawerTreeView)
     // 도중 CodexPanel.OnEntrySelected에서 호출되는데, 여기서 리프레시 이벤트를 쏘면 그 클릭 콜백이
     // 참조하고 있던 CodexEntry 객체(RefreshTree가 매번 새로 만듦)가 곧바로 낡은 참조가 되어, 뒤이어
     // 실행되는 트리의 선택 하이라이트 비교(참조 비교)가 깨진다. NEW 배지는 다음 자연스러운 갱신
     // (다른 단서 획득, 패널 재오픈 등) 때 사라지는 정도로 충분하다고 판단해 단순화했다.
-    public void MarkClueViewed(string clueId)
+    public void MarkClueViewed(string clueId) => MarkClueViewed(clueId, "Codex/other");
+
+    public void MarkClueViewedFromBoard(string clueId) => MarkClueViewed(clueId, "ClueBoard");
+
+    private void MarkClueViewed(string clueId, string source)
     {
         if (string.IsNullOrEmpty(clueId)) return;
-        _unviewedNewClueIds.Remove(clueId);
+        bool removed = _newState.MarkViewed(clueId);
+        Debug.Log($"[ClueNEW][State] 확인 처리: clue={clueId}, source={source}, removed={removed}, remaining={_newState.NewClueIds.Count}, frame={Time.frameCount}, time={Time.unscaledTime:F3}");
     }
 
     // 유저가 도감 안에서 직접 작성한 자유 메모("빈 단서") — 3단계.
@@ -90,7 +99,7 @@ public class CodexModule : MonoBehaviour
     // CodexPanel 등 UI가 구독 — 획득/메모 목록이 바뀔 때마다 다시 그리라는 신호.
     public event Action OnCodexChanged;
 
-    private bool _subscribed;
+    private RouteProgressState _subscribedProgress;
 
     private void Awake()
     {
@@ -108,22 +117,38 @@ public class CodexModule : MonoBehaviour
     private void OnDestroy()
     {
         if (_instance == this) _instance = null;
-        if (_subscribed && RouteModule.Instance != null)
-            RouteModule.Instance.Progress.OnClueAcquired -= HandleClueAcquired;
+        if (_subscribedProgress != null)
+            _subscribedProgress.OnClueAcquired -= HandleClueAcquired;
+        _subscribedProgress = null;
     }
 
     private void TrySubscribe()
     {
-        if (_subscribed || RouteModule.Instance == null || RouteModule.Instance.Progress == null) return;
-        RouteModule.Instance.Progress.OnClueAcquired += HandleClueAcquired;
-        _subscribed = true;
+        RouteProgressState progress = RouteModule.Instance?.Progress;
+        if (progress != null) BindProgress(progress);
+    }
+
+    /// <summary>
+    /// RouteModule이 Progress를 생성한 즉시 호출한다. 이벤트 체인이 UI/도감보다 먼저 단서를 지급해도
+    /// NEW 획득 이벤트를 놓치지 않게 하는 초기화 경계다.
+    /// </summary>
+    public void BindProgress(RouteProgressState progress)
+    {
+        if (progress == null || ReferenceEquals(_subscribedProgress, progress)) return;
+        if (_subscribedProgress != null)
+            _subscribedProgress.OnClueAcquired -= HandleClueAcquired;
+        _subscribedProgress = progress;
+        _subscribedProgress.OnClueAcquired += HandleClueAcquired;
+        Debug.Log($"[ClueNEW][State] 진행 상태 직접 연결 완료: frame={Time.frameCount}");
     }
 
     private void HandleClueAcquired(ClueData clue)
     {
         if (!_acquiredClues.Contains(clue)) _acquiredClues.Add(clue);
-        _unviewedNewClueIds.Add(clue.id);
+        bool becameNew = clue != null && _newState.TryMarkAcquired(clue.id);
+        Debug.Log($"[ClueNEW][State] 획득 이벤트: clue={clue?.id ?? "(null)"}, checkpoint={_newState.HasSavedDreamReadingCheckpoint}, becameNew={becameNew}, totalNew={_newState.NewClueIds.Count}, frame={Time.frameCount}");
         OnCodexChanged?.Invoke();
+        if (becameNew) OnNewClueAcquired?.Invoke(clue);
     }
 
     // RouteProgressState.AcquiredClueIds 기준으로 전체 재계산.
@@ -194,5 +219,41 @@ public class CodexModule : MonoBehaviour
         _userEntries.Clear();
         if (entries != null) _userEntries.AddRange(entries);
         OnCodexChanged?.Invoke();
+    }
+
+    public List<string> ExportNewClueIds() => _newState.ExportNewClueIds();
+
+    public void ImportClueNewState(bool hasSavedDreamReadingCheckpoint, List<string> newClueIds)
+    {
+        IReadOnlyCollection<string> acquired = RouteModule.Instance?.Progress?.AcquiredClueIds;
+        _newState.Import(hasSavedDreamReadingCheckpoint, newClueIds, acquired);
+        OnCodexChanged?.Invoke();
+    }
+
+#if UNITY_EDITOR
+    /// <summary>이미 획득한 테스트 데이터에서도 NEW 시각 효과를 반복 확인하기 위한 에디터 전용 진입점.</summary>
+    public bool DebugMarkClueNewForValidation(string clueId)
+    {
+        ClueData clue = MapGraph.Instance?.GetClue(clueId);
+        if (clue == null) return false;
+        TrySubscribe();
+        bool becameNew = _newState.TryMarkAcquired(clueId);
+        Debug.Log($"[ClueNEW][State] 에디터 검증용 NEW 주입: clue={clueId}, becameNew={becameNew}, frame={Time.frameCount}");
+        OnCodexChanged?.Invoke();
+        // 이미 NEW인 경우에도 열린 보드가 다시 그려지도록 검증 이벤트는 발행한다.
+        OnNewClueAcquired?.Invoke(clue);
+        return true;
+    }
+#endif
+
+    // SaveModule.WriteSaveFile이 성공한 뒤에만 호출한다. 저장 준비 단계에서 켜면 파일 쓰기 실패에도
+    // 런타임 판정 기준이 앞당겨져 "확정·저장 이후" 계약을 어기게 된다.
+    public void CommitSavedDreamReadingCheckpoint(bool hasResolvedDreamReading)
+    {
+        // 저장 코드가 이 호출에서 CodexModule을 처음 만들었을 수도 있다. Start까지 기다리면 같은
+        // 프레임에 이어지는 단서 획득 이벤트를 놓치므로 기준점을 세울 때 즉시 구독한다.
+        TrySubscribe();
+        _newState.CommitSavedDreamReadingCheckpoint(hasResolvedDreamReading);
+        Debug.Log($"[ClueNEW][State] 해몽 저장 기준점 커밋: requested={hasResolvedDreamReading}, checkpoint={_newState.HasSavedDreamReadingCheckpoint}, frame={Time.frameCount}");
     }
 }

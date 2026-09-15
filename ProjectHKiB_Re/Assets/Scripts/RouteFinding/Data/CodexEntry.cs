@@ -13,7 +13,7 @@ using System.Collections.Generic;
 public class CodexEntry
 {
     public string title;
-    public string typeLabel;   // 타입 배지 표시용 (생명체/장소/퍼즐 힌트/이벤트 힌트/이동 힌트). 유저 메모는 빈 문자열
+    public string typeLabel;   // 새 4종 타입 배지 표시용. 미분류/유저 메모는 빈 문자열
     public string timestamp;   // 빈 문자열이면 카드에 표시 안 함
     public string content;
     public string source;
@@ -34,6 +34,14 @@ public class CodexEntry
     // 첨부물(2026-08-11) — ClueData.attachments를 그대로 옮겨온 것. 유저 메모/미발견 슬롯은 항상 비어 있다
     // (유저는 파일을 고를 수 없고, 미발견 슬롯은 내용 자체가 스포일러라 첨부도 감춰야 한다).
     public ClueAttachment[] attachments = Array.Empty<ClueAttachment>();
+
+    // 본문 매체 블록(C01, 2026-09-08) — ClueData.mediaBlocks를 그대로 옮겨온 것. 위 content(단일
+    // 문자열) 아래에 이어 붙는다. 첨부물과 같은 이유로 유저 메모/미발견 슬롯은 항상 비어 있다.
+    public ClueMediaBlock[] mediaBlocks = Array.Empty<ClueMediaBlock>();
+
+    // 대표 아이콘(C01) — ClueData.iconAddress. 카드 제목 왼쪽에 표시하고, 주소가 비었거나 못 찾으면
+    // 아이콘 자리를 통째로 숨긴다(본문 표시에는 영향을 주지 않는다).
+    public string iconAddress = "";
 
     // 6-2단계(Clue_System.md) — 아직 획득하지 않은 단서의 "???" 빈칸 슬롯. true면 title/content가
     // 이미 "??? (미발견)"/고정 문구로 채워져 있고, clueId/typeLabel/timestamp/source/keywords는

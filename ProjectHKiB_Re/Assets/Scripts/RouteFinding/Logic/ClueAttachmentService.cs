@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -28,6 +29,8 @@ public static class ClueAttachmentService
 {
     private static readonly Dictionary<string, Sprite> SpriteCache = new();
     private static readonly Dictionary<string, AudioClip> ClipCache = new();
+    private static readonly Dictionary<string, UnityEngine.Video.VideoClip> VideoCache = new();
+    private static readonly Dictionary<string, TMP_FontAsset> FontCache = new();
 
     // Release 대상 핸들. 실패한 로드는 여기 들어오지 않는다(핸들이 유효하지 않음).
     private static readonly List<AsyncOperationHandle> Handles = new();
@@ -70,6 +73,34 @@ public static class ClueAttachmentService
 
         ClipCache[address] = clip;
         return clip;
+    }
+
+    // 본문 영상 블록(ClueMediaKind.Video)용. 사진/소리와 같은 캐시 규칙 — 실패도 캐시해 경고를
+    // 주소당 한 번만 남긴다. 재생 자체는 ClueMediaVideoPlayer가 맡는다(로드와 수명 분리).
+    public static UnityEngine.Video.VideoClip LoadVideo(string address)
+    {
+        if (string.IsNullOrWhiteSpace(address)) return null;
+        if (VideoCache.TryGetValue(address, out var cached)) return cached;
+
+        var clip = LoadSync<UnityEngine.Video.VideoClip>(address);
+        if (clip == null)
+            Debug.LogWarning($"[ClueAttachmentService] 영상을 찾을 수 없습니다: Addressable 주소 '{address}'");
+
+        VideoCache[address] = clip;
+        return clip;
+    }
+
+    public static TMP_FontAsset LoadFont(string address)
+    {
+        if (string.IsNullOrWhiteSpace(address)) return null;
+        if (FontCache.TryGetValue(address, out var cached)) return cached;
+
+        TMP_FontAsset font = LoadSync<TMP_FontAsset>(address);
+        if (font == null)
+            Debug.LogWarning($"[ClueAttachmentService] 폰트를 찾을 수 없습니다: Addressable 주소 '{address}'");
+
+        FontCache[address] = font;
+        return font;
     }
 
     // 주소가 등록돼 있는지 먼저 보고, 있을 때만 로드한다. 없으면 조용히 null —
@@ -141,6 +172,8 @@ public static class ClueAttachmentService
     {
         SpriteCache.Clear();
         ClipCache.Clear();
+        VideoCache.Clear();
+        FontCache.Clear();
 
         // 파괴 순서 주의 — 폴백 스프라이트를 먼저 버린다. 그 원본 Texture2D를 들고 있는 게
         // 아래에서 Release할 핸들이라, 반대로 하면 이미 내려간 텍스처를 가리키는 스프라이트가 남는다.

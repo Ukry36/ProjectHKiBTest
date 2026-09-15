@@ -94,6 +94,12 @@ public class SaveSlotData
     public List<NoteEntry> noteEntries = new();
     public List<CodexUserEntry> codexUserEntries = new();
 
+    // 해몽 결과 재발행 방지 + 신규 단서 판정 상태. 구 세이브는 JsonUtility 기본값(false/빈 목록)으로
+    // 읽혀 해몽 저장 기준점이 생기기 전 획득 단서를 NEW로 소급하지 않는다.
+    public List<string> resolvedDreamReadingIds = new();
+    public bool hasSavedDreamReadingCheckpoint = false;
+    public List<string> newClueIds = new();
+
     // 노트 상단 툴바 "저장한 루트" 창에서 이름 붙여 저장해둔 스냅샷들 — 위 noteEntries(현재 화면
     // 상태)와 별개로, 세이브 슬롯 하나 안에 이름 붙은 보드가 여러 개 같이 저장된다.
     public List<NoteSavedBoard> noteSavedBoards = new();
@@ -111,6 +117,19 @@ public class SaveSlotData
     // 통해 이뤄진다(NoteModule과 달리 씬 오브젝트라 자동 생성 싱글턴이 아님).
     public List<CluePositionEntry> notePositions = new();
     public List<string> noteExpandedClueIds = new();
+
+    // [C04, 2026-09-12] 고정 단서 보드(ClueBoard*)의 플레이어 진행 — 보드별로 플레이어가 이은 관계 ID.
+    // 위 notePositions/noteClueLinks/noteSavedBoards(구 노트: 자유 배치·임의 링크)와는 별개이며 서로 변환하지
+    // 않는다. 좌표·관계·초기 연결은 Resources/clue_boards.json(정의)이 소유하고 여기엔 진행만 담는다.
+    // 구 세이브는 version 0/빈 목록으로 읽혀 진행 없음이 된다. DTO는 RouteFinding/Data/ClueBoardProgressSaveInfo.cs.
+    public ClueBoardProgressSaveData clueBoardProgress = new();
+
+    // [C06, 2026-09-15] 고정 단서 보드의 관계 결과(해몽) 발행/확인 기록 — (boardId, kind, outcomeId) 단위.
+    // clueBoardProgress(선이 이어져 있다)와 별개 필드다: "이 선의 결과를 이미 보여 줬다"를 진행에 섞으면 복원 시
+    // 어느 쪽 누락이 재발행을 뜻하는지 구분할 수 없다. 해몽 본문은 DreamReadings.asset, 관계 목록은 clue_boards.json이
+    // 소유하고 여기엔 식별자·발행 당시 해몽 ID·viewed만 담는다. resolvedDreamReadingIds(해몽 성립 = 보상)와도 별개로,
+    // 보드 결과가 성립시킨 해몽은 그쪽에도 함께 기록된다. 구 세이브는 version 0/빈 목록으로 읽혀 발행 없음이 된다.
+    public ClueBoardOutcomeSaveData clueBoardOutcomes = new();
 
     // 지도/노트에서 마지막으로 커밋(RouteModule.SelectRoute)한 단일 경로 — 노트 좌측 그래프
     // (NoteRouteGraphView)가 표시하는 데 쓴다. PathResult 자체(MapNodeData 객체 참조를 들고 있어

@@ -33,6 +33,7 @@ RectTransform:
   - {fileID: 5729804402099417213}
   - {fileID: 400046285819344926}
   - {fileID: 4820113750921640002}
+  - {fileID: 7325657652694864530}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -92,8 +93,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 974f6c0873f314b4fac76937605dcbf2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   isPopup: 0
   pausesGame: 1
   initButton: {fileID: 0}
@@ -117,9 +118,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7467cfb1193ed9a49a25bfbdada863bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _newGlowColor: {r: 1, g: 0.82, b: 0.3, a: 0.62}
+  _newGlowDistance: {x: 1.5, y: -1.5}
+  _newGlowPulseSpeed: 2.2
   _suggestionRowTemplate: {fileID: 0}
   _commentRowTemplate: {fileID: 0}
   _attachmentRowTemplate: {fileID: 0}
+  _mediaRowTemplate: {fileID: 0}
   _colMuted: {r: 0.55, g: 0.6, b: 0.65, a: 1}
   _colBadge: {r: 0.25, g: 0.42, b: 0.72, a: 1}
   _colGreenBtn: {r: 0.15, g: 0.32, b: 0.19, a: 1}
@@ -128,6 +133,8 @@ MonoBehaviour:
   _commentRowHeight: 28
   _attachmentRowHeight: 14
   _imagePreviewHeight: 60
+  _videoPreviewHeight: 90
+  _mediaTextFallbackWidth: 150
 --- !u!114 &6592096712670244721
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -358,6 +365,68 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 453c7221c2559cb439cef3da3917073f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &3151197015017162529
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7325657652694864530}
+  - component: {fileID: 527664515291565136}
+  m_Layer: 0
+  m_Name: ClueBoardPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &7325657652694864530
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3151197015017162529}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -1440}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2098070915863448384}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &527664515291565136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3151197015017162529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e78a947c0d3341bf9a06bbfa8f38d713, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  _font: {fileID: 11400000, guid: 534611c51c4fe394ebef066303e1211c, type: 2}
+  _rootBgColor: {r: 0.04, g: 0.05, b: 0.09, a: 0.96}
+  _globalBoardId: dev-global
+  _developmentControls: 1
+  _developmentHotkey: 290
+  _developmentBoardDefinition: {fileID: 4900000, guid: 3910a756a9fa440aae026b710c55c34b, type: 3}
+  _developmentAcquiredClueIds:
+  - clue-forest-entrance
+  - clue-lakeside
+  - clue-forest-cabin
+  - clue-web-graffiti-photo
+  - clue-web-night-sound
+  _developmentLocalBoardId: dev-local-forest
 --- !u!1 &4820113750921640001
 GameObject:
   m_ObjectHideFlags: 0
@@ -451,7 +520,13 @@ MonoBehaviour:
   _postRowHeight: 12
   _siteRowTemplate: {fileID: 0}
   _postRowTemplate: {fileID: 0}
+  _navButtonColor: {r: 0.2, g: 0.28, b: 0.42, a: 1}
+  _closeButtonColor: {r: 0.42, g: 0.1, b: 0.1, a: 1}
+  _navButtonWidth: 26
+  _topBarFontSize: 7
   _searchFieldWidth: 110
+  _searchFieldColor: {r: 0.03, g: 0.04, b: 0.06, a: 1}
+  _searchPlaceholder: "\uAC80\uC0C9"
   _connectDuration: 0.35
   _connectOverlayColor: {r: 0.03, g: 0.04, b: 0.07, a: 0.96}
   _connectTextColor: {r: 0.55, g: 0.95, b: 0.65, a: 1}
@@ -621,6 +696,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _font: {fileID: 11400000, guid: 534611c51c4fe394ebef066303e1211c, type: 2}
   _topBarHeight: 24
+  _legendHeight: 18
   _rootBgColor: {r: 0.04, g: 0.04, b: 0.08, a: 0.96}
   _rootBgSprite: {fileID: 0}
   _listBgColor: {r: 0.07, g: 0.09, b: 0.14, a: 0.97}

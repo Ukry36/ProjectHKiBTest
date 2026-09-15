@@ -5,11 +5,32 @@ using System;
 // 이 타입의 표시 이름도 키워드 그룹에 포함시킨다.
 public enum ClueType
 {
-    Creature,       // 생명체
-    Location,       // 장소
-    PuzzleHint,     // 퍼즐 힌트
-    EventHint,      // 이벤트 힌트
-    TravelHint      // 이동 힌트
+    Symbol = 1,
+    Picture = 2,
+    Prints = 3,
+    Object = 4
+}
+
+public enum ClueSubtype
+{
+    Symbol = 1, ObscureText = 2, TextFragment = 3, DamagedText = 4,
+    Drawing = 5, Photograph = 6,
+    PromotionalMaterial = 7, Flyer = 8, Newspaper = 9,
+    PhysicalObject = 10
+}
+
+// 0은 유효한 분류가 아니다. 객체가 없으면 미분류이며 필드 누락도 검증에서 거절한다.
+[Serializable]
+public class ClueClassification
+{
+    public ClueType type;
+    public ClueSubtype subtype;
+}
+
+// 전투 EmotionColor와 독립. 네 번째 감정은 콘텐츠 확정 전 사용할 수 없다.
+public enum ClueEmotionTag
+{
+    Unset = 0, Joy = 1, Sadness = 2, Anger = 3, ReservedFourth = 4
 }
 
 // 단서 하나의 데이터. clues.json에서 별도 관리된다.
@@ -30,9 +51,27 @@ public class ClueData
     public string requiredEventKey;      // 획득에 필요한 이벤트 키 (비어있으면 방문만으로 획득)
 
     // ─── 도감(Codex) 전용 필드 ──────────────────────────────────
-    public ClueType type;
+    public ClueClassification classification;
+    public ClueEmotionTag emotionTag;
+    public string iconAddress;
+
+    // 단서 보드 카드 공통 외형. 0/빈 값은 런타임 기본값(100%, 6.5pt, 기본 폰트)을 뜻한다.
+    // 위치와 관계는 보드 문맥이므로 ClueBoardSlot에 남고, 특정 보드에서만 달라야 할 때는
+    // 슬롯의 overrideAppearance를 켜서 이 값을 덮어쓴다.
+    public float boardSizePercent;
+    public float boardFontSize;
+    public string boardFontAddress;
+    public bool boardHideLabel;
+    // 구 JSON type은 보고용으로만 보존한다. 새 분류로 캐스팅하거나 재저장하지 않는다.
+    [NonSerialized] public int legacyType = -1;
     public string timestamp;    // 표시용 텍스트(예: "00:00"). 빈 문자열이면 카드에 표시 안 함
     public string content;      // 도감 카드 본문 — description(지도 툴팁용 짧은 텍스트)과 별개
+
+    // 본문 매체 블록(C01, 2026-09-08) — 글/사진/영상/소리를 작성 순서대로 이어 붙인 본문.
+    // 위 content(단일 문자열)를 대체하지 않고 그 아래에 덧붙는다. 비어 있으면 지금까지와 동일하게
+    // content만 표시되므로 기존 16건은 손대지 않아도 그대로 열린다.
+    public ClueMediaBlock[] mediaBlocks = Array.Empty<ClueMediaBlock>();
+
     public string source;       // 출처(사람/물건/위치)
     public string codexMapGuid; // 이 단서가 "소속"되는 맵(도감 분류 기준). 없으면 "기타" 카테고리
     public string[] keywords;   // 검색/자동분류용 태그
@@ -50,5 +89,7 @@ public class ClueData
 [Serializable]
 public class ClueDatabase
 {
+    public const int CurrentSchemaVersion = 1;
+    public int schemaVersion;
     public ClueData[] clues;
 }
