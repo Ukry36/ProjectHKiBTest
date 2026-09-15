@@ -3733,7 +3733,7 @@ MonoBehaviour:
   localManager: {fileID: 0}
   navigationManager: {fileID: 490475675}
   _physicsManager: {fileID: 0}
-  initialMap: {fileID: 11400000, guid: 7b91c2576d1296847acb2e395e3cf5aa, type: 2}
+  initialMap: {fileID: 11400000, guid: 0e206c1f89d359f46a996f13d7a8dd1c, type: 2}
 --- !u!114 &75784914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68301,6 +68301,7 @@ MonoBehaviour:
   _stateMachine: {fileID: 0}
   TransitionConditions: 
   Timers: []
+  _stallWarningSeconds: 10
   eventFlags:
     _serializedList:
     - Key: {fileID: 11400000, guid: 015d48b9281ebbb4ab3a097627104cff, type: 2}
