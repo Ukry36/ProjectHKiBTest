@@ -328,7 +328,7 @@ public class EventManager : StateController, IEventSaveProvider
         // 예전엔 첫 단계가 대상을 안 써서 드러나지 않았을 뿐이다.
         if (TryGetInterface(out IEvent @event)) @event.CurrentTargets = currentTargets;
 
-        Initialize(eventSO);
+        InitializeStateMachine(eventSO);
         ResetStateDiagnostics(CurrentState);
         EventDiagnostics.LogEventStarted(this, eventSO, CurrentState);
         if (!IsEventRunning) EventDiagnostics.LogEventCompleted(this);
