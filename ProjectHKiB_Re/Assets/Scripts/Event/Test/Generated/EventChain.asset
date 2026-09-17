@@ -1407,7 +1407,7 @@ MonoBehaviour:
     - rid: 6174889728934674783
       type: {class: OpenWindowAction, ns: StateMachine, asm: Assembly-CSharp}
       data:
-        windowName: Note
+        windowName: Clue
         close: 0
     - rid: 6174889728934674784
       type: {class: DummyEventStepAction, ns: StateMachine, asm: Assembly-CSharp}
@@ -1435,7 +1435,7 @@ MonoBehaviour:
     - rid: 6174889728934674788
       type: {class: WindowClosedDecision, ns: StateMachine, asm: Assembly-CSharp}
       data:
-        windowName: Note
+        windowName: Clue
     - rid: 6174889728934674789
       type: {class: DummyEventStepAction, ns: StateMachine, asm: Assembly-CSharp}
       data:

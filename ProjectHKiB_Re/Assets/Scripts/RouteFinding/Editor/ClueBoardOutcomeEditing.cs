@@ -40,9 +40,11 @@ namespace RouteFinding.Editor
                 chain.readingId ??= "";
                 chain.relationIds ??= Array.Empty<string>();
                 for (int i = 0; i < chain.relationIds.Length; i++) chain.relationIds[i] ??= "";
+                chain.revealSilhouetteNodeIds ??= Array.Empty<string>();
+                for (int i = 0; i < chain.revealSilhouetteNodeIds.Length; i++) chain.revealSilhouetteNodeIds[i] ??= "";
             }
             foreach (ClueBoardRelation relation in board.relations ?? Array.Empty<ClueBoardRelation>())
-                if (relation != null) relation.readingId ??= "";
+                if (relation != null) { relation.readingId ??= ""; relation.comment ??= ""; }
         }
 
         public static string NextChainId(ClueBoardDefinition board)

@@ -131,6 +131,10 @@ public class SaveSlotData
     // 보드 결과가 성립시킨 해몽은 그쪽에도 함께 기록된다. 구 세이브는 version 0/빈 목록으로 읽혀 발행 없음이 된다.
     public ClueBoardOutcomeSaveData clueBoardOutcomes = new();
 
+    // [C07] 꿈 잠식은 보드 진행과 분리된 현실 상태다. 구 세이브는 JsonUtility가 null로 읽으며
+    // DreamErosionState.Import가 이를 0단계/빈 환각 목록으로 처리한다.
+    public DreamErosionSaveData dreamErosion;
+
     // 지도/노트에서 마지막으로 커밋(RouteModule.SelectRoute)한 단일 경로 — 노트 좌측 그래프
     // (NoteRouteGraphView)가 표시하는 데 쓴다. PathResult 자체(MapNodeData 객체 참조를 들고 있어
     // JsonUtility로 그대로 직렬화하기 부적절)를 저장하지 않고, 노드 GUID 순서만 저장한다 —

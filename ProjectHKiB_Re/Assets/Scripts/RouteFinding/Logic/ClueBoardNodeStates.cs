@@ -48,13 +48,23 @@ public sealed class ClueBoardNodeStates
             if (pair.Value == visibility) yield return pair.Key;
     }
 
+    /// <summary>두 계산 결과의 노드별 표시가 같은지(체인 공개로 화면을 다시 그려야 하는지 판단용).</summary>
+    public bool SameVisibilityAs(ClueBoardNodeStates other)
+    {
+        if (other == null || other._visibility.Count != _visibility.Count) return false;
+        foreach (var pair in _visibility)
+            if (!other._visibility.TryGetValue(pair.Key, out var value) || value != pair.Value) return false;
+        return true;
+    }
+
     /// <summary>
     /// 획득 단서 집합에서 노드 상태를 계산한다.
     ///
     /// 규칙:
     ///   해금  = 그 슬롯의 단서를 획득했다.
     ///   실루엣 = 아직 획득하지 않았지만, 이 노드를 실루엣으로 공개하는 이웃(ClueBoardSilhouetteNeighbor의
-    ///           revealedByNodeId)이 해금돼 있다.
+    ///           revealedByNodeId)이 해금돼 있다 — 또는 이 노드를 revealSilhouetteNodeIds로 가리키는 멀티 체인의
+    ///           관계가 **전부** 성립해 있다(connectedRelationIds).
     ///   잠김  = 그 밖의 전부.
     ///
     /// 실루엣은 **오직 silhouetteNeighbors 데이터로만** 판단한다. 관계(relations)에서 "이 단서와
@@ -62,11 +72,15 @@ public sealed class ClueBoardNodeStates
     /// (격차 분석의 실루엣 확정 사항: 별도 목록으로 공개, 클릭 힌트만, 연결 불가).
     ///
     /// 실루엣의 실루엣은 만들지 않는다 — 공개는 해금된 노드에서 한 단계만 뻗는다.
+    ///
+    /// connectedRelationIds는 지금 성립한 관계(초기 연결 + 복원 + 이번 세션)다. 넘기지 않으면 체인 공개는 계산하지
+    /// 않는다 — 판정 엔진의 런타임 상태와 같은 집합을 넘겨야 "체인이 완성됐는데 실루엣이 안 뜬다"가 생기지 않는다.
     /// </summary>
     public static ClueBoardNodeStates Build(
         ClueBoardDefinition definition,
         IEnumerable<string> acquiredClueIds,
-        IEnumerable<string> hallucinationNodeIds = null)
+        IEnumerable<string> hallucinationNodeIds = null,
+        IEnumerable<string> connectedRelationIds = null)
     {
         if (definition == null) throw new ArgumentNullException(nameof(definition));
 
@@ -85,6 +99,12 @@ public sealed class ClueBoardNodeStates
                 if (isUnlocked) unlocked.Add(slot.nodeId);
             }
 
+        // 보드 옵션: 미획득은 전부 실루엣. 이웃/체인 규칙을 계산할 필요가 없다.
+        if (definition.revealAllAsSilhouette)
+            foreach (string nodeId in new List<string>(visibility.Keys))
+                if (visibility[nodeId] == ClueBoardNodeVisibility.Locked)
+                    visibility[nodeId] = ClueBoardNodeVisibility.Silhouette;
+
         if (definition.silhouetteNeighbors != null)
             foreach (ClueBoardSilhouetteNeighbor neighbor in definition.silhouetteNeighbors)
             {
@@ -95,6 +115,27 @@ public sealed class ClueBoardNodeStates
                 if (current == ClueBoardNodeVisibility.Locked)
                     visibility[neighbor.silhouetteNodeId] = ClueBoardNodeVisibility.Silhouette;
             }
+
+        // 체인 공개: 관계가 전부 성립한 체인만. 관계 하나짜리·빈 체인은 결과 배선 정책(ClueBoardOutcomeCatalog)과
+        // 같이 무시한다 — 실루엣 공개까지 열어 주면 "체인은 관계 2개 이상" 규칙이 화면에서만 느슨해진다.
+        if (definition.chains != null && connectedRelationIds != null)
+        {
+            var connected = new HashSet<string>(connectedRelationIds, StringComparer.Ordinal);
+            foreach (ClueBoardRelationChain chain in definition.chains)
+            {
+                if (chain?.relationIds == null || chain.relationIds.Length < 2 || chain.revealSilhouetteNodeIds == null) continue;
+                bool satisfied = true;
+                foreach (string relationId in chain.relationIds)
+                    if (string.IsNullOrEmpty(relationId) || !connected.Contains(relationId)) { satisfied = false; break; }
+                if (!satisfied) continue;
+                foreach (string nodeId in chain.revealSilhouetteNodeIds)
+                {
+                    if (string.IsNullOrEmpty(nodeId) || !visibility.TryGetValue(nodeId, out var current)) continue;
+                    if (current == ClueBoardNodeVisibility.Locked)
+                        visibility[nodeId] = ClueBoardNodeVisibility.Silhouette;
+                }
+            }
+        }
 
         var hallucinations = new HashSet<string>(StringComparer.Ordinal);
         if (hallucinationNodeIds != null)

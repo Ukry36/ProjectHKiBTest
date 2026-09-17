@@ -238,6 +238,11 @@ public class SaveModule : InterfaceModule, IInitializable
             ? CodexModule.Instance.ExportNewClueIds()
             : new List<string>();
 
+        // [C07] 보드 결과/진행과 섞지 않는다. 잠식은 실패 연속성 및 환각 획득 수명을 별도로 보존한다.
+        _currentSaveData.dreamErosion = DreamErosionModule.Instance != null
+            ? DreamErosionModule.Instance.Export()
+            : null;
+
         // 노트 "저장한 루트" 보드 목록 — 위 noteEntries(현재 화면 상태)와 별개인 이름 붙은 다중 스냅샷.
         _currentSaveData.noteSavedBoards = NoteModule.Instance != null
             ? NoteModule.Instance.ExportSavedBoards()
@@ -523,6 +528,9 @@ public class SaveModule : InterfaceModule, IInitializable
         CodexModule.Instance?.ImportClueNewState(
             _loadedData.hasSavedDreamReadingCheckpoint,
             _loadedData.newClueIds);
+
+        // [C07] Import는 의도적으로 단계 변화 이벤트를 내지 않는다. 따라서 로드가 토스트·잠식 연출·추방을 재생하지 않는다.
+        DreamErosionModule.Instance?.Import(_loadedData.dreamErosion);
 
         // 노트/도감 구조화 데이터 복원 — eventProvider 유무와 무관.
         NoteModule.Instance?.ImportFrom(_loadedData.noteEntries);

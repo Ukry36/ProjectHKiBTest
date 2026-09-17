@@ -30,6 +30,12 @@ namespace RouteFinding.UI
     // 한 번만 준다. 화면 표시는 OnOutcomeIssued/OnOutcomeReviewRequested를 구독하는 패널 몫이며, 구독자가 없으면
     // 기록만 남아 다음 열람 때 보류분(CollectPendingOutcomes)으로 보인다 — 데이터는 잃지 않는다.
     // 선 클릭(View.OnEdgeClicked)은 판정을 거치지 않고 발행 기록만 읽는다.
+    //
+    // [로컬 보드 목록] 기획: "로컬 보드는 유저가 직접 눌러서 다른 로컬 보드를 열 수도 있지만, 현재 해당하는 맵의 로컬
+    // 보드가 UI에서 처음 뜨도록". 최초 로컬 진입은 언제나 현재 맵의 localBoardId(ShowLocalForCurrentMap)이고,
+    // 로컬 탭을 한 번 더 누르면 열 수 있는 로컬 보드 목록이 탭 위에 펼쳐진다. 목록의 후보는 기본적으로 **방문한 맵**이
+    // 가리키는 로컬 보드(+ 현재 맵)다 — 아직 가 보지 않은 지역의 보드까지 보이면 지역 존재가 새어 나간다. 어떤 보드를
+    // 골랐는지는 화면 상태라 저장하지 않으며, 다시 열면 현재 맵 보드부터 시작한다.
     public sealed class ClueBoardScreen : MonoBehaviour
     {
         public enum BoardScope { Global, Local }
@@ -50,6 +56,30 @@ namespace RouteFinding.UI
         /// <summary>[C06] 성립한 선을 클릭해 이미 발행된 결과를 다시 보려 할 때. 결과 없는 선은 발행되지 않는다.</summary>
         public event Action<IReadOnlyList<ClueBoardOutcomePresentation>> OnOutcomeReviewRequested;
 
+        /// <summary>
+        /// 관계 없는 쌍(Unrelated)을 드롭해 거절됐을 때의 델타 코멘트. 결과(C06)가 아니라 매번 다시 나오며 보상·발행 기록이
+        /// 없다. OnConnectionResult(거절 포함)를 구독하는 유일한 경로이고, 성립·재시도는 여기로 오지 않는다.
+        /// </summary>
+        public event Action<ClueBoardRejectionComment> OnConnectionRejected;
+
+        /// <summary>
+        /// 연결 성공 코멘트(해몽 결과가 없는 관계). 새 연결(isNew)과 선 재클릭(재열람) 모두 여기로 온다. 관계 자체에
+        /// 해몽 결과가 발행되는 경우에는 그 카드가 대신 뜨므로 발행되지 않는다(체인 결과만 있는 경우엔 코멘트 → 체인 순).
+        /// </summary>
+        public event Action<ClueBoardConnectionComment> OnConnectionCommented;
+
+        /// <summary>검증/진단용 — 마지막 연결 코멘트.</summary>
+        public ClueBoardConnectionComment LastConnectionComment { get; private set; }
+
+        /// <summary>해금 노드를 클릭해 단서 설명을 요청했을 때. 판정·기록과 무관한 읽기 전용 요청이다.</summary>
+        public event Action<ClueData> OnClueInfoRequested;
+
+        /// <summary>거절 코멘트 템플릿. [A]/[B]가 시도 순서대로 단서 이름으로 바뀐다. 비우면 기본 문구.</summary>
+        public string RejectionCommentTemplate { get; set; }
+
+        /// <summary>검증/진단용 — 마지막으로 만든 거절 코멘트.</summary>
+        public ClueBoardRejectionComment LastRejectionComment { get; private set; }
+
         [SerializeField] private string _globalBoardId = "";
 
         private ClueBoardView _view;
@@ -59,6 +89,16 @@ namespace RouteFinding.UI
         private Image _tabGlobal;
         private Image _tabLocal;
         private Image _tabSearch;
+        private RectTransform _localBoardList;
+        private TMP_FontAsset _font;
+
+        // 로컬 목록에서 고른 보드. null이면 현재 맵의 보드다(최초 진입·현재 맵 항목 선택). 화면 상태라 저장하지 않는다.
+        private string _selectedLocalBoardId;
+        private readonly List<string> _localBoardEntries = new();
+        private int _localListGeneration;
+
+        // 로컬 보드 후보 공급원(보드 ID 목록). 기본은 방문한 맵의 localBoardId ∪ 현재 맵. 검증에서는 고정 목록을 넣는다.
+        private Func<IEnumerable<string>> _localBoardListProvider;
 
         private static readonly Color ColTabOff = new(0.14f, 0.17f, 0.24f, 0.98f);
         private static readonly Color ColTabOn = new(0.30f, 0.38f, 0.52f, 1f);
@@ -70,8 +110,15 @@ namespace RouteFinding.UI
         // 현재 위치 공급원. 기본은 RouteModule.CurrentLocation.
         private Func<MapNodeData> _currentMapProvider;
 
-        // C07 환각 노드 공급원. 아직 구현이 없어 기본은 빈 집합이지만, 주입 경계는 남긴다.
+        // C07 환각 노드 공급원. 보드를 받는 쪽(DreamErosionModule.GetHallucinationNodeIds)이 우선이고, 보드 무관 공급원은
+        // 검증용으로 남긴다. 둘 다 없으면 빈 집합.
         private Func<IEnumerable<string>> _hallucinationProvider;
+        private Func<ClueBoardDefinition, IEnumerable<string>> _hallucinationBoardProvider;
+
+        // [C07] 잠식 연동. 기본은 DreamErosionModule(플레이 중에만 존재). 검증에서는 카운터를 넣는다.
+        // 실패는 Unrelated 거절만, 성공은 실제 새 연결만 — 재시도·실루엣·자기 자신 드롭은 여기까지 오지 않는다.
+        private Action<string, string, string> _erosionFailureHandler;
+        private Action<string, string> _erosionSuccessHandler;
 
         // 복원 연결 목록 덮어쓰기(검증용). null이면 ClueBoardProgress를 정의와 대조해 쓴다.
         private Func<string, IEnumerable<string>> _restoredConnectionProvider;
@@ -104,33 +151,29 @@ namespace RouteFinding.UI
 
         public void Initialize(RectTransform parent, TMP_FontAsset font)
         {
-            _root = new GameObject("ClueBoardScreen", typeof(RectTransform)).GetComponent<RectTransform>();
-            _root.SetParent(parent, false);
-            _root.anchorMin = Vector2.zero;
-            _root.anchorMax = Vector2.one;
-            _root.offsetMin = Vector2.zero;
-            _root.offsetMax = Vector2.zero;
+            // 프리팹 우선: 컨테이너는 이름으로 찾아 재사용하고 없을 때만 만든다(ClueBoardUiKit 규칙).
+            _root = ClueBoardUiKit.Child(parent, "ClueBoardScreen", out bool created);
+            if (created) ClueBoardUiKit.Stretch(_root);
 
-            _view = _root.gameObject.AddComponent<ClueBoardView>();
+            _view = ClueBoardUiKit.Ensure<ClueBoardView>(_root.gameObject);
             _view.Initialize(_root, font);
             _view.OnConnectionEstablished += HandleConnectionEstablished;
+            _view.OnConnectionResult += HandleConnectionResult;
             _view.OnEdgeClicked += HandleEdgeClicked;
+            _view.OnNodeClicked += HandleNodeClicked;
             ClueBoardProgress.OnReplaced += HandleProgressReplaced;
 
             BuildSideColumn(_view.FilterBarRoot, font);
 
-            var statusRect = new GameObject("StatusText", typeof(RectTransform)).GetComponent<RectTransform>();
-            statusRect.SetParent(_root, false);
-            statusRect.anchorMin = new Vector2(0f, 0f);
-            statusRect.anchorMax = new Vector2(1f, 0f);
-            statusRect.pivot = new Vector2(0.5f, 0f);
-            statusRect.sizeDelta = new Vector2(0f, 32f);
-            _statusText = statusRect.gameObject.AddComponent<TextMeshProUGUI>();
-            if (font != null) _statusText.font = font;
-            _statusText.fontSize = 8f;
-            _statusText.color = new Color(0.90f, 0.55f, 0.50f);
-            _statusText.alignment = TextAlignmentOptions.BottomLeft;
-            _statusText.raycastTarget = false;
+            RectTransform statusRect = ClueBoardUiKit.Child(_root, "StatusText", out created);
+            if (created)
+            {
+                statusRect.anchorMin = new Vector2(0f, 0f);
+                statusRect.anchorMax = new Vector2(1f, 0f);
+                statusRect.pivot = new Vector2(0.5f, 0f);
+                statusRect.sizeDelta = new Vector2(0f, 32f);
+            }
+            _statusText = ClueBoardUiKit.Text(statusRect, created, font, 8f, new Color(0.90f, 0.55f, 0.50f), TextAlignmentOptions.BottomLeft);
             _statusText.gameObject.SetActive(false);
         }
 
@@ -139,7 +182,9 @@ namespace RouteFinding.UI
             if (_view != null)
             {
                 _view.OnConnectionEstablished -= HandleConnectionEstablished;
+                _view.OnConnectionResult -= HandleConnectionResult;
                 _view.OnEdgeClicked -= HandleEdgeClicked;
+                _view.OnNodeClicked -= HandleNodeClicked;
             }
             ClueBoardProgress.OnReplaced -= HandleProgressReplaced;
         }
@@ -165,9 +210,17 @@ namespace RouteFinding.UI
             ClueBoardProgressState progressState = null,
             Func<string, DreamReading> readingProvider = null,
             Func<DreamReading, bool> readingRewardHandler = null,
-            ClueBoardOutcomeState outcomeState = null)
+            ClueBoardOutcomeState outcomeState = null,
+            Func<IEnumerable<string>> localBoardListProvider = null,
+            Func<ClueBoardDefinition, IEnumerable<string>> hallucinationBoardProvider = null,
+            Action<string, string, string> erosionFailureHandler = null,
+            Action<string, string> erosionSuccessHandler = null)
         {
             _acquiredClueProvider = acquiredClueProvider;
+            _localBoardListProvider = localBoardListProvider;
+            _hallucinationBoardProvider = hallucinationBoardProvider;
+            _erosionFailureHandler = erosionFailureHandler;
+            _erosionSuccessHandler = erosionSuccessHandler;
             _currentMapProvider = currentMapProvider;
             _hallucinationProvider = hallucinationProvider;
             _restoredConnectionProvider = restoredConnectionProvider;
@@ -201,7 +254,51 @@ namespace RouteFinding.UI
                     }
             Progress.MarkConnected(board.boardId, result.relationId, first, second);
 
-            IssueOutcomes(board, result.relationId);
+            // [C07] 연결 성공은 잠식을 해제한다(0단계). 기록·결과 발행 뒤에 알려 순서가 뒤바뀌지 않게 한다.
+            if (_erosionSuccessHandler != null) _erosionSuccessHandler(board.boardId, result.relationId);
+            else if (Application.isPlaying) DreamErosionModule.Instance?.RegisterConnectionSuccess(board.boardId, result.relationId);
+
+            List<ClueBoardOutcomePresentation> issued = IssueOutcomes(board, result.relationId);
+            // 이 관계 자체의 해몽 결과가 없으면 코멘트로 반응한다. 체인 결과는 그 뒤에 큐로 이어진다.
+            bool hasOwnOutcome = issued.Exists(p => p.outcome.kind == ClueBoardOutcomeKind.Relation &&
+                                                   string.Equals(p.outcome.outcomeId, result.relationId, StringComparison.Ordinal));
+            if (!hasOwnOutcome) EmitConnectionComment(board, result.relationId, isNew: true);
+            if (issued.Count > 0) OnOutcomeIssued?.Invoke(issued);
+        }
+
+        private void HandleNodeClicked(string nodeId)
+        {
+            ClueData clue = _view.GetClueOfNode(nodeId);
+            if (clue != null) OnClueInfoRequested?.Invoke(clue);
+        }
+
+        private void EmitConnectionComment(ClueBoardDefinition board, string relationId, bool isNew)
+        {
+            ClueBoardConnectionComment comment = ClueBoardConnectionComment.Create(
+                board, relationId, isNew, _view.ClueResolver, ClueSystemSettings.ConnectionTemplate);
+            if (comment == null) return;
+            LastConnectionComment = comment;
+            OnConnectionCommented?.Invoke(comment);
+        }
+
+        // 판정 결과 전부가 오지만 여기서 다루는 것은 Unrelated 거절뿐이다. 진행 기록·결과 발행은 위 Established 경로가
+        // 맡고, 이 경로는 아무것도 기록하지 않는다 — 거절 코멘트는 몇 번이고 같은 쌍에 다시 나와야 한다(기획 "일괄 출력").
+        private void HandleConnectionResult(ClueBoardConnectResult result)
+        {
+            if (result.status != ClueBoardConnectStatus.Unrelated) return;
+            ClueBoardDefinition board = _view.Definition;
+
+            // [C07] Unrelated 거절 1회 = 조합 실패 1회. 코멘트 생성 여부와 무관하게 센다(이름을 못 찾아도 실패는 실패다).
+            string boardId = board?.boardId;
+            if (_erosionFailureHandler != null) _erosionFailureHandler(boardId, result.firstNodeId, result.secondNodeId);
+            else if (Application.isPlaying) DreamErosionModule.Instance?.RegisterConnectionFailure(boardId, result.firstNodeId, result.secondNodeId);
+
+            // 템플릿: 코드에서 지정한 것 → 설정 에셋(ClueSystemSettings) → 코드 기본값.
+            ClueBoardRejectionComment comment = ClueBoardRejectionComment.TryCreate(
+                board, result, _view.ClueResolver, RejectionCommentTemplate ?? ClueSystemSettings.RejectionTemplate);
+            if (comment == null) return;
+            LastRejectionComment = comment;
+            OnConnectionRejected?.Invoke(comment);
         }
 
         // ─── 관계 결과(C06) ──────────────────────────────────────
@@ -213,7 +310,7 @@ namespace RouteFinding.UI
             _readingRewardHandler ?? (reading => DreamReadingModule.Instance != null && DreamReadingModule.Instance.TryResolveById(reading.id));
 
         // OnConnectionEstablished(실제 새 연결)에서만 불린다. 결과 없는 관계·손상 참조는 진단만 남기고 화면은 그대로다.
-        private void IssueOutcomes(ClueBoardDefinition board, string relationId)
+        private List<ClueBoardOutcomePresentation> IssueOutcomes(ClueBoardDefinition board, string relationId)
         {
             if (_outcomeCatalog == null || _outcomeCatalog.boardId != board.boardId)
                 _outcomeCatalog = ClueBoardOutcomeCatalog.Build(board, null);
@@ -223,11 +320,9 @@ namespace RouteFinding.UI
             List<ClueBoardOutcomePresentation> issued = ClueBoardOutcomeResolver.Issue(
                 _outcomeCatalog, runtime.IsConnected, relationId, Outcomes, ReadingProvider, RewardHandler, _lastOutcomeDiagnostics);
             foreach (string message in _lastOutcomeDiagnostics) Debug.LogWarning("[ClueBoardScreen] " + message);
-            if (issued.Count == 0) return;
-
             foreach (ClueBoardOutcomePresentation presentation in issued)
                 Debug.Log($"[ClueBoardScreen] 관계 결과 발행: board={board.boardId}, {presentation.outcome.kind} '{presentation.outcome.outcomeId}' → 해몽 '{presentation.reading.id}', reward={presentation.rewardGranted}");
-            OnOutcomeIssued?.Invoke(issued);
+            return issued; // 이벤트 발행은 호출부가 코멘트 순서를 정한 뒤 한다
         }
 
         // 선 클릭 재열람 — 판정 없이 발행 기록만 읽는다. 발행 전이거나 결과 없는 선은 아무 동작도 하지 않는다.
@@ -244,7 +339,8 @@ namespace RouteFinding.UI
             foreach (string message in _lastOutcomeDiagnostics) Debug.LogWarning("[ClueBoardScreen] " + message);
             if (found.Count == 0)
             {
-                Debug.Log($"[ClueBoardScreen] 선 '{relationId}'에는 다시 볼 결과가 없습니다(결과 없는 관계·초기 연결·미발행).");
+                // 결과 없는 관계·초기 연결·미발행 — 대신 연결 코멘트를 다시 보여 준다(기획: 선을 다시 누르면 코멘트를 언제든 본다).
+                EmitConnectionComment(board, relationId, isNew: false);
                 return;
             }
             OnOutcomeReviewRequested?.Invoke(found);
@@ -296,30 +392,34 @@ namespace RouteFinding.UI
         {
             const float stripWidth = 58f;
             const float stripHeight = 34f;
-            column.sizeDelta = new Vector2(stripWidth, 0f);
 
-            // 글로벌/로컬 탭 — 보드 오른쪽 아래에 가로로 고정한다.
-            var strip = new GameObject("TabStrip", typeof(RectTransform)).GetComponent<RectTransform>();
-            strip.SetParent(column, false);
-            strip.anchorMin = new Vector2(1f, 0f);
-            strip.anchorMax = new Vector2(1f, 0f);
-            strip.pivot = new Vector2(1f, 0f);
-            strip.sizeDelta = new Vector2(stripWidth, stripHeight);
-            var stripBg = strip.gameObject.AddComponent<Image>();
-            stripBg.color = new Color(0.08f, 0.09f, 0.13f, 0.98f);
-            stripBg.raycastTarget = true;
+            // 글로벌/로컬 탭 — 보드 오른쪽 아래에 가로로 고정한다. 프리팹에 TabStrip이 있으면 그 배치·배경을 쓴다.
+            RectTransform strip = ClueBoardUiKit.Child(column, "TabStrip", out bool created);
+            if (created)
+            {
+                column.sizeDelta = new Vector2(stripWidth, 0f);
+                strip.anchorMin = new Vector2(1f, 0f);
+                strip.anchorMax = new Vector2(1f, 0f);
+                strip.pivot = new Vector2(1f, 0f);
+                strip.sizeDelta = new Vector2(stripWidth, stripHeight);
+                var stripBg = strip.gameObject.AddComponent<Image>();
+                stripBg.color = new Color(0.08f, 0.09f, 0.13f, 0.98f);
+                stripBg.raycastTarget = true;
 
-            var layout = strip.gameObject.AddComponent<HorizontalLayoutGroup>();
-            layout.padding = new RectOffset(2, 2, 3, 3);
-            layout.spacing = 3f;
-            layout.childControlWidth = true;
-            layout.childControlHeight = true;
-            layout.childForceExpandWidth = false;
-            layout.childForceExpandHeight = true;
-            layout.childAlignment = TextAnchor.MiddleRight;
+                var layout = strip.gameObject.AddComponent<HorizontalLayoutGroup>();
+                layout.padding = new RectOffset(2, 2, 3, 3);
+                layout.spacing = 3f;
+                layout.childControlWidth = true;
+                layout.childControlHeight = true;
+                layout.childForceExpandWidth = false;
+                layout.childForceExpandHeight = true;
+                layout.childAlignment = TextAnchor.MiddleRight;
+            }
 
+            _font = font;
             _tabGlobal = MakeTab(strip, "TabGlobal", "글로벌", font, () => Show(BoardScope.Global));
-            _tabLocal = MakeTab(strip, "TabLocal", "로컬", font, () => Show(BoardScope.Local));
+            _tabLocal = MakeTab(strip, "TabLocal", "로컬", font, OnLocalTabClicked);
+            BuildLocalBoardList(column, stripWidth, stripHeight);
             // 검색/필터 임시 비활성. 아래 생성 코드는 기능을 다시 열 때 복구한다.
             // _tabSearch = MakeTab(strip, "TabSearch", "검색", font, ToggleSearch);
             // _searchPanel = column.gameObject.AddComponent<ClueBoardSearchPanel>();
@@ -329,34 +429,27 @@ namespace RouteFinding.UI
             RefreshTabs();
         }
 
+        // 탭/목록 버튼. 프리팹에 같은 이름이 있으면 크기·색·글자를 그대로 쓰고 클릭 콜백만 다시 건다.
         private Image MakeTab(RectTransform parent, string name, string label, TMP_FontAsset font, Action onClick)
         {
-            var rect = new GameObject(name, typeof(RectTransform)).GetComponent<RectTransform>();
-            rect.SetParent(parent, false);
-            var layout = rect.gameObject.AddComponent<LayoutElement>();
-            layout.preferredWidth = 25f;
-            layout.preferredHeight = 28f;
-            var image = rect.gameObject.AddComponent<Image>();
-            image.color = ColTabOff;
-            var button = rect.gameObject.AddComponent<Button>();
+            RectTransform rect = ClueBoardUiKit.Child(parent, name, out bool created);
+            var layout = ClueBoardUiKit.Ensure<LayoutElement>(rect.gameObject);
+            var image = ClueBoardUiKit.Ensure<Image>(rect.gameObject);
+            if (created)
+            {
+                layout.preferredWidth = 25f;
+                layout.preferredHeight = 28f;
+                image.color = ColTabOff;
+            }
+            var button = ClueBoardUiKit.Ensure<Button>(rect.gameObject);
             button.targetGraphic = image;
             button.transition = Selectable.Transition.None;
+            button.onClick.RemoveAllListeners();
             button.onClick.AddListener(() => onClick());
 
-            var textRect = new GameObject("Text", typeof(RectTransform)).GetComponent<RectTransform>();
-            textRect.SetParent(rect, false);
-            textRect.anchorMin = Vector2.zero;
-            textRect.anchorMax = Vector2.one;
-            textRect.offsetMin = Vector2.zero;
-            textRect.offsetMax = Vector2.zero;
-            var text = textRect.gameObject.AddComponent<TextMeshProUGUI>();
-            if (font != null) text.font = font;
-            text.text = label;
-            text.fontSize = 6f;
-            text.color = Color.white;
-            text.alignment = TextAlignmentOptions.Center;
-            text.enableWordWrapping = false;
-            text.raycastTarget = false;
+            RectTransform textRect = ClueBoardUiKit.Child(rect, "Text", out bool textCreated);
+            if (textCreated) ClueBoardUiKit.Stretch(textRect);
+            ClueBoardUiKit.Text(textRect, textCreated, font, 6f, Color.white, TextAlignmentOptions.Center, label);
             return image;
         }
 
@@ -436,12 +529,174 @@ namespace RouteFinding.UI
             if (!ClueBoardCatalog.TryGetLocalBoardForMap(map, out ClueBoardDefinition board, out string error))
                 return Fail(error);
 
+            _selectedLocalBoardId = null;
             CurrentScope = BoardScope.Local;
+            SetLocalBoardListOpen(false);
             return Open(board);
         }
 
-        /// <summary>우측 탭 전환에 대응하는 진입점. 실패해도 이전 화면을 임의로 유지하지 않고 진단을 남긴다.</summary>
-        public bool Show(BoardScope scope) => scope == BoardScope.Global ? ShowGlobal() : ShowLocalForCurrentMap();
+        /// <summary>
+        /// 우측 탭 전환에 대응하는 진입점. 실패해도 이전 화면을 임의로 유지하지 않고 진단을 남긴다.
+        /// 로컬은 목록에서 고른 보드가 있으면 그것, 없으면 현재 맵의 보드다(복원 후 다시 그리기도 이 경로).
+        /// </summary>
+        public bool Show(BoardScope scope)
+        {
+            if (scope == BoardScope.Global)
+            {
+                SetLocalBoardListOpen(false);
+                return ShowGlobal();
+            }
+            return _selectedLocalBoardId != null ? ShowLocalBoard(_selectedLocalBoardId) : ShowLocalForCurrentMap();
+        }
+
+        // ─── 로컬 보드 목록 ──────────────────────────────────────
+
+        public bool IsLocalBoardListOpen => _localBoardList != null && _localBoardList.gameObject.activeSelf;
+
+        /// <summary>목록에 나열된 로컬 보드 ID(표시 순서). 검증/진단용.</summary>
+        public IReadOnlyList<string> LocalBoardListEntries => _localBoardEntries;
+
+        /// <summary>목록에서 고른 로컬 보드 ID. null이면 현재 맵의 보드.</summary>
+        public string SelectedLocalBoardId => _selectedLocalBoardId;
+
+        // 로컬 탭: 로컬이 아니면 현재 맵 보드로 진입, 이미 로컬이면 목록을 펼친다/접는다. 후보가 하나뿐이면 펼칠 게 없다.
+        private void OnLocalTabClicked()
+        {
+            if (CurrentScope != BoardScope.Local || CurrentBoardId == null)
+            {
+                _selectedLocalBoardId = null;
+                ShowLocalForCurrentMap();
+                return;
+            }
+            if (IsLocalBoardListOpen) { SetLocalBoardListOpen(false); return; }
+            SetLocalBoardListOpen(true);
+        }
+
+        /// <summary>
+        /// 특정 로컬 보드를 연다(목록 선택). Local이 아닌 보드·없는 보드는 진단만 남긴다. 현재 맵의 보드를 고르면
+        /// 선택을 비워 "현재 맵" 상태로 돌아간다.
+        /// </summary>
+        public bool ShowLocalBoard(string boardId)
+        {
+            if (!ClueBoardCatalog.TryGetBoard(boardId, out ClueBoardDefinition board, out string error))
+                return Fail(error);
+            if (board.kind != ClueBoardKind.Local)
+                return Fail($"'{boardId}'는 로컬 보드가 아닙니다(종류 {board.kind}).");
+
+            _selectedLocalBoardId = string.Equals(boardId, CurrentMapLocalBoardId, StringComparison.Ordinal) ? null : boardId;
+            CurrentScope = BoardScope.Local;
+            SetLocalBoardListOpen(false);
+            return Open(board);
+        }
+
+        /// <summary>검증용 — 목록의 항목을 클릭한 것처럼 연다. 목록에 없는 ID면 false.</summary>
+        public bool ClickLocalBoardEntry(string boardId)
+        {
+            if (!_localBoardEntries.Contains(boardId)) return false;
+            return ShowLocalBoard(boardId);
+        }
+
+        public void SetLocalBoardListOpen(bool open)
+        {
+            if (_localBoardList == null) return;
+            if (open) RebuildLocalBoardList();
+            // 후보가 현재 맵 보드 하나뿐이면 펼칠 게 없다.
+            _localBoardList.gameObject.SetActive(open && _localBoardEntries.Count > 1);
+        }
+
+        private MapNodeData CurrentMap =>
+            _currentMapProvider != null ? _currentMapProvider() : RouteModule.Instance != null ? RouteModule.Instance.CurrentLocation : null;
+
+        private string CurrentMapLocalBoardId => CurrentMap?.localBoardId;
+
+        // 후보 = 공급원이 있으면 그것, 없으면 방문한 맵의 localBoardId. 어느 쪽이든 현재 맵의 보드를 맨 앞에 두고,
+        // 카탈로그에 없거나 Local이 아닌 ID는 뺀다(맵 배선 오타는 ShowLocalForCurrentMap이 따로 진단한다).
+        private void RebuildLocalBoardList()
+        {
+            _localBoardEntries.Clear();
+            var ordered = new List<string>();
+            string current = CurrentMapLocalBoardId;
+            if (!string.IsNullOrWhiteSpace(current)) ordered.Add(current);
+
+            IEnumerable<string> candidates = _localBoardListProvider != null ? _localBoardListProvider() : DefaultLocalBoardCandidates();
+            if (candidates != null)
+                foreach (string id in candidates)
+                    if (!string.IsNullOrWhiteSpace(id) && !ordered.Contains(id)) ordered.Add(id);
+
+            foreach (string id in ordered)
+                if (ClueBoardCatalog.TryGetBoard(id, out ClueBoardDefinition board, out _) && board.kind == ClueBoardKind.Local)
+                    _localBoardEntries.Add(id);
+
+            ClueBoardUiKit.ClearChildren(_localBoardList);
+            _localListGeneration++;
+            foreach (string id in _localBoardEntries)
+            {
+                string boardId = id;
+                bool isCurrentMap = string.Equals(boardId, current, StringComparison.Ordinal);
+                bool isShowing = string.Equals(boardId, CurrentBoardId, StringComparison.Ordinal);
+                string label = (isCurrentMap ? "● " : "  ") + DescribeLocalBoard(boardId);
+                // 파괴 예약된 옛 항목과 이름이 겹치지 않게 세대 번호를 붙인다(Child()가 옛것을 찾지 않도록).
+                Image entry = MakeTab(_localBoardList, $"Entry_{_localListGeneration}_{boardId}", label, _font, () => ShowLocalBoard(boardId));
+                entry.color = isShowing ? ColTabOn : ColTabOff;
+                var layout = entry.GetComponent<LayoutElement>();
+                layout.preferredWidth = 0f;
+                layout.preferredHeight = 12f;
+                var text = entry.GetComponentInChildren<TextMeshProUGUI>();
+                text.alignment = TextAlignmentOptions.MidlineLeft;
+                text.margin = new Vector4(3f, 0f, 3f, 0f);
+                text.overflowMode = TextOverflowModes.Ellipsis;
+            }
+        }
+
+        private static IEnumerable<string> DefaultLocalBoardCandidates()
+        {
+            MapGraph graph = MapGraph.Instance;
+            RouteProgressState progress = RouteModule.Instance?.Progress;
+            if (graph == null || progress == null) yield break;
+            foreach (MapNodeData map in graph.AllNodes)
+                if (map != null && !string.IsNullOrWhiteSpace(map.localBoardId) && progress.IsNodeVisited(map))
+                    yield return map.localBoardId;
+        }
+
+        // 보드에는 표시 이름이 없다. 그 보드를 가리키는 맵 이름으로 부르고, 맵이 없으면 보드 ID를 그대로 쓴다.
+        private static string DescribeLocalBoard(string boardId)
+        {
+            MapGraph graph = MapGraph.Instance;
+            if (graph != null)
+                foreach (MapNodeData map in graph.AllNodes)
+                    if (map != null && string.Equals(map.localBoardId, boardId, StringComparison.Ordinal) &&
+                        !string.IsNullOrWhiteSpace(map.nodeName))
+                        return map.nodeName;
+            return boardId;
+        }
+
+        private void BuildLocalBoardList(RectTransform column, float stripWidth, float stripHeight)
+        {
+            _localBoardList = ClueBoardUiKit.Child(column, "LocalBoardList", out bool created);
+            if (created)
+            {
+                _localBoardList.anchorMin = new Vector2(1f, 0f);
+                _localBoardList.anchorMax = new Vector2(1f, 0f);
+                _localBoardList.pivot = new Vector2(1f, 0f);
+                _localBoardList.anchoredPosition = new Vector2(0f, stripHeight + 2f);
+                _localBoardList.sizeDelta = new Vector2(stripWidth + 40f, 0f);
+                var bg = _localBoardList.gameObject.AddComponent<Image>();
+                bg.color = new Color(0.08f, 0.09f, 0.13f, 0.98f);
+                bg.raycastTarget = true;
+                var layout = _localBoardList.gameObject.AddComponent<VerticalLayoutGroup>();
+                layout.padding = new RectOffset(2, 2, 2, 2);
+                layout.spacing = 2f;
+                layout.childControlWidth = true;
+                layout.childControlHeight = true;
+                layout.childForceExpandWidth = true;
+                layout.childForceExpandHeight = false;
+                var fitter = _localBoardList.gameObject.AddComponent<ContentSizeFitter>();
+                fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+            }
+            // 항목은 열 때마다 후보로 다시 만든다.
+            ClueBoardUiKit.ClearChildren(_localBoardList);
+            _localBoardList.gameObject.SetActive(false);
+        }
 
         private bool Open(ClueBoardDefinition board)
         {
@@ -449,7 +704,9 @@ namespace RouteFinding.UI
                 ? _acquiredClueProvider()
                 : RouteModule.Instance?.Progress?.AcquiredClueIds;
 
-            IEnumerable<string> hallucinations = _hallucinationProvider?.Invoke();
+            IEnumerable<string> hallucinations = _hallucinationBoardProvider != null
+                ? _hallucinationBoardProvider(board)
+                : _hallucinationProvider?.Invoke();
             // 복원 목록: 검증용 덮어쓰기가 없으면 진행 저장소를 이 보드 정의와 대조한 결과다. 정의에 없거나
             // 다른 보드의 관계 ID, 쌍이 바뀐 ID는 여기서 걸러져 엔진(CreateState)에 닿지 않는다.
             IEnumerable<string> restored = _restoredConnectionProvider != null

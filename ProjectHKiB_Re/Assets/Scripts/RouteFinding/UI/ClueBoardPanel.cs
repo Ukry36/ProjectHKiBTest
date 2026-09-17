@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -25,6 +26,8 @@ namespace RouteFinding.UI
     // 좌표의 주인(보드 정의 vs 사용자 드래그)과 연결 규칙(정의된 관계 vs 임의 토글)이 서로 달라,
     // 한쪽 편의로 합치면 두 화면 모두 신뢰할 수 없게 된다.
     //
+    // [거절 코멘트] ClueBoardScreen.OnConnectionRejected(관계 없는 쌍)는 ClueBoardCommentToast로 하단에 1초 띄우고 스스로
+    // 사라진다 — 입력을 막지 않는다. 결과 다이얼로그의 PresentComment는 남겨 두었지만 패널은 쓰지 않는다.
     // [C06 관계 결과] ClueBoardScreen.OnOutcomeIssued(새 발행)/OnOutcomeReviewRequested(선 클릭 재열람)를 받아
     // ClueBoardOutcomeDialog에 큐로 띄운다. 열릴 때는 보류분(발행됐지만 아직 못 보여 준 결과)을 한 번 띄우고,
     // 다이얼로그가 실제로 화면에 뜬 순간 viewed를 기록한다. 닫힐 때는 큐만 비운다 — 기록은 세션/세이브에 남는다.
@@ -38,6 +41,17 @@ namespace RouteFinding.UI
         [Header("표시")]
         [SerializeField] private TMP_FontAsset _font;
         [SerializeField] private Color _rootBgColor = new(0.04f, 0.05f, 0.09f, 0.96f);
+
+        // 패널 프리팹(선택). NotePanel/CodexPanel과 같은 규칙 — 씬 자식 "ClueBoardPanelRoot"가 있으면 그것을, 없으면
+        // 이 프리팹을 인스턴스화하고, 둘 다 없으면 런타임에 만든다.
+        // 프리팹에 있는 컨테이너·버튼·카드는 **이름으로 찾아 그대로 쓴다**(배치·크기·색·글자 보존, ClueBoardUiKit 규칙):
+        //   ClueBoardPanelRoot(배경) / BoardArea / ClueBoardScreen / ClueBoardView(EdgeLayer·NewVisualLayer·NodeLayer·
+        //   NewTagLayer·FilterBar(TabStrip(TabGlobal·TabLocal)·LocalBoardList)·HintLayer) / StatusText / DevelopmentBar
+        //   (DevBtn_닫기·ScopeLabel) / OutcomeDialog(Overlay·Card(Title·Body·Footer·BtnClose)) / CommentToast(Text) /
+        //   ClueInfoPopup(Overlay·Card(Icon·Title·Subtitle·Body·BtnClose)).
+        // 없는 것만 코드 기본값으로 만든다. 노드 카드·연결선·힌트 말풍선·로컬 목록 항목은 데이터라 매번 새로 그린다.
+        [Tooltip("패널 프리팹. 같은 이름의 컨테이너/버튼/카드가 있으면 그 배치·크기·색을 쓰고, 없는 것만 코드로 만든다.")]
+        [SerializeField] private GameObject _panelPrefab;
 
         [Tooltip("글로벌 탭이 열 보드 ID. 비우면 정의된 Global 보드가 정확히 한 장일 때만 자동으로 고른다")]
         [SerializeField] private string _globalBoardId = "";
@@ -64,6 +78,8 @@ namespace RouteFinding.UI
         private GameObject _panelGO;
         private ClueBoardScreen _screen;
         private ClueBoardOutcomeDialog _outcomeDialog;
+        private ClueBoardCommentToast _commentToast;
+        private ClueBoardClueInfoPopup _clueInfoPopup;
         private InputManager _inputManager;
         private TextMeshProUGUI _scopeLabel;
         private bool _built;
@@ -72,6 +88,11 @@ namespace RouteFinding.UI
 
         public ClueBoardScreen Screen => _screen;
         public ClueBoardOutcomeDialog OutcomeDialog => _outcomeDialog;
+        public ClueBoardCommentToast CommentToast => _commentToast;
+        public ClueBoardClueInfoPopup ClueInfoPopup => _clueInfoPopup;
+
+        // 거절 코멘트가 하단에 떠 있는 시간(초, 실시간). 기획: 닫기 없이 잠깐 보였다 사라진다.
+        [SerializeField] private float _rejectionToastSeconds = 1f;
         public bool IsOpen => _panelGO != null && _panelGO.activeSelf;
 
 #if UNITY_EDITOR
@@ -248,11 +269,18 @@ namespace RouteFinding.UI
             OpenWindowContent();
         }
 
-        /// <summary>개발용 닫기. 씬의 Button.onClick에 그대로 연결할 수 있다.</summary>
+        /// <summary>
+        /// 개발용 닫기. 씬의 Button.onClick에 그대로 연결할 수 있다.
+        /// UIManager가 이 창을 열어 둔 상태(이벤트의 OpenWindowAction·N키)라면 반드시 UIManager로 닫는다 — 내용만 직접
+        /// 닫으면 창 스택에 "Clue"가 남아 WindowClosedDecision이 영영 참이 되지 않고(EVT-003이 노트를 덮어도 진행되지
+        /// 않던 원인), 일시정지 사유와 입력 모드도 복구되지 않는다.
+        /// </summary>
         [ContextMenu("개발용: 보드 패널 닫기")]
         public void CloseForDevelopment()
         {
             if (!IsOpen) return;
+            UIManager ui = UI;
+            if (ui != null && ui.IsWindowOpen(WindowName)) { ui.CloseWindow(WindowName); return; }
             CloseWindowContent();
         }
 
@@ -296,6 +324,8 @@ namespace RouteFinding.UI
             // 결과 큐는 화면 상태라 함께 비운다. 이미 띄운 결과는 viewed로 기록돼 있고, 아직 못 띄운 결과는
             // 기록에 남아 다음 열람 때 보류분으로 다시 뜬다.
             _outcomeDialog?.Clear();
+            _commentToast?.Hide();
+            _clueInfoPopup?.Hide();
             if (_panelGO != null) _panelGO.SetActive(false);
             // UIManager가 창 스택을 비울 때도 PLAYMode를 부르지만, 개발용 경로로 열었을 때는
             // 스택을 거치지 않으므로 여기서 직접 복구한다(NotePanel과 같은 관례).
@@ -350,11 +380,16 @@ namespace RouteFinding.UI
             // 여기서 진행 동기화와 늦은 RouteModule 이벤트 구독을 보장해야 이후 획득이 NEW로 들어온다.
             codex?.RebuildFromProgress();
             Func<string, bool> isNew = codex != null ? new Func<string, bool>(codex.IsClueNew) : null;
+            // [C07] 환각 노드는 잠식 모듈이 보드별로 계산한다(슬롯의 clueId가 획득한 환각 단서인 노드). 모듈이 없으면 빈 집합.
+            Func<ClueBoardDefinition, IEnumerable<string>> hallucinations = board =>
+                DreamErosionModule.Instance?.GetHallucinationNodeIds(board) ?? Enumerable.Empty<string>();
+
             if (!_developmentControls)
             {
                 _screen.ConfigureSources(
                     newClueProvider: isNew,
-                    clueViewedHandler: codex != null ? new Action<string>(codex.MarkClueViewedFromBoard) : null);
+                    clueViewedHandler: codex != null ? new Action<string>(codex.MarkClueViewedFromBoard) : null,
+                    hallucinationBoardProvider: hallucinations);
                 return;
             }
 
@@ -373,7 +408,8 @@ namespace RouteFinding.UI
                 acquiredClueProvider: acquired,
                 currentMapProvider: currentMap,
                 newClueProvider: isNew,
-                clueViewedHandler: codex != null ? new Action<string>(codex.MarkClueViewedFromBoard) : null);
+                clueViewedHandler: codex != null ? new Action<string>(codex.MarkClueViewedFromBoard) : null,
+                hallucinationBoardProvider: hallucinations);
         }
 
         private IEnumerable<string> ResolveDevelopmentAcquiredClues()
@@ -444,24 +480,11 @@ namespace RouteFinding.UI
 
             EnsureRenderableContext();
 
-            _panelGO = new GameObject("ClueBoardPanelRoot", typeof(RectTransform));
-            _panelGO.transform.SetParent(transform, false);
-            var root = (RectTransform)_panelGO.transform;
-            StretchFull(root);
-            var background = _panelGO.AddComponent<Image>();
-            background.color = _rootBgColor;
-            // 배경이 레이캐스트를 받아야 보드 빈 곳에 드롭했을 때 드래그가 취소된다
-            // (아래로 통과시키면 뒤에 있는 게임 오브젝트가 클릭을 받는다).
-            background.raycastTarget = true;
+            RectTransform root = AcquireRoot();
+            RectTransform boardArea = EnsureBoardArea(root);
+            ClearDynamicParts(root);
 
-            var boardArea = new GameObject("BoardArea", typeof(RectTransform)).GetComponent<RectTransform>();
-            boardArea.SetParent(root, false);
-            boardArea.anchorMin = Vector2.zero;
-            boardArea.anchorMax = Vector2.one;
-            boardArea.offsetMin = Vector2.zero;
-            boardArea.offsetMax = new Vector2(0f, _developmentControls ? -DevBarHeight : 0f);
-
-            _screen = _panelGO.AddComponent<ClueBoardScreen>();
+            _screen = ClueBoardUiKit.Ensure<ClueBoardScreen>(_panelGO);
             _screen.Initialize(boardArea, _font);
             // 우측 탭으로 보드가 바뀌어도 개발용 라벨이 따라오게 한다.
             _screen.OnBoardOpened += _ => RefreshScopeLabel();
@@ -470,16 +493,130 @@ namespace RouteFinding.UI
             if (_developmentControls) BuildDevelopmentBar(root);
 
             // [C06] 결과 다이얼로그는 개발용 줄보다 뒤(위)에 만들어 패널 전체를 덮는다.
-            _outcomeDialog = _panelGO.AddComponent<ClueBoardOutcomeDialog>();
+            _outcomeDialog = ClueBoardUiKit.Ensure<ClueBoardOutcomeDialog>(_panelGO);
             _outcomeDialog.Initialize(root, _font);
             _outcomeDialog.OnPresented += _screen.MarkOutcomeViewed;
+            // 거절 코멘트 토스트는 결과 다이얼로그보다 뒤(위)에 만들어 결과 카드가 떠 있어도 하단에 보인다.
+            _commentToast = ClueBoardUiKit.Ensure<ClueBoardCommentToast>(_panelGO);
+            _commentToast.Initialize(root, _font);
+            // 단서 설명 팝업 — 노드 클릭으로 열고 닫기/바깥 클릭으로 닫는다. 결과 카드보다 앞에 두되 둘이 동시에 뜨는 일은
+            // 없다(결과 카드가 떠 있으면 오버레이가 노드 클릭을 막는다).
+            _clueInfoPopup = ClueBoardUiKit.Ensure<ClueBoardClueInfoPopup>(_panelGO);
+            _clueInfoPopup.Initialize(root, _font);
+            _screen.OnClueInfoRequested += HandleClueInfoRequested;
             _screen.OnOutcomeIssued += HandleOutcomes;
             _screen.OnOutcomeReviewRequested += HandleOutcomes;
+            _screen.OnConnectionRejected += HandleRejection;
+            _screen.OnConnectionCommented += HandleConnectionComment;
             // 세이브 복원/초기화로 발행 기록이 통째로 바뀌면 큐만 비운다 — 복원은 결과 화면을 다시 띄우지 않는다.
             ClueBoardOutcomes.OnReplaced += HandleOutcomesReplaced;
         }
 
+        // 루트 확보: 씬 자식 재사용 → 프리팹 인스턴스 → 런타임 생성. 재사용/프리팹 루트는 배경 Image가 있으면 그 디자인을
+        // 그대로 두고(레이캐스트만 켠다), 없으면 기본 색으로 하나 붙인다.
+        private RectTransform AcquireRoot()
+        {
+            Transform existing = transform.Find("ClueBoardPanelRoot");
+            if (existing != null)
+            {
+                Debug.Log("[ClueBoardPanel] BuildUI: 씬에 있던 ClueBoardPanelRoot를 재사용합니다(틀만 유지, 내부는 새로 그림).");
+                _panelGO = existing.gameObject;
+            }
+            else if (_panelPrefab != null)
+            {
+                Debug.Log($"[ClueBoardPanel] BuildUI: 지정된 프리팹({_panelPrefab.name})을 인스턴스화합니다(틀만 유지, 내부는 새로 그림).");
+                _panelGO = Instantiate(_panelPrefab, transform, false);
+                _panelGO.name = "ClueBoardPanelRoot";
+            }
+            else
+            {
+                _panelGO = new GameObject("ClueBoardPanelRoot", typeof(RectTransform));
+                _panelGO.transform.SetParent(transform, false);
+            }
+
+            var root = _panelGO.GetComponent<RectTransform>();
+            if (root == null) root = _panelGO.AddComponent<RectTransform>();
+            StretchFull(root);
+            var background = _panelGO.GetComponent<Image>();
+            if (background == null)
+            {
+                background = _panelGO.AddComponent<Image>();
+                background.color = _rootBgColor;
+            }
+            // 배경이 레이캐스트를 받아야 보드 빈 곳에 드롭했을 때 드래그가 취소된다
+            // (아래로 통과시키면 뒤에 있는 게임 오브젝트가 클릭을 받는다).
+            background.raycastTarget = true;
+            return root;
+        }
+
+        // 보드가 들어갈 자리. 프리팹/씬에 "BoardArea"가 있으면 그 사각형(여백 등)을 그대로 쓰고, 없으면 전체를 채우되
+        // 개발용 줄 높이만큼 위를 비운다.
+        private RectTransform EnsureBoardArea(RectTransform root)
+        {
+            Transform found = FindDeep(root, "BoardArea");
+            if (found != null) return (RectTransform)found;
+
+            var boardArea = new GameObject("BoardArea", typeof(RectTransform)).GetComponent<RectTransform>();
+            boardArea.SetParent(root, false);
+            boardArea.anchorMin = Vector2.zero;
+            boardArea.anchorMax = Vector2.one;
+            boardArea.offsetMin = Vector2.zero;
+            boardArea.offsetMax = new Vector2(0f, _developmentControls ? -DevBarHeight : 0f);
+            return boardArea;
+        }
+
+        // 프리팹/씬 루트에 구워진 동적 파트(플레이 중 저장한 프리팹에 남는다)를 지운다. 이 파트들은 아래에서 전부 새로
+        // 만들므로 남겨 두면 화면·컴포넌트가 두 벌이 된다. 먼저 비활성화한 뒤 Destroy(파괴 예약 중 이름 충돌·이벤트 방지).
+        // 프리팹/씬 루트에 구워진 **런타임 컴포넌트**만 떼어낸다(플레이 중 저장한 프리팹에 남는다). 오브젝트·배치·색은
+        // 그대로 두고 아래 Initialize들이 같은 오브젝트에 컴포넌트를 다시 붙여 콜백을 건다. 즉시 파괴해야 같은 프레임의
+        // Ensure<T>()가 옛 컴포넌트를 집지 않는다.
+        private void ClearDynamicParts(RectTransform root)
+        {
+            foreach (Component stale in root.GetComponentsInChildren<Component>(true))
+            {
+                if (stale is ClueBoardScreen || stale is ClueBoardView || stale is ClueBoardOutcomeDialog ||
+                    stale is ClueBoardCommentToast || stale is ClueBoardClueInfoPopup || stale is ClueBoardDragLinkController ||
+                    stale is ClueBoardDragNode || stale is ClueBoardNodeClick || stale is ClueBoardSilhouetteHover ||
+                    stale is ClueBoardNewVisual || stale is ClueBoardEdgeClick)
+                    DestroyImmediate(stale);
+            }
+        }
+
+        private static Transform FindDeep(Transform parent, string name)
+        {
+            if (parent == null) return null;
+            foreach (Transform child in parent)
+            {
+                if (child.name == name) return child;
+                Transform inner = FindDeep(child, name);
+                if (inner != null) return inner;
+            }
+            return null;
+        }
+
         private void HandleOutcomesReplaced() => _outcomeDialog?.Clear();
+
+        private void HandleClueInfoRequested(ClueData clue)
+        {
+            if (!IsOpen || _clueInfoPopup == null) return;
+            _clueInfoPopup.Show(clue);
+        }
+
+        // 연결 성공 코멘트(해몽 결과가 없는 관계). 결과 카드와 같은 카드로 띄우고 "확인"으로 닫는다 — 선을 다시 누르면
+        // 같은 문구가 다시 뜬다. 결과 카드가 이미 떠 있으면(체인 결과 큐 등) 그 뒤로 미루지 않고 건너뛴다.
+        private void HandleConnectionComment(ClueBoardConnectionComment comment)
+        {
+            if (!IsOpen || _outcomeDialog == null || comment == null) return;
+            _outcomeDialog.PresentMessage(ClueSystemSettings.RejectionTitle, comment.text,
+                comment.isNew ? "관계 연결" : "관계 연결 · 재열람");
+        }
+
+        // 관계 없는 쌍의 거절 코멘트. 결과 큐를 타지 않고 곧장 뜬다 — 기록도 보상도 없으므로 같은 쌍을 또 떨어뜨리면 또 나온다.
+        private void HandleRejection(ClueBoardRejectionComment comment)
+        {
+            if (!IsOpen || _commentToast == null || comment == null) return;
+            _commentToast.Show(comment.text, _rejectionToastSeconds);
+        }
 
         // 새 발행과 재열람이 같은 큐를 탄다. 판정·보상·기록은 ClueBoardScreen이 이미 끝냈고 여기서는 보여 주기만 한다.
         private void HandleOutcomes(IReadOnlyList<ClueBoardOutcomePresentation> presentations)
@@ -494,60 +631,50 @@ namespace RouteFinding.UI
         // 맡으므로 여기에는 정식 배선 전까지 필요한 '닫기'와 진단 라벨만 남긴다.
         private void BuildDevelopmentBar(RectTransform parent)
         {
-            var bar = new GameObject("DevelopmentBar", typeof(RectTransform)).GetComponent<RectTransform>();
-            bar.SetParent(parent, false);
-            bar.anchorMin = new Vector2(0f, 1f);
-            bar.anchorMax = new Vector2(1f, 1f);
-            bar.pivot = new Vector2(0.5f, 1f);
-            bar.sizeDelta = new Vector2(0f, DevBarHeight);
-            var barBg = bar.gameObject.AddComponent<Image>();
-            barBg.color = new Color(0.10f, 0.12f, 0.18f, 0.98f);
+            // 프리팹 우선: DevelopmentBar/DevBtn_닫기/ScopeLabel이 있으면 그 배치·크기·색을 쓰고 콜백만 다시 건다.
+            RectTransform bar = ClueBoardUiKit.Child(parent, "DevelopmentBar", out bool created);
+            if (created)
+            {
+                bar.anchorMin = new Vector2(0f, 1f);
+                bar.anchorMax = new Vector2(1f, 1f);
+                bar.pivot = new Vector2(0.5f, 1f);
+                bar.sizeDelta = new Vector2(0f, DevBarHeight);
+                var barBg = bar.gameObject.AddComponent<Image>();
+                barBg.color = new Color(0.10f, 0.12f, 0.18f, 0.98f);
 
-            var layout = bar.gameObject.AddComponent<HorizontalLayoutGroup>();
-            layout.spacing = 4f;
-            layout.padding = new RectOffset(4, 4, 3, 3);
-            layout.childControlWidth = true;
-            layout.childControlHeight = true;
-            layout.childForceExpandWidth = false;
-            layout.childForceExpandHeight = true;
-            layout.childAlignment = TextAnchor.MiddleLeft;
+                var layout = bar.gameObject.AddComponent<HorizontalLayoutGroup>();
+                layout.spacing = 4f;
+                layout.padding = new RectOffset(4, 4, 3, 3);
+                layout.childControlWidth = true;
+                layout.childControlHeight = true;
+                layout.childForceExpandWidth = false;
+                layout.childForceExpandHeight = true;
+                layout.childAlignment = TextAnchor.MiddleLeft;
+            }
 
             MakeDevButton(bar, "닫기", CloseForDevelopment);
 
-            var labelRect = new GameObject("ScopeLabel", typeof(RectTransform)).GetComponent<RectTransform>();
-            labelRect.SetParent(bar, false);
-            labelRect.gameObject.AddComponent<LayoutElement>().flexibleWidth = 1f;
-            _scopeLabel = labelRect.gameObject.AddComponent<TextMeshProUGUI>();
-            if (_font != null) _scopeLabel.font = _font;
-            _scopeLabel.fontSize = 8f;
-            _scopeLabel.color = new Color(0.70f, 0.74f, 0.80f);
-            _scopeLabel.alignment = TextAlignmentOptions.MidlineLeft;
-            _scopeLabel.raycastTarget = false;
-            _scopeLabel.text = "(개발용) 표시 중인 보드 없음";
+            RectTransform labelRect = ClueBoardUiKit.Child(bar, "ScopeLabel", out created);
+            if (created) labelRect.gameObject.AddComponent<LayoutElement>().flexibleWidth = 1f;
+            _scopeLabel = ClueBoardUiKit.Text(labelRect, created, _font, 8f, new Color(0.70f, 0.74f, 0.80f),
+                TextAlignmentOptions.MidlineLeft, "(개발용) 표시 중인 보드 없음");
         }
 
         private void MakeDevButton(RectTransform parent, string label, Action onClick)
         {
-            var rect = new GameObject("DevBtn_" + label, typeof(RectTransform)).GetComponent<RectTransform>();
-            rect.SetParent(parent, false);
-            rect.gameObject.AddComponent<LayoutElement>().preferredWidth = 46f;
-            var image = rect.gameObject.AddComponent<Image>();
-            image.color = new Color(0.20f, 0.26f, 0.36f, 1f);
-            var button = rect.gameObject.AddComponent<Button>();
+            RectTransform rect = ClueBoardUiKit.Child(parent, "DevBtn_" + label, out bool created);
+            if (created) rect.gameObject.AddComponent<LayoutElement>().preferredWidth = 46f;
+            var image = ClueBoardUiKit.Ensure<Image>(rect.gameObject);
+            if (created) image.color = new Color(0.20f, 0.26f, 0.36f, 1f);
+            var button = ClueBoardUiKit.Ensure<Button>(rect.gameObject);
             button.targetGraphic = image;
             button.transition = Selectable.Transition.None;
+            button.onClick.RemoveAllListeners();
             button.onClick.AddListener(() => onClick());
 
-            var textRect = new GameObject("Text", typeof(RectTransform)).GetComponent<RectTransform>();
-            textRect.SetParent(rect, false);
-            StretchFull(textRect);
-            var text = textRect.gameObject.AddComponent<TextMeshProUGUI>();
-            if (_font != null) text.font = _font;
-            text.text = label;
-            text.fontSize = 8f;
-            text.color = Color.white;
-            text.alignment = TextAlignmentOptions.Center;
-            text.raycastTarget = false;
+            RectTransform textRect = ClueBoardUiKit.Child(rect, "Text", out bool textCreated);
+            if (textCreated) StretchFull(textRect);
+            ClueBoardUiKit.Text(textRect, textCreated, _font, 8f, Color.white, TextAlignmentOptions.Center, label);
         }
 
         // 드래그 연결은 Canvas + GraphicRaycaster + EventSystem이 모두 있어야 동작한다.

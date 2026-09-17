@@ -29,6 +29,10 @@ namespace RouteFinding.UI
     // 노드 위 조작은 언제나 노드가 받는다. 드롭 판정(ClueBoardDragLinkController.FindDropTarget)은 RaycastAll 결과 중
     // ClueBoardDragNode가 붙은 것만 찾으므로 선이 맞아도 드롭 대상이 되지 않고, 선에서 시작한 드래그는 IDragHandler가
     // 없어 시작조차 되지 않는다. 즉 선 클릭은 새 연결 시도와 완전히 분리된 입력이다.
+    //
+    // [실루엣 힌트] 실루엣 노드에 포인터를 올리면 해금 힌트(ClueBoardSilhouetteHint)를 말풍선으로 띄운다. 말풍선은
+    // 맨 앞 HintLayer에 두고 레이캐스트를 받지 않는다 — 노드 위를 덮으면 호버가 끊겨 깜빡이고, 드롭 판정을 가로챌 수
+    // 있어서다. 힌트는 이름·아이콘을 대신 노출하지 않으며, 실루엣이 드롭 대상이 아니라는 규칙도 바꾸지 않는다.
     public sealed class ClueBoardView : MonoBehaviour
     {
         // 연결 시도 결과 전부(성공·재시도·거절). 로그/진단용 경계다 — 거절·재시도까지 포함하므로 보상·코멘트·
@@ -41,6 +45,10 @@ namespace RouteFinding.UI
 
         // [C06] 성립한 연결선을 클릭했을 때(인자: relationId). 새 연결 시도와 무관하며 판정을 부르지 않는다.
         public event Action<string> OnEdgeClicked;
+
+        // 해금 노드를 **드래그 없이** 클릭했을 때(인자: nodeId). EventSystem은 드래그가 시작되면 클릭을 주지 않으므로
+        // 연결 드래그와 겹치지 않는다. 실루엣·잠김은 오지 않는다(실루엣은 호버 힌트만).
+        public event Action<string> OnNodeClicked;
 
         // 320x240 보드에서 우측 탭을 제외하고 5열 x 3행이 들어가는 트럼프 카드형 비율(3:5).
         // 권장 슬롯 중심은 X=28/88/148/208/268, Y=-34/-108/-182다.
@@ -57,11 +65,25 @@ namespace RouteFinding.UI
         [SerializeField] private float _dimmedAlpha = 0.22f;
         [SerializeField] private Color _colHighlightOutline = new(0.95f, 0.85f, 0.40f, 0.95f);
 
+        // 실루엣 힌트 말풍선. 폭을 넘으면 줄바꿈되고 높이는 글 길이에 맞춘다.
+        [SerializeField] private float _hintMaxWidth = 110f;
+        [SerializeField] private float _hintFontSize = 6f;
+        [SerializeField] private Color _colHintBackground = new(0.05f, 0.05f, 0.08f, 0.95f);
+        [SerializeField] private Color _colHintText = new(0.85f, 0.83f, 0.78f, 1f);
+        // 작성된 힌트가 없는 실루엣에 쓰는 문구. 비우면 ClueBoardSilhouetteHint.DefaultHint.
+        [SerializeField] [TextArea] private string _defaultSilhouetteHint = ClueBoardSilhouetteHint.DefaultHint;
+        private const float HintPadding = 3f;
+        private const float HintGap = 3f;
+
         private RectTransform _root;
         private RectTransform _edgeLayer;
         private RectTransform _newVisualLayer;
         private RectTransform _nodeLayer;
         private RectTransform _newTagLayer;
+        private RectTransform _hintLayer;
+        private RectTransform _hintRect;
+        private TextMeshProUGUI _hintText;
+        private string _hoveredSilhouetteNodeId;
         private ClueBoardDragLinkController _dragController;
         private TMP_FontAsset _font;
 
@@ -71,6 +93,8 @@ namespace RouteFinding.UI
         private ClueBoardRuntimeState _runtimeState;
 
         private readonly Dictionary<string, RectTransform> _nodeVisuals = new(StringComparer.Ordinal);
+        private List<string> _acquiredClueIds = new();
+        private List<string> _hallucinationNodeIds = new();
         private readonly Dictionary<string, ClueBoardSlot> _slotsByNodeId = new(StringComparer.Ordinal);
         private readonly List<EdgeVisual> _edgeVisuals = new();
 
@@ -120,36 +144,49 @@ namespace RouteFinding.UI
         public void Initialize(RectTransform parent, TMP_FontAsset font)
         {
             _font = font;
-            _root = NewRect(parent, "ClueBoardView");
-            StretchFull(_root);
+            // 프리팹 우선: 레이어 컨테이너는 있으면 재사용하고 없을 때만 만든다. 레이어 안 내용(노드·선·말풍선)은 언제나
+            // 데이터로 다시 그리므로 여기서 비운다.
+            _root = ClueBoardUiKit.Child(parent, "ClueBoardView", out bool created);
+            if (created) StretchFull(_root);
 
-            // 선 → NEW 배경 → 노드 → NEW 글자 → 우측 열 순서.
-            _edgeLayer = NewRect(_root, "EdgeLayer");
-            StretchFull(_edgeLayer);
-
+            // 선 → NEW 배경 → 노드 → NEW 글자 → 우측 열 → 힌트 순서(새로 만들 때의 형제 순서; 프리팹은 그 순서를 따른다).
+            _edgeLayer = EnsureLayer(_root, "EdgeLayer");
             // 금색 글로우/테두리는 카드보다 먼저 그려져 카드 뒤에 깔린다.
-            _newVisualLayer = NewRect(_root, "NewVisualLayer");
-            StretchFull(_newVisualLayer);
-
-            _nodeLayer = NewRect(_root, "NodeLayer");
-            StretchFull(_nodeLayer);
-
+            _newVisualLayer = EnsureLayer(_root, "NewVisualLayer");
+            _nodeLayer = EnsureLayer(_root, "NodeLayer");
             // NEW 글자는 카드보다 뒤에 생성해 항상 카드 앞에 표시한다.
-            _newTagLayer = NewRect(_root, "NewTagLayer");
-            StretchFull(_newTagLayer);
+            _newTagLayer = EnsureLayer(_root, "NewTagLayer");
 
             // 우측 세로 열. 폭은 ClueBoardScreen이 탭/검색 패널을 채우며 정한다. 슬롯 좌표는 기획
             // 데이터라 이 열을 피해 두는 것은 콘텐츠 몫이며, 여기서 노드를 밀어내지 않는다.
-            FilterBarRoot = NewRect(_root, "FilterBar");
-            FilterBarRoot.anchorMin = new Vector2(1f, 0f);
-            FilterBarRoot.anchorMax = new Vector2(1f, 1f);
-            FilterBarRoot.pivot = new Vector2(1f, 0.5f);
-            FilterBarRoot.sizeDelta = new Vector2(0f, 0f);
+            FilterBarRoot = ClueBoardUiKit.Child(_root, "FilterBar", out created);
+            if (created)
+            {
+                FilterBarRoot.anchorMin = new Vector2(1f, 0f);
+                FilterBarRoot.anchorMax = new Vector2(1f, 1f);
+                FilterBarRoot.pivot = new Vector2(1f, 0.5f);
+                FilterBarRoot.sizeDelta = new Vector2(0f, 0f);
+            }
+
+            // 실루엣 힌트 말풍선은 우측 열보다도 앞에 그린다(마지막 형제). 레이캐스트는 받지 않으므로 탭 클릭을 막지 않는다.
+            _hintLayer = EnsureLayer(_root, "HintLayer");
+            _hintRect = null;
+            _hintText = null;
 
             // 드래그 컨트롤러를 EdgeLayer에 붙인다 — 그 컴포넌트는 _edgeLayer가 비어 있으면 자신의
             // RectTransform을 쓰므로, 임시 선이 자연히 선 레이어(=노드 뒤)에 그려진다.
-            _dragController = _edgeLayer.gameObject.AddComponent<ClueBoardDragLinkController>();
+            _dragController = ClueBoardUiKit.Ensure<ClueBoardDragLinkController>(_edgeLayer.gameObject);
+            _dragController.OnConnectionRequested -= HandleConnectionRequested;
             _dragController.OnConnectionRequested += HandleConnectionRequested;
+        }
+
+        // 레이어 컨테이너: 있으면 재사용(안은 비움), 없으면 전체 스트레치로 만든다.
+        private static RectTransform EnsureLayer(RectTransform root, string name)
+        {
+            RectTransform layer = ClueBoardUiKit.Child(root, name, out bool created);
+            if (created) StretchFull(layer);
+            else ClueBoardUiKit.ClearChildren(layer);
+            return layer;
         }
 
         private void OnDestroy()
@@ -171,7 +208,13 @@ namespace RouteFinding.UI
 
             _definition = definition;
             _engine = new ClueBoardConnectionEngine(definition);
-            _states = ClueBoardNodeStates.Build(definition, acquiredClueIds, hallucinationNodeIds);
+            // 체인 공개(revealSilhouetteNodeIds)는 성립한 관계 집합이 필요하다. 엔진이 초기 연결·복원을 합쳐 정하는 집합을
+            // 그대로 쓰기 위해 런타임 상태를 먼저 만들고, 그 연결 집합으로 표시를 계산한 뒤 다시 런타임 상태를 만든다 —
+            // 표시(실루엣)와 판정(실루엣 거절)이 같은 집합을 보게 하기 위해서다.
+            _acquiredClueIds = acquiredClueIds == null ? new List<string>() : new List<string>(acquiredClueIds);
+            _hallucinationNodeIds = hallucinationNodeIds == null ? new List<string>() : new List<string>(hallucinationNodeIds);
+            ClueBoardRuntimeState seed = _engine.CreateState(null, null, null, restoredRelationIds);
+            _states = ClueBoardNodeStates.Build(definition, _acquiredClueIds, _hallucinationNodeIds, seed.connectedRelationIds);
             _runtimeState = _states.CreateRuntimeState(_engine, restoredRelationIds);
 
             // 노드 집합이 바뀌므로 이전 보드의 하이라이트는 버린다. 검색 패널이 새 보드로 다시 계산해 넣는다.
@@ -187,6 +230,7 @@ namespace RouteFinding.UI
             _states = null;
             _runtimeState = null;
             _highlightedNodeIds = null;
+            HideSilhouetteHint();
             ClearChildren(_nodeLayer);
             ClearChildren(_newVisualLayer);
             ClearChildren(_newTagLayer);
@@ -268,6 +312,8 @@ namespace RouteFinding.UI
 
         private void RebuildNodes()
         {
+            // 노드가 파괴되면 PointerExit가 오지 않으므로 말풍선을 먼저 내린다(획득 직후 재구축 때 실루엣이 해금으로 바뀐다).
+            HideSilhouetteHint();
             ClearChildren(_nodeLayer);
             ClearChildren(_newVisualLayer);
             ClearChildren(_newTagLayer);
@@ -323,8 +369,10 @@ namespace RouteFinding.UI
             bool unlocked = visibility == ClueBoardNodeVisibility.Unlocked;
             if (unlocked)
             {
-                bool hasIcon = clue != null && !string.IsNullOrWhiteSpace(clue.iconAddress);
-                BuildNodeIcon(rect, clue, !hideLabel);
+                // 단서별 아이콘이 없으면 유형 기본 아이콘(ClueTypeIconSet)으로 떨어진다. 그것도 없으면 이름만.
+                Sprite icon = ClueTypeIconSet.ResolveIcon(clue);
+                bool hasIcon = icon != null;
+                BuildNodeIcon(rect, icon, !hideLabel);
                 if (HasAudio(clue)) BuildAudioBadge(rect);
                 if (!hideLabel)
                 {
@@ -345,6 +393,8 @@ namespace RouteFinding.UI
                     text.raycastTarget = false;
                 }
 
+                rect.gameObject.AddComponent<ClueBoardNodeClick>().Bind(slot.nodeId, HandleNodeClicked);
+
                 bool isNew = _newClueProvider?.Invoke(slot.clueId) == true;
                 if (isNew)
                 {
@@ -352,7 +402,10 @@ namespace RouteFinding.UI
                     BuildNewMarker(rect, slot.clueId);
                 }
             }
-            // 실루엣은 이름도 아이콘도 내지 않는다 — 자리와 "무언가 있다"만 알린다.
+            // 실루엣은 이름도 아이콘도 내지 않는다 — 자리와 "무언가 있다"만 알리고, 포인터를 올리면 해금 힌트만 보여 준다.
+            else if (visibility == ClueBoardNodeVisibility.Silhouette)
+                rect.gameObject.AddComponent<ClueBoardSilhouetteHover>()
+                    .Bind(slot.nodeId, ShowSilhouetteHint, HideSilhouetteHint);
 
             var drag = rect.gameObject.AddComponent<ClueBoardDragNode>();
             // 실루엣과 환각은 화면에 보이되 연결의 양 끝이 될 수 없다. 판정 엔진도 같은 이유로
@@ -426,12 +479,8 @@ namespace RouteFinding.UI
                       $"backgroundLayer={border.parent.name}, tagLayer={tag.parent.name}, frame={Time.frameCount}");
         }
 
-        private void BuildNodeIcon(RectTransform parent, ClueData clue, bool reserveLabelSpace)
+        private void BuildNodeIcon(RectTransform parent, Sprite sprite, bool reserveLabelSpace)
         {
-            string address = clue != null ? clue.iconAddress : null;
-            if (string.IsNullOrWhiteSpace(address)) return;
-
-            Sprite sprite = ClueAttachmentService.LoadSprite(address);
             if (sprite == null) return; // 아이콘 하나 때문에 노드가 사라지지는 않는다
 
             var iconRect = NewRect(parent, "Icon");
@@ -479,6 +528,103 @@ namespace RouteFinding.UI
 
         private ClueData ResolveClue(string clueId) =>
             string.IsNullOrEmpty(clueId) ? null : ClueResolver(clueId);
+
+        // ─── 실루엣 힌트 ─────────────────────────────────────────
+
+        /// <summary>지금 말풍선이 떠 있는 실루엣 노드. 없으면 null. 검증/진단용이며 저장 대상이 아니다.</summary>
+        public string HoveredSilhouetteNodeId => _hoveredSilhouetteNodeId;
+        public bool IsSilhouetteHintVisible => _hintRect != null && _hintRect.gameObject.activeSelf;
+        public string VisibleSilhouetteHintText => IsSilhouetteHintVisible ? _hintText.text : null;
+
+        /// <summary>이 보드에서 노드가 실루엣일 때 보여 줄 문구(슬롯 예외 → 단서 공통 → 기본). 노드가 없으면 null.</summary>
+        public string ResolveSilhouetteHint(string nodeId)
+        {
+            if (nodeId == null || !_slotsByNodeId.TryGetValue(nodeId, out ClueBoardSlot slot)) return null;
+            // 기본 문구: 설정 에셋(ClueSystemSettings)이 있으면 그것, 없으면 인스펙터 값 → 코드 기본값.
+            string fallback = ClueSystemSettings.Current != null && !string.IsNullOrWhiteSpace(ClueSystemSettings.Current.defaultSilhouetteHint)
+                ? ClueSystemSettings.Current.defaultSilhouetteHint : _defaultSilhouetteHint;
+            return ClueBoardSilhouetteHint.Resolve(slot, ResolveClue(slot.clueId), fallback);
+        }
+
+        /// <summary>
+        /// 실루엣 노드 옆에 힌트 말풍선을 띄운다. 실루엣이 아닌 노드(해금·잠김·화면에 없음)는 무시한다 — 해금 노드의
+        /// 정보는 카드 자체가 보여 주고, 잠김은 존재를 드러내면 안 된다.
+        /// </summary>
+        public bool ShowSilhouetteHint(string nodeId)
+        {
+            if (_states == null || _states.Get(nodeId) != ClueBoardNodeVisibility.Silhouette) return false;
+            if (!_nodeVisuals.TryGetValue(nodeId, out RectTransform node) || node == null) return false;
+
+            EnsureHintBubble();
+            _hintText.text = ResolveSilhouetteHint(nodeId);
+            SizeHintToText();
+            _hintRect.anchoredPosition = PlaceHintBeside(node);
+            _hintRect.gameObject.SetActive(true);
+            _hoveredSilhouetteNodeId = nodeId;
+            return true;
+        }
+
+        public void HideSilhouetteHint()
+        {
+            _hoveredSilhouetteNodeId = null;
+            if (_hintRect != null) _hintRect.gameObject.SetActive(false);
+        }
+
+        private void HideSilhouetteHint(string nodeId)
+        {
+            // 다른 실루엣으로 곧장 옮겨 간 경우 Enter가 Exit보다 먼저 올 수 있다 — 지금 떠 있는 노드의 Exit만 내린다.
+            if (_hoveredSilhouetteNodeId == null || string.Equals(_hoveredSilhouetteNodeId, nodeId, StringComparison.Ordinal))
+                HideSilhouetteHint();
+        }
+
+        private void EnsureHintBubble()
+        {
+            if (_hintRect != null) return;
+            _hintRect = NewRect(_hintLayer, "SilhouetteHint");
+            _hintRect.anchorMin = _hintRect.anchorMax = new Vector2(0f, 1f);
+            _hintRect.pivot = new Vector2(0f, 1f);
+            var background = _hintRect.gameObject.AddComponent<Image>();
+            background.color = _colHintBackground;
+            background.raycastTarget = false; // 노드 호버를 가로채면 말풍선이 깜빡인다
+
+            var textRect = NewRect(_hintRect, "Text");
+            StretchFull(textRect);
+            _hintText = textRect.gameObject.AddComponent<TextMeshProUGUI>();
+            if (_font != null) _hintText.font = _font;
+            _hintText.fontSize = _hintFontSize;
+            _hintText.fontStyle = FontStyles.Italic;
+            _hintText.color = _colHintText;
+            _hintText.alignment = TextAlignmentOptions.TopLeft;
+            _hintText.enableWordWrapping = true;
+            _hintText.margin = new Vector4(HintPadding, HintPadding, HintPadding, HintPadding);
+            _hintText.raycastTarget = false;
+            _hintRect.gameObject.SetActive(false);
+        }
+
+        private void SizeHintToText()
+        {
+            float maxTextWidth = Mathf.Max(20f, _hintMaxWidth - HintPadding * 2f);
+            Vector2 preferred = _hintText.GetPreferredValues(_hintText.text, maxTextWidth, 0f);
+            _hintRect.sizeDelta = new Vector2(
+                Mathf.Min(maxTextWidth, preferred.x) + HintPadding * 2f,
+                preferred.y + HintPadding * 2f);
+        }
+
+        // 노드 오른쪽 위에 붙이고, 보드 밖으로 나가면 왼쪽/위로 접어 넣는다. 슬롯 좌표는 (0,1) 앵커 기준이라
+        // 보드 안은 x∈[0, 폭], y∈[-높이, 0]이다.
+        private Vector2 PlaceHintBeside(RectTransform node)
+        {
+            Vector2 half = node.sizeDelta * 0.5f;
+            Vector2 size = _hintRect.sizeDelta;
+            Rect board = _root.rect;
+            float x = node.anchoredPosition.x + half.x + HintGap;
+            float y = node.anchoredPosition.y + half.y;
+            if (board.width > 0f && x + size.x > board.width)
+                x = Mathf.Max(0f, node.anchoredPosition.x - half.x - HintGap - size.x);
+            if (board.height > 0f && y - size.y < -board.height)
+                y = Mathf.Min(0f, -board.height + size.y);
+            return new Vector2(x, Mathf.Min(0f, y));
+        }
 
         private static ClueData DefaultResolveClue(string clueId) => MapGraph.Instance?.GetClue(clueId);
 
@@ -553,6 +699,16 @@ namespace RouteFinding.UI
 
             _edgeVisuals.Add(new EdgeVisual(rect, relationId, firstNodeId, secondNodeId));
         }
+
+        private void HandleNodeClicked(string nodeId)
+        {
+            if (string.IsNullOrEmpty(nodeId) || _states == null || _states.Get(nodeId) != ClueBoardNodeVisibility.Unlocked) return;
+            OnNodeClicked?.Invoke(nodeId);
+        }
+
+        /// <summary>노드의 단서 데이터(화면과 같은 조회). 없으면 null.</summary>
+        public ClueData GetClueOfNode(string nodeId) =>
+            nodeId != null && _slotsByNodeId.TryGetValue(nodeId, out ClueBoardSlot slot) ? ResolveClue(slot.clueId) : null;
 
         // 선 클릭은 판정(TryConnect)을 부르지 않는다 — 결과 재열람은 ClueBoardScreen이 발행 기록으로 처리한다.
         private void HandleEdgeClicked(string relationId)
@@ -656,10 +812,32 @@ namespace RouteFinding.UI
 
             // 새로 생긴 연결만 화면을 다시 그린다. 재시도(AlreadyConnected)에서 다시 그리면 같은
             // 선을 지웠다 만드는 헛일이고, 아래 Established 이벤트도 한 번만 나가야 한다.
-            if (result.createdConnection) RebuildEdges();
+            if (result.createdConnection)
+            {
+                // 이 연결로 체인이 완성돼 실루엣이 새로 열리면 노드까지 다시 그린다(그 밖에는 선만).
+                if (!RefreshChainReveals()) RebuildEdges();
+            }
 
             OnConnectionResult?.Invoke(result);
             if (result.createdConnection) OnConnectionEstablished?.Invoke(result);
+        }
+
+        /// <summary>
+        /// 성립한 관계 집합으로 표시 상태를 다시 계산해 체인 공개로 열린 실루엣을 반영한다. 표시가 바뀌었을 때만
+        /// 노드·선을 다시 그리고 true. 판정 상태(연결 집합)는 그대로 두고 표시 집합만 새 상태로 바꾼다.
+        /// </summary>
+        public bool RefreshChainReveals()
+        {
+            if (_definition == null || _runtimeState == null) return false;
+            ClueBoardNodeStates next = ClueBoardNodeStates.Build(
+                _definition, _acquiredClueIds, _hallucinationNodeIds, _runtimeState.connectedRelationIds);
+            if (next.SameVisibilityAs(_states)) return false;
+
+            _states = next;
+            _runtimeState = _states.CreateRuntimeState(_engine, _runtimeState.connectedRelationIds);
+            RebuildNodes();
+            RebuildEdges();
+            return true;
         }
 
         // ─── UI 유틸 ─────────────────────────────────────────────
@@ -715,6 +893,49 @@ namespace RouteFinding.UI
             if (eventData != null && eventData.button != PointerEventData.InputButton.Left) return;
             _handler?.Invoke(_relationId);
         }
+    }
+
+    // 해금 노드의 클릭(단서 설명 팝업). 드래그가 시작되면 EventSystem이 eligibleForClick을 내리므로 드롭 뒤에는 오지 않는다.
+    public sealed class ClueBoardNodeClick : MonoBehaviour, IPointerClickHandler
+    {
+        private string _nodeId;
+        private Action<string> _handler;
+
+        public void Bind(string nodeId, Action<string> handler)
+        {
+            _nodeId = nodeId;
+            _handler = handler;
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            if (eventData != null && (eventData.button != PointerEventData.InputButton.Left || eventData.dragging)) return;
+            _handler?.Invoke(_nodeId);
+        }
+    }
+
+    // 실루엣 노드의 호버. 드래그/클릭 핸들러는 구현하지 않으므로 실루엣이 연결의 시작·끝이 되는 규칙은 그대로다.
+    // 드래그 중 위를 지나도 Enter/Exit는 오므로(EventSystem은 드래그 중에도 pointerEnter를 갱신한다) 임시 선을
+    // 끌고 실루엣에 닿았을 때도 "아직 얻지 못한 자리"라는 힌트가 보인다.
+    public sealed class ClueBoardSilhouetteHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+    {
+        private string _nodeId;
+        private Func<string, bool> _enter;
+        private Action<string> _exit;
+
+        public string NodeId => _nodeId;
+
+        public void Bind(string nodeId, Func<string, bool> onEnter, Action<string> onExit)
+        {
+            _nodeId = nodeId;
+            _enter = onEnter;
+            _exit = onExit;
+        }
+
+        public void OnPointerEnter(PointerEventData eventData) => _enter?.Invoke(_nodeId);
+        public void OnPointerExit(PointerEventData eventData) => _exit?.Invoke(_nodeId);
+
+        private void OnDisable() => _exit?.Invoke(_nodeId);
     }
 
     public sealed class ClueBoardNewVisual : MonoBehaviour, IPointerClickHandler

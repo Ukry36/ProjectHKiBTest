@@ -104,7 +104,7 @@ public class InternetPanelEditor : Editor
         EditorGUIUtility.PingObject(prefab);
     }
 
-    [MenuItem("RouteFinding/인터넷 씬 InternetPanelRoot 제거 (스테일 인스턴스)")]
+    [MenuItem("Tools/RouteFinding/인터넷 씬 InternetPanelRoot 제거 (스테일 인스턴스)")]
     private static void RemoveStaleSceneInstances()
     {
         var panels = Resources.FindObjectsOfTypeAll<InternetPanel>();

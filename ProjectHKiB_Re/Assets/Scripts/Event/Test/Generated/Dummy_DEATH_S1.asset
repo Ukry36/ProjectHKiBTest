@@ -15,7 +15,7 @@ MonoBehaviour:
   isPacked: 0
   isTemplate: 0
   exposedVariables: []
-  temporaryID: 0.23000112
+  temporaryID: 0.31807223
   transitions:
   - name: "\uD0C0\uC784\uC544\uC6C3"
     activationInput: 10
@@ -25,7 +25,7 @@ MonoBehaviour:
     disableTime: 0
     decisions:
     - Decision:
-        rid: 5360412811521687958
+        rid: 5360413105100947862
       negate: 0
     trueState: {fileID: 11400000, guid: 1ee2ec262ddb0eb4cb9bbd2f8222e275, type: 2}
     falseState: {fileID: 0}
@@ -35,12 +35,12 @@ MonoBehaviour:
     showFalseStatePort: 1
   additionalTransitions: []
   EnterActions:
-  - rid: 5360412811521687959
-  - rid: 5360412811521687960
-  - rid: 5360412811521687961
-  - rid: 5360412811521687962
-  - rid: 5360412811521687963
-  - rid: 5360412811521687964
+  - rid: 5360413105100947863
+  - rid: 5360413105100947864
+  - rid: 5360413105100947865
+  - rid: 5360413105100947866
+  - rid: 5360413105100947867
+  - rid: 5360413105100947868
   UpdateActions: []
   ExitActions: []
   actionSequence: []
@@ -53,32 +53,32 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 5360412811521687958
+    - rid: 5360413105100947862
       type: {class: UnscaledTimeElapsedDecision, ns: StateMachine, asm: Assembly-CSharp}
       data:
         key: Dummy_DEATH_S1_mark
         seconds: 0.3
-    - rid: 5360412811521687959
+    - rid: 5360413105100947863
       type: {class: MarkUnscaledTimeAction, ns: StateMachine, asm: Assembly-CSharp}
       data:
         key: Dummy_DEATH_S1_mark
-    - rid: 5360412811521687960
+    - rid: 5360413105100947864
       type: {class: DummyEventStepAction, ns: StateMachine, asm: Assembly-CSharp}
       data:
         label: "\uC0AC\uB9DD - \uB418\uC0B4\uB9AC\uACE0 \uC774\uBCA4\uD2B8 \uD50C\uB798\uADF8\uB97C
           \uB9C8\uC9C0\uB9C9 \uC138\uC774\uBE0C\uB85C"
         completeBoolName: 
-    - rid: 5360412811521687961
+    - rid: 5360413105100947865
       type: {class: TargetEntityManipulateAction, ns: StateMachine, asm: Assembly-CSharp}
       data:
         targetID: Player
         targetAction:
-          rid: 5360412811521687965
-    - rid: 5360412811521687962
+          rid: 5360413105100947869
+    - rid: 5360413105100947866
       type: {class: RevertEventFlagsToSaveAction, ns: StateMachine, asm: Assembly-CSharp}
       data:
         useLoadedDataInstead: 0
-    - rid: 5360412811521687963
+    - rid: 5360413105100947867
       type: {class: ScreenNoiseAction, ns: StateMachine, asm: Assembly-CSharp}
       data:
         intensity: 0.5
@@ -93,7 +93,7 @@ MonoBehaviour:
           _volume: 1
           _delay: 0
         stop: 1
-    - rid: 5360412811521687964
+    - rid: 5360413105100947868
       type: {class: ScreenGlitchAction, ns: StateMachine, asm: Assembly-CSharp}
       data:
         intensity: 1
@@ -106,7 +106,7 @@ MonoBehaviour:
         scanline: 0.25
         jitter: 0.01
         stop: 1
-    - rid: 5360412811521687965
+    - rid: 5360413105100947869
       type: {class: ReviveEntityAction, ns: StateMachine, asm: Assembly-CSharp}
       data:
         healToFull: 1

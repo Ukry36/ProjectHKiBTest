@@ -128,7 +128,7 @@ public class CodexPanelEditor : Editor
     // missing script 컴포넌트를 지우고 다시 저장한다 — GeneratePrefab의 정리 로직은 "다음에 다시 저장할
     // 때"만 적용돼서 이미 파일에 구워진 옛 corruption(KeywordsValue의 CodexKeywordLinkHandler 사례처럼
     // 재컴파일 타이밍 문제로 붙었던 컴포넌트)은 소급 반영이 안 됐다 — 이 메뉴/버튼이 그 파일을 직접 고친다.
-    [MenuItem("RouteFinding/도감 프리팹 정리 (missing script 제거)")]
+    [MenuItem("Tools/RouteFinding/도감 프리팹 정리 (missing script 제거)")]
     private static void CleanupExistingPrefabAsset()
     {
         const string path = "Assets/Scripts/RouteFinding/Codex/CodexPanel.prefab";
@@ -201,7 +201,7 @@ public class CodexPanelEditor : Editor
     // 과거 어느 시점에 씬 파일 자체에 저장돼버려서 프리팹/코드를 아무리 고쳐도 계속 그 스테일 상태가
     // 재사용되고 있었다(MapViewer의 MapPanel.prefab 배치 인스턴스와 같은 유형의 함정). 제거하고 나면
     // 다음 플레이부터 BuildUI()가 _panelPrefab(이미 정리된 상태) 또는 런타임 코드로 새로 만든다.
-    [MenuItem("RouteFinding/도감 씬 CodexPanelRoot 제거 (스테일 인스턴스)")]
+    [MenuItem("Tools/RouteFinding/도감 씬 CodexPanelRoot 제거 (스테일 인스턴스)")]
     private static void RemoveStaleSceneInstances()
     {
         var panels = Resources.FindObjectsOfTypeAll<CodexPanel>();

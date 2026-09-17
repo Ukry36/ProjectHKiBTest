@@ -124,6 +124,9 @@ public static class ClueBoardDatabaseCodec
         // [C06] 결과 배선(relation.readingId / chains)의 오타는 보드 자체를 막지 않고 경고로만 남긴다 —
         // 런타임은 같은 진단을 내고 그 결과만 무시한다(ClueBoardOutcomeCatalog).
         AppendWarning(ref warning, ClueBoardOutcomeCatalog.DescribeDiagnostics(database));
+        // 실루엣 힌트 누락도 경고다 — 기본 문구가 대신 나가므로 보드는 뜬다.
+        AppendWarning(ref warning, ClueBoardSilhouetteHint.DescribeMissingHints(database, clues));
+        AppendWarning(ref warning, GetChainRevealWarning(database));
 
         if (maps != null) ValidateMapBindings(database, maps, requireEveryMapBound, errors, ref warning);
 
@@ -161,6 +164,34 @@ public static class ClueBoardDatabaseCodec
             if (isolated.Count > 0)
                 messages.Add($"{Describe(i, board)}: 관계가 한 건도 선언되지 않은 슬롯: {string.Join(", ", isolated)}. " +
                              "연결 대상이면 relation을, 의도적 연결 불가면 Unrelated relation을 명시하세요.");
+        }
+        return messages.Count == 0 ? null : string.Join("\n", messages);
+    }
+
+    /// <summary>체인의 실루엣 공개 노드가 보드에 없거나 비어 있으면 경고. 런타임은 그 노드만 무시한다.</summary>
+    public static string GetChainRevealWarning(ClueBoardDatabase database)
+    {
+        if (database?.boards == null) return null;
+        var messages = new List<string>();
+        for (int i = 0; i < database.boards.Length; i++)
+        {
+            ClueBoardDefinition board = database.boards[i];
+            if (board?.chains == null) continue;
+            var nodeIds = new HashSet<string>(StringComparer.Ordinal);
+            if (board.slots != null)
+                foreach (ClueBoardSlot slot in board.slots)
+                    if (slot != null && !string.IsNullOrWhiteSpace(slot.nodeId)) nodeIds.Add(slot.nodeId);
+            foreach (ClueBoardRelationChain chain in board.chains)
+            {
+                if (chain?.revealSilhouetteNodeIds == null) continue;
+                foreach (string nodeId in chain.revealSilhouetteNodeIds)
+                {
+                    if (string.IsNullOrWhiteSpace(nodeId))
+                        messages.Add($"{Describe(i, board)}: 체인 '{chain.chainId}'의 실루엣 공개 노드가 비어 있습니다.");
+                    else if (!nodeIds.Contains(nodeId))
+                        messages.Add($"{Describe(i, board)}: 체인 '{chain.chainId}'가 없는 노드 '{nodeId}'를 실루엣으로 공개하려 합니다.");
+                }
+            }
         }
         return messages.Count == 0 ? null : string.Join("\n", messages);
     }

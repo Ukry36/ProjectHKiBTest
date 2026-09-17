@@ -16,7 +16,8 @@
                     "sizePercent": 0.0,
                     "fontSize": 0.0,
                     "fontAddress": "",
-                    "hideLabel": false
+                    "hideLabel": false,
+                    "silhouetteHint": ""
                 },
                 {
                     "nodeId": "g2",
@@ -29,7 +30,8 @@
                     "sizePercent": 0.0,
                     "fontSize": 0.0,
                     "fontAddress": "",
-                    "hideLabel": false
+                    "hideLabel": false,
+                    "silhouetteHint": ""
                 },
                 {
                     "nodeId": "g3",
@@ -42,7 +44,8 @@
                     "sizePercent": 0.0,
                     "fontSize": 0.0,
                     "fontAddress": "",
-                    "hideLabel": false
+                    "hideLabel": false,
+                    "silhouetteHint": ""
                 },
                 {
                     "nodeId": "g4",
@@ -55,7 +58,8 @@
                     "sizePercent": 0.0,
                     "fontSize": 0.0,
                     "fontAddress": "",
-                    "hideLabel": false
+                    "hideLabel": false,
+                    "silhouetteHint": ""
                 },
                 {
                     "nodeId": "g5",
@@ -68,7 +72,8 @@
                     "sizePercent": 0.0,
                     "fontSize": 0.0,
                     "fontAddress": "",
-                    "hideLabel": false
+                    "hideLabel": false,
+                    "silhouetteHint": ""
                 },
                 {
                     "nodeId": "g6",
@@ -81,7 +86,8 @@
                     "sizePercent": 0.0,
                     "fontSize": 0.0,
                     "fontAddress": "",
-                    "hideLabel": false
+                    "hideLabel": false,
+                    "silhouetteHint": ""
                 },
                 {
                     "nodeId": "g7",
@@ -94,7 +100,8 @@
                     "sizePercent": 0.0,
                     "fontSize": 0.0,
                     "fontAddress": "",
-                    "hideLabel": false
+                    "hideLabel": false,
+                    "silhouetteHint": ""
                 },
                 {
                     "nodeId": "g8",
@@ -107,7 +114,8 @@
                     "sizePercent": 0.0,
                     "fontSize": 0.0,
                     "fontAddress": "",
-                    "hideLabel": false
+                    "hideLabel": false,
+                    "silhouetteHint": ""
                 },
                 {
                     "nodeId": "g9",
@@ -120,7 +128,8 @@
                     "sizePercent": 0.0,
                     "fontSize": 0.0,
                     "fontAddress": "",
-                    "hideLabel": false
+                    "hideLabel": false,
+                    "silhouetteHint": ""
                 },
                 {
                     "nodeId": "g10",
@@ -133,7 +142,8 @@
                     "sizePercent": 0.0,
                     "fontSize": 0.0,
                     "fontAddress": "",
-                    "hideLabel": false
+                    "hideLabel": false,
+                    "silhouetteHint": ""
                 },
                 {
                     "nodeId": "g11",
@@ -146,7 +156,8 @@
                     "sizePercent": 0.0,
                     "fontSize": 0.0,
                     "fontAddress": "",
-                    "hideLabel": false
+                    "hideLabel": false,
+                    "silhouetteHint": ""
                 },
                 {
                     "nodeId": "g12",
@@ -159,7 +170,8 @@
                     "sizePercent": 0.0,
                     "fontSize": 0.0,
                     "fontAddress": "",
-                    "hideLabel": false
+                    "hideLabel": false,
+                    "silhouetteHint": ""
                 },
                 {
                     "nodeId": "g13",
@@ -172,7 +184,8 @@
                     "sizePercent": 0.0,
                     "fontSize": 0.0,
                     "fontAddress": "",
-                    "hideLabel": false
+                    "hideLabel": false,
+                    "silhouetteHint": ""
                 },
                 {
                     "nodeId": "g14",
@@ -185,7 +198,8 @@
                     "sizePercent": 0.0,
                     "fontSize": 0.0,
                     "fontAddress": "",
-                    "hideLabel": false
+                    "hideLabel": false,
+                    "silhouetteHint": ""
                 },
                 {
                     "nodeId": "g15",
@@ -198,7 +212,8 @@
                     "sizePercent": 0.0,
                     "fontSize": 0.0,
                     "fontAddress": "",
-                    "hideLabel": false
+                    "hideLabel": false,
+                    "silhouetteHint": ""
                 },
                 {
                     "nodeId": "g16",
@@ -211,7 +226,8 @@
                     "sizePercent": 0.0,
                     "fontSize": 0.0,
                     "fontAddress": "",
-                    "hideLabel": false
+                    "hideLabel": false,
+                    "silhouetteHint": ""
                 }
             ],
             "relations": [
@@ -221,7 +237,8 @@
                     "secondNodeId": "g2",
                     "kind": 0,
                     "permanent": false,
-                    "readingId": ""
+                    "readingId": "",
+                    "comment": ""
                 },
                 {
                     "relationId": "global-forest-lake",
@@ -229,7 +246,8 @@
                     "secondNodeId": "g3",
                     "kind": 0,
                     "permanent": false,
-                    "readingId": ""
+                    "readingId": "",
+                    "comment": ""
                 },
                 {
                     "relationId": "global-lake-fog",
@@ -237,7 +255,8 @@
                     "secondNodeId": "g4",
                     "kind": 1,
                     "permanent": false,
-                    "readingId": ""
+                    "readingId": "",
+                    "comment": ""
                 },
                 {
                     "relationId": "global-cabin-plateau",
@@ -245,7 +264,8 @@
                     "secondNodeId": "g5",
                     "kind": 1,
                     "permanent": false,
-                    "readingId": ""
+                    "readingId": "",
+                    "comment": ""
                 },
                 {
                     "relationId": "global-plateau-greenhouse",
@@ -253,7 +273,8 @@
                     "secondNodeId": "g6",
                     "kind": 0,
                     "permanent": false,
-                    "readingId": ""
+                    "readingId": "",
+                    "comment": ""
                 },
                 {
                     "relationId": "global-station-passage",
@@ -261,7 +282,8 @@
                     "secondNodeId": "g8",
                     "kind": 0,
                     "permanent": false,
-                    "readingId": ""
+                    "readingId": "",
+                    "comment": ""
                 },
                 {
                     "relationId": "global-fog-destination",
@@ -269,7 +291,8 @@
                     "secondNodeId": "g10",
                     "kind": 1,
                     "permanent": false,
-                    "readingId": ""
+                    "readingId": "",
+                    "comment": ""
                 },
                 {
                     "relationId": "global-greenhouse-final",
@@ -277,7 +300,8 @@
                     "secondNodeId": "g11",
                     "kind": 1,
                     "permanent": false,
-                    "readingId": ""
+                    "readingId": "",
+                    "comment": ""
                 },
                 {
                     "relationId": "global-wing-eye",
@@ -285,12 +309,14 @@
                     "secondNodeId": "g16",
                     "kind": 0,
                     "permanent": false,
-                    "readingId": "reading_dummy_test"
+                    "readingId": "reading_dummy_test",
+                    "comment": ""
                 }
             ],
             "silhouetteNeighbors": [],
             "initialRelationIds": [],
-            "chains": []
+            "chains": [],
+            "revealAllAsSilhouette": false
         },
         {
             "boardId": "local-home",
@@ -307,7 +333,8 @@
                     "sizePercent": 0.0,
                     "fontSize": 0.0,
                     "fontAddress": "",
-                    "hideLabel": false
+                    "hideLabel": false,
+                    "silhouetteHint": ""
                 },
                 {
                     "nodeId": "h2",
@@ -320,7 +347,8 @@
                     "sizePercent": 0.0,
                     "fontSize": 0.0,
                     "fontAddress": "",
-                    "hideLabel": false
+                    "hideLabel": false,
+                    "silhouetteHint": ""
                 }
             ],
             "relations": [
@@ -330,12 +358,14 @@
                     "secondNodeId": "h2",
                     "kind": 1,
                     "permanent": false,
-                    "readingId": ""
+                    "readingId": "",
+                    "comment": ""
                 }
             ],
             "silhouetteNeighbors": [],
             "initialRelationIds": [],
-            "chains": []
+            "chains": [],
+            "revealAllAsSilhouette": false
         },
         {
             "boardId": "local-forest-lakeside",
@@ -352,7 +382,8 @@
                     "sizePercent": 0.0,
                     "fontSize": 0.0,
                     "fontAddress": "",
-                    "hideLabel": false
+                    "hideLabel": false,
+                    "silhouetteHint": ""
                 },
                 {
                     "nodeId": "f2",
@@ -365,7 +396,8 @@
                     "sizePercent": 0.0,
                     "fontSize": 0.0,
                     "fontAddress": "",
-                    "hideLabel": false
+                    "hideLabel": false,
+                    "silhouetteHint": ""
                 },
                 {
                     "nodeId": "f3",
@@ -378,7 +410,8 @@
                     "sizePercent": 0.0,
                     "fontSize": 0.0,
                     "fontAddress": "",
-                    "hideLabel": false
+                    "hideLabel": false,
+                    "silhouetteHint": ""
                 },
                 {
                     "nodeId": "f4",
@@ -391,7 +424,8 @@
                     "sizePercent": 0.0,
                     "fontSize": 0.0,
                     "fontAddress": "",
-                    "hideLabel": false
+                    "hideLabel": false,
+                    "silhouetteHint": ""
                 },
                 {
                     "nodeId": "f5",
@@ -404,7 +438,8 @@
                     "sizePercent": 0.0,
                     "fontSize": 0.0,
                     "fontAddress": "",
-                    "hideLabel": false
+                    "hideLabel": false,
+                    "silhouetteHint": ""
                 },
                 {
                     "nodeId": "f6",
@@ -417,7 +452,8 @@
                     "sizePercent": 0.0,
                     "fontSize": 0.0,
                     "fontAddress": "",
-                    "hideLabel": false
+                    "hideLabel": false,
+                    "silhouetteHint": ""
                 },
                 {
                     "nodeId": "f7",
@@ -430,7 +466,8 @@
                     "sizePercent": 0.0,
                     "fontSize": 0.0,
                     "fontAddress": "",
-                    "hideLabel": false
+                    "hideLabel": false,
+                    "silhouetteHint": ""
                 }
             ],
             "relations": [
@@ -440,7 +477,8 @@
                     "secondNodeId": "f2",
                     "kind": 0,
                     "permanent": false,
-                    "readingId": ""
+                    "readingId": "",
+                    "comment": ""
                 },
                 {
                     "relationId": "forest-entrance-lake",
@@ -448,7 +486,8 @@
                     "secondNodeId": "f3",
                     "kind": 0,
                     "permanent": false,
-                    "readingId": ""
+                    "readingId": "",
+                    "comment": ""
                 },
                 {
                     "relationId": "forest-lake-fog",
@@ -456,7 +495,8 @@
                     "secondNodeId": "f4",
                     "kind": 1,
                     "permanent": false,
-                    "readingId": ""
+                    "readingId": "",
+                    "comment": ""
                 },
                 {
                     "relationId": "forest-cabin-plateau",
@@ -464,7 +504,8 @@
                     "secondNodeId": "f5",
                     "kind": 1,
                     "permanent": false,
-                    "readingId": ""
+                    "readingId": "",
+                    "comment": ""
                 },
                 {
                     "relationId": "forest-entrance-photo",
@@ -472,7 +513,8 @@
                     "secondNodeId": "f6",
                     "kind": 1,
                     "permanent": false,
-                    "readingId": ""
+                    "readingId": "",
+                    "comment": ""
                 },
                 {
                     "relationId": "forest-entrance-sound",
@@ -480,7 +522,8 @@
                     "secondNodeId": "f7",
                     "kind": 1,
                     "permanent": false,
-                    "readingId": ""
+                    "readingId": "",
+                    "comment": ""
                 }
             ],
             "silhouetteNeighbors": [
@@ -496,9 +539,11 @@
                     "relationIds": [
                         "forest-entrance-cabin"
                     ],
-                    "readingId": ""
+                    "readingId": "",
+                    "revealSilhouetteNodeIds": []
                 }
-            ]
+            ],
+            "revealAllAsSilhouette": false
         },
         {
             "boardId": "local-wasteland-route",
@@ -515,7 +560,8 @@
                     "sizePercent": 0.0,
                     "fontSize": 0.0,
                     "fontAddress": "",
-                    "hideLabel": false
+                    "hideLabel": false,
+                    "silhouetteHint": ""
                 },
                 {
                     "nodeId": "w2",
@@ -528,7 +574,8 @@
                     "sizePercent": 0.0,
                     "fontSize": 0.0,
                     "fontAddress": "",
-                    "hideLabel": false
+                    "hideLabel": false,
+                    "silhouetteHint": ""
                 },
                 {
                     "nodeId": "w3",
@@ -541,7 +588,8 @@
                     "sizePercent": 0.0,
                     "fontSize": 0.0,
                     "fontAddress": "",
-                    "hideLabel": false
+                    "hideLabel": false,
+                    "silhouetteHint": ""
                 }
             ],
             "relations": [
@@ -551,7 +599,8 @@
                     "secondNodeId": "w1",
                     "kind": 1,
                     "permanent": false,
-                    "readingId": ""
+                    "readingId": "",
+                    "comment": ""
                 },
                 {
                     "relationId": "wasteland-fog-route",
@@ -559,12 +608,14 @@
                     "secondNodeId": "w1",
                     "kind": 1,
                     "permanent": false,
-                    "readingId": ""
+                    "readingId": "",
+                    "comment": ""
                 }
             ],
             "silhouetteNeighbors": [],
             "initialRelationIds": [],
-            "chains": []
+            "chains": [],
+            "revealAllAsSilhouette": false
         },
         {
             "boardId": "local-station-underground",
@@ -581,7 +632,8 @@
                     "sizePercent": 0.0,
                     "fontSize": 0.0,
                     "fontAddress": "",
-                    "hideLabel": false
+                    "hideLabel": false,
+                    "silhouetteHint": ""
                 },
                 {
                     "nodeId": "s2",
@@ -594,7 +646,8 @@
                     "sizePercent": 0.0,
                     "fontSize": 0.0,
                     "fontAddress": "",
-                    "hideLabel": false
+                    "hideLabel": false,
+                    "silhouetteHint": ""
                 },
                 {
                     "nodeId": "s3",
@@ -607,7 +660,8 @@
                     "sizePercent": 0.0,
                     "fontSize": 0.0,
                     "fontAddress": "",
-                    "hideLabel": false
+                    "hideLabel": false,
+                    "silhouetteHint": ""
                 },
                 {
                     "nodeId": "s4",
@@ -620,7 +674,8 @@
                     "sizePercent": 0.0,
                     "fontSize": 0.0,
                     "fontAddress": "",
-                    "hideLabel": false
+                    "hideLabel": false,
+                    "silhouetteHint": ""
                 },
                 {
                     "nodeId": "s5",
@@ -633,7 +688,8 @@
                     "sizePercent": 0.0,
                     "fontSize": 0.0,
                     "fontAddress": "",
-                    "hideLabel": false
+                    "hideLabel": false,
+                    "silhouetteHint": ""
                 }
             ],
             "relations": [
@@ -643,7 +699,8 @@
                     "secondNodeId": "s2",
                     "kind": 0,
                     "permanent": false,
-                    "readingId": ""
+                    "readingId": "",
+                    "comment": ""
                 },
                 {
                     "relationId": "station-night-sound",
@@ -651,7 +708,8 @@
                     "secondNodeId": "s3",
                     "kind": 1,
                     "permanent": false,
-                    "readingId": ""
+                    "readingId": "",
+                    "comment": ""
                 },
                 {
                     "relationId": "station-passage-destination",
@@ -659,7 +717,8 @@
                     "secondNodeId": "s5",
                     "kind": 1,
                     "permanent": false,
-                    "readingId": ""
+                    "readingId": "",
+                    "comment": ""
                 },
                 {
                     "relationId": "station-fog-destination",
@@ -667,12 +726,14 @@
                     "secondNodeId": "s5",
                     "kind": 1,
                     "permanent": false,
-                    "readingId": ""
+                    "readingId": "",
+                    "comment": ""
                 }
             ],
             "silhouetteNeighbors": [],
             "initialRelationIds": [],
-            "chains": []
+            "chains": [],
+            "revealAllAsSilhouette": false
         },
         {
             "boardId": "local-plateau-greenhouse",
@@ -689,7 +750,8 @@
                     "sizePercent": 0.0,
                     "fontSize": 0.0,
                     "fontAddress": "",
-                    "hideLabel": false
+                    "hideLabel": false,
+                    "silhouetteHint": ""
                 },
                 {
                     "nodeId": "p2",
@@ -702,7 +764,8 @@
                     "sizePercent": 0.0,
                     "fontSize": 0.0,
                     "fontAddress": "",
-                    "hideLabel": false
+                    "hideLabel": false,
+                    "silhouetteHint": ""
                 },
                 {
                     "nodeId": "p3",
@@ -715,7 +778,8 @@
                     "sizePercent": 0.0,
                     "fontSize": 0.0,
                     "fontAddress": "",
-                    "hideLabel": false
+                    "hideLabel": false,
+                    "silhouetteHint": ""
                 },
                 {
                     "nodeId": "p4",
@@ -728,7 +792,8 @@
                     "sizePercent": 0.0,
                     "fontSize": 0.0,
                     "fontAddress": "",
-                    "hideLabel": false
+                    "hideLabel": false,
+                    "silhouetteHint": ""
                 }
             ],
             "relations": [
@@ -738,7 +803,8 @@
                     "secondNodeId": "p2",
                     "kind": 0,
                     "permanent": false,
-                    "readingId": ""
+                    "readingId": "",
+                    "comment": ""
                 },
                 {
                     "relationId": "greenhouse-final",
@@ -746,7 +812,8 @@
                     "secondNodeId": "p3",
                     "kind": 1,
                     "permanent": false,
-                    "readingId": ""
+                    "readingId": "",
+                    "comment": ""
                 },
                 {
                     "relationId": "plateau-eye",
@@ -754,32 +821,395 @@
                     "secondNodeId": "p4",
                     "kind": 1,
                     "permanent": false,
-                    "readingId": ""
+                    "readingId": "",
+                    "comment": ""
                 }
             ],
             "silhouetteNeighbors": [],
             "initialRelationIds": [],
-            "chains": []
+            "chains": [],
+            "revealAllAsSilhouette": false
         },
         {
-            "boardId": "dev-local-forest", "kind": 1,
+            "boardId": "dev-local-forest",
+            "kind": 1,
             "slots": [
-                {"nodeId":"n1","clueId":"clue-forest-entrance","anchoredPosition":{"x":148,"y":-112}}, {"nodeId":"n2","clueId":"clue-lakeside","anchoredPosition":{"x":148,"y":-38}}, {"nodeId":"n3","clueId":"clue-forest-cabin","anchoredPosition":{"x":245,"y":-75}}, {"nodeId":"n4","clueId":"clue-fog-valley","anchoredPosition":{"x":245,"y":-155}}, {"nodeId":"n5","clueId":"clue-plateau","anchoredPosition":{"x":51,"y":-155}}, {"nodeId":"n6","clueId":"clue-web-graffiti-photo","anchoredPosition":{"x":51,"y":-75}}, {"nodeId":"n7","clueId":"clue-web-night-sound","anchoredPosition":{"x":148,"y":-190}}, {"nodeId":"n8","clueId":"dummy-clue-wing","anchoredPosition":{"x":268,"y":-112}}, {"nodeId":"n9","clueId":"dummy-clue-eye","anchoredPosition":{"x":28,"y":-112}}
+                {
+                    "nodeId": "n1",
+                    "clueId": "clue-forest-entrance",
+                    "anchoredPosition": {
+                        "x": 148.0,
+                        "y": -100.0
+                    },
+                    "overrideAppearance": true,
+                    "sizePercent": 100.0,
+                    "fontSize": 7.0,
+                    "fontAddress": "",
+                    "hideLabel": false,
+                    "silhouetteHint": ""
+                },
+                {
+                    "nodeId": "n2",
+                    "clueId": "clue-lakeside",
+                    "anchoredPosition": {
+                        "x": 148.0,
+                        "y": -31.0
+                    },
+                    "overrideAppearance": true,
+                    "sizePercent": 100.0,
+                    "fontSize": 6.5,
+                    "fontAddress": "",
+                    "hideLabel": false,
+                    "silhouetteHint": ""
+                },
+                {
+                    "nodeId": "n3",
+                    "clueId": "clue-forest-cabin",
+                    "anchoredPosition": {
+                        "x": 191.0,
+                        "y": -100.0
+                    },
+                    "overrideAppearance": true,
+                    "sizePercent": 100.0,
+                    "fontSize": 6.5,
+                    "fontAddress": "",
+                    "hideLabel": false,
+                    "silhouetteHint": ""
+                },
+                {
+                    "nodeId": "n4",
+                    "clueId": "clue-fog-valley",
+                    "anchoredPosition": {
+                        "x": 190.0,
+                        "y": -31.0
+                    },
+                    "overrideAppearance": true,
+                    "sizePercent": 100.0,
+                    "fontSize": 6.5,
+                    "fontAddress": "",
+                    "hideLabel": false,
+                    "silhouetteHint": ""
+                },
+                {
+                    "nodeId": "n5",
+                    "clueId": "clue-plateau",
+                    "anchoredPosition": {
+                        "x": 26.0,
+                        "y": -100.0
+                    },
+                    "overrideAppearance": true,
+                    "sizePercent": 100.0,
+                    "fontSize": 6.5,
+                    "fontAddress": "",
+                    "hideLabel": false,
+                    "silhouetteHint": ""
+                },
+                {
+                    "nodeId": "n6",
+                    "clueId": "clue-web-graffiti-photo",
+                    "anchoredPosition": {
+                        "x": 105.0,
+                        "y": -101.0
+                    },
+                    "overrideAppearance": true,
+                    "sizePercent": 100.0,
+                    "fontSize": 6.5,
+                    "fontAddress": "",
+                    "hideLabel": false,
+                    "silhouetteHint": ""
+                },
+                {
+                    "nodeId": "n7",
+                    "clueId": "clue-web-night-sound",
+                    "anchoredPosition": {
+                        "x": 148.0,
+                        "y": -170.0
+                    },
+                    "overrideAppearance": true,
+                    "sizePercent": 100.0,
+                    "fontSize": 6.0,
+                    "fontAddress": "",
+                    "hideLabel": false,
+                    "silhouetteHint": ""
+                },
+                {
+                    "nodeId": "n8",
+                    "clueId": "dummy-clue-wing",
+                    "anchoredPosition": {
+                        "x": 270.0,
+                        "y": -98.0
+                    },
+                    "overrideAppearance": true,
+                    "sizePercent": 100.0,
+                    "fontSize": 6.5,
+                    "fontAddress": "",
+                    "hideLabel": false,
+                    "silhouetteHint": ""
+                },
+                {
+                    "nodeId": "n9",
+                    "clueId": "dummy-clue-eye",
+                    "anchoredPosition": {
+                        "x": 80.0,
+                        "y": -149.0
+                    },
+                    "overrideAppearance": true,
+                    "sizePercent": 100.0,
+                    "fontSize": 6.5,
+                    "fontAddress": "",
+                    "hideLabel": false,
+                    "silhouetteHint": ""
+                }
             ],
             "relations": [
-                {"relationId":"dev-rel-required","firstNodeId":"n1","secondNodeId":"n2","kind":0}, {"relationId":"dev-rel-initial","firstNodeId":"n2","secondNodeId":"n3","kind":1}, {"relationId":"dev-rel-cabin","firstNodeId":"n1","secondNodeId":"n3","kind":0}, {"relationId":"dev-rel-photo","firstNodeId":"n1","secondNodeId":"n6","kind":0}, {"relationId":"dev-rel-audio","firstNodeId":"n1","secondNodeId":"n7","kind":1}, {"relationId":"dev-rel-event-wing-bridge","firstNodeId":"n1","secondNodeId":"n8","kind":1}, {"relationId":"dev-rel-event-eye-bridge","firstNodeId":"n1","secondNodeId":"n9","kind":1}, {"relationId":"dev-rel-event-symbols","firstNodeId":"n8","secondNodeId":"n9","kind":0,"readingId":"reading_dummy_test"}
+                {
+                    "relationId": "dev-rel-required",
+                    "firstNodeId": "n1",
+                    "secondNodeId": "n2",
+                    "kind": 0,
+                    "permanent": false,
+                    "readingId": "",
+                    "comment": "표지판의 화살표는 호수를 가리키고 있었다. 관찰 기록의 첫 줄과 방향이 같다… 누군가 같은 길을 먼저 걸었다."
+                },
+                {
+                    "relationId": "dev-rel-initial",
+                    "firstNodeId": "n2",
+                    "secondNodeId": "n3",
+                    "kind": 1,
+                    "permanent": false,
+                    "readingId": "",
+                    "comment": "호숫가에서 본 발자국은 오두막 쪽으로 이어졌다고 했지. 목격담과 딱 맞아떨어진다."
+                },
+                {
+                    "relationId": "dev-rel-cabin",
+                    "firstNodeId": "n1",
+                    "secondNodeId": "n3",
+                    "kind": 0,
+                    "permanent": false,
+                    "readingId": "",
+                    "comment": "표지판에 새겨진 글자와 오두막 문에 걸린 팻말… 같은 손글씨다. 같은 사람이 남긴 걸까."
+                },
+                {
+                    "relationId": "dev-rel-photo",
+                    "firstNodeId": "n1",
+                    "secondNodeId": "n6",
+                    "kind": 0,
+                    "permanent": false,
+                    "readingId": "",
+                    "comment": "벽화 사진 속 기호가 표지판 뒷면에도 있었다. 우연이라기엔 너무 똑같다."
+                },
+                {
+                    "relationId": "dev-rel-audio",
+                    "firstNodeId": "n1",
+                    "secondNodeId": "n7",
+                    "kind": 1,
+                    "permanent": false,
+                    "readingId": "",
+                    "comment": "녹음된 소리 사이로 표지판이 삐걱이는 소리가 섞여 있다. 그 밤, 누군가 숲 입구에 있었다."
+                },
+                {
+                    "relationId": "dev-rel-event-wing-bridge",
+                    "firstNodeId": "n1",
+                    "secondNodeId": "n8",
+                    "kind": 1,
+                    "permanent": false,
+                    "readingId": "",
+                    "comment": "날개 문양은 표지판 꼭대기 장식과 닮았다. 숲의 것들은 전부 무언가를 가리키는 것 같다."
+                },
+                {
+                    "relationId": "dev-rel-event-eye-bridge",
+                    "firstNodeId": "n1",
+                    "secondNodeId": "n9",
+                    "kind": 1,
+                    "permanent": false,
+                    "readingId": "",
+                    "comment": "눈 문양이 그려진 종이가 표지판 아래 묻혀 있었다니… 누가 보라고 남긴 걸까."
+                },
+                {
+                    "relationId": "dev-rel-event-symbols",
+                    "firstNodeId": "n8",
+                    "secondNodeId": "n9",
+                    "kind": 0,
+                    "permanent": false,
+                    "readingId": "reading_dummy_test",
+                    "comment": ""
+                }
             ],
-            "silhouetteNeighbors": [{"revealedByNodeId":"n1","silhouetteNodeId":"n5"}], "initialRelationIds": ["dev-rel-initial"], "chains": []
+            "silhouetteNeighbors": [
+                {
+                    "revealedByNodeId": "n1",
+                    "silhouetteNodeId": "n5"
+                }
+            ],
+            "initialRelationIds": [
+                "dev-rel-initial"
+            ],
+            "chains": [],
+            "revealAllAsSilhouette": true
         },
         {
-            "boardId": "dev-global", "kind": 0,
+            "boardId": "dev-global",
+            "kind": 0,
             "slots": [
-                {"nodeId":"d1","clueId":"clue-forest-entrance","anchoredPosition":{"x":148,"y":-112}}, {"nodeId":"d2","clueId":"clue-lakeside","anchoredPosition":{"x":148,"y":-38}}, {"nodeId":"d3","clueId":"clue-destination-1","anchoredPosition":{"x":245,"y":-112}}, {"nodeId":"d4","clueId":"clue-web-night-sound","anchoredPosition":{"x":148,"y":-190}}, {"nodeId":"d5","clueId":"clue-web-graffiti-photo","anchoredPosition":{"x":51,"y":-112}}, {"nodeId":"d6","clueId":"dummy-clue-wing","anchoredPosition":{"x":245,"y":-48}}, {"nodeId":"d7","clueId":"dummy-clue-eye","anchoredPosition":{"x":245,"y":-176}}
+                {
+                    "nodeId": "d1",
+                    "clueId": "clue-forest-entrance",
+                    "anchoredPosition": {
+                        "x": 148.0,
+                        "y": -101.0
+                    },
+                    "overrideAppearance": true,
+                    "sizePercent": 100.0,
+                    "fontSize": 7.0,
+                    "fontAddress": "",
+                    "hideLabel": false,
+                    "silhouetteHint": ""
+                },
+                {
+                    "nodeId": "d2",
+                    "clueId": "clue-lakeside",
+                    "anchoredPosition": {
+                        "x": 148.0,
+                        "y": -32.0
+                    },
+                    "overrideAppearance": true,
+                    "sizePercent": 100.0,
+                    "fontSize": 6.5,
+                    "fontAddress": "",
+                    "hideLabel": false,
+                    "silhouetteHint": ""
+                },
+                {
+                    "nodeId": "d3",
+                    "clueId": "clue-destination-1",
+                    "anchoredPosition": {
+                        "x": 292.0,
+                        "y": -103.0
+                    },
+                    "overrideAppearance": true,
+                    "sizePercent": 100.0,
+                    "fontSize": 6.5,
+                    "fontAddress": "",
+                    "hideLabel": false,
+                    "silhouetteHint": ""
+                },
+                {
+                    "nodeId": "d4",
+                    "clueId": "clue-web-night-sound",
+                    "anchoredPosition": {
+                        "x": 148.0,
+                        "y": -169.0
+                    },
+                    "overrideAppearance": true,
+                    "sizePercent": 100.0,
+                    "fontSize": 6.0,
+                    "fontAddress": "",
+                    "hideLabel": false,
+                    "silhouetteHint": ""
+                },
+                {
+                    "nodeId": "d5",
+                    "clueId": "clue-web-graffiti-photo",
+                    "anchoredPosition": {
+                        "x": 53.0,
+                        "y": -100.0
+                    },
+                    "overrideAppearance": true,
+                    "sizePercent": 100.0,
+                    "fontSize": 6.5,
+                    "fontAddress": "",
+                    "hideLabel": false,
+                    "silhouetteHint": ""
+                },
+                {
+                    "nodeId": "d6",
+                    "clueId": "dummy-clue-wing",
+                    "anchoredPosition": {
+                        "x": 245.0,
+                        "y": -43.0
+                    },
+                    "overrideAppearance": true,
+                    "sizePercent": 100.0,
+                    "fontSize": 6.5,
+                    "fontAddress": "",
+                    "hideLabel": false,
+                    "silhouetteHint": ""
+                },
+                {
+                    "nodeId": "d7",
+                    "clueId": "dummy-clue-eye",
+                    "anchoredPosition": {
+                        "x": 245.0,
+                        "y": -169.0
+                    },
+                    "overrideAppearance": true,
+                    "sizePercent": 100.0,
+                    "fontSize": 6.5,
+                    "fontAddress": "",
+                    "hideLabel": false,
+                    "silhouetteHint": ""
+                }
             ],
             "relations": [
-                {"relationId":"dev-global-rel","firstNodeId":"d1","secondNodeId":"d2","kind":0}, {"relationId":"dev-global-photo","firstNodeId":"d1","secondNodeId":"d5","kind":1}, {"relationId":"dev-global-audio","firstNodeId":"d1","secondNodeId":"d4","kind":1}, {"relationId":"dev-global-event-wing-bridge","firstNodeId":"d1","secondNodeId":"d6","kind":1}, {"relationId":"dev-global-event-eye-bridge","firstNodeId":"d1","secondNodeId":"d7","kind":1}, {"relationId":"dev-global-event-symbols","firstNodeId":"d6","secondNodeId":"d7","kind":0,"readingId":"reading_dummy_test"}
+                {
+                    "relationId": "dev-global-rel",
+                    "firstNodeId": "d1",
+                    "secondNodeId": "d2",
+                    "kind": 0,
+                    "permanent": false,
+                    "readingId": "",
+                    "comment": "표지판이 가리킨 곳에서 관찰 기록이 시작된다. 이 숲은 처음부터 안내받고 있었던 거다."
+                },
+                {
+                    "relationId": "dev-global-photo",
+                    "firstNodeId": "d1",
+                    "secondNodeId": "d5",
+                    "kind": 1,
+                    "permanent": false,
+                    "readingId": "",
+                    "comment": "벽화의 기호와 표지판의 기호. 다른 장소, 같은 손."
+                },
+                {
+                    "relationId": "dev-global-audio",
+                    "firstNodeId": "d1",
+                    "secondNodeId": "d4",
+                    "kind": 1,
+                    "permanent": false,
+                    "readingId": "",
+                    "comment": "밤의 소리 기록에 표지판이 흔들리는 소리가 있다. 바람이 아니었다면… 누군가가 있었다."
+                },
+                {
+                    "relationId": "dev-global-event-wing-bridge",
+                    "firstNodeId": "d1",
+                    "secondNodeId": "d6",
+                    "kind": 1,
+                    "permanent": false,
+                    "readingId": "",
+                    "comment": "날개와 표지판. 둘 다 위를 가리키고 있다."
+                },
+                {
+                    "relationId": "dev-global-event-eye-bridge",
+                    "firstNodeId": "d1",
+                    "secondNodeId": "d7",
+                    "kind": 1,
+                    "permanent": false,
+                    "readingId": "",
+                    "comment": "눈 문양은 표지판을 바라보는 방향으로 놓여 있었다. 지켜보는 쪽은 어느 쪽일까."
+                },
+                {
+                    "relationId": "dev-global-event-symbols",
+                    "firstNodeId": "d6",
+                    "secondNodeId": "d7",
+                    "kind": 0,
+                    "permanent": false,
+                    "readingId": "reading_dummy_test",
+                    "comment": ""
+                }
             ],
-            "silhouetteNeighbors": [], "initialRelationIds": [], "chains": []
+            "silhouetteNeighbors": [],
+            "initialRelationIds": [],
+            "chains": [],
+            "revealAllAsSilhouette": true
         }
     ]
 }

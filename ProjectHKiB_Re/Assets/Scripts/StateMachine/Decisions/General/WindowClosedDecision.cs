@@ -10,7 +10,7 @@ namespace StateMachine
     [System.Serializable]
     public class WindowClosedDecision : StateDecision
     {
-        public string windowName = "Note";
+        [WindowName] public string windowName = "Note";
 
         public override bool Decide(StateController stateController)
         {

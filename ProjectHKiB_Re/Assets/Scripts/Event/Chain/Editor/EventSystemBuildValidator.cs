@@ -104,7 +104,25 @@ public sealed class EventSystemBuildValidator : IPreprocessBuildWithReport
             EventChainSO chain = AssetDatabase.LoadAssetAtPath<EventChainSO>(path);
             ValidateChain(chain, path, report, completionProviders, true);
         }
+
+        ValidateAddressablesContent(report);
         return report;
+    }
+
+    // Addressables 맵 씬 번들에는 Generated 이벤트/StateSO/효과음이 통째로 복제되고, Unity 2021.3에서는 Player 빌드가
+    // 콘텐츠를 다시 빌드하지 않는다. 오래된 번들을 실으면 에디터에선 되는 연출(효과음 배선 등)이 빌드에서만 빠지므로
+    // 오류로 막는다. 빌드 중에는 번들을 다시 빌드할 수 없어(SBP 제한) 검사만 하고 사람에게 먼저 빌드하게 한다.
+    private static void ValidateAddressablesContent(ValidationReport report)
+    {
+        AddressablesContentFreshness.Report freshness = AddressablesContentFreshness.Check();
+        if (freshness.NotApplicable || freshness.IsFresh) return;
+
+        const int maxReasons = 12;
+        foreach (string reason in freshness.StaleReasons.Take(maxReasons))
+            report.Error($"Addressables 콘텐츠가 오래됨: {reason}");
+        if (freshness.StaleReasons.Count > maxReasons)
+            report.Error($"Addressables 콘텐츠가 오래됨: 외 {freshness.StaleReasons.Count - maxReasons}건");
+        report.Error(AddressablesContentFreshness.HowToFix);
     }
 
     private static void ValidateChain(

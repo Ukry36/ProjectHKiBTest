@@ -64,6 +64,11 @@ public readonly struct ClueBoardConnectResult
     public readonly string relationId;
     public readonly ClueBoardRelationKind relationKind;
 
+    // 시도한 노드 쌍(드래그 출발 → 드롭 순서 그대로). 거절 결과에는 relationId가 없으므로 거절 코멘트("이 [A]와 [B]는
+    // 연관이 없어 보인다")가 어느 두 단서였는지 알려면 이 값이 필요하다. 판정은 순서 무관이지만 문구는 순서를 지킨다.
+    public readonly string firstNodeId;
+    public readonly string secondNodeId;
+
     public bool succeeded => status == ClueBoardConnectStatus.Connected ||
                              status == ClueBoardConnectStatus.AlreadyConnected;
     public bool createdConnection => status == ClueBoardConnectStatus.Connected;
@@ -71,11 +76,15 @@ public readonly struct ClueBoardConnectResult
     public ClueBoardConnectResult(
         ClueBoardConnectStatus status,
         string relationId = null,
-        ClueBoardRelationKind relationKind = ClueBoardRelationKind.Unrelated)
+        ClueBoardRelationKind relationKind = ClueBoardRelationKind.Unrelated,
+        string firstNodeId = null,
+        string secondNodeId = null)
     {
         this.status = status;
         this.relationId = relationId;
         this.relationKind = relationKind;
+        this.firstNodeId = firstNodeId;
+        this.secondNodeId = secondNodeId;
     }
 }
 
@@ -174,32 +183,32 @@ public sealed class ClueBoardConnectionEngine
         if (state == null) throw new ArgumentNullException(nameof(state));
 
         if (!string.Equals(state.boardId, _definition.boardId, StringComparison.Ordinal))
-            return Fail(ClueBoardConnectStatus.BoardMismatch, out result);
+            return Fail(ClueBoardConnectStatus.BoardMismatch, firstNodeId, secondNodeId, out result);
         if (!_slotsById.ContainsKey(firstNodeId) || !_slotsById.ContainsKey(secondNodeId))
-            return Fail(ClueBoardConnectStatus.NodeNotOnBoard, out result);
+            return Fail(ClueBoardConnectStatus.NodeNotOnBoard, firstNodeId, secondNodeId, out result);
         if (string.Equals(firstNodeId, secondNodeId, StringComparison.Ordinal))
-            return Fail(ClueBoardConnectStatus.SelfConnection, out result);
+            return Fail(ClueBoardConnectStatus.SelfConnection, firstNodeId, secondNodeId, out result);
         if (state.IsSilhouette(firstNodeId) || state.IsSilhouette(secondNodeId))
-            return Fail(ClueBoardConnectStatus.SilhouetteCannotConnect, out result);
+            return Fail(ClueBoardConnectStatus.SilhouetteCannotConnect, firstNodeId, secondNodeId, out result);
         if (state.IsHallucination(firstNodeId) || state.IsHallucination(secondNodeId))
-            return Fail(ClueBoardConnectStatus.HallucinationCannotConnect, out result);
+            return Fail(ClueBoardConnectStatus.HallucinationCannotConnect, firstNodeId, secondNodeId, out result);
         if (!state.IsUnlocked(firstNodeId) || !state.IsUnlocked(secondNodeId))
-            return Fail(ClueBoardConnectStatus.NodeLocked, out result);
+            return Fail(ClueBoardConnectStatus.NodeLocked, firstNodeId, secondNodeId, out result);
 
         if (!_relationsByPair.TryGetValue(new ClueBoardNodePair(firstNodeId, secondNodeId), out ClueBoardRelation relation) ||
             relation.kind == ClueBoardRelationKind.Unrelated)
-            return Fail(ClueBoardConnectStatus.Unrelated, out result);
+            return Fail(ClueBoardConnectStatus.Unrelated, firstNodeId, secondNodeId, out result);
 
         if (state.IsConnected(relation.relationId))
         {
             result = new ClueBoardConnectResult(
-                ClueBoardConnectStatus.AlreadyConnected, relation.relationId, relation.kind);
+                ClueBoardConnectStatus.AlreadyConnected, relation.relationId, relation.kind, firstNodeId, secondNodeId);
             return true;
         }
 
         state.AddConnection(relation.relationId);
         result = new ClueBoardConnectResult(
-            ClueBoardConnectStatus.Connected, relation.relationId, relation.kind);
+            ClueBoardConnectStatus.Connected, relation.relationId, relation.kind, firstNodeId, secondNodeId);
         return true;
     }
 
@@ -357,9 +366,10 @@ public sealed class ClueBoardConnectionEngine
         return true;
     }
 
-    private static bool Fail(ClueBoardConnectStatus status, out ClueBoardConnectResult result)
+    private static bool Fail(
+        ClueBoardConnectStatus status, string firstNodeId, string secondNodeId, out ClueBoardConnectResult result)
     {
-        result = new ClueBoardConnectResult(status);
+        result = new ClueBoardConnectResult(status, firstNodeId: firstNodeId, secondNodeId: secondNodeId);
         return false;
     }
 

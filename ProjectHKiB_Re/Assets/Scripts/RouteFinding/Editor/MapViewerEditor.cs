@@ -30,7 +30,7 @@ public class MapViewerEditor : Editor
             RemoveStaleSceneInstances();
     }
 
-    [MenuItem("RouteFinding/지도 씬 MapPanel 제거 (스테일 인스턴스)")]
+    [MenuItem("Tools/RouteFinding/지도 씬 MapPanel 제거 (스테일 인스턴스)")]
     private static void RemoveStaleSceneInstances()
     {
         var viewers = Resources.FindObjectsOfTypeAll<MapViewer>();

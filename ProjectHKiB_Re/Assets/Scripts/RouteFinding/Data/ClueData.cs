@@ -62,6 +62,12 @@ public class ClueData
     public float boardFontSize;
     public string boardFontAddress;
     public bool boardHideLabel;
+
+    // 단서 보드에서 이 단서가 **실루엣**(미획득이지만 자리가 드러난 상태)일 때 마우스를 올리면 보이는 해금 힌트.
+    // 기획(단서 시스템 세부기획 "잠김/실루엣/해금"): 형식적인 조건 문구가 아니라 "이런 기억이 있던 것 같은데.."
+    // 같은 뉘앙스의 암시. 실루엣은 이름·아이콘을 숨기므로 여기에 단서 이름을 그대로 쓰면 정체가 새어 나간다.
+    // 비어 있으면 런타임 기본 문구(ClueBoardSilhouetteHint.DefaultHint)가 표시된다. 보드별 예외는 ClueBoardSlot.silhouetteHint.
+    public string silhouetteHint;
     // 구 JSON type은 보고용으로만 보존한다. 새 분류로 캐스팅하거나 재저장하지 않는다.
     [NonSerialized] public int legacyType = -1;
     public string timestamp;    // 표시용 텍스트(예: "00:00"). 빈 문자열이면 카드에 표시 안 함

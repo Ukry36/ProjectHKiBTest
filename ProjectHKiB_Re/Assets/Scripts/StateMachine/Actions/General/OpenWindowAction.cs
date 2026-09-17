@@ -9,7 +9,7 @@ namespace StateMachine
     [System.Serializable]
     public class OpenWindowAction : StateAction
     {
-        public string windowName = "Note";
+        [WindowName] public string windowName = "Note";
         public bool close;
 
         public override void Act(StateController stateController)

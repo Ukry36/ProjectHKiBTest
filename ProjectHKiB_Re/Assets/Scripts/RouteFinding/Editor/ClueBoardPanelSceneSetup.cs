@@ -30,7 +30,7 @@ namespace RouteFinding.Editor
             "clue-web-graffiti-photo", "clue-web-night-sound",
         };
 
-        [MenuItem("RouteFinding/개발용/현재 씬에 단서 보드 패널 배치")]
+        [MenuItem("Tools/RouteFinding/개발용/현재 씬에 단서 보드 패널 배치")]
         public static void AddToOpenScene()
         {
             Scene scene = SceneManager.GetActiveScene();
