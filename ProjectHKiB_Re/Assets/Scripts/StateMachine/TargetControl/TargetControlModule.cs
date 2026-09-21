@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Gameplay;
 using UnityEngine;
 
 namespace StateMachine
@@ -59,11 +60,16 @@ namespace StateMachine
         [SerializeField] private bool destroyOwnedTargetsOnDisable = true;
 
         private readonly Dictionary<string, TargetEntry> _targets = new();
+
+        [Tooltip("이 모듈이 생성한 보조 엔티티의 Direct Owner로 연결할 StateController.")]
+        private StateController _owner;
+
         private bool _initialized;
 
         public override void Register(IInterfaceRegistable interfaceRegistable)
         {
             interfaceRegistable.RegisterInterface<ITargetControl>(this);
+            _owner = interfaceRegistable as StateController;
         }
 
         public void Initialize()
@@ -107,6 +113,10 @@ namespace StateMachine
                 Destroy(instance);
                 return null;
             }
+
+            EntityOwnershipModule ownership = controller.GetComponent<EntityOwnershipModule>();
+            if (ownership == null) ownership = controller.gameObject.AddComponent<EntityOwnershipModule>();
+            ownership.Bind(_owner, normalizedSlot);
 
             if (!RegisterCore(
                     normalizedSlot,

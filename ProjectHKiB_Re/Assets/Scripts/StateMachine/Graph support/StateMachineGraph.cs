@@ -44,6 +44,17 @@ public class StateMachineGraph : BaseGraph
         return node;
     }
 
+#if UNITY_EDITOR
+    /// <summary>
+    /// 이미 존재하는 StateSO를 표현하는 노드를 그래프에 추가한다.
+    /// 자동 동기화가 새 StateSO를 중복 생성하지 않고 BaseGraph의 변경 알림을 사용하게 한다.
+    /// </summary>
+    internal BaseNode AddExistingNode(BaseNode node)
+    {
+        return base.AddNode(node);
+    }
+#endif
+
     public override void RemoveNode(BaseNode node)
     {
         if (node is StateNode sn && sn.stateSO != null)

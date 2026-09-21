@@ -3,8 +3,8 @@ namespace StateMachine
 {
     // 지금의 unscaled 시각을 커스텀 int(밀리초)로 기록해 둔다. UnscaledTimeElapsedDecision과 짝이다.
     //
-    // [왜 필요한가] StateSO의 useTimer/TimerDecision은 TimerManager를 타는데, 그쪽은 DOTween 기본
-    // UpdateType.Normal(= Time.timeScale의 영향을 받는 스케일 시간)을 의도적으로 쓴다(버프 쿨타임이
+    // [왜 필요한가] StateSO의 useTimer/TimerDecision은 TimerManager를 타는데, 그쪽은 Update에서
+    // Time.deltaTime(= Time.timeScale의 영향을 받는 스케일 시간)을 의도적으로 쓴다(버프 쿨타임이
     // 메뉴를 열면 같이 멈춰야 하므로). 그래서 컷신이 TimeManager.Pause로 게임을 멈추면 그 타이머도
     // 같이 얼어붙어 이벤트가 그 단계에서 영영 안 넘어간다 — 컷신이 스스로를 가둬버리는 셈이다.
     //

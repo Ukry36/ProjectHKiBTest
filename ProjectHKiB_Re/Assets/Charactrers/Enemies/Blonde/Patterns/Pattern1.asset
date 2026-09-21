@@ -1,0 +1,196 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 984243eea1654ff1ba763977ebc08351, type: 3}
+  m_Name: Pattern1
+  m_EditorClassIdentifier: 
+  _label: P1
+  _summary: "\uD398\uC774\uC988 \uC2DC\uC791 \uC2DC \uC9C4\uC785, \uC2E4\uC120\uC73C\uB85C
+    4\uC904 \uACF5\uACA9\uACBD\uB85C\uB97C \uD45C\uC2DC \uD6C4 \uC21C\uC11C\uB300\uB85C
+    \uB530\uB77C\uAC00\uBA70 \uACF5\uACA9. \uC784\uC758 \uC2DC\uAC04 [\uACF5\uD3EC]\uB85C
+    \uD328\uB9C1 \uC2DC \uD2B9\uC218\uD589\uB3D9 \uC131\uACF5. \uC2E4\uD328 \uC2DC
+    \uD328\uD134 \uC7AC\uC2DC\uC791"
+  _entryMode: 0
+  _allowRepeatWithinPhase: 0
+  _completionRule: 1
+  _specialActions:
+  - _id: Parry1
+    _requiredCount: 1
+    _requiredForPatternClear: 1
+    _unansweredFailureReasonId: Ignored
+  _loopTimelineUntilCleared: 1
+  _timelineLoopDelay: 0
+  _timeline:
+  - _label: 'Init And Telegraph '
+    _delay: 0
+    _actions:
+    - rid: 2579733677997293568
+    - rid: 2579733677997293569
+    - rid: 2579733677997293572
+  - _label: Attack
+    _delay: 0.82
+    _actions:
+    - rid: 2579733677997293598
+    - rid: 2579733677997293592
+  - _label: After
+    _delay: 1.28
+    _actions:
+    - rid: 2579733677997293600
+    - rid: 2579733728716652545
+  _recoveryDuration: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 2579733677997293568
+      type: {class: InstanciateObjectAction, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        targetID: Scissor1
+        prefab: {fileID: 4186655875762002233, guid: 11d9840001abaeb4cb1a6a8c4cc4fd42, type: 3}
+        position:
+          source: 0
+          follow: 0
+          worldPosition: {x: 0, y: 0, z: 0}
+          sceneAnchorId: 
+          offset: {x: 0, y: 0, z: 0}
+          offsetSpace: 0
+          snapFinalPositionToGrid: 0
+          gridCellSize: 0
+          gridOrigin: {x: 0, y: 0}
+        directionSource: 4
+        parentToOwner: 0
+        replaceExisting: 1
+        destroyReplacedOwnedTarget: 1
+    - rid: 2579733677997293569
+      type: {class: ManipulateRegisteredTargetAction, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        targetID: Scissor1
+        targetAction:
+          rid: 2579733677997293571
+    - rid: 2579733677997293571
+      type: {class: MoveToPositionAction, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        mode: 0
+        destination:
+          source: 1
+          follow: 0
+          worldPosition: {x: 0, y: 0, z: 0}
+          sceneAnchorId: 
+          offset: {x: 10, y: 4, z: 0}
+          offsetSpace: 0
+          snapFinalPositionToGrid: 1
+          gridCellSize: 0
+          gridOrigin: {x: 0, y: 0}
+        duration: 0.66
+        forceRepath: 0
+        stopHorizontalMovementBeforeTeleport: 1
+    - rid: 2579733677997293572
+      type: {class: InstanciateObjectAction, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        targetID: P1Warning
+        prefab: {fileID: 8135660681591118400, guid: 43a88b5a79be76a4d9dd0a49b189132b, type: 3}
+        position:
+          source: 1
+          follow: 0
+          worldPosition: {x: 0, y: 0, z: 0}
+          sceneAnchorId: 
+          offset: {x: 10, y: 4, z: 0}
+          offsetSpace: 0
+          snapFinalPositionToGrid: 0
+          gridCellSize: 0
+          gridOrigin: {x: 0, y: 0}
+        directionSource: 3
+        parentToOwner: 0
+        replaceExisting: 1
+        destroyReplacedOwnedTarget: 1
+    - rid: 2579733677997293592
+      type: {class: ManipulateRegisteredTargetAction, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        targetID: Scissor1
+        targetAction:
+          rid: 2579733677997293593
+    - rid: 2579733677997293593
+      type: {class: MoveAlongPositionKeyframesAction, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        _path:
+          _duration: 1.28
+          _ease: 19
+          _repeatCount: 2
+          _usePhysics: 1
+          _steps:
+          - _type: 0
+            _displacement: {x: -20, y: 0}
+            _overrideTiming: 0
+            _speedRatio: 0
+            _ease: 0
+          - _type: 1
+            _displacement: {x: -2, y: 0}
+            _overrideTiming: 0
+            _speedRatio: 0
+            _ease: 0
+          - _type: 0
+            _displacement: {x: 20, y: 0}
+            _overrideTiming: 0
+            _speedRatio: 0
+            _ease: 0
+          - _type: 1
+            _displacement: {x: -2, y: 0}
+            _overrideTiming: 0
+            _speedRatio: 0
+            _ease: 0
+    - rid: 2579733677997293598
+      type: {class: ManipulateRegisteredTargetAction, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        targetID: Scissor1
+        targetAction:
+          rid: 2579733677997293599
+    - rid: 2579733677997293599
+      type: {class: StartComposableAttackAction, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        definition: {fileID: 11400000, guid: 9346e304896656748a50d5f264807664, type: 2}
+        slot: Attack1
+        cancelExistingInSlot: 1
+        origin:
+          source: 0
+          follow: 0
+          worldPosition: {x: 0, y: 0, z: 0}
+          sceneAnchorId: 
+          offset: {x: 0, y: 0, z: 0}
+          offsetSpace: 0
+          snapFinalPositionToGrid: 0
+          gridCellSize: 0
+          gridOrigin: {x: 0, y: 0}
+        destination:
+          source: 0
+          follow: 0
+          worldPosition: {x: 0, y: 0, z: 0}
+          sceneAnchorId: 
+          offset: {x: 0, y: 0, z: 0}
+          offsetSpace: 0
+          snapFinalPositionToGrid: 0
+          gridCellSize: 0
+          gridOrigin: {x: 0, y: 0}
+        directionSource: 2
+    - rid: 2579733677997293600
+      type: {class: ManipulateRegisteredTargetAction, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        targetID: Scissor1
+        targetAction:
+          rid: 2579733677997293601
+    - rid: 2579733677997293601
+      type: {class: CancelComposableAttackAction, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        slot: Attack1
+        cancelAllInSlot: 0
+    - rid: 2579733728716652545
+      type: {class: DestroyRegisteredTargetAction, ns: StateMachine, asm: Assembly-CSharp}
+      data:
+        targetID: Scissor1
+        destroyRegisteredSceneObject: 0

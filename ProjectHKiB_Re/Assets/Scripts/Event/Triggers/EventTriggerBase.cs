@@ -188,6 +188,7 @@ public abstract class EventTriggerBase : MonoBehaviour
         _nextTriggerTime = Time.time + _cooldown;
         LastContext = context ?? new EventTriggerContext(this);
 
+        OnTriggered(LastContext);
         Triggered?.Invoke(LastContext);
 
         if (LastContext.IsGameEventSuppressed)
@@ -238,6 +239,14 @@ public abstract class EventTriggerBase : MonoBehaviour
         LastResult = result;
         EventDiagnostics.LogTriggerResult(this, result);
         Evaluated?.Invoke(result);
+    }
+
+    /// <summary>
+    /// 공통 제한을 통과한 직후 구체 트리거가 부가 사건을 발행할 수 있는 확장 지점이다.
+    /// GameEvent 실행 전 호출되어 발동 순간의 State를 안정적으로 캡처한다.
+    /// </summary>
+    protected virtual void OnTriggered(EventTriggerContext context)
+    {
     }
 
     /// <summary>

@@ -480,6 +480,7 @@ public class PhysicsModule : InterfaceModule, IPhysics
 
     private void OnDisable()
     {
+        Phys.PathPlayback?.Cancel();
         ClearAllLayerOverrides();
         Grid = new GridState();
         Phys = new PhysicsState();

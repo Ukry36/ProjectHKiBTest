@@ -71,7 +71,7 @@ public class GearDataSO : ItemDataSO
     {
         if (gearType != GearType.Damage)
         {
-            if (stateMachine) player.Initialize(stateMachine);
+            if (stateMachine) player.InitializeStateMachine(stateMachine);
             // 플레이어는 IDirAnimatable만 등록한다 — DirAnimatableModule.Register가 부모 것에
             // 더하는 게 아니라 덮어써 버리기 때문이다. InterfaceRegister는 정확한 타입으로
             // 찾으므로 IAnimatable로만 조회하면 플레이어에서는 절대 안 잡힌다.

@@ -105,8 +105,8 @@ public class InputManager : MonoBehaviour, @PlayerAction.IPLAYActions, PlayerAct
     // 두 컷신 모드의 공통 부분 — 조작을 완전히 잠근다.
     //
     // 액션맵을 끄는 것만으로는 부족하다. Walk/Run 스테이트의 발소리·연출은
-    // StateController.StartActionSequence(DOTween, 기본 UpdateType.Normal = 스케일 시간)로 도는
-    // 반복 시퀀스라, 입력을 막아도 시퀀스 자체는 계속 돈다. 그래서 정지형 컷신은 메뉴 창과 같은
+    // StateController.StartActionSequence(Update + Time.deltaTime)로 도는 반복 시퀀스라,
+    // 입력을 막아도 시간이 흐르면 계속 돈다. 그래서 정지형 컷신은 메뉴 창과 같은
     // 수단(TimeManager.Pause)으로 게임플레이 시간을 통째로 세운다.
     private void EnterCutscene(bool pauseTime)
     {

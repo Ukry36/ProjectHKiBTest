@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using DG.Tweening;
 using Movement;
 using UnityEngine;
 
@@ -198,6 +197,10 @@ namespace StateMachine
         CompleteThenKill
     }
 
+    /// <summary>
+    /// 여러 StateAction을 항목별 지연시간 뒤에 Update 기반으로 순차 실행한다.
+    /// 실행을 시작한 State의 수명에 맞춰 취소하거나 남은 항목을 완료한다.
+    /// </summary>
     [AddTypeMenu("General/Sequence Action")]
     [Serializable]
     public sealed class SequenceAction : StateAction
@@ -215,12 +218,16 @@ namespace StateMachine
 
         private sealed class RunningSequence
         {
-            public Sequence Sequence;
             public StateSO StartingState;
-            public bool Infinite;
-            public bool CompletingForStateExit;
             public StateController Owner;
+            public int TotalLoops;
+            public int CompletedLoops;
+            public int ItemIndex;
+            public float ElapsedTime;
+            public bool HasPositiveDelay;
             public Action<StateSO, StateSO> StateChangingHandler;
+            public Action<float> TimingUpdatedHandler;
+            public Action TimingStoppedHandler;
         }
 
         [Tooltip("각 항목의 Delay만큼 기다린 뒤 Action을 실행한다. Action이 비어 있으면 대기 구간으로만 사용한다.")]
@@ -236,6 +243,10 @@ namespace StateMachine
 
         [NonSerialized] private Dictionary<int, RunningSequence> _runningSequences;
 
+        /// <summary>
+        /// 이 Action을 실행한 컨트롤러에 새 Update 기반 Sequence를 등록한다.
+        /// 같은 Action의 이전 실행이 남아 있다면 먼저 콜백 없이 중단한다.
+        /// </summary>
         public override void Act(StateController stateController)
         {
             if (stateController == null) return;
@@ -249,98 +260,104 @@ namespace StateMachine
 
             if (actions == null || actions.Length == 0) return;
 
-            Sequence sequence = DOTween.Sequence();
-            RunningSequence running = new()
-            {
-                Sequence = sequence,
-                StartingState = stateController.CurrentState,
-                Owner = stateController
-            };
             bool hasTimeline = false;
-
+            bool hasPositiveDelay = false;
             for (int i = 0; i < actions.Length; i++)
             {
-                ActionTween item = actions[i];
-                float delay = Mathf.Max(0f, item.delay);
-                if (delay > 0f)
-                {
-                    sequence.AppendInterval(delay);
+                if (actions[i].action != null)
                     hasTimeline = true;
-                }
 
-                // null Action도 순수 대기 항목으로 사용할 수 있다.
-                if (item.action == null) continue;
-
-                StateAction callbackAction = item.action;
-                sequence.AppendCallback(() =>
+                if (actions[i].delay > 0f)
                 {
-                    // 루트 Sequence의 OnUpdate보다 자식 Callback이 먼저 호출될 수 있다.
-                    // Callback마다 검사해야 같은 프레임에 State가 바뀐 뒤의 Action이 새 State에서
-                    // 잘못 실행되는 것을 막을 수 있다.
-                    if (!running.CompletingForStateExit &&
-                        !CanExecuteCallback(ownerId, stateController, running))
-                        return;
-
-                    callbackAction.Act(stateController);
-                });
-                hasTimeline = true;
+                    hasTimeline = true;
+                    hasPositiveDelay = true;
+                }
             }
 
-            if (!hasTimeline)
-            {
-                sequence.Kill(false);
-                return;
-            }
+            if (!hasTimeline) return;
 
             int safeLoops = loops == -1 ? -1 : Mathf.Max(1, loops);
-            sequence.SetLoops(safeLoops, LoopType.Restart);
-
-            running.Infinite = safeLoops == -1;
+            RunningSequence running = new()
+            {
+                StartingState = stateController.CurrentState,
+                Owner = stateController,
+                TotalLoops = safeLoops,
+                HasPositiveDelay = hasPositiveDelay
+            };
             running.StateChangingHandler = (_, _) =>
             {
                 bool complete = stateExitBehaviour == SequenceStateExitBehaviour.CompleteThenKill;
                 Stop(ownerId, complete, stateController);
             };
-            stateController.StateChanging += running.StateChangingHandler;
+            running.TimingUpdatedHandler = deltaTime =>
+                UpdateRunningSequence(ownerId, running, deltaTime);
+            running.TimingStoppedHandler = () => Stop(ownerId, false, stateController);
+
             _runningSequences[ownerId] = running;
-
-            sequence.OnUpdate(() =>
-            {
-                if (stateController == null || !stateController.isActiveAndEnabled)
-                {
-                    Stop(ownerId, false, stateController);
-                    return;
-                }
-
-                if (stateController.CurrentState == running.StartingState) return;
-
-                bool complete = stateExitBehaviour == SequenceStateExitBehaviour.CompleteThenKill;
-                Stop(ownerId, complete, stateController);
-            });
-
-            sequence.OnComplete(() => RemoveIfCurrent(ownerId, running));
-            sequence.OnKill(() => RemoveIfCurrent(ownerId, running));
-            sequence.Play();
+            stateController.StateChanging += running.StateChangingHandler;
+            stateController.TimingUpdated += running.TimingUpdatedHandler;
+            stateController.TimingStopped += running.TimingStoppedHandler;
         }
 
-        private bool CanExecuteCallback(
-            int ownerId,
-            StateController stateController,
-            RunningSequence running)
+        /// <summary>
+        /// 한 컨트롤러의 Sequence를 스케일 시간만큼 진행하고 도달한 Action을 실행한다.
+        /// Action이 State를 바꾸거나 Sequence를 재시작하면 현재 실행을 즉시 끝낸다.
+        /// </summary>
+        private void UpdateRunningSequence(int ownerId, RunningSequence running, float deltaTime)
         {
+            StateController stateController = running.Owner;
             if (stateController == null || !stateController.isActiveAndEnabled)
             {
                 Stop(ownerId, false, stateController);
-                return false;
+                return;
             }
 
-            if (stateController.CurrentState == running.StartingState) return true;
+            if (stateController.CurrentState != running.StartingState)
+            {
+                bool complete = stateExitBehaviour == SequenceStateExitBehaviour.CompleteThenKill;
+                Stop(ownerId, complete, stateController);
+                return;
+            }
 
-            bool complete = stateExitBehaviour == SequenceStateExitBehaviour.CompleteThenKill;
-            Stop(ownerId, complete, stateController);
-            return false;
+            running.ElapsedTime += deltaTime;
+            int processedCount = 0;
+
+            while (processedCount < 1024)
+            {
+                ActionTween item = actions[running.ItemIndex];
+                float delay = Mathf.Max(0f, item.delay);
+                if (running.ElapsedTime < delay) return;
+
+                running.ElapsedTime -= delay;
+                running.ItemIndex++;
+                processedCount++;
+                item.action?.Act(stateController);
+
+                if (!IsCurrent(ownerId, running)) return;
+
+                if (running.ItemIndex < actions.Length) continue;
+
+                running.CompletedLoops++;
+                if (running.TotalLoops != -1 && running.CompletedLoops >= running.TotalLoops)
+                {
+                    RemoveIfCurrent(ownerId, running);
+                    return;
+                }
+
+                running.ItemIndex = 0;
+                if (running.TotalLoops == -1 && !running.HasPositiveDelay)
+                    return;
+            }
+
+            Debug.LogWarning(
+                "[SequenceAction] 한 프레임에 Action을 1024개 이상 처리하지 않도록 중단했습니다.",
+                stateController);
         }
 
+        /// <summary>
+        /// 실행 중인 Sequence를 제거하고 필요하면 남은 유한 반복 Action을 즉시 완료한다.
+        /// 무한 반복은 완료할 수 없으므로 항상 콜백 없이 중단한다.
+        /// </summary>
         private void Stop(int ownerId, bool complete, StateController logContext)
         {
             if (_runningSequences == null ||
@@ -348,10 +365,9 @@ namespace StateMachine
                 return;
 
             _runningSequences.Remove(ownerId);
-            DetachStateChanging(running);
-            if (running.Sequence == null || !running.Sequence.IsActive()) return;
+            DetachHandlers(running);
 
-            if (complete && running.Infinite)
+            if (complete && running.TotalLoops == -1)
             {
                 Debug.LogWarning(
                     "[SequenceAction] 무한 반복 Sequence는 Complete할 수 없어 State 이탈 시 Kill합니다.",
@@ -359,13 +375,45 @@ namespace StateMachine
                 complete = false;
             }
 
-            // Kill(true)는 남은 콜백을 완료한 뒤 Sequence를 제거하고,
-            // Kill(false)는 남은 콜백을 실행하지 않고 즉시 제거한다.
-            // CompletingForStateExit가 true인 동안은 남은 콜백의 State 검사를 통과시킨다.
-            running.CompletingForStateExit = complete;
-            running.Sequence.Kill(complete);
+            if (complete)
+                CompleteRemaining(running);
         }
 
+        /// <summary>
+        /// 유한 Sequence의 현재 위치 이후에 남은 모든 Action을 지연 없이 실행한다.
+        /// State 종료 시 CompleteThenKill 동작을 DOTween 없이 동일하게 제공한다.
+        /// </summary>
+        private void CompleteRemaining(RunningSequence running)
+        {
+            while (running.CompletedLoops < running.TotalLoops)
+            {
+                while (running.ItemIndex < actions.Length)
+                {
+                    StateAction action = actions[running.ItemIndex].action;
+                    running.ItemIndex++;
+                    action?.Act(running.Owner);
+                }
+
+                running.CompletedLoops++;
+                running.ItemIndex = 0;
+            }
+        }
+
+        /// <summary>
+        /// 전달된 실행 정보가 해당 컨트롤러의 현재 Sequence인지 확인한다.
+        /// Action 안에서 같은 SequenceAction을 다시 시작한 경우 이전 실행을 구분한다.
+        /// </summary>
+        private bool IsCurrent(int ownerId, RunningSequence running)
+        {
+            return _runningSequences != null &&
+                   _runningSequences.TryGetValue(ownerId, out RunningSequence current) &&
+                   ReferenceEquals(current, running);
+        }
+
+        /// <summary>
+        /// 자연 완료한 Sequence가 여전히 현재 실행일 때 목록과 이벤트에서 제거한다.
+        /// 이미 교체된 새 실행의 핸들러는 건드리지 않는다.
+        /// </summary>
         private void RemoveIfCurrent(int ownerId, RunningSequence running)
         {
             if (_runningSequences != null &&
@@ -373,16 +421,31 @@ namespace StateMachine
                 ReferenceEquals(current, running))
             {
                 _runningSequences.Remove(ownerId);
-                DetachStateChanging(running);
+                DetachHandlers(running);
             }
         }
 
-        private static void DetachStateChanging(RunningSequence running)
+        /// <summary>
+        /// StateController에 등록한 State 변경·Update·중단 핸들러를 모두 해제한다.
+        /// 공유 ScriptableObject가 컨트롤러 참조를 계속 보유하지 않게 한다.
+        /// </summary>
+        private static void DetachHandlers(RunningSequence running)
         {
-            if (running.Owner != null && running.StateChangingHandler != null)
-                running.Owner.StateChanging -= running.StateChangingHandler;
+            if (running.Owner != null)
+            {
+                if (running.StateChangingHandler != null)
+                    running.Owner.StateChanging -= running.StateChangingHandler;
+
+                if (running.TimingUpdatedHandler != null)
+                    running.Owner.TimingUpdated -= running.TimingUpdatedHandler;
+
+                if (running.TimingStoppedHandler != null)
+                    running.Owner.TimingStopped -= running.TimingStoppedHandler;
+            }
 
             running.StateChangingHandler = null;
+            running.TimingUpdatedHandler = null;
+            running.TimingStoppedHandler = null;
         }
     }
 }

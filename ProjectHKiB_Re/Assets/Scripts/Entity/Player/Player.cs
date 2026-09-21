@@ -60,7 +60,7 @@ public class Player : Entity
         databaseManager.SetITargetable(this, BaseData);
         databaseManager.SetIDirAnimatable(this, BaseData);
         databaseManager.SetIGraffitiable(this, BaseData);
-        Initialize(BaseData.StateMachine);
+        InitializeStateMachine(BaseData.StateMachine);
         InitializeModules();
     }
 

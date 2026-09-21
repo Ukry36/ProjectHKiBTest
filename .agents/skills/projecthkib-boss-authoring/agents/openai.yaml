@@ -1,0 +1,6 @@
+interface:
+  display_name: "ProjectHKiB Boss Authoring"
+  short_description: "보스 Phase·Pattern을 SO와 Inspector로 제작"
+  default_prompt: "Use $projecthkib-boss-authoring to implement this boss encounter through Boss Authoring and Unity assets without adding runtime C#."
+policy:
+  allow_implicit_invocation: true
