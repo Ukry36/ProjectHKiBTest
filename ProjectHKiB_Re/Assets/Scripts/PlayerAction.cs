@@ -136,6 +136,24 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""2f7c8e1a-5b3d-4c6e-9a1f-0d4b7e2c6a91"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Flashlight"",
+                    ""type"": ""Button"",
+                    ""id"": ""6d1e8b4a-3c7f-4a29-b5e0-8f2a1c9d7e36"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Graffiti1"",
                     ""type"": ""Value"",
                     ""id"": ""4bf05f2d-c114-4d9b-87f3-23499db6b170"",
@@ -344,6 +362,28 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Skill"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9c3e5a7b-1d2f-4e8a-b6c0-3f5d7a9e1b24"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4b8f2d6e-9a1c-4e7b-8d3f-5c0a2e6b9f17"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Flashlight"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -1370,6 +1410,8 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
         m_PLAY_Menu = m_PLAY.FindAction("Menu", throwIfNotFound: true);
         m_PLAY_Confirm = m_PLAY.FindAction("Confirm", throwIfNotFound: true);
         m_PLAY_Skill = m_PLAY.FindAction("Skill", throwIfNotFound: true);
+        m_PLAY_Jump = m_PLAY.FindAction("Jump", throwIfNotFound: true);
+        m_PLAY_Flashlight = m_PLAY.FindAction("Flashlight", throwIfNotFound: true);
         m_PLAY_Graffiti1 = m_PLAY.FindAction("Graffiti1", throwIfNotFound: true);
         m_PLAY_Graffiti2 = m_PLAY.FindAction("Graffiti2", throwIfNotFound: true);
         m_PLAY_Graffiti3 = m_PLAY.FindAction("Graffiti3", throwIfNotFound: true);
@@ -1481,6 +1523,8 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
     private readonly InputAction m_PLAY_Menu;
     private readonly InputAction m_PLAY_Confirm;
     private readonly InputAction m_PLAY_Skill;
+    private readonly InputAction m_PLAY_Jump;
+    private readonly InputAction m_PLAY_Flashlight;
     private readonly InputAction m_PLAY_Graffiti1;
     private readonly InputAction m_PLAY_Graffiti2;
     private readonly InputAction m_PLAY_Graffiti3;
@@ -1502,6 +1546,8 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
         public InputAction @Menu => m_Wrapper.m_PLAY_Menu;
         public InputAction @Confirm => m_Wrapper.m_PLAY_Confirm;
         public InputAction @Skill => m_Wrapper.m_PLAY_Skill;
+        public InputAction @Jump => m_Wrapper.m_PLAY_Jump;
+        public InputAction @Flashlight => m_Wrapper.m_PLAY_Flashlight;
         public InputAction @Graffiti1 => m_Wrapper.m_PLAY_Graffiti1;
         public InputAction @Graffiti2 => m_Wrapper.m_PLAY_Graffiti2;
         public InputAction @Graffiti3 => m_Wrapper.m_PLAY_Graffiti3;
@@ -1552,6 +1598,12 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
             @Skill.started += instance.OnSkill;
             @Skill.performed += instance.OnSkill;
             @Skill.canceled += instance.OnSkill;
+            @Jump.started += instance.OnJump;
+            @Jump.performed += instance.OnJump;
+            @Jump.canceled += instance.OnJump;
+            @Flashlight.started += instance.OnFlashlight;
+            @Flashlight.performed += instance.OnFlashlight;
+            @Flashlight.canceled += instance.OnFlashlight;
             @Graffiti1.started += instance.OnGraffiti1;
             @Graffiti1.performed += instance.OnGraffiti1;
             @Graffiti1.canceled += instance.OnGraffiti1;
@@ -1607,6 +1659,12 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
             @Skill.started -= instance.OnSkill;
             @Skill.performed -= instance.OnSkill;
             @Skill.canceled -= instance.OnSkill;
+            @Jump.started -= instance.OnJump;
+            @Jump.performed -= instance.OnJump;
+            @Jump.canceled -= instance.OnJump;
+            @Flashlight.started -= instance.OnFlashlight;
+            @Flashlight.performed -= instance.OnFlashlight;
+            @Flashlight.canceled -= instance.OnFlashlight;
             @Graffiti1.started -= instance.OnGraffiti1;
             @Graffiti1.performed -= instance.OnGraffiti1;
             @Graffiti1.canceled -= instance.OnGraffiti1;
@@ -1983,6 +2041,8 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
         void OnMenu(InputAction.CallbackContext context);
         void OnConfirm(InputAction.CallbackContext context);
         void OnSkill(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
+        void OnFlashlight(InputAction.CallbackContext context);
         void OnGraffiti1(InputAction.CallbackContext context);
         void OnGraffiti2(InputAction.CallbackContext context);
         void OnGraffiti3(InputAction.CallbackContext context);

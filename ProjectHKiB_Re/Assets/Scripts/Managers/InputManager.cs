@@ -215,6 +215,20 @@ public class InputManager : MonoBehaviour, @PlayerAction.IPLAYActions, PlayerAct
 
     public void OnSkill(InputAction.CallbackContext context) { }
 
+    // PLAY 맵에만 있어 메뉴·대화·컷신 중에는 자동으로 막힌다.
+    public void OnJump(InputAction.CallbackContext context)
+    {
+        if (!context.performed) return;
+        Player player = GameManager.instance ? GameManager.instance.player : null;
+        if (player && player.TryGetComponent(out PhysicsModule physics)) physics.TryJump();
+    }
+
+    // 암전이 걸려 있지 않으면 켜도 화면 변화는 없다(켜진 상태만 기억했다가 어두워지면 바로 보인다).
+    public void OnFlashlight(InputAction.CallbackContext context)
+    {
+        if (context.performed) DarknessManager.Instance.ToggleFlashlight();
+    }
+
     public Action<InputAction.CallbackContext> onMenu;
     public void OnMenu(InputAction.CallbackContext context) => onMenu?.Invoke(context);
 

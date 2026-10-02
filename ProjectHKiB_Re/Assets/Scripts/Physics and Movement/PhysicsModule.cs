@@ -190,6 +190,15 @@ public class PhysicsModule : InterfaceModule, IPhysics
     }
     public float jump;
 
+    // 입력으로 뛰는 경로(InputManager.OnJump). Jump()는 힘만 더하므로 공중에서 또 누르면 계속 떠오른다 —
+    // 발이 땅에 닿아 있을 때만 받는다. 이륙한 다음 물리 틱부터 Ground가 비므로 연타로 겹치지 않는다.
+    public bool TryJump()
+    {
+        if (jump <= 0f || !Ground || IsKnockedBack) return false;
+        Jump();
+        return true;
+    }
+
     [field: NaughtyAttributes.ReadOnly][field: SerializeField] public bool IsKnockedBack { get; set; }
     [field: NaughtyAttributes.ReadOnly][field: SerializeField] public Vector3 KnockbackForce { get; set; }
     [field: NaughtyAttributes.ReadOnly][field: SerializeField] public float KnockbackTimeLeft { get; set; }

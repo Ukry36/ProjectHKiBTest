@@ -1,0 +1,6 @@
+interface:
+  display_name: "ProjectHKiB Reuse Existing Assets"
+  short_description: "새 시스템 전에 내장 기능·기존 자산부터 찾아 조절 코드로 해결"
+  default_prompt: "Use $projecthkib-reuse-existing-assets to survey Unity built-ins and existing project assets before building this feature."
+policy:
+  allow_implicit_invocation: true
