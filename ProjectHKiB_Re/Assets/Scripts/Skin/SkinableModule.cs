@@ -28,14 +28,17 @@ public class SkinableModule : InterfaceModule, ISkinable
 
     public virtual void ApplySkin()
     {
-        if (SkinData == null) return;
+        if (SkinData == null || mainSpriteRenderer == null || mainSpriteRenderer.sprite == null) return;
         MaterialPropertyBlock materialPropertyBlock = new();
         materialPropertyBlock.SetTexture("_SkinTex", SkinData.skinTexture);
         materialPropertyBlock.SetTexture("_EmissionSkinTex", SkinData.emissionSkinTexture);
         materialPropertyBlock.SetTexture("_MainTex", mainSpriteRenderer.sprite.texture);
         mainSpriteRenderer.SetPropertyBlock(materialPropertyBlock);
 
-        materialPropertyBlock.SetTexture("_SkinTex", SkinData.effectSkinTexture);
-        effectSpriteRenderer.SetPropertyBlock(materialPropertyBlock);
+        if (effectSpriteRenderer != null)
+        {
+            materialPropertyBlock.SetTexture("_SkinTex", SkinData.effectSkinTexture);
+            effectSpriteRenderer.SetPropertyBlock(materialPropertyBlock);
+        }
     }
 }

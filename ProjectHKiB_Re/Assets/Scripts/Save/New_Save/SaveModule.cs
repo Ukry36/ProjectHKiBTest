@@ -19,6 +19,7 @@ public class SaveModule : InterfaceModule, IInitializable
     [SerializeField] private StateMachineSO saveStateMachine;
     [SerializeField] private StateMachineSO loadStateMachine;
 
+
     // ====== (선택) 튜닝 값 ======
     [SerializeField] private int maxWaitFrames = 120;
 
@@ -58,7 +59,7 @@ public class SaveModule : InterfaceModule, IInitializable
     }
 
     // ====== PUBLIC: Start Save/Load ======
-    public void StartSave(int slot, InventoryManager inv, GearManager gearMgr, Component player = null, IEventSaveProvider provider = null)
+    public void StartSave(int slot, InventoryManager inv, GearManager gearMgr = null, Component player = null, IEventSaveProvider provider = null)
     {
         Slot = slot;
         inventory = inv;
@@ -71,7 +72,7 @@ public class SaveModule : InterfaceModule, IInitializable
         GetComponent<StateController>().ResetStateMachine(saveStateMachine);
     }
 
-    public void StartLoad(int slot, InventoryManager inv, GearManager gearMgr, Component player = null, IEventSaveProvider provider = null)
+    public void StartLoad(int slot, InventoryManager inv, GearManager gearMgr = null, Component player = null, IEventSaveProvider provider = null)
     {
         Slot = slot;
         inventory = inv;
@@ -214,7 +215,7 @@ public class SaveModule : InterfaceModule, IInitializable
 
         // 플레이어 버프(= 감정 스택) — 전용 세이브 State를 새로 만들지 않고 여기에 얹었다.
         // 이 메서드는 이미 노트/도감/경로/장비/위치까지 받아내는 "나머지 전부" 자리가 된 지 오래다.
-        SaveBuffs();
+        // SaveBuffs(); // Exploration player has no combat buffs.
 
         // 노트(핀 단서)/도감(유저 메모) 스냅샷 — eventProvider 유무와 무관하게 항상 저장한다.
         // IEventSaveProvider(Dictionary<string,bool> 전용)로 표현 안 되는 구조화 데이터라 이 메서드에
@@ -364,6 +365,13 @@ public class SaveModule : InterfaceModule, IInitializable
 
     public IEnumerator WaitGearManagerReady()
     {
+        // Exploration scenes do not have cards or a GearManager. Their load chain
+        // still visits this state, so it must be allowed to continue.
+        if (gearManager == null)
+        {
+            _isGearManagerReady = true;
+            yield break;
+        }
         _isGearManagerReady = false;
 
         for (int frames = 0; frames < maxWaitFrames; frames++)
@@ -498,7 +506,7 @@ public class SaveModule : InterfaceModule, IInitializable
         // 로드 순서상 이 시점은 LoadGears/LoadCards 이후라 SourceGear를 인벤토리에서 되찾을 수 있고,
         // ApplyHP 이후이기도 하다. 버프가 MaxHP를 건드려도 ApplyHP가 프레임 끝에 한 번 더
         // 재적용(ReapplyHpEndOfFrame)하면서 복원된 버프 기준으로 다시 클램프되므로 순서 문제는 없다.
-        LoadBuffs();
+        // LoadBuffs(); // Exploration player has no combat buffs.
 
         // 지도/노트에서 마지막으로 커밋했던 단일 경로 복원 — Progress(위에서 이미 복원됨) 기준으로
         // 노드 GUID를 다시 MapNodeData로 해석한다.

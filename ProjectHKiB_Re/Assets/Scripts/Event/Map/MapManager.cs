@@ -218,7 +218,7 @@ public class MapManager : MonoBehaviour
         loadedLocalManager.Initialize();
         localManager = loadedLocalManager;
 
-        navigationManager.RebuildWorld();
+        if (navigationManager != null) navigationManager.RebuildWorld();
 
         Debug.Log("loaded: " + CurrentMapData.name + " (" + CurrentMapData.mapAddressableID + ")");
 

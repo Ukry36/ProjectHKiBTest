@@ -52,14 +52,14 @@ public class Player : Entity
             return;
         }
         databaseManager.SetIPhysics(this, BaseData);
-        databaseManager.SetIAttackable(this, BaseData);
-        databaseManager.SetIDamagable(this, BaseData);
-        databaseManager.SetIDodgeable(this, BaseData);
+        if (TryGetInterface(out IAttackable attackable)) databaseManager.SetIAttackable(attackable, BaseData);
+        if (TryGetInterface(out IDamagable damagable)) databaseManager.SetIDamagable(damagable, BaseData);
+        if (TryGetInterface(out IDodgeable dodgeable)) databaseManager.SetIDodgeable(dodgeable, BaseData);
         databaseManager.SetIFootstep(this, BaseData);
         databaseManager.SetISkinable(this, BaseData);
-        databaseManager.SetITargetable(this, BaseData);
+        if (TryGetInterface(out ITargetable targetable)) databaseManager.SetITargetable(targetable, BaseData);
         databaseManager.SetIDirAnimatable(this, BaseData);
-        databaseManager.SetIGraffitiable(this, BaseData);
+        if (TryGetInterface(out IGraffitiable graffitiable)) databaseManager.SetIGraffitiable(graffitiable, BaseData);
         InitializeStateMachine(BaseData.StateMachine);
         InitializeModules();
     }
