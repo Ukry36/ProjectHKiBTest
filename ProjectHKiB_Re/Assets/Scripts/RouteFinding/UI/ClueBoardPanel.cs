@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using static RouteFinding.UI.RouteUiKit;
 #if UNITY_EDITOR
 using System.IO;
 using UnityEditor;
@@ -33,6 +34,11 @@ namespace RouteFinding.UI
     // 다이얼로그가 실제로 화면에 뜬 순간 viewed를 기록한다. 닫힐 때는 큐만 비운다 — 기록은 세션/세이브에 남는다.
     public class ClueBoardPanel : MonoBehaviour, IWindowContent
     {
+        public enum OutcomePresentationMode
+        {
+            Dialog,
+            BoardReveal,
+        }
         // UIManager.windows에 등록할 이름. 등록(씬 배선 + Input Action)은 정식 배선 단계에서 한다.
         // 기존 도감(ClueWindow)이 사용하던 UIManager 등록명과 OpenCodex 입력을 그대로 인수한다.
         // 저장 데이터/도감 모듈 이름과는 무관한 UI 창 식별자이므로 호환성을 위해 "Clue"를 유지한다.
@@ -41,6 +47,18 @@ namespace RouteFinding.UI
         [Header("표시")]
         [SerializeField] private TMP_FontAsset _font;
         [SerializeField] private Color _rootBgColor = new(0.04f, 0.05f, 0.09f, 0.96f);
+
+        [Header("해몽 표시")]
+        [Tooltip("Dialog는 기존 입력 차단형 결과 창을 유지한다. BoardReveal은 보드 안에 페이드 카드로 표시하며, 마우스를 올리면 사라지지 않는다.")]
+        [SerializeField] private OutcomePresentationMode _outcomePresentationMode = OutcomePresentationMode.Dialog;
+        [Tooltip("BoardReveal 카드의 장식 스프라이트(선택). 비우면 Resources/ClueArt/DreamReadingEmblem이 있을 때만 그것을 쓰고, 없으면 장식 없이 표시한다. 정식 아트는 아직 없다.")]
+        [SerializeField] private Sprite _outcomeRevealArt;
+
+        [Tooltip("BoardReveal 카드가 떠 있는 시간(초, 실시간). 마우스를 올리고 있으면 이 시간은 흐르지 않고, 카드를 누르면 남은 시간과 무관하게 바로 사라진다.")]
+        [SerializeField, Min(0f)] private float _outcomeRevealSeconds = 3.5f;
+
+        [Tooltip("BoardReveal 카드의 페이드인/아웃 길이(초, 실시간).")]
+        [SerializeField, Min(0.05f)] private float _outcomeRevealFadeSeconds = 0.22f;
 
         // 패널 프리팹(선택). NotePanel/CodexPanel과 같은 규칙 — 씬 자식 "ClueBoardPanelRoot"가 있으면 그것을, 없으면
         // 이 프리팹을 인스턴스화하고, 둘 다 없으면 런타임에 만든다.
@@ -78,8 +96,12 @@ namespace RouteFinding.UI
         private GameObject _panelGO;
         private ClueBoardScreen _screen;
         private ClueBoardOutcomeDialog _outcomeDialog;
+        private ClueBoardOutcomeReveal _outcomeReveal;
         private ClueBoardCommentToast _commentToast;
         private ClueBoardClueInfoPopup _clueInfoPopup;
+        private ClueBoardImagePreview _imagePreview;
+        private ClueBoardVideoPreview _videoPreview;
+        private ClueAttachmentAudioPlayer _boardAudio;
         private InputManager _inputManager;
         private TextMeshProUGUI _scopeLabel;
         private bool _built;
@@ -88,8 +110,27 @@ namespace RouteFinding.UI
 
         public ClueBoardScreen Screen => _screen;
         public ClueBoardOutcomeDialog OutcomeDialog => _outcomeDialog;
+        public ClueBoardOutcomeReveal OutcomeReveal => _outcomeReveal;
+        public OutcomePresentationMode CurrentOutcomePresentationMode => _outcomePresentationMode;
+
+        /// <summary>인스펙터에서 시간을 고친 뒤 즉시 반영하고 싶을 때(또는 런타임 옵션 메뉴에서) 호출한다.</summary>
+        public void ApplyOutcomeRevealTimings() => _outcomeReveal?.SetTimings(_outcomeRevealSeconds, _outcomeRevealFadeSeconds);
+
+        // 인스펙터에서 슬라이더를 움직이면 플레이 중에도 바로 먹는다.
+        private void OnValidate() => ApplyOutcomeRevealTimings();
+
+        /// <summary>런타임 옵션 메뉴나 검증 코드에서 표시 방식을 전환한다.</summary>
+        public void SetOutcomePresentationMode(OutcomePresentationMode mode)
+        {
+            if (_outcomePresentationMode == mode) return;
+            _outcomePresentationMode = mode;
+            _outcomeDialog?.Clear();
+            _outcomeReveal?.Clear();
+        }
         public ClueBoardCommentToast CommentToast => _commentToast;
         public ClueBoardClueInfoPopup ClueInfoPopup => _clueInfoPopup;
+        public ClueBoardImagePreview ImagePreview => _imagePreview;
+        public ClueBoardVideoPreview VideoPreview => _videoPreview;
 
         // 거절 코멘트가 하단에 떠 있는 시간(초, 실시간). 기획: 닫기 없이 잠깐 보였다 사라진다.
         [SerializeField] private float _rejectionToastSeconds = 1f;
@@ -315,7 +356,7 @@ namespace RouteFinding.UI
 
             // [C06] 발행됐지만 보여 주지 못한 결과가 있으면 지금 보여 준다(재발행이 아니라 보류분 표시 —
             // 판정·보상·기록은 거치지 않는다).
-            _outcomeDialog?.Enqueue(_screen.CollectPendingOutcomes());
+            PresentOutcomes(_screen.CollectPendingOutcomes());
         }
 
         public void CloseWindowContent()
@@ -324,8 +365,12 @@ namespace RouteFinding.UI
             // 결과 큐는 화면 상태라 함께 비운다. 이미 띄운 결과는 viewed로 기록돼 있고, 아직 못 띄운 결과는
             // 기록에 남아 다음 열람 때 보류분으로 다시 뜬다.
             _outcomeDialog?.Clear();
+            _outcomeReveal?.Clear();
             _commentToast?.Hide();
             _clueInfoPopup?.Hide();
+            _imagePreview?.Hide();
+            _videoPreview?.Hide();
+            _boardAudio?.Stop();
             if (_panelGO != null) _panelGO.SetActive(false);
             // UIManager가 창 스택을 비울 때도 PLAYMode를 부르지만, 개발용 경로로 열었을 때는
             // 스택을 거치지 않으므로 여기서 직접 복구한다(NotePanel과 같은 관례).
@@ -388,7 +433,7 @@ namespace RouteFinding.UI
             {
                 _screen.ConfigureSources(
                     newClueProvider: isNew,
-                    clueViewedHandler: codex != null ? new Action<string>(codex.MarkClueViewedFromBoard) : null,
+                    clueViewedHandler: codex != null ? new Action<string>(codex.MarkClueViewed) : null,
                     hallucinationBoardProvider: hallucinations);
                 return;
             }
@@ -408,7 +453,7 @@ namespace RouteFinding.UI
                 acquiredClueProvider: acquired,
                 currentMapProvider: currentMap,
                 newClueProvider: isNew,
-                clueViewedHandler: codex != null ? new Action<string>(codex.MarkClueViewedFromBoard) : null,
+                clueViewedHandler: codex != null ? new Action<string>(codex.MarkClueViewed) : null,
                 hallucinationBoardProvider: hallucinations);
         }
 
@@ -429,7 +474,6 @@ namespace RouteFinding.UI
             if (codex == null) return;
             codex.OnNewClueAcquired += HandleNewClueAcquired;
             _subscribedToNewClues = true;
-            Debug.Log($"[ClueNEW][BoardPanel] 신규 단서 이벤트 구독: open={IsOpen}, board={_screen?.CurrentBoardId ?? "(none)"}, frame={Time.frameCount}");
         }
 
         private void UnsubscribeFromNewClues()
@@ -449,13 +493,9 @@ namespace RouteFinding.UI
 
         private void HandleNewClueAcquired(ClueData clue)
         {
-            Debug.Log($"[ClueNEW][BoardPanel] 신규 단서 수신: clue={clue?.id ?? "(null)"}, open={IsOpen}, board={_screen?.CurrentBoardId ?? "(none)"}, frame={Time.frameCount}");
             // 닫힌 패널은 구독 자체를 끊으므로 모션을 예약하거나 재생하지 않는다.
             if (!IsOpen || clue == null || _screen == null || string.IsNullOrEmpty(_screen.CurrentBoardId))
-            {
-                Debug.Log($"[ClueNEW][BoardPanel] 화면 반영 생략: open={IsOpen}, clueNull={clue == null}, screenNull={_screen == null}, frame={Time.frameCount}");
                 return;
-            }
 
             ClueBoardScreen.BoardScope scope = _screen.CurrentScope;
             if (!_screen.Show(scope))
@@ -466,8 +506,7 @@ namespace RouteFinding.UI
 
             // Show가 획득 목록을 다시 읽어 잠겨 있던 노드를 만든 뒤, 현재 보드의 같은 clueId 슬롯만 찾는다.
             // 운영 콘텐츠에 이 단서 슬롯이 없으면 데이터 갱신만 유지하고 연출은 생략한다.
-            bool animated = _screen.View.AnimateClueFilled(clue.id);
-            Debug.Log($"[ClueNEW][BoardPanel] 보드 재구축 완료: clue={clue.id}, board={_screen.CurrentBoardId}, isNew={CodexModule.Instance?.IsClueNew(clue.id)}, animated={animated}, frame={Time.frameCount}");
+            _screen.View.AnimateClueFilled(clue.id);
             RefreshScopeLabel();
         }
 
@@ -496,6 +535,11 @@ namespace RouteFinding.UI
             _outcomeDialog = ClueBoardUiKit.Ensure<ClueBoardOutcomeDialog>(_panelGO);
             _outcomeDialog.Initialize(root, _font);
             _outcomeDialog.OnPresented += _screen.MarkOutcomeViewed;
+            _outcomeReveal = ClueBoardUiKit.Ensure<ClueBoardOutcomeReveal>(_panelGO);
+            _outcomeReveal.SetAccentSprite(_outcomeRevealArt);
+            _outcomeReveal.SetTimings(_outcomeRevealSeconds, _outcomeRevealFadeSeconds);
+            _outcomeReveal.Initialize(root, _font);
+            _outcomeReveal.OnPresented += _screen.MarkOutcomeViewed;
             // 거절 코멘트 토스트는 결과 다이얼로그보다 뒤(위)에 만들어 결과 카드가 떠 있어도 하단에 보인다.
             _commentToast = ClueBoardUiKit.Ensure<ClueBoardCommentToast>(_panelGO);
             _commentToast.Initialize(root, _font);
@@ -503,6 +547,10 @@ namespace RouteFinding.UI
             // 없다(결과 카드가 떠 있으면 오버레이가 노드 클릭을 막는다).
             _clueInfoPopup = ClueBoardUiKit.Ensure<ClueBoardClueInfoPopup>(_panelGO);
             _clueInfoPopup.Initialize(root, _font);
+            _imagePreview = ClueBoardUiKit.Ensure<ClueBoardImagePreview>(_panelGO);
+            _imagePreview.Initialize(root, _font);
+            _videoPreview = ClueBoardUiKit.Ensure<ClueBoardVideoPreview>(_panelGO);
+            _videoPreview.Initialize(root, _font);
             _screen.OnClueInfoRequested += HandleClueInfoRequested;
             _screen.OnOutcomeIssued += HandleOutcomes;
             _screen.OnOutcomeReviewRequested += HandleOutcomes;
@@ -574,8 +622,8 @@ namespace RouteFinding.UI
         {
             foreach (Component stale in root.GetComponentsInChildren<Component>(true))
             {
-                if (stale is ClueBoardScreen || stale is ClueBoardView || stale is ClueBoardOutcomeDialog ||
-                    stale is ClueBoardCommentToast || stale is ClueBoardClueInfoPopup || stale is ClueBoardDragLinkController ||
+                if (stale is ClueBoardScreen || stale is ClueBoardView || stale is ClueBoardOutcomeDialog || stale is ClueBoardOutcomeReveal || stale is ClueBoardOutcomeRevealHover ||
+                    stale is ClueBoardCommentToast || stale is ClueBoardClueInfoPopup || stale is ClueBoardImagePreview || stale is ClueBoardVideoPreview || stale is ClueBoardDragLinkController ||
                     stale is ClueBoardDragNode || stale is ClueBoardNodeClick || stale is ClueBoardSilhouetteHover ||
                     stale is ClueBoardNewVisual || stale is ClueBoardEdgeClick)
                     DestroyImmediate(stale);
@@ -594,20 +642,60 @@ namespace RouteFinding.UI
             return null;
         }
 
-        private void HandleOutcomesReplaced() => _outcomeDialog?.Clear();
+        private void HandleOutcomesReplaced()
+        {
+            _outcomeDialog?.Clear();
+            _outcomeReveal?.Clear();
+        }
 
         private void HandleClueInfoRequested(ClueData clue)
         {
-            if (!IsOpen || _clueInfoPopup == null) return;
-            _clueInfoPopup.Show(clue);
+            if (!IsOpen || clue == null) return;
+
+            // 매체가 있는 단서는 보드 위에서 그 매체를 먼저 반응시킨다. 텍스트/물체 단서는 기존 설명 팝업을 유지한다.
+            if (ClueBoardMediaPresentation.TryGetImageAddress(clue, out string imageAddress))
+            {
+                Sprite sprite = ClueAttachmentService.LoadSprite(imageAddress);
+                if (sprite != null)
+                {
+                    _imagePreview?.Show(sprite, clue.name);
+                    return;
+                }
+            }
+
+            if (ClueBoardMediaPresentation.TryGetVideoAddress(clue, out string videoAddress))
+            {
+                // 영상 클립은 여기서 처음 로드된다 — 노드를 그릴 때는 비율만 16:9로 가정하고 건드리지 않는다.
+                UnityEngine.Video.VideoClip clip = ClueAttachmentService.LoadVideo(videoAddress);
+                if (clip != null)
+                {
+                    _videoPreview?.Show(clip, clue.name);
+                    return;
+                }
+            }
+
+            if (ClueBoardMediaPresentation.TryGetAudioAddress(clue, out string audioAddress))
+            {
+                AudioClip clip = ClueAttachmentService.LoadAudio(audioAddress);
+                if (clip != null)
+                {
+                    _boardAudio ??= ClueAttachmentAudioPlayer.AttachTo(_panelGO);
+                    _boardAudio.Toggle(clip, playing => _commentToast?.Show(playing ? "♪ 오디오 재생 중" : "오디오 정지", 1f));
+                    return;
+                }
+            }
+
+            _clueInfoPopup?.Show(clue);
         }
 
         // 연결 성공 코멘트(해몽 결과가 없는 관계). 결과 카드와 같은 카드로 띄우고 "확인"으로 닫는다 — 선을 다시 누르면
         // 같은 문구가 다시 뜬다. 결과 카드가 이미 떠 있으면(체인 결과 큐 등) 그 뒤로 미루지 않고 건너뛴다.
         private void HandleConnectionComment(ClueBoardConnectionComment comment)
         {
-            if (!IsOpen || _outcomeDialog == null || comment == null) return;
-            _outcomeDialog.PresentMessage(ClueSystemSettings.RejectionTitle, comment.text,
+            if (!IsOpen || comment == null) return;
+            // 해몽 결과가 있는 연결(PresentOutcomes)과 **같은 표시 방식**을 타야 한다 — 예전에는 이 경로만
+            // 항상 Dialog로 가서, 한 번의 연결 작업 중에 Reveal 카드와 Dialog 창이 섞여 나왔다.
+            PresentMessage(ClueSystemSettings.RejectionTitle, comment.text,
                 comment.isNew ? "관계 연결" : "관계 연결 · 재열람");
         }
 
@@ -621,8 +709,26 @@ namespace RouteFinding.UI
         // 새 발행과 재열람이 같은 큐를 탄다. 판정·보상·기록은 ClueBoardScreen이 이미 끝냈고 여기서는 보여 주기만 한다.
         private void HandleOutcomes(IReadOnlyList<ClueBoardOutcomePresentation> presentations)
         {
-            if (!IsOpen || _outcomeDialog == null) return;
-            _outcomeDialog.Enqueue(presentations);
+            if (!IsOpen) return;
+            PresentOutcomes(presentations);
+        }
+
+        private void PresentOutcomes(IEnumerable<ClueBoardOutcomePresentation> presentations)
+        {
+            if (_outcomePresentationMode == OutcomePresentationMode.BoardReveal)
+                _outcomeReveal?.Enqueue(presentations);
+            else
+                _outcomeDialog?.Enqueue(presentations);
+        }
+
+        // 결과 카드와 같은 스위치를 타는 메시지 카드. 표시 방식 분기는 이 두 메서드에만 두고,
+        // 다른 곳에서 _outcomeDialog/_outcomeReveal을 직접 부르지 말 것(섞여 나오는 원인이 된다).
+        private void PresentMessage(string title, string body, string footer)
+        {
+            if (_outcomePresentationMode == OutcomePresentationMode.BoardReveal)
+                _outcomeReveal?.PresentMessage(title, body, footer);
+            else
+                _outcomeDialog?.PresentMessage(title, body, footer);
         }
 
         private const float DevBarHeight = 22f;
@@ -707,12 +813,5 @@ namespace RouteFinding.UI
             }
         }
 
-        private static void StretchFull(RectTransform rect)
-        {
-            rect.anchorMin = Vector2.zero;
-            rect.anchorMax = Vector2.one;
-            rect.offsetMin = Vector2.zero;
-            rect.offsetMax = Vector2.zero;
-        }
     }
 }

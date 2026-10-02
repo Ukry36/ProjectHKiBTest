@@ -29,11 +29,10 @@ public sealed class DreamErosionModule : MonoBehaviour
     [SerializeField] private EffectAudioCue _levelOneAudio = new();
     [SerializeField] private EffectAudioCue _levelTwoAudio = new();
     [SerializeField] private EffectAudioCue _levelThreeAudio = new();
-    [SerializeField, Range(0f, 1f)] private float _levelThreeNoise = .35f;
-    [SerializeField, Min(0f)] private float _levelThreeNoiseSeconds = 1.2f;
 
     private DreamErosionState _state;
     private RouteProgressState _subscribedProgress;
+    private DreamErosionPresentation _presentation;
 
     public int Level => State.Level;
     public event Action<int> OnLevelChanged;
@@ -55,6 +54,7 @@ public sealed class DreamErosionModule : MonoBehaviour
 
     private void OnDestroy()
     {
+        _presentation?.Clear();
         if (_subscribedProgress != null) _subscribedProgress.OnClueAcquired -= HandleClueAcquired;
         _subscribedProgress = null;
         if (_instance == this) _instance = null;
@@ -94,8 +94,13 @@ public sealed class DreamErosionModule : MonoBehaviour
 
     public void Import(DreamErosionSaveData saved)
     {
-        // 복원은 게임플레이 변화가 아니므로 OnLevelChanged/화면 연출/강제추방을 절대 재발행하지 않는다.
+        // 복원은 게임플레이 변화가 아니므로 OnLevelChanged/보상/강제추방은 절대 재발행하지 않는다.
         State.Import(saved);
+
+        // 다만 잠식 단계는 **지속 상태**라 화면까지 0단계로 두면 안 된다 — 2단계에서 저장한 세이브를
+        // 불러왔는데 화면이 멀쩡하면 플레이어는 잠식이 풀린 줄 안다. 단계 상승 순간의 충격 연출
+        // (효과음·불협화음·슬로우모션)은 빼고 지속분만 현재 단계에 맞춘다.
+        EnsurePresentation().RestoreLevel(Level);
     }
 
     private void TrySubscribe()
@@ -113,21 +118,33 @@ public sealed class DreamErosionModule : MonoBehaviour
         if (State.RegisterClueAcquired()) ApplyLevelChanged(null, clue != null ? clue.id : null, null);
     }
 
+    // 연출 컴포넌트는 모듈과 같은 오브젝트에 붙어 DontDestroyOnLoad를 함께 탄다(씬 전환에도 살아남는다).
+    private DreamErosionPresentation EnsurePresentation() =>
+        _presentation ??= GetComponent<DreamErosionPresentation>() ?? gameObject.AddComponent<DreamErosionPresentation>();
+
     private void ApplyLevelChanged(string boardId, string firstId, string secondId)
     {
-        switch (Level)
+        EnsurePresentation().ApplyLevel(Level, LevelAudioCue(Level));
+
+        // 1~2단계는 화면·소리 연출이 전부다(위에서 이미 걸었다). 월드가 움직이는 것은 3단계뿐.
+        if (Level == 3)
         {
-            case 1: _levelOneAudio?.Play(); break;
-            case 2: _levelTwoAudio?.Play(); break;
-            case 3:
-                _levelThreeAudio?.Play();
-                ScreenEffectManager.Instance?.SetNoise(_levelThreeNoise, _levelThreeNoiseSeconds);
-                // 월드가 구독해 실제 꿈 전환/배치를 책임진다. 여기서 씬을 추측해 이동하면 세이브·맵 계약을 깨뜨린다.
-                OnRandomCluePairSpawnRequested?.Invoke();
-                OnHallucinationScatterRequested?.Invoke();
-                OnDreamExileRequested?.Invoke(boardId, firstId, secondId);
-                break;
+            // 월드가 구독해 실제 꿈 전환/배치를 책임진다. 여기서 씬을 추측해 이동하면 세이브·맵 계약을 깨뜨린다.
+            OnRandomCluePairSpawnRequested?.Invoke();
+            OnHallucinationScatterRequested?.Invoke();
+            OnDreamExileRequested?.Invoke(boardId, firstId, secondId);
         }
         OnLevelChanged?.Invoke(Level);
+    }
+
+    private EffectAudioCue LevelAudioCue(int level)
+    {
+        return level switch
+        {
+            1 => _levelOneAudio,
+            2 => _levelTwoAudio,
+            3 => _levelThreeAudio,
+            _ => null,
+        };
     }
 }

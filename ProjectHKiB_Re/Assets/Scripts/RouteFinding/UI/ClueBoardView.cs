@@ -1,9 +1,10 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using static RouteFinding.UI.RouteUiKit;
 
 namespace RouteFinding.UI
 {
@@ -138,7 +139,6 @@ namespace RouteFinding.UI
         {
             _newClueProvider = provider;
             _clueViewedHandler = viewedHandler;
-            Debug.Log($"[ClueNEW][BoardView] 상태 공급 연결: provider={provider != null}, viewedHandler={viewedHandler != null}, frame={Time.frameCount}");
         }
 
         public void Initialize(RectTransform parent, TMP_FontAsset font)
@@ -346,8 +346,17 @@ namespace RouteFinding.UI
             rect.anchorMin = rect.anchorMax = new Vector2(0f, 1f);
             rect.pivot = new Vector2(0.5f, 0.5f);
             float sizeScale = sizePercent * 0.01f;
-            rect.sizeDelta = new Vector2(_nodeWidth, _nodeHeight) * sizeScale;
-            rect.anchoredPosition = slot.anchoredPosition; // 정의 좌표 그대로. 여기서 보정하지 않는다.
+            ClueBoardNodeFormat format = ClueBoardMediaPresentation.ResolveFormat(clue);
+            Sprite mediaSprite = null;
+            if (format == ClueBoardNodeFormat.Image && ClueBoardMediaPresentation.TryGetImageAddress(clue, out string imageAddress))
+                mediaSprite = ClueAttachmentService.LoadSprite(imageAddress);
+            Vector2 desired = ResolveNodeSize(format, mediaSprite, sizeScale, hideLabel);
+            Vector2 fitted = FitNodeSize(slot.anchoredPosition, desired);
+            // 겹침 때문에 노드가 줄면 여백도 같은 비율로 줄여야 한다 — 여백만 고정값으로 남으면
+            // 안쪽 사진 영역의 비율이 다시 어긋나 레터박스가 생긴다.
+            float insetScale = desired.x > 0f ? fitted.x / desired.x : 1f;
+            rect.sizeDelta = fitted;
+            rect.anchoredPosition = slot.anchoredPosition; // 정의 좌표는 절대 옮기지 않는다. 겹치면 크기만 줄인다.
 
             var background = rect.gameObject.AddComponent<Image>();
             background.color = hallucination ? _colHallucinationNode
@@ -369,39 +378,20 @@ namespace RouteFinding.UI
             bool unlocked = visibility == ClueBoardNodeVisibility.Unlocked;
             if (unlocked)
             {
-                // 단서별 아이콘이 없으면 유형 기본 아이콘(ClueTypeIconSet)으로 떨어진다. 그것도 없으면 이름만.
-                Sprite icon = ClueTypeIconSet.ResolveIcon(clue);
-                bool hasIcon = icon != null;
-                BuildNodeIcon(rect, icon, !hideLabel);
-                if (HasAudio(clue)) BuildAudioBadge(rect);
-                if (!hideLabel)
-                {
-                    var label = NewRect(rect, "Label");
-                    label.anchorMin = Vector2.zero;
-                    label.anchorMax = hasIcon ? new Vector2(1f, 0.32f) : Vector2.one;
-                    label.offsetMin = new Vector2(2f, 2f);
-                    label.offsetMax = new Vector2(-2f, -2f);
-                    var text = label.gameObject.AddComponent<TextMeshProUGUI>();
-                    TMP_FontAsset customFont = ClueAttachmentService.LoadFont(fontAddress);
-                    if (customFont != null) text.font = customFont;
-                    else if (_font != null) text.font = _font;
-                    text.text = clue != null ? clue.name : slot.clueId;
-                    text.fontSize = fontSize;
-                    text.color = Color.white;
-                    text.alignment = TextAlignmentOptions.Center;
-                    text.overflowMode = TextOverflowModes.Ellipsis;
-                    text.raycastTarget = false;
-                }
+                if (format == ClueBoardNodeFormat.Image)
+                    BuildImageNode(rect, clue, slot, mediaSprite, fontSize, fontAddress, hideLabel, insetScale);
+                else if (format == ClueBoardNodeFormat.Video)
+                    BuildVideoNode(rect, clue, slot, fontSize, fontAddress, hideLabel);
+                else if (format == ClueBoardNodeFormat.Audio)
+                    BuildAudioNode(rect, clue, slot, fontSize, fontAddress, hideLabel);
+                else
+                    BuildCardNode(rect, clue, slot, fontSize, fontAddress, hideLabel);
 
                 rect.gameObject.AddComponent<ClueBoardNodeClick>().Bind(slot.nodeId, HandleNodeClicked);
 
-                bool isNew = _newClueProvider?.Invoke(slot.clueId) == true;
-                if (isNew)
-                {
-                    Debug.Log($"[ClueNEW][BoardView] 마커 생성 판정 TRUE: board={BoardId}, node={slot.nodeId}, clue={slot.clueId}, frame={Time.frameCount}");
-                    BuildNewMarker(rect, slot.clueId);
-                }
+                if (_newClueProvider?.Invoke(slot.clueId) == true) BuildNewMarker(rect, slot.clueId);
             }
+
             // 실루엣은 이름도 아이콘도 내지 않는다 — 자리와 "무언가 있다"만 알리고, 포인터를 올리면 해금 힌트만 보여 준다.
             else if (visibility == ClueBoardNodeVisibility.Silhouette)
                 rect.gameObject.AddComponent<ClueBoardSilhouetteHover>()
@@ -475,10 +465,137 @@ namespace RouteFinding.UI
             var visual = node.gameObject.AddComponent<ClueBoardNewVisual>();
             visual.Bind(clueId, outline, border.gameObject, tag.gameObject, _clueViewedHandler);
             tag.SetAsLastSibling();
-            Debug.Log($"[ClueNEW][BoardView] 마커 생성 완료: board={BoardId}, clue={clueId}, " +
-                      $"backgroundLayer={border.parent.name}, tagLayer={tag.parent.name}, frame={Time.frameCount}");
         }
 
+        // 사진 노드의 안쪽 여백. ResolveNodeSize와 BuildImageNode가 **같은 값을 써야** 사진이 여백 없이
+        // 정확히 들어찬다 — 한쪽만 바꾸면 preserveAspect가 그 차이만큼 레터박스를 만든다.
+        private const float PhotoInsetSide = 2f;
+        private const float PhotoInsetTop = 2f;
+        private static float PhotoInsetBottom(bool hideLabel) => hideLabel ? 2f : 12f;
+
+        private Vector2 ResolveNodeSize(ClueBoardNodeFormat format, Sprite sprite, float scale, bool hideLabel)
+        {
+            if (format == ClueBoardNodeFormat.Audio) return Vector2.one * 46f * scale;
+            // 영상은 사진과 달리 클립을 열어야 비율을 알 수 있다. 보드를 그리는 것만으로 모든 영상
+            // 에셋을 로드하지 않도록 16:9로 고정한다 — 실제 클립은 눌러서 열 때 처음 로드된다.
+            if (format == ClueBoardNodeFormat.Video) return new Vector2(64f * scale, 36f * scale);
+            if (format == ClueBoardNodeFormat.Image)
+            {
+                float ratio = sprite != null && sprite.rect.height > 0f ? sprite.rect.width / sprite.rect.height : 4f / 3f;
+
+                // **사진이 들어갈 안쪽 영역을 먼저** 비율대로 정하고, 거기에 여백을 더해 노드 크기를 낸다.
+                // 노드 박스에 비율을 맞추면 라벨 자리만큼 세로가 눌려 사진 위아래에 여백이 생긴다.
+                // 상자 안에 넣는 방식이라 가로 사진은 폭을, 세로 사진은 높이를 채운다.
+                float box = 62f * scale;
+                float innerW = ratio >= 1f ? box : box * ratio;
+                float innerH = innerW / ratio;
+                // 파노라마·기둥처럼 극단적인 비율이 실오라기가 되지 않게 짧은 변에 하한을 둔다(비율은 유지).
+                float minSide = 20f * scale;
+                if (innerH < minSide) { innerH = minSide; innerW = innerH * ratio; }
+                if (innerW < minSide) { innerW = minSide; innerH = innerW / ratio; }
+
+                return new Vector2(innerW + PhotoInsetSide * 2f,
+                                   innerH + PhotoInsetTop + PhotoInsetBottom(hideLabel));
+            }
+            return new Vector2(_nodeWidth, _nodeHeight) * scale;
+        }
+
+        // 좌표는 슬롯 소유라 이동하지 않는다. 형식별 폭/높이가 닿을 때만 후속 노드 크기를 축소한다.
+        private Vector2 FitNodeSize(Vector2 center, Vector2 desired)
+        {
+            float factor = 1f;
+            for (int attempt = 0; attempt < 4; attempt++)
+            {
+                Vector2 candidate = desired * factor;
+                bool overlaps = false;
+                foreach (RectTransform other in _nodeVisuals.Values)
+                {
+                    if (other == null) continue;
+                    if (Mathf.Abs(center.x - other.anchoredPosition.x) < (candidate.x + other.sizeDelta.x) * 0.5f &&
+                        Mathf.Abs(center.y - other.anchoredPosition.y) < (candidate.y + other.sizeDelta.y) * 0.5f)
+                    { overlaps = true; break; }
+                }
+                if (!overlaps) return candidate;
+                factor *= 0.82f;
+            }
+            return desired * factor;
+        }
+
+        private void BuildCardNode(RectTransform rect, ClueData clue, ClueBoardSlot slot, float fontSize, string fontAddress, bool hideLabel)
+        {
+            Sprite icon = ClueTypeIconSet.ResolveIcon(clue);
+            bool hasIcon = icon != null;
+            BuildNodeIcon(rect, icon, !hideLabel);
+            if (!hideLabel) BuildNodeLabel(rect, clue, slot, fontSize, fontAddress, hasIcon ? 0.32f : 0f);
+        }
+
+        private void BuildImageNode(RectTransform rect, ClueData clue, ClueBoardSlot slot, Sprite sprite, float fontSize, string fontAddress, bool hideLabel, float insetScale)
+        {
+            var imageRect = NewRect(rect, "Photo");
+            imageRect.anchorMin = Vector2.zero; imageRect.anchorMax = Vector2.one;
+            // 여백은 ResolveNodeSize가 노드 크기를 낼 때 쓴 값과 같아야 한다(위 상수 주석 참고).
+            imageRect.offsetMin = new Vector2(PhotoInsetSide * insetScale, PhotoInsetBottom(hideLabel) * insetScale);
+            imageRect.offsetMax = new Vector2(-PhotoInsetSide * insetScale, -PhotoInsetTop * insetScale);
+            var image = imageRect.gameObject.AddComponent<Image>();
+            image.sprite = sprite; image.preserveAspect = true; image.raycastTarget = false;
+            if (sprite == null) image.color = new Color(0.30f, 0.32f, 0.38f, 1f);
+            if (!hideLabel) BuildNodeLabel(rect, clue, slot, fontSize, fontAddress, 0f, 0.24f);
+        }
+
+        // 영상 노드는 "꺼진 화면"이다. 썸네일로 쓸 프레임이 없으므로(클립을 재생해야 나온다) 어두운
+        // 화면 + 재생 표시로 영상임을 알리고, 실제 화면은 눌렀을 때 미리보기 오버레이에서 돈다.
+        private void BuildVideoNode(RectTransform rect, ClueData clue, ClueBoardSlot slot, float fontSize, string fontAddress, bool hideLabel)
+        {
+            var screenRect = NewRect(rect, "VideoScreen");
+            screenRect.anchorMin = Vector2.zero; screenRect.anchorMax = Vector2.one;
+            screenRect.offsetMin = new Vector2(2f, hideLabel ? 2f : 10f); screenRect.offsetMax = new Vector2(-2f, -2f);
+            var screen = screenRect.gameObject.AddComponent<Image>();
+            screen.color = new Color(0.08f, 0.09f, 0.12f, 1f);
+            screen.raycastTarget = false;
+
+            var glyphRect = NewRect(screenRect, "PlayGlyph"); StretchFull(glyphRect);
+            var glyph = glyphRect.gameObject.AddComponent<TextMeshProUGUI>();
+            if (_font != null) glyph.font = _font;
+            glyph.text = "▶";
+            glyph.fontSize = 14f;
+            glyph.color = new Color(0.88f, 0.90f, 0.96f, 0.92f);
+            glyph.alignment = TextAlignmentOptions.Center;
+            glyph.raycastTarget = false;
+
+            if (!hideLabel) BuildNodeLabel(rect, clue, slot, Mathf.Min(fontSize, 5.5f), fontAddress, 0f, 0.22f);
+        }
+
+        private void BuildAudioNode(RectTransform rect, ClueData clue, ClueBoardSlot slot, float fontSize, string fontAddress, bool hideLabel)
+        {
+            // 배경 Image는 투명하게만 바꾸고 **지우지 않는다** — 드롭 대상 판정(RaycastAll)이 이 그래픽을 잡는다.
+            rect.GetComponent<Image>().color = new Color(0f, 0f, 0f, 0f);
+
+            // 디스크는 반드시 자식에 만든다. Graphic은 GameObject당 하나뿐이라 배경 Image가 이미 있는
+            // 노드 본체에 붙이면 AddComponent가 null을 돌려주고 바로 다음 줄에서 터진다.
+            var discRect = NewRect(rect, "AudioDisc"); StretchFull(discRect);
+            var disc = discRect.gameObject.AddComponent<ClueBoardAudioDisc>();
+            disc.color = new Color(0.18f, 0.40f, 0.64f, 0.98f);
+            disc.raycastTarget = false;
+
+            var symbolRect = NewRect(rect, "AudioSymbol"); StretchFull(symbolRect);
+            var symbol = symbolRect.gameObject.AddComponent<TextMeshProUGUI>();
+            if (_font != null) symbol.font = _font;
+            symbol.text = "♪"; symbol.fontSize = 20f; symbol.color = Color.white; symbol.alignment = TextAlignmentOptions.Center; symbol.raycastTarget = false;
+            if (!hideLabel) BuildNodeLabel(rect, clue, slot, Mathf.Min(fontSize, 5.5f), fontAddress, 0f, 0.25f, 0.5f);
+        }
+
+        private void BuildNodeLabel(RectTransform rect, ClueData clue, ClueBoardSlot slot, float fontSize, string fontAddress, float minY, float maxY = 1f, float bottomInset = 2f)
+        {
+            var label = NewRect(rect, "Label");
+            label.anchorMin = new Vector2(0f, minY); label.anchorMax = new Vector2(1f, maxY);
+            label.offsetMin = new Vector2(2f, bottomInset); label.offsetMax = new Vector2(-2f, -2f);
+            var text = label.gameObject.AddComponent<TextMeshProUGUI>();
+            TMP_FontAsset customFont = ClueAttachmentService.LoadFont(fontAddress);
+            if (customFont != null) text.font = customFont; else if (_font != null) text.font = _font;
+            text.text = clue != null ? clue.name : slot.clueId;
+            text.fontSize = fontSize; text.color = Color.white; text.alignment = TextAlignmentOptions.Center;
+            text.overflowMode = TextOverflowModes.Ellipsis; text.raycastTarget = false;
+        }
         private void BuildNodeIcon(RectTransform parent, Sprite sprite, bool reserveLabelSpace)
         {
             if (sprite == null) return; // 아이콘 하나 때문에 노드가 사라지지는 않는다
@@ -492,38 +609,6 @@ namespace RouteFinding.UI
             image.sprite = sprite;
             image.preserveAspect = true;
             image.raycastTarget = false;
-        }
-
-        private void BuildAudioBadge(RectTransform parent)
-        {
-            var badge = NewRect(parent, "AudioBadge");
-            badge.anchorMin = new Vector2(0.08f, 0.64f);
-            badge.anchorMax = new Vector2(0.92f, 0.94f);
-            badge.offsetMin = badge.offsetMax = Vector2.zero;
-            var image = badge.gameObject.AddComponent<Image>();
-            image.color = new Color(0.20f, 0.42f, 0.62f, 0.92f);
-            image.raycastTarget = false;
-            var textRect = NewRect(badge, "Text");
-            StretchFull(textRect);
-            var text = textRect.gameObject.AddComponent<TextMeshProUGUI>();
-            if (_font != null) text.font = _font;
-            text.text = "♪ AUDIO";
-            text.fontSize = 5.5f;
-            text.fontStyle = FontStyles.Bold;
-            text.color = Color.white;
-            text.alignment = TextAlignmentOptions.Center;
-            text.raycastTarget = false;
-        }
-
-        private static bool HasAudio(ClueData clue)
-        {
-            if (clue?.mediaBlocks != null)
-                foreach (ClueMediaBlock block in clue.mediaBlocks)
-                    if (block != null && block.kind == ClueMediaKind.Audio) return true;
-            if (clue?.attachments != null)
-                foreach (ClueAttachment attachment in clue.attachments)
-                    if (attachment != null && attachment.kind == ClueAttachmentKind.Audio) return true;
-            return false;
         }
 
         private ClueData ResolveClue(string clueId) =>
@@ -769,7 +854,7 @@ namespace RouteFinding.UI
             var group = node.GetComponent<CanvasGroup>();
             if (group == null)
             {
-                Debug.LogWarning($"[ClueNEW][BoardView] 채움 모션 취소: CanvasGroup 없음, node={node.name}, frame={Time.frameCount}");
+                Debug.LogWarning($"[ClueBoardView] 채움 모션 취소: CanvasGroup 없음, node={node.name}, frame={Time.frameCount}");
                 yield break;
             }
             float targetAlpha = group.alpha;
@@ -841,21 +926,6 @@ namespace RouteFinding.UI
         }
 
         // ─── UI 유틸 ─────────────────────────────────────────────
-
-        private static RectTransform NewRect(Transform parent, string name)
-        {
-            var go = new GameObject(name, typeof(RectTransform));
-            if (parent != null) go.transform.SetParent(parent, false);
-            return (RectTransform)go.transform;
-        }
-
-        private static void StretchFull(RectTransform rect)
-        {
-            rect.anchorMin = Vector2.zero;
-            rect.anchorMax = Vector2.one;
-            rect.offsetMin = Vector2.zero;
-            rect.offsetMax = Vector2.zero;
-        }
 
         private static void ClearChildren(RectTransform parent)
         {
@@ -968,13 +1038,11 @@ namespace RouteFinding.UI
         public void OnPointerClick(PointerEventData eventData)
         {
             if (eventData != null && eventData.button != PointerEventData.InputButton.Left) return;
-            Debug.Log($"[ClueNEW][BoardView] 최초 확인 클릭 → NEW 해제 요청: clue={_clueId}, frame={Time.frameCount}, pointer={(eventData == null ? "manual" : eventData.position.ToString())}");
             _viewedHandler?.Invoke(_clueId);
             if (_outline != null) _outline.enabled = false;
             if (_border != null) _border.SetActive(false);
             if (_tag != null) _tag.SetActive(false);
             enabled = false;
-            Debug.Log($"[ClueNEW][BoardView] 시각 효과 비활성 완료: clue={_clueId}, frame={Time.frameCount}");
         }
 
         private void ApplyPulse(float alphaScale)

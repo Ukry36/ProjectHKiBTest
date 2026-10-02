@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -1240,15 +1240,6 @@ namespace RouteFinding.Editor
             return candidate;
         }
 
-        private static string NextRelationId(ClueBoardDefinition board)
-        {
-            int number = board.relations.Length + 1;
-            string candidate;
-            do candidate = "rel-" + number++;
-            while (Array.Exists(board.relations, item => item != null && item.relationId == candidate));
-            return candidate;
-        }
-
         // 슬롯의 보드별 실루엣 힌트. 외형 덮어쓰기 토글과 별개로, 값이 있으면 단서 공통 힌트보다 우선한다.
         private void DrawSlotSilhouetteHint(ClueBoardDefinition board, ClueBoardSlot slot, ClueData clue)
         {
@@ -2425,7 +2416,7 @@ namespace RouteFinding.Editor
             }
 
             EditorGUILayout.Space(10f);
-            SectionHeader("문구 설정");
+            SectionHeader("문구·효과음 설정");
             EditorGUILayout.HelpBox(
                 "비워 두면 코드 기본값을 씁니다. 거절 코멘트의 [A]/[B]는 시도 순서대로 단서 이름으로 바뀌고, " +
                 "(와/과)·(은/는)·(이/가)·(을/를)은 앞 글자 받침에 맞춰 골라집니다.", MessageType.None);
@@ -2444,6 +2435,17 @@ namespace RouteFinding.Editor
                         settings.connectionCommentTemplate, "찢어진 사진", "낡은 인형"), EditorStyles.wordWrappedMiniLabel);
                 EditorGUILayout.Space(4f);
                 EditorGUILayout.PropertyField(so.FindProperty("defaultSilhouetteHint"), new GUIContent("실루엣 기본 힌트"));
+
+                EditorGUILayout.Space(8f);
+                EditorGUILayout.LabelField("연결 효과음", EditorStyles.boldLabel);
+                EditorGUILayout.HelpBox(
+                    "관계를 올바르게 이었을 때와, 관계 없는 쌍을 이으려 했을 때 나는 소리입니다. " +
+                    "성공음을 비우면 단서 획득음(Resources/ClueAcquiredAudio)을 그대로 씁니다. " +
+                    "실패음은 노이즈 계열(SFX_EVT_ScreenNoise_*)을 권장합니다.", MessageType.None);
+                EditorGUILayout.PropertyField(so.FindProperty("connectionSuccessAudio"), new GUIContent("성공 효과음"));
+                EditorGUILayout.PropertyField(so.FindProperty("connectionFailureAudio"), new GUIContent("실패 효과음"));
+                EditorGUILayout.PropertyField(so.FindProperty("connectionAudioVolume"), new GUIContent("효과음 볼륨"));
+
                 if (so.ApplyModifiedProperties()) ClueSystemSettings.ClearCache();
                 if (GUILayout.Button("코드 기본값으로 되돌리기", GUILayout.ExpandWidth(false)))
                 {
@@ -2452,6 +2454,11 @@ namespace RouteFinding.Editor
                     settings.rejectionCommentTitle = ClueBoardRejectionComment.DefaultTitle;
                     settings.connectionCommentTemplate = ClueBoardConnectionComment.DefaultTemplate;
                     settings.defaultSilhouetteHint = ClueBoardSilhouetteHint.DefaultHint;
+                    // 효과음은 문구가 아니라 에셋 참조라 "코드 기본값"이 없다 — 비워 두면 성공음은
+                    // 단서 획득음으로, 실패음은 무음으로 떨어진다.
+                    settings.connectionSuccessAudio = null;
+                    settings.connectionFailureAudio = null;
+                    settings.connectionAudioVolume = 1f;
                     EditorUtility.SetDirty(settings);
                     ClueSystemSettings.ClearCache();
                 }

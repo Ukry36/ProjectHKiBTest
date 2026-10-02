@@ -1,10 +1,11 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using TMPro;
+using static RouteFinding.UI.RouteUiKit;
 
 namespace RouteFinding.Internet
 {
@@ -966,37 +967,5 @@ namespace RouteFinding.Internet
 
         // ─── UI 헬퍼 ─────────────────────────────────────────────
 
-        private static RectTransform NewRect(Transform parent, string name)
-        {
-            var go = new GameObject(name);
-            if (parent != null) go.transform.SetParent(parent, false);
-            return go.AddComponent<RectTransform>();
-        }
-
-        private static void StretchFull(RectTransform rt)
-        {
-            rt.anchorMin = Vector2.zero;
-            rt.anchorMax = Vector2.one;
-            rt.offsetMin = rt.offsetMax = Vector2.zero;
-        }
-
-        private static Image AddImg(RectTransform rt, Color col)
-        {
-            var img = rt.gameObject.AddComponent<Image>();
-            img.color = col;
-            return img;
-        }
-
-        private static Transform FindDeepTransform(Transform parent, string childName)
-        {
-            if (parent == null) return null;
-            foreach (Transform child in parent)
-            {
-                if (child.name == childName) return child;
-                var found = FindDeepTransform(child, childName);
-                if (found != null) return found;
-            }
-            return null;
-        }
     }
 }

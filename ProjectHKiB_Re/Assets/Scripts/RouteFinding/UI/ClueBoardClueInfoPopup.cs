@@ -1,8 +1,9 @@
-using System;
+﻿using System;
 using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static RouteFinding.UI.RouteUiKit;
 
 namespace RouteFinding.UI
 {
@@ -192,19 +193,5 @@ namespace RouteFinding.UI
             return text;
         }
 
-        private static RectTransform NewRect(Transform parent, string name)
-        {
-            var go = new GameObject(name, typeof(RectTransform));
-            go.transform.SetParent(parent, false);
-            return (RectTransform)go.transform;
-        }
-
-        private static void StretchFull(RectTransform rect)
-        {
-            rect.anchorMin = Vector2.zero;
-            rect.anchorMax = Vector2.one;
-            rect.offsetMin = Vector2.zero;
-            rect.offsetMax = Vector2.zero;
-        }
     }
 }

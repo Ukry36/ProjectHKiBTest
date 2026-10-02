@@ -43,6 +43,7 @@ public class TimeManager : MonoBehaviour
     // 대화·메뉴처럼 도중에 시간이 계속 흘러야 하는 구간으로 넘어가면(PLAY/MENU/GRAFFITI 모드로
     // 전환) 자동으로 풀린다 — InputManager의 각 모드 전환 메서드 참고.
     public const string ReasonCutscene = "Cutscene";
+    private readonly Dictionary<string, float> _presentationSpeedMultipliers = new();
 
     private readonly HashSet<string> _pauseReasons = new();
     private float _defaultFixedDeltaTime;
@@ -105,18 +106,35 @@ public class TimeManager : MonoBehaviour
         Apply();
     }
 
+    public void SetPresentationSpeedMultiplier(string key, float multiplier)
+    {
+        if (string.IsNullOrEmpty(key)) return;
+        _presentationSpeedMultipliers[key] = Mathf.Clamp(multiplier, 0.05f, 1f);
+        Apply();
+    }
+
+    public void ClearPresentationSpeedMultiplier(string key)
+    {
+        if (string.IsNullOrEmpty(key) || !_presentationSpeedMultipliers.Remove(key)) return;
+        Apply();
+    }
+
     private void Apply()
     {
         bool paused = IsPaused;
         bool changed = paused != _lastAppliedPause;
         _lastAppliedPause = paused;
 
-        Time.timeScale = paused ? 0f : GameSpeed;
+        float presentationMultiplier = 1f;
+        foreach (float multiplier in _presentationSpeedMultipliers.Values)
+            presentationMultiplier = Mathf.Min(presentationMultiplier, multiplier);
+
+        Time.timeScale = paused ? 0f : GameSpeed * presentationMultiplier;
 
         // 배속에 비례해 물리 틱을 스케일하면 슬로우모션 중에도 물리 갱신 빈도가
         // 실시간 기준으로 일정하게 유지된다. 단 정지 중에는 건드리지 않는다 —
         // fixedDeltaTime이 0이 되면 FixedUpdate가 무한 루프에 빠진다.
-        if (!paused) Time.fixedDeltaTime = _defaultFixedDeltaTime * GameSpeed;
+        if (!paused) Time.fixedDeltaTime = _defaultFixedDeltaTime * GameSpeed * presentationMultiplier;
 
         if (changed) OnPauseChanged?.Invoke(paused);
     }

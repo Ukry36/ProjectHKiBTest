@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -254,6 +254,10 @@ namespace RouteFinding.UI
                     }
             Progress.MarkConnected(board.boardId, result.relationId, first, second);
 
+            // 올바른 연결 효과음. 이 경로는 **새로 성립한 연결에만** 오므로(재시도·선 클릭 재열람은
+            // 여기로 오지 않는다) 같은 선을 다시 눌러도 소리가 반복되지 않는다.
+            ClueBoardConnectionAudio.PlaySuccess();
+
             // [C07] 연결 성공은 잠식을 해제한다(0단계). 기록·결과 발행 뒤에 알려 순서가 뒤바뀌지 않게 한다.
             if (_erosionSuccessHandler != null) _erosionSuccessHandler(board.boardId, result.relationId);
             else if (Application.isPlaying) DreamErosionModule.Instance?.RegisterConnectionSuccess(board.boardId, result.relationId);
@@ -287,6 +291,10 @@ namespace RouteFinding.UI
         {
             if (result.status != ClueBoardConnectStatus.Unrelated) return;
             ClueBoardDefinition board = _view.Definition;
+
+            // 실패 효과음. 자기 자신·실루엣·잠김·빈 곳 드롭은 위 status 검사에서 걸러졌으므로
+            // "관계 없는 쌍을 실제로 이으려 했을 때"만 울린다(잠식 실패 판정과 같은 조건).
+            ClueBoardConnectionAudio.PlayFailure();
 
             // [C07] Unrelated 거절 1회 = 조합 실패 1회. 코멘트 생성 여부와 무관하게 센다(이름을 못 찾아도 실패는 실패다).
             string boardId = board?.boardId;

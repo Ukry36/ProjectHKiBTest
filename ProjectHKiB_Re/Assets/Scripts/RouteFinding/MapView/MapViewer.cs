@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 using TMPro;
 using RouteFinding.Note;
 using RouteFinding.Codex;
+using static RouteFinding.UI.RouteUiKit;
 
 namespace RouteFinding.MapView
 {
@@ -1800,43 +1801,11 @@ namespace RouteFinding.MapView
             return t != null ? t.GetComponent<T>() : null;
         }
 
-        private static Transform FindDeepTransform(Transform parent, string childName)
-        {
-            foreach (Transform child in parent)
-            {
-                if (child.name == childName) return child;
-                var found = FindDeepTransform(child, childName);
-                if (found != null) return found;
-            }
-            return null;
-        }
-
         // ─── UI 헬퍼 ─────────────────────────────────────────────
 
         private static readonly Color Gray        = new(0.55f, 0.60f, 0.65f);
         private static readonly Color BtnActive   = new(0.25f, 0.42f, 0.72f);
         private static readonly Color BtnInactive = new(0.17f, 0.21f, 0.30f);
-
-        private static RectTransform NewRect(Transform parent, string name)
-        {
-            var go = new GameObject(name);
-            go.transform.SetParent(parent, false);
-            return go.AddComponent<RectTransform>();
-        }
-
-        private static void StretchFull(RectTransform rt)
-        {
-            rt.anchorMin = Vector2.zero;
-            rt.anchorMax = Vector2.one;
-            rt.offsetMin = rt.offsetMax = Vector2.zero;
-        }
-
-        private static Image AddImg(RectTransform rt, Color col)
-        {
-            var img = rt.gameObject.AddComponent<Image>();
-            img.color = col;
-            return img;
-        }
 
         private TextMeshProUGUI MakeTMP(RectTransform parent, string text,
             float fontSize, FontStyles style, float height,

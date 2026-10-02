@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using StateMachine;
@@ -1221,14 +1221,6 @@ public class EventChainEditorWindow : EditorWindow
         return instance;
     }
 
-    private static void AttachTriggerToTarget(GameObject trigger, Transform target)
-    {
-        if (trigger == null || target == null) return;
-
-        trigger.transform.SetParent(target, true);
-        trigger.transform.localPosition = Vector3.zero;
-    }
-
     // GameObject.Find는 열려 있는 모든 씬을 뒤진다 — System 씬에 잘못 놔둔 예전 오브젝트를 집어
     // 그걸 옮겨버리면, 정작 맵 씬엔 아무것도 안 생기고 같은 문제가 반복된다. 씬을 좁혀서 찾되,
     // EVT-006 탈출 트리거처럼 비활성 부모(탈출문) 아래에 둔 자식도 재배치 시 재사용할 수 있게
@@ -1518,57 +1510,6 @@ public class EventChainEditorWindow : EditorWindow
         if (dood != null) endActions.Add(new SetEventFlagAction { flag = dood, flagValue = 1 });
         endActions.Add(new SetInputModeAction { mode = EnumManager.InputMode.Play });
         def.steps.Add(new EventStepData { label = "금발 퇴장", enterActions = ToStepActions(endActions) });
-
-        return def;
-    }
-
-    private static EventDefinition BuildEvt001HairPickupSample(EventFlagSO dood, string hairTargetID, int number)
-    {
-        var def = new EventDefinition
-        {
-            eventId = $"Dummy_EVT001_Hair{number:00}",
-            eventName = $"잘려 나간 머리카락 {number} 습득",
-            purpose = "가위질 뒤 남은 잔해를 상호작용해 단서를 획득",
-            startTriggerDesc = "잘려 나간 머리카락 곁에서 확인 키를 누른다",
-            preconditionDesc = "dood == 1; 단서를 아직 습득하지 않음",
-            interruptCondition = "없음. 획득 알림은 1초 동안 표시",
-            retryPolicy = "세 잔해 중 하나를 습득하면 공유 단서가 지급되고 잔해 전체가 사라짐",
-            linkedEvents = "EVT-001 → EVT-002",
-            narrativeContent =
-                "가위질 뒤 남은 [잘려 나간 머리카락] 하나를 조사한다. 공유 단서를 지급한 뒤 " +
-                "더미 아트가 포함된 획득 문구가 1초 동안 표시된다.",
-            targets = TargetsWithHairClue(),
-            preconditions = dood != null
-                ? new[] { new GameStateEvent.EventFlagCondition { flag = dood, value = 1 } }
-                : Array.Empty<GameStateEvent.EventFlagCondition>(),
-            triggerKind = EventTriggerKind.Input,
-            triggerRadius = 0.85f,
-        };
-
-        def.steps.Add(new EventStepData
-        {
-            label = "단서 획득 알림",
-            enterActions = new EventStepAction[]
-            {
-                new SetInputModeAction { mode = EnumManager.InputMode.Cutscene },
-                new TargetEntityManipulateAction { targetID = hairTargetID, targetAction = new SetEntityActiveAction { active = false } },
-                new AcquireClueAction { clueId = DummyClueWingId, openCodexImmediately = false },
-                new DialogueStartAction(),
-                new DialogueShowLineAction { line = DummyLine("안내", "잘려 나간 머리카락 단서를 획득했다.") },
-            },
-            advanceWhenAny = new StateDecision[] { new DialogueLineEndedDecision() },
-            timeoutSeconds = DialogueTimeout,
-        });
-
-        def.steps.Add(new EventStepData
-        {
-            label = "획득 완료",
-            enterActions = new EventStepAction[]
-            {
-                new DummyEventStepAction { label = "EVT-001 잘려 나간 머리카락 단서 습득 완료" },
-                new SetInputModeAction { mode = EnumManager.InputMode.Play },
-            },
-        });
 
         return def;
     }
@@ -2193,59 +2134,6 @@ public class EventChainEditorWindow : EditorWindow
         return def;
     }
 
-    // Dood가 3이 된 뒤에도 NPC와 다시 이야기할 수 있어야 한다. GameStateEvent의 플래그 조건은
-    // 정확히 같은 값만 지원하므로, 최초 지급 이벤트(Dood 2)와 대사 전용 이벤트(Dood 3)를 분리한다.
-    private static EventDefinition BuildEvt005ReTalkSample(EventFlagSO dood)
-    {
-        var def = new EventDefinition
-        {
-            eventId = "Dummy_EVT005_ReTalk",
-            eventName = "진정한 금발 재대화",
-            purpose = "가위 지급 후 메인 시나리오 대사를 다시 확인",
-            startTriggerDesc = "진정한 금발에게 다시 확인 키로 말을 건다",
-            preconditionDesc = "Dood == 3",
-            interruptCondition = "이탈 또는 대화 UI 누락 시 타임아웃으로 종료",
-            retryPolicy = "언제든 처음부터 재대화 가능 (장비/진행도 재지급 없음)",
-            linkedEvents = "EVT-006",
-            narrativeContent = "가위 지급 후 금발에게 다시 말을 걸면 상황과 백발을 막아야 한다는 대사를 반복한다. 진행도는 바꾸지 않는다.",
-            targets = DefaultTargets(),
-            preconditions = dood != null
-                ? new[] { new GameStateEvent.EventFlagCondition { flag = dood, value = 3 } }
-                : Array.Empty<GameStateEvent.EventFlagCondition>(),
-            triggerKind = EventTriggerKind.Input,
-            triggerRadius = 1.5f,
-        };
-
-        def.steps.Add(new EventStepData
-        {
-            label = "재대화 시작",
-            enterActions = new EventStepAction[]
-            {
-                new SetInputModeAction { mode = EnumManager.InputMode.Cutscene },
-                new DialogueStartAction(),
-                new DialogueShowLineAction { line = DummyLine("금발", "백발은 아직 중앙에 있어. 가위를 잊지 마.") },
-            },
-            advanceWhenAny = new StateDecision[] { new DialogueLineEndedDecision() },
-            timeoutSeconds = DialogueTimeout,
-        });
-
-        def.steps.Add(new EventStepData
-        {
-            label = "재대화 종료",
-            enterActions = new EventStepAction[] { new DialogueExitAction() },
-            advanceWhenAny = new StateDecision[] { new DialogueEndedDecision() },
-            timeoutSeconds = DialogueTimeout,
-        });
-
-        def.steps.Add(new EventStepData
-        {
-            label = "조작 복귀",
-            enterActions = new EventStepAction[] { new SetInputModeAction { mode = EnumManager.InputMode.Play } },
-        });
-
-        return def;
-    }
-
     private static EventDefinition BuildEvt006Sample(EventFlagSO dood, GearDataSO scissorsGear)
     {
         var def = new EventDefinition
@@ -2391,55 +2279,6 @@ public class EventChainEditorWindow : EditorWindow
             // 고정 시드 - 매번 같은 모양으로 찢어져야 연출을 다시 확인하고 맞출 수 있다.
             randomSeed = 6006,
         };
-    }
-
-    private static EventDefinition BuildEvt006ExitSample(EventFlagSO dood)
-    {
-        var def = new EventDefinition
-        {
-            eventId = "Dummy_EVT006_Exit",
-            eventName = "최종 탈출",
-            purpose = "가위 대역 상호작용 후 데모 종료 연출",
-            startTriggerDesc = "활성화된 중앙 탈출문에서 확인 키를 누른다",
-            preconditionDesc = "Dood == 3, EVT-006 클리어 후 탈출문이 활성 상태일 것",
-            interruptCondition = "없음",
-            retryPolicy = "데모 종료 전까지 재시도 가능",
-            linkedEvents = "데모 종료",
-            narrativeContent =
-                "현재 가위와 [즐거움]은 안내 로그 단계이므로 장비 보유 검증은 하지 않는다. 탈출문 상호작용 시 화면이 종이처럼 찢어지며 데모를 마친다.",
-            targets = TargetsWithExitDoor(),
-            preconditions = dood != null
-                ? new[] { new GameStateEvent.EventFlagCondition { flag = dood, value = 3 } }
-                : Array.Empty<GameStateEvent.EventFlagCondition>(),
-            triggerKind = EventTriggerKind.Input,
-            triggerRadius = 2f,
-        };
-
-        def.steps.Add(new EventStepData
-        {
-            label = "탈출문 상호작용",
-            enterActions = new EventStepAction[]
-            {
-                new SetInputModeAction { mode = EnumManager.InputMode.Cutscene },
-                new DummyEventStepAction { label = "EVT-006 탈출 — 가위(Lily GearData 대역)로 문을 가릅니다" },
-                CreateFinalEscapeTearAction(),
-            },
-            advanceWhenAny = new StateDecision[] { new ScreenEffectEndedDecision() },
-            timeoutSeconds = 2f,
-        });
-
-        def.steps.Add(new EventStepData
-        {
-            label = "데모 종료",
-            enterActions = new EventStepAction[]
-            {
-                new TargetEntityManipulateAction { targetID = ExitDoorTargetID, targetAction = new SetEntityActiveAction { active = false } },
-                new DummyEventStepAction { label = "EVT-006 탈출 완료 — 데모 종료" },
-                new SetInputModeAction { mode = EnumManager.InputMode.Play },
-            },
-        });
-
-        return def;
     }
 
     private static StateMachineSO EnsureBossMachine()

@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 // 단서 시스템의 콘텐츠 작업자용 전역 문구·설정. 코드 상수(기본값)를 덮어쓰는 한 장짜리 에셋이며,
 // Resources/ClueSystemSettings.asset 하나만 읽는다. 없거나 항목이 비어 있으면 코드 기본값을 그대로 쓴다 —
@@ -20,6 +20,14 @@ public sealed class ClueSystemSettings : ScriptableObject
     [Header("연결 성공 코멘트")]
     [Tooltip("관계에 코멘트도 해몽 결과도 없을 때 연결 성공 시 보이는 문구. [A]/[B]는 관계의 첫/둘째 단서 이름. 비우면 코드 기본 문구.")]
     [TextArea(2, 4)] public string connectionCommentTemplate = ClueBoardConnectionComment.DefaultTemplate;
+
+    [Header("연결 효과음")]
+    [Tooltip("관계를 올바르게 이었을 때 나는 소리. 비우면 Resources의 ClueAcquiredAudio(단서 획득음)를 쓰고, 그것도 없으면 소리가 나지 않는다.")]
+    public AudioDataSO connectionSuccessAudio;
+    [Tooltip("관계 없는 쌍을 이으려 했을 때 나는 소리. 비우면 소리가 나지 않는다 — 노이즈 계열(SFX_EVT_ScreenNoise_*)을 권장.")]
+    public AudioDataSO connectionFailureAudio;
+    [Tooltip("연결 효과음 볼륨.")]
+    [Range(0f, 1f)] public float connectionAudioVolume = 1f;
 
     [Header("실루엣 힌트")]
     [Tooltip("단서·슬롯 어디에도 실루엣 힌트가 없을 때 보이는 문구. 비우면 코드 기본 문구.")]
@@ -46,6 +54,8 @@ public sealed class ClueSystemSettings : ScriptableObject
     {
         _cached = null;
         _searched = false;
+        _cachedAcquireAudio = null;
+        _searchedAcquireAudio = false;
     }
 
     // 아래 정적 조회는 "에셋 값이 비어 있지 않으면 그것, 아니면 기본값" 규칙을 한 곳에 둔다.
@@ -57,6 +67,31 @@ public sealed class ClueSystemSettings : ScriptableObject
 
     public static string ConnectionTemplate =>
         Pick(Current?.connectionCommentTemplate, ClueBoardConnectionComment.DefaultTemplate);
+
+    /// <summary>성공 효과음. 지정이 없으면 단서 획득음을 그대로 쓴다(획득과 같은 "얻었다" 신호라서).</summary>
+    public static AudioDataSO ConnectionSuccessAudio =>
+        Current?.connectionSuccessAudio != null ? Current.connectionSuccessAudio : DefaultAcquireAudio;
+
+    public static AudioDataSO ConnectionFailureAudio => Current?.connectionFailureAudio;
+
+    public static float ConnectionAudioVolume => Current != null ? Current.connectionAudioVolume : 1f;
+
+    public const string DefaultAcquireAudioPath = "ClueAcquiredAudio";
+    private static AudioDataSO _cachedAcquireAudio;
+    private static bool _searchedAcquireAudio;
+
+    private static AudioDataSO DefaultAcquireAudio
+    {
+        get
+        {
+            if (!_searchedAcquireAudio)
+            {
+                _cachedAcquireAudio = Resources.Load<AudioDataSO>(DefaultAcquireAudioPath);
+                _searchedAcquireAudio = true;
+            }
+            return _cachedAcquireAudio;
+        }
+    }
 
     public static string SilhouetteHint =>
         Pick(Current?.defaultSilhouetteHint, ClueBoardSilhouetteHint.DefaultHint);

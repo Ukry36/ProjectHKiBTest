@@ -43,3 +43,9 @@ board => DreamErosionModule.Instance?.GetHallucinationNodeIds(board)
 - 보드 연동 3곳 연결 완료(`ClueBoardScreen.HandleConnectionResult`/`HandleConnectionEstablished`, `ClueBoardPanel.ApplySources`). 보드 쪽 검증 `Logs/ChainRevealLocalListValidation.log`의 잠식 훅 항목 참조.
 - Codex 배치 검증을 프로젝트 사본(Assets/Packages/ProjectSettings/Library 복사)에서 다시 실행: `ErosionRegressionValidation` **11/11 PASS**, `AcquireNoticeValidation` **4/4 PASS** (`Logs/C05C07_CodexValidation_rerun.log`). 두 진입점은 `EditorApplication.Exit`를 부르지 않으므로 `-quit`와 함께 실행해야 한다.
 - `AcquireNoticeValidation`의 "큐 길이 2" 기대는 잘못이었다 — `StartCoroutine`이 첫 yield까지 즉시 실행돼 첫 단서는 바로 표시되고 둘째만 큐에 남는다(PendingCount 1). 기대값을 고치고 "첫 단서가 먼저 표시" 확인을 추가했다. 컴포넌트 동작은 그대로다.
+
+> **2026-09-22: 위 검증 스크립트는 삭제됐다.** `Editor/Validation/` 폴더의 네 진입점
+> (`ErosionRegressionValidation`, `AcquireNoticeValidation`, `ClueBoardMediaFormatValidation`,
+> `OutcomeRevealArtValidation`)을 마지막으로 모두 PASS시킨 뒤 걷어냈다. 위 PASS 기록은 그 시점의
+> 결과이며, 다시 돌려야 하면 커밋 `8e1ec5a9`에서 앞의 두 개를 꺼내 쓸 수 있다(뒤의 두 개는
+> 커밋된 적이 없다). 이후 잠식·획득 알림 회귀는 Play Mode에서 직접 확인한다.

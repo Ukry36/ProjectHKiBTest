@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 using RouteFinding.MapView;
+using static RouteFinding.UI.RouteUiKit;
 
 namespace RouteFinding.Note
 {
@@ -1813,26 +1814,6 @@ namespace RouteFinding.Note
             return tmp;
         }
 
-        private static RectTransform NewRect(Transform parent, string name)
-        {
-            var go = new GameObject(name);
-            if (parent != null) go.transform.SetParent(parent, false);
-            return go.AddComponent<RectTransform>();
-        }
-
-        private static void StretchFull(RectTransform rt)
-        {
-            rt.anchorMin = Vector2.zero;
-            rt.anchorMax = Vector2.one;
-            rt.offsetMin = rt.offsetMax = Vector2.zero;
-        }
-
-        private static Image AddImg(RectTransform rt, Color col)
-        {
-            var img = rt.gameObject.AddComponent<Image>();
-            img.color = col;
-            return img;
-        }
     }
 
     // NodeBox/단서 노드 드래그 전용 — Group(부모)의 anchoredPosition을 옮기고, 옮길 때마다 콜백으로

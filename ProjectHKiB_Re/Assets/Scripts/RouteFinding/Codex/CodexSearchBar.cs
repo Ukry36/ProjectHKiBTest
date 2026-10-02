@@ -1,7 +1,8 @@
-using System;
+﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using static RouteFinding.UI.RouteUiKit;
 
 namespace RouteFinding.Codex
 {
@@ -245,36 +246,5 @@ namespace RouteFinding.Codex
             return img;
         }
 
-        private static RectTransform NewRect(Transform parent, string name)
-        {
-            var go = new GameObject(name);
-            go.transform.SetParent(parent, false);
-            return go.AddComponent<RectTransform>();
-        }
-
-        private static void StretchFull(RectTransform rt)
-        {
-            rt.anchorMin = Vector2.zero;
-            rt.anchorMax = Vector2.one;
-            rt.offsetMin = rt.offsetMax = Vector2.zero;
-        }
-
-        private static Image AddImg(RectTransform rt, Color col)
-        {
-            var img = rt.gameObject.AddComponent<Image>();
-            img.color = col;
-            return img;
-        }
-
-        private static Transform FindDeepTransform(Transform parent, string childName)
-        {
-            foreach (Transform child in parent)
-            {
-                if (child.name == childName) return child;
-                var found = FindDeepTransform(child, childName);
-                if (found != null) return found;
-            }
-            return null;
-        }
     }
 }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -80,15 +80,10 @@ public class CodexModule : MonoBehaviour
     // 참조하고 있던 CodexEntry 객체(RefreshTree가 매번 새로 만듦)가 곧바로 낡은 참조가 되어, 뒤이어
     // 실행되는 트리의 선택 하이라이트 비교(참조 비교)가 깨진다. NEW 배지는 다음 자연스러운 갱신
     // (다른 단서 획득, 패널 재오픈 등) 때 사라지는 정도로 충분하다고 판단해 단순화했다.
-    public void MarkClueViewed(string clueId) => MarkClueViewed(clueId, "Codex/other");
-
-    public void MarkClueViewedFromBoard(string clueId) => MarkClueViewed(clueId, "ClueBoard");
-
-    private void MarkClueViewed(string clueId, string source)
+    public void MarkClueViewed(string clueId)
     {
         if (string.IsNullOrEmpty(clueId)) return;
-        bool removed = _newState.MarkViewed(clueId);
-        Debug.Log($"[ClueNEW][State] 확인 처리: clue={clueId}, source={source}, removed={removed}, remaining={_newState.NewClueIds.Count}, frame={Time.frameCount}, time={Time.unscaledTime:F3}");
+        _newState.MarkViewed(clueId);
     }
 
     // 유저가 도감 안에서 직접 작성한 자유 메모("빈 단서") — 3단계.
@@ -139,14 +134,12 @@ public class CodexModule : MonoBehaviour
             _subscribedProgress.OnClueAcquired -= HandleClueAcquired;
         _subscribedProgress = progress;
         _subscribedProgress.OnClueAcquired += HandleClueAcquired;
-        Debug.Log($"[ClueNEW][State] 진행 상태 직접 연결 완료: frame={Time.frameCount}");
     }
 
     private void HandleClueAcquired(ClueData clue)
     {
         if (!_acquiredClues.Contains(clue)) _acquiredClues.Add(clue);
         bool becameNew = clue != null && _newState.TryMarkAcquired(clue.id);
-        Debug.Log($"[ClueNEW][State] 획득 이벤트: clue={clue?.id ?? "(null)"}, checkpoint={_newState.HasSavedDreamReadingCheckpoint}, becameNew={becameNew}, totalNew={_newState.NewClueIds.Count}, frame={Time.frameCount}");
         OnCodexChanged?.Invoke();
         if (becameNew) OnNewClueAcquired?.Invoke(clue);
     }
@@ -237,8 +230,7 @@ public class CodexModule : MonoBehaviour
         ClueData clue = MapGraph.Instance?.GetClue(clueId);
         if (clue == null) return false;
         TrySubscribe();
-        bool becameNew = _newState.TryMarkAcquired(clueId);
-        Debug.Log($"[ClueNEW][State] 에디터 검증용 NEW 주입: clue={clueId}, becameNew={becameNew}, frame={Time.frameCount}");
+        _newState.TryMarkAcquired(clueId);
         OnCodexChanged?.Invoke();
         // 이미 NEW인 경우에도 열린 보드가 다시 그려지도록 검증 이벤트는 발행한다.
         OnNewClueAcquired?.Invoke(clue);
@@ -254,6 +246,5 @@ public class CodexModule : MonoBehaviour
         // 프레임에 이어지는 단서 획득 이벤트를 놓치므로 기준점을 세울 때 즉시 구독한다.
         TrySubscribe();
         _newState.CommitSavedDreamReadingCheckpoint(hasResolvedDreamReading);
-        Debug.Log($"[ClueNEW][State] 해몽 저장 기준점 커밋: requested={hasResolvedDreamReading}, checkpoint={_newState.HasSavedDreamReadingCheckpoint}, frame={Time.frameCount}");
     }
 }

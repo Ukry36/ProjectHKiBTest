@@ -1,10 +1,11 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
+using static RouteFinding.UI.RouteUiKit;
 
 namespace RouteFinding.Note
 {
@@ -344,26 +345,6 @@ namespace RouteFinding.Note
             return tmp;
         }
 
-        private static RectTransform NewRect(Transform parent, string name)
-        {
-            var go = new GameObject(name);
-            if (parent != null) go.transform.SetParent(parent, false);
-            return go.AddComponent<RectTransform>();
-        }
-
-        private static void StretchFull(RectTransform rt)
-        {
-            rt.anchorMin = Vector2.zero;
-            rt.anchorMax = Vector2.one;
-            rt.offsetMin = rt.offsetMax = Vector2.zero;
-        }
-
-        private static Image AddImg(RectTransform rt, Color col)
-        {
-            var img = rt.gameObject.AddComponent<Image>();
-            img.color = col;
-            return img;
-        }
     }
 
     // 서랍 행을 드래그해 좌측 그래프에 놓는 전용 핸들러 — NoteNodeDragHandle(그래프 노드 재배치용)과는

@@ -1,4 +1,4 @@
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
 namespace RouteFinding.UI
@@ -56,13 +56,8 @@ namespace RouteFinding.UI
             return tmp;
         }
 
-        public static void Stretch(RectTransform rect)
-        {
-            rect.anchorMin = Vector2.zero;
-            rect.anchorMax = Vector2.one;
-            rect.offsetMin = Vector2.zero;
-            rect.offsetMax = Vector2.zero;
-        }
+        /// <summary>부모를 가득 채운다. 구현은 RouteUiKit와 한 몸이며, 이 이름은 보드 코드의 관례라 남긴다.</summary>
+        public static void Stretch(RectTransform rect) => RouteUiKit.StretchFull(rect);
 
         /// <summary>동적 자식(노드·선·항목)을 전부 지운다. 에디터 검증에서도 돌므로 상황에 맞는 파괴를 고른다.</summary>
         public static void ClearChildren(Transform parent)

@@ -1,21 +1,529 @@
 {
-  "schemaVersion": 1,
-  "clues": [
-    { "id":"clue-forest-entrance", "name":"숲 입구의 낡은 표지", "description":"숲 입구에 세워진 오래된 경고 표지다.", "targetMapGuid":"map-002", "targetConnectionGuid":"", "requiredEventKey":"metStranger", "classification":{"type":3,"subtype":7}, "emotionTag":3, "iconAddress":"", "boardSizePercent":110.0, "boardFontSize":7.0, "boardFontAddress":"", "boardHideLabel":false, "timestamp":"", "content":"긁힌 자국은 누군가 경고 문구를 지우려 했던 흔적으로 보인다.", "mediaBlocks":[], "source":"숲 입구", "codexMapGuid":"map-002", "keywords":["숲","표지","경고"], "comments":[], "attachments":[] },
-    { "id":"clue-lakeside", "name":"호숫가 관찰 기록", "description":"호수 주변에서 목격된 이상 현상을 날짜별로 적은 기록이다.", "targetMapGuid":"map-004", "targetConnectionGuid":"", "requiredEventKey":"", "classification":{"type":1,"subtype":4}, "emotionTag":2, "iconAddress":"", "timestamp":"", "content":"마지막 부분에는 물안개 속에서 사람의 형체를 보았다는 문장이 반복된다.", "mediaBlocks":[], "source":"호숫가", "codexMapGuid":"map-004", "keywords":["호수","물안개","기록"], "comments":[], "attachments":[] },
-    { "id":"clue-forest-cabin", "name":"숲속 오두막 목격담", "description":"숲 안쪽의 낡은 오두막에 관한 목격담이다.", "targetMapGuid":"map-003", "targetConnectionGuid":"", "requiredEventKey":"", "classification":{"type":1,"subtype":3}, "emotionTag":3, "iconAddress":"", "timestamp":"", "content":"목격자는 오두막 안에서 희미한 불빛과 금속이 끌리는 소리를 들었다.", "mediaBlocks":[], "source":"마을 주민의 증언", "codexMapGuid":"map-003", "keywords":["숲","오두막","목격"], "comments":[], "attachments":[] },
-    { "id":"clue-fog-valley", "name":"안개 계곡 이동 기록", "description":"짙은 안개가 낀 계곡을 지나간 사람이 남긴 기록이다.", "targetMapGuid":"map-008", "targetConnectionGuid":"", "requiredEventKey":"", "classification":{"type":1,"subtype":4}, "emotionTag":2, "iconAddress":"", "timestamp":"", "content":"같은 바위를 세 번 지나쳤다는 메모 옆에 방향도가 그려져 있다.", "mediaBlocks":[], "source":"버려진 수첩", "codexMapGuid":"map-008", "keywords":["안개","계곡","이동"], "comments":[], "attachments":[] },
-    { "id":"clue-plateau", "name":"고원으로 향하는 지도 조각", "description":"안개 계곡에서 높은 고원으로 이어지는 길이 표시된 조각이다.", "targetMapGuid":"map-009", "targetConnectionGuid":"", "requiredEventKey":"", "classification":{"type":2,"subtype":5}, "emotionTag":1, "iconAddress":"", "timestamp":"", "content":"가장자리에는 고원에서 빛을 따라가라는 짧은 메모가 있다.", "mediaBlocks":[], "source":"오두막 벽면", "codexMapGuid":"map-009", "keywords":["고원","지도","길"], "comments":[], "attachments":[] },
-    { "id":"clue-abandoned-station", "name":"폐역 운행 안내문", "description":"운행이 중단된 역에 남겨진 낡은 안내문이다.", "targetMapGuid":"map-007", "targetConnectionGuid":"", "requiredEventKey":"", "classification":{"type":3,"subtype":7}, "emotionTag":2, "iconAddress":"", "timestamp":"", "content":"마지막 열차가 도착하지 않았다는 문장이 붉은 펜으로 덧붙어 있다.", "mediaBlocks":[], "source":"폐역 대합실", "codexMapGuid":"map-007", "keywords":["폐역","열차","안내문"], "comments":[], "attachments":[] },
-    { "id":"clue-underground-passage", "name":"지하 통로 흔적", "description":"역사 바닥 아래로 이어지는 통로를 보여 주는 흔적이다.", "targetMapGuid":"map-011", "targetConnectionGuid":"", "requiredEventKey":"", "classification":{"type":4,"subtype":10}, "emotionTag":3, "iconAddress":"", "timestamp":"", "content":"긁힌 바닥판 아래에서 차가운 바람과 희미한 기계음이 새어 나온다.", "mediaBlocks":[], "source":"폐역 승강장", "codexMapGuid":"map-011", "keywords":["지하","통로","바닥판"], "comments":[], "attachments":[] },
-    { "id":"clue-greenhouse", "name":"유리 온실 관찰표", "description":"고원에서 보이는 유리 온실의 상태를 기록한 관찰표다.", "targetMapGuid":"map-012", "targetConnectionGuid":"", "requiredEventKey":"", "classification":{"type":3,"subtype":7}, "emotionTag":1, "iconAddress":"", "timestamp":"", "content":"밤마다 식물의 위치가 달라진다는 표시가 여러 날짜에 남아 있다.", "mediaBlocks":[], "source":"고원 관측소", "codexMapGuid":"map-012", "keywords":["온실","식물","관찰"], "comments":[], "attachments":[] },
-    { "id":"clue-destination-1", "name":"첫 번째 목적지 메모", "description":"여러 갈래 길이 만나는 장소를 목적지로 지목한 메모다.", "targetMapGuid":"map-005", "targetConnectionGuid":"", "requiredEventKey":"", "classification":{"type":1,"subtype":3}, "emotionTag":1, "iconAddress":"", "timestamp":"", "content":"숲의 표지와 지도 조각을 함께 살펴보면 위치를 특정할 수 있다.", "mediaBlocks":[], "source":"숲 입구 게시판", "codexMapGuid":"map-005", "keywords":["목적지","교차로","메모"], "comments":[], "attachments":[] },
-    { "id":"clue-destination-2", "name":"두 번째 목적지 전단", "description":"안개 너머의 시설을 홍보하던 오래된 전단이다.", "targetMapGuid":"map-010", "targetConnectionGuid":"", "requiredEventKey":"", "classification":{"type":3,"subtype":8}, "emotionTag":2, "iconAddress":"", "timestamp":"", "content":"전단의 약도는 현재 지형과 다르지만 폐역과 계곡의 위치는 일치한다.", "mediaBlocks":[], "source":"폐역 매표소", "codexMapGuid":"map-010", "keywords":["목적지","전단","시설"], "comments":[], "attachments":[] },
-    { "id":"clue-destination-3", "name":"세 번째 목적지 문서", "description":"온실 안에서 발견된 최종 목적지 관련 문서다.", "targetMapGuid":"map-013", "targetConnectionGuid":"", "requiredEventKey":"", "classification":{"type":3,"subtype":9}, "emotionTag":3, "iconAddress":"", "timestamp":"", "content":"지하 통로 끝의 봉인된 공간을 조사하라는 지시가 적혀 있다.", "mediaBlocks":[], "source":"유리 온실", "codexMapGuid":"map-013", "keywords":["목적지","문서","봉인"], "comments":[], "attachments":[] },
-    { "id":"clue-web-wasteland", "name":"황무지 우회로 제보", "description":"인터넷 게시판에 올라온 황무지 우회로 제보다.", "targetMapGuid":"map-006", "targetConnectionGuid":"", "requiredEventKey":"", "classification":{"type":1,"subtype":3}, "emotionTag":1, "iconAddress":"", "timestamp":"", "content":"무너진 표지석을 기준으로 북쪽 길을 선택하라는 조언이다.", "mediaBlocks":[], "source":"온라인 지역 게시판", "codexMapGuid":"map-006", "keywords":["황무지","우회로","제보"], "comments":[], "attachments":[] },
-    { "id":"clue-web-graffiti-photo", "name":"벽화 사진의 기호", "description":"황무지 벽화의 반복 기호를 촬영한 사진 기록이다.", "targetMapGuid":"", "targetConnectionGuid":"", "requiredEventKey":"", "classification":{"type":2,"subtype":6}, "emotionTag":3, "iconAddress":"20250420_164143_2", "boardSizePercent":125.0, "boardFontSize":6.5, "boardFontAddress":"", "boardHideLabel":true, "timestamp":"", "content":"사진 속 기호는 숲 표지의 긁힌 자국과 비슷한 배열을 이룬다.", "mediaBlocks":[{"kind":1,"text":"","address":"20250420_164143_2","caption":"벽에 그려진 표식"}], "source":"온라인 사진 게시물", "codexMapGuid":"map-006", "keywords":["벽화","사진","기호"], "comments":[], "attachments":[{"kind":0,"label":"블로그에 올라온 사진","address":"20250420_164143_2","mapGuid":""}] },
-    { "id":"clue-web-night-sound", "name":"폐역의 야간 소리 기록", "description":"폐역 근처에서 녹음되었다는 야간 소리 기록이다.", "targetMapGuid":"", "targetConnectionGuid":"", "requiredEventKey":"", "classification":{"type":1,"subtype":2}, "emotionTag":2, "iconAddress":"", "boardSizePercent":90.0, "boardFontSize":6.0, "boardFontAddress":"", "boardHideLabel":false, "timestamp":"03:40", "content":"규칙적인 금속음 사이에 열차 안내 방송과 비슷한 음성이 섞여 있다.", "mediaBlocks":[{"kind":3,"text":"","address":"rec_night_call","caption":"새벽 3시 40분 녹음"}], "source":"온라인 음향 게시물", "codexMapGuid":"map-007", "keywords":["폐역","야간","소리"], "comments":[], "attachments":[{"kind":1,"label":"rec_0340.wav","address":"rec_night_call","mapGuid":""}] },
-    { "id":"dummy-clue-wing", "name":"날개 문양 조각", "description":"날개 모양이 새겨진 작은 금속 조각이다.", "targetMapGuid":"", "targetConnectionGuid":"", "requiredEventKey":"", "classification":{"type":4,"subtype":10}, "emotionTag":1, "iconAddress":"", "boardSizePercent":110.0, "boardFontSize":6.5, "boardFontAddress":"", "boardHideLabel":false, "timestamp":"", "content":"문양은 방향이나 집단을 나타내는 표식일 가능성이 있다.", "mediaBlocks":[], "source":"테스트 획득물", "codexMapGuid":"", "keywords":["날개","문양","금속"], "comments":[], "attachments":[] },
-    { "id":"dummy-clue-eye", "name":"눈 문양 종이", "description":"눈 모양의 기호가 반복해서 인쇄된 종이 조각이다.", "targetMapGuid":"", "targetConnectionGuid":"", "requiredEventKey":"", "classification":{"type":1,"subtype":1}, "emotionTag":3, "iconAddress":"", "boardSizePercent":110.0, "boardFontSize":6.5, "boardFontAddress":"", "boardHideLabel":false, "timestamp":"", "content":"문양의 간격이 일정해 장식보다는 암호나 표식에 가깝다.", "mediaBlocks":[], "source":"테스트 문서", "codexMapGuid":"", "keywords":["눈","문양","암호"], "comments":[], "attachments":[] }
-  ]
+    "schemaVersion": 1,
+    "clues": [
+        {
+            "id": "clue-forest-entrance",
+            "name": "숲 입구의 낡은 표지",
+            "description": "숲 입구에 세워진 오래된 경고 표지다.",
+            "targetMapGuid": "map-002",
+            "targetConnectionGuid": "",
+            "requiredEventKey": "metStranger",
+            "classification": {
+                "type": 3,
+                "subtype": 7
+            },
+            "emotionTag": 3,
+            "iconAddress": "",
+            "boardSizePercent": 110.0,
+            "boardFontSize": 7.0,
+            "boardFontAddress": "",
+            "boardHideLabel": false,
+            "silhouetteHint": "",
+            "timestamp": "",
+            "content": "긁힌 자국은 누군가 경고 문구를 지우려 했던 흔적으로 보인다.",
+            "mediaBlocks": [],
+            "source": "숲 입구",
+            "codexMapGuid": "map-002",
+            "keywords": [
+                "숲",
+                "표지",
+                "경고"
+            ],
+            "comments": [],
+            "attachments": []
+        },
+        {
+            "id": "clue-lakeside",
+            "name": "호숫가 관찰 기록",
+            "description": "호수 주변에서 목격된 이상 현상을 날짜별로 적은 기록이다.",
+            "targetMapGuid": "map-004",
+            "targetConnectionGuid": "",
+            "requiredEventKey": "",
+            "classification": {
+                "type": 1,
+                "subtype": 4
+            },
+            "emotionTag": 2,
+            "iconAddress": "",
+            "boardSizePercent": 0.0,
+            "boardFontSize": 0.0,
+            "boardFontAddress": "",
+            "boardHideLabel": false,
+            "silhouetteHint": "",
+            "timestamp": "",
+            "content": "마지막 부분에는 물안개 속에서 사람의 형체를 보았다는 문장이 반복된다.",
+            "mediaBlocks": [],
+            "source": "호숫가",
+            "codexMapGuid": "map-004",
+            "keywords": [
+                "호수",
+                "물안개",
+                "기록"
+            ],
+            "comments": [],
+            "attachments": []
+        },
+        {
+            "id": "clue-forest-cabin",
+            "name": "숲속 오두막 목격담",
+            "description": "숲 안쪽의 낡은 오두막에 관한 목격담이다.",
+            "targetMapGuid": "map-003",
+            "targetConnectionGuid": "",
+            "requiredEventKey": "",
+            "classification": {
+                "type": 1,
+                "subtype": 3
+            },
+            "emotionTag": 3,
+            "iconAddress": "",
+            "boardSizePercent": 0.0,
+            "boardFontSize": 0.0,
+            "boardFontAddress": "",
+            "boardHideLabel": false,
+            "silhouetteHint": "",
+            "timestamp": "",
+            "content": "목격자는 오두막 안에서 희미한 불빛과 금속이 끌리는 소리를 들었다.",
+            "mediaBlocks": [],
+            "source": "마을 주민의 증언",
+            "codexMapGuid": "map-003",
+            "keywords": [
+                "숲",
+                "오두막",
+                "목격"
+            ],
+            "comments": [],
+            "attachments": []
+        },
+        {
+            "id": "clue-fog-valley",
+            "name": "안개 계곡 이동 기록",
+            "description": "짙은 안개가 낀 계곡을 지나간 사람이 남긴 기록이다.",
+            "targetMapGuid": "map-008",
+            "targetConnectionGuid": "",
+            "requiredEventKey": "",
+            "classification": {
+                "type": 1,
+                "subtype": 4
+            },
+            "emotionTag": 2,
+            "iconAddress": "",
+            "boardSizePercent": 0.0,
+            "boardFontSize": 0.0,
+            "boardFontAddress": "",
+            "boardHideLabel": false,
+            "silhouetteHint": "",
+            "timestamp": "",
+            "content": "같은 바위를 세 번 지나쳤다는 메모 옆에 방향도가 그려져 있다.",
+            "mediaBlocks": [],
+            "source": "버려진 수첩",
+            "codexMapGuid": "map-008",
+            "keywords": [
+                "안개",
+                "계곡",
+                "이동"
+            ],
+            "comments": [],
+            "attachments": []
+        },
+        {
+            "id": "clue-plateau",
+            "name": "고원으로 향하는 지도 조각",
+            "description": "안개 계곡에서 높은 고원으로 이어지는 길이 표시된 조각이다.",
+            "targetMapGuid": "map-009",
+            "targetConnectionGuid": "",
+            "requiredEventKey": "",
+            "classification": {
+                "type": 2,
+                "subtype": 5
+            },
+            "emotionTag": 1,
+            "iconAddress": "",
+            "boardSizePercent": 0.0,
+            "boardFontSize": 0.0,
+            "boardFontAddress": "",
+            "boardHideLabel": false,
+            "silhouetteHint": "",
+            "timestamp": "",
+            "content": "가장자리에는 고원에서 빛을 따라가라는 짧은 메모가 있다.",
+            "mediaBlocks": [],
+            "source": "오두막 벽면",
+            "codexMapGuid": "map-009",
+            "keywords": [
+                "고원",
+                "지도",
+                "길"
+            ],
+            "comments": [],
+            "attachments": []
+        },
+        {
+            "id": "clue-abandoned-station",
+            "name": "폐역 운행 안내문",
+            "description": "운행이 중단된 역에 남겨진 낡은 안내문이다.",
+            "targetMapGuid": "map-007",
+            "targetConnectionGuid": "",
+            "requiredEventKey": "",
+            "classification": {
+                "type": 3,
+                "subtype": 7
+            },
+            "emotionTag": 2,
+            "iconAddress": "",
+            "boardSizePercent": 0.0,
+            "boardFontSize": 0.0,
+            "boardFontAddress": "",
+            "boardHideLabel": false,
+            "silhouetteHint": "",
+            "timestamp": "",
+            "content": "마지막 열차가 도착하지 않았다는 문장이 붉은 펜으로 덧붙어 있다.",
+            "mediaBlocks": [],
+            "source": "폐역 대합실",
+            "codexMapGuid": "map-007",
+            "keywords": [
+                "폐역",
+                "열차",
+                "안내문"
+            ],
+            "comments": [],
+            "attachments": []
+        },
+        {
+            "id": "clue-underground-passage",
+            "name": "지하 통로 흔적",
+            "description": "역사 바닥 아래로 이어지는 통로를 보여 주는 흔적이다.",
+            "targetMapGuid": "map-011",
+            "targetConnectionGuid": "",
+            "requiredEventKey": "",
+            "classification": {
+                "type": 4,
+                "subtype": 10
+            },
+            "emotionTag": 3,
+            "iconAddress": "",
+            "boardSizePercent": 0.0,
+            "boardFontSize": 0.0,
+            "boardFontAddress": "",
+            "boardHideLabel": false,
+            "silhouetteHint": "",
+            "timestamp": "",
+            "content": "긁힌 바닥판 아래에서 차가운 바람과 희미한 기계음이 새어 나온다.",
+            "mediaBlocks": [],
+            "source": "폐역 승강장",
+            "codexMapGuid": "map-011",
+            "keywords": [
+                "지하",
+                "통로",
+                "바닥판"
+            ],
+            "comments": [],
+            "attachments": []
+        },
+        {
+            "id": "clue-greenhouse",
+            "name": "유리 온실 관찰표",
+            "description": "고원에서 보이는 유리 온실의 상태를 기록한 관찰표다.",
+            "targetMapGuid": "map-012",
+            "targetConnectionGuid": "",
+            "requiredEventKey": "",
+            "classification": {
+                "type": 3,
+                "subtype": 7
+            },
+            "emotionTag": 1,
+            "iconAddress": "",
+            "boardSizePercent": 0.0,
+            "boardFontSize": 0.0,
+            "boardFontAddress": "",
+            "boardHideLabel": false,
+            "silhouetteHint": "",
+            "timestamp": "",
+            "content": "밤마다 식물의 위치가 달라진다는 표시가 여러 날짜에 남아 있다.",
+            "mediaBlocks": [],
+            "source": "고원 관측소",
+            "codexMapGuid": "map-012",
+            "keywords": [
+                "온실",
+                "식물",
+                "관찰"
+            ],
+            "comments": [],
+            "attachments": []
+        },
+        {
+            "id": "clue-destination-1",
+            "name": "첫 번째 목적지 메모",
+            "description": "여러 갈래 길이 만나는 장소를 목적지로 지목한 메모다.",
+            "targetMapGuid": "map-005",
+            "targetConnectionGuid": "",
+            "requiredEventKey": "",
+            "classification": {
+                "type": 1,
+                "subtype": 3
+            },
+            "emotionTag": 1,
+            "iconAddress": "",
+            "boardSizePercent": 0.0,
+            "boardFontSize": 0.0,
+            "boardFontAddress": "",
+            "boardHideLabel": false,
+            "silhouetteHint": "",
+            "timestamp": "",
+            "content": "숲의 표지와 지도 조각을 함께 살펴보면 위치를 특정할 수 있다.",
+            "mediaBlocks": [],
+            "source": "숲 입구 게시판",
+            "codexMapGuid": "map-005",
+            "keywords": [
+                "목적지",
+                "교차로",
+                "메모"
+            ],
+            "comments": [],
+            "attachments": []
+        },
+        {
+            "id": "clue-destination-2",
+            "name": "두 번째 목적지 전단",
+            "description": "안개 너머의 시설을 홍보하던 오래된 전단이다.",
+            "targetMapGuid": "map-010",
+            "targetConnectionGuid": "",
+            "requiredEventKey": "",
+            "classification": {
+                "type": 3,
+                "subtype": 8
+            },
+            "emotionTag": 2,
+            "iconAddress": "",
+            "boardSizePercent": 0.0,
+            "boardFontSize": 0.0,
+            "boardFontAddress": "",
+            "boardHideLabel": false,
+            "silhouetteHint": "",
+            "timestamp": "",
+            "content": "전단의 약도는 현재 지형과 다르지만 폐역과 계곡의 위치는 일치한다.",
+            "mediaBlocks": [],
+            "source": "폐역 매표소",
+            "codexMapGuid": "map-010",
+            "keywords": [
+                "목적지",
+                "전단",
+                "시설"
+            ],
+            "comments": [],
+            "attachments": []
+        },
+        {
+            "id": "clue-destination-3",
+            "name": "세 번째 목적지 문서",
+            "description": "온실 안에서 발견된 최종 목적지 관련 문서다.",
+            "targetMapGuid": "map-013",
+            "targetConnectionGuid": "",
+            "requiredEventKey": "",
+            "classification": {
+                "type": 3,
+                "subtype": 9
+            },
+            "emotionTag": 3,
+            "iconAddress": "",
+            "boardSizePercent": 0.0,
+            "boardFontSize": 0.0,
+            "boardFontAddress": "",
+            "boardHideLabel": false,
+            "silhouetteHint": "",
+            "timestamp": "",
+            "content": "지하 통로 끝의 봉인된 공간을 조사하라는 지시가 적혀 있다.",
+            "mediaBlocks": [],
+            "source": "유리 온실",
+            "codexMapGuid": "map-013",
+            "keywords": [
+                "목적지",
+                "문서",
+                "봉인"
+            ],
+            "comments": [],
+            "attachments": []
+        },
+        {
+            "id": "clue-web-wasteland",
+            "name": "황무지 우회로 제보",
+            "description": "인터넷 게시판에 올라온 황무지 우회로 제보다.",
+            "targetMapGuid": "map-006",
+            "targetConnectionGuid": "",
+            "requiredEventKey": "",
+            "classification": {
+                "type": 1,
+                "subtype": 3
+            },
+            "emotionTag": 1,
+            "iconAddress": "",
+            "boardSizePercent": 0.0,
+            "boardFontSize": 0.0,
+            "boardFontAddress": "",
+            "boardHideLabel": false,
+            "silhouetteHint": "",
+            "timestamp": "",
+            "content": "무너진 표지석을 기준으로 북쪽 길을 선택하라는 조언이다.",
+            "mediaBlocks": [],
+            "source": "온라인 지역 게시판",
+            "codexMapGuid": "map-006",
+            "keywords": [
+                "황무지",
+                "우회로",
+                "제보"
+            ],
+            "comments": [],
+            "attachments": []
+        },
+        {
+            "id": "clue-web-graffiti-photo",
+            "name": "벽화 사진의 기호",
+            "description": "황무지 벽화의 반복 기호를 촬영한 사진 기록이다.",
+            "targetMapGuid": "",
+            "targetConnectionGuid": "",
+            "requiredEventKey": "",
+            "classification": {
+                "type": 2,
+                "subtype": 6
+            },
+            "emotionTag": 3,
+            "iconAddress": "20250420_164143_2",
+            "boardSizePercent": 125.0,
+            "boardFontSize": 6.5,
+            "boardFontAddress": "",
+            "boardHideLabel": true,
+            "silhouetteHint": "",
+            "timestamp": "",
+            "content": "사진 속 기호는 숲 표지의 긁힌 자국과 비슷한 배열을 이룬다.",
+            "mediaBlocks": [
+                {
+                    "kind": 1,
+                    "text": "",
+                    "address": "20250420_164143_2",
+                    "caption": "벽에 그려진 표식"
+                }
+            ],
+            "source": "온라인 사진 게시물",
+            "codexMapGuid": "map-006",
+            "keywords": [
+                "벽화",
+                "사진",
+                "기호"
+            ],
+            "comments": [],
+            "attachments": [
+                {
+                    "kind": 0,
+                    "label": "블로그에 올라온 사진",
+                    "address": "20250420_164143_2",
+                    "mapGuid": ""
+                }
+            ]
+        },
+        {
+            "id": "clue-web-night-sound",
+            "name": "폐역의 야간 소리 기록",
+            "description": "폐역 근처에서 녹음되었다는 야간 소리 기록이다.",
+            "targetMapGuid": "",
+            "targetConnectionGuid": "",
+            "requiredEventKey": "",
+            "classification": {
+                "type": 1,
+                "subtype": 2
+            },
+            "emotionTag": 2,
+            "iconAddress": "",
+            "boardSizePercent": 90.0,
+            "boardFontSize": 6.0,
+            "boardFontAddress": "",
+            "boardHideLabel": false,
+            "silhouetteHint": "",
+            "timestamp": "03:40",
+            "content": "규칙적인 금속음 사이에 열차 안내 방송과 비슷한 음성이 섞여 있다.",
+            "mediaBlocks": [
+                {
+                    "kind": 3,
+                    "text": "",
+                    "address": "SFX_EVT_ScreenNoise_Eye_2400_01",
+                    "caption": "새벽 3시 40분 녹음"
+                }
+            ],
+            "source": "온라인 음향 게시물",
+            "codexMapGuid": "map-007",
+            "keywords": [
+                "폐역",
+                "야간",
+                "소리"
+            ],
+            "comments": [],
+            "attachments": [
+                {
+                    "kind": 1,
+                    "label": "rec_0340.wav",
+                    "address": "SFX_EVT_ScreenNoise_Cut_1500_02",
+                    "mapGuid": ""
+                }
+            ]
+        },
+        {
+            "id": "dummy-clue-wing",
+            "name": "날개 문양 조각",
+            "description": "날개 모양이 새겨진 작은 금속 조각이다.",
+            "targetMapGuid": "",
+            "targetConnectionGuid": "",
+            "requiredEventKey": "",
+            "classification": {
+                "type": 4,
+                "subtype": 10
+            },
+            "emotionTag": 1,
+            "iconAddress": "",
+            "boardSizePercent": 110.0,
+            "boardFontSize": 6.5,
+            "boardFontAddress": "",
+            "boardHideLabel": false,
+            "silhouetteHint": "",
+            "timestamp": "",
+            "content": "문양은 방향이나 집단을 나타내는 표식일 가능성이 있다.",
+            "mediaBlocks": [],
+            "source": "테스트 획득물",
+            "codexMapGuid": "",
+            "keywords": [
+                "날개",
+                "문양",
+                "금속"
+            ],
+            "comments": [],
+            "attachments": []
+        },
+        {
+            "id": "dummy-clue-eye",
+            "name": "눈 문양 종이",
+            "description": "눈 모양의 기호가 반복해서 인쇄된 종이 조각이다.",
+            "targetMapGuid": "",
+            "targetConnectionGuid": "",
+            "requiredEventKey": "",
+            "classification": {
+                "type": 1,
+                "subtype": 1
+            },
+            "emotionTag": 3,
+            "iconAddress": "",
+            "boardSizePercent": 110.0,
+            "boardFontSize": 6.5,
+            "boardFontAddress": "",
+            "boardHideLabel": false,
+            "silhouetteHint": "",
+            "timestamp": "",
+            "content": "문양의 간격이 일정해 장식보다는 암호나 표식에 가깝다.",
+            "mediaBlocks": [],
+            "source": "테스트 문서",
+            "codexMapGuid": "",
+            "keywords": [
+                "눈",
+                "문양",
+                "암호"
+            ],
+            "comments": [],
+            "attachments": []
+        }
+    ]
 }

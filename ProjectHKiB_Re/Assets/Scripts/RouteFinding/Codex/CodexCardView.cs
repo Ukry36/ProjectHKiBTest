@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
+using static RouteFinding.UI.RouteUiKit;
 
 namespace RouteFinding.Codex
 {
@@ -1382,43 +1383,12 @@ namespace RouteFinding.Codex
             AddImg(rt, new Color(1f, 1f, 1f, 0.10f));
         }
 
-        private static RectTransform NewRect(Transform parent, string name)
-        {
-            var go = new GameObject(name);
-            if (parent != null) go.transform.SetParent(parent, false);
-            return go.AddComponent<RectTransform>();
-        }
-
-        private static void StretchFull(RectTransform rt)
-        {
-            rt.anchorMin = Vector2.zero;
-            rt.anchorMax = Vector2.one;
-            rt.offsetMin = rt.offsetMax = Vector2.zero;
-        }
-
-        private static Image AddImg(RectTransform rt, Color col)
-        {
-            var img = rt.gameObject.AddComponent<Image>();
-            img.color = col;
-            return img;
-        }
-
         private static T FindDeepChild<T>(Transform parent, string childName) where T : Component
         {
             var t = FindDeepTransform(parent, childName);
             return t != null ? t.GetComponent<T>() : null;
         }
 
-        private static Transform FindDeepTransform(Transform parent, string childName)
-        {
-            foreach (Transform child in parent)
-            {
-                if (child.name == childName) return child;
-                var found = FindDeepTransform(child, childName);
-                if (found != null) return found;
-            }
-            return null;
-        }
     }
 
     // 키워드 태그(TMP <link>) 클릭 감지 전용 — CodexCardView._keywordsTmp가 붙은 GameObject에 얹힌다.

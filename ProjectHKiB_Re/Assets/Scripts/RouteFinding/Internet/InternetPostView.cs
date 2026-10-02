@@ -1,8 +1,9 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using static RouteFinding.UI.RouteUiKit;
 
 namespace RouteFinding.Internet
 {
@@ -570,42 +571,11 @@ namespace RouteFinding.Internet
             AddImg(rt, new Color(1f, 1f, 1f, 0.10f));
         }
 
-        private static RectTransform NewRect(Transform parent, string name)
-        {
-            var go = new GameObject(name);
-            if (parent != null) go.transform.SetParent(parent, false);
-            return go.AddComponent<RectTransform>();
-        }
-
-        private static void StretchFull(RectTransform rt)
-        {
-            rt.anchorMin = Vector2.zero;
-            rt.anchorMax = Vector2.one;
-            rt.offsetMin = rt.offsetMax = Vector2.zero;
-        }
-
-        private static Image AddImg(RectTransform rt, Color col)
-        {
-            var img = rt.gameObject.AddComponent<Image>();
-            img.color = col;
-            return img;
-        }
-
         private static T FindDeepChild<T>(Transform parent, string childName) where T : Component
         {
             var t = FindDeepTransform(parent, childName);
             return t != null ? t.GetComponent<T>() : null;
         }
 
-        private static Transform FindDeepTransform(Transform parent, string childName)
-        {
-            foreach (Transform child in parent)
-            {
-                if (child.name == childName) return child;
-                var found = FindDeepTransform(child, childName);
-                if (found != null) return found;
-            }
-            return null;
-        }
     }
 }
