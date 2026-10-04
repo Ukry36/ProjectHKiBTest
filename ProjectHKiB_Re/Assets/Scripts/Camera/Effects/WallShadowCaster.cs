@@ -4,19 +4,20 @@ using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
 /// <summary>
-/// 벽의 콜라이더 바닥면을 ShadowCaster2D로 만들어 손전등 빛이 벽에 가려지게 한다.
+/// 손전등이 벽에 가려지게 한다. 두 방식이 있고 DarknessManager의 Flashlight Shader Shadows로 고른다.
+///   - 셰이더 방식(기본): 빛 가림은 DarknessManager(1D 그림자 맵 + FlashlightOcclusion 셰이더)가 흐린 경계로 칠한다.
+///     이 컴포넌트의 벽 바닥면 그림자 판은 꺼 둔다.
+///   - 원래 방식: 벽 콜라이더 바닥면을 ShadowCaster2D 그림자 판으로 만들어 URP 그림자로 가린다(경계가 또렷함).
+/// 두 방식 모두 반 3D라서 생기는 "벽 앞면 그림" 문제는 아래 실루엣이 맡는다.
 /// 타일맵 벽(CompositeCollider2D)과 엔티티 벽(BoxCollider2D·PolygonCollider2D) 모두 된다.
 /// MapDarkness가 맵의 벽(Wall 레이어, 계단·경사 제외)에 자동으로 붙이므로 보통은 손으로 붙일 필요가 없다.
 ///
-/// 이 프로젝트는 반 3D라 벽 스프라이트가 바닥·캐릭터와 같은 정렬 레이어에 있다. 그래서 "벽 레이어만 그림자에서 빼기"가
-/// 안 되고, 대신 벽 스프라이트마다 그림자를 드리우지 않는 ShadowCaster2D(실루엣 사용)를 달아 그 모양만큼 그림자를 지운다.
-/// URP 12는 같은 그룹(CompositeShadowCaster2D) 안에서만 지워 주므로 그림자 판과 실루엣을 한 그룹으로 묶는다.
+/// 벽 스프라이트마다 그림자를 드리우지 않는 ShadowCaster2D(실루엣 사용)를 단다. 매 프레임 손전등 광원이 벽 바닥면보다
+/// 위(벽 뒤)에 있으면 실루엣을 selfShadows로 바꿔 앞면에 그림자를 칠하고(몸이 벽에 가려지듯 빛도 가려진다),
+/// 앞에 있으면 끈다. 그림자를 쓰는 조명은 손전등뿐이라 전역·주변 빛에는 영향이 없다.
+/// URP 12는 castsShadows=false인 실루엣이 혼자 그룹이면 그리지 않으므로 CompositeShadowCaster2D 그룹으로 묶는다.
 ///
-/// 단, 손전등이 벽 **뒤**에 있을 때 앞면까지 밝으면 "몸은 벽에 가려졌는데 빛은 보이는" 꼴이 된다. 그래서 매 프레임
-/// 광원이 벽 바닥면보다 위(뒤)에 있으면 실루엣을 selfShadows로 바꿔 앞면에 그림자를 칠한다(셰이더가 실루엣 모양만큼
-/// 그림자를 쓴다). 그림자를 쓰는 조명은 손전등뿐이라 전역·주변 빛에는 영향이 없다.
-///
-/// 이 URP(12)는 ShadowCaster2D 모양·정렬 레이어를 코드로 넣는 공개 API가 없어 직렬화 필드에 리플렉션으로 넣는다 —
+/// 이 URP(12)는 ShadowCaster2D 정렬 레이어를 코드로 넣는 공개 API가 없어 직렬화 필드에 리플렉션으로 넣는다 —
 /// URP를 올리면 필드 이름부터 확인할 것.
 /// </summary>
 public class WallShadowCaster : MonoBehaviour
@@ -33,6 +34,14 @@ public class WallShadowCaster : MonoBehaviour
     private readonly List<ShadowCaster2D> _silhouettes = new();
     private readonly List<Rect> _footprints = new(); // 월드 좌표 바닥면 — 광원이 벽 앞인지 뒤인지 판정용
     private bool _lightBehind;
+    private GameObject _footprintRoot;
+
+    private void SyncFootprintCasters()
+    {
+        if (!_footprintRoot) return;
+        bool urpShadows = !(DarknessManager.HasInstance && DarknessManager.Instance.UsesShaderShadows);
+        if (_footprintRoot.activeSelf != urpShadows) _footprintRoot.SetActive(urpShadows);
+    }
 
     private void Start() => Build();
 
@@ -74,19 +83,23 @@ public class WallShadowCaster : MonoBehaviour
             _silhouettes.Add(silhouette);
         }
 
-        var root = new GameObject("WallShadows");
-        root.transform.SetParent(transform, false);
-        _created.Add(root);
+        // 벽 바닥면 그림자 판 — 원래 방식(URP 그림자)일 때만 켠다. 셰이더 방식일 때 켜 두면 셰이더가 흐린 경계를
+        // URP 그림자가 다시 칼같이 잘라 버리므로 끈다(LateUpdate에서 DarknessManager.UsesShaderShadows를 보고 전환).
+        _footprintRoot = new GameObject("WallShadows");
+        _footprintRoot.transform.SetParent(transform, false);
+        _created.Add(_footprintRoot);
         for (int i = 0; i < shapes.Count; i++)
         {
-            CreateCaster(root.transform, i, shapes[i], layers);
+            CreateCaster(_footprintRoot.transform, i, shapes[i], layers);
             _footprints.Add(WorldBounds(shapes[i]));
         }
+        SyncFootprintCasters();
         _lightBehind = false;
     }
 
     private void LateUpdate()
     {
+        SyncFootprintCasters();
         if (_silhouettes.Count == 0) return;
         bool behind = DarknessManager.HasInstance
                       && DarknessManager.Instance.TryGetFlashlightOrigin(out Vector2 origin)
@@ -146,8 +159,22 @@ public class WallShadowCaster : MonoBehaviour
     {
         Transform host = TryGetComponent(out Renderer _) && transform.parent ? transform.parent : transform;
         if (!host.TryGetComponent(out CompositeShadowCaster2D _))
-            _created.Add(host.gameObject.AddComponent<CompositeShadowCaster2D>());
+            _created.Add(AddShadowGroup(host.gameObject));
         return host;
+    }
+
+    /// <summary>
+    /// CompositeShadowCaster2D를 붙이고 내부 그림자 판 목록을 바로 만들어 둔다.
+    /// URP 12의 ShadowCasterGroup2D는 그룹이 켜지는 순간 렌더링 목록에 오르지만 내부 목록은 첫 그림자 판이 등록될 때야
+    /// 만들어서, 그 전에 렌더링이 돌면 CacheValues()에서 NullReferenceException이 난다(ShadowCasterGroup2D.cs:15).
+    /// 그림자 판이 꺼져 있거나 다음 프레임에야 등록되는 동안에도 안전하도록 빈 목록을 미리 만든다(null을 넣었다 뺀다).
+    /// </summary>
+    internal static CompositeShadowCaster2D AddShadowGroup(GameObject host)
+    {
+        CompositeShadowCaster2D group = host.AddComponent<CompositeShadowCaster2D>();
+        group.RegisterShadowCaster2D(null);
+        group.UnregisterShadowCaster2D(null);
+        return group;
     }
 
     private static bool IsUnder(Transform t, Transform ancestor)

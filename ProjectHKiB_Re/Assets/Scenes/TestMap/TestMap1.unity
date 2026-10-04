@@ -6167,14 +6167,28 @@ MonoBehaviour:
     playerLightRadius: 2.5
     playerLightStrength: 0.15
     softness: 1
+    playerLightHeight: 1
+    playerSelfShadow: 0
     flashlight: 0
     flashlightMode: 0
     flashlightBrightness: 1
     flashlightRange: 8
     flashlightAngle: 50
-    flashlightSoftness: 0.3
+    flashlightAngleFalloff: 0.6
+    flashlightDistanceFalloff: 0.6
+    flashlightFalloffCurve: 0.5
+    flashlightStartRoundness: 0.35
     flicker: 0
+    flashlightOffset: 0.6
     flashlightShadows: 1
+    flashlightShadowIntensity: 0.9
+    flashlightShaderShadows: 1
+    flashlightShadowSoftness: 0.6
+    flashlightShadowInnerFade: 0.6
+    flashlightShadowSpreadDistance: 1.5
+    flashlightShadowInset: 0
+    flashlightShadowPixelsPerUnit: 16
+    flashlightFollowSharpness: 40
   _fadeIn: 0
   _autoWallShadows: 1
   _wallLayers:
