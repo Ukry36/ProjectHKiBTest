@@ -403,8 +403,12 @@ public class EventManager : StateController, IEventSaveProvider
             }
             else if (target.targetSearchType == TargetSearchType.Manual && manualTargets != null)
             {
-                currentTargets.targetEntities[target.ID] = manualTargets.targetEntities[target.ID];
-                currentTargets.targetAnimations[target.ID] = manualTargets.targetAnimations[target.ID];
+                // 엔티티와 애니메이션 중 한쪽에만 등록하는 게 보통이라, 둘 다 인덱서로 읽으면
+                // 없는 쪽에서 KeyNotFoundException이 나 Manual 대상이 사실상 쓸 수 없었다.
+                if (manualTargets.targetEntities.TryGetValue(target.ID, out EventControllableEntity entity))
+                    currentTargets.targetEntities[target.ID] = entity;
+                if (manualTargets.targetAnimations.TryGetValue(target.ID, out EventControllableAnimation animation))
+                    currentTargets.targetAnimations[target.ID] = animation;
             }
         }
     }
