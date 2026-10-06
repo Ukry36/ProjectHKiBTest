@@ -5,7 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/System_Old.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
   - enabled: 0
@@ -18,17 +18,23 @@ EditorBuildSettings:
     path: Assets/Scenes/MapChanger.unity
     guid: 4dc498f5e4b5a4742aee190ec515d602
   - enabled: 0
-    path: Assets/Scenes/TestMap/TestMap1.unity
+    path: Assets/Scenes/Editor/TestMap1.unity
     guid: c7b84e74def3f8940a3e01b87171a65c
   - enabled: 0
-    path: Assets/Scenes/TestMap/TestMap2.unity
+    path: Assets/Scenes/Editor/TestMap2.unity
     guid: aebe1265615695c4aaebe03fbac3bf4b
   - enabled: 0
-    path: Assets/Scenes/TestMap/TestMap3.unity
+    path: Assets/Scenes/Editor/TestMap3.unity
     guid: 9c4972d4fc22247488840ef4a492efeb
   - enabled: 0
     path: Assets/Scenes/Enemy_Test.unity
     guid: ebf32a84cb5087f4da59bc7806d5faf2
+  - enabled: 1
+    path: Assets/Scenes/System.unity
+    guid: 7e560b30a35b2b146b6f26f1b2159e4e
+  - enabled: 1
+    path: Assets/Scenes/puzzle test/puzzle1.unity
+    guid: 1dc37e2ec58ae0f45b0aef9f5981e765
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 4d3ee4000f73cea479cb179661e8d622, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: 41ea949fad2e49946b0b8cf125531113, type: 2}
