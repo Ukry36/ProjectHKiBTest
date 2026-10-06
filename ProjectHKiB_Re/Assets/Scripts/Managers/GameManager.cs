@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     public GraffitiManager graffitiManager;
     public EventManager eventManager;
     public MapManager mapManager;
+    public DarknessManager darknessManager;
 
     public Player player;
     private void Awake()

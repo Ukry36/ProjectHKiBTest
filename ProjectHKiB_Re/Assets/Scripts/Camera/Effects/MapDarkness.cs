@@ -16,10 +16,17 @@ public class MapDarkness : MonoBehaviour
     [Tooltip("벽으로 볼 물리 레이어. 계단(isStair)·경사(useSlope)로 표시된 콜라이더는 이 레이어여도 빼고 본다.")]
     [SerializeField] private LayerMask _wallLayers = 1 << 3; // Wall
 
+#if UNITY_EDITOR
+    private bool _lastInspectorFlashlight; // 인스펙터 손전등 체크가 바뀌었는지 보려고 기억한다
+#endif
+
     // 맵 언로드도 OnDisable을 거친다. 다음 맵이 어두운 맵이면 그 맵의 MapDarkness가 OnEnable에서 바로 다시 건다.
     private void OnEnable()
     {
         DarknessManager.Instance.Apply(_settings, _fadeIn, this);
+#if UNITY_EDITOR
+        _lastInspectorFlashlight = _settings.flashlight;
+#endif
         if (_autoWallShadows) AttachWallShadows();
     }
 
@@ -39,7 +46,7 @@ public class MapDarkness : MonoBehaviour
 
 #if UNITY_EDITOR
     // 플레이 중 인스펙터에서 값을 고치면 바로 화면에 반영한다(튜닝용).
-    // 손전등 켜짐 여부는 F키로 바꾼 현재 상태를 유지한다 — 값만 만지는데 손전등이 꺼지면 안 된다.
+    // 손전등 체크 자체를 바꿨을 때만 그 값을 쓰고, 다른 값을 만질 땐 F키로 바꾼 현재 상태를 유지한다.
     private void OnValidate()
     {
         if (!Application.isPlaying || !isActiveAndEnabled || !DarknessManager.HasInstance) return;
@@ -47,7 +54,8 @@ public class MapDarkness : MonoBehaviour
         if (manager.Owner != this) return;
 
         DarknessSettings live = _settings.Clone();
-        live.flashlight = manager.FlashlightOn;
+        if (_settings.flashlight == _lastInspectorFlashlight) live.flashlight = manager.FlashlightOn;
+        _lastInspectorFlashlight = _settings.flashlight;
         manager.Apply(live, 0f, this);
     }
 #endif
