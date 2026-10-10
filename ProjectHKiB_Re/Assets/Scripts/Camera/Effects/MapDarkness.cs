@@ -1,13 +1,16 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
 /// 맵 씬에 두면 그 맵에 들어올 때 암전을 걸고, 맵이 내려갈 때 걷는다.
 /// 지하실·밤 숲처럼 "이 맵은 원래 어둡다"는 경우용. 이벤트 도중 잠깐 어두워지는 건 SetDarknessAction을 쓴다.
 /// 컴포넌트나 오브젝트를 끄면 걷히고, 다시 켜면 다시 걸린다.
-/// 켜질 때 이 맵의 벽(Wall 레이어 ZCollider2D, 계단·경사 제외)에 WallShadowCaster를 붙여 손전등이 벽에 가려지게 한다.
+/// 켜질 때 이 맵의 벽(Wall 레이어 ZCollider2D, 계단·경사 제외, 꺼진 벽 포함)에 WallShadowCaster를 붙여 손전등이 벽에 가려지게 한다.
+/// 에디터에서 "맵 벽 그림자 판 생성"을 누르면 그 그림자 판을 씬에 미리 만들어 두고 판마다 모양을 고칠 수 있다.
 /// </summary>
 public class MapDarkness : MonoBehaviour
 {
+    [Tooltip("이 맵에 들어올 때 걸 암전 모양(짙기·플레이어 주변 빛·손전등·그림자). 플레이 중에 고치면 바로 화면에 반영된다.")]
     [SerializeField] private DarknessSettings _settings = new();
     [Tooltip("켜질 때(맵에 들어올 때) 어두워지는 시간. 맵 전환 페이드와 겹치므로 보통 0.")]
     [SerializeField, Min(0f)] private float _fadeIn;
@@ -32,17 +35,46 @@ public class MapDarkness : MonoBehaviour
 
     private void AttachWallShadows()
     {
+        foreach (ZCollider2D wall in FindWalls())
+        {
+            if (wall.TryGetComponent(out WallShadowCaster _)) continue;
+            wall.gameObject.AddComponent<WallShadowCaster>();
+        }
+    }
+
+    // 꺼진 벽(퍼즐로 켜지는 벽 등)도 포함한다 — 켜지는 순간 그림자도 같이 생긴다.
+    private List<ZCollider2D> FindWalls()
+    {
+        var walls = new List<ZCollider2D>();
         foreach (GameObject root in gameObject.scene.GetRootGameObjects())
         {
-            foreach (ZCollider2D wall in root.GetComponentsInChildren<ZCollider2D>())
+            foreach (ZCollider2D wall in root.GetComponentsInChildren<ZCollider2D>(true))
             {
                 if ((_wallLayers.value & (1 << wall.gameObject.layer)) == 0) continue;
                 if (wall.isStair || wall.useSlopeDU || wall.useSlopeRL) continue;
-                if (wall.TryGetComponent(out WallShadowCaster _)) continue;
-                wall.gameObject.AddComponent<WallShadowCaster>();
+                walls.Add(wall);
             }
         }
+        return walls;
     }
+
+#if UNITY_EDITOR
+    // 맵의 모든 벽에 WallShadowCaster를 붙이고 콜라이더 모양으로 그림자 판을 만든다. 이미 만든 판은 새로 덮어쓴다.
+    [NaughtyAttributes.Button("맵 벽 그림자 판 생성 (편집 가능)")]
+    private void BakeWallShadows()
+    {
+        if (Application.isPlaying) return;
+        int count = 0;
+        foreach (ZCollider2D wall in FindWalls())
+        {
+            if (!wall.TryGetComponent(out WallShadowCaster caster))
+                caster = UnityEditor.Undo.AddComponent<WallShadowCaster>(wall.gameObject);
+            caster.BakeFootprints();
+            count++;
+        }
+        Debug.Log($"[MapDarkness] 벽 {count}개에 그림자 판을 만들었습니다. 각 'WallShadows (편집 가능)' 아래 판의 Edit Shape로 고칠 수 있습니다.", this);
+    }
+#endif
 
 #if UNITY_EDITOR
     // 플레이 중 인스펙터에서 값을 고치면 바로 화면에 반영한다(튜닝용).
