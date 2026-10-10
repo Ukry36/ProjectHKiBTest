@@ -209,6 +209,14 @@ public class DarknessManager : MonoBehaviour
         if (_instance != null && _instance != this) { Destroy(this); return; }
         _instance = this;
         if (transform.parent == null) DontDestroyOnLoad(gameObject);
+        UnityEngine.SceneManagement.SceneManager.sceneUnloaded += OnSceneUnloaded;
+    }
+
+    // 맵이 내려가면 그 맵 벽의 캐시(높이·격자)를 버린다 — 격자는 맵 크기만큼 메모리를 쓴다.
+    private void OnSceneUnloaded(UnityEngine.SceneManagement.Scene _)
+    {
+        _occluderHeights.Clear();
+        _wallGrids.Clear();
     }
 
     private void OnApplicationQuit() => _isQuitting = true;
@@ -216,6 +224,7 @@ public class DarknessManager : MonoBehaviour
     private void OnDestroy()
     {
         if (_instance != this) return;
+        UnityEngine.SceneManagement.SceneManager.sceneUnloaded -= OnSceneUnloaded;
         RestoreGlobalLight();
         ReleasePlayerLights();
         if (_beamSprite) Destroy(_beamSprite);
@@ -559,6 +568,21 @@ public class DarknessManager : MonoBehaviour
             return;
         }
 
+        // 광원·방향·설정·주변 벽이 그대로면 지난 결과를 그대로 쓴다(가만히 서 있을 때 비용 0).
+        CollectOccluders(origin);
+        var key = new OcclusionKey
+        {
+            Origin = origin,
+            Rotation = rotationDegrees,
+            Bounds = _beamBounds,
+            ParamsA = new Vector4(_current.flashlightShadowSoftness, _current.flashlightShadowIntensity,
+                                  _current.flashlightShadowInset, _current.flashlightShadowInnerFade),
+            ParamsB = new Vector2(_current.flashlightShadowSpreadDistance, _current.flashlightShadowPixelsPerUnit),
+            Walls = _occluderStateHash,
+        };
+        if (_beamOccluded && key.Same(_lastOcclusionKey)) return;
+        _lastOcclusionKey = key;
+
         BuildOcclusionMap(origin, rotationDegrees);
         _occlusionMap.SetPixelData(_occlusionDistances, 0);
         _occlusionMap.Apply(false);
@@ -641,14 +665,25 @@ public class DarknessManager : MonoBehaviour
     }
 
     // 각도 칸은 월드 기준(0 = 위). 광원과 같이 돌면 칸 경계가 벽 위를 쓸고 지나가 일렁인다.
+    // 칸마다 빛 그림(_beamBounds) 밖으로는 볼 필요가 없어서, 광선 길이를 그 방향의 그림 끝까지로 줄인다
+    // (부채꼴 옆·뒤 방향은 몇 칸이면 끝난다).
     private void BuildOcclusionMap(Vector2 origin, float rotationDegrees)
     {
-        float range = _current.flashlightRange + 2f * _current.flashlightShadowSoftness + 0.5f;
+        const float margin = 0.5f;
+        float rot = rotationDegrees * Mathf.Deg2Rad;
+        float c = Mathf.Cos(rot), s = Mathf.Sin(rot);
+        Vector2 boundsMin = new(_beamBounds.x, _beamBounds.y);
+        Vector2 boundsMax = boundsMin + new Vector2(_beamBounds.z, _beamBounds.w);
         var filter = new ContactFilter2D { useTriggers = true, useLayerMask = true, layerMask = WallLayerMask };
         for (int i = 0; i < OcclusionBins; i++)
         {
             float angle = (i + 0.5f) / OcclusionBins * Mathf.PI * 2f - Mathf.PI;
-            float exit = CastOcclusion(origin, new Vector2(Mathf.Sin(angle), Mathf.Cos(angle)), range, filter);
+            Vector2 dir = new(Mathf.Sin(angle), Mathf.Cos(angle));
+            Vector2 local = new(c * dir.x + s * dir.y, -s * dir.x + c * dir.y);
+            float reach = RayExitAabb(Vector2.zero, local, boundsMin, boundsMax) + margin;
+            float exit = _occluderPhysicsFallback
+                ? CastOcclusion(origin, dir, reach, filter)
+                : CastOcclusionFast(origin, dir, reach);
             _occlusionDistances[i] = exit;
             _occlusionDistances[OcclusionBins + i] = exit;
         }
@@ -693,6 +728,144 @@ public class DarknessManager : MonoBehaviour
         return exit;
     }
 
+    // ─── 물리 질의 없는 가림 계산 ──────────────────────────────────
+    // 광선마다 Physics2D.Raycast·Linecast를 던지면 그것만으로 프레임당 수 ms가 든다. 프레임마다 근처 벽을 한 번만 모아
+    // 타일맵 벽은 격자(WallVisualGrid), 회전 없는 상자 벽은 AABB로 직접 계산한다. 결과는 물리 경로(CastOcclusion)와 같다.
+    // 그 밖의 모양(다각형·회전한 상자·격자 없는 타일맵)이 하나라도 있으면 그 프레임은 물리 경로로 돌아간다.
+
+    private struct GridOccluder { public WallVisualGrid Grid; public float Height; }
+    private struct BoxOccluder { public Vector2 Min, Max, VisualMax; public float Height; }
+
+    private struct OcclusionKey
+    {
+        public Vector2 Origin;
+        public float Rotation;
+        public Vector4 Bounds, ParamsA;
+        public Vector2 ParamsB;
+        public int Walls;
+
+        public bool Same(OcclusionKey o) => Origin == o.Origin && Rotation == o.Rotation && Bounds == o.Bounds &&
+                                             ParamsA == o.ParamsA && ParamsB == o.ParamsB && Walls == o.Walls;
+    }
+
+    private readonly Collider2D[] _nearbyWalls = new Collider2D[64];
+    private readonly List<GridOccluder> _gridOccluders = new();
+    private readonly List<BoxOccluder> _boxOccluders = new();
+    private bool _occluderPhysicsFallback;
+    private int _occluderStateHash;
+    private OcclusionKey _lastOcclusionKey;
+
+    private void CollectOccluders(Vector2 origin)
+    {
+        _gridOccluders.Clear();
+        _boxOccluders.Clear();
+        _occluderPhysicsFallback = false;
+
+        // 빛 그림 끝까지 + 아래로 내려 보는 거리(ContinueThroughAdjacentWalls)까지.
+        Vector2 min = new(_beamBounds.x, _beamBounds.y), max = min + new Vector2(_beamBounds.z, _beamBounds.w);
+        float reach = Mathf.Sqrt(Mathf.Max(min.sqrMagnitude, max.sqrMagnitude,
+                                           new Vector2(min.x, max.y).sqrMagnitude, new Vector2(max.x, min.y).sqrMagnitude));
+        var filter = new ContactFilter2D { useTriggers = true, useLayerMask = true, layerMask = WallLayerMask };
+        int count = Physics2D.OverlapCircle(origin, reach + 0.5f + MaxOccluderHeight, filter, _nearbyWalls);
+        if (count >= _nearbyWalls.Length) _occluderPhysicsFallback = true; // 다 못 담았다
+
+        int hash = 17;
+        for (int i = 0; i < count; i++)
+        {
+            Collider2D wall = _nearbyWalls[i];
+            float height = OccluderHeight(wall);
+            Bounds b = wall.bounds;
+            hash = (hash * 31 + wall.GetInstanceID()) * 31 + b.GetHashCode();
+            if (height < 0f) continue; // 계단·경사
+
+            if (wall is CompositeCollider2D composite && GetWallGrid(composite, height) is { } grid)
+            {
+                hash = hash * 31 + grid.Version;
+                _gridOccluders.Add(new GridOccluder { Grid = grid, Height = height });
+            }
+            else if (wall is BoxCollider2D box && box.edgeRadius <= 0f && IsAxisAligned(box.transform))
+            {
+                _boxOccluders.Add(new BoxOccluder
+                {
+                    Min = b.min, Max = b.max, VisualMax = new Vector2(b.max.x, b.max.y + height), Height = height,
+                });
+            }
+            else _occluderPhysicsFallback = true;
+        }
+        _occluderStateHash = hash;
+    }
+
+    private static bool IsAxisAligned(Transform t)
+    {
+        float z = t.eulerAngles.z % 90f;
+        return (z < 0.01f || z > 89.99f) && Mathf.Abs(t.eulerAngles.x) < 0.01f && Mathf.Abs(t.eulerAngles.y) < 0.01f;
+    }
+
+    private float CastOcclusionFast(Vector2 origin, Vector2 dir, float maxDistance)
+    {
+        float nearestExit = 1000f;
+        foreach (GridOccluder o in _gridOccluders)
+        {
+            float hit = o.Grid.FirstFootprintEntry(origin, dir, maxDistance);
+            if (hit <= 0.001f) continue; // 안 만남, 또는 광원이 벽 안(물리 경로도 거리 0이라 건너뛴다)
+            float exit = o.Grid.ExitDistance(origin, dir, hit, maxDistance + o.Height, VisualMarchStep);
+            nearestExit = Mathf.Min(nearestExit, Mathf.Max(hit, exit));
+        }
+        foreach (BoxOccluder b in _boxOccluders)
+        {
+            float hit = RayEntryAabb(origin, dir, b.Min, b.Max);
+            if (hit <= 0.001f || hit > maxDistance) continue;
+            nearestExit = Mathf.Min(nearestExit, Mathf.Max(hit, RayExitAabb(origin, dir, b.Min, b.VisualMax)));
+        }
+        return ContinueThroughAdjacentWallsFast(origin, dir, nearestExit, maxDistance);
+    }
+
+    // ContinueThroughAdjacentWalls와 같은 판정 — 아래로 내리는 Linecast 대신 격자·상자에서 바로 찾는다.
+    private float ContinueThroughAdjacentWallsFast(Vector2 origin, Vector2 dir, float exit, float maxDistance)
+    {
+        const float probe = 0.02f;
+        for (int guard = 0; guard < 8 && exit < maxDistance; guard++)
+        {
+            Vector2 p = origin + dir * (exit + probe);
+            float next = exit;
+            foreach (GridOccluder o in _gridOccluders)
+            {
+                if (o.Height <= 0f || !o.Grid.TryFootprintBelow(p, out float hitY)) continue;
+                if (p.y - hitY > o.Height || origin.y >= hitY) continue;
+                next = Mathf.Max(next, o.Grid.ExitDistance(origin, dir, exit + probe, maxDistance + o.Height, VisualMarchStep));
+            }
+            foreach (BoxOccluder b in _boxOccluders)
+            {
+                if (b.Height <= 0f || p.x < b.Min.x || p.x > b.Max.x || p.y < b.Min.y || b.Max.y < p.y - MaxOccluderHeight) continue;
+                float hitY = Mathf.Min(p.y, b.Max.y);
+                if (p.y - hitY > b.Height || origin.y >= hitY) continue;
+                next = Mathf.Max(next, RayExitAabb(origin, dir, b.Min, b.VisualMax));
+            }
+            if (next <= exit + probe) break;
+            exit = next;
+        }
+        return exit;
+    }
+
+    // 반직선이 상자에 들어가는 거리. 만나지 않거나 시작점이 상자 안이면 -1.
+    private static float RayEntryAabb(Vector2 origin, Vector2 dir, Vector2 min, Vector2 max)
+    {
+        float tNear = float.MinValue, tFar = float.MaxValue;
+        for (int axis = 0; axis < 2; axis++)
+        {
+            float o = origin[axis], d = dir[axis];
+            if (Mathf.Abs(d) < 1e-5f)
+            {
+                if (o < min[axis] || o > max[axis]) return -1f;
+                continue;
+            }
+            float t1 = (min[axis] - o) / d, t2 = (max[axis] - o) / d;
+            tNear = Mathf.Max(tNear, Mathf.Min(t1, t2));
+            tFar = Mathf.Min(tFar, Mathf.Max(t1, t2));
+        }
+        return tNear > 0f && tNear <= tFar ? tNear : -1f;
+    }
+
     // 광선이 벽 그림(바닥면을 위로 높이만큼 늘린 모양)을 빠져나가는 거리. start는 그 벽에 들어간 거리.
     private float VisualExitDistance(Vector2 origin, Vector2 dir, Collider2D wall, float start, float maxDistance)
     {
@@ -704,8 +877,11 @@ public class DarknessManager : MonoBehaviour
             return RayExitAabb(origin, dir, new Vector2(b.min.x, b.min.y), new Vector2(b.max.x, b.max.y + height));
         }
 
-        // 타일맵 벽은 모양이 제각각이라 광선을 따라 나아가며 찾는다.
         float limit = maxDistance + height;
+        if (wall is CompositeCollider2D composite && GetWallGrid(composite, height) is { } grid)
+            return grid.ExitDistance(origin, dir, start, limit, VisualMarchStep);
+
+        // 격자를 못 만든 타일맵 벽은 광선을 따라 나아가며 찾는다(느리다 — 조각이 많을수록 OverlapPoint가 비싸다).
         float lastInside = start;
         for (float t = start; t < limit; t += VisualMarchStep)
         {
@@ -741,6 +917,258 @@ public class DarknessManager : MonoBehaviour
         for (int i = 0; i < count; i++)
             if (_visualHits[i].collider == wall) return true;
         return false;
+    }
+
+    // ─── 타일맵 벽 그림 격자 ────────────────────────────────────
+    // 맵 벽 타일맵은 CompositeCollider2D 하나로 맵 전체가 이어져 있어서, OverlapPoint 한 번이 맵의 모든 조각을 훑는다.
+    // 광선 2048개 × 걸음 수십 번이면 맵이 커질수록 프레임이 떨어진다. 그래서 바닥면 경로를 한 번 래스터화해
+    // "벽 그림(바닥면을 위로 높이만큼 늘린 모양)" 격자로 두고 DDA로 걷는다. 타일이 바뀌면(경로 점 수·범위) 다시 만든다.
+
+    // 스프라이트 PPU(16)와 같게 — 타일 경계가 칸 경계에 정확히 걸린다.
+    private const float WallGridCell = 1f / 16f;
+    private readonly Dictionary<Collider2D, WallVisualGrid> _wallGrids = new();
+    private readonly List<Vector2> _pathBuffer = new();
+    private static int _wallGridVersion;
+
+    private sealed class WallVisualGrid
+    {
+        public float MinX, MinY, Cell;
+        public int Width, Height, Rise;
+        // 칸마다 아래로 가장 가까운 바닥면 칸까지의 칸 수(0 = 바닥면, ushort.MaxValue = 없음). Rise 이하면 벽 그림 안.
+        public ushort[] Below;
+        // 칸마다 가장 가까운 바닥면 칸까지의 체비셰프 칸 거리(255에서 자름). 빈 공간을 건너뛰는 데 쓴다.
+        public byte[] Clear;
+        public Bounds SourceBounds;
+        public int SourcePoints;
+        public float SourceHeight;
+        public int CheckedFrame;
+        public int Version;
+
+        private bool InGrid(int x, int y) => x >= 0 && y >= 0 && x < Width && y < Height;
+        private bool IsInside(int x, int y) => InGrid(x, y) && Below[y * Width + x] <= Rise;
+
+        // 정수 칸 DDA. 걸을 때마다 t에서 칸 번호를 다시 계산하면 안 된다 — 축에 거의 나란한 광선은 부동소수 오차로
+        // 같은 칸이 다시 나와 t가 멈추고 무한 루프가 된다(손전등을 켜면 에디터가 멈췄다). 칸 번호는 정수로만 옮긴다.
+        private struct Walk
+        {
+            public int X, Y, StepX, StepY;
+            public float NextX, NextY, DeltaX, DeltaY;
+
+            // 다음 칸으로 한 걸음 옮기고, 그 칸에 들어간 거리를 돌려준다.
+            public float Step()
+            {
+                if (NextX < NextY) { float t = NextX; NextX += DeltaX; X += StepX; return t; }
+                float ty = NextY; NextY += DeltaY; Y += StepY; return ty;
+            }
+        }
+
+        // 바닥면 경계 위의 점은 바깥 칸으로 반올림될 수 있어 광선 방향으로 살짝 밀어 넣고 칸을 고른다.
+        private const float Nudge = 0.0001f;
+        private Walk BeginWalk(Vector2 origin, Vector2 dir, float t)
+        {
+            Vector2 p = origin + dir * (t + Nudge);
+            var w = new Walk
+            {
+                X = Mathf.FloorToInt((p.x - MinX) / Cell),
+                Y = Mathf.FloorToInt((p.y - MinY) / Cell),
+                StepX = dir.x > 0f ? 1 : -1,
+                StepY = dir.y > 0f ? 1 : -1,
+            };
+            float ax = Mathf.Abs(dir.x), ay = Mathf.Abs(dir.y);
+            w.DeltaX = ax > 1e-6f ? Cell / ax : float.PositiveInfinity;
+            w.DeltaY = ay > 1e-6f ? Cell / ay : float.PositiveInfinity;
+            w.NextX = ax > 1e-6f ? (MinX + (dir.x > 0f ? w.X + 1 : w.X) * Cell - origin.x) / dir.x : float.PositiveInfinity;
+            w.NextY = ay > 1e-6f ? (MinY + (dir.y > 0f ? w.Y + 1 : w.Y) * Cell - origin.y) / dir.y : float.PositiveInfinity;
+            // 오차로 경계가 t보다 뒤에 잡혀도 거리가 줄어들지 않게.
+            w.NextX = Mathf.Max(w.NextX, t);
+            w.NextY = Mathf.Max(w.NextY, t);
+            return w;
+        }
+
+        // 걸음 수 상한 — 정수 DDA는 격자를 벗어나면 끝나지만, 혹시라도 에디터를 멈추게 하지 않도록.
+        private int MaxSteps => 4 * (Width + Height) + 16;
+
+        /// <summary>광선이 처음 바닥면에 들어가는 거리(Physics2D.Raycast의 hit.distance). 없으면 -1, 광원이 바닥면 안이면 0.</summary>
+        public float FirstFootprintEntry(Vector2 origin, Vector2 dir, float maxDistance)
+        {
+            Vector2 gridMin = new(MinX, MinY), gridMax = new(MinX + Width * Cell, MinY + Height * Cell);
+            float tEnter = 0f, tLeave = maxDistance;
+            for (int axis = 0; axis < 2; axis++)
+            {
+                float o = origin[axis], d = dir[axis];
+                if (Mathf.Abs(d) < 1e-6f)
+                {
+                    if (o < gridMin[axis] || o > gridMax[axis]) return -1f;
+                    continue;
+                }
+                float t1 = (gridMin[axis] - o) / d, t2 = (gridMax[axis] - o) / d;
+                tEnter = Mathf.Max(tEnter, Mathf.Min(t1, t2));
+                tLeave = Mathf.Min(tLeave, Mathf.Max(t1, t2));
+            }
+            if (tEnter > tLeave) return -1f;
+
+            float t = tEnter;
+            Walk w = BeginWalk(origin, dir, t);
+            for (int guard = MaxSteps; guard > 0 && t <= tLeave; guard--)
+            {
+                if (InGrid(w.X, w.Y))
+                {
+                    int clear = Clear[w.Y * Width + w.X];
+                    if (clear == 0) return t;
+                    // 체비셰프 거리 k 칸이면 (k-1)칸 이내 어디에도 바닥면이 없다 — 유클리드 거리로 그만큼 건너뛰어도 안전하다.
+                    if (clear >= 2)
+                    {
+                        t += (clear - 1) * Cell;
+                        w = BeginWalk(origin, dir, t);
+                        continue;
+                    }
+                }
+                else if (t > tEnter + Cell) return -1f; // 격자를 빠져나갔다(들어오는 첫 칸은 오차로 밖일 수 있어 봐준다)
+                t = w.Step();
+            }
+            return -1f;
+        }
+
+        /// <summary>광선이 벽 그림을 빠져나가는 거리. start에서 이미 밖이면 start. 끝까지 벽 안이면 limit + overshoot.</summary>
+        public float ExitDistance(Vector2 origin, Vector2 dir, float start, float limit, float overshoot)
+        {
+            float t = start;
+            Walk w = BeginWalk(origin, dir, t);
+            for (int guard = MaxSteps; guard > 0 && t < limit; guard--)
+            {
+                if (!IsInside(w.X, w.Y)) return t;
+                t = w.Step();
+            }
+            return limit + overshoot;
+        }
+
+        /// <summary>p에서 아래로 내린 선이 처음 닿는 바닥면 높이(Linecast의 hit.point.y). p가 바닥면 안이면 p.y.</summary>
+        public bool TryFootprintBelow(Vector2 p, out float hitY)
+        {
+            hitY = 0f;
+            int x = Mathf.FloorToInt((p.x - MinX) / Cell), y = Mathf.FloorToInt((p.y - MinY) / Cell);
+            if (!InGrid(x, y)) return false;
+            int below = Below[y * Width + x];
+            if (below == ushort.MaxValue) return false;
+            hitY = below == 0 ? p.y : MinY + (y - below + 1) * Cell;
+            return true;
+        }
+    }
+
+    private WallVisualGrid GetWallGrid(CompositeCollider2D composite, float height)
+    {
+        if (_wallGrids.TryGetValue(composite, out WallVisualGrid grid))
+        {
+            if (grid == null || grid.CheckedFrame == Time.frameCount) return grid;
+            grid.CheckedFrame = Time.frameCount;
+            if (grid.SourceBounds == composite.bounds && grid.SourcePoints == composite.pointCount &&
+                Mathf.Approximately(grid.SourceHeight, height))
+                return grid;
+        }
+        grid = BuildWallGrid(composite, height);
+        _wallGrids[composite] = grid;
+        return grid;
+    }
+
+    private WallVisualGrid BuildWallGrid(CompositeCollider2D composite, float height)
+    {
+        if (composite.geometryType != CompositeCollider2D.GeometryType.Polygons) return null; // 외곽선만이면 안쪽이 없다
+
+        // 경로는 콜라이더 로컬 좌표 — 월드로 옮긴 변(가로변 제외)만 모은다.
+        var edges = new List<Vector4>();
+        Transform tr = composite.transform;
+        for (int i = 0; i < composite.pathCount; i++)
+        {
+            composite.GetPath(i, _pathBuffer);
+            for (int k = 0; k < _pathBuffer.Count; k++)
+            {
+                Vector2 a = tr.TransformPoint(_pathBuffer[k]);
+                Vector2 b = tr.TransformPoint(_pathBuffer[(k + 1) % _pathBuffer.Count]);
+                if (!Mathf.Approximately(a.y, b.y)) edges.Add(new Vector4(a.x, a.y, b.x, b.y));
+            }
+        }
+        if (edges.Count == 0) return null;
+
+        Bounds bounds = composite.bounds;
+        float cell = WallGridCell;
+        float minX = Mathf.Floor(bounds.min.x / cell) * cell;
+        float minY = Mathf.Floor(bounds.min.y / cell) * cell;
+        int width = Mathf.CeilToInt((bounds.max.x - minX) / cell) + 1;
+        int footHeight = Mathf.CeilToInt((bounds.max.y - minY) / cell) + 1;
+        int rise = Mathf.FloorToInt(height / cell + 0.0001f);
+        int gridHeight = footHeight + rise;
+
+        // 바닥면: 칸 중심 기준 스캔라인 채우기(짝홀 규칙 — 구멍 경로도 맞게 빠진다).
+        var footprint = new bool[width * footHeight];
+        var crossings = new List<float>();
+        for (int y = 0; y < footHeight; y++)
+        {
+            float wy = minY + (y + 0.5f) * cell;
+            crossings.Clear();
+            foreach (Vector4 e in edges)
+                if ((e.y <= wy) != (e.w <= wy))
+                    crossings.Add(e.x + (wy - e.y) * (e.z - e.x) / (e.w - e.y));
+            crossings.Sort();
+            for (int k = 0; k + 1 < crossings.Count; k += 2)
+            {
+                int from = Mathf.Max(0, Mathf.CeilToInt((crossings[k] - minX) / cell - 0.5f));
+                int to = Mathf.Min(width - 1, Mathf.CeilToInt((crossings[k + 1] - minX) / cell - 0.5f) - 1);
+                for (int x = from; x <= to; x++) footprint[y * width + x] = true;
+            }
+        }
+
+        // 아래로 가장 가까운 바닥면까지의 칸 수 — Rise 이하면 벽 그림 안(InsideWallVisual과 같은 판정).
+        var below = new ushort[width * gridHeight];
+        for (int x = 0; x < width; x++)
+        {
+            int lastFoot = int.MinValue / 2;
+            for (int y = 0; y < gridHeight; y++)
+            {
+                if (y < footHeight && footprint[y * width + x]) lastFoot = y;
+                below[y * width + x] = (ushort)Mathf.Min(y - lastFoot, ushort.MaxValue);
+            }
+        }
+
+        // 바닥면까지의 체비셰프 거리 — 두 번 훑기(앞쪽 이웃 → 뒤쪽 이웃)로 정확히 나온다.
+        var clear = new byte[width * gridHeight];
+        for (int i = 0; i < clear.Length; i++) clear[i] = below[i] == 0 ? (byte)0 : byte.MaxValue;
+        for (int y = 0; y < gridHeight; y++)
+            for (int x = 0; x < width; x++)
+            {
+                int i = y * width + x, d = clear[i];
+                if (d == 0) continue;
+                if (x > 0) d = Mathf.Min(d, clear[i - 1] + 1);
+                if (y > 0)
+                {
+                    d = Mathf.Min(d, clear[i - width] + 1);
+                    if (x > 0) d = Mathf.Min(d, clear[i - width - 1] + 1);
+                    if (x < width - 1) d = Mathf.Min(d, clear[i - width + 1] + 1);
+                }
+                clear[i] = (byte)Mathf.Min(d, byte.MaxValue);
+            }
+        for (int y = gridHeight - 1; y >= 0; y--)
+            for (int x = width - 1; x >= 0; x--)
+            {
+                int i = y * width + x, d = clear[i];
+                if (d == 0) continue;
+                if (x < width - 1) d = Mathf.Min(d, clear[i + 1] + 1);
+                if (y < gridHeight - 1)
+                {
+                    d = Mathf.Min(d, clear[i + width] + 1);
+                    if (x < width - 1) d = Mathf.Min(d, clear[i + width + 1] + 1);
+                    if (x > 0) d = Mathf.Min(d, clear[i + width - 1] + 1);
+                }
+                clear[i] = (byte)Mathf.Min(d, byte.MaxValue);
+            }
+
+        return new WallVisualGrid
+        {
+            MinX = minX, MinY = minY, Cell = cell,
+            Width = width, Height = gridHeight, Rise = rise,
+            Below = below, Clear = clear,
+            SourceBounds = bounds, SourcePoints = composite.pointCount, SourceHeight = height,
+            CheckedFrame = Time.frameCount, Version = ++_wallGridVersion,
+        };
     }
 
     // 반직선이 상자를 빠져나가는 거리. 만나지 않으면 0.

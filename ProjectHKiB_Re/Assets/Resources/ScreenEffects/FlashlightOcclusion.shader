@@ -55,12 +55,14 @@ Shader "Hidden/FlashlightOcclusion"
             float aa = max(abs(edgeDelta.x) + abs(edgeDelta.y), 0.0001);
             float2 px = ddx(p) * 0.25;
             float2 py = ddy(p) * 0.25;
-            float2 mask = (MaskSample(p-px-py, aa) + MaskSample(p+px-py, aa)
-                         + MaskSample(p-px+py, aa) + MaskSample(p+px+py, aa)) * 0.25;
             // Pixel-art mode: one hard decision per world pixel. Supersampling would re-introduce
             // sub-pixel edges that slide relative to the walls as the light moves.
-            // (Selected after the derivative ops so they stay outside flow control.)
-            if (_PixelsPerUnit > 0) mask = MaskSample(SnapToWorldPixel(p), 0.0001);
+            // Branch after the derivative ops (they must stay outside flow control) but before the
+            // 4 supersamples, which this mode would otherwise compute and throw away.
+            [branch] if (_PixelsPerUnit > 0)
+                return float4(MaskSample(SnapToWorldPixel(p), 0.0001), 0, 1);
+            float2 mask = (MaskSample(p-px-py, aa) + MaskSample(p+px-py, aa)
+                         + MaskSample(p-px+py, aa) + MaskSample(p+px+py, aa)) * 0.25;
             return float4(mask, 0, 1);
         }
         float4 Blur(v2f_img i) : SV_Target
