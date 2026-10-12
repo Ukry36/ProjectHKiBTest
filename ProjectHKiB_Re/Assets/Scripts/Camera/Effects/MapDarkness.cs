@@ -2,11 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// 맵 씬에 두면 그 맵에 들어올 때 암전을 걸고, 맵이 내려갈 때 걷는다.
-/// 지하실·밤 숲처럼 "이 맵은 원래 어둡다"는 경우용. 이벤트 도중 잠깐 어두워지는 건 SetDarknessAction을 쓴다.
-/// 컴포넌트나 오브젝트를 끄면 걷히고, 다시 켜면 다시 걸린다.
-/// 켜질 때 이 맵의 벽(Wall 레이어 ZCollider2D, 계단·경사 제외, 꺼진 벽 포함)에 WallShadowCaster를 붙여 손전등이 벽에 가려지게 한다.
-/// 에디터에서 "맵 벽 그림자 판 생성"을 누르면 그 그림자 판을 씬에 미리 만들어 두고 판마다 모양을 고칠 수 있다.
+/// 맵 씬에 두면 켜질 때 암전을 걸고 꺼질 때 걷는다(이벤트 중 잠깐 어두워지는 건 SetDarknessAction).
+/// 켜질 때 이 맵의 벽(Wall 레이어 ZCollider2D, 계단·경사 제외)에 WallShadowCaster를 붙인다.
 /// </summary>
 public class MapDarkness : MonoBehaviour
 {
@@ -59,11 +56,15 @@ public class MapDarkness : MonoBehaviour
     }
 
 #if UNITY_EDITOR
-    // 맵의 모든 벽에 WallShadowCaster를 붙이고 콜라이더 모양으로 그림자 판을 만든다. 이미 만든 판은 새로 덮어쓴다.
+    // 이미 만든 판은 새로 덮어쓴다.
     [NaughtyAttributes.Button("맵 벽 그림자 판 생성 (편집 가능)")]
     private void BakeWallShadows()
     {
-        if (Application.isPlaying) return;
+        if (Application.isPlaying)
+        {
+            Debug.LogWarning("[MapDarkness] 그림자 판 생성은 플레이 중이 아닐 때만 됩니다(플레이 중 만든 것은 저장되지 않는다).", this);
+            return;
+        }
         int count = 0;
         foreach (ZCollider2D wall in FindWalls())
         {
@@ -77,13 +78,11 @@ public class MapDarkness : MonoBehaviour
 #endif
 
 #if UNITY_EDITOR
-    // 플레이 중 인스펙터에서 값을 고치면 바로 화면에 반영한다(튜닝용).
-    // 손전등 체크 자체를 바꿨을 때만 그 값을 쓰고, 다른 값을 만질 땐 F키로 바꾼 현재 상태를 유지한다.
+    // 플레이 중 인스펙터 값을 바로 반영한다. 손전등 체크 자체를 바꿨을 때만 그 값을 쓰고, 다른 값을 만질 땐 F키로 바꾼 현재 상태를 유지한다.
     private void OnValidate()
     {
-        if (!Application.isPlaying || !isActiveAndEnabled || !DarknessManager.HasInstance) return;
         DarknessManager manager = DarknessManager.Instance;
-        if (manager.Owner != this) return;
+        if (!Application.isPlaying || !isActiveAndEnabled || !manager || manager.Owner != this) return;
 
         DarknessSettings live = _settings.Clone();
         if (_settings.flashlight == _lastInspectorFlashlight) live.flashlight = manager.FlashlightOn;
@@ -95,8 +94,7 @@ public class MapDarkness : MonoBehaviour
     private void OnDisable()
     {
         // 다른 쪽(다음 맵·이벤트)이 이미 덮어썼으면 건드리지 않는다.
-        // 종료 중에 매니저를 새로 만들지 않도록 Instance 대신 HasInstance부터 본다.
-        if (!DarknessManager.HasInstance) return;
-        if (DarknessManager.Instance.Owner == this) DarknessManager.Instance.Clear(0f);
+        DarknessManager manager = DarknessManager.Instance;
+        if (manager && manager.Owner == this) manager.Clear(0f);
     }
 }

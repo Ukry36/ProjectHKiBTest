@@ -5,23 +5,10 @@ using UnityEngine.Rendering.Universal;
 using UnityEngine.Tilemaps;
 
 /// <summary>
-/// 손전등이 벽에 가려지게 한다. 벽 모양은 두 가지로 정한다 — 두 그림자 방식(URP / 셰이더) 모두 같은 것을 쓴다.
-///   - 바닥면 그림자 판(ShadowCaster2D): 빛을 가리는 모양. 그림자는 이 판 너머에 생긴다.
-///   - 벽 그림(이 벽의 렌더러): 빛을 받는 앞면. 판 너머라도 벽 그림 안은 밝게 남는다(URP는 실루엣, 셰이더는 격자로).
-/// 콜라이더는 처음 모양을 만들 때만 쓴다. 물리 콜라이더(ZCollider 높이 등)는 그림과 다를 수 있어서다.
-///
-/// 그림자 판은 두 가지로 만들 수 있다.
-///   - 에디터에서 "그림자 판 생성"(또는 MapDarkness의 "맵 벽 그림자 판 생성"): 씬에 저장되는 ShadowCaster2D가 생기고,
-///     각 판의 Edit Shape로 모양을 고칠 수 있다. 있으면 이것을 쓴다.
-///   - 없으면 플레이할 때 콜라이더로 임시 판을 만든다(이전 동작).
-/// 셰이더 방식일 때는 판을 꺼 두고(URP 그림자가 흐린 경계를 다시 자르지 않게) DarknessManager가 판 모양을 읽어 간다.
-///
-/// 반 3D라서 생기는 "벽 앞면 그림" 문제는 실루엣이 맡는다 — 벽 스프라이트마다 그림자를 드리우지 않는 ShadowCaster2D를 단다.
-/// 매 프레임 손전등 광원이 벽 바닥면보다 위(벽 뒤)에 있으면 실루엣을 selfShadows로 바꿔 앞면에 그림자를 칠하고, 앞이면 끈다.
-/// URP 12는 castsShadows=false인 실루엣이 혼자 그룹이면 그리지 않으므로 CompositeShadowCaster2D 그룹으로 묶는다.
-///
-/// 이 URP(12)는 ShadowCaster2D 모양·정렬 레이어를 코드로 넣는 공개 API가 없어 직렬화 필드에 리플렉션으로 넣는다 —
-/// URP를 올리면 필드 이름부터 확인할 것.
+/// 손전등이 벽에 가려지게 한다. 빛을 가리는 건 바닥면 그림자 판(ShadowCaster2D), 판 너머라도 벽 그림(렌더러) 안은 밝게 남는다.
+/// 판은 에디터에서 구워 둔 것이 있으면 그것을, 없으면 콜라이더 모양으로 플레이 때 만든다. 셰이더 그림자일 때는 판을 꺼 두고
+/// DarknessManager가 모양만 읽어 간다.
+/// URP 12는 ShadowCaster2D 모양·정렬 레이어를 넣는 공개 API가 없어 리플렉션을 쓴다 — URP를 올리면 필드 이름부터 확인할 것.
 /// </summary>
 public class WallShadowCaster : MonoBehaviour
 {
@@ -35,16 +22,14 @@ public class WallShadowCaster : MonoBehaviour
     private static readonly FieldInfo ShapePathHashField = typeof(ShadowCaster2D).GetField("m_ShapePathHash", BindingFlags.Instance | BindingFlags.NonPublic);
     private static readonly FieldInfo SortingLayersField = typeof(ShadowCaster2D).GetField("m_ApplyToSortingLayers", BindingFlags.Instance | BindingFlags.NonPublic);
 
-    /// <summary>지금 켜져 있는 벽들. DarknessManager가 셰이더 그림자 모양을 여기서 모은다.</summary>
     public static readonly List<WallShadowCaster> Active = new();
 
     // 지울 때 되돌리기 위해 이 컴포넌트가 만든 것만 기억한다(에디터에서 만든 판은 지우지 않는다).
     private readonly List<Object> _created = new();
-    private readonly List<ShadowCaster2D> _silhouettes = new();
     private readonly List<ShadowCaster2D> _footprints = new();
+    private readonly List<ShadowCaster2D> _silhouettes = new();
+    private bool _silhouettesOn = true; // 만들 때 켜진 채로 만든다
     private readonly List<Renderer> _visualRenderers = new();
-    private readonly List<Rect> _footprintBounds = new(); // 월드 좌표 바닥면 — 광원이 벽 앞인지 뒤인지 판정용
-    private bool _lightBehind;
     private GameObject _footprintRoot;
     private bool _built;
 
@@ -56,17 +41,22 @@ public class WallShadowCaster : MonoBehaviour
 
     private void OnDestroy() => Teardown();
 
+    // 셰이더 그림자일 때는 판도 실루엣도 끈다. 켜 두면 URP가 손전등마다 그림자 패스를 돌려(실루엣이 특히 비싸다)
+    // 벽이 많은 곳에서 프레임이 떨어진다.
     private void SyncFootprintCasters()
     {
         if (!_footprintRoot) return;
-        bool urpShadows = !(DarknessManager.HasInstance && DarknessManager.Instance.UsesShaderShadows);
+        DarknessManager manager = DarknessManager.Instance;
+        bool urpShadows = !(manager && manager.UsesShaderShadows);
         if (_footprintRoot.activeSelf != urpShadows) _footprintRoot.SetActive(urpShadows);
+        if (_silhouettesOn == urpShadows) return;
+        _silhouettesOn = urpShadows;
+        foreach (ShadowCaster2D silhouette in _silhouettes)
+            if (silhouette) silhouette.enabled = urpShadows;
     }
 
-    [NaughtyAttributes.Button("그림자 다시 만들기 (플레이 중)")]
-    public void Build()
+    private void Build()
     {
-        if (!Application.isPlaying) return;
         if (ShapePathField == null || ShapePathHashField == null || SortingLayersField == null)
         {
             Debug.LogError("[WallShadowCaster] ShadowCaster2D 내부 필드를 찾지 못했습니다. URP 버전이 바뀌었는지 확인하세요.", this);
@@ -96,7 +86,6 @@ public class WallShadowCaster : MonoBehaviour
 
         if (_bakedFootprints)
         {
-            // 에디터에서 만든(사람이 고쳤을 수 있는) 판을 그대로 쓴다.
             _footprintRoot = _bakedFootprints;
             _footprints.AddRange(_bakedFootprints.GetComponentsInChildren<ShadowCaster2D>(true));
         }
@@ -112,32 +101,15 @@ public class WallShadowCaster : MonoBehaviour
                 _footprints.Add(CreateCaster(_footprintRoot.transform, i, shapes[i], layers));
         }
 
-        var polygons = new List<Vector2[]>();
-        GetFootprintPolygons(polygons);
-        foreach (Vector2[] polygon in polygons) _footprintBounds.Add(Bounds2D(polygon));
-
         SyncFootprintCasters();
-        _lightBehind = false;
         _built = true;
     }
 
-    private void LateUpdate()
-    {
-        SyncFootprintCasters();
-        if (_silhouettes.Count == 0) return;
-        bool behind = DarknessManager.HasInstance
-                      && DarknessManager.Instance.TryGetFlashlightOrigin(out Vector2 origin)
-                      && IsBehind(origin);
-        if (behind == _lightBehind) return;
-
-        _lightBehind = behind;
-        foreach (ShadowCaster2D silhouette in _silhouettes)
-            if (silhouette) silhouette.selfShadows = behind;
-    }
+    private void LateUpdate() => SyncFootprintCasters();
 
     // ─── 셰이더 그림자용 모양 ─────────────────────────────────────
 
-    /// <summary>그림자 판 모양·위치나 벽 그림이 바뀌면 달라지는 값. DarknessManager가 격자를 다시 만들지 판단한다.</summary>
+    // 판 모양·위치나 벽 그림이 바뀌면 달라진다. DarknessManager가 격자를 다시 만들지 판단한다.
     public int ShapeVersion
     {
         get
@@ -157,7 +129,6 @@ public class WallShadowCaster : MonoBehaviour
         }
     }
 
-    /// <summary>바닥면 그림자 판 모양(월드 좌표 다각형).</summary>
     public void GetFootprintPolygons(List<Vector2[]> output)
     {
         foreach (ShadowCaster2D caster in _footprints)
@@ -170,7 +141,7 @@ public class WallShadowCaster : MonoBehaviour
         }
     }
 
-    /// <summary>벽 그림(빛을 받는 앞면) — 렌더러마다, 타일맵은 타일마다 월드 사각형.</summary>
+    // 타일맵은 타일마다 사각형.
     public void GetVisualRects(List<Rect> output)
     {
         foreach (Renderer renderer in _visualRenderers)
@@ -263,34 +234,6 @@ public class WallShadowCaster : MonoBehaviour
 
     // ─── 내부 ────────────────────────────────────────────────────
 
-    // 가장 가까운 바닥면의 윗변보다 광원이 위에 있으면 벽 뒤다. 옆에 붙어 있을 때(같은 높이)는 앞면이 보이므로 앞으로 본다.
-    // 타일맵처럼 바닥면이 여러 개면 실루엣이 하나라 가장 가까운 벽 기준으로 판정한다.
-    private bool IsBehind(Vector2 origin)
-    {
-        float best = float.MaxValue;
-        bool behind = false;
-        foreach (Rect r in _footprintBounds)
-        {
-            Vector2 nearest = new(Mathf.Clamp(origin.x, r.xMin, r.xMax), Mathf.Clamp(origin.y, r.yMin, r.yMax));
-            float d = (origin - nearest).sqrMagnitude;
-            if (d >= best) continue;
-            best = d;
-            behind = origin.y > r.yMax;
-        }
-        return behind;
-    }
-
-    private static Rect Bounds2D(Vector2[] points)
-    {
-        Vector2 min = new(float.MaxValue, float.MaxValue), max = new(float.MinValue, float.MinValue);
-        foreach (Vector2 p in points)
-        {
-            min = Vector2.Min(min, p);
-            max = Vector2.Max(max, p);
-        }
-        return Rect.MinMaxRect(min.x, min.y, max.x, max.y);
-    }
-
     private void Teardown()
     {
         foreach (Object obj in _created)
@@ -300,10 +243,10 @@ public class WallShadowCaster : MonoBehaviour
             else Destroy(obj);
         }
         _created.Clear();
-        _silhouettes.Clear();
         _footprints.Clear();
+        _silhouettes.Clear();
+        _silhouettesOn = true;
         _visualRenderers.Clear();
-        _footprintBounds.Clear();
         _footprintRoot = null;
         _built = false;
     }
@@ -318,12 +261,8 @@ public class WallShadowCaster : MonoBehaviour
         return host;
     }
 
-    /// <summary>
-    /// CompositeShadowCaster2D를 붙이고 내부 그림자 판 목록을 바로 만들어 둔다.
-    /// URP 12의 ShadowCasterGroup2D는 그룹이 켜지는 순간 렌더링 목록에 오르지만 내부 목록은 첫 그림자 판이 등록될 때야
-    /// 만들어서, 그 전에 렌더링이 돌면 CacheValues()에서 NullReferenceException이 난다(ShadowCasterGroup2D.cs:15).
-    /// 그림자 판이 꺼져 있거나 다음 프레임에야 등록되는 동안에도 안전하도록 빈 목록을 미리 만든다(null을 넣었다 뺀다).
-    /// </summary>
+    // URP 12 그룹은 첫 캐스터가 등록될 때야 내부 목록을 만들어, 그 전에 렌더링되면 NRE가 난다.
+    // null을 넣었다 빼서 빈 목록을 미리 만든다.
     internal static CompositeShadowCaster2D AddShadowGroup(GameObject host)
     {
         CompositeShadowCaster2D group = host.AddComponent<CompositeShadowCaster2D>();
@@ -339,7 +278,6 @@ public class WallShadowCaster : MonoBehaviour
         return false;
     }
 
-    // 콜라이더 모양을 이 오브젝트 로컬 좌표의 다각형들로 모은다(처음 그림자 판을 만들 때만).
     private List<Vector2[]> CollectShapes()
     {
         var shapes = new List<Vector2[]>();
@@ -347,11 +285,12 @@ public class WallShadowCaster : MonoBehaviour
 
         if (TryGetComponent(out CompositeCollider2D composite))
         {
+            TryGetComponent(out Tilemap tilemap);
             composite.GenerateGeometry();
             for (int i = 0; i < composite.pathCount; i++)
             {
                 composite.GetPath(i, points);
-                if (points.Count >= 3) shapes.Add(points.ToArray());
+                if (points.Count >= 3 && (!tilemap || HasWallTile(tilemap, points))) shapes.Add(points.ToArray());
             }
             return shapes;
         }
@@ -379,6 +318,35 @@ public class WallShadowCaster : MonoBehaviour
             }
         }
         return shapes;
+    }
+
+    // 높이 타일맵에는 바닥보다 낮은 칸(zLevel 0 이하)도 같은 콜라이더로 들어 있다. 그런 칸만으로 된 모양은 벽이 아니다.
+    // 벽 칸에 붙은 낮은 칸은 콜라이더 외곽선이 벽과 하나로 합쳐져 있어 걸러지지 않는다.
+    private static bool HasWallTile(Tilemap tilemap, List<Vector2> path)
+    {
+        Vector2 min = path[0], max = path[0];
+        foreach (Vector2 p in path) { min = Vector2.Min(min, p); max = Vector2.Max(max, p); }
+        Vector3Int from = tilemap.LocalToCell(min), to = tilemap.LocalToCell(max);
+        for (int y = from.y; y <= to.y; y++)
+            for (int x = from.x; x <= to.x; x++)
+            {
+                var cell = new Vector3Int(x, y, 0);
+                TileBase tile = tilemap.GetTile(cell);
+                if (!tile || (tile is HeightTile height && height.zLevel <= 0)) continue;
+                if (Contains(path, tilemap.GetCellCenterLocal(cell))) return true;
+            }
+        return false;
+    }
+
+    private static bool Contains(List<Vector2> path, Vector2 p)
+    {
+        bool inside = false;
+        for (int i = 0, j = path.Count - 1; i < path.Count; j = i++)
+        {
+            Vector2 a = path[i], b = path[j];
+            if ((a.y > p.y) != (b.y > p.y) && p.x < (b.x - a.x) * (p.y - a.y) / (b.y - a.y) + a.x) inside = !inside;
+        }
+        return inside;
     }
 
     // 꺼진 채로 모양을 넣고 켜야 한다 — ShadowCaster2D는 켜질 때(Awake/OnEnable) 경로가 비어 있으면

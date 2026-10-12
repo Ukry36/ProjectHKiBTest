@@ -4,38 +4,34 @@ using Unity.Jobs;
 using Unity.Mathematics;
 
 /// <summary>
-/// 손전등 1D 그림자 맵(각도 칸별 벽 거리)을 칸마다 병렬로 구한다(Burst).
-/// DarknessManager.CastOcclusion / ContinueThroughAdjacentWalls / WallVisualGrid와 같은 계산을 옮긴 것 —
-/// 판정을 바꾸면 양쪽을 같이 고칠 것. 벽마다 격자 하나(그림자 판 = 바닥면, 렌더러 = 벽 그림).
+/// 손전등 1D 그림자 맵(각도 칸별로 처음 만나는 그림자 판까지 거리)을 칸마다 병렬로 구한다.
+/// FirstFootprintEntry는 WallVisualGrid에도 같은 것이 있다 — 고치면 양쪽 다.
 /// </summary>
 [BurstCompile]
 internal struct FlashlightOcclusionJob : IJobParallelFor
 {
     public struct Grid
     {
-        public float MinX, MinY, Cell, MaxRise;
-        public int Width, Height, Offset; // Offset: Below/Clear/Visual 안에서 이 격자가 시작하는 위치
+        public float MinX, MinY, Cell;
+        public int Width, Height, Offset; // Offset: Clear 안에서 이 격자가 시작하는 위치
     }
 
     [ReadOnly] public NativeArray<Grid> Grids;
-    [ReadOnly] public NativeArray<ushort> Below;
     [ReadOnly] public NativeArray<byte> Clear;
-    [ReadOnly] public NativeArray<byte> Visual;
     public int GridCount;
 
     public float2 Origin;
     public float Cos, Sin;              // 빛 그림 회전
     public float2 BoundsMin, BoundsMax; // 빛 그림 로컬 범위
-    public float Margin, Overshoot;
-    public float FootDepth; // 빛이 바닥면(판) 안으로 들어가 밝히는 깊이(앞면)
-    public float BottomRadius; // 벽 하단 조명 원 반경
-    public float BottomBlend;  // 벽이 광원보다 이만큼 위면 완전히 하단으로 본다
     public int Bins;
 
-    // 칸 i의 결과를 4줄에 쓴다: 그림자 시작 / 벽(판)에 들어간 거리 / 판을 벗어난 거리 / 벽 하단 가중치(0~1).
+    // 칸 i: 첫 판 진입 거리(없으면 NoWall).
+    public const int Rows = 1;
+    public const float NoWall = 1000f;
     [NativeDisableParallelForRestriction, WriteOnly] public NativeArray<float> Distances;
 
     private const float Nudge = 0.0001f;
+    private const float Margin = 0.5f;
 
     public void Execute(int i)
     {
@@ -43,61 +39,15 @@ internal struct FlashlightOcclusionJob : IJobParallelFor
         float2 dir = new(math.sin(angle), math.cos(angle));
         float2 local = new(Cos * dir.x + Sin * dir.y, -Sin * dir.x + Cos * dir.y);
         float reach = RayExitAabb(float2.zero, local, BoundsMin, BoundsMax) + Margin;
-        float exit = Cast(dir, reach, out float wallEntry, out float footEnd, out float bottom);
-        Distances[i] = exit;
-        Distances[Bins + i] = wallEntry;
-        Distances[2 * Bins + i] = footEnd;
-        Distances[3 * Bins + i] = bottom;
-    }
 
-    private float Cast(float2 dir, float maxDistance, out float wallEntry, out float footEnd, out float bottom)
-    {
-        float nearestExit = 1000f;
-        wallEntry = footEnd = 1000f;
-        bottom = 0f;
+        float first = NoWall;
         for (int g = 0; g < GridCount; g++)
         {
-            Grid grid = Grids[g];
-            float hit = FirstFootprintEntry(grid, dir, maxDistance);
-            if (hit <= 0.001f) continue;
-            // 벽이 광원보다 위일수록 하단(가중치 1). 하단이면 광원 중심 원(BottomRadius)이 더 멀리 닿으면 거기까지 밝힌다.
-            float weight = math.smoothstep(0f, 1f, dir.y * hit / BottomBlend);
-            float depth = weight > 0f ? math.max(FootDepth, BottomRadius - hit) : FootDepth;
-            float exit = math.max(hit, ExitDistance(grid, dir, hit, maxDistance + grid.MaxRise, depth, out float runEnd));
-            if (exit >= nearestExit) continue;
-            nearestExit = exit;
-            wallEntry = hit;
-            footEnd = runEnd;
-            bottom = weight;
+            float hit = FirstFootprintEntry(Grids[g], dir, 0f, reach);
+            if (hit >= 0f) first = math.min(first, hit);
         }
-        return ContinueThroughAdjacentWalls(dir, nearestExit, maxDistance);
+        Distances[i] = first;
     }
-
-    private float ContinueThroughAdjacentWalls(float2 dir, float exit, float maxDistance)
-    {
-        const float probe = 0.02f;
-        for (int guard = 0; guard < 8 && exit < maxDistance; guard++)
-        {
-            float2 p = Origin + dir * (exit + probe);
-            // 판 안이면(깊이 제한에 걸려 벽 덩어리 속에서 끊긴 경우) 잇지 않는다.
-            bool inFootprint = false;
-            for (int g = 0; g < GridCount; g++) inFootprint |= InFootprint(Grids[g], p);
-            if (inFootprint) break;
-            float next = exit;
-            for (int g = 0; g < GridCount; g++)
-            {
-                Grid grid = Grids[g];
-                if (!InVisual(grid, p, out float footY)) continue;
-                if (Origin.y >= footY) continue; // 광원이 그 벽 뒤 — 앞면은 빛을 못 받는다
-                next = math.max(next, ExitDistance(grid, dir, exit + probe, maxDistance + grid.MaxRise, FootDepth, out _));
-            }
-            if (next <= exit + probe) break;
-            exit = next;
-        }
-        return exit;
-    }
-
-    // ─── 격자 ────────────────────────────────────────────────────
 
     private struct Walk
     {
@@ -111,7 +61,7 @@ internal struct FlashlightOcclusionJob : IJobParallelFor
         }
     }
 
-    // 칸 번호는 시작할 때만 t에서 구하고 그다음은 정수로만 옮긴다(부동소수 오차로 같은 칸에 머무는 무한 루프 방지).
+    // 칸 번호는 시작할 때만 t에서 구한다(WallVisualGrid.Walk와 같은 이유).
     private Walk BeginWalk(in Grid g, float2 dir, float t)
     {
         float2 p = Origin + dir * (t + Nudge);
@@ -135,10 +85,11 @@ internal struct FlashlightOcclusionJob : IJobParallelFor
     private static bool InGrid(in Grid g, int x, int y) => x >= 0 && y >= 0 && x < g.Width && y < g.Height;
     private static int MaxSteps(in Grid g) => 4 * (g.Width + g.Height) + 16;
 
-    private float FirstFootprintEntry(in Grid g, float2 dir, float maxDistance)
+    // start에서 이미 바닥면 안이면 그 바닥면을 빠져나간 뒤의 다음 바닥면을 찾는다.
+    private float FirstFootprintEntry(in Grid g, float2 dir, float start, float maxDistance)
     {
         float2 gridMin = new(g.MinX, g.MinY), gridMax = new(g.MinX + g.Width * g.Cell, g.MinY + g.Height * g.Cell);
-        float tEnter = 0f, tLeave = maxDistance;
+        float tEnter = start, tLeave = maxDistance;
         for (int axis = 0; axis < 2; axis++)
         {
             float o = Origin[axis], d = dir[axis];
@@ -155,8 +106,7 @@ internal struct FlashlightOcclusionJob : IJobParallelFor
 
         float t = tEnter;
         Walk w = BeginWalk(g, dir, t);
-        // 광원이 이미 바닥면 안이면 그 바닥면을 빠져나간 뒤의 다음 바닥면을 찾는다(맵 벽이 판 하나라 무시하면 전체 그림자가 꺼진다).
-        bool leaving = tEnter <= 0f && InGrid(g, w.X, w.Y) && Clear[g.Offset + w.Y * g.Width + w.X] == 0;
+        bool leaving = tEnter <= start && InGrid(g, w.X, w.Y) && Clear[g.Offset + w.Y * g.Width + w.X] == 0;
         for (int guard = MaxSteps(g); guard > 0 && t <= tLeave; guard--)
         {
             if (InGrid(g, w.X, w.Y))
@@ -181,58 +131,6 @@ internal struct FlashlightOcclusionJob : IJobParallelFor
         return -1f;
     }
 
-    // 바닥면(판) 안을 footDepth만큼 지나면 벽 그림 안이어도 거기서 끊는다(큰 벽 덩어리에 빛이 파고들지 않게).
-    // footEnd: start부터 이어진 첫 판 구간이 끝난(또는 깊이 제한에 걸린) 거리.
-    private float ExitDistance(in Grid g, float2 dir, float start, float limit, float footDepth, out float footEnd)
-    {
-        float t = start, inFoot = 0f;
-        bool firstRun = true;
-        footEnd = start;
-        Walk w = BeginWalk(g, dir, t);
-        for (int guard = MaxSteps(g); guard > 0 && t < limit; guard--)
-        {
-            if (!InGrid(g, w.X, w.Y)) return t;
-            int i = g.Offset + w.Y * g.Width + w.X;
-            if (Visual[i] == 0) return t;
-            bool foot = Clear[i] == 0;
-            float next = w.Step();
-            if (foot)
-            {
-                if (inFoot + (next - t) >= footDepth)
-                {
-                    float cut = t + (footDepth - inFoot);
-                    if (firstRun) footEnd = cut;
-                    return cut;
-                }
-                inFoot += next - t;
-                if (firstRun) footEnd = next;
-            }
-            else firstRun = false;
-            t = next;
-        }
-        return limit + Overshoot;
-    }
-
-    private bool InFootprint(in Grid g, float2 p)
-    {
-        int x = (int)math.floor((p.x - g.MinX) / g.Cell), y = (int)math.floor((p.y - g.MinY) / g.Cell);
-        return InGrid(g, x, y) && Clear[g.Offset + y * g.Width + x] == 0;
-    }
-
-    // p가 벽 그림 안인가. footY는 그 아래 가장 가까운 바닥면의 윗변(없으면 -무한).
-    private bool InVisual(in Grid g, float2 p, out float footY)
-    {
-        footY = float.NegativeInfinity;
-        int x = (int)math.floor((p.x - g.MinX) / g.Cell), y = (int)math.floor((p.y - g.MinY) / g.Cell);
-        if (!InGrid(g, x, y)) return false;
-        int i = g.Offset + y * g.Width + x;
-        if (Visual[i] == 0) return false;
-        int below = Below[i];
-        if (below != ushort.MaxValue) footY = below == 0 ? p.y : g.MinY + (y - below + 1) * g.Cell;
-        return true;
-    }
-
-    // 반직선이 상자를 빠져나가는 거리. 만나지 않으면 0.
     private static float RayExitAabb(float2 origin, float2 dir, float2 min, float2 max)
     {
         float tNear = 0f, tFar = float.MaxValue;
@@ -249,5 +147,36 @@ internal struct FlashlightOcclusionJob : IJobParallelFor
             tFar = math.min(tFar, math.max(t1, t2));
         }
         return tFar >= tNear ? tFar : 0f;
+    }
+}
+
+/// <summary>
+/// 광원 주변 벽 지도(DarknessManager.UpdateWallMap)를 한 줄씩 병렬로 채운다. 칸 좌표는 격자 칸 단위 정수 —
+/// 모든 격자의 MinX/MinY가 칸 경계에 맞춰져 있다.
+/// </summary>
+[BurstCompile]
+internal struct FlashlightWallMapJob : IJobParallelFor
+{
+    [ReadOnly] public NativeArray<FlashlightOcclusionJob.Grid> Grids;
+    [ReadOnly] public NativeArray<byte> Visual;
+    public int GridCount, X0, Y0, Side;
+    [NativeDisableParallelForRestriction, WriteOnly] public NativeArray<byte> Pixels; // 255 = 벽 그림
+
+    public void Execute(int row)
+    {
+        int y = Y0 + row;
+        for (int col = 0; col < Side; col++)
+        {
+            int x = X0 + col;
+            byte value = 0;
+            for (int g = 0; g < GridCount && value == 0; g++)
+            {
+                FlashlightOcclusionJob.Grid grid = Grids[g];
+                int gx = x - (int)math.round(grid.MinX / grid.Cell), gy = y - (int)math.round(grid.MinY / grid.Cell);
+                if (gx >= 0 && gy >= 0 && gx < grid.Width && gy < grid.Height &&
+                    Visual[grid.Offset + gy * grid.Width + gx] != 0) value = 255;
+            }
+            Pixels[row * Side + col] = value;
+        }
     }
 }
