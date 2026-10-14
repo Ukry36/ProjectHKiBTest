@@ -1,18 +1,19 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections;
+using Unity.Jobs;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering;
 using UnityEngine.Rendering.Universal;
 
-// 손전등이 비추는 방식.
 public enum FlashlightMode
 {
     [Tooltip("바라보는 방향으로 부채꼴을 비춘다.")] Facing,
     [Tooltip("방향 없이 플레이어 주위를 원으로 밝힌다(랜턴·촛불).")] Around,
 }
 
-// 암전 한 장의 모양. 거리 단위는 전부 월드 유닛(타일 = 1)이라 해상도·줌과 무관하다.
+// 거리 단위는 전부 월드 유닛(타일 = 1).
 [Serializable]
 public class DarknessSettings
 {
@@ -34,11 +35,16 @@ public class DarknessSettings
     [Range(0f, 1f)] public float playerSelfShadow;
 
     [Header("손전등")]
+    [Tooltip("손전등을 켠 채로 시작한다. 게임 중에는 F키(손전등 액션)로 켜고 끈다.")]
     public bool flashlight;
     [Tooltip("Facing: 바라보는 방향 부채꼴 / Around: 주위 원형.")]
-    public FlashlightMode flashlightMode = FlashlightMode.Facing;
+    public FlashlightMode flashlightMode = FlashlightMode.Around;
     [Tooltip("손전등 밝기. 1이면 빛 안이 평소 밝기.")]
     [Range(0f, 1f)] public float flashlightBrightness = 1f;
+    [Tooltip("손전등 빛 색상.")]
+    public Color flashlightColor = new(1f, 0.82f, 0.62f, 1f);
+    [Tooltip("점프해서 떠 있는 동안 손전등이 어두워지는 비율. 착지하면 돌아온다. 0이면 끈다.")]
+    [Range(0f, 1f)] public float flashlightJumpDim = 0.5f;
     [Tooltip("빛이 닿는 거리(월드 유닛). Around일 때는 원의 반지름.")]
     [Min(0f)] public float flashlightRange = 6f;
     [Tooltip("부채꼴 전체 각도(도). Facing일 때만 쓴다.")]
@@ -51,13 +57,13 @@ public class DarknessSettings
     [Range(0f, 1f)] public float flashlightFalloffCurve = 0.5f;
     [Tooltip("빛 시작 부분의 둥근 반지름(월드 유닛). 0이면 꼭짓점이 뾰족하다. Facing 전용.")]
     [Min(0f)] public float flashlightStartRoundness = 0.35f;
-    [Tooltip("깜빡임 세기(배터리 연출). 0이면 안정.")]
+    [Tooltip("랜턴 불꽃처럼 느리게 일렁이는 세기. 1이면 밝기가 최대 절반까지 내려간다. 0이면 안정.")]
     [Range(0f, 1f)] public float flicker;
-    [Tooltip("광원을 바라보는 방향으로 띄우는 거리(월드 유닛). 벽 앞에서 멈춘다. Facing 전용.")]
+    [Tooltip("광원을 바라보는 방향으로 띄우는 거리(월드 유닛). 벽 그림자 판 앞에서 멈춘다. Facing 전용.")]
     [Min(0f)] public float flashlightOffset = 0.6f;
 
     [Header("손전등 그림자")]
-    [Tooltip("벽(Wall 레이어, 계단·경사 제외)이 손전등 빛을 가린다.")]
+    [Tooltip("벽이 손전등 빛을 가린다. 벽 모양은 WallShadowCaster의 그림자 판(MapDarkness가 맵 벽에 자동으로 단다)을 쓴다.")]
     public bool flashlightShadows = true;
     [Tooltip("그림자 진하기. 1이면 완전히 어둡다.")]
     [Range(0f, 1f)] public float flashlightShadowIntensity = 0.9f;
@@ -65,13 +71,11 @@ public class DarknessSettings
     public bool flashlightShaderShadows = true;
     [Tooltip("그림자 경계를 흐리는 폭(월드 유닛). 0이면 블러 없음.")]
     [Min(0f)] public float flashlightShadowSoftness = 0.6f;
-    [Tooltip("벽 접촉부의 선명한 그림자가 블러로 바뀌기 시작하는 거리.")]
-    [Min(0.01f)] public float flashlightShadowInnerFade = 0.6f;
-    [Tooltip("벽 뒤에서 블러가 완전히 적용되는 거리(월드 유닛). Inner Fade보다 작으면 Inner Fade를 쓴다.")]
+    [Tooltip("벽에 붙은 선명한 그림자가 벽 뒤로 이 거리(월드 유닛)만큼 가면서 블러로 바뀐다.")]
     [Min(0.01f)] public float flashlightShadowSpreadDistance = 1.5f;
     [Tooltip("그림자를 벽 안쪽으로 밀어 넣는 폭. 벽과 그림자 사이 미세한 틈을 덮는다.")]
     [Min(0f)] public float flashlightShadowInset = 0f;
-    [Tooltip("그림자 판정을 월드 픽셀 격자에 맞춘다(스프라이트 PPU와 같게). 이동 중 경계가 벽 테두리에서 미끄러지지 않는다. 0이면 끈다.")]
+    [Tooltip("그림자 판정을 월드 픽셀 격자(스프라이트 PPU)에 맞춰 이동 중 경계가 미끄러지지 않게 한다. 0이면 끈다.")]
     [Min(0f)] public float flashlightShadowPixelsPerUnit = 16f;
 
     [Header("부드러움")]
@@ -82,54 +86,27 @@ public class DarknessSettings
 }
 
 /// <summary>
-/// URP 2D 라이팅으로 암전과 손전등을 만든다. 이미 있는 조명만 조절한다.
-///   - 어둠: Global Light2D 밝기·색조 / 플레이어 주변: Player의 Point Light2D를 빌려 씀
-///   - 손전등: 그 Point Light2D를 복제한 Sprite Light2D + 직접 그린 빛 모양 그림(시작이 둥근 부채꼴)
-///   - 벽 가림: 각도별 벽 거리(1D 그림자 맵) + FlashlightOcclusion 셰이더(URP 그림자는 경계를 못 흐려서)
-/// GameManager 산하(GameManager.darknessManager). 없으면 처음 쓸 때 GameManager 아래에 생긴다.
-/// 사용: 맵 씬의 MapDarkness / 이벤트 체인 SetDarknessAction·SetFlashlightAction / Instance.Apply·Clear·SetFlashlight.
+/// URP 2D 라이팅으로 암전과 손전등을 만든다. 어둠은 Global Light2D를 낮추고, 주변 빛은 Player의 Point Light2D를 빌리고,
+/// 손전등은 그것을 복제한 Sprite Light2D다. 벽 가림은 1D 그림자 맵 + FlashlightOcclusion 셰이더(URP 그림자는 경계를 못 흐려서).
 /// </summary>
 public class DarknessManager : MonoBehaviour
 {
-    private static DarknessManager _instance;
-    private static bool _isQuitting;
-
-    public static bool HasInstance => _instance != null;
-
-    public static DarknessManager Instance
-    {
-        get
-        {
-            if (_instance == null && Application.isPlaying && !_isQuitting)
-            {
-                GameManager gameManager = GameManager.instance;
-                _instance = gameManager && gameManager.darknessManager
-                    ? gameManager.darknessManager
-                    : FindObjectOfType<DarknessManager>();
-                if (_instance == null)
-                {
-                    var go = new GameObject(nameof(DarknessManager));
-                    if (gameManager) go.transform.SetParent(gameManager.transform, false);
-                    _instance = go.AddComponent<DarknessManager>();
-                }
-                if (gameManager && !gameManager.darknessManager) gameManager.darknessManager = _instance;
-            }
-            return _instance;
-        }
-    }
+    // 종료 중(GameManager가 사라진 뒤)에는 null.
+    public static DarknessManager Instance => GameManager.instance ? GameManager.instance.darknessManager : null;
 
     private const float FlashlightTurnSpeed = 720f;
     // 이보다 멀리 한 번에 움직이면(순간이동) 보간 없이 바로 옮긴다.
     private const float FlashlightSnapDistance = 1.5f;
-    // 광원과 벽 사이 틈. 0이면 광원이 그림자 판 경계에 걸려 빛이 샌다.
+    // 광원과 벽(그림자 판) 사이 틈. 0이면 광원이 판 경계에 걸려 빛이 샌다.
     private const float WallGap = 0.1f;
-    private static readonly int WallLayerMask = 1 << 3; // Wall
+    // 점프 밝기 변화 속도(1/초). 이륙하면 줄고 착지하면 돌아온다.
+    private const float JumpDimSpeed = 6f;
 
     // _current = 지금 값(전환 중엔 중간값), _target = 전환 끝 값.
     private DarknessSettings _current = new() { darkness = 0f };
     private DarknessSettings _target = new() { darkness = 0f };
     private float _flashOn;          // 켜짐 정도 0~1(켜고 끌 때 보간)
-    private float _flashAngle = -90f; // 월드 각도(도)
+    private float _flashAngle = -90f;
     private bool _flashAngleInitialized;
     private Vector2 _flashPivot;
     private bool _flashPivotInitialized;
@@ -143,6 +120,8 @@ public class DarknessManager : MonoBehaviour
 
     private Player _trackedPlayer;
     private IDirAnimatable _facing;
+    private IPhysics _physics;
+    private float _jumpDim;          // 떠 있는 정도 0~1(보간)
     private Light2D _ambientLight;
     private LightSnapshot _ambientOriginal;
     private Light2D _flashLight;
@@ -157,65 +136,48 @@ public class DarknessManager : MonoBehaviour
     private const string OcclusionShaderPath = "ScreenEffects/FlashlightOcclusion";
     // 각도 칸(0.18°). 굵으면 일직선 벽 경계가 계단지고 움직일 때 미끄러진다.
     private const int OcclusionBins = 2048;
-    private const float VisualMarchStep = 0.1f;
     private Material _occlusionMaterial;
     private RenderTexture _beamTarget;
     private Texture2D _occlusionMap;
-    private readonly float[] _occlusionDistances = new float[OcclusionBins * 2];
+    // 가림 맵 줄 구성은 FlashlightOcclusionJob.Rows 참고.
+    private const int OcclusionRows = FlashlightOcclusionJob.Rows;
     private bool _beamOccluded;
     private bool _occlusionUnavailable;
     private static readonly int BoundsId = Shader.PropertyToID("_Bounds");
     private static readonly int SoftnessId = Shader.PropertyToID("_Softness");
     private static readonly int ShadowStrengthId = Shader.PropertyToID("_ShadowStrength");
     private static readonly int InsetId = Shader.PropertyToID("_Inset");
-    private static readonly int InnerFadeId = Shader.PropertyToID("_InnerFade");
     private static readonly int SpreadDistanceId = Shader.PropertyToID("_SpreadDistance");
     private static readonly int RotationId = Shader.PropertyToID("_Rotation");
     private static readonly int OcclusionMapId = Shader.PropertyToID("_OcclusionMap");
     private static readonly int OriginId = Shader.PropertyToID("_Origin");
     private static readonly int PixelsPerUnitId = Shader.PropertyToID("_PixelsPerUnit");
-    private readonly RaycastHit2D[] _wallHits = new RaycastHit2D[16];
-    private readonly RaycastHit2D[] _adjacentHits = new RaycastHit2D[8];
-    private readonly RaycastHit2D[] _visualHits = new RaycastHit2D[8];
-    // 맵의 어떤 벽 높이(ZCollider2D.height)보다 커야 한다.
-    private const float MaxOccluderHeight = 10f;
-    // 손전등이 플레이어 자신을 비추지 않게 하는 그림자 전용 대역(CollectPlayerSprites 참고).
+    private static readonly int WallMapId = Shader.PropertyToID("_WallMap");
+    private static readonly int WallMapRectId = Shader.PropertyToID("_WallMapRect");
     private readonly List<SpriteRenderer> _playerSprites = new();
     private readonly List<SpriteRenderer> _shadowProxies = new();
     private GameObject _shadowProxyRoot;
 
     public bool IsActive => _current.darkness > 0.001f;
-    public bool IsTransitioning => _transition != null;
     public bool FlashlightOn => _target.flashlight;
     /// <summary>지금 걸린 암전을 마지막으로 건 쪽(MapDarkness 등). 맵이 내려갈 때 자기 것만 걷는 데 쓴다.</summary>
     public UnityEngine.Object Owner => _owner;
-    public DarknessSettings Target => _target.Clone();
 
-    /// <summary>벽 그림자를 셰이더로 그리는 중인가. 아니면 URP 그림자(WallShadowCaster)를 쓴다.</summary>
     public bool UsesShaderShadows =>
         _current.flashlightShadows && _current.flashlightShaderShadows && !_occlusionUnavailable;
 
-    /// <summary>손전등이 지금 비추고 있으면 그 광원 위치. WallShadowCaster가 벽 앞뒤를 판정할 때 쓴다.</summary>
-    public bool TryGetFlashlightOrigin(out Vector2 origin)
-    {
-        bool on = _flashLight && _flashLight.isActiveAndEnabled && _flashLight.intensity > 0f;
-        origin = on ? (Vector2)_flashLight.transform.position : default;
-        return on;
-    }
+    private void Awake() => UnityEngine.SceneManagement.SceneManager.sceneUnloaded += OnSceneUnloaded;
 
-    private void Awake()
+    // 격자는 맵 크기만큼 메모리를 쓴다.
+    private void OnSceneUnloaded(UnityEngine.SceneManagement.Scene _)
     {
-        // 컴포넌트만 지운다 — GameManager 오브젝트에 직접 붙어 있을 수도 있다.
-        if (_instance != null && _instance != this) { Destroy(this); return; }
-        _instance = this;
-        if (transform.parent == null) DontDestroyOnLoad(gameObject);
+        _wallGrids.Clear();
+        DisposeOcclusionJobGrids();
     }
-
-    private void OnApplicationQuit() => _isQuitting = true;
 
     private void OnDestroy()
     {
-        if (_instance != this) return;
+        UnityEngine.SceneManagement.SceneManager.sceneUnloaded -= OnSceneUnloaded;
         RestoreGlobalLight();
         ReleasePlayerLights();
         if (_beamSprite) Destroy(_beamSprite);
@@ -223,13 +185,13 @@ public class DarknessManager : MonoBehaviour
         if (_beamBase) Destroy(_beamBase);
         if (_beamTarget) { _beamTarget.Release(); Destroy(_beamTarget); }
         if (_occlusionMap) Destroy(_occlusionMap);
+        if (_wallMap) Destroy(_wallMap);
         if (_occlusionMaterial) Destroy(_occlusionMaterial);
-        _instance = null;
+        DisposeOcclusionJobData();
     }
 
     // ─── 공개 API ────────────────────────────────────────────────
 
-    /// <summary>암전 모양을 settings로 바꾼다. duration 동안 지금 모양에서 부드럽게 넘어간다.</summary>
     public void Apply(DarknessSettings settings, float duration, UnityEngine.Object owner = null)
     {
         if (settings == null) return;
@@ -237,7 +199,7 @@ public class DarknessManager : MonoBehaviour
         StartTransition(settings.Clone(), duration);
     }
 
-    /// <summary>암전을 걷는다. 다른 모양 값은 남겨 두므로 다시 짙기만 올리면 같은 모양으로 돌아온다.</summary>
+    // 모양 값은 남겨 두어 다시 짙기만 올리면 같은 모양으로 돌아온다.
     public void Clear(float duration)
     {
         _owner = null;
@@ -254,17 +216,6 @@ public class DarknessManager : MonoBehaviour
     }
 
     public void ToggleFlashlight() => SetFlashlight(!_target.flashlight);
-
-    /// <summary>손전등 모양만 바꾼다(방식·밝기·범위·각도). 켜짐 여부와 암전 짙기는 그대로.</summary>
-    public void SetFlashlightShape(FlashlightMode mode, float brightness, float range, float angle, float duration)
-    {
-        DarknessSettings next = _target.Clone();
-        next.flashlightMode = mode;
-        next.flashlightBrightness = Mathf.Clamp01(brightness);
-        next.flashlightRange = Mathf.Max(0f, range);
-        next.flashlightAngle = Mathf.Clamp(angle, 1f, 179f);
-        StartTransition(next, duration);
-    }
 
     // ─── 전환 ───────────────────────────────────────────────────
 
@@ -299,6 +250,8 @@ public class DarknessManager : MonoBehaviour
             _current.playerLightHeight = Mathf.Lerp(from.playerLightHeight, to.playerLightHeight, t);
             _current.playerSelfShadow = Mathf.Lerp(from.playerSelfShadow, to.playerSelfShadow, t);
             _current.flashlightBrightness = Mathf.Lerp(from.flashlightBrightness, to.flashlightBrightness, t);
+            _current.flashlightColor = Color.Lerp(from.flashlightColor, to.flashlightColor, t);
+            _current.flashlightJumpDim = Mathf.Lerp(from.flashlightJumpDim, to.flashlightJumpDim, t);
             _current.flashlightRange = Mathf.Lerp(from.flashlightRange, to.flashlightRange, t);
             _current.flashlightAngle = Mathf.Lerp(from.flashlightAngle, to.flashlightAngle, t);
             _current.flashlightAngleFalloff = Mathf.Lerp(from.flashlightAngleFalloff, to.flashlightAngleFalloff, t);
@@ -307,7 +260,6 @@ public class DarknessManager : MonoBehaviour
             _current.flashlightStartRoundness = Mathf.Lerp(from.flashlightStartRoundness, to.flashlightStartRoundness, t);
             _current.flashlightShadowIntensity = Mathf.Lerp(from.flashlightShadowIntensity, to.flashlightShadowIntensity, t);
             _current.flashlightShadowSoftness = Mathf.Lerp(from.flashlightShadowSoftness, to.flashlightShadowSoftness, t);
-            _current.flashlightShadowInnerFade = Mathf.Lerp(from.flashlightShadowInnerFade, to.flashlightShadowInnerFade, t);
             _current.flashlightShadowSpreadDistance = Mathf.Lerp(from.flashlightShadowSpreadDistance, to.flashlightShadowSpreadDistance, t);
             _current.flashlightShadowInset = Mathf.Lerp(from.flashlightShadowInset, to.flashlightShadowInset, t);
             _current.flashlightOffset = Mathf.Lerp(from.flashlightOffset, to.flashlightOffset, t);
@@ -385,31 +337,28 @@ public class DarknessManager : MonoBehaviour
             return;
         }
 
-        if (!_flashLight)
-        {
-            _flashLight = CreateFlashLight("Flashlight (DarknessManager)");
-            if (_flashLight)
-            {
-                _flashLight.lightCookieSprite = EnsureBeamSprite();
-                _flashLight.lightType = Light2D.LightType.Sprite;
-            }
-        }
+        if (!_flashLight) _flashLight = CreateFlashLight();
         if (!_flashLight) return;
         if (!_flashLight.gameObject.activeSelf) _flashLight.gameObject.SetActive(true);
 
         float intensity = _flashOn * _current.flashlightBrightness;
         if (_current.flicker > 0f)
         {
-            float n = Mathf.PerlinNoise(Time.unscaledTime * 9f, 0.37f);
-            intensity *= 1f - _current.flicker * Mathf.Clamp01(n * 1.8f - 0.8f) * 1.5f;
+            // 느린 물결에 조금 빠른 떨림을 얹는다(초당 약 1번 + 3번). 꺼지지 않고 부드럽게 오르내린다.
+            float t = Time.unscaledTime;
+            float n = Mathf.PerlinNoise(t * 1.1f, 0.37f) * 0.7f + Mathf.PerlinNoise(t * 3.2f, 1.73f) * 0.3f;
+            intensity *= 1f - _current.flicker * 0.5f * Mathf.Clamp01(n);
         }
+        bool airborne = _physics != null && !_physics.Ground;
+        _jumpDim = Mathf.MoveTowards(_jumpDim, airborne ? 1f : 0f, Time.unscaledDeltaTime * JumpDimSpeed);
+        intensity *= 1f - _current.flashlightJumpDim * _jumpDim;
 
         UpdateFlashAngle();
         float rad = _flashAngle * Mathf.Deg2Rad;
         Vector2 dir = new(Mathf.Cos(rad), Mathf.Sin(rad));
         Vector2 pivot = FollowFlashPivot(_trackedPlayer.transform.position);
         float offset = _current.flashlightMode == FlashlightMode.Around ? 0f : _current.flashlightOffset;
-        ConfigureFlashLight(_flashLight, ClampBeforeWall(pivot, pivot + dir * offset), LostIntensity(d) * Mathf.Clamp01(intensity));
+        ConfigureFlashLight(_flashLight, ClampBeforeWall(pivot, dir, offset), LostIntensity(d) * Mathf.Clamp01(intensity));
     }
 
     private void ConfigureFlashLight(Light2D light, Vector2 position, float intensity)
@@ -417,6 +366,7 @@ public class DarknessManager : MonoBehaviour
         Sprite beam = EnsureBeamSprite();
         if (light.lightCookieSprite != beam) light.lightCookieSprite = beam;
         light.intensity = intensity;
+        light.color = _current.flashlightColor;
         light.shadowsEnabled = _current.flashlightShadows;
         light.shadowIntensity = _current.flashlightShadowIntensity;
 
@@ -544,7 +494,6 @@ public class DarknessManager : MonoBehaviour
         };
 
     // ─── 벽 가림(1D 그림자 맵 + 셰이더 블러) ──────────────────────
-    // CPU: 각도별 벽 거리 → GPU: 가림 마스크·블러·합성 → 조명 그림에 CopyTexture(CPU로 읽어 오지 않음).
 
     private void UpdateOcclusion(Vector2 origin, float rotationDegrees)
     {
@@ -559,20 +508,36 @@ public class DarknessManager : MonoBehaviour
             return;
         }
 
-        BuildOcclusionMap(origin, rotationDegrees);
-        _occlusionMap.SetPixelData(_occlusionDistances, 0);
+        // 광원·방향·설정·주변 벽이 그대로면 지난 결과를 그대로 쓴다(가만히 서 있을 때 비용 0).
+        CollectOccluders(origin);
+        var key = new OcclusionKey
+        {
+            Origin = origin,
+            Rotation = rotationDegrees,
+            Bounds = _beamBounds,
+            ParamsA = new Vector4(_current.flashlightShadowSoftness, _current.flashlightShadowIntensity,
+                                  _current.flashlightShadowInset, _current.flashlightShadowSpreadDistance),
+            PixelsPerUnit = _current.flashlightShadowPixelsPerUnit,
+            Walls = _occluderStateHash,
+        };
+        if (_beamOccluded && key.Same(_lastOcclusionKey)) return;
+        _lastOcclusionKey = key;
+
+        RunOcclusionJob(origin, rotationDegrees);
         _occlusionMap.Apply(false);
+        UpdateWallMap(origin);
 
         _occlusionMaterial.SetTexture(OcclusionMapId, _occlusionMap);
         _occlusionMaterial.SetVector(BoundsId, _beamBounds);
         _occlusionMaterial.SetFloat(SoftnessId, _current.flashlightShadowSoftness);
         _occlusionMaterial.SetFloat(ShadowStrengthId, _current.flashlightShadowIntensity);
         _occlusionMaterial.SetFloat(InsetId, Mathf.Max(0f, _current.flashlightShadowInset));
-        _occlusionMaterial.SetFloat(InnerFadeId, _current.flashlightShadowInnerFade);
         _occlusionMaterial.SetFloat(SpreadDistanceId, _current.flashlightShadowSpreadDistance);
         _occlusionMaterial.SetFloat(RotationId, rotationDegrees * Mathf.Deg2Rad);
         _occlusionMaterial.SetVector(OriginId, origin);
         _occlusionMaterial.SetFloat(PixelsPerUnitId, _current.flashlightShadowPixelsPerUnit);
+        _occlusionMaterial.SetTexture(WallMapId, _wallMap);
+        _occlusionMaterial.SetVector(WallMapRectId, _wallMapRect);
         var descriptor = _beamTarget.descriptor;
         descriptor.depthBufferBits = 0;
         var mask = RenderTexture.GetTemporary(descriptor);
@@ -628,7 +593,7 @@ public class DarknessManager : MonoBehaviour
         }
         if (!_occlusionMap)
         {
-            _occlusionMap = new Texture2D(OcclusionBins, 2, TextureFormat.RFloat, false, true)
+            _occlusionMap = new Texture2D(OcclusionBins, OcclusionRows, TextureFormat.RFloat, false, true)
             {
                 name = "Flashlight Occlusion (DarknessManager)",
                 wrapMode = TextureWrapMode.Repeat, // 각도는 -π와 π가 이어진다
@@ -640,153 +605,255 @@ public class DarknessManager : MonoBehaviour
         return _beamTarget;
     }
 
-    // 각도 칸은 월드 기준(0 = 위). 광원과 같이 돌면 칸 경계가 벽 위를 쓸고 지나가 일렁인다.
-    private void BuildOcclusionMap(Vector2 origin, float rotationDegrees)
+    private struct OcclusionKey
     {
-        float range = _current.flashlightRange + 2f * _current.flashlightShadowSoftness + 0.5f;
-        var filter = new ContactFilter2D { useTriggers = true, useLayerMask = true, layerMask = WallLayerMask };
-        for (int i = 0; i < OcclusionBins; i++)
-        {
-            float angle = (i + 0.5f) / OcclusionBins * Mathf.PI * 2f - Mathf.PI;
-            float exit = CastOcclusion(origin, new Vector2(Mathf.Sin(angle), Mathf.Cos(angle)), range, filter);
-            _occlusionDistances[i] = exit;
-            _occlusionDistances[OcclusionBins + i] = exit;
-        }
+        public Vector2 Origin;
+        public float Rotation;
+        public Vector4 Bounds, ParamsA;
+        public float PixelsPerUnit;
+        public int Walls;
+
+        public bool Same(OcclusionKey o) => Origin == o.Origin && Rotation == o.Rotation && Bounds == o.Bounds &&
+                                             ParamsA == o.ParamsA && PixelsPerUnit == o.PixelsPerUnit && Walls == o.Walls;
     }
 
-    private float CastOcclusion(Vector2 origin, Vector2 dir, float maxDistance, ContactFilter2D filter)
+    private readonly List<WallVisualGrid> _gridOccluders = new();
+    private int _occluderStateHash;
+    private OcclusionKey _lastOcclusionKey;
+
+    private void CollectOccluders(Vector2 origin)
     {
-        int count = Physics2D.Raycast(origin, dir, filter, _wallHits, maxDistance);
-        float nearestExit = 1000f;
-        for (int i = 0; i < count; i++)
+        _gridOccluders.Clear();
+        float reach = BeamReach() + 1f;
+
+        int hash = 17;
+        foreach (WallShadowCaster wall in WallShadowCaster.Active)
         {
-            RaycastHit2D hit = _wallHits[i];
-            if (hit.distance <= 0.001f || OccluderHeight(hit.collider) < 0f) continue;
-            nearestExit = Mathf.Min(nearestExit,
-                Mathf.Max(hit.distance, VisualExitDistance(origin, dir, hit.collider, hit.distance, maxDistance)));
+            WallVisualGrid grid = GetWallGrid(wall);
+            if (grid == null || grid.SqrDistanceTo(origin) > reach * reach) continue;
+            _gridOccluders.Add(grid);
+            hash = hash * 31 + grid.Version;
         }
-        return ContinueThroughAdjacentWalls(origin, dir, nearestExit, maxDistance, filter);
+        _occluderStateHash = hash;
     }
 
-    // 벽 그림을 빠져나간 광선이 곧바로 이웃 벽 그림 안이면 그 끝까지 그림자를 미룬다. 이웃 벽 바닥면 콜라이더를
-    // 안 지나 Raycast에 안 걸리므로, 없으면 나란히 붙은 엔티티 벽에서 그림자가 옆 벽 앞면을 덮는다.
-    private float ContinueThroughAdjacentWalls(Vector2 origin, Vector2 dir, float exit, float maxDistance, ContactFilter2D filter)
+    // 광원에서 빛 그림의 가장 먼 모서리까지 거리(돌아가도 빛이 닿는 범위).
+    private float BeamReach()
     {
-        const float probe = 0.02f;
-        for (int guard = 0; guard < 8 && exit < maxDistance; guard++)
+        Vector2 min = new(_beamBounds.x, _beamBounds.y), max = min + new Vector2(_beamBounds.z, _beamBounds.w);
+        return Mathf.Sqrt(Mathf.Max(min.sqrMagnitude, max.sqrMagnitude,
+                                    new Vector2(min.x, max.y).sqrMagnitude, new Vector2(max.x, min.y).sqrMagnitude));
+    }
+
+    // ─── 벽 지도 ────────────────────────────────────────────────
+    // 광원 주변 벽 칸을 월드 픽셀(격자 칸) 하나당 텍셀 하나로 옮긴다(255 = 벽 그림, 0 = 바닥).
+    // 셰이더는 벽 그림에는 그림자를 드리우지 않는다 — 그림자는 바닥에만 진다(벽끼리, 회전 벽 포함).
+
+    private Texture2D _wallMap;
+    private NativeArray<byte> _wallPixels;
+    private Vector4 _wallMapRect;
+
+    private void UpdateWallMap(Vector2 origin)
+    {
+        const float cell = WallVisualGrid.GridCell;
+        float radius = BeamReach();
+        int side = Mathf.CeilToInt(2f * radius / cell) + 2;
+        if (!_wallMap || _wallMap.width != side)
         {
-            Vector2 p = origin + dir * (exit + probe);
-            int count = Physics2D.Linecast(p, p - new Vector2(0f, MaxOccluderHeight), filter, _adjacentHits);
-            float next = exit;
-            for (int i = 0; i < count; i++)
+            if (_wallMap) Destroy(_wallMap);
+            _wallMap = new Texture2D(side, side, TextureFormat.R8, false, true)
             {
-                RaycastHit2D hit = _adjacentHits[i];
-                float height = OccluderHeight(hit.collider);
-                if (height <= 0f || p.y - hit.point.y > height) continue;
-                // 앞면은 아래를 본다 — 광원이 벽 뒤면 빛을 못 받는다(없으면 1칸 벽 뒤 그림자가 뚫린다).
-                if (origin.y >= hit.point.y) continue;
-                next = Mathf.Max(next, VisualExitDistance(origin, dir, hit.collider, exit + probe, maxDistance));
-            }
-            if (next <= exit + probe) break;
-            exit = next;
+                name = "Flashlight Walls (DarknessManager)",
+                wrapMode = TextureWrapMode.Clamp,
+                filterMode = FilterMode.Point,
+                hideFlags = HideFlags.DontSave,
+            };
+            if (_wallPixels.IsCreated) _wallPixels.Dispose();
+            _wallPixels = new NativeArray<byte>(side * side, Allocator.Persistent, NativeArrayOptions.UninitializedMemory);
         }
-        return exit;
+
+        int x0 = Mathf.FloorToInt((origin.x - radius) / cell), y0 = Mathf.FloorToInt((origin.y - radius) / cell);
+        // RunOcclusionJob이 _jobGrids/_jobVisual을 이미 채워 두었다.
+        new FlashlightWallMapJob
+        {
+            Grids = _jobGrids, Visual = _jobVisual, GridCount = _gridOccluders.Count,
+            X0 = x0, Y0 = y0, Side = side, Pixels = _wallPixels,
+        }.Schedule(side, 16).Complete();
+        _wallMap.SetPixelData(_wallPixels, 0);
+        _wallMap.Apply(false);
+        _wallMapRect = new Vector4(x0 * cell, y0 * cell, side * cell, side * cell);
     }
 
-    // 광선이 벽 그림(바닥면을 위로 높이만큼 늘린 모양)을 빠져나가는 거리. start는 그 벽에 들어간 거리.
-    private float VisualExitDistance(Vector2 origin, Vector2 dir, Collider2D wall, float start, float maxDistance)
+    // ─── 가림 계산(FlashlightOcclusionJob) ───────────────────────
+    // 격자 데이터(수 MB)는 격자가 바뀔 때만 네이티브 배열로 복사한다.
+
+    private NativeArray<byte> _jobClear;
+    private NativeArray<byte> _jobVisual;
+    private NativeArray<FlashlightOcclusionJob.Grid> _jobGrids;
+    private NativeArray<float> _jobDistances;
+    private readonly Dictionary<int, int> _jobGridOffsets = new(); // 격자 Version → 네이티브 배열 안 시작 위치
+
+    private void RunOcclusionJob(Vector2 origin, float rotationDegrees)
     {
-        float height = OccluderHeight(wall);
+        EnsureJobGridData();
 
-        if (wall is not CompositeCollider2D && wall is not UnityEngine.Tilemaps.TilemapCollider2D)
+        if (!_jobGrids.IsCreated || _jobGrids.Length < Mathf.Max(1, _gridOccluders.Count))
         {
-            Bounds b = wall.bounds;
-            return RayExitAabb(origin, dir, new Vector2(b.min.x, b.min.y), new Vector2(b.max.x, b.max.y + height));
+            if (_jobGrids.IsCreated) _jobGrids.Dispose();
+            _jobGrids = new NativeArray<FlashlightOcclusionJob.Grid>(Mathf.Max(16, _gridOccluders.Count * 2), Allocator.Persistent);
         }
+        for (int i = 0; i < _gridOccluders.Count; i++)
+        {
+            WallVisualGrid g = _gridOccluders[i];
+            _jobGrids[i] = new FlashlightOcclusionJob.Grid
+            {
+                MinX = g.MinX, MinY = g.MinY, Cell = g.Cell,
+                Width = g.Width, Height = g.Height, Offset = _jobGridOffsets[g.Version],
+            };
+        }
+        if (!_jobDistances.IsCreated)
+            _jobDistances = new NativeArray<float>(OcclusionBins * OcclusionRows, Allocator.Persistent);
 
-        // 타일맵 벽은 모양이 제각각이라 광선을 따라 나아가며 찾는다.
-        float limit = maxDistance + height;
-        float lastInside = start;
-        for (float t = start; t < limit; t += VisualMarchStep)
+        float rot = rotationDegrees * Mathf.Deg2Rad;
+        Vector2 boundsMin = new(_beamBounds.x, _beamBounds.y);
+        var job = new FlashlightOcclusionJob
         {
-            Vector2 p = origin + dir * t;
-            if (!InsideWallVisual(wall, p, height))
-                return t <= start ? t : RefineVisualExit(wall, origin, dir, height, lastInside, t);
-            lastInside = t;
-        }
-        if (lastInside < limit && !InsideWallVisual(wall, origin + dir * limit, height))
-            return RefineVisualExit(wall, origin, dir, height, lastInside, limit);
-        // 끝까지 벽 안: 출구를 지어내지 않고, "벽 없음"(1000)과 구분되는 먼 값을 준다.
-        return limit + VisualMarchStep;
+            Grids = _jobGrids, Clear = _jobClear,
+            GridCount = _gridOccluders.Count,
+            Origin = origin, Cos = Mathf.Cos(rot), Sin = Mathf.Sin(rot),
+            BoundsMin = boundsMin, BoundsMax = boundsMin + new Vector2(_beamBounds.z, _beamBounds.w),
+            Bins = OcclusionBins, Distances = _jobDistances,
+        };
+        job.Schedule(OcclusionBins, 64).Complete();
+        _occlusionMap.SetPixelData(_jobDistances, 0);
     }
 
-    private float RefineVisualExit(Collider2D wall, Vector2 origin, Vector2 dir, float height, float inside, float outside)
+    private void EnsureJobGridData()
     {
-        for (int i = 0; i < 4; i++)
+        bool upToDate = _jobClear.IsCreated && _jobGridOffsets.Count == _gridOccluders.Count;
+        for (int i = 0; upToDate && i < _gridOccluders.Count; i++)
+            upToDate = _jobGridOffsets.ContainsKey(_gridOccluders[i].Version);
+        if (upToDate) return;
+
+        DisposeOcclusionJobGrids();
+        int total = 0;
+        foreach (WallVisualGrid g in _gridOccluders) total += g.Clear.Length;
+        _jobClear = new NativeArray<byte>(total, Allocator.Persistent, NativeArrayOptions.UninitializedMemory);
+        _jobVisual = new NativeArray<byte>(total, Allocator.Persistent, NativeArrayOptions.UninitializedMemory);
+        int offset = 0;
+        foreach (WallVisualGrid g in _gridOccluders)
         {
-            float mid = (inside + outside) * 0.5f;
-            if (InsideWallVisual(wall, origin + dir * mid, height)) inside = mid;
-            else outside = mid;
+            NativeArray<byte>.Copy(g.Clear, 0, _jobClear, offset, g.Clear.Length);
+            NativeArray<byte>.Copy(g.Visual, 0, _jobVisual, offset, g.Visual.Length);
+            _jobGridOffsets[g.Version] = offset;
+            offset += g.Clear.Length;
         }
-        return outside;
     }
 
-    // p에서 아래로 높이만큼 내린 선분이 바닥면에 닿으면 벽 그림 안. 점 몇 개만 찍으면 얇은 벽에서 판정에 구멍이 난다.
-    private bool InsideWallVisual(Collider2D wall, Vector2 p, float height)
+    private void DisposeOcclusionJobGrids()
     {
-        if (wall.OverlapPoint(p)) return true;
-        if (height <= 0f) return false;
-        var filter = new ContactFilter2D { useTriggers = true, useLayerMask = true, layerMask = 1 << wall.gameObject.layer };
-        int count = Physics2D.Raycast(p, Vector2.down, filter, _visualHits, height);
-        for (int i = 0; i < count; i++)
-            if (_visualHits[i].collider == wall) return true;
+        if (_jobClear.IsCreated) _jobClear.Dispose();
+        if (_jobVisual.IsCreated) _jobVisual.Dispose();
+        _jobGridOffsets.Clear();
+    }
+
+    private void DisposeOcclusionJobData()
+    {
+        DisposeOcclusionJobGrids();
+        if (_jobGrids.IsCreated) _jobGrids.Dispose();
+        if (_jobDistances.IsCreated) _jobDistances.Dispose();
+        if (_wallPixels.IsCreated) _wallPixels.Dispose();
+    }
+
+    // ─── 벽 격자 캐시 ───────────────────────────────────────────
+
+    private sealed class WallGridEntry
+    {
+        public WallVisualGrid Grid;
+        public int SourceVersion;
+        public int CheckedFrame = -1;
+    }
+
+    private readonly Dictionary<WallShadowCaster, WallGridEntry> _wallGrids = new();
+
+    private WallVisualGrid GetWallGrid(WallShadowCaster wall)
+    {
+        if (!_wallGrids.TryGetValue(wall, out WallGridEntry entry))
+            _wallGrids[wall] = entry = new WallGridEntry();
+        if (entry.CheckedFrame == Time.frameCount) return entry.Grid;
+        entry.CheckedFrame = Time.frameCount;
+
+        int version = wall.ShapeVersion;
+        if (entry.Grid != null && entry.SourceVersion == version) return entry.Grid;
+        entry.SourceVersion = version;
+        entry.Grid = WallVisualGrid.Build(wall);
+        return entry.Grid;
+    }
+
+    // 광원이 그림자 판 안에 들어가면 빛이 벽 너머로 샌다(맵 벽이 판 하나면 맵 전체 그림자가 꺼진다).
+    //   1) 기준점(발밑)이 판 안이면 가장 가까운 판 밖으로 꺼낸다(뒤쪽 → 상하좌우 중 짧은 쪽, PushOutLimit 이내).
+    //   2) 바라보는 방향으로 offset만큼 띄우다가 판 WallGap 앞에서 멈춘다.
+    private const float PushOutLimit = 1.5f;
+    private static readonly Vector2[] PushOutAxes = { Vector2.up, Vector2.down, Vector2.left, Vector2.right };
+
+    private Vector2 ClampBeforeWall(Vector2 pivot, Vector2 dir, float offset)
+    {
+        CollectNearbyGrids(pivot, offset + PushOutLimit + WallGap);
+        if (_nearbyGrids.Count == 0) return pivot + dir * offset;
+
+        Vector2 from = pivot;
+        if (InAnyFootprint(from))
+        {
+            float best = float.MaxValue;
+            Vector2 bestDir = Vector2.zero;
+            TryPushOut(from, -dir, ref best, ref bestDir);
+            if (best > PushOutLimit)
+                foreach (Vector2 axis in PushOutAxes) TryPushOut(from, axis, ref best, ref bestDir);
+            if (best <= PushOutLimit) from += bestDir * (best + WallGap);
+        }
+
+        if (offset < 0.0001f) return from;
+        float allowed = offset;
+        foreach (WallVisualGrid grid in _nearbyGrids)
+        {
+            float hit = grid.FirstFootprintEntry(from, dir, offset + WallGap);
+            if (hit >= 0f) allowed = Mathf.Min(allowed, hit - WallGap);
+        }
+        return from + dir * Mathf.Max(0f, allowed);
+    }
+
+    // p에서 dir로 나아가 모든 판 밖으로 나오는 거리(겹친 판·이웃 판을 이어서 빠져나간다).
+    private void TryPushOut(Vector2 p, Vector2 dir, ref float best, ref Vector2 bestDir)
+    {
+        float t = 0f;
+        for (int guard = 0; guard < 8 && t <= PushOutLimit; guard++)
+        {
+            float next = t;
+            foreach (WallVisualGrid grid in _nearbyGrids)
+                next = Mathf.Max(next, t + grid.FootprintExitDistance(p + dir * t, dir, PushOutLimit));
+            if (next <= t) break;
+            t = next;
+        }
+        if (t < best) { best = t; bestDir = dir; }
+    }
+
+    private bool InAnyFootprint(Vector2 p)
+    {
+        foreach (WallVisualGrid grid in _nearbyGrids)
+            if (grid.InFootprint(p)) return true;
         return false;
     }
 
-    // 반직선이 상자를 빠져나가는 거리. 만나지 않으면 0.
-    private static float RayExitAabb(Vector2 origin, Vector2 dir, Vector2 min, Vector2 max)
+    private readonly List<WallVisualGrid> _nearbyGrids = new();
+
+    private void CollectNearbyGrids(Vector2 p, float radius)
     {
-        float tNear = 0f, tFar = float.MaxValue;
-        for (int axis = 0; axis < 2; axis++)
+        _nearbyGrids.Clear();
+        foreach (WallShadowCaster wall in WallShadowCaster.Active)
         {
-            float o = origin[axis], d = dir[axis];
-            if (Mathf.Abs(d) < 1e-5f)
-            {
-                if (o < min[axis] || o > max[axis]) return 0f;
-                continue;
-            }
-            float t1 = (min[axis] - o) / d, t2 = (max[axis] - o) / d;
-            tNear = Mathf.Max(tNear, Mathf.Min(t1, t2));
-            tFar = Mathf.Min(tFar, Mathf.Max(t1, t2));
+            WallVisualGrid grid = GetWallGrid(wall);
+            if (grid != null && grid.SqrDistanceTo(p) <= radius * radius) _nearbyGrids.Add(grid);
         }
-        return tFar >= tNear ? tFar : 0f;
-    }
-
-    // 벽 앞면 높이(ZCollider2D.height). 빛을 안 가리는 계단·경사는 -1.
-    private readonly Dictionary<Collider2D, float> _occluderHeights = new();
-    private float OccluderHeight(Collider2D collider)
-    {
-        if (_occluderHeights.TryGetValue(collider, out float cached)) return cached;
-        float height = 0f;
-        if (collider.TryGetComponent(out ZCollider2D z))
-            height = z.isStair || z.useSlopeDU || z.useSlopeRL ? -1f : Mathf.Max(0f, z.height);
-        _occluderHeights[collider] = height;
-        return height;
-    }
-
-    // 광원이 벽 안에 들어가면 빛이 벽 너머로 샌다 — 벽에 닿으면 그 앞에서 멈춘다.
-    private Vector2 ClampBeforeWall(Vector2 from, Vector2 to)
-    {
-        Vector2 delta = to - from;
-        float length = delta.magnitude;
-        if (length < 0.0001f) return from;
-
-        var filter = new ContactFilter2D { useTriggers = true, useLayerMask = true, layerMask = WallLayerMask };
-        int count = Physics2D.Linecast(from, to, filter, _wallHits);
-        float allowed = length;
-        for (int i = 0; i < count; i++)
-            allowed = Mathf.Min(allowed, _wallHits[i].distance - WallGap);
-        return from + delta / length * Mathf.Max(0f, allowed);
     }
 
     // 8방향 입력을 그대로 쓰면 대각선 전환이 툭툭 끊겨서 빠르게 돌려 맞춘다.
@@ -837,6 +904,7 @@ public class DarknessManager : MonoBehaviour
         if (player == null) return;
 
         player.TryGetInterface(out _facing);
+        player.TryGetInterface(out _physics);
         foreach (Light2D light in player.GetComponentsInChildren<Light2D>(true))
         {
             if (light.lightType != Light2D.LightType.Point) continue;
@@ -852,9 +920,8 @@ public class DarknessManager : MonoBehaviour
         CollectPlayerSprites(player);
     }
 
-    // 손전등이 플레이어 자신을 비추면 안 되는데(뒤통수가 밝아짐) Light2D는 정렬 레이어로만 대상을 고를 수 있고
-    // 플레이어·벽이 모두 Entity라 못 뺀다. 그래서 몸 스프라이트마다 투명한 대역(selfShadows 실루엣)을 이 매니저 아래에 둔다.
-    // URP 12는 castsShadows=false 캐스터가 혼자면 안 그려서 부모에 CompositeShadowCaster2D를 둔다.
+    // 손전등이 플레이어 뒤통수를 비추지 않게 몸 스프라이트마다 투명한 그림자 대역을 둔다. 플레이어와 벽이 같은
+    // 정렬 레이어라 레이어로는 못 뺀다. URP 12는 castsShadows=false 캐스터가 혼자면 안 그려서 그룹으로 묶는다.
     private void CollectPlayerSprites(Player player)
     {
         _playerSprites.Clear();
@@ -900,7 +967,7 @@ public class DarknessManager : MonoBehaviour
 
             Transform from = source.transform, to = proxy.transform;
             to.SetPositionAndRotation(from.position, from.rotation);
-            to.localScale = from.lossyScale; // 대역 부모(매니저)는 스케일 1이다
+            to.localScale = from.lossyScale;
             proxy.sprite = source.sprite;
             proxy.flipX = source.flipX;
             proxy.flipY = source.flipY;
@@ -908,14 +975,15 @@ public class DarknessManager : MonoBehaviour
     }
 
     // Light2D의 적용 정렬 레이어는 코드로 지정할 API가 없어서 올바르게 설정된 주변 빛을 복제한다.
-    private Light2D CreateFlashLight(string lightName)
+    private Light2D CreateFlashLight()
     {
         if (!_ambientLight) return null;
         bool wasActive = _ambientLight.gameObject.activeSelf;
         _ambientLight.gameObject.SetActive(false); // 복제본이 활성 상태로 한 프레임 나오지 않게
         Light2D light = Instantiate(_ambientLight, _ambientLight.transform.parent);
         _ambientLight.gameObject.SetActive(wasActive);
-        light.name = lightName;
+        light.name = "Flashlight (DarknessManager)";
+        light.lightType = Light2D.LightType.Sprite;
         foreach (Renderer marker in light.GetComponentsInChildren<Renderer>(true)) Destroy(marker);
         return light;
     }
@@ -928,10 +996,10 @@ public class DarknessManager : MonoBehaviour
         foreach (SpriteRenderer proxy in _shadowProxies)
             if (proxy) Destroy(proxy.gameObject);
         _shadowProxies.Clear();
-        _occluderHeights.Clear();
         _ambientLight = null;
         _flashLight = null;
         _facing = null;
+        _physics = null;
         _trackedPlayer = null;
         _flashAngleInitialized = false;
         _flashPivotInitialized = false;
@@ -957,10 +1025,8 @@ public class DarknessManager : MonoBehaviour
         return max > 0.0001f ? new Color(c.r / max, c.g / max, c.b / max, 1f) : Color.white;
     }
 
-    // 빌려 쓴 Player 조명을 원래 상태로 돌려놓기 위한 값.
     private struct LightSnapshot
     {
-        private bool _taken;
         private bool _active;
         private bool _enabled;
         private float _intensity;
@@ -976,7 +1042,6 @@ public class DarknessManager : MonoBehaviour
 
         public static LightSnapshot Take(Light2D light) => new()
         {
-            _taken = true,
             _active = light.gameObject.activeSelf,
             _enabled = light.enabled,
             _intensity = light.intensity,
@@ -992,7 +1057,6 @@ public class DarknessManager : MonoBehaviour
 
         public void SetHeight(Light2D light, float height)
         {
-            if (!_taken) return;
             Transform tr = light.transform;
             Vector3 feet = tr.parent ? tr.parent.InverseTransformPoint(tr.root.position) : Vector3.zero;
             tr.localPosition = new Vector3(_localPosition.x, feet.y + height, _localPosition.z);
@@ -1000,7 +1064,6 @@ public class DarknessManager : MonoBehaviour
 
         public void HideRenderers(Light2D light)
         {
-            if (!_taken || _renderers == null) return;
             if (_rendererEnabled == null)
             {
                 _rendererEnabled = new bool[_renderers.Length];
@@ -1011,7 +1074,6 @@ public class DarknessManager : MonoBehaviour
 
         public void Restore(Light2D light)
         {
-            if (!_taken || !light) return;
             light.intensity = _intensity;
             light.pointLightOuterRadius = _outerRadius;
             light.pointLightInnerRadius = _innerRadius;

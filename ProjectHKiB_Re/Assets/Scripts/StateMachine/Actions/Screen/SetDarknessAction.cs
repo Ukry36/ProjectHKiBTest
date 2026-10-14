@@ -8,7 +8,9 @@ namespace StateMachine
     {
         [Tooltip("켜면 아래 모양을 무시하고 암전을 걷는다.")]
         public bool clear;
+        [Tooltip("걸 암전 모양(짙기·플레이어 주변 빛·손전등·그림자). 항목마다 마우스를 올리면 설명이 나온다.")]
         public DarknessSettings settings = new();
+        [Tooltip("지금 모양에서 이 모양으로(또는 걷을 때 밝기로) 넘어가는 시간(초). 0이면 바로 바뀐다.")]
         [Min(0f)] public float duration = 1f;
 
         public override void Act(StateController stateController)

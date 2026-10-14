@@ -1,13 +1,13 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// 맵 씬에 두면 그 맵에 들어올 때 암전을 걸고, 맵이 내려갈 때 걷는다.
-/// 지하실·밤 숲처럼 "이 맵은 원래 어둡다"는 경우용. 이벤트 도중 잠깐 어두워지는 건 SetDarknessAction을 쓴다.
-/// 컴포넌트나 오브젝트를 끄면 걷히고, 다시 켜면 다시 걸린다.
-/// 켜질 때 이 맵의 벽(Wall 레이어 ZCollider2D, 계단·경사 제외)에 WallShadowCaster를 붙여 손전등이 벽에 가려지게 한다.
+/// 맵 씬에 두면 켜질 때 암전을 걸고 꺼질 때 걷는다(이벤트 중 잠깐 어두워지는 건 SetDarknessAction).
+/// 켜질 때 이 맵의 벽(Wall 레이어 ZCollider2D, 계단·경사 제외)에 WallShadowCaster를 붙인다.
 /// </summary>
 public class MapDarkness : MonoBehaviour
 {
+    [Tooltip("이 맵에 들어올 때 걸 암전 모양(짙기·플레이어 주변 빛·손전등·그림자). 플레이 중에 고치면 바로 화면에 반영된다.")]
     [SerializeField] private DarknessSettings _settings = new();
     [Tooltip("켜질 때(맵에 들어올 때) 어두워지는 시간. 맵 전환 페이드와 겹치므로 보통 0.")]
     [SerializeField, Min(0f)] private float _fadeIn;
@@ -32,26 +32,57 @@ public class MapDarkness : MonoBehaviour
 
     private void AttachWallShadows()
     {
-        foreach (GameObject root in gameObject.scene.GetRootGameObjects())
+        foreach (ZCollider2D wall in FindWalls())
         {
-            foreach (ZCollider2D wall in root.GetComponentsInChildren<ZCollider2D>())
-            {
-                if ((_wallLayers.value & (1 << wall.gameObject.layer)) == 0) continue;
-                if (wall.isStair || wall.useSlopeDU || wall.useSlopeRL) continue;
-                if (wall.TryGetComponent(out WallShadowCaster _)) continue;
-                wall.gameObject.AddComponent<WallShadowCaster>();
-            }
+            if (wall.TryGetComponent(out WallShadowCaster _)) continue;
+            wall.gameObject.AddComponent<WallShadowCaster>();
         }
     }
 
+    // 꺼진 벽(퍼즐로 켜지는 벽 등)도 포함한다 — 켜지는 순간 그림자도 같이 생긴다.
+    private List<ZCollider2D> FindWalls()
+    {
+        var walls = new List<ZCollider2D>();
+        foreach (GameObject root in gameObject.scene.GetRootGameObjects())
+        {
+            foreach (ZCollider2D wall in root.GetComponentsInChildren<ZCollider2D>(true))
+            {
+                if ((_wallLayers.value & (1 << wall.gameObject.layer)) == 0) continue;
+                if (wall.isStair || wall.useSlopeDU || wall.useSlopeRL) continue;
+                walls.Add(wall);
+            }
+        }
+        return walls;
+    }
+
 #if UNITY_EDITOR
-    // 플레이 중 인스펙터에서 값을 고치면 바로 화면에 반영한다(튜닝용).
-    // 손전등 체크 자체를 바꿨을 때만 그 값을 쓰고, 다른 값을 만질 땐 F키로 바꾼 현재 상태를 유지한다.
+    // 이미 만든 판은 새로 덮어쓴다.
+    [NaughtyAttributes.Button("맵 벽 그림자 판 생성 (편집 가능)")]
+    private void BakeWallShadows()
+    {
+        if (Application.isPlaying)
+        {
+            Debug.LogWarning("[MapDarkness] 그림자 판 생성은 플레이 중이 아닐 때만 됩니다(플레이 중 만든 것은 저장되지 않는다).", this);
+            return;
+        }
+        int count = 0;
+        foreach (ZCollider2D wall in FindWalls())
+        {
+            if (!wall.TryGetComponent(out WallShadowCaster caster))
+                caster = UnityEditor.Undo.AddComponent<WallShadowCaster>(wall.gameObject);
+            caster.BakeFootprints();
+            count++;
+        }
+        Debug.Log($"[MapDarkness] 벽 {count}개에 그림자 판을 만들었습니다. 각 'WallShadows (편집 가능)' 아래 판의 Edit Shape로 고칠 수 있습니다.", this);
+    }
+#endif
+
+#if UNITY_EDITOR
+    // 플레이 중 인스펙터 값을 바로 반영한다. 손전등 체크 자체를 바꿨을 때만 그 값을 쓰고, 다른 값을 만질 땐 F키로 바꾼 현재 상태를 유지한다.
     private void OnValidate()
     {
-        if (!Application.isPlaying || !isActiveAndEnabled || !DarknessManager.HasInstance) return;
         DarknessManager manager = DarknessManager.Instance;
-        if (manager.Owner != this) return;
+        if (!Application.isPlaying || !isActiveAndEnabled || !manager || manager.Owner != this) return;
 
         DarknessSettings live = _settings.Clone();
         if (_settings.flashlight == _lastInspectorFlashlight) live.flashlight = manager.FlashlightOn;
@@ -63,8 +94,7 @@ public class MapDarkness : MonoBehaviour
     private void OnDisable()
     {
         // 다른 쪽(다음 맵·이벤트)이 이미 덮어썼으면 건드리지 않는다.
-        // 종료 중에 매니저를 새로 만들지 않도록 Instance 대신 HasInstance부터 본다.
-        if (!DarknessManager.HasInstance) return;
-        if (DarknessManager.Instance.Owner == this) DarknessManager.Instance.Clear(0f);
+        DarknessManager manager = DarknessManager.Instance;
+        if (manager && manager.Owner == this) manager.Clear(0f);
     }
 }

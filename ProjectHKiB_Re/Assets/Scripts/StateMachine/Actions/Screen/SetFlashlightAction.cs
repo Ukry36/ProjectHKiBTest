@@ -7,15 +7,8 @@ namespace StateMachine
     {
         public enum Mode { On, Off, Toggle }
 
+        [Tooltip("On: 켠다 / Off: 끈다 / Toggle: 켜져 있으면 끄고 꺼져 있으면 켠다.")]
         public Mode mode = Mode.On;
-        [Tooltip("켜면 손전등 방식·밝기·범위·각도도 함께 바꾼다.")]
-        public bool changeShape;
-        [Tooltip("Facing: 바라보는 방향 부채꼴 / Around: 주위 원형.")]
-        public FlashlightMode flashlightMode = FlashlightMode.Facing;
-        [Range(0f, 1f)] public float brightness = 1f;
-        [Min(0f)] public float range = 6f;
-        [Range(1f, 179f)] public float angle = 50f;
-        [Min(0f)] public float shapeDuration = 0.5f;
 
         public override void Act(StateController stateController)
         {
@@ -31,7 +24,6 @@ namespace StateMachine
                 case Mode.Off: manager.SetFlashlight(false); break;
                 case Mode.Toggle: manager.ToggleFlashlight(); break;
             }
-            if (changeShape) manager.SetFlashlightShape(flashlightMode, brightness, range, angle, shapeDuration);
         }
     }
 }
