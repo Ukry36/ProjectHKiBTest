@@ -20,7 +20,7 @@ namespace StateMachine
         [Range(0f, 1f)] public float intensity = 1f;
 
         [Tooltip("0이면 stop을 켠 액션을 만날 때까지 계속된다.")]
-        [Min(0f)] public float duration = 1f;
+        [Range(0f, 10f)] public float duration = 1f;
 
         [Header("찢김 (가로 띠 어긋남)")]
         [Tooltip("어긋나는 폭(화면 폭 대비). 0.02면 잔글리치, 0.15면 형체가 무너진다.")]

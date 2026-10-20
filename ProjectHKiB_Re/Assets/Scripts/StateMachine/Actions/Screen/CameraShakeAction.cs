@@ -7,7 +7,7 @@ namespace StateMachine
     [System.Serializable]
     public class CameraShakeAction : StateAction
     {
-        [Min(0f)] public float strength;
+        [Range(0f, 10f)] public float strength;
         public Vector3 direction = Vector3.one;
 
         [Header("효과음 (선택)")]

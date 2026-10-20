@@ -1,4 +1,3 @@
-using System;
 using System.Text;
 using NaughtyAttributes;
 using StateMachine;
@@ -36,38 +35,52 @@ public class EventSystemTestbed : MonoBehaviour
     [Tooltip("Dummy_EVT001~004_Trigger.prefab을 씬에 놓고 순서대로 연결한다. 사전 조건 게이팅까지 실제 경로로 확인된다.")]
     [SerializeField] private GameStateEvent[] _chainTriggers;
 
-    [Header("Built Event Effects")]
-    [Tooltip("Event Chain Editor updates this list after every build. Inspector test buttons always use these generated actions.")]
-    [Header("글리치 미리보기 (값을 맞춘 뒤 이벤트 체인에 옮겨 적는다)")]
+    // 화면 연출 버튼은 여기 값으로 바로 재생한다. 체인 편집기와 같은 액션 클래스라 항목과 조절 범위가
+    // 똑같으니, 여기서 맞춘 값을 그대로 이벤트 체인 단계에 옮겨 적으면 된다.
+    [Header("화면 연출 미리보기 (값을 맞춘 뒤 이벤트 체인에 옮겨 적는다)")]
+    [SerializeField] private ScreenFadeAction _fadePreview = new();
+    [SerializeField] private ScreenNoiseAction _noisePreview = new() { duration = 3f };
     [SerializeField] private ScreenGlitchAction _glitchPreview = new() { duration = 1.5f };
-
-    [SerializeField] private EventSO[] _builtEvents = Array.Empty<EventSO>();
+    [SerializeField] private ScreenFlashAction _flashPreview = new();
+    [SerializeField] private ScreenTearAction _tearPreview = new();
+    [SerializeField] private CameraZoomAction _zoomPreview = new();
+    [SerializeField] private CameraShakeAction _shakePreview = new();
 
     // ─── 화면 연출 ───────────────────────────────────────────────
 
     [Button("연출: 암전")]
-    private void FadeOut() => PlayBuiltAction<ScreenFadeAction>(action => action.targetColor.a > 0f, "fade out", action => action.Play());
+    private void FadeOut()
+    {
+        if (CanPreview()) _fadePreview.Play();
+    }
 
     [Button("연출: 암전 해제")]
-    private void FadeIn() => PlayBuiltAction<ScreenFadeAction>(action => action.targetColor.a <= 0f, "fade in", action => action.Play());
+    private void FadeIn()
+    {
+        if (!CanPreview()) return;
+        Color clear = _fadePreview.targetColor;
+        clear.a = 0f;
+        new ScreenFadeAction { targetColor = clear, duration = _fadePreview.duration }.Play();
+    }
 
     [Button("연출: 노이즈 3초")]
-    private void Noise() => PlayBuiltAction<ScreenNoiseAction>(action => !action.stop, "noise", action => action.Play());
+    private void Noise()
+    {
+        if (!CanPreview()) return;
+        _noisePreview.stop = false;
+        _noisePreview.Play();
+    }
 
     [Button("연출: 노이즈 정지")]
-    private void NoiseStop() => PlayBuiltAction<ScreenNoiseAction>(action => action.stop, "noise stop", action => action.Play());
+    private void NoiseStop()
+    {
+        if (CanPreview()) ScreenEffectManager.Instance.StopNoise();
+    }
 
-    // 글리치는 아직 어느 이벤트에도 배선돼 있지 않아 PlayBuiltAction으로는 찾을 수 없다.
-    // 값을 만져 가며 맞춰 보라고 인스펙터에 그대로 노출한 인스턴스를 쓴다 - 여기서 정한 값을
-    // 그대로 이벤트 체인 편집기의 ScreenGlitchAction에 옮겨 적으면 된다.
     [Button("연출: 글리치")]
     private void Glitch()
     {
-        if (!Application.isPlaying)
-        {
-            Debug.LogWarning("[Testbed] 플레이 모드에서만 화면 연출을 미리 볼 수 있습니다.");
-            return;
-        }
+        if (!CanPreview()) return;
         _glitchPreview.stop = false;
         _glitchPreview.Play();
     }
@@ -75,83 +88,54 @@ public class EventSystemTestbed : MonoBehaviour
     [Button("연출: 글리치 정지")]
     private void GlitchStop()
     {
-        if (!Application.isPlaying) return;
-        ScreenEffectManager.Instance.StopGlitch();
+        if (CanPreview()) ScreenEffectManager.Instance.StopGlitch();
     }
 
     [Button("연출: 흰 섬광")]
-    private void Flash() => PlayBuiltAction<ScreenFlashAction>(action => true, "flash", action => action.Play());
+    private void Flash()
+    {
+        if (CanPreview()) _flashPreview.Play();
+    }
 
     [Button("연출: 화면 찢김(더미)")]
-    private void Tear() => PlayBuiltAction<ScreenTearAction>(action => true, "screen tear", action => action.Play());
+    private void Tear()
+    {
+        if (CanPreview()) _tearPreview.Play();
+    }
 
     [Button("연출: 클로즈업 줌")]
-    private void ZoomIn() => PlayBuiltAction<CameraZoomAction>(action => !action.returnToOriginal, "zoom in", action => action.Play());
+    private void ZoomIn()
+    {
+        if (!CanPreview()) return;
+        _zoomPreview.returnToOriginal = false;
+        _zoomPreview.Play();
+    }
 
     [Button("연출: 줌 복귀")]
-    private void ZoomOut() => PlayBuiltAction<CameraZoomAction>(action => action.returnToOriginal, "zoom out", action => action.Play());
+    private void ZoomOut()
+    {
+        if (!CanPreview()) return;
+        new CameraZoomAction
+        {
+            returnToOriginal = true,
+            blendTime = _zoomPreview.blendTime,
+            blendStyle = _zoomPreview.blendStyle,
+            illustrationFadeTime = _zoomPreview.illustrationFadeTime,
+            hideIllustrationOnReturn = _zoomPreview.hideIllustrationOnReturn,
+        }.Play();
+    }
 
     [Button("연출: 카메라 흔들기")]
-    private void Shake() => PlayBuiltAction<CameraShakeAction>(action => true, "camera shake", action => action.Play());
-
-    public void SetBuiltEvents(EventSO[] builtEvents)
+    private void Shake()
     {
-        _builtEvents = builtEvents ?? Array.Empty<EventSO>();
+        if (CanPreview()) _shakePreview.Play();
     }
 
-    private void PlayBuiltAction<TAction>(Func<TAction, bool> matches, string effectName, Action<TAction> play)
-        where TAction : StateAction
+    private static bool CanPreview()
     {
-        if (!Application.isPlaying)
-        {
-            Debug.LogWarning("[Testbed] Enter Play Mode before previewing built effects.");
-            return;
-        }
-
-        TAction action = FindBuiltAction(matches);
-        if (action == null)
-        {
-            Debug.LogWarning($"[Testbed] No built {effectName} action was found. Build the Event Chain while this testbed scene is open.");
-            return;
-        }
-
-        play(action);
-    }
-
-    private TAction FindBuiltAction<TAction>(Func<TAction, bool> matches)
-        where TAction : StateAction
-    {
-        foreach (EventSO eventData in _builtEvents)
-        {
-            if (eventData == null || eventData.allStates == null) continue;
-
-            foreach (StateSO state in eventData.allStates)
-            {
-                TAction found = FindBuiltActionInActions(state != null ? state.EnterActions : null, matches);
-                if (found != null) return found;
-            }
-        }
-
-        return null;
-    }
-
-    private static TAction FindBuiltActionInActions<TAction>(StateAction[] actions, Func<TAction, bool> matches)
-        where TAction : StateAction
-    {
-        if (actions == null) return null;
-
-        foreach (StateAction action in actions)
-        {
-            if (action is TAction typed && matches(typed)) return typed;
-
-            if (action is ChangeStateMachineAction changeMachine)
-            {
-                TAction nested = FindBuiltActionInActions(changeMachine.followUpActions, matches);
-                if (nested != null) return nested;
-            }
-        }
-
-        return null;
+        if (Application.isPlaying) return true;
+        Debug.LogWarning("[Testbed] 플레이 모드에서만 화면 연출을 미리 볼 수 있습니다.");
+        return false;
     }
 
     // ─── 입력 모드 ───────────────────────────────────────────────
