@@ -6,7 +6,7 @@ namespace StateMachine
     public class ScreenFlashAction : StateAction
     {
         public Color color = Color.white;
-        [Min(0f)] public float duration = 0.2f;
+        [Range(0f, 2f)] public float duration = 0.2f;
 
         [Header("효과음 (선택)")]
         [Tooltip("섬광과 함께 재생할 SO 기반 원샷 효과음입니다. 비워 두면 무음입니다.")]

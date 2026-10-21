@@ -8,7 +8,7 @@ namespace StateMachine
     {
         // 알파까지 포함한 목표 색. 완전 암전은 (0,0,0,1), 복귀는 (0,0,0,0).
         public Color targetColor = new(0f, 0f, 0f, 1f);
-        [Min(0f)] public float duration = 1f;
+        [Range(0f, 5f)] public float duration = 1f;
 
         public override void Act(StateController stateController)
         {

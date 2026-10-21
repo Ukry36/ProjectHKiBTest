@@ -12,13 +12,13 @@ namespace StateMachine
         [Tooltip("노이즈 강도와 별도로 적용되는 최종 투명도. 1이면 원본 화면을 완전히 가린다.")]
         [Range(0f, 1f)] public float alpha = 0.5f;
         [Tooltip("0이면 Stop Noise 액션이 호출될 때까지 계속됩니다.")]
-        [Min(0f)] public float duration = 1f;
+        [Range(0f, 10f)] public float duration = 1f;
         // 알갱이 크기 — 클수록 잘다. 0이면 기본값(16)을 쓴다.
-        [Min(0f)] public float tiling;
+        [Range(0f, 128f)] public float tiling;
         [Header("노이즈와 함께 재생할 화면 흔들림 (0이면 사용 안 함)")]
-        [Min(0f)] public float shakeStrength;
-        [Min(0f)] public float shakeDuration;
-        [Min(0)] public int shakeCount;
+        [Range(0f, 10f)] public float shakeStrength;
+        [Range(0f, 5f)] public float shakeDuration;
+        [Range(0, 20)] public int shakeCount;
 
         [Header("효과음 (선택)")]
         [Tooltip("노이즈 연출과 같은 프레임에 재생할 SO 기반 원샷 효과음입니다. 비워 두면 무음입니다.")]

@@ -488,30 +488,9 @@ public class EventChainEditorWindow : EditorWindow
         for (int i = 0; i < _chain.events.Count; i++)
             BuildEventDefinition(_chain.events[i], Mathf.Max(0.1f, _chain.stepTimeoutMultiplier));
 
-        SyncBuiltEventsToOpenTestbeds();
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
         Debug.Log($"[EventChainEditorWindow] 빌드 완료 — {OutputFolder}에 이벤트 {_chain.events.Count}개를 생성/갱신했습니다.");
-    }
-
-    private void SyncBuiltEventsToOpenTestbeds()
-    {
-        EventSO[] builtEvents = _chain.events
-            .Where(def => def != null && !string.IsNullOrWhiteSpace(def.eventId))
-            .Select(def => AssetDatabase.LoadAssetAtPath<EventSO>($"{OutputFolder}/{def.eventId}.asset"))
-            .Where(evt => evt != null)
-            .ToArray();
-
-        EventSystemTestbed[] testbeds = UnityEngine.Object.FindObjectsOfType<EventSystemTestbed>(true);
-        for (int i = 0; i < testbeds.Length; i++)
-        {
-            EventSystemTestbed testbed = testbeds[i];
-            if (testbed == null || !testbed.gameObject.scene.IsValid()) continue;
-
-            Undo.RecordObject(testbed, "Sync Built Event Effects");
-            testbed.SetBuiltEvents(builtEvents);
-            EditorUtility.SetDirty(testbed);
-        }
     }
 
     private static void BuildEventDefinition(EventDefinition def, float timeoutMultiplier)

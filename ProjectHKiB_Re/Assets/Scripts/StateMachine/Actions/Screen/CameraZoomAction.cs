@@ -11,8 +11,8 @@ namespace StateMachine
     [System.Serializable]
     public class CameraZoomAction : StateAction
     {
-        [Min(0.01f)] public float sizeMultiplier = 0.4f;
-        [Min(0f)] public float blendTime = 0.5f;
+        [Range(0.01f, 2f)] public float sizeMultiplier = 0.4f;
+        [Range(0f, 5f)] public float blendTime = 0.5f;
         // 켜면 배율을 무시하고 원래 해상도로 되돌린다.
         public bool returnToOriginal;
         // 블렌딩 곡선. 예전엔 EaseInOut으로 코드에 박혀 있어 연출마다 조절할 수 없었다.
@@ -21,7 +21,7 @@ namespace StateMachine
         [Header("Optional illustration overlay")]
         public Sprite illustration;
         public Color illustrationColor = Color.white;
-        [Min(0f)] public float illustrationFadeTime = 0.15f;
+        [Range(0f, 2f)] public float illustrationFadeTime = 0.15f;
         public Vector2 illustrationAnchor = new(0.5f, 0.5f);
         public Vector2 illustrationSize = new(1200f, 675f);
         public bool preserveIllustrationAspect = true;
